@@ -10,6 +10,7 @@ from .config import get_settings
 from .db import run_migrations, create_db_and_tables
 from .routers import auth, learning_paths, progress, tutor, explore, quiz, concepts, assessment, curriculum
 from .routers import projects, course_creator
+from .routers import sms, diagnostic, broadcast, export
 
 settings = get_settings()
 
@@ -56,6 +57,10 @@ app.include_router(curriculum.router)
 
 app.include_router(projects.router)
 app.include_router(course_creator.router)
+app.include_router(sms.router)
+app.include_router(diagnostic.router)
+app.include_router(broadcast.router)
+app.include_router(export.router)
 
 from .config import WIKI_DIR
 _wiki_topics_dir = WIKI_DIR / "resources" / "by-topic"

@@ -85,6 +85,11 @@ class Settings:
             "FRONTEND_URL", cfg["server"]["frontend_url"]
         )
 
+        # Twilio SMS integration (optional — mock mode when absent)
+        self.twilio_account_sid: str = os.getenv("TWILIO_ACCOUNT_SID", "")
+        self.twilio_auth_token: str = os.getenv("TWILIO_AUTH_TOKEN", "")
+        self.twilio_phone_number: str = os.getenv("TWILIO_PHONE_NUMBER", "")
+
     @property
     def search_enabled(self) -> bool:
         has_perplexity = bool(self.search_api_key and self.search_base_url)

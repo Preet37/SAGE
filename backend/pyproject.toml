@@ -29,6 +29,8 @@ dependencies = [
     "youtube-transcript-api>=1.2.4",
     "playwright>=1.58.0",
     "alembic>=1.15.0",
+    "reportlab>=4.0.0",
+    "qrcode[pure]>=7.4.2",
 ]
 
 [project.scripts]

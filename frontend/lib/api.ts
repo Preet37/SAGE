@@ -506,3 +506,94 @@ export const api = {
       ),
   },
 };
+
+// ── Diagnostic ──────────────────────────────────────────────────────────────
+
+export interface DiagnosticQuestion {
+  id: string;
+  text: string;
+  options: string[];
+  subject: string;
+}
+
+export interface DiagnosticResult {
+  knowledge_profile: string;
+  gaps: string[];
+  recommended_start: string;
+  grade_estimate: string;
+  encouragement: string;
+}
+
+export function getDiagnosticQuestions(): Promise<DiagnosticQuestion[]> {
+  return request<DiagnosticQuestion[]>("/diagnostic/questions");
+}
+
+export function submitDiagnostic(
+  answers: Record<string, string>,
+  name?: string,
+): Promise<DiagnosticResult> {
+  return request<DiagnosticResult>("/diagnostic/submit", {
+    method: "POST",
+    body: JSON.stringify({ answers, name }),
+  });
+}
+
+// ── Broadcast ────────────────────────────────────────────────────────────────
+
+export interface BroadcastRoom {
+  code: string;
+  join_url: string;
+  qr_url: string;
+}
+
+export function createBroadcastRoom(teacherId: string): Promise<BroadcastRoom> {
+  return request<BroadcastRoom>("/broadcast/room", {
+    method: "POST",
+    body: JSON.stringify({ teacher_id: teacherId }),
+  });
+}
+
+export function pushBroadcastContent(
+  code: string,
+  payload: { lesson_id: string; title: string; content_md: string; key_concepts: string[] },
+): Promise<{ students_reached: number }> {
+  return request<{ students_reached: number }>(`/broadcast/room/${code}/push`, {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function getBroadcastStreamUrl(code: string): string {
+  const base = (API_URL || "http://localhost:8000").replace(/^http/, "ws");
+  return `${base}/broadcast/room/${code}/stream`;
+}
+
+export function getBroadcastQrUrl(code: string): string {
+  return `${API_URL}/broadcast/room/${code}/qr`;
+}
+
+// ── PDF Export ───────────────────────────────────────────────────────────────
+
+export async function exportSessionPDF(
+  messages: { role: string; content: string }[],
+  lessonTitle?: string,
+  courseTitle?: string,
+  token?: string,
+): Promise<Blob> {
+  const res = await fetch(`${API_URL}/export/pdf`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    body: JSON.stringify({ messages, lesson_title: lessonTitle, course_title: courseTitle }),
+  });
+  if (!res.ok) throw new Error("PDF export failed");
+  return res.blob();
+}
+
+// ── SMS status ───────────────────────────────────────────────────────────────
+
+export function getSmsStatus(): Promise<{ connected: boolean; active_sessions: number; mock_mode: boolean }> {
+  return request("/sms/status");
+}
