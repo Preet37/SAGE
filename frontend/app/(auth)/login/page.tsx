@@ -29,52 +29,81 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
-      <div className="w-full max-w-sm">
-        <h1 className="text-3xl font-black mb-1">S<span className="text-acc">AGE</span></h1>
-        <p className="text-t2 text-sm mb-8">Sign in to continue learning</p>
+    <div className="au">
+      <aside className="au-hero">
+        <Link href="/" className="au-mark">
+          SAGE<span className="period">.</span>
+        </Link>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="text-xs font-semibold text-t2 uppercase tracking-widest block mb-1.5">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              className="w-full bg-bg2 border border-white/10 rounded-xl px-4 py-3 text-sm text-t0 outline-none focus:border-acc/50 transition-colors"
-              placeholder="you@example.com"
-              required
-            />
+        <div className="au-hero-body">
+          <div className="au-eyebrow">02 · Authentication</div>
+          <h2 className="au-h1">
+            Resume the<br />inquiry<span className="period">.</span>
+          </h2>
+          <p className="au-tag">
+            Six agents have been waiting. Pick up the thread you left, or take it somewhere new.
+          </p>
+        </div>
+
+        <div className="au-hero-foot">Fetch.ai Powered · Multi-Agent Architecture</div>
+      </aside>
+
+      <main className="au-panel">
+        <div className="au-panel-inner">
+          <Link href="/" className="au-mark au-mark-mobile">
+            SAGE<span className="period">.</span>
+          </Link>
+
+          <div className="au-step">Sign In</div>
+          <h1 className="au-title">
+            Welcome back<span className="period">.</span>
+          </h1>
+
+          <form onSubmit={handleSubmit} noValidate>
+            <div className="au-field">
+              <label htmlFor="au-email" className="au-label">Email</label>
+              <input
+                id="au-email"
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                className="au-input"
+                placeholder="you@example.com"
+                autoComplete="email"
+                required
+              />
+            </div>
+
+            <div className="au-field">
+              <label htmlFor="au-password" className="au-label">Password</label>
+              <input
+                id="au-password"
+                type="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                className="au-input"
+                placeholder="••••••••"
+                autoComplete="current-password"
+                required
+              />
+            </div>
+
+            {error && <p className="au-error" role="alert">{error}</p>}
+
+            <button type="submit" disabled={loading} className="au-submit">
+              {loading ? 'Signing in…' : 'Sign In →'}
+            </button>
+          </form>
+
+          <div className="au-foot">
+            <span className="au-foot-line">
+              No account?{' '}
+              <Link href="/register" className="au-foot-link">Create one</Link>
+            </span>
+            <span className="au-demo">Demo · demo@sage.ai · demo1234</span>
           </div>
-          <div>
-            <label className="text-xs font-semibold text-t2 uppercase tracking-widest block mb-1.5">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              className="w-full bg-bg2 border border-white/10 rounded-xl px-4 py-3 text-sm text-t0 outline-none focus:border-acc/50 transition-colors"
-              placeholder="••••••••"
-              required
-            />
-          </div>
-
-          {error && <p className="text-pnk text-xs">{error}</p>}
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-acc text-white font-bold py-3 rounded-xl text-sm hover:bg-blue-400 transition-all disabled:opacity-50"
-          >
-            {loading ? 'Signing in…' : 'Sign In →'}
-          </button>
-        </form>
-
-        <p className="text-t2 text-xs text-center mt-6">
-          No account?{' '}
-          <Link href="/register" className="text-acc hover:underline">Create one</Link>
-        </p>
-        <p className="text-t3 text-xs text-center mt-2">Demo: demo@sage.ai / demo1234</p>
-      </div>
+        </div>
+      </main>
     </div>
   );
 }
