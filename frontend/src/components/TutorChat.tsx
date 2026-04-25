@@ -19,6 +19,8 @@ import {
   type VerificationEvent,
   streamTutorChat,
 } from "@/lib/api";
+import { runOfflineChat } from "@/lib/offline/agent";
+import { sessionStore } from "@/lib/offline/store";
 
 export interface TutorChatHandle {
   submit: (text: string) => void;
@@ -27,12 +29,14 @@ export interface TutorChatHandle {
 export interface TutorChatProps {
   sessionId: number;
   token: string;
+  lessonId?: number;
+  isOnline?: boolean;
   onAgentEvent?: (e: AgentEvent) => void;
   onDone?: (e: DoneEvent) => void;
 }
 
 const TutorChat = forwardRef<TutorChatHandle, TutorChatProps>(function TutorChat(
-  { sessionId, token, onAgentEvent, onDone },
+  { sessionId, token, lessonId, isOnline = true, onAgentEvent, onDone },
   ref,
 ) {
   const [turns, setTurns] = useState<Message[]>([]);
@@ -57,8 +61,6 @@ const TutorChat = forwardRef<TutorChatHandle, TutorChatProps>(function TutorChat
   }, [turns]);
 
   const playAudio = useCallback((event: AudioEvent) => {
-    // Decode to a Blob and use an object URL — keeps a giant base64 string
-    // out of the DOM and lets us release memory deterministically.
     let url: string | null = null;
     try {
       const binary = atob(event.base64);
@@ -86,7 +88,6 @@ const TutorChat = forwardRef<TutorChatHandle, TutorChatProps>(function TutorChat
     audio.onerror = release;
     audioRef.current = audio;
     void audio.play().catch(() => {
-      // Autoplay can be blocked; release the URL anyway.
       release();
     });
   }, []);
@@ -96,14 +97,73 @@ const TutorChat = forwardRef<TutorChatHandle, TutorChatProps>(function TutorChat
       const trimmed = message.trim();
       if (!trimmed || streaming) return;
 
-      setTurns((t) => [
-        ...t,
-        { role: "user", text: trimmed },
-        { role: "sage", text: "" },
-      ]);
+      const userTurn: Message = { role: "user", text: trimmed };
+      const sageTurn: Message = { role: "sage", text: "" };
+
+      setTurns((t) => [...t, userTurn, sageTurn]);
       setDraft("");
       setStreaming(true);
       setActiveAgent("orchestrator:start");
+
+      if (!isOnline && lessonId !== undefined) {
+        const historySnapshot = turns.map((t) => ({ role: t.role, text: t.text })) as {
+          role: "user" | "sage";
+          text: string;
+        }[];
+
+        abortRef.current = runOfflineChat(lessonId, sessionId, trimmed, historySnapshot, {
+          onAgent: (e: AgentEvent) => {
+            setActiveAgent(`${e.agent}:${e.phase}`);
+            onAgentEvent?.(e);
+          },
+          onToken: (e: TokenEvent) =>
+            setTurns((t) => {
+              const next = [...t];
+              const last = next[next.length - 1];
+              if (last?.role === "sage") {
+                next[next.length - 1] = { ...last, text: last.text + e.text, agent: e.agent };
+              }
+              return next;
+            }),
+          onDone: (e: DoneEvent) => {
+            setStreaming(false);
+            setActiveAgent(null);
+            onDone?.(e);
+            setTurns((currentTurns) => {
+              const lastSage = currentTurns[currentTurns.length - 1];
+              if (lastSage?.role === "sage" && lastSage.text) {
+                void sessionStore.appendMessage(sessionId, lessonId!, {
+                  role: "user",
+                  text: trimmed,
+                  timestamp: Date.now(),
+                });
+                void sessionStore.appendMessage(sessionId, lessonId!, {
+                  role: "sage",
+                  text: lastSage.text,
+                  timestamp: Date.now(),
+                });
+              }
+              return currentTurns;
+            });
+          },
+          onError: () => {
+            setStreaming(false);
+            setActiveAgent(null);
+            setTurns((t) => {
+              const next = [...t];
+              const last = next[next.length - 1];
+              if (last?.role === "sage" && !last.text) {
+                next[next.length - 1] = {
+                  ...last,
+                  text: "_(offline model error — the model may still be loading)_",
+                };
+              }
+              return next;
+            });
+          },
+        });
+        return;
+      }
 
       abortRef.current = streamTutorChat(
         sessionId,
@@ -155,7 +215,7 @@ const TutorChat = forwardRef<TutorChatHandle, TutorChatProps>(function TutorChat
         { voice: voiceOn },
       );
     },
-    [onAgentEvent, onDone, playAudio, sessionId, streaming, token, voiceOn],
+    [isOnline, lessonId, onAgentEvent, onDone, playAudio, sessionId, streaming, token, turns, voiceOn],
   );
 
   useImperativeHandle(ref, () => ({ submit: fire }), [fire]);
@@ -163,25 +223,41 @@ const TutorChat = forwardRef<TutorChatHandle, TutorChatProps>(function TutorChat
   return (
     <div className="card flex h-full flex-col p-5">
       <header className="flex items-center justify-between gap-2">
-        <h2 className="text-lg" style={{ fontFamily: "var(--font-heading)" }}>
-          Chat with SAGE
-        </h2>
         <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => setVoiceOn((v) => !v)}
-            aria-pressed={voiceOn}
-            title="Have SAGE read responses aloud"
-            className="rounded-full px-3 py-1 text-xs font-semibold"
-            style={{
-              background: voiceOn ? "var(--color-primary)" : "var(--color-muted)",
-              color: voiceOn ? "var(--color-on-primary)" : "var(--color-primary)",
-              border: "1px solid var(--color-border)",
-              cursor: "pointer",
-            }}
-          >
-            {voiceOn ? "Voice on" : "Voice off"}
-          </button>
+          <h2 className="text-lg" style={{ fontFamily: "var(--font-heading)" }}>
+            Chat with SAGE
+          </h2>
+          {!isOnline && (
+            <span
+              className="rounded-full px-2 py-0.5 text-xs font-semibold"
+              style={{
+                background: "oklch(85% 0.12 60)",
+                color: "oklch(30% 0.12 60)",
+                border: "1px solid oklch(70% 0.12 60)",
+              }}
+            >
+              offline
+            </span>
+          )}
+        </div>
+        <div className="flex items-center gap-2">
+          {isOnline && (
+            <button
+              type="button"
+              onClick={() => setVoiceOn((v) => !v)}
+              aria-pressed={voiceOn}
+              title="Have SAGE read responses aloud"
+              className="rounded-full px-3 py-1 text-xs font-semibold"
+              style={{
+                background: voiceOn ? "var(--color-primary)" : "var(--color-muted)",
+                color: voiceOn ? "var(--color-on-primary)" : "var(--color-primary)",
+                border: "1px solid var(--color-border)",
+                cursor: "pointer",
+              }}
+            >
+              {voiceOn ? "Voice on" : "Voice off"}
+            </button>
+          )}
           <AgentBadge active={activeAgent} />
         </div>
       </header>
@@ -190,7 +266,7 @@ const TutorChat = forwardRef<TutorChatHandle, TutorChatProps>(function TutorChat
         {turns.map((t, i) => (
           <MessageBubble key={i} msg={t} />
         ))}
-        {turns.length === 0 && <EmptyState onPick={(p) => setDraft(p)} />}
+        {turns.length === 0 && <EmptyState onPick={(p) => setDraft(p)} isOnline={isOnline} />}
       </div>
 
       <div className="mt-4 flex gap-2">
@@ -198,7 +274,7 @@ const TutorChat = forwardRef<TutorChatHandle, TutorChatProps>(function TutorChat
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && (e.preventDefault(), fire(draft))}
-          placeholder="Type your question…"
+          placeholder={isOnline ? "Type your question…" : "Ask offline — AI running locally…"}
           disabled={streaming}
           className="flex-1 rounded-2xl border px-4 py-3 outline-none focus:ring-2"
           style={{
@@ -221,18 +297,33 @@ const TutorChat = forwardRef<TutorChatHandle, TutorChatProps>(function TutorChat
 
 export default TutorChat;
 
-function EmptyState({ onPick }: { onPick: (p: string) => void }) {
-  const prompts = [
-    "Explain photosynthesis in one paragraph",
-    "Quiz me on the concepts I'm weakest at",
-    "What should I review before the exam?",
-  ];
+function EmptyState({
+  onPick,
+  isOnline,
+}: {
+  onPick: (p: string) => void;
+  isOnline: boolean;
+}) {
+  const prompts = isOnline
+    ? [
+        "Explain photosynthesis in one paragraph",
+        "Quiz me on the concepts I'm weakest at",
+        "What should I review before the exam?",
+      ]
+    : [
+        "Can you guide me through this topic?",
+        "What is the main idea of this lesson?",
+        "Quiz me on what I've learned so far",
+      ];
+
   return (
     <div className="flex h-full flex-col items-center justify-center gap-4 text-center">
       <div
         className="grid h-14 w-14 place-items-center rounded-2xl"
         style={{
-          background: "linear-gradient(135deg, var(--color-primary), var(--color-accent))",
+          background: isOnline
+            ? "linear-gradient(135deg, var(--color-primary), var(--color-accent))"
+            : "linear-gradient(135deg, oklch(55% 0.18 50), oklch(45% 0.14 60))",
           color: "white",
           fontFamily: "var(--font-heading)",
           fontSize: 22,
@@ -245,10 +336,12 @@ function EmptyState({ onPick }: { onPick: (p: string) => void }) {
       </div>
       <div>
         <p className="text-base" style={{ fontFamily: "var(--font-heading)", fontWeight: 600 }}>
-          Ask SAGE anything
+          {isOnline ? "Ask SAGE anything" : "SAGE is running offline"}
         </p>
         <p className="mt-1 text-sm" style={{ color: "var(--color-foreground)", opacity: 0.6 }}>
-          I&apos;ll guide you Socratically and cite sources.
+          {isOnline
+            ? "I'll guide you Socratically and cite sources."
+            : "Powered by Phi-3.5-mini running in your browser."}
         </p>
       </div>
       <ul className="flex flex-col gap-1.5 text-sm">

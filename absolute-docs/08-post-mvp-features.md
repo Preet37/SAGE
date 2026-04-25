@@ -53,6 +53,7 @@ Post-MVP focuses on:
 | POST-307 | Mobile apps | Improves retention and access | iOS and Android clients support core learning flows. |
 | POST-308 | Offline-first PWA mode | Improves reliability in low-connectivity contexts | Key lesson and notes flows work offline and sync when back online. |
 | POST-309 | Plugin and tool integration framework | Extends platform capabilities | External tools can be safely added via stable plugin interfaces. |
+| POST-310 | Fully offline on-device AI inference | Serves learners in low-connectivity and no-connectivity regions — particularly in developing countries where internet access is unreliable or unavailable | A small quantized model (e.g., Phi-3-mini, Gemma 2B, or Mistral 7B) runs entirely in-browser via WebLLM or on-device via a local runtime (llama.cpp, Ollama); core tutor chat works with zero network requests after one-time model download; download progress is visible and resumable; hybrid mode automatically routes to cloud provider when connectivity is detected and falls back to on-device when offline. |
 
 ## 2.4 Ongoing Quality and Intelligence Enhancements
 

@@ -14,11 +14,12 @@ import ConceptMap, {
 } from "@/components/ConceptMap";
 import NetworkPanel from "@/components/NetworkPanel";
 import NotesPanel from "@/components/NotesPanel";
+import ModelDownloadBanner from "@/components/offline/ModelDownloadBanner";
+import OfflineBadge from "@/components/offline/OfflineBadge";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import ReplayPanel from "@/components/ReplayPanel";
 import TutorChat, { type TutorChatHandle } from "@/components/TutorChat";
 import VoiceAgent from "@/components/VoiceAgent";
-import ZeticAgent from "@/components/ZeticAgent";
 import {
   bumpMastery,
   getConceptMap,
@@ -27,6 +28,10 @@ import {
   type Lesson,
 } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
+import { useConnectivity } from "@/lib/offline/connectivity";
+import { splitIntoChunks } from "@/lib/offline/retriever";
+import { runSync } from "@/lib/offline/sync";
+import { lessonStore, syncQueue } from "@/lib/offline/store";
 
 interface PageParams {
   courseId: string;
@@ -55,12 +60,21 @@ function Workspace({ courseId, lessonId }: PageParams) {
   const [agentState, setAgentState] = useState<AgentPanelState>({});
   const [a11yOpen, setA11yOpen] = useState(false);
   const [replayKey, setReplayKey] = useState(0);
+  const [syncedCount, setSyncedCount] = useState(0);
   const chatRef = useRef<TutorChatHandle | null>(null);
+
+  const { isOnline } = useConnectivity();
+  const wasOnlineRef = useRef(isOnline);
 
   // Load lesson + concepts.
   useEffect(() => {
     if (!token || !courseIdNum) return;
-    getCourse(courseIdNum, token).then(setLesson).catch(() => setLesson(null));
+    getCourse(courseIdNum, token).then((l) => {
+      setLesson(l);
+      // Pre-cache lesson chunks for offline retrieval.
+      const chunks = splitIntoChunks(l.objective);
+      void lessonStore.save({ lessonId: l.id, title: l.title, chunks, cachedAt: Date.now() });
+    }).catch(() => setLesson(null));
   }, [courseIdNum, token]);
 
   const refreshConcepts = useCallback(() => {
@@ -72,11 +86,45 @@ function Workspace({ courseId, lessonId }: PageParams) {
     refreshConcepts();
   }, [refreshConcepts]);
 
+  // Auto-sync when connectivity is restored.
+  useEffect(() => {
+    if (isOnline && !wasOnlineRef.current && token) {
+      runSync(token)
+        .then(({ synced }) => {
+          if (synced > 0) {
+            setSyncedCount(synced);
+            refreshConcepts();
+            setTimeout(() => setSyncedCount(0), 4_000);
+          }
+        })
+        .catch(() => { /* sync failures are silent; data stays queued */ });
+    }
+    wasOnlineRef.current = isOnline;
+  }, [isOnline, token, refreshConcepts]);
+
   const { nodes, edges } = useMemo(() => buildGraph(concepts, lesson), [concepts, lesson]);
 
   const onNodeClick = useCallback(
     async (n: ConceptNode) => {
       if (!token || !n.conceptId) return;
+      if (!isOnline) {
+        // Queue the mastery bump for sync when back online.
+        await syncQueue.enqueue({
+          type: "mastery",
+          sessionId,
+          conceptId: n.conceptId,
+          delta: 0.15,
+          synced: false,
+          queuedAt: Date.now(),
+        });
+        // Apply optimistically to local state.
+        setConcepts((prev) =>
+          prev.map((c) =>
+            c.id === n.conceptId ? { ...c, mastery: Math.min(1, c.mastery + 0.15) } : c,
+          ),
+        );
+        return;
+      }
       try {
         const updated = await bumpMastery(sessionId, n.conceptId, 0.15, token);
         setConcepts((prev) => prev.map((c) => (c.id === updated.id ? updated : c)));
@@ -84,7 +132,7 @@ function Workspace({ courseId, lessonId }: PageParams) {
         /* ignore */
       }
     },
-    [sessionId, token],
+    [isOnline, sessionId, token],
   );
 
   if (!token) return null;
@@ -109,17 +157,24 @@ function Workspace({ courseId, lessonId }: PageParams) {
 
         {/* Center: Tabs */}
         <section className="flex min-h-0 flex-col gap-2">
-          <Tabs value={tab} onChange={setTab} />
+          <div className="flex items-center gap-2">
+            <Tabs value={tab} onChange={setTab} />
+            <OfflineBadge isOnline={isOnline} syncedCount={syncedCount} />
+          </div>
           <div className="min-h-0 flex-1">
             {tab === "chat" && (
               <TutorChat
                 ref={chatRef}
                 sessionId={sessionId}
                 token={token}
+                lessonId={lesson?.id}
+                isOnline={isOnline}
                 onAgentEvent={(e) => setAgentState((prev) => applyAgentEvent(prev, e))}
                 onDone={() => {
-                  refreshConcepts();
-                  setReplayKey((k) => k + 1);
+                  if (isOnline) {
+                    refreshConcepts();
+                    setReplayKey((k) => k + 1);
+                  }
                 }}
               />
             )}
@@ -136,17 +191,19 @@ function Workspace({ courseId, lessonId }: PageParams) {
           </div>
         </section>
 
-        {/* Right: Voice + key concepts + ZETIC */}
+        {/* Right: Voice + key concepts + offline model */}
         <aside className="flex min-h-0 flex-col gap-3 overflow-y-auto pr-1">
-          <VoiceAgent
-            onTranscript={(text) => {
-              setTab("chat");
-              chatRef.current?.submit(text);
-            }}
-          />
+          {isOnline && (
+            <VoiceAgent
+              onTranscript={(text) => {
+                setTab("chat");
+                chatRef.current?.submit(text);
+              }}
+            />
+          )}
+          <ModelDownloadBanner autoLoad={!isOnline} />
           <KeyConceptsCard concepts={concepts} />
           <LessonSummaryCard lesson={lesson} />
-          <ZeticAgent />
         </aside>
       </div>
     </main>
@@ -244,12 +301,11 @@ function LessonSummaryCard({ lesson }: { lesson: Lesson | null }) {
   );
 }
 
-function buildGraph(concepts: Concept[], lesson: Lesson | null): {
-  nodes: ConceptNode[];
-  edges: ConceptEdge[];
-} {
+function buildGraph(
+  concepts: Concept[],
+  lesson: Lesson | null,
+): { nodes: ConceptNode[]; edges: ConceptEdge[] } {
   if (concepts.length === 0 && lesson) {
-    // Show a placeholder node tied to the lesson so the map isn't empty.
     return {
       nodes: [{ id: `lesson-${lesson.id}`, label: lesson.title, mastery: 0.1 }],
       edges: [],
