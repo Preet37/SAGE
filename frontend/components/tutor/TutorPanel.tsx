@@ -50,6 +50,17 @@ export function TutorPanel({
     }
   }, [lessonId]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Listen for voice agent injected messages
+  useEffect(() => {
+    function onVoiceSend(e: Event) {
+      const msg = (e as CustomEvent<{ message: string }>).detail?.message;
+      if (msg) handleSend(msg);
+    }
+    window.addEventListener("sage:voice-send", onVoiceSend);
+    return () => window.removeEventListener("sage:voice-send", onVoiceSend);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     if (pendingScroll.current && messages.length > 0 && messages[messages.length - 1].role === "user") {
       pendingScroll.current = false;

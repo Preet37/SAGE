@@ -26,6 +26,7 @@ import {
 import { AppHeader } from "@/components/AppHeader";
 import { ConceptDeepDive } from "@/components/explore/ConceptDeepDive";
 import { cn } from "@/lib/utils";
+import { useVoiceStore } from "@/lib/useVoiceStore";
 
 export default function ExplorePage() {
   return (
@@ -60,6 +61,31 @@ function ExplorePageInner() {
   const latestUserRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const pendingScroll = useRef(false);
+
+  const { setContext, clearContext } = useVoiceStore();
+
+  // Push explore page context to voice agent
+  useEffect(() => {
+    const recentMsgs = messages
+      .slice(-6)
+      .map((m: Message) => `${m.role === "user" ? "Student" : "SAGE"}: ${m.content.slice(0, 200)}`)
+      .join("\n");
+    setContext({
+      pageType: "explore",
+      title: initialQ ? `Deep Dive: ${initialQ}` : "Explore",
+      description: exploreMode === "deepdive"
+        ? `Student is reading a deep dive on "${initialQ || "a concept"}".`
+        : "Free-form AI exploration chat for any topic.",
+      currentTopic: initialQ || undefined,
+      recentMessages: recentMsgs || undefined,
+      sendToTutor: (msg: string) => {
+        const event = new CustomEvent("sage:voice-send", { detail: { message: msg } });
+        window.dispatchEvent(event);
+      },
+    });
+    return () => clearContext();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [messages, exploreMode, initialQ]);
 
   useEffect(() => {
     const token = getToken();

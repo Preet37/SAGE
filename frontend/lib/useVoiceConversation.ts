@@ -1,8 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Conversation } from "@11labs/client";
 import type { Mode } from "@11labs/client";
+import { useVoiceStore } from "./useVoiceStore";
 
 export type VoiceStatus = "idle" | "connecting" | "connected" | "error";
 export type VoiceMode = "listening" | "speaking" | "idle";
@@ -15,7 +17,7 @@ export interface VoiceMessage {
 }
 
 export interface UseVoiceConversationOptions {
-  /** Context string to inject as the current lesson topic */
+  /** Optional manual context override (e.g. from a specific lesson component) */
   contextOverride?: string;
 }
 
@@ -26,6 +28,8 @@ export function useVoiceConversation(options: UseVoiceConversationOptions = {}) 
   const [error, setError] = useState<string | null>(null);
   const [isMuted, setIsMuted] = useState(false);
   const conversationRef = useRef<Conversation | null>(null);
+  const router = useRouter();
+  const { context } = useVoiceStore();
 
   const agentId = process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID ?? "";
 
@@ -45,21 +49,75 @@ export function useVoiceConversation(options: UseVoiceConversationOptions = {}) 
     try {
       await navigator.mediaDevices.getUserMedia({ audio: true });
 
-      const overrides = options.contextOverride
-        ? {
-            agent: {
-              prompt: {
-                prompt: `You are SAGE, an AI learning tutor. Current lesson: "${options.contextOverride}". Keep responses to 2-3 sentences. No markdown or bullet points. Respond in the student's language.`,
-              },
-              firstMessage: `Let's talk about ${options.contextOverride}. What would you like to know?`,
-            },
-          }
-        : undefined;
+      // Build a rich context-aware system prompt from the current page state
+      const manualContext = options.contextOverride;
+      const pageSummary = manualContext
+        ? `The student is currently studying: "${manualContext}".`
+        : `The student is on the ${context.pageType} page — "${context.title}". ${context.description}${context.currentTopic ? ` Current topic: ${context.currentTopic}.` : ""}${context.recentMessages ? ` Recent conversation:\n${context.recentMessages}` : ""}`;
+
+      const systemPrompt = `You are SAGE, an intelligent AI learning assistant embedded directly in the SAGE learning platform.
+
+CURRENT CONTEXT:
+${pageSummary}
+
+You can actively help the student by:
+- Answering questions about what they are looking at
+- Sending messages to the tutor chat on their behalf using the send_to_tutor tool
+- Navigating to other pages using the navigate_to tool
+- Explaining content that is currently visible
+
+IMPORTANT:
+- Keep responses concise (2-4 sentences) — this is a voice interaction
+- No markdown, bullet points, or asterisks — speak in natural sentences
+- Always refer to the current page context when relevant
+- Respond in the same language as the student`;
+
+      const firstMessage = manualContext
+        ? `Let me help you with ${manualContext}. What would you like to know?`
+        : context.pageType === "lesson"
+        ? `I can see you're studying "${context.title}". Want me to explain something, answer a question, or help you through this lesson?`
+        : `I'm SAGE, your voice learning assistant. You're on the ${context.title} page. What can I help you with?`;
 
       const conversation = await Conversation.startSession({
         agentId,
         connectionType: "webrtc",
-        ...(overrides ? { overrides } : {}),
+        overrides: {
+          agent: {
+            prompt: { prompt: systemPrompt },
+            firstMessage,
+          },
+        },
+        // Client tools the voice agent can call to interact with the UI
+        clientTools: {
+          navigate_to: ({ path }: { path: string }) => {
+            try {
+              router.push(path);
+              return `Navigating to ${path}`;
+            } catch {
+              return "Navigation failed";
+            }
+          },
+          send_to_tutor: ({ message }: { message: string }) => {
+            if (context.sendToTutor) {
+              context.sendToTutor(message);
+              return `Sent to tutor: "${message}"`;
+            }
+            return "No active tutor session on this page";
+          },
+          get_page_context: () => {
+            return JSON.stringify({
+              page: context.pageType,
+              title: context.title,
+              topic: context.currentTopic || context.title,
+              description: context.description,
+              recentMessages: context.recentMessages?.slice(-500) || "",
+            });
+          },
+          search_concept: ({ topic }: { topic: string }) => {
+            router.push(`/explore?q=${encodeURIComponent(topic)}`);
+            return `Opening deep dive for "${topic}"`;
+          },
+        },
         onConnect: () => {
           setStatus("connected");
           setMode("idle");
@@ -92,7 +150,7 @@ export function useVoiceConversation(options: UseVoiceConversationOptions = {}) 
       setError(msg);
       setStatus("error");
     }
-  }, [agentId, addMessage, options.contextOverride]);
+  }, [agentId, addMessage, context, options.contextOverride, router]);
 
   const stopConversation = useCallback(async () => {
     if (conversationRef.current) {

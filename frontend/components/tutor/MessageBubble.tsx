@@ -12,6 +12,7 @@ import { MermaidBlock } from "./MermaidBlock";
 import { AnimatedFlowBlock } from "./AnimatedFlowBlock";
 import { ArchitectureBlock } from "./ArchitectureBlock";
 import { VisualPlotRenderer } from "@/components/visual/VisualPlotRenderer";
+import { CodeRunner, getCodeLang } from "@/components/tutor/CodeRunner";
 import { parseFlowDiagram } from "@/lib/schemas/flow";
 import { parseArchitectureDiagram } from "@/lib/schemas/architecture";
 import { api } from "@/lib/api";
@@ -378,35 +379,48 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, lessonT
                     return <img src={resolved} alt={alt || ""} className="rounded-xl max-h-80 object-contain my-3" loading="lazy" />;
                   },
                   pre({ node, children, ...props }) {
+                    // Check if this is a runnable code block
                     if (node && node.children) {
                       for (const child of node.children) {
                         if (
                           child.type === "element" &&
-                          child.tagName === "code" &&
-                          Array.isArray(child.properties?.className) &&
-                          child.properties.className.some(
-                            (c: string | number) => typeof c === "string" && c.includes("mermaid")
-                          )
+                          child.tagName === "code"
                         ) {
-                          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                          function extractText(nodes: any[]): string {
-                            return nodes
-                              .map((n) => {
+                          const classes = Array.isArray(child.properties?.className)
+                            ? child.properties.className
+                            : [];
+
+                          // Mermaid diagrams
+                          if (classes.some((c: string | number) => typeof c === "string" && c.includes("mermaid"))) {
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                            function extractText(nodes: any[]): string {
+                              return nodes.map((n) => {
                                 if ("value" in n) return n.value as string;
                                 if ("children" in n) return extractText(n.children);
                                 return "";
-                              })
-                              .join("");
+                              }).join("");
+                            }
+                            const text = extractText(child.children);
+                            if (isStreaming) {
+                              return <pre className="text-xs text-muted-foreground opacity-60"><code>{text.trim()}</code></pre>;
+                            }
+                            return <MermaidBlock code={text.trim()} />;
                           }
-                          const text = extractText(child.children);
-                          if (isStreaming) {
-                            return (
-                              <pre className="text-xs text-muted-foreground opacity-60">
-                                <code>{text.trim()}</code>
-                              </pre>
-                            );
+
+                          // Runnable code blocks
+                          const lang = getCodeLang(classes as (string | number)[]);
+                          if (lang && !isStreaming) {
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                            function extractCode(nodes: any[]): string {
+                              return nodes.map((n) => {
+                                if ("value" in n) return n.value as string;
+                                if ("children" in n) return extractCode(n.children);
+                                return "";
+                              }).join("");
+                            }
+                            const code = extractCode(child.children).trimEnd();
+                            return <CodeRunner key={code.slice(0, 20)} code={code} lang={lang} />;
                           }
-                          return <MermaidBlock code={text.trim()} />;
                         }
                       }
                     }

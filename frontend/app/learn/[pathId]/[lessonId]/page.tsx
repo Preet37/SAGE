@@ -30,6 +30,7 @@ import {
   Group as PanelGroup,
   Separator as PanelResizeHandle,
 } from "react-resizable-panels";
+import { useVoiceStore } from "@/lib/useVoiceStore";
 
 type ActiveTab = "chat" | "quiz";
 
@@ -48,6 +49,14 @@ export default function LessonPage() {
   const [marking, setMarking] = useState(false);
   const [showContent, setShowContent] = useState(false);
   const [activeTab, setActiveTab] = useState<ActiveTab>("chat");
+
+  // Voice context: expose lesson state to the SAGE voice agent
+  const { setContext, clearContext } = useVoiceStore();
+  const sendToTutorRef = useCallback((msg: string) => {
+    // Dispatched by the voice agent via clientTools — routes message into TutorPanel
+    const event = new CustomEvent("sage:voice-send", { detail: { message: msg } });
+    window.dispatchEvent(event);
+  }, []);
 
   useEffect(() => {
     const token = getToken();
@@ -90,6 +99,25 @@ export default function LessonPage() {
       .catch(() => router.push("/learn"))
       .finally(() => setLoading(false));
   }, [lessonId, router]);
+
+  // Push lesson context to the voice agent whenever lesson or history changes
+  useEffect(() => {
+    if (!lesson) return;
+    const recentMsgs = history
+      .slice(-6)
+      .map((m) => `${m.role === "user" ? "Student" : "Tutor"}: ${m.content.slice(0, 200)}`)
+      .join("\n");
+    setContext({
+      pageType: "lesson",
+      title: lesson.title,
+      description: lesson.summary || lesson.content?.slice(0, 300) || "",
+      currentTopic: lesson.title,
+      recentMessages: recentMsgs,
+      sendToTutor: sendToTutorRef,
+    });
+    return () => clearContext();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lesson, history]);
 
   async function handleMarkComplete() {
     const token = getToken();
