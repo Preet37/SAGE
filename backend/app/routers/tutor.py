@@ -22,6 +22,7 @@ from app.core.retrieval import get_relevant_chunks
 from app.core.verification import verify_response
 from app.core.voice import synthesize_speech
 from app.config import get_settings, load_yaml_config
+from app.routers.accessibility import get_user_accessibility_modifier
 import httpx
 
 router = APIRouter(prefix="/tutor", tags=["tutor"])
@@ -40,6 +41,8 @@ SYSTEM_PROMPT_TEMPLATE = """You are SAGE, an expert Socratic AI tutor for techni
 
 ## Your Teaching Approach
 {mode_instruction}
+
+{accessibility_section}
 
 ## Current Lesson
 **Course:** {course_title}
@@ -129,8 +132,16 @@ async def chat(
     )
     mastered = [row[0].label for row in mastery_result.all()]
 
+    accessibility_modifier = get_user_accessibility_modifier(user)
+    accessibility_section = (
+        f"## Accessibility Requirements\n{accessibility_modifier}"
+        if accessibility_modifier
+        else ""
+    )
+
     system_prompt = SYSTEM_PROMPT_TEMPLATE.format(
         mode_instruction=mode_instruction,
+        accessibility_section=accessibility_section,
         course_title=course.title if course else "",
         lesson_title=lesson.title,
         key_concepts=", ".join(lesson.key_concepts),

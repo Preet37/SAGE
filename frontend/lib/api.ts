@@ -162,3 +162,55 @@ export async function getSessionReplay(token: string, sessionId: number) {
   const res = await fetch(`${BASE}/replay/sessions/${sessionId}`, { headers: { Authorization: `Bearer ${token}` } });
   return res.json();
 }
+
+// ── Dashboard ────────────────────────────────────────────────────
+export async function getDashboard(token: string) {
+  const res = await fetch(`${BASE}/dashboard/overview`, { headers: { Authorization: `Bearer ${token}` } });
+  return res.json();
+}
+
+export async function getCourseDashboard(token: string, courseId: number) {
+  const res = await fetch(`${BASE}/dashboard/course/${courseId}`, { headers: { Authorization: `Bearer ${token}` } });
+  return res.json();
+}
+
+// ── Accessibility ────────────────────────────────────────────────
+export async function getAccessibilityProfiles() {
+  const res = await fetch(`${BASE}/accessibility/profiles`);
+  return res.json();
+}
+
+export async function getMyAccessibility(token: string) {
+  const res = await fetch(`${BASE}/accessibility/me`, { headers: { Authorization: `Bearer ${token}` } });
+  return res.json();
+}
+
+export async function saveAccessibility(
+  token: string,
+  profile: { disabilities: string[]; strengths: string[]; custom_note?: string }
+) {
+  const res = await fetch(`${BASE}/accessibility/me`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify(profile),
+  });
+  return res.json();
+}
+
+// ── Notes ────────────────────────────────────────────────────────
+export async function reviseNotes(token: string, lessonId: number, content: string) {
+  const res = await fetch(`${BASE}/notes/revise`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ lesson_id: lessonId, content }),
+  });
+  return res.json();
+}
+
+export async function generateLessonPlan(token: string, lessonId: number) {
+  const res = await fetch(`${BASE}/notes/generate-plan?lesson_id=${lessonId}`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return res.json();
+}

@@ -8,6 +8,9 @@ import ConceptMap from '@/components/concept-map/ConceptMap';
 import AgentPanel from '@/components/agents/AgentPanel';
 import VoiceAgent from '@/components/voice/VoiceAgent';
 import NetworkPanel from '@/components/network/NetworkPanel';
+import NotesPanel from '@/components/notes/NotesPanel';
+import ZeticAgent from '@/components/zetic/ZeticAgent';
+import AccessibilityModal from '@/components/accessibility/AccessibilityModal';
 import Link from 'next/link';
 
 interface Lesson {
@@ -34,7 +37,8 @@ export default function LessonPage() {
 
   const [lesson, setLesson] = useState<Lesson | null>(null);
   const [conceptMap, setConceptMap] = useState<{ nodes: unknown[]; edges: unknown[] } | null>(null);
-  const [activePanel, setActivePanel] = useState<'chat' | 'map' | 'network' | 'replay'>('chat');
+  const [activePanel, setActivePanel] = useState<'chat' | 'map' | 'network' | 'notes' | 'replay'>('chat');
+  const [showAccessibility, setShowAccessibility] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -130,7 +134,7 @@ export default function LessonPage() {
         <span className="text-t1 text-sm font-medium truncate max-w-xs">{lesson.title}</span>
 
         {/* Mode selector */}
-        <div className="ml-auto flex gap-1">
+        <div className="ml-auto flex items-center gap-1">
           {MODES.map(m => (
             <button
               key={m.id}
@@ -144,6 +148,15 @@ export default function LessonPage() {
               {m.icon} {m.label}
             </button>
           ))}
+          <div className="w-px h-4 bg-white/10 mx-1" />
+          <Link href="/dashboard" className="text-[11px] text-t2 hover:text-t0 px-2 py-1 rounded-lg hover:bg-white/5 transition-all">◈ Dash</Link>
+          <button
+            onClick={() => setShowAccessibility(true)}
+            className="text-[11px] text-t2 hover:text-pur px-2 py-1 rounded-lg hover:bg-pur/10 transition-all"
+            title="Accessibility settings"
+          >
+            ◉ Access
+          </button>
         </div>
       </header>
 
@@ -157,18 +170,24 @@ export default function LessonPage() {
         {/* CENTER: Chat + panels */}
         <div className="flex-1 flex flex-col overflow-hidden">
           {/* Panel tabs */}
-          <div className="flex-shrink-0 flex gap-0 border-b border-white/5 bg-bg1/50">
-            {(['chat', 'map', 'network', 'replay'] as const).map(p => (
+          <div className="flex-shrink-0 flex gap-0 border-b border-white/5 bg-bg1/50 overflow-x-auto">
+            {([
+              ['chat', '◎ Chat'],
+              ['map', '⬡ Concepts'],
+              ['network', '◈ Peers'],
+              ['notes', '✎ Notes'],
+              ['replay', '↩ Replay'],
+            ] as const).map(([p, label]) => (
               <button
                 key={p}
                 onClick={() => setActivePanel(p)}
-                className={`px-5 py-2.5 text-xs font-semibold uppercase tracking-wider transition-all border-b-2 ${
+                className={`px-4 py-2.5 text-xs font-semibold uppercase tracking-wider transition-all border-b-2 whitespace-nowrap ${
                   activePanel === p
                     ? 'text-acc border-acc'
                     : 'text-t2 border-transparent hover:text-t0'
                 }`}
               >
-                {p === 'chat' ? '◎ Chat' : p === 'map' ? '⬡ Concept Map' : p === 'network' ? '◈ Peers' : '↩ Replay'}
+                {label}
               </button>
             ))}
           </div>
@@ -177,31 +196,52 @@ export default function LessonPage() {
             {activePanel === 'chat' && <TutorChat onSend={handleSend} lesson={lesson} />}
             {activePanel === 'map' && <ConceptMap data={conceptMap} courseId={1} />}
             {activePanel === 'network' && <NetworkPanel lessonId={lesson.id} />}
+            {activePanel === 'notes' && <NotesPanel lessonId={lesson.id} />}
             {activePanel === 'replay' && (
               <div className="p-6 text-t2 text-sm">Session replay available after completing the session.</div>
             )}
           </div>
         </div>
 
-        {/* RIGHT: Key concepts + voice */}
+        {/* RIGHT: Key concepts + voice + ZETIC */}
         <div className="w-72 flex-shrink-0 border-l border-white/5 bg-bg1 flex flex-col overflow-hidden">
           <VoiceAgent onTranscript={handleSend} />
-          <div className="border-t border-white/5 p-4 flex-1 overflow-y-auto">
-            <div className="text-[10px] font-bold uppercase tracking-widest text-t3 mb-3">Key Concepts</div>
-            <div className="space-y-2">
-              {lesson.key_concepts.map(c => (
-                <div key={c} className="flex items-center gap-2 text-xs text-t1">
-                  <div className="w-1.5 h-1.5 rounded-full bg-acc/60 flex-shrink-0" />
-                  {c}
-                </div>
-              ))}
+          <div className="border-t border-white/5 p-4 flex-1 overflow-y-auto space-y-5">
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-t3 mb-3">Key Concepts</div>
+              <div className="space-y-2">
+                {lesson.key_concepts.map(c => (
+                  <div key={c} className="flex items-center gap-2 text-xs text-t1">
+                    <div className="w-1.5 h-1.5 rounded-full bg-acc/60 flex-shrink-0" />
+                    {c}
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <div className="text-[10px] font-bold uppercase tracking-widest text-t3 mb-3 mt-6">About This Lesson</div>
-            <p className="text-xs text-t1 leading-relaxed">{lesson.summary}</p>
+            {/* ZETIC on-device AI */}
+            <ZeticAgent
+              context={lesson.key_concepts.join(', ')}
+              onResponse={(text) => {
+                // inject ZETIC response as an assistant message
+                useTutorStore.getState().addMessage({
+                  id: 'zetic-' + Date.now(),
+                  role: 'assistant',
+                  content: `**[On-Device ZETIC]** ${text}`,
+                });
+              }}
+            />
+
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-t3 mb-3">About This Lesson</div>
+              <p className="text-xs text-t1 leading-relaxed">{lesson.summary}</p>
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Accessibility modal */}
+      <AccessibilityModal isOpen={showAccessibility} onClose={() => setShowAccessibility(false)} />
     </div>
   );
 }

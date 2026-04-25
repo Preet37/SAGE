@@ -9,11 +9,14 @@ export default function VoiceAgent({ onTranscript }: Props) {
   const [state, setState] = useState<VoiceState>('idle');
   const [transcript, setTranscript] = useState('');
   const [supported] = useState(() => typeof window !== 'undefined' && 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window);
-  const recogRef = useRef<SpeechRecognition | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const recogRef = useRef<any>(null);
 
   const startListening = useCallback(() => {
     if (!supported) return;
-    const SpeechRec = (window as unknown as { SpeechRecognition?: typeof SpeechRecognition; webkitSpeechRecognition?: typeof SpeechRecognition }).SpeechRecognition || (window as unknown as { webkitSpeechRecognition?: typeof SpeechRecognition }).webkitSpeechRecognition;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const w = window as any;
+    const SpeechRec = w.SpeechRecognition || w.webkitSpeechRecognition;
     if (!SpeechRec) return;
 
     const rec = new SpeechRec();
@@ -23,7 +26,8 @@ export default function VoiceAgent({ onTranscript }: Props) {
     recogRef.current = rec;
 
     rec.onstart = () => setState('listening');
-    rec.onresult = (e: SpeechRecognitionEvent) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    rec.onresult = (e: any) => {
       let interim = '';
       let final = '';
       for (let i = e.resultIndex; i < e.results.length; i++) {
