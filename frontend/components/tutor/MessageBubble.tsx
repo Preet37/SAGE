@@ -408,8 +408,8 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, lessonT
                           }
 
                           // Runnable code blocks
-                          const lang = getCodeLang(classes as (string | number)[]);
-                          if (lang && !isStreaming) {
+                          const langConfig = getCodeLang(classes as (string | number)[]);
+                          if (langConfig && !isStreaming) {
                             // eslint-disable-next-line @typescript-eslint/no-explicit-any
                             function extractCode(nodes: any[]): string {
                               return nodes.map((n) => {
@@ -419,9 +419,8 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, lessonT
                               }).join("");
                             }
                             const code = extractCode(child.children).trimEnd();
-                            return <CodeRunner key={code.slice(0, 20)} code={code} lang={lang} />;
-                          }
-                        }
+                            return <CodeRunner key={code.slice(0, 20)} code={code} langConfig={langConfig} />;
+                          }                        }
                       }
                     }
                     return <pre {...props}>{children}</pre>;

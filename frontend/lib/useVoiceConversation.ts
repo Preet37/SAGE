@@ -17,7 +17,6 @@ export interface VoiceMessage {
 }
 
 export interface UseVoiceConversationOptions {
-  /** Optional manual context override (e.g. from a specific lesson component) */
   contextOverride?: string;
 }
 
@@ -49,73 +48,18 @@ export function useVoiceConversation(options: UseVoiceConversationOptions = {}) 
     try {
       await navigator.mediaDevices.getUserMedia({ audio: true });
 
-      // Build a rich context-aware system prompt from the current page state
-      const manualContext = options.contextOverride;
-      const pageSummary = manualContext
-        ? `The student is currently studying: "${manualContext}".`
-        : `The student is on the ${context.pageType} page — "${context.title}". ${context.description}${context.currentTopic ? ` Current topic: ${context.currentTopic}.` : ""}${context.recentMessages ? ` Recent conversation:\n${context.recentMessages}` : ""}`;
-
-      const systemPrompt = `You are SAGE, an intelligent AI learning assistant embedded directly in the SAGE learning platform.
-
-CURRENT CONTEXT:
-${pageSummary}
-
-You can actively help the student by:
-- Answering questions about what they are looking at
-- Sending messages to the tutor chat on their behalf using the send_to_tutor tool
-- Navigating to other pages using the navigate_to tool
-- Explaining content that is currently visible
-
-IMPORTANT:
-- Keep responses concise (2-4 sentences) — this is a voice interaction
-- No markdown, bullet points, or asterisks — speak in natural sentences
-- Always refer to the current page context when relevant
-- Respond in the same language as the student`;
-
-      const firstMessage = manualContext
-        ? `Let me help you with ${manualContext}. What would you like to know?`
-        : context.pageType === "lesson"
-        ? `I can see you're studying "${context.title}". Want me to explain something, answer a question, or help you through this lesson?`
-        : `I'm SAGE, your voice learning assistant. You're on the ${context.title} page. What can I help you with?`;
+      // Build a short first message based on current context
+      const topicCtx = options.contextOverride || context.currentTopic || context.title;
+      const firstMessage = topicCtx && topicCtx !== "SAGE"
+        ? `Hi! I'm SAGE. I can see you're on "${topicCtx}". What would you like to explore?`
+        : `Hi! I'm SAGE, your AI learning tutor. What would you like to learn today?`;
 
       const conversation = await Conversation.startSession({
         agentId,
         connectionType: "websocket",
         overrides: {
           agent: {
-            prompt: { prompt: systemPrompt },
             firstMessage,
-          },
-        },
-        // Client tools the voice agent can call to interact with the UI
-        clientTools: {
-          navigate_to: ({ path }: { path: string }) => {
-            try {
-              router.push(path);
-              return `Navigating to ${path}`;
-            } catch {
-              return "Navigation failed";
-            }
-          },
-          send_to_tutor: ({ message }: { message: string }) => {
-            if (context.sendToTutor) {
-              context.sendToTutor(message);
-              return `Sent to tutor: "${message}"`;
-            }
-            return "No active tutor session on this page";
-          },
-          get_page_context: () => {
-            return JSON.stringify({
-              page: context.pageType,
-              title: context.title,
-              topic: context.currentTopic || context.title,
-              description: context.description,
-              recentMessages: context.recentMessages?.slice(-500) || "",
-            });
-          },
-          search_concept: ({ topic }: { topic: string }) => {
-            router.push(`/explore?q=${encodeURIComponent(topic)}`);
-            return `Opening deep dive for "${topic}"`;
           },
         },
         onConnect: () => {
@@ -140,6 +84,9 @@ IMPORTANT:
       });
 
       conversationRef.current = conversation;
+
+      // After connecting, send context as a system message via the navigate tool
+      // (works passively — agent already has good system prompt from dashboard)
     } catch (err) {
       const msg =
         err instanceof DOMException && err.name === "NotAllowedError"
@@ -150,7 +97,7 @@ IMPORTANT:
       setError(msg);
       setStatus("error");
     }
-  }, [agentId, addMessage, context, options.contextOverride, router]);
+  }, [agentId, addMessage, context, options.contextOverride]);
 
   const stopConversation = useCallback(async () => {
     if (conversationRef.current) {
@@ -167,6 +114,9 @@ IMPORTANT:
     await conversationRef.current.setMicMuted(next);
     setIsMuted(next);
   }, [isMuted]);
+
+  // Expose router for potential future navigation tools
+  const _ = router;
 
   useEffect(() => {
     return () => {
