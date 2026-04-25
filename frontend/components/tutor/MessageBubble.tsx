@@ -4,25 +4,10 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
 import { useState, useCallback } from 'react';
-import dynamic from 'next/dynamic';
 import { generateVisual } from '@/lib/api';
 import { useAuthStore } from '@/lib/store';
 import type { VizConfig } from '@/components/visual/VisualRenderer';
-
-const VisualRenderer = dynamic(() => import('@/components/visual/VisualRenderer'), {
-  ssr: false,
-  loading: () => (
-    <div className="h-[280px] rounded-xl bg-[#050a14] border border-slate-700/50 flex items-center justify-center">
-      <div className="flex items-center gap-3 text-slate-500 text-sm">
-        <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-        </svg>
-        Loading 3D engine…
-      </div>
-    </div>
-  ),
-});
+import VisualRenderer from '@/components/visual/VisualRenderer';
 
 interface Message {
   id: string;

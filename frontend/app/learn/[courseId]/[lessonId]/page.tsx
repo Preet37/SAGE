@@ -19,11 +19,11 @@ interface Lesson {
 }
 
 const MODES = [
-  { id: 'default', label: 'Socratic', icon: '◎' },
-  { id: 'eli5',    label: 'ELI5',    icon: '◉' },
-  { id: 'analogy', label: 'Analogy', icon: '◈' },
-  { id: 'code',    label: 'Code',    icon: '<>' },
-  { id: 'deep_dive', label: 'Deep', icon: '∞' },
+  { id: 'default',   label: 'Socratic',  icon: '◎', tip: 'Guided questioning — SAGE never just gives the answer' },
+  { id: 'eli5',      label: 'Simple',    icon: '◉', tip: 'Explain like I\'m 10 — everyday analogies, no jargon' },
+  { id: 'analogy',   label: 'Analogy',   icon: '≈',  tip: 'Build intuition through real-world comparisons first' },
+  { id: 'code',      label: 'Code',      icon: '{ }', tip: 'Show working code examples, then explain the concept' },
+  { id: 'deep_dive', label: 'Deep Dive', icon: '∞',  tip: 'Math-heavy, formal notation, assumes strong background' },
 ];
 
 export default function LessonPage() {
@@ -135,27 +135,33 @@ export default function LessonPage() {
 
         {/* Mode selector */}
         <div className="ml-auto flex items-center gap-1">
+          <span className="text-[9px] text-t3 font-semibold uppercase tracking-wider mr-1">Teaching Mode</span>
           {MODES.map(m => (
             <button
               key={m.id}
               onClick={() => setTeachingMode(m.id)}
-              className={`text-[11px] font-semibold px-3 py-1 rounded-lg transition-all ${
+              title={m.tip}
+              className={`text-[11px] font-semibold px-2.5 py-1 rounded-lg transition-all ${
                 teachingMode === m.id
-                  ? 'bg-acc text-white'
+                  ? 'bg-acc text-white shadow-sm'
                   : 'text-t2 hover:text-t0 hover:bg-white/5'
               }`}
             >
-              {m.icon} {m.label}
+              <span className="mr-1 opacity-70">{m.icon}</span>{m.label}
             </button>
           ))}
-          <div className="w-px h-4 bg-white/10 mx-1" />
-          <Link href="/dashboard" className="text-[11px] text-t2 hover:text-t0 px-2 py-1 rounded-lg hover:bg-white/5 transition-all">◈ Dash</Link>
+          <div className="w-px h-4 bg-white/10 mx-2" />
+          <Link href="/dashboard" title="Your learning dashboard" className="text-[11px] text-t2 hover:text-t0 px-2 py-1 rounded-lg hover:bg-white/5 transition-all flex items-center gap-1">
+            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+            Dashboard
+          </Link>
           <button
             onClick={() => setShowAccessibility(true)}
-            className="text-[11px] text-t2 hover:text-pur px-2 py-1 rounded-lg hover:bg-pur/10 transition-all"
-            title="Accessibility settings"
+            title="Set learning accessibility preferences (dyslexia, ADHD, etc.)"
+            className="text-[11px] text-t2 hover:text-pur px-2 py-1 rounded-lg hover:bg-pur/10 transition-all flex items-center gap-1"
           >
-            ◉ Access
+            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 4a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" /></svg>
+            Accessibility
           </button>
         </div>
       </header>

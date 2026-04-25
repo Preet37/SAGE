@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAuthStore } from '@/lib/store';
 import ReactMarkdown from 'react-markdown';
 
@@ -19,12 +19,40 @@ const BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
 export default function NotesPanel({ lessonId }: Props) {
   const { token } = useAuthStore();
+  const STORAGE_KEY = `sage-notes-${lessonId}`;
   const [notes, setNotes] = useState('');
   const [result, setResult] = useState<RevisionResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<'write' | 'revised' | 'analysis'>('write');
   const [planLoading, setPlanLoading] = useState(false);
   const [planContent, setPlanContent] = useState('');
+  const [savedAt, setSavedAt] = useState<string | null>(null);
+  const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const data = JSON.parse(raw);
+        if (data.notes) setNotes(data.notes);
+        if (data.result) setResult(data.result);
+        if (data.saved_at) setSavedAt(data.saved_at);
+      }
+    } catch {}
+  }, [lessonId]);
+
+  // Auto-save notes to localStorage with 1s debounce
+  useEffect(() => {
+    if (!notes.trim()) return;
+    if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+    saveTimerRef.current = setTimeout(() => {
+      const ts = new Date().toISOString();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ notes, result, saved_at: ts }));
+      setSavedAt(ts);
+    }, 1000);
+    return () => { if (saveTimerRef.current) clearTimeout(saveTimerRef.current); };
+  }, [notes]);
 
   async function handleRevise() {
     if (!notes.trim() || !token) return;
@@ -73,15 +101,22 @@ export default function NotesPanel({ lessonId }: Props) {
 
   function saveOffline() {
     if (!notes.trim()) return;
-    const key = `sage-notes-${lessonId}`;
-    localStorage.setItem(key, JSON.stringify({ notes, result, saved_at: new Date().toISOString() }));
-    alert('Notes saved offline ✓');
+    const ts = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ notes, result, saved_at: ts }));
+    setSavedAt(ts);
   }
 
   return (
     <div className="h-full flex flex-col p-4">
       <div className="flex items-center gap-2 mb-4 flex-shrink-0">
-        <div className="text-[9.5px] font-bold uppercase tracking-widest text-t3">Notes & AI Revision</div>
+        <div>
+          <div className="text-[9.5px] font-bold uppercase tracking-widest text-t3">Notes & AI Revision</div>
+          {savedAt && (
+            <div className="text-[9px] text-t3 mt-0.5">
+              ✓ auto-saved {new Date(savedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+            </div>
+          )}
+        </div>
         <div className="ml-auto flex gap-2">
           <button
             onClick={saveOffline}
