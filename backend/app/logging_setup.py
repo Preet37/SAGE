@@ -10,6 +10,7 @@ from __future__ import annotations
 import contextvars
 import json
 import logging
+import re
 import secrets
 import time
 from typing import Awaitable, Callable
@@ -19,6 +20,11 @@ from starlette.requests import Request
 from starlette.responses import Response
 
 REQUEST_ID: contextvars.ContextVar[str] = contextvars.ContextVar("request_id", default="-")
+
+# Accept upstream-supplied IDs only if they look like a sane correlation id.
+# Rejects newlines and other control chars that could cause log injection in
+# any non-JSON sink.
+_REQUEST_ID_RE = re.compile(r"\A[A-Za-z0-9_\-]{1,64}\Z")
 
 
 class _JsonFormatter(logging.Formatter):
@@ -51,7 +57,8 @@ class RequestIdMiddleware(BaseHTTPMiddleware):
     async def dispatch(
         self, request: Request, call_next: Callable[[Request], Awaitable[Response]]
     ) -> Response:
-        rid = request.headers.get("X-Request-Id") or secrets.token_urlsafe(8)
+        incoming = request.headers.get("X-Request-Id") or ""
+        rid = incoming if _REQUEST_ID_RE.match(incoming) else secrets.token_urlsafe(8)
         token = REQUEST_ID.set(rid)
         started = time.perf_counter()
         try:

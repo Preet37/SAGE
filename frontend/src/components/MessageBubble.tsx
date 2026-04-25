@@ -72,17 +72,23 @@ function extractQuizzes(text: string): { prose: string; quizzes: QuizBlock[] } {
   const prose = text.replace(QUIZ_RE, (_full, raw: string) => {
     try {
       const parsed = JSON.parse(raw) as Partial<QuizBlock>;
+      const choices = parsed.choices;
+      const answer = parsed.answer;
       if (
         parsed &&
         typeof parsed.question === "string" &&
-        Array.isArray(parsed.choices) &&
-        typeof parsed.answer === "number" &&
-        parsed.choices.every((c) => typeof c === "string")
+        Array.isArray(choices) &&
+        choices.length >= 2 &&
+        choices.every((c) => typeof c === "string") &&
+        typeof answer === "number" &&
+        Number.isInteger(answer) &&
+        answer >= 0 &&
+        answer < choices.length
       ) {
         quizzes.push({
           question: parsed.question,
-          choices: parsed.choices as string[],
-          answer: parsed.answer,
+          choices: choices as string[],
+          answer,
           explanation:
             typeof parsed.explanation === "string" ? parsed.explanation : undefined,
         });

@@ -1,11 +1,18 @@
 """SQLAlchemy engine, session, declarative base, and lightweight schema sync.
 
-For MVP, `init_db()` does two things:
+`init_db()` is a DEVELOPMENT helper. It does two things:
+
   1. Create any tables that don't exist yet (`Base.metadata.create_all`).
   2. ALTER existing tables to add columns we've added since the last boot,
      so an old `sage.db` file keeps working without a destructive reset.
 
-For production, prefer Alembic migrations (see `alembic.ini`).
+The `_ensure_columns` ALTER statements use SQLite-flavored syntax. They are
+intentionally additive-only and have no rollback path.
+
+For production, do NOT rely on this:
+  - Run `alembic upgrade head` instead (see `alembic.ini`).
+  - Set `ENVIRONMENT=production` so `assert_safe_for_production()` rejects
+    the default JWT secret and SQLite URL at boot.
 """
 
 from __future__ import annotations

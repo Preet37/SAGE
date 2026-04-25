@@ -57,14 +57,37 @@ const TutorChat = forwardRef<TutorChatHandle, TutorChatProps>(function TutorChat
   }, [turns]);
 
   const playAudio = useCallback((event: AudioEvent) => {
+    // Decode to a Blob and use an object URL — keeps a giant base64 string
+    // out of the DOM and lets us release memory deterministically.
+    let url: string | null = null;
+    try {
+      const binary = atob(event.base64);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+      const blob = new Blob([bytes], { type: event.mime });
+      url = URL.createObjectURL(blob);
+    } catch {
+      return;
+    }
+
     if (audioRef.current) {
       audioRef.current.pause();
+      audioRef.current.src = "";
       audioRef.current = null;
     }
-    const audio = new Audio(`data:${event.mime};base64,${event.base64}`);
+    const audio = new Audio(url);
+    const release = () => {
+      if (url) {
+        URL.revokeObjectURL(url);
+        url = null;
+      }
+    };
+    audio.onended = release;
+    audio.onerror = release;
     audioRef.current = audio;
     void audio.play().catch(() => {
-      // Autoplay can be blocked; user can re-enable explicitly.
+      // Autoplay can be blocked; release the URL anyway.
+      release();
     });
   }, []);
 

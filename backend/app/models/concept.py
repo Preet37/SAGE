@@ -1,4 +1,4 @@
-from sqlalchemy import Float, ForeignKey, String, Text
+from sqlalchemy import Float, ForeignKey, String, Text, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db import Base
@@ -6,6 +6,9 @@ from app.db import Base
 
 class Concept(Base):
     __tablename__ = "concepts"
+    __table_args__ = (
+        UniqueConstraint("session_id", "label", name="uq_concept_session_label"),
+    )
 
     id: Mapped[int] = mapped_column(primary_key=True)
     session_id: Mapped[int] = mapped_column(ForeignKey("tutor_sessions.id"), index=True)

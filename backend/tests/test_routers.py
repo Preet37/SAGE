@@ -230,3 +230,49 @@ def test_course_dashboard(client: TestClient, auth: tuple[str, dict[str, str]]) 
     r = client.get(f"/dashboard/course/{course['id']}", headers=headers)
     assert r.status_code == 200
     assert r.json()["course"]["id"] == course["id"]
+
+
+def test_dashboard_separates_my_courses_from_catalog(
+    client: TestClient, auth: tuple[str, dict[str, str]]
+) -> None:
+    _, headers = auth
+    client.post(
+        "/courses", headers=headers, json={"title": "Mine", "subject": "x", "objective": "x"}
+    )
+    body = client.get("/dashboard", headers=headers).json()
+    assert body["my_courses"] >= 1
+    assert body["catalog_size"] >= body["my_courses"]
+
+
+# ----- Hardening ---------------------------------------------------------
+
+
+def test_request_id_with_control_chars_is_replaced(client: TestClient) -> None:
+    """Newlines/tabs in X-Request-Id must not be echoed back (log injection)."""
+    r = client.get("/health", headers={"X-Request-Id": "bad\nid\twith\rcontrol"})
+    rid = r.headers.get("X-Request-Id", "")
+    assert "\n" not in rid and "\t" not in rid and "\r" not in rid
+    assert rid != "bad\nid\twith\rcontrol"
+
+
+def test_peer_match_dedupes_repeat_requests(
+    client: TestClient, auth: tuple[str, dict[str, str]]
+) -> None:
+    _, headers = auth
+    r1 = client.post("/network/peer-match", headers=headers, json={"concept": "Dedupe"}).json()
+    assert r1["state"] == "waiting"
+    waiting_after_first = client.get("/network/status", headers=headers).json()["waiting"]
+    # Second call from same user should NOT add a duplicate waiter.
+    client.post("/network/peer-match", headers=headers, json={"concept": "Dedupe"})
+    waiting_after_second = client.get("/network/status", headers=headers).json()["waiting"]
+    assert waiting_after_second == waiting_after_first
+
+
+def test_replay_pagination(client: TestClient, auth: tuple[str, dict[str, str]]) -> None:
+    _, headers = auth
+    sid = client.post("/tutor/sessions", headers=headers, json={"lesson_id": None}).json()["id"]
+    # Pagination is accepted even with zero messages.
+    r = client.get(f"/replay/{sid}?limit=10&offset=0", headers=headers)
+    assert r.status_code == 200
+    # Out-of-range limit is rejected.
+    assert client.get(f"/replay/{sid}?limit=2000", headers=headers).status_code == 422

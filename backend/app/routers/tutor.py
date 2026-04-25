@@ -28,6 +28,7 @@ import json
 from typing import AsyncIterator
 
 from fastapi import APIRouter, Depends, HTTPException, Request
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session as OrmSession
 from sse_starlette.sse import EventSourceResponse
 
@@ -144,21 +145,34 @@ def _sse(event: str, data: dict) -> dict:
 
 
 def _persist_concepts(db: OrmSession, session_id: int, delta: list[dict]) -> None:
+    """Insert new concepts, skipping duplicates (within batch and across requests).
+
+    A `UniqueConstraint(session_id, label)` is enforced at the schema level;
+    each row is inserted in a SAVEPOINT so a concurrent insert of the same
+    label is silently absorbed without losing the rest of the batch.
+    """
     if not delta:
         return
     existing = {c.label for c in db.query(Concept).filter(Concept.session_id == session_id).all()}
+    seen_in_batch: set[str] = set()
     for d in delta:
-        label = d.get("label", "").strip()
-        if not label or label in existing:
+        label = (d.get("label") or "").strip()
+        if not label or label in existing or label in seen_in_batch:
             continue
-        db.add(
-            Concept(
-                session_id=session_id,
-                label=label,
-                summary=d.get("summary", ""),
-                mastery=float(d.get("mastery", 0.1)),
-            )
-        )
+        seen_in_batch.add(label)
+        try:
+            with db.begin_nested():
+                db.add(
+                    Concept(
+                        session_id=session_id,
+                        label=label,
+                        summary=d.get("summary", ""),
+                        mastery=float(d.get("mastery", 0.1)),
+                    )
+                )
+        except IntegrityError:
+            # Another request inserted the same label first — fine.
+            continue
     db.commit()
 
 

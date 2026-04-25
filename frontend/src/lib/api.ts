@@ -120,7 +120,8 @@ export interface PeerMatch {
 
 export interface Dashboard {
   user: User;
-  courses: number;
+  catalog_size: number;
+  my_courses: number;
   sessions: number;
   messages: number;
   concepts_total: number;
@@ -410,12 +411,15 @@ export const requestPeerMatch = (
     token,
   );
 
-export function openPeerSocket(roomToken: string): WebSocket {
+export function openPeerSocket(roomToken: string, token: string): WebSocket {
   // Browser WebSocket protocol must match the page protocol.
   const proto = typeof window !== "undefined" && window.location.protocol === "https:" ? "wss" : "ws";
   // Bypass Next.js rewrites; talk to backend directly.
   const apiOrigin = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
-  const url = apiOrigin.replace(/^http/, proto) + `/network/peer-session/${roomToken}`;
+  const url =
+    apiOrigin.replace(/^http/, proto) +
+    `/network/peer-session/${encodeURIComponent(roomToken)}` +
+    `?token=${encodeURIComponent(token)}`;
   return new WebSocket(url);
 }
 

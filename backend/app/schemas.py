@@ -171,7 +171,8 @@ class NetworkStatus(BaseModel):
 
 class DashboardOut(BaseModel):
     user: UserOut
-    courses: int
+    catalog_size: int
+    my_courses: int
     sessions: int
     messages: int
     concepts_total: int

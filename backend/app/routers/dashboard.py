@@ -54,7 +54,8 @@ def dashboard(
 
     return DashboardOut(
         user=UserOut.model_validate(user),
-        courses=db.query(Lesson).count(),
+        catalog_size=db.query(Lesson).count(),
+        my_courses=db.query(Lesson).filter(Lesson.owner_id == user.id).count(),
         sessions=len(sessions),
         # Prefer persisted message count; fall back to transcript scan for legacy sessions.
         messages=persisted_msgs or transcript_msgs,

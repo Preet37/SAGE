@@ -50,6 +50,17 @@ export default function AccessibilityModal({
     }
   }, [onChange, onClose, prefs, token]);
 
+  // Close on Escape only — backdrop clicks don't dismiss to avoid losing
+  // in-progress edits.
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open, onClose]);
+
   if (!open) return null;
 
   return (
@@ -59,12 +70,8 @@ export default function AccessibilityModal({
       aria-labelledby="a11y-title"
       className="fixed inset-0 z-50 grid place-items-center p-4"
       style={{ background: "rgba(15, 23, 42, 0.45)" }}
-      onClick={onClose}
     >
-      <div
-        className="card w-full max-w-md p-6"
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="card w-full max-w-md p-6">
         <header className="flex items-center justify-between">
           <h2 id="a11y-title" className="text-xl" style={{ fontFamily: "var(--font-heading)", fontWeight: 700 }}>
             Accessibility

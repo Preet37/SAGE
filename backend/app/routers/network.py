@@ -3,9 +3,13 @@
 In-memory only: matching state lives for the lifetime of the process. Suitable
 for single-instance MVP; horizontal scaling needs Redis pub/sub.
 
-`start_peer_sweeper(app)` is wired from `lifespan` in main.py and clears
-waiters that exceed `WAIT_TIMEOUT_SECONDS` so the queue never accumulates
-abandoned matches.
+Hardening notes:
+  - The WebSocket endpoint requires a JWT in `?token=` and verifies the caller
+    is one of the room's matched users.
+  - `_WAITING` dedupes by user_id so a single user cannot pollute the queue
+    with multiple entries.
+  - `_HOT_CONCEPTS` is bounded to `MAX_HOT_CONCEPTS` to cap memory growth.
+  - `_sweep_loop` drops waiters older than `WAIT_TIMEOUT_SECONDS`.
 """
 
 from __future__ import annotations
@@ -20,14 +24,16 @@ from typing import Any, Deque
 
 from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect
 
+from app.db import SessionLocal
 from app.models import User
 from app.schemas import NetworkStatus, PeerMatchRequest, PeerMatchResponse
-from app.security import get_current_user
+from app.security import authenticate_websocket_token, get_current_user
 
 router = APIRouter(prefix="/network", tags=["network"])
 log = logging.getLogger("sage.network")
 
 WAIT_TIMEOUT_SECONDS = 300  # 5 minutes
+MAX_HOT_CONCEPTS = 256
 
 
 @dataclass
@@ -47,8 +53,23 @@ _LOCK = asyncio.Lock()
 
 
 def _bump_hot(concept: str | None) -> None:
-    if concept:
-        _HOT_CONCEPTS[concept] = _HOT_CONCEPTS.get(concept, 0) + 1
+    if not concept:
+        return
+    _HOT_CONCEPTS[concept] = _HOT_CONCEPTS.get(concept, 0) + 1
+    if len(_HOT_CONCEPTS) > MAX_HOT_CONCEPTS:
+        # Evict the lowest-count entries until we're back under cap.
+        excess = len(_HOT_CONCEPTS) - MAX_HOT_CONCEPTS
+        victims = sorted(_HOT_CONCEPTS.items(), key=lambda kv: kv[1])[:excess]
+        for k, _ in victims:
+            _HOT_CONCEPTS.pop(k, None)
+
+
+def _drop_waiter_for_user(user_id: int) -> None:
+    """Remove any existing waiter for this user. Caller holds `_LOCK`."""
+    survivors = deque(w for w in _WAITING if w.user_id != user_id)
+    if len(survivors) != len(_WAITING):
+        _WAITING.clear()
+        _WAITING.extend(survivors)
 
 
 @router.post("/peer-match", response_model=PeerMatchResponse)
@@ -77,6 +98,8 @@ async def peer_match(
                 peer=partner.user_name,
             )
 
+        # Single waiter per user — drop any prior entry from this user.
+        _drop_waiter_for_user(user.id)
         token = secrets.token_urlsafe(8)
         _WAITING.append(
             _Waiter(
@@ -100,8 +123,33 @@ async def network_status(_: User = Depends(get_current_user)):
     )
 
 
+# WebSocket close codes (4000-4999 range is application-defined).
+_CLOSE_AUTH_REQUIRED = 4401
+_CLOSE_FORBIDDEN = 4403
+_CLOSE_ROOM_GONE = 4404
+
+
 @router.websocket("/peer-session/{room_token}")
-async def peer_session(websocket: WebSocket, room_token: str):
+async def peer_session(websocket: WebSocket, room_token: str, token: str | None = None):
+    """Live peer chat. Requires `?token=<jwt>` and room membership."""
+    db = SessionLocal()
+    try:
+        user = authenticate_websocket_token(token, db)
+    finally:
+        db.close()
+
+    if not user:
+        await websocket.close(code=_CLOSE_AUTH_REQUIRED)
+        return
+
+    room = _ACTIVE_ROOMS.get(room_token)
+    if not room:
+        await websocket.close(code=_CLOSE_ROOM_GONE)
+        return
+    if user.id not in room.get("users", []):
+        await websocket.close(code=_CLOSE_FORBIDDEN)
+        return
+
     await websocket.accept()
     _ROOM_CONNS[room_token].append(websocket)
     try:

@@ -64,6 +64,9 @@ class AgentContext:
 # ----- Retry helper -------------------------------------------------------
 
 
+_NON_RETRYABLE_STATUSES = frozenset({400, 401, 403, 404, 422})
+
+
 async def with_retry(
     fn: Callable[[], Awaitable[str]],
     *,
@@ -71,21 +74,32 @@ async def with_retry(
     base_delay: float = 0.5,
     max_delay: float = 4.0,
 ) -> str:
-    """Call `fn` up to `attempts` times with jittered exponential backoff."""
+    """Call `fn` up to `attempts` times with jittered exponential backoff.
+
+    4xx client errors (auth, validation, not-found) are NOT retried — those
+    are deterministic and re-issuing the same request just wastes time and
+    burns rate-limit budget on the upstream provider.
+    """
     last: Exception | None = None
     for i in range(attempts):
         try:
             return await fn()
-        except (httpx.HTTPStatusError, httpx.HTTPError) as exc:
+        except httpx.HTTPStatusError as exc:
+            if exc.response.status_code in _NON_RETRYABLE_STATUSES:
+                raise
             last = exc
-            if i == attempts - 1:
-                break
-            sleep = min(base_delay * (2**i), max_delay) + random.uniform(0, 0.25)
-            log.warning("LLM attempt %d failed: %s — retrying in %.2fs", i + 1, exc, sleep)
-            await asyncio.sleep(sleep)
-        except Exception as exc:
+        except httpx.HTTPError as exc:
+            last = exc
+        except Exception:
             # Non-retryable
-            raise exc
+            raise
+
+        if i == attempts - 1:
+            break
+        sleep = min(base_delay * (2**i), max_delay) + random.uniform(0, 0.25)
+        log.warning("LLM attempt %d failed: %s — retrying in %.2fs", i + 1, last, sleep)
+        await asyncio.sleep(sleep)
+
     assert last is not None
     raise last
 

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session as OrmSession
 
 from app.db import get_db
@@ -27,6 +27,8 @@ def list_replays(
 @router.get("/{session_id}", response_model=ReplaySessionOut)
 def replay_session(
     session_id: int,
+    limit: int = Query(200, ge=1, le=1000),
+    offset: int = Query(0, ge=0),
     db: OrmSession = Depends(get_db),
     user: User = Depends(get_current_user),
 ):
@@ -42,6 +44,8 @@ def replay_session(
         db.query(TutorMessage)
         .filter(TutorMessage.session_id == s.id)
         .order_by(TutorMessage.created_at.asc(), TutorMessage.id.asc())
+        .offset(offset)
+        .limit(limit)
         .all()
     )
     return ReplaySessionOut(

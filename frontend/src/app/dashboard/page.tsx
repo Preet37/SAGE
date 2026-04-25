@@ -66,9 +66,15 @@ function DashboardBody() {
         )}
 
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <Stat label="Courses" value={data?.courses ?? 0} />
+          <Stat
+            label="Catalog"
+            value={data ? `${data.my_courses} / ${data.catalog_size}` : "–"}
+          />
           <Stat label="Sessions" value={data?.sessions ?? 0} />
-          <Stat label="Concepts mastered" value={`${data?.concepts_mastered ?? 0} / ${data?.concepts_total ?? 0}`} />
+          <Stat
+            label="Concepts mastered"
+            value={`${data?.concepts_mastered ?? 0} / ${data?.concepts_total ?? 0}`}
+          />
           <Stat
             label="Grounded rate"
             value={data ? `${Math.round(data.grounded_rate * 100)}%` : "–"}

@@ -81,7 +81,12 @@ export function useAuth(): AuthState {
     getMe(state.token)
       .then((user) => {
         if (cancelled) return;
-        setAuth(state.token!, user);
+        const cur = read();
+        // Only write if anything actually changed — avoids a re-fired
+        // sage-auth-change event and the corresponding render churn.
+        if (!cur || !sameUser(cur.user, user)) {
+          setAuth(state.token!, user);
+        }
       })
       .catch(() => {
         if (!cancelled) clearAuth();
@@ -93,4 +98,13 @@ export function useAuth(): AuthState {
   }, [state.token]);
 
   return state;
+}
+
+function sameUser(a: User, b: User): boolean {
+  return (
+    a.id === b.id &&
+    a.email === b.email &&
+    a.name === b.name &&
+    a.teaching_mode === b.teaching_mode
+  );
 }

@@ -61,14 +61,13 @@ def create_access_token(sub: str) -> str:
     )
 
 
-def get_current_user(
-    token: str = Depends(oauth2_scheme), db: OrmSession = Depends(get_db)
-) -> User:
-    creds_err = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
+def _user_from_token(token: str, db: OrmSession) -> User | None:
+    """Decode a bearer token and look up the user, or return None on any failure.
+
+    Shared by the HTTP `get_current_user` dependency and the WebSocket
+    handshake — both need the same validation but only one can use FastAPI's
+    dependency-injection.
+    """
     try:
         payload = jwt.decode(
             token,
@@ -78,13 +77,29 @@ def get_current_user(
             options={"require": ["exp", "iat", "sub", "iss"]},
         )
     except JWTError:
-        raise creds_err
-
+        return None
     email = payload.get("sub")
     if not isinstance(email, str) or "@" not in email:
-        raise creds_err
+        return None
+    return db.query(User).filter(User.email == email).first()
 
-    user = db.query(User).filter(User.email == email).first()
+
+def get_current_user(
+    token: str = Depends(oauth2_scheme), db: OrmSession = Depends(get_db)
+) -> User:
+    creds_err = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    user = _user_from_token(token, db)
     if not user:
         raise creds_err
     return user
+
+
+def authenticate_websocket_token(token: str | None, db: OrmSession) -> User | None:
+    """Authenticate a websocket caller from a query-param JWT. None on failure."""
+    if not token:
+        return None
+    return _user_from_token(token, db)

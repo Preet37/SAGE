@@ -51,7 +51,7 @@ export default function NetworkPanel({ token, lessonId }: NetworkPanelProps) {
   // Open the WS once we are matched and there is a room token.
   useEffect(() => {
     if (!match || match.state !== "matched") return;
-    const ws = openPeerSocket(match.room_token);
+    const ws = openPeerSocket(match.room_token, token);
     wsRef.current = ws;
     ws.onmessage = (e) => {
       try {
