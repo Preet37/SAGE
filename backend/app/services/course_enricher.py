@@ -81,7 +81,7 @@ async def _call_llm(
         client = _get_http_client()
         req_timeout = httpx.Timeout(timeout) if timeout else None
         resp = await client.post(
-            f"{settings.llm_base_url}/v1/chat/completions",
+            f"{settings.llm_base_url}/chat/completions",
             headers=headers,
             json=payload,
             timeout=req_timeout,

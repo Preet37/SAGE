@@ -111,7 +111,7 @@ async def _llm_edit(system: str, user: str, *, max_tokens: int = 4096) -> str:
     }
     async with httpx.AsyncClient(timeout=120.0) as client:
         resp = await client.post(
-            f"{settings.llm_base_url}/v1/chat/completions",
+            f"{settings.llm_base_url}/chat/completions",
             headers=headers,
             json=payload,
         )
