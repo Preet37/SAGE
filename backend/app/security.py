@@ -92,7 +92,23 @@ def get_current_user(
     if not isinstance(email, str) or "@" not in email:
         return _get_or_create_guest(db)
 
-    user = db.query(User).filter(User.email == email).first()
+
+def get_current_user(
+    token: str = Depends(oauth2_scheme), db: OrmSession = Depends(get_db)
+) -> User:
+    creds_err = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    user = _user_from_token(token, db)
     if not user:
         return _get_or_create_guest(db)
     return user
+
+
+def authenticate_websocket_token(token: str | None, db: OrmSession) -> User | None:
+    """Authenticate a websocket caller from a query-param JWT. None on failure."""
+    if not token:
+        return None
+    return _user_from_token(token, db)

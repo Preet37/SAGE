@@ -4,6 +4,10 @@ from typing import Optional
 import yaml
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+# Populate os.environ from .env so direct os.getenv(...) calls in agent code
+# (which use ANTHROPIC_API_KEY / ASI1_API_KEY / etc.) see the configured values.
+load_dotenv()
+
 
 class Settings(BaseSettings):
     # LLM
@@ -38,6 +42,13 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
         extra="ignore",
     )
+
+    environment: str = "development"  # "development" | "production"
+    log_level: str = "INFO"
+
+    @property
+    def is_production(self) -> bool:
+        return self.environment.lower() == "production"
 
 
 @lru_cache

@@ -26,5 +26,5 @@ class ContentAgent(Agent):
 
         user = f"Learner asked: {ctx.user_message}\n\nTeaching directive: {nudge}"
         ctx.answer = await self.llm.complete(system, user)
-        self._emit(ctx, "response", {"chars": len(ctx.answer), "strategy": strategy})
+        self._emit(ctx, "response", {"chars": len(ctx.answer), "strategy": strategy, "mode": teaching_mode})
         return ctx
