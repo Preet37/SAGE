@@ -1,66 +1,107 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from "react";
 
 import AgentBadge from "@/components/AgentBadge";
-import MessageBubble, { Message } from "@/components/MessageBubble";
+import MessageBubble, { type Message } from "@/components/MessageBubble";
 import {
-  AgentEvent,
-  DoneEvent,
-  TokenEvent,
-  VerificationEvent,
+  type AgentEvent,
+  type DoneEvent,
+  type TokenEvent,
+  type VerificationEvent,
   streamTutorChat,
 } from "@/lib/api";
 
-export default function TutorChat({
-  sessionId,
-  token,
-}: {
+export interface TutorChatHandle {
+  submit: (text: string) => void;
+}
+
+export interface TutorChatProps {
   sessionId: number;
   token: string;
-}) {
+  onAgentEvent?: (e: AgentEvent) => void;
+  onDone?: (e: DoneEvent) => void;
+}
+
+const TutorChat = forwardRef<TutorChatHandle, TutorChatProps>(function TutorChat(
+  { sessionId, token, onAgentEvent, onDone },
+  ref,
+) {
   const [turns, setTurns] = useState<Message[]>([]);
   const [draft, setDraft] = useState("");
   const [streaming, setStreaming] = useState(false);
   const [activeAgent, setActiveAgent] = useState<string | null>(null);
   const abortRef = useRef<(() => void) | null>(null);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
 
-  const send = useCallback(() => {
-    const message = draft.trim();
-    if (!message || streaming) return;
+  useEffect(
+    () => () => {
+      abortRef.current?.();
+    },
+    [],
+  );
 
-    setTurns((t) => [...t, { role: "user", text: message }, { role: "sage", text: "" }]);
-    setDraft("");
-    setStreaming(true);
+  useEffect(() => {
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
+  }, [turns]);
 
-    abortRef.current = streamTutorChat(sessionId, message, token, {
-      onAgent: (e: AgentEvent) => setActiveAgent(`${e.agent}:${e.phase}`),
-      onToken: (e: TokenEvent) =>
-        setTurns((t) => {
-          const next = [...t];
-          const last = next[next.length - 1];
-          if (last?.role === "sage") {
-            next[next.length - 1] = { ...last, text: last.text + e.text, agent: e.agent };
-          }
-          return next;
-        }),
-      onVerification: (v: VerificationEvent) =>
-        setTurns((t) => {
-          const next = [...t];
-          const last = next[next.length - 1];
-          if (last?.role === "sage") next[next.length - 1] = { ...last, verification: v };
-          return next;
-        }),
-      onDone: (_: DoneEvent) => {
-        setStreaming(false);
-        setActiveAgent(null);
-      },
-      onError: () => {
-        setStreaming(false);
-        setActiveAgent(null);
-      },
-    });
-  }, [draft, sessionId, streaming, token]);
+  const fire = useCallback(
+    (message: string) => {
+      const trimmed = message.trim();
+      if (!trimmed || streaming) return;
+
+      setTurns((t) => [...t, { role: "user", text: trimmed }, { role: "sage", text: "" }]);
+      setDraft("");
+      setStreaming(true);
+      setActiveAgent("orchestrator:start");
+
+      abortRef.current = streamTutorChat(sessionId, trimmed, token, {
+        onAgent: (e: AgentEvent) => {
+          setActiveAgent(`${e.agent}:${e.phase}`);
+          onAgentEvent?.(e);
+        },
+        onToken: (e: TokenEvent) =>
+          setTurns((t) => {
+            const next = [...t];
+            const last = next[next.length - 1];
+            if (last?.role === "sage") {
+              next[next.length - 1] = { ...last, text: last.text + e.text, agent: e.agent };
+            }
+            return next;
+          }),
+        onVerification: (v: VerificationEvent) =>
+          setTurns((t) => {
+            const next = [...t];
+            const last = next[next.length - 1];
+            if (last?.role === "sage") next[next.length - 1] = { ...last, verification: v };
+            return next;
+          }),
+        onDone: (e: DoneEvent) => {
+          setStreaming(false);
+          setActiveAgent(null);
+          onDone?.(e);
+        },
+        onError: () => {
+          setStreaming(false);
+          setActiveAgent(null);
+          setTurns((t) => {
+            const next = [...t];
+            const last = next[next.length - 1];
+            if (last?.role === "sage" && !last.text) {
+              next[next.length - 1] = {
+                ...last,
+                text: "_(connection error — please try again)_",
+              };
+            }
+            return next;
+          });
+        },
+      });
+    },
+    [onAgentEvent, onDone, sessionId, streaming, token],
+  );
+
+  useImperativeHandle(ref, () => ({ submit: fire }), [fire]);
 
   return (
     <div className="card flex h-full flex-col p-5">
@@ -71,37 +112,42 @@ export default function TutorChat({
         <AgentBadge active={activeAgent} />
       </header>
 
-      <div className="mt-4 flex-1 space-y-3 overflow-y-auto pr-1">
+      <div ref={scrollRef} className="mt-4 flex-1 space-y-3 overflow-y-auto pr-1">
         {turns.map((t, i) => (
           <MessageBubble key={i} msg={t} />
         ))}
-        {turns.length === 0 && <EmptyState />}
+        {turns.length === 0 && <EmptyState onPick={(p) => setDraft(p)} />}
       </div>
 
       <div className="mt-4 flex gap-2">
         <input
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && send()}
+          onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && (e.preventDefault(), fire(draft))}
           placeholder="Type your question…"
           disabled={streaming}
           className="flex-1 rounded-2xl border px-4 py-3 outline-none focus:ring-2"
           style={{
             borderColor: "var(--color-border)",
             background: "var(--color-muted)",
-            // @ts-expect-error css var
-            "--tw-ring-color": "var(--color-ring)",
           }}
         />
-        <button onClick={send} disabled={streaming} className="btn-primary disabled:opacity-50">
+        <button
+          type="button"
+          onClick={() => fire(draft)}
+          disabled={streaming || !draft.trim()}
+          className="btn-primary disabled:opacity-50"
+        >
           {streaming ? "…" : "Ask"}
         </button>
       </div>
     </div>
   );
-}
+});
 
-function EmptyState() {
+export default TutorChat;
+
+function EmptyState({ onPick }: { onPick: (p: string) => void }) {
   const prompts = [
     "Explain photosynthesis in one paragraph",
     "Quiz me on the concepts I'm weakest at",
@@ -112,8 +158,7 @@ function EmptyState() {
       <div
         className="grid h-14 w-14 place-items-center rounded-2xl"
         style={{
-          background:
-            "linear-gradient(135deg, var(--color-primary), var(--color-accent))",
+          background: "linear-gradient(135deg, var(--color-primary), var(--color-accent))",
           color: "white",
           fontFamily: "var(--font-heading)",
           fontSize: 22,
@@ -134,20 +179,23 @@ function EmptyState() {
       </div>
       <ul className="flex flex-col gap-1.5 text-sm">
         {prompts.map((p) => (
-          <li
-            key={p}
-            className="rounded-full px-3 py-1.5"
-            style={{
-              background: "var(--color-muted)",
-              color: "var(--color-primary)",
-              border: "1px solid var(--color-border)",
-            }}
-          >
-            {p}
+          <li key={p}>
+            <button
+              type="button"
+              onClick={() => onPick(p)}
+              className="rounded-full px-3 py-1.5 text-left"
+              style={{
+                background: "var(--color-muted)",
+                color: "var(--color-primary)",
+                border: "1px solid var(--color-border)",
+                cursor: "pointer",
+              }}
+            >
+              {p}
+            </button>
           </li>
         ))}
       </ul>
     </div>
   );
 }
-

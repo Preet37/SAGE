@@ -42,11 +42,35 @@ async def _rl(_: Request, exc: RateLimitExceeded) -> JSONResponse:
 app.add_middleware(SlowAPIMiddleware)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=[
+        "http://localhost:3000",
+        "http://localhost:3001",
+        "http://localhost:3002",
+        "http://127.0.0.1:3000",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.get("/")
+def root():
+    return {
+        "service": "sage",
+        "version": "0.1.0",
+        "features": [
+            "auth",
+            "courses",
+            "tutor-streaming",
+            "concept-map",
+            "network-peer-match",
+            "replay",
+            "accessibility",
+            "dashboard",
+            "notes",
+        ],
+    }
 
 
 @app.get("/health")

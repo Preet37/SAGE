@@ -1,53 +1,151 @@
 "use client";
 
-import { useMemo } from "react";
+import { use, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import AccessibilityModal from "@/components/AccessibilityModal";
+import AgentPanel, {
+  applyAgentEvent,
+  type AgentPanelState,
+} from "@/components/AgentPanel";
 import AppHeader from "@/components/AppHeader";
-import ConceptMap, { ConceptEdge, ConceptNode } from "@/components/ConceptMap";
-import TutorChat from "@/components/TutorChat";
+import ConceptMap, {
+  type ConceptEdge,
+  type ConceptNode,
+} from "@/components/ConceptMap";
+import NetworkPanel from "@/components/NetworkPanel";
+import NotesPanel from "@/components/NotesPanel";
+import ProtectedRoute from "@/components/ProtectedRoute";
+import ReplayPanel from "@/components/ReplayPanel";
+import TutorChat, { type TutorChatHandle } from "@/components/TutorChat";
+import VoiceAgent from "@/components/VoiceAgent";
 import ZeticAgent from "@/components/ZeticAgent";
+import {
+  bumpMastery,
+  getConceptMap,
+  getCourse,
+  type Concept,
+  type Lesson,
+} from "@/lib/api";
+import { useAuth } from "@/lib/auth";
 
 interface PageParams {
   courseId: string;
   lessonId: string;
 }
 
-export default function LearnPage({ params }: { params: PageParams }) {
-  const sessionId = useMemo(() => Number(params.lessonId) || 1, [params.lessonId]);
-  const token = typeof window !== "undefined" ? localStorage.getItem("sage_token") ?? "" : "";
+type CenterTab = "chat" | "map" | "network" | "notes" | "replay";
 
-  // Demo data — wire to /concept-map/{session_id} once a session exists.
-  const nodes: ConceptNode[] = [
-    { id: "photosynthesis", label: "Photosynthesis", mastery: 0.4 },
-    { id: "chlorophyll",    label: "Chlorophyll",    mastery: 0.7 },
-    { id: "light",          label: "Light",          mastery: 0.9 },
-    { id: "atp",            label: "ATP",            mastery: 0.2 },
-    { id: "stomata",        label: "Stomata",        mastery: 0.55 },
-  ];
-  const edges: ConceptEdge[] = [
-    { source: "photosynthesis", target: "chlorophyll" },
-    { source: "photosynthesis", target: "light" },
-    { source: "photosynthesis", target: "atp" },
-    { source: "photosynthesis", target: "stomata" },
-  ];
+export default function LearnLessonPage({ params }: { params: Promise<PageParams> }) {
+  const resolved = use(params);
+  return (
+    <ProtectedRoute>
+      <Workspace courseId={resolved.courseId} lessonId={resolved.lessonId} />
+    </ProtectedRoute>
+  );
+}
+
+function Workspace({ courseId, lessonId }: PageParams) {
+  const { token } = useAuth();
+  const sessionId = Number(lessonId) || 0;
+  const courseIdNum = Number(courseId) || 0;
+
+  const [lesson, setLesson] = useState<Lesson | null>(null);
+  const [concepts, setConcepts] = useState<Concept[]>([]);
+  const [tab, setTab] = useState<CenterTab>("chat");
+  const [agentState, setAgentState] = useState<AgentPanelState>({});
+  const [a11yOpen, setA11yOpen] = useState(false);
+  const [replayKey, setReplayKey] = useState(0);
+  const chatRef = useRef<TutorChatHandle | null>(null);
+
+  // Load lesson + concepts.
+  useEffect(() => {
+    if (!token || !courseIdNum) return;
+    getCourse(courseIdNum, token).then(setLesson).catch(() => setLesson(null));
+  }, [courseIdNum, token]);
+
+  const refreshConcepts = useCallback(() => {
+    if (!token || !sessionId) return;
+    getConceptMap(sessionId, token).then(setConcepts).catch(() => setConcepts([]));
+  }, [sessionId, token]);
+
+  useEffect(() => {
+    refreshConcepts();
+  }, [refreshConcepts]);
+
+  const { nodes, edges } = useMemo(() => buildGraph(concepts, lesson), [concepts, lesson]);
+
+  const onNodeClick = useCallback(
+    async (n: ConceptNode) => {
+      if (!token || !n.conceptId) return;
+      try {
+        const updated = await bumpMastery(sessionId, n.conceptId, 0.15, token);
+        setConcepts((prev) => prev.map((c) => (c.id === updated.id ? updated : c)));
+      } catch {
+        /* ignore */
+      }
+    },
+    [sessionId, token],
+  );
+
+  if (!token) return null;
 
   return (
     <main className="bg-blobs flex h-screen flex-col gap-4 p-4">
-      <AppHeader courseId={params.courseId} lessonId={params.lessonId} />
+      <AppHeader
+        courseId={courseId}
+        lessonId={lessonId}
+        onOpenAccessibility={() => setA11yOpen(true)}
+      />
+      <AccessibilityModal token={token} open={a11yOpen} onClose={() => setA11yOpen(false)} />
+
       <div
         className="grid min-h-0 flex-1 gap-4"
-        style={{ gridTemplateColumns: "1.1fr 1.3fr 1fr" }}
+        style={{ gridTemplateColumns: "0.85fr 1.45fr 0.95fr" }}
       >
+        {/* Left: Agent panel */}
         <section className="min-h-0">
-          <TutorChat sessionId={sessionId} token={token} />
+          <AgentPanel state={agentState} />
         </section>
 
-        <section className="min-h-0">
-          <ConceptMap nodes={nodes} edges={edges} />
+        {/* Center: Tabs */}
+        <section className="flex min-h-0 flex-col gap-2">
+          <Tabs value={tab} onChange={setTab} />
+          <div className="min-h-0 flex-1">
+            {tab === "chat" && (
+              <TutorChat
+                ref={chatRef}
+                sessionId={sessionId}
+                token={token}
+                onAgentEvent={(e) => setAgentState((prev) => applyAgentEvent(prev, e))}
+                onDone={() => {
+                  refreshConcepts();
+                  setReplayKey((k) => k + 1);
+                }}
+              />
+            )}
+            {tab === "map" && (
+              <ConceptMap nodes={nodes} edges={edges} onNodeClick={onNodeClick} />
+            )}
+            {tab === "network" && (
+              <NetworkPanel token={token} lessonId={lesson?.id ?? null} />
+            )}
+            {tab === "notes" && <NotesPanel sessionId={sessionId} token={token} />}
+            {tab === "replay" && (
+              <ReplayPanel sessionId={sessionId} token={token} refreshKey={replayKey} />
+            )}
+          </div>
         </section>
 
-        <aside className="flex min-h-0 flex-col gap-4">
-          <NotesPanel courseId={params.courseId} lessonId={params.lessonId} />
+        {/* Right: Voice + key concepts + ZETIC */}
+        <aside className="flex min-h-0 flex-col gap-3 overflow-y-auto pr-1">
+          <VoiceAgent
+            onTranscript={(text) => {
+              setTab("chat");
+              chatRef.current?.submit(text);
+            }}
+          />
+          <KeyConceptsCard concepts={concepts} />
+          <LessonSummaryCard lesson={lesson} />
           <ZeticAgent />
         </aside>
       </div>
@@ -55,46 +153,116 @@ export default function LearnPage({ params }: { params: PageParams }) {
   );
 }
 
-function NotesPanel({ courseId, lessonId }: PageParams) {
+function Tabs({ value, onChange }: { value: CenterTab; onChange: (v: CenterTab) => void }) {
+  const items: { id: CenterTab; label: string }[] = [
+    { id: "chat", label: "Chat" },
+    { id: "map", label: "Map" },
+    { id: "network", label: "Network" },
+    { id: "notes", label: "Notes" },
+    { id: "replay", label: "Replay" },
+  ];
   return (
-    <div className="card flex-1 overflow-auto p-5">
-      <div className="flex items-center justify-between">
-        <h2 className="text-lg" style={{ fontFamily: "var(--font-heading)" }}>
-          Notes
-        </h2>
-        <button
-          className="rounded-full px-3 py-1 text-xs font-semibold"
-          style={{
-            background: "var(--color-muted)",
-            color: "var(--color-primary)",
-            border: "1px solid var(--color-border)",
-            cursor: "pointer",
-          }}
-        >
-          Export
-        </button>
+    <nav className="flex flex-wrap gap-1.5" aria-label="Workspace tabs">
+      {items.map((it) => {
+        const active = value === it.id;
+        return (
+          <button
+            key={it.id}
+            type="button"
+            onClick={() => onChange(it.id)}
+            className="rounded-full px-3 py-1.5 text-xs font-semibold"
+            style={{
+              background: active ? "var(--color-primary)" : "var(--color-muted)",
+              color: active ? "var(--color-on-primary)" : "var(--color-primary)",
+              border: "1px solid var(--color-border)",
+              cursor: "pointer",
+            }}
+          >
+            {it.label}
+          </button>
+        );
+      })}
+    </nav>
+  );
+}
+
+function KeyConceptsCard({ concepts }: { concepts: Concept[] }) {
+  if (!concepts.length) {
+    return (
+      <div className="card p-4">
+        <p className="text-sm font-semibold" style={{ fontFamily: "var(--font-heading)" }}>
+          Key concepts
+        </p>
+        <p className="mt-2 text-xs opacity-60">
+          Concepts will appear as you chat with SAGE.
+        </p>
       </div>
-      <p className="mt-2 text-sm opacity-70">
-        Course <span className="font-semibold">{courseId}</span> · Lesson{" "}
-        <span className="font-semibold">{lessonId}</span>
+    );
+  }
+  return (
+    <div className="card p-4">
+      <p className="text-sm font-semibold" style={{ fontFamily: "var(--font-heading)" }}>
+        Key concepts
       </p>
-      <div className="mt-4 space-y-2">
-        <div
-          className="h-3 w-5/6 rounded-full shimmer"
-          style={{ background: "var(--color-muted)" }}
-        />
-        <div
-          className="h-3 w-3/4 rounded-full shimmer"
-          style={{ background: "var(--color-muted)" }}
-        />
-        <div
-          className="h-3 w-2/3 rounded-full shimmer"
-          style={{ background: "var(--color-muted)" }}
-        />
-      </div>
-      <p className="mt-4 text-xs opacity-60">
-        Auto-synthesized notes will appear here as you learn.
+      <ul className="mt-2 space-y-1.5">
+        {concepts.slice(0, 8).map((c) => (
+          <li key={c.id} className="flex items-center justify-between text-xs">
+            <span className="truncate">{c.label}</span>
+            <span
+              className="rounded-full px-2 py-0.5 font-semibold"
+              style={{
+                background: "var(--color-muted)",
+                color:
+                  c.mastery >= 0.8
+                    ? "var(--color-secondary)"
+                    : c.mastery >= 0.5
+                      ? "var(--color-primary)"
+                      : "var(--color-accent)",
+              }}
+            >
+              {Math.round(c.mastery * 100)}%
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function LessonSummaryCard({ lesson }: { lesson: Lesson | null }) {
+  if (!lesson) return null;
+  return (
+    <div className="card p-4">
+      <p className="text-sm font-semibold" style={{ fontFamily: "var(--font-heading)" }}>
+        {lesson.title}
+      </p>
+      <p className="mt-1 text-xs opacity-70">{lesson.subject || "General"}</p>
+      <p className="mt-2 text-xs opacity-80 line-clamp-6 whitespace-pre-wrap">
+        {lesson.objective || "No description provided."}
       </p>
     </div>
   );
+}
+
+function buildGraph(concepts: Concept[], lesson: Lesson | null): {
+  nodes: ConceptNode[];
+  edges: ConceptEdge[];
+} {
+  if (concepts.length === 0 && lesson) {
+    // Show a placeholder node tied to the lesson so the map isn't empty.
+    return {
+      nodes: [{ id: `lesson-${lesson.id}`, label: lesson.title, mastery: 0.1 }],
+      edges: [],
+    };
+  }
+  const nodes: ConceptNode[] = concepts.map((c) => ({
+    id: `c-${c.id}`,
+    label: c.label,
+    mastery: c.mastery,
+    conceptId: c.id,
+  }));
+  const edges: ConceptEdge[] = concepts
+    .filter((c) => c.parent_id != null)
+    .map((c) => ({ source: `c-${c.parent_id}`, target: `c-${c.id}` }));
+  return { nodes, edges };
 }

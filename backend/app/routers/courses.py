@@ -1,3 +1,9 @@
+"""Courses (modeled as Lesson rows in the simplified MVP schema).
+
+Catalog is shared across authenticated users so that seeded demo content is
+visible to anyone who registers. Mutation (create/delete) is owner-scoped.
+"""
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session as OrmSession
 
@@ -10,8 +16,8 @@ router = APIRouter(prefix="/courses", tags=["courses"])
 
 
 @router.get("", response_model=list[LessonOut])
-def list_courses(db: OrmSession = Depends(get_db), user: User = Depends(get_current_user)):
-    return db.query(Lesson).filter(Lesson.owner_id == user.id).all()
+def list_courses(db: OrmSession = Depends(get_db), _: User = Depends(get_current_user)):
+    return db.query(Lesson).order_by(Lesson.id.asc()).all()
 
 
 @router.post("", response_model=LessonOut, status_code=201)
@@ -31,9 +37,9 @@ def create_course(
 def get_course(
     course_id: int,
     db: OrmSession = Depends(get_db),
-    user: User = Depends(get_current_user),
+    _: User = Depends(get_current_user),
 ):
-    lesson = db.query(Lesson).filter(Lesson.id == course_id, Lesson.owner_id == user.id).first()
+    lesson = db.query(Lesson).filter(Lesson.id == course_id).first()
     if not lesson:
         raise HTTPException(status_code=404, detail="Course not found")
     return lesson
@@ -45,8 +51,10 @@ def delete_course(
     db: OrmSession = Depends(get_db),
     user: User = Depends(get_current_user),
 ):
-    lesson = db.query(Lesson).filter(Lesson.id == course_id, Lesson.owner_id == user.id).first()
+    lesson = db.query(Lesson).filter(Lesson.id == course_id).first()
     if not lesson:
         raise HTTPException(status_code=404, detail="Course not found")
+    if lesson.owner_id != user.id:
+        raise HTTPException(status_code=403, detail="Not owner")
     db.delete(lesson)
     db.commit()

@@ -1,4 +1,9 @@
+from dotenv import load_dotenv
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+# Populate os.environ from .env so direct os.getenv(...) calls in agent code
+# (which use ANTHROPIC_API_KEY / ASI1_API_KEY) see the configured values.
+load_dotenv()
 
 
 class Settings(BaseSettings):

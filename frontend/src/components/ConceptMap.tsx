@@ -3,35 +3,45 @@
 import * as d3 from "d3";
 import { useEffect, useRef } from "react";
 
-export type ConceptNode = {
+export interface ConceptNode extends d3.SimulationNodeDatum {
   id: string;
   label: string;
   mastery: number; // 0..1
-};
-export type ConceptEdge = { source: string; target: string };
+  conceptId?: number;
+}
+export interface ConceptEdge {
+  source: string;
+  target: string;
+}
 
-export default function ConceptMap({
-  nodes,
-  edges,
-}: {
+interface ConceptMapProps {
   nodes: ConceptNode[];
   edges: ConceptEdge[];
-}) {
+  onNodeClick?: (node: ConceptNode) => void;
+}
+
+export default function ConceptMap({ nodes, edges, onNodeClick }: ConceptMapProps) {
   const svgRef = useRef<SVGSVGElement | null>(null);
+  // Hold the latest click handler so the d3 callback always sees the freshest one.
+  const clickRef = useRef(onNodeClick);
+  useEffect(() => {
+    clickRef.current = onNodeClick;
+  }, [onNodeClick]);
 
   useEffect(() => {
-    const svg = d3.select(svgRef.current);
     if (!svgRef.current) return;
+    const svg = d3.select(svgRef.current);
     const { width, height } = svgRef.current.getBoundingClientRect();
 
     svg.selectAll("*").remove();
     const g = svg.append("g");
 
-    // d3 mutates link source/target into node refs
     type LinkRef = { source: ConceptNode | string; target: ConceptNode | string };
     const links: LinkRef[] = edges.map((e) => ({ ...e }));
+    const data: ConceptNode[] = nodes.map((n) => ({ ...n }));
+
     const sim = d3
-      .forceSimulation<ConceptNode>(nodes)
+      .forceSimulation<ConceptNode>(data)
       .force("link", d3.forceLink<ConceptNode, LinkRef>(links).id((d) => d.id).distance(90))
       .force("charge", d3.forceManyBody().strength(-220))
       .force("center", d3.forceCenter(width / 2, height / 2))
@@ -47,20 +57,27 @@ export default function ConceptMap({
 
     const node = g
       .append("g")
-      .selectAll("g")
-      .data(nodes)
+      .selectAll<SVGGElement, ConceptNode>("g")
+      .data(data)
       .join("g")
+      .style("cursor", "pointer")
+      .on("click", (_event, d) => clickRef.current?.(d))
       .call(
         d3
           .drag<SVGGElement, ConceptNode>()
           .on("start", (event, d) => {
             if (!event.active) sim.alphaTarget(0.3).restart();
-            d.fx = d.x; d.fy = d.y;
+            d.fx = d.x;
+            d.fy = d.y;
           })
-          .on("drag", (event, d) => { d.fx = event.x; d.fy = event.y; })
+          .on("drag", (event, d) => {
+            d.fx = event.x;
+            d.fy = event.y;
+          })
           .on("end", (event, d) => {
             if (!event.active) sim.alphaTarget(0);
-            d.fx = null; d.fy = null;
+            d.fx = null;
+            d.fy = null;
           }),
       );
 
@@ -68,9 +85,11 @@ export default function ConceptMap({
       .append("circle")
       .attr("r", (d) => 16 + d.mastery * 14)
       .attr("fill", (d) =>
-        d.mastery >= 0.8 ? "var(--color-secondary)"
-          : d.mastery >= 0.5 ? "var(--color-primary)"
-          : "var(--color-accent)",
+        d.mastery >= 0.8
+          ? "var(--color-secondary)"
+          : d.mastery >= 0.5
+            ? "var(--color-primary)"
+            : "var(--color-accent)",
       )
       .attr("stroke", "white")
       .attr("stroke-width", 3);
@@ -95,8 +114,10 @@ export default function ConceptMap({
       node.attr("transform", (d) => `translate(${d.x ?? 0},${d.y ?? 0})`);
     });
 
-    return () => { sim.stop(); };
-  }, [nodes, edges]);
+    return () => {
+      sim.stop();
+    };
+  }, [edges, nodes]);
 
   return (
     <div className="card flex h-full flex-col p-5">
@@ -105,7 +126,9 @@ export default function ConceptMap({
           <h2 className="text-lg" style={{ fontFamily: "var(--font-heading)" }}>
             Concept Map
           </h2>
-          <p className="text-sm opacity-60">Drag nodes. Size = mastery.</p>
+          <p className="text-sm opacity-60">
+            Drag to rearrange. Click a node to mark progress.
+          </p>
         </div>
         <Legend />
       </div>
@@ -117,8 +140,8 @@ export default function ConceptMap({
 function Legend() {
   const items: { color: string; label: string }[] = [
     { color: "var(--color-secondary)", label: "Mastered" },
-    { color: "var(--color-primary)",   label: "Learning" },
-    { color: "var(--color-accent)",    label: "Weak" },
+    { color: "var(--color-primary)", label: "Learning" },
+    { color: "var(--color-accent)", label: "Weak" },
   ];
   return (
     <ul className="flex flex-wrap gap-2 text-xs">
@@ -128,11 +151,7 @@ function Legend() {
           className="flex items-center gap-1.5 rounded-full px-2.5 py-1"
           style={{ background: "var(--color-muted)", border: "1px solid var(--color-border)" }}
         >
-          <span
-            aria-hidden
-            className="inline-block h-2.5 w-2.5 rounded-full"
-            style={{ background: it.color }}
-          />
+          <span aria-hidden className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: it.color }} />
           {it.label}
         </li>
       ))}
