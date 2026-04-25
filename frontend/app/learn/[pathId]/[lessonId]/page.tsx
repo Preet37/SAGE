@@ -23,6 +23,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Message } from "@/lib/useTutorStream";
+import { usePresence } from "@/lib/usePresence";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import {
@@ -49,6 +50,9 @@ export default function LessonPage() {
   const [marking, setMarking] = useState(false);
   const [showContent, setShowContent] = useState(false);
   const [activeTab, setActiveTab] = useState<ActiveTab>("chat");
+
+  // Arista track: announce my presence on this lesson so peers can see me.
+  usePresence({ lessonId, status: "studying" });
 
   // Voice context: expose lesson state to the SAGE voice agent
   const { setContext, clearContext } = useVoiceStore();
@@ -88,11 +92,21 @@ export default function LessonPage() {
             token
           );
           setHistory(
-            msgs.map((m) => ({
-              id: m.id,
-              role: m.role as "user" | "assistant",
-              content: m.content,
-            }))
+            msgs.map((m) => {
+              let verification;
+              if (m.message_meta) {
+                try {
+                  const meta = JSON.parse(m.message_meta);
+                  if (meta?.verification) verification = meta.verification;
+                } catch { /* ignore */ }
+              }
+              return {
+                id: m.id,
+                role: m.role as "user" | "assistant",
+                content: m.content,
+                verification,
+              };
+            })
           );
         }
       })

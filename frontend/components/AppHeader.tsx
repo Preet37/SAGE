@@ -12,6 +12,10 @@ import {
   Sparkles,
   Library,
   LogOut,
+  Brain,
+  Network,
+  ImagePlus,
+  Smartphone,
 } from "lucide-react";
 import type { ReactNode } from "react";
 
@@ -20,6 +24,10 @@ const NAV_ITEMS = [
   { href: "/explore", icon: Compass, label: "Explore" },
   { href: "/projects", icon: Hammer, label: "Projects" },
   { href: "/create", icon: Sparkles, label: "Create" },
+  { href: "/memory", icon: Brain, label: "Memory" },
+  { href: "/network", icon: Network, label: "Network" },
+  { href: "/sketch", icon: ImagePlus, label: "Sketch" },
+  { href: "/pocket", icon: Smartphone, label: "Pocket" },
 ] as const;
 
 interface AppHeaderProps {

@@ -106,6 +106,7 @@ export interface ChatMessageResponse {
   role: string;
   content: string;
   created_at: string;
+  message_meta?: string | null;
 }
 
 export interface TutorSessionResponse {
@@ -528,6 +529,116 @@ export const api = {
         token,
       ),
   },
+  network: {
+    heartbeat: (
+      payload: {
+        lesson_id?: string | null;
+        status?: string;
+        note?: string;
+        looking_for_pair?: boolean;
+        display_name?: string;
+      },
+      token: string,
+    ) =>
+      request<PresenceResponse>("/network/presence", {
+        method: "POST",
+        body: JSON.stringify(payload),
+      }, token),
+    leave: (token: string) =>
+      request<{ ok: boolean }>("/network/presence", { method: "DELETE" }, token),
+    routeResources: (
+      params: { query?: string; lessonId?: string; sources?: string },
+      token: string,
+    ) => {
+      const qs = new URLSearchParams();
+      if (params.query) qs.set("query", params.query);
+      if (params.lessonId) qs.set("lesson_id", params.lessonId);
+      if (params.sources) qs.set("sources", params.sources);
+      return request<ResourceRouterResponseT>(
+        `/network/resources?${qs.toString()}`, {}, token,
+      );
+    },
+  },
+  media: {
+    sign: (
+      payload: {
+        folder?: string;
+        public_id?: string;
+        upload_preset?: string;
+        tags?: string[];
+        eager?: string;
+      },
+      token: string,
+    ) =>
+      request<MediaSignResponse>("/media/sign", {
+        method: "POST",
+        body: JSON.stringify(payload),
+      }, token),
+    recordAsset: (asset: MediaAssetCreate, token: string) =>
+      request<MediaAssetResponse>("/media/assets", {
+        method: "POST",
+        body: JSON.stringify(asset),
+      }, token),
+    listAssets: (token: string, lessonId?: string, kind?: string) => {
+      const qs = new URLSearchParams();
+      if (lessonId) qs.set("lesson_id", lessonId);
+      if (kind) qs.set("kind", kind);
+      const tail = qs.toString() ? `?${qs.toString()}` : "";
+      return request<MediaAssetResponse[]>(`/media/assets${tail}`, {}, token);
+    },
+    deleteAsset: (id: string, token: string) =>
+      request<{ ok: boolean }>(`/media/assets/${id}`, { method: "DELETE" }, token),
+    transform: (
+      payload: { public_id: string; transformations: string[]; resource_type?: string },
+      token: string,
+    ) =>
+      request<{ url: string }>("/media/transform", {
+        method: "POST",
+        body: JSON.stringify(payload),
+      }, token),
+    sketchExplain: (
+      payload: { asset_id: string; note?: string; lesson_id?: string },
+      token: string,
+    ) =>
+      request<SketchExplainResponseT>("/media/sketch-explain", {
+        method: "POST",
+        body: JSON.stringify(payload),
+      }, token),
+  },
+  cognition: {
+    listMemory: (token: string, lessonId?: string, limit = 50) => {
+      const qs = new URLSearchParams();
+      if (lessonId) qs.set("lesson_id", lessonId);
+      qs.set("limit", String(limit));
+      return request<{ items: MemoryItemResponse[]; enabled: boolean }>(
+        `/cognition/memory?${qs.toString()}`, {}, token,
+      );
+    },
+    recall: (query: string, token: string, opts?: { lessonId?: string; k?: number; sameLessonOnly?: boolean }) =>
+      request<{ hits: MemoryHitResponse[] }>("/cognition/memory/recall", {
+        method: "POST",
+        body: JSON.stringify({
+          query,
+          k: opts?.k ?? 5,
+          lesson_id: opts?.lessonId,
+          same_lesson_only: !!opts?.sameLessonOnly,
+        }),
+      }, token),
+    deleteMemory: (id: string, token: string) =>
+      request<{ ok: boolean }>(`/cognition/memory/${id}`, { method: "DELETE" }, token),
+    clearMemory: (token: string, lessonId?: string) => {
+      const qs = lessonId ? `?lesson_id=${encodeURIComponent(lessonId)}` : "";
+      return request<{ ok: boolean; deleted: number }>(`/cognition/memory${qs}`, { method: "DELETE" }, token);
+    },
+    verify: (claim: string, lessonId: string, token: string) =>
+      request<{
+        score: number; label: string;
+        grounded_claims: string[]; unsupported_claims: string[]; rationale: string;
+      }>("/cognition/verify", {
+        method: "POST",
+        body: JSON.stringify({ claim, lesson_id: lessonId }),
+      }, token),
+  },
   visual: {
     generatePlot: (topic: string, context: string, token: string) =>
       request<{ html: string; topic: string; error?: string }>("/visual/plot", {
@@ -536,6 +647,109 @@ export const api = {
       }, token),
   },
 };
+
+export interface MemoryItemResponse {
+  id: string;
+  role: string;
+  content: string;
+  lesson_id: string | null;
+  session_id: string | null;
+  importance: number;
+  created_at: string;
+}
+
+export interface PeerOut {
+  user_id: string;
+  display_name: string;
+  lesson_id: string | null;
+  status: string;
+  note: string;
+  looking_for_pair: boolean;
+  last_seen: string;
+}
+
+export interface PresenceResponse {
+  me: PeerOut;
+  peers_on_lesson: PeerOut[];
+  other_peers_online: PeerOut[];
+}
+
+export interface ResourceItem {
+  source: string;
+  title: string;
+  url: string;
+  snippet?: string;
+  authors?: string[];
+  published?: string;
+  stars?: number;
+  language?: string;
+  channel?: string;
+}
+
+export interface MediaSignResponse {
+  cloud_name: string;
+  api_key: string;
+  timestamp: number;
+  folder: string;
+  upload_preset: string;
+  signature: string;
+  tags: string;
+  eager: string | null;
+}
+
+export interface MediaAssetCreate {
+  public_id: string;
+  secure_url: string;
+  resource_type?: string;
+  format?: string;
+  width?: number;
+  height?: number;
+  bytes?: number;
+  folder?: string;
+  tags?: string[];
+  lesson_id?: string;
+  kind?: string;
+  asset_meta?: Record<string, unknown>;
+}
+
+export interface MediaAssetResponse {
+  id: string;
+  public_id: string;
+  secure_url: string;
+  resource_type: string;
+  format: string;
+  width: number;
+  height: number;
+  bytes: number;
+  folder: string;
+  kind: string;
+  lesson_id: string | null;
+  asset_meta: Record<string, unknown> | null;
+  created_at: string;
+}
+
+export interface SketchExplainResponseT {
+  explanation: string;
+  detected_concepts: string[];
+  suggested_prompt: string;
+}
+
+export interface ResourceRouterResponseT {
+  query: string;
+  items: ResourceItem[];
+  by_source: Record<string, number>;
+  elapsed_ms: number;
+}
+
+export interface MemoryHitResponse {
+  id: string;
+  role: string;
+  content: string;
+  lesson_id: string | null;
+  session_id: string | null;
+  score: number;
+  created_at: string | null;
+}
 
 // ── Diagnostic ──────────────────────────────────────────────────────────────
 

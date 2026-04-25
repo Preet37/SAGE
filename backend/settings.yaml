@@ -73,3 +73,42 @@ auth:
 eval:
   max_turns: 10
   default_lesson: "lora"
+
+# ── Track features ────────────────────────────────────────────
+# Each track ships behind a flag so the core tutor keeps working
+# even if a track's external dependency is misconfigured.
+features:
+  # Cognition: response verification + semantic memory + MCP
+  verification: true
+  semantic_memory: true
+  mcp_server: true
+
+  # Arista: peer matching + resource router
+  peer_network: true
+  resource_router: true
+
+  # Cloudinary: media uploads + AI transforms
+  cloudinary: true
+
+  # Fetch.ai: Agentverse uAgent
+  fetchai_agent: false   # opt-in: requires AGENTVERSE_API_KEY
+
+  # ZETIC: on-device WebLLM Pocket Tutor
+  on_device: true
+
+# ── External integrations ─────────────────────────────────────
+cloudinary:
+  cloud_name: ""         # Set via CLOUDINARY_CLOUD_NAME env var
+  upload_preset: "sage_unsigned"
+  folder: "sage"
+
+fetchai:
+  agentverse_url: "https://agentverse.ai"
+  asi_one_url: "https://asi1.ai"
+  agent_name: "sage-tutor"
+  agent_seed: ""         # Set via FETCHAI_AGENT_SEED env var (24+ chars)
+
+resource_router:
+  arxiv_url: "http://export.arxiv.org/api/query"
+  github_url: "https://api.github.com"
+  youtube_search_enabled: false  # Requires YOUTUBE_API_KEY

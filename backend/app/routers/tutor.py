@@ -11,7 +11,12 @@ from ..models.learning import Lesson, Module, LearningPath
 from ..models.progress import UserLessonProgress, ChatMessage, TutorSession
 from ..agent.agent_loop import run_tutor_agent_loop
 from ..agent.context import TutorContext
+from ..config import get_settings
 from ..schemas.progress import ChatRequest
+from ..services.semantic_memory import (
+    memory_block_for_prompt,
+    record_memory,
+)
 
 router = APIRouter(prefix="/tutor", tags=["tutor"])
 
@@ -55,6 +60,7 @@ async def _stream_with_save(
     """Wrap the agent generator to collect assistant text, tools, and modalities."""
     assistant_text = ""
     tools_used: list[str] = []
+    verification: dict | None = None
 
     async for chunk in generator:
         yield chunk
@@ -68,6 +74,8 @@ async def _stream_with_save(
                     tool_name = event.get("name", "")
                     if tool_name and tool_name not in tools_used:
                         tools_used.append(tool_name)
+                elif event.get("type") == "verification":
+                    verification = event.get("result")
         except Exception:
             pass
 
@@ -78,10 +86,14 @@ async def _stream_with_save(
         ))
         if assistant_text:
             modalities = _extract_modalities(assistant_text)
-            metadata = json.dumps({
-                "tools_used": tools_used,
-                "modalities": modalities,
-            }) if (tools_used or modalities) else None
+            meta_payload: dict = {}
+            if tools_used:
+                meta_payload["tools_used"] = tools_used
+            if modalities:
+                meta_payload["modalities"] = modalities
+            if verification:
+                meta_payload["verification"] = verification
+            metadata = json.dumps(meta_payload) if meta_payload else None
 
             db.add(ChatMessage(
                 user_id=user_id, lesson_id=lesson_id, session_id=session_id,
@@ -91,6 +103,20 @@ async def _stream_with_save(
         if tutor_session:
             tutor_session.updated_at = datetime.utcnow()
         db.commit()
+
+    # Persist to semantic memory (best-effort, async-safe).
+    settings = get_settings()
+    if settings.feature_semantic_memory:
+        if user_content:
+            record_memory(
+                user_id=user_id, role="user", content=user_content,
+                lesson_id=lesson_id, session_id=session_id,
+            )
+        if assistant_text:
+            record_memory(
+                user_id=user_id, role="assistant", content=assistant_text,
+                lesson_id=lesson_id, session_id=session_id,
+            )
 
 
 @router.post("/chat")
@@ -177,6 +203,8 @@ async def chat(
         curriculum_index=curriculum_index,
         domain=domain,
         available_images=available_images,
+        user_id=user.id,
+        session_id=tutor_session.id,
     )
 
     # Extract the plain-text portion of the latest user message for DB storage.
@@ -195,6 +223,15 @@ async def chat(
                 ]
                 user_message = " ".join(text_parts) if text_parts else ""
             break
+
+    settings = get_settings()
+    if settings.feature_semantic_memory and user_message:
+        context.memory_block = memory_block_for_prompt(
+            user_id=user.id,
+            query=user_message,
+            lesson_id=lesson.id,
+            current_session_id=tutor_session.id,
+        )
 
     generator = run_tutor_agent_loop(req.messages, context)
 
