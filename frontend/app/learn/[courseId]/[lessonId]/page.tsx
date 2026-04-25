@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useAuthStore, useTutorStore } from '@/lib/store';
 import { getLesson, createSession, streamChat, getConceptMap } from '@/lib/api';
@@ -9,9 +9,14 @@ import AgentPanel from '@/components/agents/AgentPanel';
 import VoiceAgent from '@/components/voice/VoiceAgent';
 import NetworkPanel from '@/components/network/NetworkPanel';
 import NotesPanel from '@/components/notes/NotesPanel';
-import ZeticAgent from '@/components/zetic/ZeticAgent';
+import ModelDownloadBanner from '@/components/offline/ModelDownloadBanner';
+import OfflineBadge from '@/components/offline/OfflineBadge';
 import AccessibilityModal from '@/components/accessibility/AccessibilityModal';
 import Link from 'next/link';
+import { useConnectivity } from '@/lib/offline/connectivity';
+import { runOfflineChat } from '@/lib/offline/agent';
+import { lessonCache, sessionStore } from '@/lib/offline/store';
+import { splitIntoChunks } from '@/lib/offline/retriever';
 
 interface Lesson {
   id: number; slug: string; title: string; summary: string;
@@ -35,6 +40,10 @@ export default function LessonPage() {
   const router = useRouter();
   const { setSessionId, setTeachingMode, teachingMode, clearMessages, addAgentEvent, addMessage, appendToLast, setStreaming, updateLastVerification } = useTutorStore();
 
+  const { isOnline } = useConnectivity();
+  const wasOnlineRef = useRef(true);
+  const [syncedCount, setSyncedCount] = useState(0);
+
   const [lesson, setLesson] = useState<Lesson | null>(null);
   const [conceptMap, setConceptMap] = useState<{ nodes: unknown[]; edges: unknown[] } | null>(null);
   const [activePanel, setActivePanel] = useState<'chat' | 'map' | 'network' | 'notes' | 'replay'>('chat');
@@ -46,6 +55,15 @@ export default function LessonPage() {
     init();
   }, [token, courseId, lessonId]);
 
+  useEffect(() => {
+    if (isOnline && !wasOnlineRef.current) {
+      import('@/lib/offline/sync').then(({ runSync }) =>
+        runSync().then((n) => { if (n > 0) setSyncedCount(n); })
+      );
+    }
+    wasOnlineRef.current = isOnline;
+  }, [isOnline]);
+
   async function init() {
     try {
       const [l, _session] = await Promise.all([
@@ -56,6 +74,14 @@ export default function LessonPage() {
         })(),
       ]);
       setLesson(l);
+
+      // pre-cache lesson content for offline RAG
+      lessonCache.save({
+        lessonId: l.id,
+        title: l.title,
+        chunks: splitIntoChunks(l.content_md),
+        cachedAt: Date.now(),
+      }).catch(() => {});
 
       // create real session now that we have lesson id
       const sess = await createSession(token!, l.id, teachingMode);
@@ -90,7 +116,28 @@ export default function LessonPage() {
 
     const history = messages
       .filter(m => m.id !== 'welcome')
-      .map(m => ({ role: m.role, content: m.content }));
+      .map(m => ({ role: m.role as 'user' | 'assistant', content: m.content }));
+
+    if (!isOnline) {
+      const stop = runOfflineChat(
+        lesson.id,
+        text,
+        history,
+        lesson.key_concepts,
+        {
+          onToken: (t) => appendToLast(t),
+          onDone: () => setStreaming(false),
+          onError: (err) => {
+            setStreaming(false);
+            appendToLast('\n\n_Offline AI error: ' + String(err) + '_');
+          },
+        },
+      );
+      if (sessionId) {
+        sessionStore.appendMessage(sessionId, lesson.id, { role: 'user', content: text, timestamp: Date.now() }).catch(() => {});
+      }
+      return stop;
+    }
 
     const stop = streamChat(
       token,
@@ -113,7 +160,7 @@ export default function LessonPage() {
     );
 
     return () => stop();
-  }, [lesson, token, teachingMode]);
+  }, [lesson, token, teachingMode, isOnline]);
 
   if (loading) return (
     <div className="min-h-screen flex items-center justify-center">
@@ -132,6 +179,7 @@ export default function LessonPage() {
         <span className="font-black text-base">S<span className="text-acc">AGE</span></span>
         <div className="w-px h-4 bg-white/10" />
         <span className="text-t1 text-sm font-medium truncate max-w-xs">{lesson.title}</span>
+        <OfflineBadge isOnline={isOnline} syncedCount={syncedCount} />
 
         {/* Mode selector */}
         <div className="ml-auto flex items-center gap-1">
@@ -225,18 +273,7 @@ export default function LessonPage() {
               </div>
             </div>
 
-            {/* ZETIC on-device AI */}
-            <ZeticAgent
-              context={lesson.key_concepts.join(', ')}
-              onResponse={(text) => {
-                // inject ZETIC response as an assistant message
-                useTutorStore.getState().addMessage({
-                  id: 'zetic-' + Date.now(),
-                  role: 'assistant',
-                  content: `**[On-Device ZETIC]** ${text}`,
-                });
-              }}
-            />
+            <ModelDownloadBanner autoLoad={!isOnline} />
 
             <div>
               <div className="text-[10px] font-bold uppercase tracking-widest text-t3 mb-3">About This Lesson</div>

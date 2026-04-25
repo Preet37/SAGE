@@ -1,3 +1,9 @@
+"""Courses (modeled as Lesson rows in the simplified MVP schema).
+
+Catalog is shared across authenticated users so that seeded demo content is
+visible to anyone who registers. Mutation (create/delete) is owner-scoped.
+"""
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select

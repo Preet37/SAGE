@@ -7,10 +7,9 @@ import json
 from datetime import datetime
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from sqlalchemy import select
-from passlib.context import CryptContext
+from app.security import hash_password
 
 DATABASE_URL = "sqlite+aiosqlite:///./sage.db"
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 engine = create_async_engine(DATABASE_URL, echo=False)
 AsyncSessionLocal = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
@@ -23,7 +22,7 @@ async def seed():
     async with AsyncSessionLocal() as db:
         await _seed_courses(db)
         await _seed_demo_user(db)
-    print("✓ Database seeded successfully")
+    print("[OK] Database seeded successfully")
 
 
 async def _seed_demo_user(db: AsyncSession):
@@ -36,11 +35,11 @@ async def _seed_demo_user(db: AsyncSession):
         email="demo@sage.ai",
         username="demo",
         display_name="Demo Student",
-        hashed_password=pwd_context.hash("demo1234"),
+        hashed_password=hash_password("demo1234"),
     )
     db.add(user)
     await db.commit()
-    print("  ✓ Demo user: demo@sage.ai / demo1234")
+    print("  [OK] Demo user: demo@sage.ai / demo1234")
 
 
 async def _seed_courses(db: AsyncSession):
@@ -286,7 +285,7 @@ Quantize the base model to 4-bit, run LoRA adapters in 16-bit:
             db.add(edge)
 
         await db.commit()
-        print("  ✓ ML/AI Foundations course seeded")
+        print("  [OK] ML/AI Foundations course seeded")
 
     # ── Course 2: Agentic AI ──────────────────────────────────────
     result = await db.execute(select(Course).where(Course.slug == "agentic-ai"))
@@ -353,7 +352,7 @@ Fetch.ai enables autonomous agents to discover each other on a decentralized net
         )
         db.add(lesson2)
         await db.commit()
-        print("  ✓ Agentic AI course seeded")
+        print("  [OK] Agentic AI course seeded")
 
 
 if __name__ == "__main__":

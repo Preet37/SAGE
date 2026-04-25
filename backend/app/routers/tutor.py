@@ -138,6 +138,8 @@ async def chat(
         if accessibility_modifier
         else ""
     )
+    # Make the user's mode visible to the content agent.
+    ctx.a11y["teaching_mode"] = user.teaching_mode
 
     system_prompt = SYSTEM_PROMPT_TEMPLATE.format(
         mode_instruction=mode_instruction,

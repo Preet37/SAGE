@@ -17,6 +17,10 @@ from app.models.concept import ConceptNode, StudentMastery
 from app.routers.auth import get_current_user
 
 router = APIRouter(prefix="/network", tags=["network"])
+log = logging.getLogger("sage.network")
+
+WAIT_TIMEOUT_SECONDS = 300  # 5 minutes
+MAX_HOT_CONCEPTS = 256
 
 # In-memory: active_concept_id -> list of waiting user_ids
 _waiting_room: dict[int, list[int]] = {}

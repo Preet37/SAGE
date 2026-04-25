@@ -28,6 +28,7 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["X-Request-Id"],
 )
 
 app.include_router(auth.router)
@@ -55,6 +56,28 @@ async def root():
             "peer_matching", "session_replay", "accessibility_profiles",
             "note_revision", "course_dashboard", "offline_lesson_plans",
             "on_device_ai_zetic",
+        ],
+    }
+
+
+@app.get("/")
+def root():
+    return {
+        "service": "sage",
+        "version": "0.1.0",
+        "environment": settings.environment,
+        "features": [
+            "auth",
+            "courses",
+            "tutor-streaming",
+            "tutor-tts",
+            "concept-map",
+            "network-peer-match",
+            "replay",
+            "accessibility",
+            "dashboard",
+            "notes",
+            "study-plan",
         ],
     }
 
