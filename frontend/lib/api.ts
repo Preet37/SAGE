@@ -214,3 +214,22 @@ export async function generateLessonPlan(token: string, lessonId: number) {
   });
   return res.json();
 }
+
+// ── Visual Generation ─────────────────────────────────────────────
+export async function generateVisual(
+  token: string,
+  concept: string,
+  context: string,
+  lessonId?: number
+) {
+  const res = await fetch(`${BASE}/visual/generate`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ concept, context, lesson_id: lessonId }),
+  });
+  if (!res.ok) throw new Error('Visual generation failed');
+  return res.json();
+}

@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import create_tables
 from app.config import get_settings
-from app.routers import auth, courses, tutor, concept_map, network, replay, accessibility, dashboard, notes
+from app.routers import auth, courses, tutor, concept_map, network, replay, accessibility, dashboard, notes, visual
 
 settings = get_settings()
 
@@ -39,6 +39,7 @@ app.include_router(replay.router)
 app.include_router(accessibility.router)
 app.include_router(dashboard.router)
 app.include_router(notes.router)
+app.include_router(visual.router)
 
 
 @app.get("/")
