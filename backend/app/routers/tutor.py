@@ -33,6 +33,65 @@ router = APIRouter(prefix="/tutor", tags=["tutor"])
 settings = get_settings()
 yaml_cfg = load_yaml_config()
 
+# ---------------------------------------------------------------------------
+# Language instructions — injected into system prompt when a non-English
+# language is detected. The LLM will respond entirely in the target language.
+# ---------------------------------------------------------------------------
+
+LANGUAGE_INSTRUCTIONS: dict[str, str] = {
+    "ar": "Respond ENTIRELY in Arabic (العربية). All explanations, questions, and feedback must be in Arabic.",
+    "hi": "Respond ENTIRELY in Hindi (हिन्दी). All explanations, questions, and feedback must be in Hindi.",
+    "sw": "Respond ENTIRELY in Swahili (Kiswahili). All explanations, questions, and feedback must in Swahili.",
+    "tl": "Respond ENTIRELY in Tagalog. All explanations, questions, and feedback must be in Tagalog.",
+    "es": "Respond ENTIRELY in Spanish (Español).",
+    "fr": "Respond ENTIRELY in French (Français).",
+    "zh": "Respond ENTIRELY in Chinese (中文).",
+    "pt": "Respond ENTIRELY in Portuguese (Português).",
+    "ur": "Respond ENTIRELY in Urdu (اردو).",
+    "bn": "Respond ENTIRELY in Bengali (বাংলা).",
+}
+
+# Crisis keywords across multiple languages — triggers trauma-informed mode
+CRISIS_KEYWORDS: frozenset[str] = frozenset({
+    "displaced", "refugee", "fled", "camp", "shelter", "bombs", "war", "conflict",
+    "can't stay", "lost my home", "no school", "left school", "not safe",
+    "hunger", "no food", "no water", "evacuat",
+    # Arabic
+    "مخيم", "لاجئ", "مهاجر", "نازح",
+    # Hindi
+    "शरणार्थी", "विस्थापित",
+    # Swahili
+    "mkimbizi", "kambi", "wakimbizi",
+})
+
+CRISIS_SUPPORT_SECTION = """## Crisis-Aware Teaching Mode
+This student may be experiencing displacement or conflict. Apply trauma-informed pedagogy:
+- Keep responses SHORT (under 100 words)
+- Begin with a warm, human acknowledgement
+- Focus on ONE small concept at a time
+- Never reference equipment, resources, or things they may not have
+- Be gentle, patient, and affirming
+- End with: "📚 Free learning: [Khan Academy Lite](https://lite.khanacademy.org) | [UNHCR Education](https://www.unhcr.org/what-we-do/build-better-futures/education)"
+"""
+
+LOW_DATA_SECTION = """## Data-Saving Mode (2G / Limited Bandwidth)
+The student has very limited mobile data. Strict rules:
+- Maximum 80 words per response
+- No markdown tables, no code blocks longer than 5 lines
+- No image or diagram references
+- Ask ONLY one question per response
+- Use the simplest possible vocabulary
+"""
+
+READING_LEVEL_SECTION = """## Reading Level Auto-Calibration
+Detect the student's apparent reading level from their vocabulary and sentence structure:
+- Very basic / young child → Grade 3-4 language (short sentences, everyday words only)
+- Middle school → Grade 6-8 language
+- High school / adult → Grade 9-12 language
+- Advanced → college level language
+Silently match your response complexity to the student's apparent level without mentioning it.
+"""
+
 TEACHING_MODE_PROMPTS = {
     "default": "Use the Socratic method: ask guiding questions, build on the student's reasoning. Never just give the answer.",
     "eli5": "Explain everything using simple everyday language and concrete examples a 10-year-old would understand.",
@@ -46,7 +105,15 @@ SYSTEM_PROMPT_TEMPLATE = """You are SAGE, an expert Socratic AI tutor for techni
 ## Your Teaching Approach
 {mode_instruction}
 
+{language_section}
+
 {accessibility_section}
+
+{crisis_section}
+
+{low_data_section}
+
+{reading_level_section}
 
 ## Current Lesson
 **Course:** {course_title}
@@ -85,6 +152,10 @@ class TutorRequest(BaseModel):
     image_url: Optional[str] = None
     extracted_text: Optional[str] = None
     deep_dive_token: Optional[str] = None
+    # Accessibility / context overrides
+    language: str = ""          # BCP-47 code e.g. "ar", "hi", "sw"; "" = use user profile
+    low_data_mode: bool = False  # Enable 2G / data-saving constraints
+    crisis_mode: bool = False   # Manually activate trauma-informed mode
 
 
 class SessionCreateRequest(BaseModel):
@@ -162,9 +233,35 @@ async def chat(
         if accessibility_modifier
         else ""
     )
+
+    # ── Language section ────────────────────────────────────────────────────
+    lang_code = req.language or getattr(user, "preferred_language", "en") or "en"
+    # Normalise: "en-US" → "en", "ar-SA" → "ar"
+    lang_code = lang_code.split("-")[0].lower()
+    lang_instruction = LANGUAGE_INSTRUCTIONS.get(lang_code, "")
+    language_section = f"## Language\n{lang_instruction}" if lang_instruction else ""
+
+    # ── Crisis detection ────────────────────────────────────────────────────
+    all_text = " ".join(
+        [req.message] + [m.content for m in req.history[-4:]]
+    ).lower()
+    crisis_detected = req.crisis_mode or any(kw in all_text for kw in CRISIS_KEYWORDS)
+    crisis_section = CRISIS_SUPPORT_SECTION if crisis_detected else ""
+
+    # ── Low-data mode ───────────────────────────────────────────────────────
+    low_data_section = LOW_DATA_SECTION if req.low_data_mode else ""
+
+    # ── Reading level ───────────────────────────────────────────────────────
+    # Always inject — the LLM auto-calibrates silently
+    reading_level_section = READING_LEVEL_SECTION
+
     system_prompt = SYSTEM_PROMPT_TEMPLATE.format(
         mode_instruction=mode_instruction,
+        language_section=language_section,
         accessibility_section=accessibility_section,
+        crisis_section=crisis_section,
+        low_data_section=low_data_section,
+        reading_level_section=reading_level_section,
         course_title=course.title if course else "",
         lesson_title=lesson.title,
         key_concepts=", ".join(lesson.key_concepts),
@@ -195,6 +292,7 @@ async def chat(
             cognition_trace=cognition_trace,
             agent_trace=agent_trace,
             voice_enabled=req.voice_enabled,
+            crisis_detected=crisis_detected,
             db=db,
         ),
         media_type="text/event-stream",
@@ -212,6 +310,7 @@ async def _stream_response(
     cognition_trace: CognitionTrace,
     agent_trace: dict,
     voice_enabled: bool,
+    crisis_detected: bool,
     db: AsyncSession,
 ) -> AsyncGenerator[str, None]:
     full_response = ""
@@ -393,7 +492,11 @@ async def _stream_response(
             db.add(reply_msg)
             await db.commit()
 
-        yield _sse("done", {"response": full_response, "agent_trace": agent_trace})
+        yield _sse("done", {
+            "response": full_response,
+            "agent_trace": agent_trace,
+            "crisis_detected": crisis_detected,
+        })
 
     except Exception as e:
         yield _sse("error", {"message": str(e)})

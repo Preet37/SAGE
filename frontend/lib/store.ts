@@ -1,6 +1,7 @@
 'use client';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import type { LangCode } from './i18n';
 
 interface User {
   id: number;
@@ -8,6 +9,7 @@ interface User {
   username: string;
   display_name: string;
   teaching_mode: string;
+  preferred_language?: string;
 }
 
 interface AuthStore {
@@ -64,6 +66,12 @@ interface TutorStore {
   isStreaming: boolean;
   agentEvents: { type: string; data: unknown; ts: number }[];
   fetchAiBadge: FetchAiBadge | null;
+  // Accessibility / context flags
+  language: LangCode;
+  lowDataMode: boolean;
+  voiceOnlyMode: boolean;
+  crisisDetected: boolean;
+  // Actions
   addMessage: (msg: Message) => void;
   appendToLast: (content: string) => void;
   setSessionId: (id: number) => void;
@@ -74,6 +82,10 @@ interface TutorStore {
   updateLastVerification: (v: { passed: boolean; flags: string[] }) => void;
   updateLastCognition: (c: CognitionData) => void;
   setFetchAiBadge: (b: FetchAiBadge) => void;
+  setLanguage: (lang: LangCode) => void;
+  setLowDataMode: (v: boolean) => void;
+  setVoiceOnlyMode: (v: boolean) => void;
+  setCrisisDetected: (v: boolean) => void;
 }
 
 export const useTutorStore = create<TutorStore>((set) => ({
@@ -83,12 +95,21 @@ export const useTutorStore = create<TutorStore>((set) => ({
   isStreaming: false,
   agentEvents: [],
   fetchAiBadge: null,
+  language: 'en',
+  lowDataMode: false,
+  voiceOnlyMode: false,
+  crisisDetected: false,
   addMessage: (msg) => set((s) => ({ messages: [...s.messages, msg] })),
   appendToLast: (content) =>
     set((s) => {
-      const msgs = [...s.messages];
-      if (msgs.length > 0) msgs[msgs.length - 1].content += content;
-      return { messages: msgs };
+      if (s.messages.length === 0) return {};
+      const last = s.messages[s.messages.length - 1];
+      return {
+        messages: [
+          ...s.messages.slice(0, -1),
+          { ...last, content: last.content + content },
+        ],
+      };
     }),
   setSessionId: (id) => set({ sessionId: id }),
   setTeachingMode: (mode) => set({ teachingMode: mode }),
@@ -100,15 +121,29 @@ export const useTutorStore = create<TutorStore>((set) => ({
   clearMessages: () => set({ messages: [], agentEvents: [] }),
   updateLastVerification: (v) =>
     set((s) => {
-      const msgs = [...s.messages];
-      if (msgs.length > 0) msgs[msgs.length - 1].verification = v;
-      return { messages: msgs };
+      if (s.messages.length === 0) return {};
+      const last = s.messages[s.messages.length - 1];
+      return {
+        messages: [
+          ...s.messages.slice(0, -1),
+          { ...last, verification: v },
+        ],
+      };
     }),
   updateLastCognition: (c) =>
     set((s) => {
-      const msgs = [...s.messages];
-      if (msgs.length > 0) msgs[msgs.length - 1].cognition = c;
-      return { messages: msgs };
+      if (s.messages.length === 0) return {};
+      const last = s.messages[s.messages.length - 1];
+      return {
+        messages: [
+          ...s.messages.slice(0, -1),
+          { ...last, cognition: c },
+        ],
+      };
     }),
   setFetchAiBadge: (b) => set({ fetchAiBadge: b }),
+  setLanguage: (lang) => set({ language: lang }),
+  setLowDataMode: (v) => set({ lowDataMode: v }),
+  setVoiceOnlyMode: (v) => set({ voiceOnlyMode: v }),
+  setCrisisDetected: (v) => set({ crisisDetected: v }),
 }));

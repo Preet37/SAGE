@@ -48,8 +48,14 @@ class Settings(BaseSettings):
     # Search
     search_api_key: str = ""
 
+    # Twilio (SMS / WhatsApp)
+    twilio_account_sid: str = ""
+    twilio_auth_token: str = ""
+    twilio_phone_number: str = ""
+
     # Server
     frontend_url: str = "http://localhost:3000"
+    backend_url: str = ""  # e.g. "https://api.yourdomain.com"; defaults to localhost
     cors_extra_origins: str = ""
     backend_port: int = 8000
     content_dir: str = "./content"

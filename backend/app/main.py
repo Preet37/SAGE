@@ -20,6 +20,10 @@ from app.routers import (
     visual_code,
     visual_plot,
     media,
+    sms,
+    diagnostic,
+    broadcast,
+    export,
 )
 
 settings = get_settings()
@@ -83,6 +87,10 @@ app.include_router(visual.router)
 app.include_router(visual_code.router)
 app.include_router(visual_plot.router)
 app.include_router(media.router)
+app.include_router(sms.router)
+app.include_router(diagnostic.router)
+app.include_router(broadcast.router)
+app.include_router(export.router)
 
 
 @app.get("/")

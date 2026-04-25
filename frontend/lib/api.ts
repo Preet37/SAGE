@@ -84,6 +84,9 @@ export function streamChat(
     voice_enabled?: boolean;
     image_url?: string;
     extracted_text?: string;
+    language?: string;
+    low_data_mode?: boolean;
+    crisis_mode?: boolean;
   },
   onEvent: (event: string, data: unknown) => void,
 ): () => void {
@@ -363,6 +366,96 @@ export async function getDiagramLibrary(courseId: number, lessonId: number, conc
   const res = await fetch(`${BASE}/media/diagram/${courseId}/${lessonId}/${encodeURIComponent(conceptSlug)}`);
   if (!res.ok) return { items: [], mock: true };
   return res.json() as Promise<{ items: { label: string; url: string; thumb_url: string }[]; mock: boolean }>;
+}
+
+// ── Diagnostic (refugee learner) ─────────────────────────────────────────
+export async function getDiagnosticQuestions() {
+  const res = await fetch(`${BASE}/diagnostic/questions`);
+  return res.json();
+}
+
+export async function submitDiagnostic(answers: Record<string, string>, name?: string) {
+  const res = await fetch(`${BASE}/diagnostic/submit`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ answers, name }),
+  });
+  return res.json();
+}
+
+export async function submitDiagnosticForUser(
+  token: string,
+  answers: Record<string, string>,
+  name?: string
+) {
+  const res = await fetch(`${BASE}/diagnostic/submit-for-user`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ answers, name }),
+  });
+  return res.json();
+}
+
+// ── Broadcast (teacher room) ─────────────────────────────────────────────
+export async function createBroadcastRoom(token: string, lessonId: number) {
+  const res = await fetch(`${BASE}/broadcast/room`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ lesson_id: lessonId }),
+  });
+  return res.json();
+}
+
+export async function getBroadcastRoom(code: string) {
+  const res = await fetch(`${BASE}/broadcast/room/${code}`);
+  return res.json();
+}
+
+export async function pushBroadcastContent(
+  token: string,
+  code: string,
+  payload: { lesson_id: number; content_md: string; title: string; key_concepts: string[] }
+) {
+  const res = await fetch(`${BASE}/broadcast/room/${code}/push`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify(payload),
+  });
+  return res.json();
+}
+
+export function getBroadcastStreamUrl(code: string) {
+  return `${websocketBase()}/broadcast/room/${code}/stream`;
+}
+
+export function getBroadcastQrUrl(code: string) {
+  return `${BASE}/broadcast/room/${code}/qr`;
+}
+
+// ── PDF Export ───────────────────────────────────────────────────────────
+export async function exportPDF(
+  token: string,
+  lessonId: number,
+  messages: { role: string; content: string }[],
+  title?: string
+) {
+  const res = await fetch(`${BASE}/export/pdf`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ lesson_id: lessonId, messages, title }),
+  });
+  if (!res.ok) throw new Error('PDF export failed');
+  return res.blob();
+}
+
+// ── Language preference ──────────────────────────────────────────────────
+export async function updateLanguage(token: string, language: string) {
+  const res = await fetch(`${BASE}/accessibility/me`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ preferred_language: language, disabilities: [], strengths: [] }),
+  });
+  return res.json();
 }
 
 export async function getMaterials(token: string, lessonId: number) {
