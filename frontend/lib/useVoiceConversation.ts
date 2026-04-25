@@ -80,7 +80,7 @@ IMPORTANT:
 
       const conversation = await Conversation.startSession({
         agentId,
-        connectionType: "webrtc",
+        connectionType: "websocket",
         overrides: {
           agent: {
             prompt: { prompt: systemPrompt },
