@@ -6,8 +6,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "SocraticTutor",
-  description: "Socratic AI tutor for technical training",
+  title: "SAGE",
+  description: "SAGE — AI-powered adaptive learning platform",
 };
 
 export default function RootLayout({

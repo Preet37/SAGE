@@ -50,7 +50,7 @@ function LoginForm() {
               <path d="M8 7h6M8 11h8"/>
             </svg>
             <CardTitle className="text-2xl font-bold">
-              SocraticTutor
+              SAGE
             </CardTitle>
           </div>
           <CardDescription>Sign in to continue your ML/AI journey</CardDescription>

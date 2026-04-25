@@ -1472,7 +1472,7 @@ async def draft_chat(
         async with httpx.AsyncClient(timeout=120.0) as client:
             async with client.stream(
                 "POST",
-                f"{settings.llm_base_url}/v1/chat/completions",
+                f"{settings.llm_base_url}/chat/completions",
                 headers=headers,
                 json=payload,
             ) as resp:

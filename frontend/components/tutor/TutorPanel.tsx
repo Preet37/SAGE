@@ -295,6 +295,7 @@ export function TutorPanel({
                       content={m.content}
                       isStreaming={streaming && i === messages.length - 1}
                       onSendMessage={(msg) => handleSend(msg)}
+                      lessonTitle={lessonTitle}
                     />
                   </div>
                 );

@@ -505,4 +505,11 @@ export const api = {
         token,
       ),
   },
+  visual: {
+    generatePlot: (topic: string, context: string, token: string) =>
+      request<{ html: string; topic: string; error?: string }>("/visual/plot", {
+        method: "POST",
+        body: JSON.stringify({ topic, context }),
+      }, token),
+  },
 };
