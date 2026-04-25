@@ -82,6 +82,9 @@ export function streamChat(
     session_id?: number;
     teaching_mode?: string;
     voice_enabled?: boolean;
+    image_url?: string;
+    extracted_text?: string;
+    deep_dive_token?: string;
   },
   onEvent: (event: string, data: unknown) => void,
 ): () => void {

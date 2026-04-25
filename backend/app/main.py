@@ -6,7 +6,8 @@ from app.database import create_tables
 from app.config import get_settings
 from app.logging_setup import RequestIdMiddleware, configure_logging
 from app.rate_limit import RateLimitMiddleware
-from app.routers import auth, courses, tutor, concept_map, network, replay, accessibility, dashboard, notes, visual
+from app.routers import auth, courses, tutor, concept_map, network, replay, accessibility, dashboard, notes, visual, media
+from app.models import peer  # noqa: F401 — registers PeerMessage, PeerSessionRating for Alembic
 
 settings = get_settings()
 configure_logging(settings.log_level)
@@ -15,6 +16,13 @@ configure_logging(settings.log_level)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await create_tables()
+    # Start Fetch.ai uAgents Bureau in background thread
+    try:
+        from app.agents.bureau import start_bureau
+        start_bureau()
+    except Exception as e:
+        import logging
+        logging.getLogger("sage.main").warning(f"Bureau failed to start (missing API key?): {e}")
     yield
 
 
@@ -55,6 +63,7 @@ app.include_router(accessibility.router)
 app.include_router(dashboard.router)
 app.include_router(notes.router)
 app.include_router(visual.router)
+app.include_router(media.router)
 
 
 @app.get("/")

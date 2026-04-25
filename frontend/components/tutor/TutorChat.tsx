@@ -2,9 +2,10 @@
 import { useRef, useEffect, useState, KeyboardEvent } from 'react';
 import { useTutorStore } from '@/lib/store';
 import MessageBubble from './MessageBubble';
+import VisualUpload from '@/components/cloudinary/VisualUpload';
 
 interface Props {
-  onSend: (text: string) => void;
+  onSend: (text: string, imageUrl?: string, extractedText?: string) => void;
   lesson: { title: string; key_concepts: string[] };
 }
 
@@ -18,6 +19,8 @@ const STARTERS = [
 export default function TutorChat({ onSend, lesson }: Props) {
   const { messages, isStreaming } = useTutorStore();
   const [input, setInput] = useState('');
+  const [pendingImageUrl, setPendingImageUrl] = useState<string | undefined>();
+  const [pendingExtractedText, setPendingExtractedText] = useState<string | undefined>();
   const bottomRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -37,7 +40,9 @@ export default function TutorChat({ onSend, lesson }: Props) {
     if (!text || isStreaming) return;
     setInput('');
     if (textareaRef.current) textareaRef.current.style.height = 'auto';
-    onSend(text);
+    onSend(text, pendingImageUrl, pendingExtractedText);
+    setPendingImageUrl(undefined);
+    setPendingExtractedText(undefined);
   }
 
   function autoResize(e: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -87,9 +92,30 @@ export default function TutorChat({ onSend, lesson }: Props) {
         </div>
       )}
 
+      {/* Image preview strip */}
+      {pendingImageUrl && (
+        <div className="px-4 pb-1 flex items-center gap-2">
+          <img src={pendingImageUrl} alt="Attached" className="h-10 w-10 rounded-lg object-cover border border-orange-400/30" />
+          <span className="text-[10px] text-orange-400">Image attached</span>
+          <button
+            onClick={() => { setPendingImageUrl(undefined); setPendingExtractedText(undefined); }}
+            className="ml-auto text-[10px] text-t3 hover:text-t0"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
       {/* Input */}
       <div className="flex-shrink-0 px-4 pb-4 pt-2 border-t border-white/5">
         <div className={`flex items-end gap-2 bg-bg2 border rounded-2xl px-4 py-3 transition-all ${isStreaming ? 'border-white/5' : 'border-white/10 focus-within:border-acc/40'}`}>
+          <VisualUpload
+            onUpload={({ imageUrl, extractedText }) => {
+              setPendingImageUrl(imageUrl);
+              setPendingExtractedText(extractedText);
+            }}
+            disabled={isStreaming}
+          />
           <textarea
             ref={textareaRef}
             value={input}

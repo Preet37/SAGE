@@ -29,6 +29,17 @@ export const useAuthStore = create<AuthStore>()(
   )
 );
 
+export interface CognitionData {
+  confidence_score: number;
+  grounded: boolean;
+  socratic: boolean;
+  no_fabrications: boolean;
+  on_topic: boolean;
+  flags: string[];
+  retrieved_chunks: number;
+  hyde_improvement_pct: number;
+}
+
 interface Message {
   id: string;
   role: 'user' | 'assistant';
@@ -37,6 +48,8 @@ interface Message {
   verification?: { passed: boolean; flags: string[] };
   quiz?: { question: string; options: string[]; answer: string; explanation: string };
   audio?: string;
+  cognition?: CognitionData;
+  image_url?: string;
 }
 
 interface TutorStore {
@@ -53,6 +66,7 @@ interface TutorStore {
   addAgentEvent: (type: string, data: unknown) => void;
   clearMessages: () => void;
   updateLastVerification: (v: { passed: boolean; flags: string[] }) => void;
+  updateLastCognition: (c: CognitionData) => void;
 }
 
 export const useTutorStore = create<TutorStore>((set) => ({
@@ -80,6 +94,12 @@ export const useTutorStore = create<TutorStore>((set) => ({
     set((s) => {
       const msgs = [...s.messages];
       if (msgs.length > 0) msgs[msgs.length - 1].verification = v;
+      return { messages: msgs };
+    }),
+  updateLastCognition: (c) =>
+    set((s) => {
+      const msgs = [...s.messages];
+      if (msgs.length > 0) msgs[msgs.length - 1].cognition = c;
       return { messages: msgs };
     }),
 }));

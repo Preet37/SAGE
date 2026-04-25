@@ -15,6 +15,21 @@ from sqlalchemy import select
 from app.models.lesson import LessonChunk, Lesson
 
 
+def _adaptive_chunk_size(text: str) -> int:
+    """Return appropriate chunk size in words based on content type."""
+    code_lines = sum(
+        1 for line in text.split('\n')
+        if line.strip().startswith(('def ', 'class ', '```', '    ', '\t'))
+    )
+    math_markers = text.count('$$') + text.count('\\[') + text.count('\\(')
+
+    if code_lines > 3:
+        return 100    # preserve syntax context
+    if math_markers > 1:
+        return 9999   # keep as single atomic chunk
+    return 300        # prose default
+
+
 @dataclass(frozen=True)
 class Document:
     id: str
@@ -82,40 +97,96 @@ async def get_relevant_chunks(
     lesson_id: int,
     db: AsyncSession,
     top_k: int = 4,
-) -> list[str]:
-    """Return the top-k most semantically relevant KB chunks for a question."""
+) -> tuple[list[str], dict]:
+    """
+    Retrieve top-k relevant chunks via HyDE + cross-encoder reranking.
+    Returns (chunk_texts, cognition_meta) where cognition_meta carries metrics
+    for the Cognition Score card.
+    """
     try:
-        from sentence_transformers import SentenceTransformer
         model = _get_embedding_model()
-        q_embedding = model.encode(question, normalize_embeddings=True)
     except ImportError:
-        # Fallback: return all chunks if sentence-transformers not available
-        return await _get_all_chunks(lesson_id, db)
+        raw = await _get_all_chunks(lesson_id, db)
+        return raw[:top_k], {"hyde_improvement_pct": 0.0, "retrieved_chunks": len(raw[:top_k])}
 
     result = await db.execute(
         select(LessonChunk).where(LessonChunk.lesson_id == lesson_id)
     )
-    chunks = result.scalars().all()
+    all_chunks = result.scalars().all()
 
-    if not chunks:
+    if not all_chunks:
         lesson_result = await db.execute(select(Lesson).where(Lesson.id == lesson_id))
         lesson = lesson_result.scalar_one_or_none()
-        return [lesson.content_md[:3000]] if lesson else []
+        fallback = [lesson.content_md[:3000]] if lesson else []
+        return fallback, {"hyde_improvement_pct": 0.0, "retrieved_chunks": len(fallback)}
 
-    scored = []
-    for chunk in chunks:
+    # Build (chunk_id, text, embedding) list
+    chunk_data: list[tuple[str, str, Optional[list[float]]]] = []
+    for chunk in all_chunks:
         if chunk.embedding:
             try:
-                chunk_vec = np.array(json.loads(chunk.embedding))
-                score = float(np.dot(q_embedding, chunk_vec))
-                scored.append((score, chunk.text))
+                vec = json.loads(chunk.embedding)
+                chunk_data.append((str(chunk.id), chunk.text, vec))
             except Exception:
-                scored.append((0.0, chunk.text))
+                chunk_data.append((str(chunk.id), chunk.text, None))
         else:
-            scored.append((0.0, chunk.text))
+            chunk_data.append((str(chunk.id), chunk.text, None))
 
-    scored.sort(key=lambda x: x[0], reverse=True)
-    return [text for _, text in scored[:top_k]]
+    # Baseline: embed raw question
+    q_embedding = model.encode(question, normalize_embeddings=True)
+
+    def _score_chunks(embedding) -> list[tuple[float, str, str]]:
+        scored = []
+        for cid, text, vec in chunk_data:
+            if vec:
+                try:
+                    chunk_vec = np.array(vec)
+                    score = float(np.dot(embedding, chunk_vec))
+                    scored.append((score, cid, text))
+                except Exception:
+                    scored.append((0.0, cid, text))
+            else:
+                scored.append((0.0, cid, text))
+        scored.sort(key=lambda x: x[0], reverse=True)
+        return scored
+
+    baseline_scored = _score_chunks(q_embedding)
+    baseline_top_scores = [s for s, _, _ in baseline_scored[:8]]
+
+    # HyDE: generate hypothesis and embed it
+    try:
+        from app.core.hyde import generate_hypothesis, compute_hyde_result
+        lesson_result = await db.execute(select(Lesson).where(Lesson.id == lesson_id))
+        lesson = lesson_result.scalar_one_or_none()
+        lesson_topic = lesson.title if lesson else ""
+
+        hypothesis = await generate_hypothesis(question, lesson_topic)
+        h_embedding = model.encode(hypothesis, normalize_embeddings=True)
+        hyde_scored = _score_chunks(h_embedding)
+        hyde_top_scores = [s for s, _, _ in hyde_scored[:8]]
+
+        hyde_result = compute_hyde_result(hypothesis, question, hyde_top_scores[:top_k], baseline_top_scores[:top_k])
+        hyde_improvement_pct = hyde_result.improvement_pct
+
+        # Use HyDE-scored candidates for reranking
+        candidates = [(cid, text) for _, cid, text in hyde_scored[:8]]
+    except Exception:
+        candidates = [(cid, text) for _, cid, text in baseline_scored[:8]]
+        hyde_improvement_pct = 0.0
+
+    # Cross-encoder rerank
+    try:
+        from app.core.reranker import rerank
+        reranked = rerank(question, candidates, top_k=top_k)
+        final_chunks = [r.text for r in reranked]
+    except Exception:
+        final_chunks = [text for _, text in candidates[:top_k]]
+
+    cognition_meta = {
+        "hyde_improvement_pct": hyde_improvement_pct,
+        "retrieved_chunks": len(final_chunks),
+    }
+    return final_chunks, cognition_meta
 
 
 async def _get_all_chunks(lesson_id: int, db: AsyncSession) -> list[str]:

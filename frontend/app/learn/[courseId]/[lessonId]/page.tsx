@@ -7,12 +7,15 @@ import TutorChat from '@/components/tutor/TutorChat';
 import ConceptMap from '@/components/concept-map/ConceptMap';
 import AgentPanel from '@/components/agents/AgentPanel';
 import VoiceAgent from '@/components/voice/VoiceAgent';
-import NetworkPanel from '@/components/network/NetworkPanel';
+import NetworkTopology from '@/components/network/NetworkTopology';
+import RoutingTable from '@/components/network/RoutingTable';
 import NotesPanel from '@/components/notes/NotesPanel';
 import ReplayPanel from '@/components/replay/ReplayPanel';
 import ModelDownloadBanner from '@/components/offline/ModelDownloadBanner';
 import OfflineBadge from '@/components/offline/OfflineBadge';
 import AccessibilityModal from '@/components/accessibility/AccessibilityModal';
+import DiagramLibrary from '@/components/cloudinary/DiagramLibrary';
+import MaterialsGallery from '@/components/cloudinary/MaterialsGallery';
 import Link from 'next/link';
 import { useConnectivity } from '@/lib/offline/connectivity';
 import { runOfflineChat } from '@/lib/offline/agent';
@@ -39,7 +42,7 @@ export default function LessonPage() {
 
   const { token } = useAuthStore();
   const router = useRouter();
-  const { sessionId: activeSessionId, setSessionId, setTeachingMode, teachingMode, clearMessages, addAgentEvent, addMessage, appendToLast, setStreaming, updateLastVerification } = useTutorStore();
+  const { sessionId: activeSessionId, setSessionId, setTeachingMode, teachingMode, clearMessages, addAgentEvent, addMessage, appendToLast, setStreaming, updateLastVerification, updateLastCognition } = useTutorStore();
 
   const { isOnline } = useConnectivity();
   const wasOnlineRef = useRef(true);
@@ -47,7 +50,7 @@ export default function LessonPage() {
 
   const [lesson, setLesson] = useState<Lesson | null>(null);
   const [conceptMap, setConceptMap] = useState<{ nodes: unknown[]; edges: unknown[] } | null>(null);
-  const [activePanel, setActivePanel] = useState<'chat' | 'map' | 'network' | 'notes' | 'replay'>('chat');
+  const [activePanel, setActivePanel] = useState<'chat' | 'map' | 'network' | 'notes' | 'replay' | 'materials'>('chat');
   const [showAccessibility, setShowAccessibility] = useState(false);
   const [loading, setLoading] = useState(true);
   const [uiHints, setUiHints] = useState<string[]>([]);
@@ -123,11 +126,11 @@ export default function LessonPage() {
     }
   }
 
-  const handleSend = useCallback(async (text: string) => {
+  const handleSend = useCallback(async (text: string, imageUrl?: string, extractedText?: string) => {
     if (!lesson || !token) return;
     const { messages, sessionId } = useTutorStore.getState();
 
-    addMessage({ id: Date.now().toString(), role: 'user', content: text });
+    addMessage({ id: Date.now().toString(), role: 'user', content: text, image_url: imageUrl });
     addMessage({ id: Date.now().toString() + '-a', role: 'assistant', content: '' });
     setStreaming(true);
 
@@ -165,19 +168,23 @@ export default function LessonPage() {
         session_id: sessionId ?? undefined,
         teaching_mode: teachingMode,
         voice_enabled: false,
+        image_url: imageUrl,
+        extracted_text: extractedText,
       },
       (event, data: unknown) => {
         const d = data as Record<string, unknown>;
         if (event === 'token') appendToLast((d.content as string) || '');
         else if (event === 'agent_event') addAgentEvent(d.type as string, d);
+        else if (event === 'fetchai_badge') addAgentEvent('fetchai_badge', d);
         else if (event === 'verification') updateLastVerification({ passed: d.passed as boolean, flags: d.flags as string[] });
+        else if (event === 'judge_result') updateLastCognition(d as Parameters<typeof updateLastCognition>[0]);
         else if (event === 'done') setStreaming(false);
         else if (event === 'error') { setStreaming(false); appendToLast('\n\n_Error: ' + d.message + '_'); }
       }
     );
 
     return () => stop();
-  }, [lesson, token, teachingMode, isOnline]);
+  }, [lesson, token, teachingMode, isOnline, updateLastCognition]);
 
   if (loading) return (
     <div className="min-h-screen flex items-center justify-center">
@@ -263,6 +270,7 @@ export default function LessonPage() {
               ['chat', '◎ Chat'],
               ['map', '⬡ Concepts'],
               ['network', '◈ Peers'],
+              ['materials', '⊞ Materials'],
               ['notes', '✎ Notes'],
               ['replay', '↩ Replay'],
             ] as const).map(([p, label]) => (
@@ -283,7 +291,18 @@ export default function LessonPage() {
           <div className="flex-1 overflow-hidden">
             {activePanel === 'chat' && <TutorChat onSend={handleSend} lesson={lesson} />}
             {activePanel === 'map' && <ConceptMap data={conceptMap} courseId={lesson.course_id} />}
-            {activePanel === 'network' && <NetworkPanel lessonId={lesson.id} />}
+            {activePanel === 'network' && (
+              <div className="p-4 space-y-4 overflow-y-auto h-full">
+                <NetworkTopology />
+                <RoutingTable />
+              </div>
+            )}
+            {activePanel === 'materials' && (
+              <div className="p-4 space-y-6 overflow-y-auto h-full">
+                <DiagramLibrary courseId={lesson.course_id} lessonId={lesson.id} />
+                <MaterialsGallery lessonId={lesson.id} />
+              </div>
+            )}
             {activePanel === 'notes' && <NotesPanel lessonId={lesson.id} />}
             {activePanel === 'replay' && <ReplayPanel activeSessionId={activeSessionId} />}
           </div>

@@ -79,6 +79,17 @@ class TutorRequest(BaseModel):
     session_id: Optional[int] = None
     teaching_mode: Optional[str] = None
     voice_enabled: bool = False
+    image_url: Optional[str] = None        # Cloudinary: uploaded image URL
+    extracted_text: Optional[str] = None   # Cloudinary: OCR text from image
+    deep_dive_token: Optional[str] = None  # Fetch.ai: Payment Protocol session token
+
+
+def _get_director_address() -> str:
+    try:
+        from app.agents.director import director_agent
+        return director_agent.address
+    except Exception:
+        return "unavailable"
 
 
 class SessionCreateRequest(BaseModel):
@@ -125,8 +136,25 @@ async def chat(
     teaching_mode = req.teaching_mode or user.teaching_mode or "default"
     mode_instruction = TEACHING_MODE_PROMPTS.get(teaching_mode, TEACHING_MODE_PROMPTS["default"])
 
-    kb_chunks = await get_relevant_chunks(req.message, req.lesson_id, db, top_k=4)
+    # Fetch.ai Payment Protocol: gate deep_dive behind micropayment
+    if teaching_mode == "deep_dive" and req.deep_dive_token:
+        from app.agents.director import is_deep_dive_unlocked
+        if not is_deep_dive_unlocked(req.deep_dive_token):
+            raise HTTPException(
+                status_code=402,
+                detail={
+                    "error": "deep_dive_payment_required",
+                    "message": "Deep Dive requires 0.001 ASI via Fetch.ai Payment Protocol",
+                    "director_address": _get_director_address(),
+                },
+            )
+
+    kb_chunks, cognition_meta = await get_relevant_chunks(req.message, req.lesson_id, db, top_k=4)
     kb_context = "\n\n---\n\n".join(kb_chunks) if kb_chunks else lesson.content_md[:2000]
+
+    # Cloudinary: inject OCR-extracted text as visual context
+    if req.extracted_text:
+        kb_context = f"## Visual Context (from student's uploaded image)\n\n{req.extracted_text}\n\n---\n\n{kb_context}"
 
     mastery_result = await db.execute(
         select(ConceptNode, StudentMastery)
@@ -163,6 +191,7 @@ async def chat(
         "mastered_concepts": len(mastered),
         "events": [],
         "timestamp": datetime.utcnow().isoformat(),
+        "cognition": cognition_meta,
     }
 
     return StreamingResponse(
@@ -176,6 +205,8 @@ async def chat(
             agent_trace=agent_trace,
             voice_enabled=req.voice_enabled,
             db=db,
+            question=req.message,
+            cognition_meta=cognition_meta,
         ),
         media_type="text/event-stream",
         headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
@@ -192,6 +223,8 @@ async def _stream_response(
     agent_trace: dict,
     voice_enabled: bool,
     db: AsyncSession,
+    question: str = "",
+    cognition_meta: Optional[dict] = None,
 ) -> AsyncGenerator[str, None]:
     full_response = ""
     search_was_called = False
@@ -277,6 +310,15 @@ async def _stream_response(
         for event in agent_events:
             yield _sse("agent_event", event)
 
+        # Fetch.ai badge — emitted before streaming so AgentPanel can update immediately
+        director_addr = _get_director_address()
+        yield _sse("fetchai_badge", {
+            "director_address": director_addr,
+            "agentverse_url": f"https://agentverse.ai/agents/{director_addr}",
+            "agents_active": 7,
+            "payment_protocol": "enabled",
+        })
+
         if settings.llm_provider == "anthropic":
             async for chunk in _stream_anthropic(system_prompt, messages):
                 full_response += chunk
@@ -298,6 +340,22 @@ async def _stream_response(
             "flags": verification.flags,
             "score": verification.score,
         })
+
+        # Cognition track: LLM-as-judge runs after full response assembled
+        if cognition_meta is not None:
+            try:
+                from app.core.judge import judge_response
+                judge = await judge_response(
+                    question=question,
+                    response=full_response,
+                    chunks=kb_chunks,
+                    retrieved_chunks=cognition_meta.get("retrieved_chunks", 0),
+                    hyde_improvement_pct=cognition_meta.get("hyde_improvement_pct", 0.0),
+                )
+                yield _sse("judge_result", judge.to_sse_payload())
+            except Exception as _judge_err:
+                import logging
+                logging.getLogger(__name__).warning("Judge SSE failed: %s", _judge_err)
 
         if voice_enabled and settings.elevenlabs_api_key:
             audio_bytes = await synthesize_speech(full_response)

@@ -16,6 +16,9 @@ export default function AgentPanel() {
   const latestByType = new Map<string, { type: string; data: unknown; ts: number }>();
   agentEvents.forEach(ev => { latestByType.set(ev.type, ev); });
 
+  const fetchaiBadge = latestByType.get('fetchai_badge');
+  const fetchaiData = fetchaiBadge?.data as Record<string, unknown> | undefined;
+
   return (
     <div className="flex flex-col p-4 gap-3">
       <div className="flex items-center gap-2 mb-1">
@@ -27,6 +30,30 @@ export default function AgentPanel() {
           </div>
         )}
       </div>
+
+      {fetchaiData && (
+        <div className="rounded-xl border border-teal-500/25 bg-teal-500/5 p-3">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-[10px] font-bold text-teal-400">◎ Fetch.ai Bureau Active</span>
+            <a
+              href="https://agentverse.ai"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-teal-500/15 text-teal-400 border border-teal-500/20 hover:bg-teal-500/25 transition-all"
+            >
+              fetch.ai ↗
+            </a>
+          </div>
+          <div className="text-[10px] text-t3 font-mono">
+            Director: {(fetchaiData.director_address as string)?.slice(0, 20) ?? 'sage-director'}…
+          </div>
+          {fetchaiData.teaching_mode && (
+            <div className="text-[10px] text-teal-400 mt-0.5">
+              Mode: {fetchaiData.teaching_mode as string}
+            </div>
+          )}
+        </div>
+      )}
 
       {AGENTS.map(agent => {
         const event = latestByType.get(agent.id);

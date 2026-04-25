@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass, field
-from typing import Any, Protocol
+from typing import Any, Optional, Protocol
 
 from openai import AsyncOpenAI
 from app.config import get_settings
@@ -38,6 +38,7 @@ class AgentContext:
     peers: list[dict[str, Any]] = field(default_factory=list)
     progress_delta: dict[str, Any] = field(default_factory=dict)
     trace: list[AgentMessage] = field(default_factory=list)
+    db: Optional[Any] = None  # AsyncSession injected by orchestrator for DB-backed agents
 
 
 class Provider(Protocol):

@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "SAGE Mobile",
+    "slug": "sage-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "scheme": "sage",
+    "splash": {
+      "backgroundColor": "#0f0f11"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "ai.sage.mobile"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#0f0f11"
+      },
+      "package": "ai.sage.mobile"
+    },
+    "plugins": [
+      "expo-router"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
