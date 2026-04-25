@@ -1,18 +1,21 @@
 llm:
-  provider: anthropic               # anthropic | openai | nvidia
+  provider: groq                    # anthropic | openai | groq | asi1
   base_url: "https://api.anthropic.com"
   anthropic_base: "https://api.anthropic.com"
   openai_base: "https://api.openai.com/v1"
+  groq_base: "https://api.groq.com/openai/v1"
   asi1_base: "https://api.asi1.ai/v1"
 
 models:
   tutor:
     anthropic: "claude-sonnet-4-5"
     openai: "gpt-4o"
+    groq: "llama-3.3-70b-versatile"
     asi1: "asi1-mini"
   judge:
     anthropic: "claude-haiku-3-5"
     openai: "gpt-4o-mini"
+    groq: "llama-3.1-8b-instant"
     asi1: "asi1-mini"
   embeddings:
     model: "all-MiniLM-L6-v2"      # local sentence-transformers model

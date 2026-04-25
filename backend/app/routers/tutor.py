@@ -262,6 +262,10 @@ async def _stream_openai(system_prompt: str, messages: list[dict]) -> AsyncGener
         base_url = yaml_cfg["llm"]["asi1_base"]
         api_key = settings.asi1_api_key
         model = yaml_cfg.get("models", {}).get("tutor", {}).get("asi1", "asi1-mini")
+    elif provider == "groq":
+        base_url = yaml_cfg["llm"]["groq_base"]
+        api_key = settings.llm_api_key
+        model = yaml_cfg.get("models", {}).get("tutor", {}).get("groq", "llama-3.3-70b-versatile")
     else:
         base_url = yaml_cfg["llm"]["openai_base"]
         api_key = settings.llm_api_key
