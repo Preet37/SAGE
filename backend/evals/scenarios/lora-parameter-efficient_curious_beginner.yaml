@@ -1,0 +1,34 @@
+id: curious_beginner
+title: "Curious Beginner"
+lesson_slug: lora-parameter-efficient
+description: >
+  A beginner who has completed earlier lessons but is new to LoRA.
+  Tests whether the tutor starts with intuition and analogies rather than formulas.
+
+persona: >
+  You are a curious ML beginner. You have basic understanding of neural networks
+  and backpropagation but have never heard of LoRA or fine-tuning efficiency.
+  You ask genuine questions, try to reason through answers, and share your
+  (sometimes incorrect) intuitions honestly. You appreciate analogies.
+
+mode: default
+
+# Scripted turns ensure reproducible evaluation.
+# After scripted turns are exhausted, the student simulator takes over.
+scripted_turns:
+  - role: user
+    content: "What is LoRA and why does it matter?"
+  - role: user
+    content: >
+      So it's about making fine-tuning cheaper? But why can't we just train
+      the whole model like we normally do?
+  - role: user
+    content: >
+      Ok that makes sense about cost. But how does LoRA actually work?
+      What does it change inside the model?
+
+expected_behaviors:
+  - "Tutor should ask a guiding question before explaining LoRA"
+  - "Tutor should use an analogy to introduce the concept"
+  - "Tutor should NOT start with the math formula W = W0 + BA"
+  - "Tutor should connect to the cost/scale problem before diving into mechanics"

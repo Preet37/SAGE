@@ -1,0 +1,35 @@
+id: explore_format_probe_sources
+title: "Explore Mode: Resource Cards"
+lesson_slug: self-attention
+description: >
+  Probes whether the tutor uses <resource> cards with URLs in explore mode.
+  The student asks about a topic and then requests reading materials.
+  Scores poorly if resources are given as plain text without proper card
+  formatting or missing URLs.
+
+persona: >
+  You are a self-directed learner who likes to dive deep into topics.
+  After getting an explanation, you want to explore further with curated
+  resources. You appreciate when resources include links so you can
+  actually access them.
+
+mode: explore
+
+scripted_turns:
+  - role: user
+    content: >
+      I want to understand how RLHF works for training language models.
+      Can you give me an overview?
+  - role: user
+    content: >
+      That's helpful. Can you recommend some good papers or blog posts
+      where I can learn more about this?
+  - role: user
+    content: >
+      Are there any video explanations that go through this step by step?
+
+expected_behaviors:
+  - "Tutor MUST use <resource> card format for recommendations"
+  - "Resource cards MUST include url field with a valid link"
+  - "Resources should be relevant to the discussed topic (RLHF)"
+  - "At least 2 resource cards should appear across the conversation"

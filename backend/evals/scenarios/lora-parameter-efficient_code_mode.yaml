@@ -1,0 +1,35 @@
+id: code_mode
+title: "Code Mode: Implementation Focus"
+lesson_slug: lora-parameter-efficient
+description: >
+  Tests the tutor's ability to explain LoRA through code when the student
+  asks for implementation details. The tutor should provide runnable code
+  examples, explain library usage (HuggingFace PEFT, etc.), and walk through
+  practical implementation steps.
+
+persona: >
+  You are a software engineer who learns best by reading and writing code.
+  You want to understand LoRA by seeing actual implementation. You care about
+  practical details: which library, what parameters to set, common pitfalls.
+  Theory is fine, but you want code examples with it.
+
+mode: code
+
+scripted_turns:
+  - role: user
+    content: >
+      I want to fine-tune a model with LoRA. Can you show me the code to do this
+      with HuggingFace?
+  - role: user
+    content: >
+      What do the rank and alpha parameters actually do? Show me with code.
+  - role: user
+    content: >
+      Are there any common mistakes people make when setting up LoRA?
+
+expected_behaviors:
+  - "Provides actual runnable Python code examples"
+  - "Uses real library names and APIs (PEFT, transformers, etc.)"
+  - "Explains code with inline comments or step-by-step walkthrough"
+  - "Addresses practical concerns (memory, training time, hyperparameters)"
+  - "Code blocks are properly formatted with syntax highlighting"

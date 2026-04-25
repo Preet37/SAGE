@@ -1,0 +1,248 @@
+[
+  {
+    "timestamp": "2026-04-09T16:17:50",
+    "run_label": "reference-track:Domain Adaptation",
+    "sources": [
+      {
+        "url": "https://escholarship.org/uc/item/2nv1j9sc",
+        "title": "UC Berkeley",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.semanticscholar.org/paper/A-theory-of-learning-from-different-domains-Ben-David-Blitzer/66d398aeaeb7ec24ededb1adaa4b4f09a6c1bcde",
+        "title": "[PDF] A theory of learning from different domains | Semantic Scholar",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.alexkulesza.com/pubs/adapt_mlj10.pdf",
+        "title": "A theory of learning from different domains - Alex Kulesza",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://icml.cc/media/icml-2021/Slides/9515.pdf",
+        "title": "[PDF] f-Domain-Adversarial Learning: Theory and Algorithms",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "http://proceedings.mlr.press/v97/zhao19a/zhao19a.pdf",
+        "title": "[PDF] On Learning Invariant Representations for Domain Adaptation",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "http://proceedings.mlr.press/v97/zhao19a/zhao19a.pdf",
+        "title": "[PDF] On Learning Invariant Representations for Domain Adaptation",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.pascalgermain.info/talks/tao2016_dann.pdf",
+        "title": "A Representation Learning Approach  for Domain Adaptation",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper/2006/file/b1b0432ceafb0ce714426e9114852ac7-Paper.pdf",
+        "title": "Analysis of Representations for Domain Adaptation",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "http://proceedings.mlr.press/v97/zhao19a/zhao19a-supp.pdf",
+        "title": "On Learning Invariant Representations for Domain Adaptation",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://par.nsf.gov/servlets/purl/10125750",
+        "title": "On Learning Invariant Representations for Domain Adaptation",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/WACV2021/papers/Ringwald_Adaptiope_A_Modern_Benchmark_for_Unsupervised_Domain_Adaptation_WACV_2021_paper.pdf",
+        "title": "[PDF] A Modern Benchmark for Unsupervised Domain Adaptation",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12569282/table/Tab5/",
+        "title": "Table 5.",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12569282/table/Tab2/",
+        "title": "Table 2.",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2409.15264v1",
+        "title": "UDA-Bench: Revisiting Common Assumptions in ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2407.11676v2",
+        "title": "Benchmarking Unsupervised Domain Adaptation Methods ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://ai.bu.edu/visda-2017/",
+        "title": "VisDA2017: Visual Domain Adaptation Challenge",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12569282/table/Tab3/",
+        "title": "Table 3.",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://ar5iv.labs.arxiv.org/html/1710.06924",
+        "title": "VisDA: The Visual Domain Adaptation Challenge",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "http://ai.bu.edu/visda-2017/",
+        "title": "Important Dates",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12216763/table/Tab5/",
+        "title": "Table 5.",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2404.12308v2",
+        "title": "Active Exploration for System Identification in Robotic Manipulation",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2508.04696v1",
+        "title": "Achieving Precise and Reliable Locomotion with ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v205/abeyruwan23a/abeyruwan23a.pdf",
+        "title": "[PDF] i-Sim2Real: Reinforcement Learning of Robotic Policies in Tight ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.diva-portal.org/smash/get/diva2:1882474/FULLTEXT01.pdf",
+        "title": "Sim-to-real transfer of active suspension control using deep reinforcement learning",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://digikogu.taltech.ee/et/Download/70b93ed3-3c68-4e3e-8e7d-477742344583",
+        "title": "Practical Implementation of \u201cSim-to-Real\u201d Deep ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "http://www.arxiv.org/pdf/2003.02471v2.pdf",
+        "title": "1",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1810.05687.pdf",
+        "title": "Closing the Sim-to-Real Loop:",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.emergentmind.com/papers/1810.05687",
+        "title": "Adaptive Sim-to-Real Policy Transfer",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://pages.github.berkeley.edu/ee290-005/sp21-site/assets/scribe/week15_scribed.pdf",
+        "title": "[PDF] Vision-based Robotic Manipulation 15.1 Closing the Sim-to-Real Loop",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://openai.com/index/learning-dexterity",
+        "title": "Learning dexterity",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://matthiasplappert.com/publications/2018_OpenAI_Dexterous-Manipulation-v3.pdf",
+        "title": "Learning Dexterous In-Hand Manipulation",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=jwSbzNHGflM",
+        "title": "Learning Dexterity",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://matthiasplappert.com/talks/2018-12-neurips-learning-dexterity-slides.pdf",
+        "title": "learning_dexterity_15min",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/isaac-sim/IsaacGymEnvs",
+        "title": "Isaac Gym Reinforcement Learning Environments",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://leeroopedia.com/index.php/Workflow:Isaac_sim_IsaacGymEnvs_Domain_Randomization_Training",
+        "title": "Workflow:Isaac sim IsaacGymEnvs Domain Randomization Training",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://arxiv.org/html/2404.05695v2",
+        "title": "Reinforcement Learning for Humanoid Robot with Zero ...",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/isaac-sim/OmniIsaacGymEnvs/blob/main/docs/framework/domain_randomization.md",
+        "title": "OmniIsaacGymEnvs/docs/framework/domain_randomization.md at main \u00b7 isaac-sim/OmniIsaacGymEnvs",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://bguta.github.io/assets/Gym2Real_Capstone_Project_Report.pdf",
+        "title": "Gym2Real: An Open-Source Platform for Sim2Real Transfer",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/facebookresearch/DomainBed/blob/main/domainbed/algorithms.py",
+        "title": "DomainBed/domainbed/algorithms.py at main \u00b7 facebookresearch/DomainBed",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/facebookresearch/DomainBed",
+        "title": "GitHub - facebookresearch/DomainBed: DomainBed is a suite to test domain generalization algorithms",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2304.01973v3",
+        "title": "ERM++: An Improved Baseline for Domain Generalization",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/alexrame/domainbedresearch/blob/main/README.md",
+        "title": "domainbedresearch/README.md at main \u00b7 alexrame/domainbedresearch",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2409.17063v1",
+        "title": "Benchmarking Domain Generalization Algorithms in Computational ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.isaacsim.omniverse.nvidia.com/4.5.0/py/source/extensions/isaacsim.replicator.domain_randomization/docs/ogn/OgnWritePhysicsSimulationContext.html",
+        "title": "Write Physics Attribute using Tensor API - Isaac Sim Documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.isaacsim.omniverse.nvidia.com/latest/py/source/extensions/isaacsim.replicator.domain_randomization/docs/ogn/OgnWritePhysicsSimulationContext.html",
+        "title": "Write Physics Attribute using Tensor API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.isaacsim.omniverse.nvidia.com/4.5.0/py/source/extensions/isaacsim.replicator.domain_randomization/docs/index.html",
+        "title": "[isaacsim.replicator.domain_randomization ... - NVIDIA Isaac Sim",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.isaacsim.omniverse.nvidia.com/latest/py/source/extensions/isaacsim.replicator.domain_randomization/docs/index.html",
+        "title": "[isaacsim.replicator.domain_randomization] Isaac Sim Replicator Domain Randomization#",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.isaacsim.omniverse.nvidia.com/5.0.0/py/source/extensions/isaacsim.replicator.domain_randomization/docs/index.html",
+        "title": "[isaacsim.replicator.domain_randomization] Isaac Sim ... - NVIDIA",
+        "need_type": "API_REFERENCE"
+      }
+    ]
+  }
+]

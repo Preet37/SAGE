@@ -1,0 +1,208 @@
+[
+  {
+    "timestamp": "2026-04-09T16:15:42",
+    "run_label": "reference-track:Convolutional Neural Networks",
+    "sources": [
+      {
+        "url": "https://aihouse.univ-eloued.dz/wp-content/uploads/2024/11/4-Deep-Learning-by-Ian-Goodfellow-Yoshua-Bengio-Aaron-Courville-z-lib.org_.pdf",
+        "title": "4-Deep-Learning-by-Ian-Goodfellow-Yoshua-Bengio-Aaron-Courville-z-lib.org_.pdf",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://mcube.lab.nycu.edu.tw/~cfung/docs/books/goodfellow2016deep_learning.pdf",
+        "title": "Deep Learning",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.deeplearningbook.org/front_matter.pdf",
+        "title": "[PDF] front_matter.pdf - Deep Learning",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://studylib.net/doc/28071751/deep-learning--ian-goodfellow-yoshua-bengio--aaron-courvi...",
+        "title": "Deep Learning (Ian Goodfellow,Yoshua Bengio, Aaron ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.biblos.pk.edu.pl/ST/2017/02/100000304471/100000304471_Goodfellow_DeepLearning.pdf",
+        "title": "Deep learning / Ian Goodfellow, Yoshua Bengio and Aaron ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "http://arxiv.org/abs/1603.07285v2",
+        "title": "A guide to convolution arithmetic for deep learning",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1603.07285.pdf",
+        "title": "[PDF] A guide to convolution arithmetic for deep learning - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.emergentmind.com/papers/1603.07285",
+        "title": "Convolution Arithmetic for Deep Learning",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://sebastianraschka.com/pdf/lecture-notes/stat479ss19/L13_intro-cnn-part2_slides.pdf",
+        "title": "[PDF] Introduction to Convolutional Neural Networks Part 2",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md",
+        "title": "conv_arithmetic/README.md at master \u00b7 vdumoulin/conv_arithmetic",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2304.07193v2",
+        "title": "DINOv2: Learning Robust Visual Features without Supervision - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "http://arxiv.org/pdf/2304.07193.pdf",
+        "title": "Published in Transactions on Machine Learning Research (01/2024)",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/facebookresearch/dinov2/blob/main/README.md",
+        "title": "dinov2/README.md at main \u00b7 facebookresearch/dinov2",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/sthalles/dinov2",
+        "title": "GitHub - sthalles/dinov2",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://pierrefdz.github.io/assets/publis/dinov2/paper.pdf",
+        "title": "[PDF] DINOv2: Learning Robust Visual Features without Supervision",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2304.07193v2",
+        "title": "DINOv2: Learning Robust Visual Features without Supervision - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.lightly.ai/blog/dinov2",
+        "title": "Understanding DINOv2: Engineer's Deep Dive - Lightly AI",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/dinov2-vision-encoder",
+        "title": "DINOv2 Vision Encoder",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "http://arxiv.org/pdf/2304.07193v1.pdf",
+        "title": "DINOv2: Learning Robust Visual Features",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/taesiri/ArXivQA/blob/main/papers/2304.07193.md",
+        "title": "ArXivQA/papers/2304.07193.md at main \u00b7 taesiri/ArXivQA",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.adrian.idv.hk/2025-03-26-dbkwzudmhguh21-vit/",
+        "title": "Dosovitskiy et al (2021) An Image is Worth 16x16 Words",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://storrs.io/vit/",
+        "title": "Paper Walkthrough: ViT (An Image is Worth 16x16 Words - Erik Storrs",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://proceedings.iclr.cc/paper_files/paper/2025/file/959f70ee50044bed305e48e3484005a7-Paper-Conference.pdf",
+        "title": "[PDF] AN IMAGE IS WORTH MORE THAN 16\u00d716 PATCHES",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=Gl48KciWZp0",
+        "title": "An Image is Worth 16x16 Words:Transformers for Image Recognition at Scale (Paper Explained)",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.casualganpapers.com/large-scale-image-transformers-pretraining-classification/ViT-explained.html",
+        "title": "Casual GAN Papers: ViT Explained",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v139/touvron21a/touvron21a.pdf",
+        "title": "Training data-efficient image transformers & distillation ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "http://www.cs.utoronto.ca/~bonner/courses/2022s/csc2547/papers/attention/transformers/training_and_distillation,_touvron,_arxiv2021.pdf",
+        "title": "Training data-efficient image transformers",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2404.02900v1",
+        "title": "DeiT-LT: Distillation Strikes Back for Vision Transformer ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2012.12877.pdf",
+        "title": "[PDF] Training data-efficient image transformers & distillation through ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/CVPR2024/papers/Rangwani_DeiT-LT_Distillation_Strikes_Back_for_Vision_Transformer_Training_on_Long-Tailed_CVPR_2024_paper.pdf",
+        "title": "[PDF] DeiT-LT: Distillation Strikes Back for Vision Transformer Training on ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Conv2d.html",
+        "title": "Conv2d \u2014 PyTorch 2.11 documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/main/generated/torch.nn.modules.conv.Conv2d.html",
+        "title": "Conv2d \u2014 PyTorch main documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/2.8/generated/torch.nn.Conv2d.html",
+        "title": "Conv2d",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Conv2d",
+        "title": "Conv2d \u2014 PyTorch 2.8 documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/2.9/generated/torch.nn.Conv2d.html",
+        "title": "Conv2d \u2014 PyTorch 2.9 documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.pytorch.org/t/feature-extraction-in-torchvision-models-vit-b-16/148029",
+        "title": "Feature extraction in torchvision.models.vit_b_16 - vision",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "http://docs.pytorch.org/vision/main/models/generated/torchvision.models.vit_b_16.html",
+        "title": "vit_b_16 \u2014 Torchvision main documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.vit_b_16.html",
+        "title": "vit_b_16 \u2014 Torchvision 0.24 documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.pytorch.org/t/add-identity-layer-of-a-pretrained-vision-transformer/201281",
+        "title": "Add identity layer of a pretrained vision transformer",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/vision/main/models/generated/torchvision.models.vit_b_16.html",
+        "title": "vit_b_16 \u2014 Torchvision main documentation",
+        "need_type": "API_REFERENCE"
+      }
+    ]
+  }
+]

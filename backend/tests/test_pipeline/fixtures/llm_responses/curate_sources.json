@@ -1,0 +1,21 @@
+{
+  "additions": [
+    {
+      "url": "https://arxiv.org/abs/1409.0473",
+      "title": "Neural Machine Translation by Jointly Learning to Align and Translate",
+      "role": "original_paper",
+      "why": "Seminal Bahdanau attention paper, fills the additive attention gap",
+      "gaps_covered": ["additive attention mechanisms"],
+      "level": "advanced"
+    }
+  ],
+  "near_misses": [
+    {
+      "url": "https://example.com/attention-survey",
+      "title": "A Survey of Attention Mechanisms",
+      "why_not": "Too broad, overlaps with existing Lilian Weng coverage"
+    }
+  ],
+  "uncovered_gaps": ["alignment models in seq2seq"],
+  "reasoning": "The Bahdanau paper directly addresses the additive attention gap. The survey was excluded due to overlap."
+}

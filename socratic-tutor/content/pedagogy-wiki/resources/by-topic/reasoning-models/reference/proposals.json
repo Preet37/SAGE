@@ -1,0 +1,253 @@
+[
+  {
+    "timestamp": "2026-04-09T18:37:28",
+    "run_label": "reference-track:Reasoning Models",
+    "sources": [
+      {
+        "url": "https://openai.com/index/learning-to-reason-with-llms/",
+        "title": "Safety",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://cdn.openai.com/o1-system-card-20241205.pdf",
+        "title": "[PDF] OpenAI o1 System Card",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://openai.com/index/openai-o1-system-card/",
+        "title": "OpenAI o1 System Card",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://cdn.openai.com/papers/trading-inference-time-compute-for-adversarial-robustness-20250121_1.pdf",
+        "title": "[PDF] Trading inference-time compute for adversarial robustness. | OpenAI",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://openai.com/index/gpt-5-system-card/",
+        "title": "GPT-5 System Card - OpenAI",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://cdn.openai.com/o3-mini-system-card-feb10.pdf",
+        "title": "[PDF] OpenAI o3-mini System Card",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://openai.com/index/o3-mini-system-card/",
+        "title": "OpenAI o3-mini System Card",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://openai.com/index/o3-o4-mini-system-card/",
+        "title": "OpenAI o3 and o4-mini System Card",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://cdn.openai.com/pdf/2221c875-02dc-4789-800b-e7758f3722c1/o3-and-o4-mini-system-card.pdf",
+        "title": "[PDF] OpenAI o3 and o4-mini System Card",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://openai.com/index/introducing-o3-and-o4-mini/",
+        "title": "Introducing OpenAI o3 and o4-mini",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/abs/2310.10080",
+        "title": "Let's reward step by step: Step-Level reward model as the Navigators for Reasoning",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2310.10080v1",
+        "title": "Title: Let's reward step by step: Step-Level reward model as the Navigators for Reasoning",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://aclanthology.org/2025.findings-emnlp.253.pdf",
+        "title": "[PDF] Process Reward Models for Reflective Mathematical Reasoning",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://aclanthology.org/2025.findings-emnlp.970.pdf",
+        "title": "[PDF] Reward Models and Learning Strategies - ACL Anthology",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.themoonlight.io/fr/review/a-survey-of-process-reward-models-from-outcome-signals-to-process-supervisions-for-large-language-models",
+        "title": "[Revue de papier] A Survey of Process Reward Models",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.stephendiehl.com/posts/process_reward/",
+        "title": "Process Reward Models - Stephen Diehl",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2601.07182.pdf",
+        "title": "PRPO: Aligning Process Reward with Outcome Reward in Policy Optimization",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2601.07182v3",
+        "title": "Aligning Process Reward with Outcome Reward in Policy Optimization",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://rlhfbook.com/c/05-reward-models",
+        "title": "Reward Models | RLHF Book by Nathan Lambert",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://studylib.net/doc/28145849/prl--process-reward-learning-improves-llms--reasoning-abi...",
+        "title": "PRL: Process Reward Learning for LLM Reasoning Improvement",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://aclanthology.org/2025.emnlp-main.866.pdf",
+        "title": "[PDF] A Test Time Scaling Method to Enhance LLMs' Reasoning",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.arxiv.org/pdf/2602.01070.pdf",
+        "title": "What If We Allocate Test-Time Compute Adaptively?",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://self-supervised.cs.jhu.edu/fa2024/files/presentations/9-26-Reasoning-Kote-Gao.pdf",
+        "title": "[PDF] Scaling LLM Test-Time Compute Optimally can be More Effective ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aipaper.tistory.com/m/132",
+        "title": "inference reference",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/2203.11171",
+        "title": "Self-Consistency Improves Chain of Thought Reasoning in Language ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://tylerburleigh.com/blog/2023/12/04/",
+        "title": "Tackling the GSM8K (grade school math) with GPT-3.5 and self ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/self-consistency-prompting",
+        "title": "Self-Consistency Prompting for Robust LLM Reasoning",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/self-consistency-in-chain-of-thought-reasoning",
+        "title": "Self-Consistency in CoT Reasoning",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://iclr.cc/media/iclr-2023/Slides/11718.pdf",
+        "title": "[PDF] Self-Consistency Improves Chain of Thought Reasoning in ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/reasoning",
+        "title": "OpenAI Platform: Reasoning Guide",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/reasoning/quickstart",
+        "title": "Reasoning models - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/reasoning-best-practices",
+        "title": "Reasoning best practices | OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/latest-model",
+        "title": "Using GPT-5.2 | OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/responses-streaming/response/reasoning",
+        "title": "API Reference - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/reasoning",
+        "title": "OpenAI Platform: Reasoning Guide",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/reasoning-best-practices",
+        "title": "Reasoning best practices | OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/reasoning?reasoning-prompt-examples=research",
+        "title": "Reasoning models - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/models/o3",
+        "title": "OpenAI o3 docs",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/models/o3-2025-04-16%20(reasoning_effort=high)",
+        "title": "Models - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://patmcguinness.substack.com/p/deepseek-releases-r1-and-opens-up",
+        "title": "DeepSeek Releases R1 and Opens up AI Reasoning",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.deeplearning.ai/the-batch/deepseek-r1-a-transparent-challenger-to-openai-o1/",
+        "title": "DeepSeek-R1, A Transparent Challenger to OpenAI o1",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2501.12948v1",
+        "title": "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs ... - arXiv",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.nist.gov/system/files/documents/2025/09/30/CAISI_Evaluation_of_DeepSeek_AI_Models.pdf",
+        "title": "[PDF] Evaluation of DeepSeek AI Models",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://designforonline.com/ai-models/deepseek-r1/",
+        "title": "DeepSeek: R1 Review \u2014 Pricing, Benchmarks & ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://galileo.ai/blog/deepseek-r1-vs-openai-o1-comparison",
+        "title": "DeepSeek R1 vs OpenAI O1: Which AI Model Should You Choose? | Galileo",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.vellum.ai/blog/analysis-openai-o1-vs-deepseek-r1",
+        "title": "Analysis: OpenAI o1 vs DeepSeek R1 - Vellum AI",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.zignuts.com/blog/deepseek-r1-vs-openai-o1-comparison",
+        "title": "DeepSeek R1 vs OpenAI O1: 2026 Performance & Cost Comparison",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://techcrunch.com/2025/01/27/deepseek-claims-its-reasoning-model-beats-openais-o1-on-certain-benchmarks/",
+        "title": "DeepSeek claims its 'reasoning' model beats OpenAI's o1 on certain ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.prompthub.us/blog/deepseek-r-1-model-overview-and-how-it-ranks-against-openais-o1",
+        "title": "DeepSeek R-1 Model Overview and How it Ranks Against OpenAI's o1www.prompthub.us \u203a blog \u203a deepseek-r-1-model-overview-and-how-it-ran...",
+        "need_type": "COMPARISON_DATA"
+      }
+    ]
+  }
+]

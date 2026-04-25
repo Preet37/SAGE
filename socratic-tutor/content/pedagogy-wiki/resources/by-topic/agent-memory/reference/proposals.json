@@ -1,0 +1,936 @@
+[
+  {
+    "timestamp": "2026-04-09T16:14:03",
+    "run_label": "reference-track:Agent Memory",
+    "sources": [
+      {
+        "url": "https://github.com/THUDM/LongBench/blob/main/LongBench/README.md",
+        "title": "LongBench/LongBench/README.md at main \u00b7 THUDM/LongBench",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2024.acl-long.172.pdf",
+        "title": "Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), pages 3119\u20133137",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/longbench-dataset",
+        "title": "LongBench: Bilingual Long-Context Benchmark - Emergent Mind",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/gmlwns2000/LongBench-hip/",
+        "title": "LongBench: A Bilingual, Multitask Benchmark for Long ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2410.04698.pdf",
+        "title": "Preprint",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://snap-research.github.io/locomo/",
+        "title": "Evaluating Very Long-Term Conversational Memory of LLM Agents",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/locomo",
+        "title": "LoCoMo: Conversational Memory Benchmark - Emergent Mind",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://mem0.ai/blog/state-of-ai-agent-memory-2026",
+        "title": "State of AI Agent Memory 2026 - Mem0",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2024.acl-long.747.pdf",
+        "title": "[PDF] Evaluating Very Long-Term Conversational Memory of LLM Agents",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/2402.17753",
+        "title": "Evaluating Very Long-Term Conversational Memory of ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.cs.cmu.edu/~jgc/publication/The_Use_MMR_Diversity_Based_LTMIR_1998.pdf",
+        "title": "[PDF] The Use of MMR, Diversity-Based Reranking for Reordering ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://aayushmnit.com/posts/2025-12-25-DiversityMMRPart1/DiversityMMRPart1.html",
+        "title": "Diversity in Recommendations - Maximal Marginal Relevance (MMR)",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://gist.github.com/alexandru-dinu/d973b212cc33e69a6b9b950ebd8b8fc3",
+        "title": "Maximal Marginal Relevance (Carbonell and Goldstein, 1998)",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.cs.cmu.edu/~jgc/publication/MMR_DiversityBased_Reranking_SIGIR_1998.pdf",
+        "title": "The",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://jiafengguo.github.io/2015/2015-Learning%20Maximal%20Marginal%20Relevance%20Model%20via%20Directy%20Optimizing%20Diversity%20Evaluation%20Measures.pdf",
+        "title": "[PDF] Learning Maximal Marginal Relevance Model via Directly ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/0911.5046.pdf",
+        "title": "arXiv:0911.5046v2 [cs.IR] 1 Dec 2009",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://web.stanford.edu/class/cs276/handouts/lecture12-bm25etc.pdf",
+        "title": "Introduction to Information Retrieval",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "http://arxiv.org/pdf/0911.5046.pdf",
+        "title": "arXiv:0911.5046v2  [cs.IR]  1 Dec 2009",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Okapi_BM25",
+        "title": "Okapi BM25 - Wikipedia",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://dblp.org/rec/journals/ftir/RobertsonZ09.html",
+        "title": "dblp: The Probabilistic Relevance Framework: BM25 and Beyond.",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/responses/list?lang=python",
+        "title": "Responses | OpenAI API Reference",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/reasoning/managing-the-context-window",
+        "title": "Reasoning models - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/completions",
+        "title": "OpenAI completions",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/assistants/object",
+        "title": "OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/completions/create",
+        "title": "Completions | OpenAI API Reference",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/facebookresearch/faiss/wiki/Guidelines-to-choose-an-index",
+        "title": "Guidelines to choose an index \u00b7 facebookresearch/faiss Wiki - GitHub",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/facebookresearch/faiss/wiki/Faiss-indexes",
+        "title": "Faiss indexes \u00b7 facebookresearch/faiss Wiki",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/facebookresearch/faiss/issues/2208",
+        "title": "IVFx_HNSW32 efSearch/efConstruction for HNSW32 \u00b7 Issue #2208 \u00b7 facebookresearch/faiss",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/facebookresearch/faiss/wiki/Guidelines-to-choose-an-index/28074dc0ddc733f84b06fa4d99b3f6e2ef65613d",
+        "title": "Guidelines to choose an index",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/facebookresearch/faiss/issues/741",
+        "title": "How to set hnsw.efSearch for IVF_HNSW index? \u00b7 Issue #741 \u00b7 facebookresearch/faiss",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.groovyweb.co/blog/vector-database-comparison-2026",
+        "title": "Vector Database Comparison 2026: Pinecone vs pgvector vs ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://letsdatascience.com/blog/vector-databases-compared-pinecone-qdrant-weaviate-milvus-and-more",
+        "title": "Vector Databases Compared: Pinecone vs Qdrant vs Weaviate",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://sesamedisk.com/vector-databases-benchmarks-performance/",
+        "title": "Vector Database Benchmarks: Pinecone, Weaviate, Chroma",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.firecrawl.dev/blog/best-vector-databases",
+        "title": "Best Vector Databases in 2026: A Complete Comparison Guide",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://dev.to/kencho/vector-database-performance-compared-pgvector-vs-pinecone-vs-qdrant-vs-weaviate-2ne6",
+        "title": "Vector Database Performance Compared: pgvector vs Pinecone vs ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://docs.weaviate.io/weaviate/benchmarks/ann",
+        "title": "ANN Benchmark | Weaviate Documentation",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://milvus.io/blog/understanding-ivf-vector-index-how-It-works-and-when-to-choose-it-over-hnsw.md",
+        "title": "How to Choose Between IVF and HNSW for ANN Vector Search",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.meta-intelligence.tech/en/insight-vector-database",
+        "title": "Vector Databases: Pinecone vs Weaviate vs Milvus | MI - \u8d85\u667a\u8aee\u8a62",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://letsdatascience.com/blog/vector-databases-compared-pinecone-qdrant-weaviate-milvus-and-more",
+        "title": "Vector Databases Compared: Pinecone vs Qdrant vs Weaviate",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://weaviate.io/blog/ann-algorithms-hnsw-pq",
+        "title": "HNSW+PQ - Exploring ANN algorithms Part 2.1 | Weaviate",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2510.07925v1",
+        "title": "Enabling Personalized Long-term Interactions in LLM-based Agents ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2510.07925.pdf",
+        "title": "[PDF] Enabling Personalized Long-term Interactions in LLM-based Agents ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.getknit.dev/blog/powering-rag-and-agent-memory-with-mcp",
+        "title": "Powering RAG and Agent Memory with MCP - Knit API",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://dev.to/devparihar5/how-to-build-long-term-memory-for-llms-rag-faiss-tutorial-13md",
+        "title": "How to Build Long-Term Memory for LLMs (RAG + FAISS Tutorial)",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://sparkco.ai/blog/ai-agent-memory-in-2026-comparing-rag-vector-stores-and-graph-based-approaches",
+        "title": "AI Agent Memory Comparative Guide: RAG vs Vector Stores vs ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://mem0.ai/blog/llm-chat-history-summarization-guide-2025",
+        "title": "LLM Chat History Summarization: Best Practices and Techniques ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=OAeQTo-7ghg",
+        "title": "Lecture 34: Long-Term, Episodic & Semantic Memory in Chatbots - Building Personalized AI Agents",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.mnexium.com/blogs/chat-summarization",
+        "title": "Mnexium - Memory Infrastructure for AI Agents",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/html/2308.15022v3",
+        "title": "Recursively Summarizing Enables Long-Term Dialogue Memory in ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.youngju.dev/blog/chatbot/2026-03-04-chatbot-multi-turn-context-management-2026.en",
+        "title": "Multi-Turn Chatbot Conversation State Management and Context ...",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-10T19:18:03",
+    "run_label": "reference-track:What Are AI Agents? Core Concepts and Architecture",
+    "sources": [
+      {
+        "url": "https://platform.openai.com/docs/api-reference/responses-streaming/response/function_call_arguments",
+        "title": "API Reference - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/responses/list?lang=python",
+        "title": "Responses | OpenAI API Reference",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/function-calling",
+        "title": "Function calling | OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/chat",
+        "title": "Chat Completions | OpenAI API Reference",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/tools-web-search?api-mode=responses&lang=python",
+        "title": "Web search - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.anthropic.com/ru/docs/tool-use",
+        "title": "\u0418\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435 \u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u043e\u0432 (\u0432\u044b\u0437\u043e\u0432 \u0444\u0443\u043d\u043a\u0446\u0438\u0439) - Anthropic",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.anthropic.com/zh-CN/docs/tool-use",
+        "title": "\u5de5\u5177\u4f7f\u7528\uff08\u51fd\u6570\u8c03\u7528\uff09 - Anthropic",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.anthropic.com/zh-TW/docs/tool-use",
+        "title": "\u5de5\u5177\u4f7f\u7528\uff08\u51fd\u6578\u8abf\u7528\uff09 - Anthropic",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.anthropic.com/en/docs/build-with-claude/tool-use?debug_url=1&debug=true",
+        "title": "Tool use (function calling) - Anthropic",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.anthropic.com/de/docs/tool-use",
+        "title": "Werkzeugnutzung (Funktionsaufrufe) - Anthropic",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2506.02158v1",
+        "title": "4.2 Cost Analysis",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2307.13854v4",
+        "title": "WebArena: A Realistic Web Environment for Building Autonomous ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/webarena-benchmark",
+        "title": "WebArena Benchmark: Evaluating Web Agents - Emergent Mind",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://webarena.dev/static/paper.pdf",
+        "title": "WebArena: A Realistic Web Environment for Building",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://marworkshop.github.io/cvpr24/pdf/18.pdf",
+        "title": "[PDF] Autonomous Evaluation and Refinement of Web Agents",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2602.18998v1",
+        "title": "Benchmark Test-Time Scaling of General LLM Agents - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/2308.03688",
+        "title": "[2308.03688] AgentBench: Evaluating LLMs as Agents - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://hal.cs.princeton.edu/scienceagentbench",
+        "title": "ScienceAgentBench - Holistic Agent Leaderboardhal.cs.princeton.edu \u203a scienceagentbench",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://hal.cs.princeton.edu",
+        "title": "Holistic Agent Leaderboard: HAL",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "http://github.com/THUDM/AgentBench",
+        "title": "GitHub - THUDM/AgentBench: A Comprehensive Benchmark to Evaluate LLMs as Agents (ICLR'24)",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2405.15821",
+        "title": "Reinforcing Language Agents via Policy Optimization with Action Decomposition",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.ifaamas.org/Proceedings/aamas2024/pdfs/p1346.pdf",
+        "title": "[PDF] Explaining the Behavior of POMDP-based Agents Through the ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2305.12235.pdf",
+        "title": "arXiv:2305.12235v1  [cs.LG]  20 May 2023",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://richardli.xyz/post/language-rl-agent/",
+        "title": "Language as a Universal Interface for Reinforcement Learning Agents",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.themoonlight.io/en/review/towards-language-augmented-multi-agent-deep-reinforcement-learning",
+        "title": "[Literature Review] Towards Language-Augmented Multi-Agent ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://dsai.iitm.ac.in/~ravi/papers/sutton_spr_NIPS99.pdf",
+        "title": "In Advances in Neural Information Processing Systems 11 (Proceedings of NIPS\u201998), pp.",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://people.cs.umass.edu/~barto/courses/cs687/Sutton-Precup-Singh-AIJ99.pdf",
+        "title": "[PDF] A framework for temporal abstraction in reinforcement learning",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://lcalem.github.io/blog/2018/09/23/sutton-chap03-mdp",
+        "title": "Sutton & Barto summary chap 03 - Finite Markov Decision Processes",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://ronan.fruit.nom.fr/wp-content/uploads/2016/12/main_jmlr.pdf",
+        "title": "Proceedings of the 13th European Workshop on Reinforcement Learning (2016) R. Fruit, A. Lazaric",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "http://proceedings.mlr.press/v54/fruit17a/fruit17a-supp.pdf",
+        "title": "Exploration\u2013Exploitation in MDPs with Options",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/react-plan-strategy",
+        "title": "ReAct&Plan: Hybrid Reactive & Planning Strategy - Emergent Mind",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://dev.to/jamesli/react-vs-plan-and-execute-a-practical-comparison-of-llm-agent-patterns-4gh9",
+        "title": "ReAct vs Plan-and-Execute: A Practical Comparison of LLM Agent ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=rQc6ZtQxyTs",
+        "title": "Mastering AI Agents: ReAct vs. Plan-and-Execute Frameworks Explained",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://cristianvaldivia.cl/es/blog/plan-execute-vs-react-agentes-ia",
+        "title": "Plan-and-Execute vs ReAct: comparativa pr\u00e1ctica de agentes de IA",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://apxml.com/courses/langchain-production-llm/chapter-2-sophisticated-agents-tools/agent-architectures",
+        "title": "Agent Architectures: ReAct, Self-Ask, Plan-and-Execute",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.coforge.com/what-we-know/blog/react-tree-of-thought-and-beyond-the-reasoning-frameworks-behind-autonomous-ai-agents",
+        "title": "ReAct vs Tree-of-Thought: How Modern Reasoning ... - Coforge",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2505.15182v1.pdf",
+        "title": "ReflAct: World-Grounded Decision Making in",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/anthology-files/anthology-files/pdf/emnlp/2025.emnlp-main.1697.pdf",
+        "title": "[PDF] ReflAct: World-Grounded Decision Making in LLM Agents via Goal ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2601.02880.pdf",
+        "title": "ReTreVal: Reasoning Tree with Validation - A Hybrid Framework for Enhanced LLM Multi-Step Reasoning",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2023/file/271db9922b8d1f4dd7aaef84ed5ac703-Paper-Conference.pdf",
+        "title": "Tree of Thoughts: Deliberate Problem Solving with Large Language Models",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://shopify.engineering/building-production-ready-agentic-systems",
+        "title": "\u0909\u0924\u094d\u092a\u093e\u0926\u0928 \u0915\u0947 \u0932\u093f\u090f \u0924\u0948\u092f\u093e\u0930 \u090f\u091c\u0947\u0902\u091f\u093f\u0915 \u0938\u093f\u0938\u094d\u091f\u092e \u092c\u0928\u093e\u0928\u093e: \u0936\u0949\u092a\u093f\u092b\u093e\u0908 \u0938\u093e\u0907\u0921\u0915\u093f\u0915 ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://veriprajna.com/technical-whitepapers/architecting-deterministic-truth-strategic-resilience-post-wrapper-ai",
+        "title": "Post-Wrapper AI Architecture: Klarna Case Study | Veriprajna",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=IH0SPgzlfCs",
+        "title": "How Klarna used AI to replace 700 Agents - Artificial Intelligence Story",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://pitchgrade.com/research/ai-vs-customer-service",
+        "title": "AI vs. Customer Service: The Klarna Playbook and the Death of the ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.delaware.pro/en-lu/blogs/klarna-experiment-real-world-reflections-on-agentic-ai-deployment",
+        "title": "Klarna Experiment: Real-World reflections on Agentic AI deployment",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.zenml.io/llmops-database/ai-assistant-for-global-customer-service-automation",
+        "title": "Klarna: AI Assistant for Global Customer Service Automation - ZenML",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-10T19:20:40",
+    "run_label": "reference-track:Agent Memory: Short-Term Context and Long-Term Storage",
+    "sources": [
+      {
+        "url": "https://aclanthology.org/2020.emnlp-main.550/",
+        "title": "Dense Passage Retrieval for Open-Domain Question Answering",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://aclanthology.org/2020.emnlp-main.550.pdf",
+        "title": "[PDF] Dense Passage Retrieval for Open-Domain Question Answering",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2004.04906",
+        "title": "Dense Passage Retrieval for Open-Domain Question Answering",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://scottyih.org/files/emnlp2020-dpr.pdf",
+        "title": "Dense Passage Retrieval for Open-Domain Question Answering",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://fanpu.io/summaries/2023-08-10-dense-passage-retrieval-for-open-domain-question-answering/",
+        "title": "3. Robustness Of Methodology",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper/2020/file/6b493230205f780e1bc26945df7481e5-Paper.pdf",
+        "title": "[PDF] Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2005.11401",
+        "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html",
+        "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://dl.acm.org/doi/abs/10.5555/3495724.3496517",
+        "title": "Retrieval-augmented generation for knowledge-intensive NLP tasks | Proceedings of the 34th International Conference on Neural Information Processing Systems",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2005.11401.pdf",
+        "title": "Retrieval-Augmented Generation for",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://aclanthology.org/2024.acl-long.747.pdf",
+        "title": "[PDF] Evaluating Very Long-Term Conversational Memory of LLM Agents",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/locomo",
+        "title": "LoCoMo: Conversational Memory Benchmark - Emergent Mind",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://snap-research.github.io/locomo/",
+        "title": "Evaluating Very Long-Term Conversational Memory of LLM Agents",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/2402.17753",
+        "title": "Evaluating Very Long-Term Conversational Memory of ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2511.17208v1",
+        "title": "A Simple Yet Strong Baseline for Long-Term Conversational ... - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://blogs.oracle.com/developers/agent-memory-why-your-ai-has-amnesia-and-how-to-fix-it",
+        "title": "Agent Memory: Why Your AI Has Amnesia and How to Fix It",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2511.21730.pdf",
+        "title": "[PDF] A Benchmark for Procedural Memory Retrieval in Language Agents",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.marktechpost.com/2025/11/10/comparing-memory-systems-for-llm-agents-vector-graph-and-event-logs/",
+        "title": "Comparing Memory Systems for LLM Agents: Vector, Graph, and ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=4MGSuNT8INc",
+        "title": "Agents that Learn Through Memory",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2511.21730v1",
+        "title": "A Benchmark for Procedural Memory Retrieval in Language Agents",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://docs.pinecone.io/guides/manage-data/fetch-data",
+        "title": "docs.pinecone.io \u203a guides \u203a manage-data \u203a fetch-data",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pinecone.io/guides/search/semantic-search",
+        "title": "Semantic search - Pinecone Docs",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pinecone.io/guides/index-data/indexing-overview",
+        "title": "Vector embedding",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pinecone.io/guides/manage-data/update-data",
+        "title": "Update records - Pinecone Docs",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pinecone.io/guides/manage-data/delete-data",
+        "title": "Delete all records in a...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://milvus.io/api-reference/go/v2.0.x/Index/indexLimitations.md",
+        "title": "Index Parameter Range - Milvus go sdk v2.0.x/Index",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://milvus.io/docs/index.md",
+        "title": "HNSW",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://milvus.io/api-reference/go/v2.3.x/Index/indexLimitations.md",
+        "title": "Index Parameter Range - Milvus go sdk v2.3.x/Index",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://milvus.io/api-reference/go/v2.2.x/Index/indexLimitations.md",
+        "title": "Index Parameter Range - Milvus go sdk v2.2.x/Index",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://milvus.io/docs/fr/v2.5.x/ivf-flat.md",
+        "title": "IVF_FLAT Documentation Milvus v2.5.x",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.groovyweb.co/blog/vector-database-comparison-2026",
+        "title": "Vector Database Comparison 2026: Pinecone vs pgvector vs ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.firecrawl.dev/blog/best-vector-databases-2025",
+        "title": "Best Vector Databases in 2025: A Complete Comparison ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.firecrawl.dev/blog/best-vector-databases",
+        "title": "Best Vector Databases in 2026: A Complete Comparison Guide",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://ztabs.co/blog/vector-database-comparison",
+        "title": "Vector Database Comparison 2026: Which to Choose? | ZTABS",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://dev.to/polliog/postgresql-as-a-vector-database-when-to-use-pgvector-vs-pinecone-vs-weaviate-4kfi",
+        "title": "When to Use pgvector vs Pinecone vs Weaviate",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://infiniflow.org/blog/best-hybrid-search-solution",
+        "title": "Dense vector + Sparse vector + Full text search + Tensor reranker ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2604.01733v1",
+        "title": "Benchmarking Retrieval Strategies for Text-and-Table Documents",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2411.12921v2",
+        "title": "A Comparative Study of Text Retrieval Models on ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://tianpan.co/blog/2026-04-09-production-retrieval-stack-hybrid-search-reranking",
+        "title": "The Production Retrieval Stack: Why Pure Vector Search Fails and ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://ajosr.org/wp-content/uploads/journal/published_paper/volume-3/issue-6/ajsr2025_8hoSTis5.pdf",
+        "title": "November 2025    Vol. 3 No. 6    American Journal of Student Research    www.ajosr.org",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://engineering.atspotify.com/2022/03/introducing-natural-language-search-for-podcast-episodes",
+        "title": "Introducing Natural Language Search for Podcast Episodes",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://engineering.atspotify.com/2015/11/monitoring-at-spotify-introducing-heroic",
+        "title": "Monitoring at Spotify: Introducing Heroic | Spotify Engineering",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://engineering.atspotify.com/2023/10/introducing-voyager-spotifys-new-nearest-neighbor-search-library",
+        "title": "Introducing Voyager: Spotify\u2019s New Nearest-Neighbor Search ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://engineering.atspotify.com/2023/4/large-scale-generation-of-ml-podcast-previews-at-spotify-with-google-dataflow",
+        "title": "Large-Scale Generation of ML Podcast Previews at Spotify with Google Dataflow | Spotify Engineering",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://engineering.atspotify.com/2023/4/large-scale-generation-of-ml-podcast-previews-at-spotify-with-google-dataflow/",
+        "title": "Large-Scale Generation of ML Podcast Previews at Spotify with Google Dataflow - Spotify Engineering",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-10T19:25:04",
+    "run_label": "reference-track:Building Your First LangGraph Agent",
+    "sources": [
+      {
+        "url": "https://docs.langchain.com/oss/python/2-add-tools",
+        "title": "2. Add tools - Docs by LangChain",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.langchain.com/langsmith/trace-with-langgraph",
+        "title": "Trace LangGraph applications - Docs by LangChain",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.langchain.com/oss/python/langgraph/graph-api.md",
+        "title": "graph-api.md",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/3004",
+        "title": "Route each tool from the ToolNode to a different graph chain. #3004",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/blob/main/libs/prebuilt/langgraph/prebuilt/tool_node.py",
+        "title": "langgraph/libs/prebuilt/langgraph/prebuilt/tool_node.py at main \u00b7 langchain-ai/langgraph",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/2445",
+        "title": "How to properly route tool in supervisor multi agent if some ...",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/1340",
+        "title": "conditional routing depending on tool output to next tool #1340",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/2057",
+        "title": "langgraph/how-tos/many-tools/ \u00b7 langchain-ai langgraph \u00b7 Discussion #2057",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://dev.to/jamesli/advanced-langgraph-implementing-conditional-edges-and-tool-calling-agents-3pdn",
+        "title": "Advanced LangGraph: Implementing Conditional Edges and Tool ...",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=t_VdrabMjGM",
+        "title": "LangGraph Router | Conditional Edges, Tool Routing & ToolNode Explained | LangGraph Course | Gen AI",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=EKxoCVbXZwY",
+        "title": "LangGraph conditional edges",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.langchain.ac.cn/langgraph/how-tos/streaming-from-final-node/",
+        "title": "\u5982\u4f55\u4ece\u6700\u7ec8\u8282\u70b9\u6d41\u5f0f\u4f20\u8f93\u00b6",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://blog.langchain.dev/langgraph/",
+        "title": "LangGraph",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://blog.langchain.dev/beyond-rag-implementing-agent-search-with-langgraph-for-smarter-knowledge-retrieval/",
+        "title": "Beyond RAG: Implementing Agent Search with LangGraph for Smarter Knowledge Retrieval",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://blog.langchain.dev/why-langgraph-platform/",
+        "title": "Why do I need LangGraph Platform for agent deployment?",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://blog.langchain.dev/introducing-the-langgraph-functional-api/",
+        "title": "Introducing the LangGraph Functional API",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://blog.langchain.dev/langgraph-cloud/",
+        "title": "Announcing LangGraph v0.1 & LangGraph Cloud: Running agents at scale, reliably",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://dev.to/sreeni5018/the-architecture-of-agent-memory-how-langgraph-really-works-59ne",
+        "title": "The Architecture of Agent Memory: How LangGraph Really Works",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=UrVno_5wB08",
+        "title": "LangGraph Tutorial : Understanding Reducers in LangGraph: How State Updates Work (With Examples!)",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://docs.langchain.com/oss/python/langgraph/use-graph-api",
+        "title": "Defer node execution",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://langchain-ai.github.io/langgraph/reference/graphs/",
+        "title": "Graphs - GitHub Pages",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.zenml.io/blog/semantic-kernel-alternatives",
+        "title": "We Tried and Tested 8 Best Semantic Kernel Alternatives to Build AI ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.turing.com/resources/ai-agent-frameworks",
+        "title": "AI Agent Frameworks: A Detailed Comparison",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://langfuse.com/blog/2025-03-19-ai-agent-comparison",
+        "title": "Comparing Open-Source AI Agent Frameworks - Langfuse",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.leanware.co/insights/langgraph-vs-semantic-kernel",
+        "title": "LangGraph vs Semantic Kernel Comparison 2025 - Leanware",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://blogs.penify.dev/docs/comparative-anlaysis-of-langchain-semantic-kernel-autogen.html",
+        "title": "A Comparative Overview of LangChain, Semantic Kernel, AutoGen",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://milvus.io/blog/langchain-vs-langgraph.md",
+        "title": "LangChain vs LangGraph: A Developer's Guide to Choosing Your AI ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://duplocloud.com/blog/langchain-vs-langgraph/",
+        "title": "FAQs",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.softgrade.org/langchain-agents-vs-langgraph/",
+        "title": "Langchain Agents vs Langgraph - Softgrade",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://kanerika.com/blogs/langchain-vs-langgraph/",
+        "title": "LangChain vs LangGraph: Which Fits Your AI Agent Workflows?",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://dev.to/pavanbelagatti/langchain-vs-langgraph-how-to-choose-the-right-ai-framework-497h",
+        "title": "LangChain vs LangGraph: How to Choose the Right AI ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://blog.langchain.dev/is-langgraph-used-in-production/",
+        "title": "Is LangGraph Used In Production?",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://blog.langchain.dev/customers-infor/",
+        "title": "How Infor is Transforming Enterprise AI using LangGraph and LangSmith",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://blog.langchain.dev/customers-athena-intelligence/",
+        "title": "How Athena Intelligence optimized research reports with LangSmith, LangChain, and LangGraph",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://blog.langchain.dev/customers-tradestack/",
+        "title": "How Tradestack launched their MVP in 6 weeks using LangGraph Cloud",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://blog.langchain.dev/beyond-rag-implementing-agent-search-with-langgraph-for-smarter-knowledge-retrieval/",
+        "title": "Beyond RAG: Implementing Agent Search with LangGraph for Smarter Knowledge Retrieval",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://sumanmichael.github.io/langgraph-cheatsheet/cheatsheet/use-cases-patterns/",
+        "title": "IV. Use Cases & Patterns \u00b7 LangGraph Cheatsheet",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=oblJiOppM84",
+        "title": "LangGraph Architecture for Tool-Calling Agents",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://blog.langchain.com/exa/",
+        "title": "How Exa built a Web Research Multi-Agent System with LangGraph ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://dev.to/jamesli/advanced-langgraph-implementing-conditional-edges-and-tool-calling-agents-3pdn",
+        "title": "Advanced LangGraph: Implementing Conditional Edges and Tool ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://langchain-ai.github.io/langgraph/how-tos/tool-calling/",
+        "title": "Call tools - GitHub Pages",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  }
+]

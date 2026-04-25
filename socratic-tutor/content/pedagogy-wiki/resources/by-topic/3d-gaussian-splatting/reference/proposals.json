@@ -1,0 +1,258 @@
+[
+  {
+    "timestamp": "2026-04-09T16:11:57",
+    "run_label": "reference-track:3D Gaussian Splatting",
+    "sources": [
+      {
+        "url": "https://www.cs.umd.edu/~zwicker/publications/EWASplatting-TVCG02.pdf",
+        "title": "[PDF] EWA Splatting - UMD Department of Computer Science",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "http://www.cs.umd.edu/~zwicker/publications/EWASplatting-TVCG02.pdf",
+        "title": "223 223..238",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://vcg.seas.harvard.edu/content/3-publications/20020101-ewa-splatting/zwicker_ewa.pdf",
+        "title": "vis2001_cameraready.dvi",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://cgl.ethz.ch/Downloads/Publications/Papers/2002/p_Zwi02b.pdf",
+        "title": "[PDF] EWA Splatting - CGL @ ETHZ - ETH Z\u00fcrich",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.cs.princeton.edu/courses/archive/spring01/cs598b/papers/zwicker01.pdf",
+        "title": "[PDF] Surface Splatting - cs.Princeton",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.cs.umd.edu/~zwicker/publications/EWASplatting-TVCG02.pdf",
+        "title": "[PDF] EWA Splatting - UMD Department of Computer Science",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.merl.com/publications/docs/TR2002-31.pdf",
+        "title": "Object Space EWA Surface Splatting: A Hardware ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://dash.harvard.edu/entities/publication/73120378-88f6-6bd4-e053-0100007fdf3b",
+        "title": "EWA Splatting",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "http://www.cs.umd.edu/~zwicker/publications/EWASplatting-TVCG02.pdf",
+        "title": "223 223..238",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://cgl.ethz.ch/Downloads/Publications/Papers/2002/p_Zwi02b.pdf",
+        "title": "[PDF] EWA Splatting - CGL @ ETHZ - ETH Z\u00fcrich",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2501.00342v1",
+        "title": "Accelerating 3D Gaussian Splatting with Spherical ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/CVPR2025/supplemental/Wan_S2Gaussian_Sparse-View_Super-Resolution_CVPR_2025_supplemental.pdf",
+        "title": "Sparse-View Super-Resolution 3D Gaussian Splatting",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/CVPR2024/papers/Zheng_GPS-Gaussian_Generalizable_Pixel-wise_3D_Gaussian_Splatting_for_Real-time_Human_Novel_CVPR_2024_paper.pdf",
+        "title": "[PDF] Generalizable Pixel-wise 3D Gaussian Splatting for Real-time ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/08041-supp.pdf",
+        "title": "Supplementary Material",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.arxiv.org/pdf/2504.05740.pdf",
+        "title": "\uf020",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2503.17486.pdf",
+        "title": "arXiv:2503.17486v3 [cs.CV] 8 Apr 2025",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://blancocd.com/notes/AliasingNVS.pdf",
+        "title": "[PDF] Aliasing in 3D Reconstructions Mip-NeRF and Mip-Splatting",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2406.17345v1",
+        "title": "NerfBaselines: Consistent and Reproducible Evaluation of ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/CVPR2025/papers/Hanson_Speedy-Splat_Fast_3D_Gaussian_Splatting_with_Sparse_Pixels_and_Sparse_CVPR_2025_paper.pdf",
+        "title": "Fast 3D Gaussian Splatting with Sparse Pixels and ... - CVF",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://fhahlbohm.github.io/faster-gaussian-splatting/assets/hahlbohm2026fastergs.pdf",
+        "title": "[PDF] Faster-GS: Analyzing and Improving Gaussian ... - Florian Hahlbohm",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://docs.omniverse.nvidia.com/py/replicator/1.4.4/source/extensions/omni.replicator.core/docs/API.html",
+        "title": "API \u2014 omni_replicator 1.4.4 documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.omniverse.nvidia.com/py/replicator/1.4.0/source/extensions/omni.replicator.core/docs/API.html",
+        "title": "API\u00b6",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.omniverse.nvidia.com/workflows/latest/defect-detection/generate_data.html",
+        "title": "Generate Synthetic Data \u2014 Omniverse Workflows",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.omniverse.nvidia.com/py/replicator/1.11.35/source/extensions/omni.replicator.core/docs/API.html",
+        "title": "Shapes",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.omniverse.nvidia.com/isaacsim/latest/replicator_tutorials/tutorial_replicator_scene_based_sdg.html?highlight=COCO",
+        "title": "Scene Based Synthetic Dataset Generation#",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://openusd.org/dev/api/class_usd_geom_points.html",
+        "title": "Universal Scene Description: UsdGeomPoints Class Reference",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://openusd.org/dev/user_guides/primvars.html",
+        "title": "Primvars \u2014 Universal Scene Description 26.05 ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://openusd.org/release/api/class_usd_geom_points.html",
+        "title": "\u25c6 UsdGeomPoints() [1/2]",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://openusd.org/docs/api/class_usd_geom_points.html",
+        "title": "Public Member Functions",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://openusd.org/24.08/api/class_usd_geom_points.html",
+        "title": "UsdGeomPoints Class Reference",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/j3soon/omni-3dgs-extension",
+        "title": "3D Gaussian Splatting (3DGS) extension for Omniverse - GitHub",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=KZqv3Z5rRg8",
+        "title": "Building Gaussian Splatting Pipelines for Spatial Intelligence With NVIDIA Omniverse",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=mLsNcMmy43o",
+        "title": "Real World Scenes in Omniverse 3D Gaussian Splatting in USD Format with @LycheeAI",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://docs.omniverse.nvidia.com/materials-and-rendering/latest/neural-rendering.html",
+        "title": "Color Correction",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://forums.developer.nvidia.com/t/3d-gaussian-splatting-in-omniverse-is-it-possible/272847",
+        "title": "3D Gaussian Splatting in Omniverse - Is it possible?",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/CVPR2024/papers/Fu_COLMAP-Free_3D_Gaussian_Splatting_CVPR_2024_paper.pdf",
+        "title": "COLMAP-Free 3D Gaussian Splatting - CVF Open Access",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/00274-supp.pdf",
+        "title": "Surface Reconstruction from 3D Gaussian Splatting via ...",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://hyper.ai/en/headlines/8cb9fb859ce040d2fd8ca9ca4bc36efb",
+        "title": "Recreate Real-World Scenes in NVIDIA Isaac Sim Using ...",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=DYeutmDZOyI",
+        "title": "Build Photorealistic Isaac Sim Environments with Gaussian Splatting",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/ICCV2025/papers/Wei_PCR-GS_COLMAP-Free_3D_Gaussian_Splatting_via_Pose_Co-Regularizations_ICCV_2025_paper.pdf",
+        "title": "COLMAP-Free 3D Gaussian Splatting via Pose Co-Regularizations",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://arxiv.org/html/2509.23555v1",
+        "title": "From Fields to Splats: A Cross-Domain Survey of Real-Time Neural ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/html/2601.07518v1",
+        "title": "Mon3tr: Monocular 3D Telepresence with Pre-built Gaussian ... - arXiv",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://chatpaper.com/paper/248406",
+        "title": "Real-time Gaussian Splatting for Mobile Devices - ChatPaper",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://web.stanford.edu/class/ee367/Winter2025/report/report_Siddhant_Gupta.pdf",
+        "title": "1",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/CVPR2024/papers/Zheng_GPS-Gaussian_Generalizable_Pixel-wise_3D_Gaussian_Splatting_for_Real-time_Human_Novel_CVPR_2024_paper.pdf",
+        "title": "[PDF] Generalizable Pixel-wise 3D Gaussian Splatting for Real-time ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=KZqv3Z5rRg8",
+        "title": "Building Gaussian Splatting Pipelines for Spatial Intelligence With NVIDIA Omniverse",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=KZqv3Z5rRg8&themeRefresh=1",
+        "title": "Building Gaussian Splatting Pipelines for Spatial Intelligence With NVIDIA Omniverse",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/html/2505.10923v1",
+        "title": "Constructing Temporal Digital Twins of Plants with Gaussian Splats",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.diva-portal.org/smash/get/diva2:1967096/FULLTEXT01.pdf",
+        "title": "[PDF] Digital Twinning for Production Lines Using 3D Gaussian Splatting ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://forums.developer.nvidia.com/t/gaussian-splat-in-omniverse-streaming-kit/365109",
+        "title": "Gaussian Splat in Omniverse Streaming kit - Kit App Template / SDK",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  }
+]

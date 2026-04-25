@@ -1,0 +1,1252 @@
+[
+  {
+    "timestamp": "2026-04-09T13:33:56",
+    "run_label": "reference-track:Alignment & RLHF",
+    "sources": [
+      {
+        "url": "https://arxiv.org/pdf/2203.02155.pdf",
+        "title": "[PDF] arXiv:2203.02155v1 [cs.CL] 4 Mar 2022",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://ar5iv.labs.arxiv.org/html/2203.02155",
+        "title": "Training language models to follow instructions with human feedback",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://papers.baulab.info/papers/Ouyang-2022.pdf",
+        "title": "arXiv:2203.02155v1 [cs.CL] 4 Mar 2022",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2022/file/b1efde53be364a73914f58805a001731-Paper-Conference.pdf",
+        "title": "Training language models to follow instructions with human feedback",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://ut.philkr.net/cs342/12_llm.pdf",
+        "title": "[PDF] Large Language Models II - Philipp Kr\u00e4henb\u00fchl",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2410.15595v2",
+        "title": "A Comprehensive Survey of Direct Preference Optimization - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2407.13709v2",
+        "title": "Understanding Reference Policies in Direct Preference Optimization",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2023/file/a85b405ed65c6477a4fe8302b5e06ce7-Paper-Conference.pdf",
+        "title": "[PDF] Direct Preference Optimization: Your Language Model is Secretly a ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://papers.baulab.info/papers/also/Rafailov-2023.pdf",
+        "title": "Direct Preference Optimization: Your Language Model is Secretly a",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://ai-plans.com/file_storage/388e557d-4c6f-4f49-a02e-62f37a029de6_2505.23761v1.pdf",
+        "title": "[PDF] An Information-Theoretic Perspective on Preference Optimization",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.interconnects.ai/p/rlhf-progress-scaling-dpo-to-70b",
+        "title": "RLHF progress: Scaling DPO to 70B, DPO vs PPO update, T\u00fclu 2 ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2024/file/404df2480b6eef0486a1679e371894b0-Paper-Conference.pdf",
+        "title": "[PDF] Unpacking DPO and PPO: Disentangling Best Practices for Learning ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2406.09279v2",
+        "title": "Unpacking DPO and PPO: Disentangling Best Practices for Learning ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/2404.10719",
+        "title": "Is DPO Superior to PPO for LLM Alignment? A Comprehensive Study",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/anthology-files/pdf/emnlp/2024.emnlp-main.626.pdf",
+        "title": "Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing, pages 11170\u201311189",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://cdn.openai.com/papers/Training_language_models_to_follow_instructions_with_human_feedback.pdf",
+        "title": "[PDF] Training language models to follow instructions with human feedback",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2022/file/b1efde53be364a73914f58805a001731-Paper-Conference.pdf",
+        "title": "Training language models to follow instructions with human feedback",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2203.02155.pdf",
+        "title": "[PDF] arXiv:2203.02155v1 [cs.CL] 4 Mar 2022",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://qiita.com/dl_from_scratch/items/8564a54fe5be1883c3a1",
+        "title": "\u751f\u6210AI\u3092\u7528\u3044\u3066InstructGPT\u306e\u8ad6\u6587\u300cTraining language models to follow instructions with human feedback (2022)\u300d\u3092\u8aad\u3093\u3067\u307f\u305f (\u7d9a\u304d) - Qiita",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v202/gao23h/gao23h.pdf",
+        "title": "[PDF] Scaling Laws for Reward Model Overoptimization",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/confusing-and-possibly-misleading-ppo-trainer-code-from-trl-api-doc-tutorial/67531",
+        "title": "Confusing (and possibly misleading) PPO Trainer Code from TRL ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/negative-kl-values-during-ppo-training-trl-library/84143",
+        "title": "Negative Kl values during PPO training (TRL library) - Transformers",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/new-version-of-ppotrainer/118316",
+        "title": "New Version of PPOTrainer - \ud83e\udd17Transformers",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/ppo-using-trl-optimal-strategy-for-reward-calculation/65988",
+        "title": "PPO using TRL: optimal strategy for reward calculation? - Research",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/trl-ppo-using-conditioned-reference-model/136361",
+        "title": "TRL + PPO + Using Conditioned Reference Model - Intermediate",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/huggingface/trl/blob/main/docs/source/dpo_trainer.md",
+        "title": "trl/docs/source/dpo_trainer.md at main \u00b7 huggingface/trl",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/huggingface/trl/blob/8534f0edf8608ad6bcbea9beefae380fa60ded77/trl/trainer/dpo_trainer.py",
+        "title": "trl/trl/trainer/dpo_trainer.py at 8534f0edf8608ad6bcbea9beefae380fa60ded77 \u00b7 huggingface/trl",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/huggingface/trl/commit/24fd8dd5137323cbb95ef205867d4d14d55cbba4",
+        "title": "[DPO] DPOConfig class (#1554) \u00b7 huggingface/trl@24fd8dd",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/huggingface/trl/blob/v0.11.4/trl/trainer/dpo_config.py",
+        "title": "trl/trl/trainer/dpo_config.py at v0.11.4 \u00b7 huggingface/trl",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/huggingface/trl/blob/v0.7.8/trl/trainer/dpo_trainer.py",
+        "title": "trl/trl/trainer/dpo_trainer.py at v0.7.8 \u00b7 huggingface/trl",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.anthropic.com/research/constitutional-ai-harmlessness-from-ai-feedback",
+        "title": "Constitutional AI: Harmlessness from AI Feedback - Anthropic",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www-cdn.anthropic.com/7512771452629584566b6303311496c262da1006/Anthropic_ConstitutionalAI_v2.pdf",
+        "title": "Constitutional AI",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/abs/2212.08073",
+        "title": "Constitutional AI: Harmlessness from AI Feedback - arXiv",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2212.08073.pdf",
+        "title": "Constitutional AI: Harmlessness from AI Feedback",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.libertify.com/interactive-library/constitutional-ai-harmlessness-from-ai-feedback/",
+        "title": "Constitutional AI: How Self-Critique | Libertify - Libertify.com",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper/2020/file/1f89885d556929e98d3ef9b86448f951-Paper.pdf",
+        "title": "[PDF] Learning to summarize from human feedback",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/abs/2009.01325",
+        "title": "[2009.01325] Learning to summarize from human feedback - arXiv",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2020/file/1f89885d556929e98d3ef9b86448f951-Paper.pdf",
+        "title": "[PDF] Learning to summarize from human feedback - NeurIPS",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2009.01325.pdf",
+        "title": "[PDF] Learning to summarize from human feedback - arXiv",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://openai.com/index/learning-to-summarize-with-human-feedback/",
+        "title": "Learning to summarize with human feedback",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2024/file/f25d75fc760aec0a6174f9f5d9da59b8-Paper-Conference.pdf",
+        "title": "InfoRM: Mitigating Reward Hacking in RLHF via",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/html/2502.18770v1",
+        "title": "Reward Shaping to Mitigate Reward Hacking in RLHF",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/html/2604.02986v1",
+        "title": "Mitigating Reward Hacking in RLHF via Advantage Sign Robustness",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://assets.anthropic.com/m/74342f2c96095771/original/Natural-emergent-misalignment-from-reward-hacking-paper.pdf",
+        "title": "[PDF] Natural-emergent-misalignment-from-reward-hacking-paper.pdf",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.rohan-paul.com/p/reward-hacking-in-rlhf",
+        "title": "Reward Hacking in RLHF",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://openai.com/safety/evaluations-hub/",
+        "title": "Safety evaluations hub | OpenAI",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://apxml.com/courses/rlhf-reinforcement-learning-human-feedback/chapter-7-rlhf-evaluation-deployment/red-teaming-safety-testing",
+        "title": "Red Teaming and Safety Testing - ApX Machine Learning",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://openai.com/index/improving-model-safety-behavior-with-rule-based-rewards/",
+        "title": "Improving Model Safety Behavior with Rule-Based Rewards",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.themoonlight.io/en/review/openai-o1-system-card",
+        "title": "[Literature Review] OpenAI o1 System Card",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.judiciary.senate.gov/imo/media/doc/2023-05-16_-_qfr_responses_-_altman_addendum.pdf",
+        "title": "GPT-4 System Card",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-09T13:54:01",
+    "run_label": "reference-track:Alignment & RLHF",
+    "sources": [
+      {
+        "url": "https://arxiv.org/abs/1707.06347",
+        "title": "Proximal Policy Optimization Algorithms",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.semanticscholar.org/paper/Proximal-Policy-Optimization-Algorithms-Schulman-Wolski/dce6f9d4017b1785979e7520fd0834ef8cf02f4b",
+        "title": "[PDF] Proximal Policy Optimization Algorithms | Semantic Scholar",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1707.06347.pdf",
+        "title": "[PDF] Proximal Policy Optimization Algorithms - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Proximal_policy_optimization",
+        "title": "Proximal policy optimization - Wikipedia",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://spinningup.openai.com/en/latest/algorithms/ppo.html",
+        "title": "Proximal Policy Optimization \u2014 Spinning Up documentation - OpenAIspinningup.openai.com \u203a latest \u203a algorithms \u203a ppo",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2023/file/a85b405ed65c6477a4fe8302b5e06ce7-Paper-Conference.pdf",
+        "title": "[PDF] Direct Preference Optimization: Your Language Model is Secretly a ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2305.18290",
+        "title": "Direct Preference Optimization: Your Language Model is Secretly a Reward Model",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2305.18290v3",
+        "title": "Direct Preference Optimization: Your Language Model is ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://papers.baulab.info/papers/also/Rafailov-2023.pdf",
+        "title": "Direct Preference Optimization: Your Language Model is Secretly a",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://papers.neurips.cc/paper_files/paper/2023/file/a85b405ed65c6477a4fe8302b5e06ce7-Paper-Conference.pdf",
+        "title": "Direct Preference Optimization:",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://cdn.openai.com/papers/Training_language_models_to_follow_instructions_with_human_feedback.pdf",
+        "title": "[PDF] Training language models to follow instructions with human feedback",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2022/file/b1efde53be364a73914f58805a001731-Paper-Conference.pdf",
+        "title": "Training language models to follow instructions with human feedback",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://ar5iv.labs.arxiv.org/html/2203.02155",
+        "title": "Training language models to follow instructions with human feedback",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://cdn.openai.com/papers/Training_language_models_to_follow_instructions_with_human_feedback.pdf.",
+        "title": "Training language models to follow instructions",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2406.11827v2",
+        "title": "Enhancing RLHF with Weighted Preference Optimization",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/papers/2410.06293",
+        "title": "Accelerated Preference Optimization for LLM Alignment",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2403.07691v2",
+        "title": "Monolithic Preference Optimization without Reference Model",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2025.findings-naacl.455.pdf",
+        "title": "[PDF] 2D-DPO: Scaling Direct Preference Optimization with 2-Dimensional ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://renzhaochun.github.io/assets/pdf/2502.00883v4.pdf",
+        "title": "arXiv:2502.00883v4 [cs.LG] 20 Feb 2025",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/how-do-i-fix-this-error-when-training-in-trl-with-qlora-and-ppo/81614",
+        "title": "How do I fix this error when training in TRL with QLora and PPO?",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/negative-kl-values-during-ppo-training-trl-library/84143",
+        "title": "Negative Kl values during PPO training (TRL library) - Transformers",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/ppo-using-trl-optimal-strategy-for-reward-calculation/65988",
+        "title": "PPO using TRL: optimal strategy for reward calculation? - Research",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/new-version-of-ppotrainer/118316",
+        "title": "New Version of PPOTrainer - \ud83e\udd17Transformers",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/trl-ppo-using-conditioned-reference-model/136361",
+        "title": "TRL + PPO + Using Conditioned Reference Model - Intermediate",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/ref-model-in-dpotrainer/82341",
+        "title": "Ref_model in DPOTrainer",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/running-dpotrainer-with-custom-gpu-management/139443",
+        "title": "Running DPOTrainer with custom gpu management - Transformers",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/orpo-dpo-dataset-clarification/103637/2",
+        "title": "ORPO/DPO dataset clarification - #2 by lewtun",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/dpo-training-data-format/107755",
+        "title": "DPO training data format - Intermediate",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2212.08073",
+        "title": "Constitutional AI: Harmlessness from AI Feedback - arXiv",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2212.08073.pdf",
+        "title": "Constitutional AI: Harmlessness from AI Feedback",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://bibbase.org/network/publication/bai-kadavath-kundu-askell-kernion-jones-chen-goldie-etal-constitutionalaiharmlessnessfromaifeedback-2022",
+        "title": "Constitutional AI: Harmlessness from AI Feedback - BibBase",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.semanticscholar.org/paper/Constitutional-AI:-Harmlessness-from-AI-Feedback-Bai-Kadavath/3936fd3c6187f606c6e4e2e20b196dbc41cc4654",
+        "title": "[PDF] Constitutional AI: Harmlessness from AI Feedback | Semantic Scholar",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://scalingintelligence.stanford.edu/pubs/constitutionalai/",
+        "title": "Constitutional AI: Harmlessness from AI Feedback",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.anthropic.com/research/constitutional-ai-harmlessness-from-ai-feedback",
+        "title": "Constitutional AI: Harmlessness from AI Feedback - Anthropic",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.anthropic.com/news/claudes-constitution",
+        "title": "Claude's Constitution - Anthropic",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2212.08073.pdf",
+        "title": "Constitutional AI: Harmlessness from AI Feedback",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://groundy.com/articles/constitutional-ai-teaching-models-self-correct-before-they/",
+        "title": "Scaling Ai Alignment...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2504.04918v1",
+        "title": "4 Experimental Results",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://openai.com/index/instruction-following/",
+        "title": "Aligning language models to follow instructions",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://cdn.openai.com/papers/Training_language_models_to_follow_instructions_with_human_feedback.pdf",
+        "title": "[PDF] Training language models to follow instructions with human feedback",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://etcjournal.com/2025/07/29/a-review-of-ouyang-et-al-s-2022-paper-aka-instructgpt/",
+        "title": "A Review of Ouyang et al.'s 2022 Paper aka \u201cInstructGPT\u201d",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2203.02155.pdf",
+        "title": "[PDF] arXiv:2203.02155v1 [cs.CL] 4 Mar 2022",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://github.com/openai/following-instructions-human-feedback",
+        "title": "GitHub - openai/following-instructions-human-feedback",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.anthropic.com/transparency/model-report",
+        "title": "Anthropic's Transparency Hub: Model Report",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.anthropic.com/transparency",
+        "title": "Anthropic's Transparency Hub",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://the-decoder.com/ai-models-can-only-pretend-to-follow-human-rules-anthropic-study-finds/",
+        "title": "AI models can only pretend to follow human rules, Anthropic study ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://aws.amazon.com/blogs/machine-learning/fine-tune-large-language-models-with-reinforcement-learning-from-human-or-ai-feedback/",
+        "title": "Implementation Of An Rlaif...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.greaterwrong.com/posts/pCMmLiBcHbKohQgwA/i-replicated-the-anthropic-alignment-faking-experiment-on?comments=false",
+        "title": "I replicated the Anthropic alignment faking experiment on other ...",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-09T14:10:40",
+    "run_label": "reference-track:Alignment & RLHF",
+    "sources": [
+      {
+        "url": "https://arxiv.org/html/2507.07375v1",
+        "title": "Bradley\u2013Terry and Multi-Objective Reward Modeling Are ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://papers.baulab.info/papers/Ouyang-2022.pdf",
+        "title": "arXiv:2203.02155v1 [cs.CL] 4 Mar 2022",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.iclr.cc/paper_files/paper/2024/file/2b1d1e5affe5fdb70372cd90dd8afd49-Paper-Conference.pdf",
+        "title": "[PDF] BEYOND REVERSE KL: GENERALIZING DIRECT PREFERENCE ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2310.00212.pdf",
+        "title": "Under review as a conference paper",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://cs.mcgill.ca/~comp579/W25/Lectures/23-LLM-RLHF.pdf",
+        "title": "[PDF] Lecture 23: More on Large Language Models and RLHF",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2023/file/a85b405ed65c6477a4fe8302b5e06ce7-Paper-Conference.pdf",
+        "title": "[PDF] Direct Preference Optimization: Your Language Model is Secretly a ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2505.23761.pdf",
+        "title": "Differential Information Distribution: A Bayesian Perspective on Direct Preference Optimization",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2410.15595v2",
+        "title": "A Comprehensive Survey of Direct Preference Optimization - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.ijcai.org/proceedings/2025/0061.pdf",
+        "title": "[PDF] Indirect Online Preference Optimization via Reinforcement Learning",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://papers.baulab.info/papers/also/Rafailov-2023.pdf",
+        "title": "Direct Preference Optimization: Your Language Model is Secretly a",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://aclanthology.org/anthology-files/anthology-files/pdf/findings/2024.findings-naacl.108.pdf",
+        "title": "RS-DPO: A Hybrid Rejection Sampling and Direct ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2404.10719v1",
+        "title": "Is DPO Superior to PPO for LLM Alignment? A Comprehensive Study",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/2404.10719",
+        "title": "Is DPO Superior to PPO for LLM Alignment? A Comprehensive Study",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2024/file/404df2480b6eef0486a1679e371894b0-Paper-Conference.pdf",
+        "title": "[PDF] Unpacking DPO and PPO: Disentangling Best Practices for Learning ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2024.emnlp-main.475.pdf",
+        "title": "[PDF] WPO: Enhancing RLHF with Weighted Preference Optimization",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://cdn.openai.com/papers/Training_language_models_to_follow_instructions_with_human_feedback.pdf",
+        "title": "[PDF] Training language models to follow instructions with human feedback",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2022/file/b1efde53be364a73914f58805a001731-Paper-Conference.pdf",
+        "title": "Training language models to follow instructions with human feedback",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2203.02155.pdf",
+        "title": "[PDF] arXiv:2203.02155v1 [cs.CL] 4 Mar 2022",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.nips.cc/paper_files/paper/2022/file/b1efde53be364a73914f58805a001731-Paper-Conference.pdf",
+        "title": "Training language models to follow instructions",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://collab.dvb.bayern/pages/viewpage.action?pageId=651275791",
+        "title": "Page tree",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/confusing-and-possibly-misleading-ppo-trainer-code-from-trl-api-doc-tutorial/67531",
+        "title": "Confusing (and possibly misleading) PPO Trainer Code from TRL ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/negative-kl-values-during-ppo-training-trl-library/84143",
+        "title": "Negative Kl values during PPO training (TRL library) - Transformers",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/how-do-i-fix-this-error-when-training-in-trl-with-qlora-and-ppo/81614",
+        "title": "How do I fix this error when training in TRL with QLora and PPO?",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/ppo-using-trl-optimal-strategy-for-reward-calculation/65988",
+        "title": "PPO using TRL: optimal strategy for reward calculation? - Research",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/openai/lm-human-preferences/blob/cbfd210bb8b08f6bc5c26878c10984b90f516c66/lm_human_preferences/train_policy.py",
+        "title": "lm-human-preferences/lm_human_preferences/train_policy.py at cbfd210bb8b08f6bc5c26878c10984b90f516c66 \u00b7 openai/lm-human-preferences",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/huggingface/blog/commit/e63c16480ccfca944be7dc465cc24f46ee7b2fce",
+        "title": "Update the_n_implementation_details_of_rlhf_with_ppo.md (#2576) \u00b7 huggingface/blog@e63c164",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/openai/lm-human-preferences/blob/master/lm_human_preferences/train_policy.py",
+        "title": "lm-human-preferences/lm_human_preferences/train_policy.py at master \u00b7 openai/lm-human-preferences",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/modelscope/ms-swift/blob/main/docs/source_en/LLM/Human-Preference-Alignment-Training-Documentation.md",
+        "title": "ms-swift/docs/source_en/LLM/Human-Preference-Alignment-Training-Documentation.md at main \u00b7 modelscope/ms-swift",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/openai/lm-human-preferences/blob/cbfd210bb8b08f6bc5c26878c10984b90f516c66/lm_human_preferences/train_reward.py",
+        "title": "lm-human-preferences/lm_human_preferences/train_reward.py at cbfd210bb8b08f6bc5c26878c10984b90f516c66 \u00b7 openai/lm-human-preferences",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/wiamadnan/RLHF",
+        "title": "GitHub - wiamadnan/RLHF: Training a language model with human feedback",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://arxiv.org/html/2401.06080v2",
+        "title": "Secrets of RLHF in Large Language Models Part II - Reward Modeling",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://yiyangfeng.me/blog/2023/rlhf-ppo/",
+        "title": "Learning RLHF (PPO) with codes (Huggingface TRL)",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://arxiv.org/html/2403.17031v1",
+        "title": "The N+ Implementation Details of RLHF with PPO: A Case Study on TL",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://iclr-blogposts.github.io/2024/blog/the-n-implementation-details-of-rlhf-with-ppo/",
+        "title": "The N Implementation Details of RLHF with PPO",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://cdn.openai.com/rule-based-rewards-for-language-model-safety.pdf",
+        "title": "[PDF] Rule Based Rewards for Language Model Safety | OpenAI",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://cdn.openai.com/papers/Training_language_models_to_follow_instructions_with_human_feedback.pdf",
+        "title": "[PDF] Training language models to follow instructions with human feedback",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://deepwiki.com/openai/lm-human-preferences/3-training-pipeline",
+        "title": "Training Pipeline | openai/lm-human-preferences | DeepWiki",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://iclr-blogposts.github.io/2024/blog/the-n-implementation-details-of-rlhf-with-ppo/",
+        "title": "The N Implementation Details of RLHF with PPO",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/openai/lm-human-preferences/blob/master/README.md",
+        "title": "lm-human-preferences/README.md at master \u00b7 openai/lm-human-preferences",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.anthropic.com/research/constitutional-ai-harmlessness-from-ai-feedback",
+        "title": "Constitutional AI: Harmlessness from AI Feedback - Anthropic",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www-cdn.anthropic.com/7512771452629584566b6303311496c262da1006/Anthropic_ConstitutionalAI_v2.pdf",
+        "title": "Constitutional AI",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://zilliz.com/learn/constitutional-ai-harmlessness-from-ai-feedback",
+        "title": "Second Stage: Reinforcement...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://ethanperez.net/assets/pdfs/Anthropic_ConstitutionalAI_v2.pdf",
+        "title": "Constitutional AI:",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.longtermwiki.com/wiki/E451",
+        "title": "Constitutional AI | Longterm Wiki",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://cdn.openai.com/papers/Training_language_models_to_follow_instructions_with_human_feedback.pdf",
+        "title": "[PDF] Training language models to follow instructions with human feedback",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/html/2504.12501v5",
+        "title": "Reinforcement Learning from Human Feedback - arXiv",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "http://arxiv.org/pdf/2310.06452.pdf",
+        "title": "Published as a conference paper at ICLR 2024",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://simg.baai.ac.cn/paperfile/cdde5943-94af-4852-9187-361ead70a22b.pdf",
+        "title": "[PDF] Reinforcement Learning from Human Feedback",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://wandb.ai/ayush-thakur/RLHF/reports/Understanding-Reinforcement-Learning-from-Human-Feedback-RLHF-Part-1--VmlldzoyODk5MTIx",
+        "title": "Part 1 | RLHF \u2013 Weights & Biases",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-09T14:16:26",
+    "run_label": "reference-track:Alignment & RLHF",
+    "sources": [
+      {
+        "url": "https://ar5iv.labs.arxiv.org/html/2203.02155",
+        "title": "Training language models to follow instructions with human feedback",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2203.02155.pdf",
+        "title": "[PDF] arXiv:2203.02155v1 [cs.CL] 4 Mar 2022",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://papers.baulab.info/papers/Ouyang-2022.pdf",
+        "title": "arXiv:2203.02155v1 [cs.CL] 4 Mar 2022",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2022/file/b1efde53be364a73914f58805a001731-Paper-Conference.pdf",
+        "title": "Training language models to follow instructions with human feedback",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://cdn.openai.com/papers/Training_language_models_to_follow_instructions_with_human_feedback.pdf",
+        "title": "[PDF] Training language models to follow instructions with human feedback",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2410.15595v2",
+        "title": "A Comprehensive Survey of Direct Preference Optimization - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2407.13709v2",
+        "title": "Understanding Reference Policies in Direct Preference Optimization",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2023/file/a85b405ed65c6477a4fe8302b5e06ce7-Paper-Conference.pdf",
+        "title": "[PDF] Direct Preference Optimization: Your Language Model is Secretly a ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://papers.baulab.info/papers/also/Rafailov-2023.pdf",
+        "title": "Direct Preference Optimization: Your Language Model is Secretly a",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://ai-plans.com/file_storage/388e557d-4c6f-4f49-a02e-62f37a029de6_2505.23761v1.pdf",
+        "title": "[PDF] An Information-Theoretic Perspective on Preference Optimization",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2024/file/404df2480b6eef0486a1679e371894b0-Paper-Conference.pdf",
+        "title": "[PDF] Unpacking DPO and PPO: Disentangling Best Practices for Learning ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2406.09279v1",
+        "title": "Unpacking DPO and PPO: Disentangling Best Practices for ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2404.18922v4",
+        "title": "DPO Meets PPO: Reinforced Token Optimization for RLHF - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1244/final-projects/SooWeiKoh.pdf",
+        "title": "[PDF] Comparative Analysis of Preference-Informed Alignment ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2024.findings-naacl.108.pdf",
+        "title": "[PDF] RS-DPO: A Hybrid Rejection Sampling and Direct Preference ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/2204.05862",
+        "title": "Training a Helpful and Harmless Assistant with Reinforcement ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2503.17682v1",
+        "title": "Safe RLHF-V: Safe Reinforcement Learning from Human Feedback ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2023.emnlp-main.844.pdf",
+        "title": "Aligning Large Language Models through Synthetic ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.iclr.cc/paper_files/paper/2024/file/dd1577afd396928ed64216f3f1fd5556-Paper-Conference.pdf",
+        "title": "[PDF] safe rlhf: safe reinforcement learning - ICLR Proceedings",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://roy860328.github.io/note-about-Training-a-Helpful-and-Harmless-Assistant-with-Reinforcement-Learning-from-Human-Feedback/",
+        "title": "Paper Note - Anthropic RLHF - Roy Tsai",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/negative-kl-values-during-ppo-training-trl-library/84143",
+        "title": "Negative Kl values during PPO training (TRL library) - Transformers",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/confusing-and-possibly-misleading-ppo-trainer-code-from-trl-api-doc-tutorial/67531",
+        "title": "Confusing (and possibly misleading) PPO Trainer Code from TRL ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/how-do-i-fix-this-error-when-training-in-trl-with-qlora-and-ppo/81614",
+        "title": "How do I fix this error when training in TRL with QLora and PPO?",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/huggingface-trl-grpo-loss-is-always-zero/155597/4",
+        "title": "Huggingface trl GRPO loss is always zero - #4 by bird-of-paradise",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/trl-ppo-using-conditioned-reference-model/136361",
+        "title": "TRL + PPO + Using Conditioned Reference Model - Intermediate",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/huggingface/trl/blob/v0.11.4/trl/trainer/dpo_config.py",
+        "title": "trl/trl/trainer/dpo_config.py at v0.11.4 \u00b7 huggingface/trl",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/huggingface/trl/blob/v0.19.1/trl/trainer/dpo_config.py",
+        "title": "trl/trl/trainer/dpo_config.py at v0.19.1 \u00b7 huggingface/trl",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/huggingface/trl/blob/v0.7.8/trl/trainer/dpo_trainer.py",
+        "title": "trl/trl/trainer/dpo_trainer.py at v0.7.8 \u00b7 huggingface/trl",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/huggingface/trl/blob/main/trl/trainer/dpo_config.py",
+        "title": "trl/trl/trainer/dpo_config.py at main \u00b7 huggingface/trl",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/huggingface/trl/blob/72f19c3fcecb0d53f356b1821d36073b65148aa0/trl/trainer/dpo_config.py",
+        "title": "trl/trl/trainer/dpo_config.py at 72f19c3fcecb0d53f356b1821d36073b65148aa0 \u00b7 huggingface/trl",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2212.08073",
+        "title": "Constitutional AI: Harmlessness from AI Feedback - arXiv",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2212.08073.pdf",
+        "title": "Constitutional AI: Harmlessness from AI Feedback",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://bibbase.org/network/publication/bai-kadavath-kundu-askell-kernion-jones-chen-goldie-etal-constitutionalaiharmlessnessfromaifeedback-2022",
+        "title": "Constitutional AI: Harmlessness from AI Feedback - BibBase",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://fanpu.io/summaries/2024-07-23-constitutional-ai-harmlessness-from-ai-feedback/",
+        "title": "Constitutional AI: Harmlessness from AI Feedback | Fan Pu Zeng",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.aimcp.info/en/skills/20996244-e59c-4619-9ec7-32e79a507979",
+        "title": "constitutional-ai - Claude Skill | MCP Hub | Model Context Protocol ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.anthropic.com/research/constitutional-ai-harmlessness-from-ai-feedback",
+        "title": "Constitutional AI: Harmlessness from AI Feedback - Anthropic",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www-cdn.anthropic.com/7512771452629584566b6303311496c262da1006/Anthropic_ConstitutionalAI_v2.pdf",
+        "title": "Constitutional AI",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://docs.nvidia.com/nemo-framework/user-guide/24.09/modelalignment/cai.html",
+        "title": "Constitutional AI: Harmlessness from AI Feedback",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://roy860328.github.io/note-about-Constitutional-AI-Harmlessness-from-AI-Feedback/",
+        "title": "Paper Note - Anthropic Constitutional AI - Roy Tsai",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://docs.nvidia.com/nemo-framework/user-guide/25.04/modelalignment/cai.html",
+        "title": "Constitutional AI: Harmlessness from AI Feedback#",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2502.18770v1",
+        "title": "Reward Shaping to Mitigate Reward Hacking in RLHF",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://lilianweng.github.io/posts/2024-11-28-reward-hacking/",
+        "title": "Hacking the Evaluator",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/html/2502.18770v5",
+        "title": "Reward Shaping to Mitigate Reward Hacking in RLHF - arXiv",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://assets.anthropic.com/m/74342f2c96095771/original/Natural-emergent-misalignment-from-reward-hacking-paper.pdf",
+        "title": "[PDF] Natural-emergent-misalignment-from-reward-hacking-paper.pdf",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.rohan-paul.com/p/reward-hacking-in-rlhf",
+        "title": "Reward Hacking in RLHF",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://cdn.openai.com/papers/gpt-4-system-card.pdf",
+        "title": "[PDF] GPT-4 System Card | OpenAI",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://openai.com/index/instruction-following/",
+        "title": "Aligning language models to follow instructions",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/html/2405.07863v3",
+        "title": "From Reward Modeling to Online RLHF A Comprehensive Practical ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/html/2412.06000v1",
+        "title": "4 Experiment",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://wandb.ai/ayush-thakur/RLHF/reports/Understanding-Reinforcement-Learning-from-Human-Feedback-RLHF-Part-1--VmlldzoyODk5MTIx",
+        "title": "Part 1 | RLHF \u2013 Weights & Biases",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-09T15:10:13",
+    "run_label": "reference-track:Alignment & RLHF",
+    "sources": [
+      {
+        "url": "https://arxiv.org/abs/1707.06347",
+        "title": "Proximal Policy Optimization Algorithms",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1707.06347.pdf",
+        "title": "[PDF] Proximal Policy Optimization Algorithms - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Proximal_policy_optimization",
+        "title": "Proximal policy optimization - Wikipedia",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxivdiff.org/pdf/1707.06347v1-v2.pdf",
+        "title": "[PDF] Proximal Policy Optimization Algorithms - ArxivDiff",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "http://proceedings.mlr.press/v115/wang20b/wang20b-supp.pdf",
+        "title": "[PDF] Truly Proximal Policy Optimization 1 INTRODUCTION",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2305.18290v3",
+        "title": "Direct Preference Optimization: Your Language Model is ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2508.07137",
+        "title": "A Principled Loss Function for Direct Language Model ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2023/file/a85b405ed65c6477a4fe8302b5e06ce7-Paper-Conference.pdf",
+        "title": "[PDF] Direct Preference Optimization: Your Language Model is Secretly a ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://papers.baulab.info/papers/also/Rafailov-2023.pdf",
+        "title": "Direct Preference Optimization: Your Language Model is Secretly a",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.iclr.cc/paper_files/paper/2024/file/2b1d1e5affe5fdb70372cd90dd8afd49-Paper-Conference.pdf",
+        "title": "[PDF] BEYOND REVERSE KL: GENERALIZING DIRECT PREFERENCE ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://cdn.openai.com/papers/Training_language_models_to_follow_instructions_with_human_feedback.pdf",
+        "title": "[PDF] Training language models to follow instructions with human feedback",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2022/file/b1efde53be364a73914f58805a001731-Paper-Conference.pdf",
+        "title": "Training language models to follow instructions with human feedback",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.semanticscholar.org/paper/Training-language-models-to-follow-instructions-Ouyang-Wu/d766bffc357127e0dc86dd69561d5aeb520d6f4c",
+        "title": "[PDF] Training language models to follow instructions with human feedback | Semantic Scholar",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://notes-vault.pages.dev/Scientific-Literature-References/literature-notes/@ouyangTrainingLanguageModels2022",
+        "title": "Training language models to follow instructions with ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://cdn.openai.com/papers/Training_language_models_to_follow_instructions_with_human_feedback.pdf",
+        "title": "[PDF] Training language models to follow instructions with human feedback",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://openai.com/index/instruction-following/",
+        "title": "Aligning language models to follow instructions",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://etcjournal.com/2025/07/29/a-review-of-ouyang-et-al-s-2022-paper-aka-instructgpt/",
+        "title": "A Review of Ouyang et al.'s 2022 Paper aka \u201cInstructGPT\u201d",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2022/file/b1efde53be364a73914f58805a001731-Paper-Conference.pdf",
+        "title": "Training language models to follow instructions with human feedback",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://cdn.openai.com/papers/Training_language_models_to_follow_instructions_with_human_feedback.pdf",
+        "title": "[PDF] Training language models to follow instructions with human feedback",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2022/file/b1efde53be364a73914f58805a001731-Paper-Conference.pdf",
+        "title": "Training language models to follow instructions with human feedback",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://cdn.openai.com/papers/Training_language_models_to_follow_instructions_with_human_feedback.pdf.",
+        "title": "Training language models to follow instructions",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.semanticscholar.org/paper/Training-language-models-to-follow-instructions-Ouyang-Wu/d766bffc357127e0dc86dd69561d5aeb520d6f4c",
+        "title": "[PDF] Training language models to follow instructions with human feedback | Semantic Scholar",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2023/file/a85b405ed65c6477a4fe8302b5e06ce7-Paper-Conference.pdf",
+        "title": "[PDF] Direct Preference Optimization: Your Language Model is Secretly a ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2305.18290v3",
+        "title": "Direct Preference Optimization: Your Language Model is ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://ijrpr.com/uploads/V6ISSUE12/IJRPR57572.pdf",
+        "title": "Evaluating the Effectiveness of Direct Preference ... - ijrpr",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1244/final-projects/SooWeiKoh.pdf",
+        "title": "[PDF] Comparative Analysis of Preference-Informed Alignment ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2410.15595v2",
+        "title": "A Comprehensive Survey of Direct Preference Optimization - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/negative-kl-values-during-ppo-training-trl-library/84143",
+        "title": "Negative Kl values during PPO training (TRL library) - Transformers",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/new-version-of-ppotrainer/118316",
+        "title": "New Version of PPOTrainer - \ud83e\udd17Transformers",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/unstable-ppo-training-highly-negative-kl-divergence-and-highly-positive-average-ratio-of-batch-on-llms/114220",
+        "title": "Unstable PPO training: Highly negative KL divergence and highly ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/huggingface-trl-grpo-loss-is-always-zero/155597/4",
+        "title": "Huggingface trl GRPO loss is always zero - #4 by bird-of-paradise",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/orpo-dpo-dataset-clarification/103637/2",
+        "title": "ORPO/DPO dataset clarification - #2 by lewtun",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/huggingface/trl/blob/main/docs/source/dpo_trainer.md",
+        "title": "trl/docs/source/dpo_trainer.md at main \u00b7 huggingface/trl",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/huggingface/trl/blob/main/trl/trainer/dpo_trainer.py",
+        "title": "trl/trl/trainer/dpo_trainer.py at main \u00b7 huggingface/trl",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/huggingface/trl/blob/v0.20.0/trl/trainer/dpo_config.py",
+        "title": "trl/trl/trainer/dpo_config.py at v0.20.0 \u00b7 huggingface/trl",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/huggingface/trl/blob/v0.20.0/trl/trainer/dpo_trainer.py",
+        "title": "trl/trl/trainer/dpo_trainer.py at v0.20.0 \u00b7 huggingface/trl",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/huggingface/trl/blob/013d360b8f2703d3546786fa124f3204d6cd8018/trl/trainer/dpo_trainer.py",
+        "title": "trl/trl/trainer/dpo_trainer.py at 013d360b8f2703d3546786fa124f3204d6cd8018 \u00b7 huggingface/trl",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.anthropic.com/news/claudes-constitution",
+        "title": "Claude's Constitution - Anthropic",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.anthropic.com/constitution",
+        "title": "Claude's Constitution - Anthropic",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.frugaltesting.com/blog/how-claude-is-trained-and-tested-for-safety-at-anthropic",
+        "title": "How Claude Is Trained and Tested for Safety at Anthropic",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://zircon.tech/blog/ai-safety-engineering-from-constitutional-classifiers-to-circuit-tracing/",
+        "title": "AI Safety Engineering: From Constitutional Classifiers to Circuit ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://claudecode.jp/en/news/engineer/78259",
+        "title": "Claude's Constitutional AI Architecture: Anthropic's Framework ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://imerit.net/resources/blog/scaling-rlhf-pipelines-overcoming-data-drift-in-llm-fine-tuning/",
+        "title": "Scaling RLHF Pipelines: Overcoming Data Drift in LLM Fine-tuning",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/html/2403.17031v1",
+        "title": "The N+ Implementation Details of RLHF with PPO: A Case Study on TL",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://d197for5662m48.cloudfront.net/documents/publicationstatus/281395/preprint_pdf/ce1532a2e0fa00ba99fcc476f710a4a7.pdf",
+        "title": "[PDF] Raushan Kumar Mahaseth1 1PayPal September 25, 2025",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://mbrenndoerfer.com/writing/rlhf-pipeline-sft-reward-model-ppo-training",
+        "title": "Key Metrics To Monitor",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2405.07863.pdf",
+        "title": "See more",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  }
+]

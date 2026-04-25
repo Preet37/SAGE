@@ -1,0 +1,314 @@
+[
+  {
+    "timestamp": "2026-04-10T18:56:39",
+    "run_label": "ensure-coverage:react-pattern-reasoning-and-acting",
+    "sources": [
+      {
+        "gap": "Full ReAct pattern description: prompt/trace format, step-by-step algorithm, and worked examples beyond the abstract",
+        "url": "https://arxiv.org/abs/2210.03629",
+        "title": "ReAct: Synergizing Reasoning and Acting in Language Models - arXiv"
+      },
+      {
+        "gap": "Full ReAct pattern description: prompt/trace format, step-by-step algorithm, and worked examples beyond the abstract",
+        "url": "https://www.promptingguide.ai/techniques/react",
+        "title": "ReAct - Prompt Engineering Guide"
+      },
+      {
+        "gap": "Full ReAct pattern description: prompt/trace format, step-by-step algorithm, and worked examples beyond the abstract",
+        "url": "https://react-lm.github.io",
+        "title": "ReAct: Synergizing Reasoning and Acting in Language Models"
+      },
+      {
+        "gap": "Full ReAct pattern description: prompt/trace format, step-by-step algorithm, and worked examples beyond the abstract",
+        "url": "https://arxiv.org/pdf/2210.03629.pdf",
+        "title": "[PDF] ReAct: Synergizing Reasoning and Acting in Language Models"
+      },
+      {
+        "gap": "Full ReAct pattern description: prompt/trace format, step-by-step algorithm, and worked examples beyond the abstract",
+        "url": "https://guidance.readthedocs.io/en/stable/example_notebooks/art_of_prompt_design/react.html",
+        "title": "ReAct Design Pattern"
+      },
+      {
+        "gap": "Explicit Thought\u2013Action\u2013Observation loop definition and demonstrations (including how observations update subsequent reasoning/actions)",
+        "url": "https://davidcolon.dev/articles/thought-action-observation-cycle",
+        "title": "The Thought-Action-Observation Cycle: How AI Agents Think and Learn - David Col\u00f3n"
+      },
+      {
+        "gap": "Explicit Thought\u2013Action\u2013Observation loop definition and demonstrations (including how observations update subsequent reasoning/actions)",
+        "url": "https://dev.to/abhijithzero/demystifying-ai-agents-how-language-models-think-act-and-learn-in-the-real-world-5612",
+        "title": "Demystifying AI Agents: How Language Models Think, Act ..."
+      },
+      {
+        "gap": "Explicit Thought\u2013Action\u2013Observation loop definition and demonstrations (including how observations update subsequent reasoning/actions)",
+        "url": "https://campus.datacamp.com/courses/introduction-to-ai-agents/agentic-design-patterns-architectures?ex=1",
+        "title": "The Thought-Action-Observation Cycle | Theory - DataCamp"
+      },
+      {
+        "gap": "Explicit Thought\u2013Action\u2013Observation loop definition and demonstrations (including how observations update subsequent reasoning/actions)",
+        "url": "https://ephektikoi.substack.com/p/chapter-21-connecting-reasoning-to",
+        "title": "Chapter 2.1: Connecting Reasoning to Direct Observation"
+      },
+      {
+        "gap": "Explicit Thought\u2013Action\u2013Observation loop definition and demonstrations (including how observations update subsequent reasoning/actions)",
+        "url": "https://files.eric.ed.gov/fulltext/ED491546.pdf",
+        "title": "About the Author(s) - ed"
+      },
+      {
+        "gap": "What 'reasoning traces' are in practice (structure, prompting, pros/cons, interpretability) with examples",
+        "url": "https://www.emergentmind.com/topics/structured-reasoning-traces",
+        "title": "Structured Reasoning Traces - Emergent Mind"
+      },
+      {
+        "gap": "What 'reasoning traces' are in practice (structure, prompting, pros/cons, interpretability) with examples",
+        "url": "https://www.arxiv.org/pdf/2601.23163.pdf",
+        "title": "Probing the Trajectories of Reasoning Traces in Large Language Models"
+      },
+      {
+        "gap": "What 'reasoning traces' are in practice (structure, prompting, pros/cons, interpretability) with examples",
+        "url": "https://arxiv.org/html/2504.20946v2",
+        "title": "Trace-of-Thought Prompting: Investigating Prompt-Based ..."
+      },
+      {
+        "gap": "What 'reasoning traces' are in practice (structure, prompting, pros/cons, interpretability) with examples",
+        "url": "https://www.emergentmind.com/papers/2508.16695",
+        "title": "Do Cognitively Interpretable Reasoning Traces Improve LLM Performance?"
+      },
+      {
+        "gap": "What 'reasoning traces' are in practice (structure, prompting, pros/cons, interpretability) with examples",
+        "url": "https://aclanthology.org/2025.findings-emnlp.94.pdf",
+        "title": "[PDF] Evaluating Step-by-step Reasoning Traces: A Survey - ACL Anthology"
+      },
+      {
+        "gap": "Tool calling mechanics: function/tool schemas, invocation/return handling, and integrating tool outputs as observations in an agent loop",
+        "url": "https://www.promptingguide.ai/agents/function-calling",
+        "title": "Function Calling in AI Agents - Prompt Engineering Guide"
+      },
+      {
+        "gap": "Tool calling mechanics: function/tool schemas, invocation/return handling, and integrating tool outputs as observations in an agent loop",
+        "url": "https://docs.temporal.io/ai-cookbook/agentic-loop-tool-call-openai-python",
+        "title": "Basic Agentic Loop with Tool Calling - Temporal Docs"
+      },
+      {
+        "gap": "Tool calling mechanics: function/tool schemas, invocation/return handling, and integrating tool outputs as observations in an agent loop",
+        "url": "https://stevekinney.com/writing/agent-loops",
+        "title": "The Anatomy of an Agent Loop | Steve Kinney"
+      },
+      {
+        "gap": "Tool calling mechanics: function/tool schemas, invocation/return handling, and integrating tool outputs as observations in an agent loop",
+        "url": "https://arxiv.org/html/2507.01489v1",
+        "title": "Agent-as-Tool: A Study on the Hierarchical Decision ..."
+      },
+      {
+        "gap": "Tool calling mechanics: function/tool schemas, invocation/return handling, and integrating tool outputs as observations in an agent loop",
+        "url": "https://zhu.codes/papers/llmtools.pdf",
+        "title": "[PDF] Tool Usage in Large Language Models: Frameworks, Multi-Agent ..."
+      },
+      {
+        "gap": "Task decomposition methods for agents (planning/subgoals) and how they interact with ReAct-style execution",
+        "url": "https://www.arxiv.org/pdf/2406.04784.pdf",
+        "title": "SELFGOAL: Your Language Agents Already Know"
+      },
+      {
+        "gap": "Task decomposition methods for agents (planning/subgoals) and how they interact with ReAct-style execution",
+        "url": "https://arxiv.org/html/2601.07577v1",
+        "title": "Task-Decoupled Planning for Long-Horizon Agents - arXiv"
+      },
+      {
+        "gap": "Task decomposition methods for agents (planning/subgoals) and how they interact with ReAct-style execution",
+        "url": "https://www.espjeta.org/Volume5-Issue2/JETA-V5I2P115.pdf",
+        "title": "Goal Decomposition & Self-Planning in Agentic AI with LLM Backends"
+      },
+      {
+        "gap": "Task decomposition methods for agents (planning/subgoals) and how they interact with ReAct-style execution",
+        "url": "https://skywork.ai/blog/ai-agent/ai-task-decomposition-step-by-step/",
+        "title": "How AI Task Decomposition Breaks Big Tasks into Steps - Skywork.ai"
+      },
+      {
+        "gap": "Task decomposition methods for agents (planning/subgoals) and how they interact with ReAct-style execution",
+        "url": "https://cocosci.princeton.edu/papers/taskdecomposition.pdf",
+        "title": "[PDF] arXiv:2007.13862v1 [cs.AI] 27 Jul 2020"
+      },
+      {
+        "gap": "Grounded reasoning: definitions, techniques for grounding via tools/KBs/environments, and how grounding reduces hallucinations",
+        "url": "https://aclanthology.org/2024.emnlp-main.159.pdf",
+        "title": "[PDF] Does Object Grounding Really Reduce Hallucination of Large ..."
+      },
+      {
+        "gap": "Grounded reasoning: definitions, techniques for grounding via tools/KBs/environments, and how grounding reduces hallucinations",
+        "url": "http://arxiv.org/pdf/2406.14492.pdf",
+        "title": "Does Object Grounding Really Reduce Hallucination of Large"
+      },
+      {
+        "gap": "Grounded reasoning: definitions, techniques for grounding via tools/KBs/environments, and how grounding reduces hallucinations",
+        "url": "https://arxiv.org/html/2512.06373v1",
+        "title": "Towards Tool-Refined Referring Grounded Reasoning via Agentic ..."
+      },
+      {
+        "gap": "Grounded reasoning: definitions, techniques for grounding via tools/KBs/environments, and how grounding reduces hallucinations",
+        "url": "https://www.ijcai.org/proceedings/2025/1198.pdf",
+        "title": "[PDF] Grounding Open-Domain Knowledge from LLMs to Real-World ..."
+      },
+      {
+        "gap": "Grounded reasoning: definitions, techniques for grounding via tools/KBs/environments, and how grounding reduces hallucinations",
+        "url": "https://pure.hw.ac.uk/ws/portalfiles/portal/136828457/2024.safety4convai-1.1.pdf",
+        "title": "Grounding LLMs to In-prompt Instructions: Reducing Hallucinations Caused by Static Pre-training Knowledge"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-10T19:05:11",
+    "run_label": "ensure-coverage:implementing-react-agent-langgraph",
+    "sources": [
+      {
+        "gap": "LangGraph implementation of a ReAct-style cycle (reasoning node -> tool node -> reasoning node) using StateGraph",
+        "url": "https://machinelearningmastery.com/building-react-agents-with-langgraph-a-beginners-guide/",
+        "title": "The Reasoning Node -- The..."
+      },
+      {
+        "gap": "LangGraph implementation of a ReAct-style cycle (reasoning node -> tool node -> reasoning node) using StateGraph",
+        "url": "https://leeroopedia.com/index.php/Principle:Langchain_ai_Langgraph_ReAct_Agent_Construction",
+        "title": "Principle:Langchain ai Langgraph ReAct Agent Construction"
+      },
+      {
+        "gap": "LangGraph implementation of a ReAct-style cycle (reasoning node -> tool node -> reasoning node) using StateGraph",
+        "url": "https://velog.io/@okorion/LangGraph-%EC%99%84%EC%A0%84-%EC%A0%95%EB%B3%B5-ReAct-%ED%8C%A8%ED%84%B4%EA%B3%BC-LangGraph-%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%ED%99%94",
+        "title": "ReAct \ud328\ud134\uacfc LangGraph \uc5d0\uc774\uc804\ud2b8\ud654"
+      },
+      {
+        "gap": "LangGraph implementation of a ReAct-style cycle (reasoning node -> tool node -> reasoning node) using StateGraph",
+        "url": "https://wikidocs.net/261613",
+        "title": "2-1-2. LangGraph\uc5d0\uc11c\uc758 ReAct \uad6c\ud604 \ubc29\ubc95"
+      },
+      {
+        "gap": "LangGraph implementation of a ReAct-style cycle (reasoning node -> tool node -> reasoning node) using StateGraph",
+        "url": "https://ai.google.dev/gemini-api/docs/langgraph-example",
+        "title": "ReAct agent from scratch with Gemini and LangGraph"
+      },
+      {
+        "gap": "How to represent and update LangGraph state for agents (e.g., MessagesState, custom state with observations/tool results)",
+        "url": "https://blog.premai.io/langgraph-deep-dive-state-machines-tools-and-human-in-the-loop/",
+        "title": "LangGraph Deep Dive: State Machines, Tools, and Human ..."
+      },
+      {
+        "gap": "How to represent and update LangGraph state for agents (e.g., MessagesState, custom state with observations/tool results)",
+        "url": "https://docs.langchain.com/oss/python/langgraph/quickstart",
+        "title": "Quickstart - Docs by LangChain"
+      },
+      {
+        "gap": "How to represent and update LangGraph state for agents (e.g., MessagesState, custom state with observations/tool results)",
+        "url": "https://dev.to/aiengineering/a-beginners-guide-to-getting-started-in-agent-state-in-langgraph-3bkj",
+        "title": "A Beginner's Guide to Getting Started in Agent State in LangGraph"
+      },
+      {
+        "gap": "How to represent and update LangGraph state for agents (e.g., MessagesState, custom state with observations/tool results)",
+        "url": "https://docs.langchain.com/oss/python/langgraph/graph-api",
+        "title": "Graph API overview - Docs by LangChain"
+      },
+      {
+        "gap": "How to represent and update LangGraph state for agents (e.g., MessagesState, custom state with observations/tool results)",
+        "url": "https://dev.to/cypriantinasheaarons/building-stateful-llm-agents-with-langgraph-4b9k",
+        "title": "Building Stateful LLM Agents with LangGraph \ud83e\udd16\u2728"
+      },
+      {
+        "gap": "LangGraph tool execution patterns (ToolNode or equivalent), including how tool calls are parsed and executed",
+        "url": "https://deepwiki.com/jun-sajima/langgraph-study/8-tool-integration-in-langgraph",
+        "title": "Tool Integration in LangGraph | jun-sajima/langgraph-study ..."
+      },
+      {
+        "gap": "LangGraph tool execution patterns (ToolNode or equivalent), including how tool calls are parsed and executed",
+        "url": "https://blog.premai.io/langgraph-deep-dive-state-machines-tools-and-human-in-the-loop/",
+        "title": "LangGraph Deep Dive: State Machines, Tools, and Human ..."
+      },
+      {
+        "gap": "LangGraph tool execution patterns (ToolNode or equivalent), including how tool calls are parsed and executed",
+        "url": "https://reference.langchain.com/python/langgraph/agents/",
+        "title": "Agents (LangGraph) | LangChain Reference"
+      },
+      {
+        "gap": "LangGraph tool execution patterns (ToolNode or equivalent), including how tool calls are parsed and executed",
+        "url": "https://docs.langchain.com/oss/python/langgraph/call-tools",
+        "title": "Call tools - Docs by LangChain"
+      },
+      {
+        "gap": "LangGraph tool execution patterns (ToolNode or equivalent), including how tool calls are parsed and executed",
+        "url": "https://tessl.io/registry/tessl/pypi-langgraph-prebuilt/0.6.0/files/docs/tool-execution.md",
+        "title": "tessl/pypi-langgraph-prebuilt@0.6.x - Registry"
+      },
+      {
+        "gap": "LangGraph conditional routing/edges (e.g., add_conditional_edges) to decide between tool execution vs END based on model output",
+        "url": "https://dev.to/jamesli/advanced-langgraph-implementing-conditional-edges-and-tool-calling-agents-3pdn",
+        "title": "Advanced LangGraph: Implementing Conditional Edges and Tool ..."
+      },
+      {
+        "gap": "LangGraph conditional routing/edges (e.g., add_conditional_edges) to decide between tool execution vs END based on model output",
+        "url": "https://www.youtube.com/watch?v=t_VdrabMjGM",
+        "title": "LangGraph Router | Conditional Edges, Tool Routing & ToolNode Explained | LangGraph Course | Gen AI"
+      },
+      {
+        "gap": "LangGraph conditional routing/edges (e.g., add_conditional_edges) to decide between tool execution vs END based on model output",
+        "url": "https://docs.langchain.com/oss/python/langgraph/graph-api",
+        "title": "Graph API overview - Docs by LangChain"
+      },
+      {
+        "gap": "LangGraph conditional routing/edges (e.g., add_conditional_edges) to decide between tool execution vs END based on model output",
+        "url": "https://community.latenode.com/t/conditional-node-routing-in-langgraph-based-on-tool-response-values/31029",
+        "title": "Conditional node routing in LangGraph based on tool ..."
+      },
+      {
+        "gap": "LangGraph conditional routing/edges (e.g., add_conditional_edges) to decide between tool execution vs END based on model output",
+        "url": "https://dev.to/es404020/cycles-and-conditional-edges-in-langgraph-controlling-workflow-execution-53a4",
+        "title": "Cycles and Conditional Edges in LangGraph: Controlling Workflow Execution"
+      },
+      {
+        "gap": "Termination conditions for iterative agent execution in LangGraph (stop when no tool calls; max iterations; error handling)",
+        "url": "https://docs.langchain.com/oss/python/langgraph/graph-api",
+        "title": "Graph API overview - Docs by LangChain"
+      },
+      {
+        "gap": "Termination conditions for iterative agent execution in LangGraph (stop when no tool calls; max iterations; error handling)",
+        "url": "https://forum.langchain.com/t/how-to-enforce-invariant-conditions-e-g-required-tool-calls-before-entering-end-node-in-langgraph/1024",
+        "title": "How to enforce invariant conditions (e.g. required tool calls) before ..."
+      },
+      {
+        "gap": "Termination conditions for iterative agent execution in LangGraph (stop when no tool calls; max iterations; error handling)",
+        "url": "https://rajatpandit.com/optimizing-langgraph-cycles/",
+        "title": "Optimizing LangGraph Cycles: Stopping the Infinite Loop \u2014 AI ..."
+      },
+      {
+        "gap": "Termination conditions for iterative agent execution in LangGraph (stop when no tool calls; max iterations; error handling)",
+        "url": "https://aiworkshack.com/tools/langgraph/debugging-langgraph-agents-how-to-stop-flying-blind-in-cyclic-graphs.html",
+        "title": "Debugging LangGraph Agents: How to Stop Flying Blind in Cyclic ..."
+      },
+      {
+        "gap": "Termination conditions for iterative agent execution in LangGraph (stop when no tool calls; max iterations; error handling)",
+        "url": "https://langchain-ai.github.io/langgraph/agents/run_agents/",
+        "title": "Run an agent - GitHub Pages"
+      },
+      {
+        "gap": "Concrete Thought/Action/Observation formatting and examples as used in ReAct prompting and how observations are appended back into state",
+        "url": "https://aclanthology.org/2025.iwsds-1.12.pdf",
+        "title": "Exploring ReAct Prompting for Task-Oriented Dialogue"
+      },
+      {
+        "gap": "Concrete Thought/Action/Observation formatting and examples as used in ReAct prompting and how observations are appended back into state",
+        "url": "https://arxiv.org/html/2412.01262v2",
+        "title": "Exploring ReAct Prompting for Task-Oriented Dialogue"
+      },
+      {
+        "gap": "Concrete Thought/Action/Observation formatting and examples as used in ReAct prompting and how observations are appended back into state",
+        "url": "https://www.promptingguide.ai/techniques/react",
+        "title": "ReAct - Prompt Engineering Guide"
+      },
+      {
+        "gap": "Concrete Thought/Action/Observation formatting and examples as used in ReAct prompting and how observations are appended back into state",
+        "url": "https://latitudellms.mintlify.app/examples/techniques/re-act-prompting",
+        "title": "ReAct (Reasoning and Acting) Prompting - Latitude Docs"
+      },
+      {
+        "gap": "Concrete Thought/Action/Observation formatting and examples as used in ReAct prompting and how observations are appended back into state",
+        "url": "https://www.emergentmind.com/papers/2210.03629",
+        "title": "ReAct: Integrating Reasoning & Action in LLMs - Emergent Mind"
+      }
+    ]
+  }
+]

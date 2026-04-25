@@ -1,0 +1,1192 @@
+[
+  {
+    "timestamp": "2026-04-09T16:18:26",
+    "run_label": "reference-track:Evaluation and Benchmarks",
+    "sources": [
+      {
+        "url": "https://arxiv.org/pdf/2107.03374.pdf",
+        "title": "[PDF] Evaluating Large Language Models Trained on Code - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.datacamp.com/tutorial/humaneval-benchmark-for-evaluating-llm-code-generation-capabilities",
+        "title": "HumanEval: A Benchmark for Evaluating LLM Code Generation ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2408.05715v1",
+        "title": "Improve Code Generation by Pass@k-Maximized ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://dailyai.github.io/2021-07-08/2107-03374",
+        "title": "Review \u00b7 Evaluating Large Language Models Trained on Code",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/pass-k-metrics-2508a3b6-8dc0-488f-a854-891fb35d80b0",
+        "title": "Pass@k Metrics for LLM Evaluation - Emergent Mind",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.ecva.net/papers/eccv_2022/papers_ECCV/papers/136960146.pdf",
+        "title": "[PDF] Reliable Visual Question Answering: Abstain Rather Than ... - ECVA",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://leeroopedia.com/index.php/Principle:Mlfoundations_Open_flamingo_Visual_Question_Answering_Evaluation",
+        "title": "Principle:Mlfoundations Open flamingo Visual Question Answering ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.arxiv.org/pdf/2602.16856.pdf",
+        "title": "Analytic Score Optimization for Multi Dimension Video Quality Assessment",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2505.09591v1",
+        "title": "Variational Visual Question Answering",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://lmb.informatik.uni-freiburg.de/Publications/2024/GBB24/paper-ovqa.pdf",
+        "title": "Published as a conference paper at ICLR 2024",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://aclanthology.org/2024.findings-acl.671.pdf",
+        "title": "CMMLU: Measuring Massive Multitask Language Understanding ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2025.acl-long.656.pdf",
+        "title": "[PDF] MMLU-CF: A Contamination-free Multi-task Language ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2009.03300.pdf",
+        "title": "[PDF] Measuring Massive Multitask Language Understanding - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.cs.toronto.edu/~cmaddis/courses/csc2541_w25/presentations/vajpayee_zhao_mmlu.pdf",
+        "title": "MEASURING MASSIVE MULTITASK LANGUAGE ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.lmsys.org/blog/2023-05-03-arena/",
+        "title": "Chatbot Arena: Benchmarking LLMs in the Wild with Elo Ratings",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://lmsys.org/blog/2023-05-03-arena/?s=09",
+        "title": "Chatbot Arena: Benchmarking LLMs in the Wild with Elo Ratings | LMSYS Org",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.lmsys.org/blog/2023-07-20-dataset/",
+        "title": "Chatbot Arena Conversation Dataset Release - LMSYS Blog",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.lmsys.org/blog/2023-05-25-leaderboard/",
+        "title": "Chatbot Arena Leaderboard Updates (Week 4) - LMSYS Org",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.lmsys.org/blog/2023-06-22-leaderboard/",
+        "title": "Results And Analysis",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/2406.07791",
+        "title": "A Systematic Study of Position Bias in LLM-as-a-Judge - arXiv.org",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/abs/2602.02219v1",
+        "title": "Am I More Pointwise or Pairwise? Revealing Position Bias in Rubric-Based LLM-as-a-Judge",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.bohrium.com/paper-details/judging-the-judges-a-systematic-investigation-of-position-bias-in-pairwise-comparative-assessments-by-llms/1008255123991822356-108592",
+        "title": "Judging the Judges: A Systematic Investigation of Position Bias in ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://aclanthology.org/2025.ijcnlp-long.18.pdf",
+        "title": "[PDF] A Systematic Study of Position Bias in LLM-as-a-Judge",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://bohrium.dp.tech/paper/arxiv/2406.07791",
+        "title": "Judging the Judges: A Systematic Investigation of Position Bias in Pairwise Comparative Assessments by LLMs",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2306.05685.pdf",
+        "title": "[PDF] Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena - arXiv",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://neurips.cc/virtual/2023/poster/73434",
+        "title": "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://systems-analysis.ru/eng/MT-Bench_(benchmark)",
+        "title": "MT-Bench (benchmark) - Systems Analysis Wiki",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://documents1.worldbank.org/curated/en/099030626165519668/pdf/P506434-5ce9b0a5-3337-4101-bda3-640ce8658694.pdf",
+        "title": "[PDF] Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://cocoxu.github.io/CS8803-LLM-fall2024/slides/04_MTBench.pdf",
+        "title": "CS 8803 LLM Presentation",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/lightblue-tech/lm-evaluation-harness-eleuther/blob/main/docs/interface.md",
+        "title": "lm-evaluation-harness-eleuther/docs/interface.md at main \u00b7 lightblue-tech/lm-evaluation-harness-eleuther",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/insait-institute/lm-evaluation-harness-bg/blob/main/docs/interface.md",
+        "title": "lm-evaluation-harness-bg/docs/interface.md at main \u00b7 insait-institute/lm-evaluation-harness-bg",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/EleutherAI/lm-evaluation-harness/blob/big-refactor/docs/interface.md",
+        "title": "lm-evaluation-harness/docs/interface.md at big-refactor \u00b7 EleutherAI/lm-evaluation-harness",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/EleutherAI/lm-evaluation-harness/blob/main/docs/interface.md",
+        "title": "lm-evaluation-harness/docs/interface.md at main \u00b7 EleutherAI/lm-evaluation-harness",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/EleutherAI/lm-evaluation-harness/blob/main/docs/task_guide.md",
+        "title": "lm-evaluation-harness/docs/task_guide.md at main \u00b7 EleutherAI/lm-evaluation-harness",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/rouge-l-score-in-trainer-huggingface/54249",
+        "title": "Rouge-L score in Trainer huggingface - \ud83e\udd17Transformers",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/not-sure-how-to-compute-bleu-through-compute-metrics/9653",
+        "title": "Not sure how to compute BLEU through compute_metrics",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.langchain.com/langsmith/observability",
+        "title": "LangSmith - LangChainwww.langchain.com \u203a langsmith",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.abhishekchauhan.it/blog/langsmith-production-observability-evaluation-debugging",
+        "title": "LangSmith in Production: Observability, Evaluation, and Debugging ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.langchain.com/articles/llm-monitoring-observability",
+        "title": "Why LLM observability and monitoring needs evaluations - LangChain",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://murf.ai/blog/llm-observability-with-langsmith",
+        "title": "LLM Observability with LangSmith: A Practical Guide",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.digitalocean.com/community/tutorials/langsmith-debudding-evaluating-llm-agents",
+        "title": "LangSmith Explained: Debugging and Evaluating LLM Agents",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://developers.openai.com/cookbook/examples/evaluation/use-cases/completion-monitoring",
+        "title": "Evals API Use-case - Monitoring stored completions",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://developers.openai.com/cookbook/examples/evaluation/use-cases/regression",
+        "title": "Evals API Use-case - Detecting prompt regressions",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.leanware.co/insights/openai-evals-api-guide",
+        "title": "Mastering OpenAI Evals & the Evals API | Tutorial & Best Practices",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://dev.to/devonakelley/why-your-agents-eval-suite-wont-catch-production-failures-32ip",
+        "title": "Production Outcome Tracking",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://nicolalazzari.ai/articles/how-i-use-openai-evals-to-test-gpt-prompts-before-shipping-ai-features",
+        "title": "How I Use OpenAI Evals to Test GPT Prompts Before Shipping AI ...",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-10T19:33:58",
+    "run_label": "reference-track:Streaming, Debugging, and Observability in LangGraph",
+    "sources": [
+      {
+        "url": "https://github.com/langchain-ai/langgraph/blob/main/docs/docs/cloud/how-tos/stream_events.md",
+        "title": "langgraph/docs/docs/cloud/how-tos/stream_events.md at main \u00b7 langchain-ai/langgraph",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/702",
+        "title": "langgraph/how-tos/configuration/ #702 - GitHub",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraphjs/issues/1482",
+        "title": "recursionLimit not honoured when sent via useStream \u00b7 Issue #1482 \u00b7 langchain-ai/langgraphjs",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraphjs/issues/318",
+        "title": "Where to add config to `streamEvents`? \u00b7 Issue #318 \u00b7 langchain-ai/langgraphjs",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraphjs/issues/320",
+        "title": "streamEvents - How can I only stream the last node in the ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/2028",
+        "title": "Websocket implementation \u00b7 langchain-ai langgraph \u00b7 Discussion #2028",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/sheikhhanif/LangGraph_Streaming",
+        "title": "LangGraph Streaming FastAPI",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/blob/main/docs/docs/cloud/how-tos/stream_events.md",
+        "title": "langgraph/docs/docs/cloud/how-tos/stream_events.md at main \u00b7 langchain-ai/langgraph",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/shiv248/LangGraphPy-x-ReactJS",
+        "title": "LangGraph Python with React TypeScript starter",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langchain/discussions/17240",
+        "title": "Streaming with events stream API using FastAPI #17240 - GitHub",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/issues/2831",
+        "title": "graph stream with stream_mode=updates miss tool messages when using tools that return Command \u00b7 Issue #2831 \u00b7 langchain-ai/langgraph",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://docs.langchain.com/langsmith/streaming",
+        "title": "Streaming API - Docs by LangChain",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://7x.mintlify.app/oss/python/langgraph/streaming",
+        "title": "Streaming - Docs by LangChain",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/issues/3772",
+        "title": "My stream output mode is configured for \u201cupdates\u201d and \u201ccustom\u201d, but the mode being printed is \u201cvalues\u201d \u00b7 Issue #3772 \u00b7 langchain-ai/langgraph",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://docs.langchain.com/oss/python/langgraph/durable-execution",
+        "title": "Durable execution - Docs by LangChaindocs.langchain.com \u203a oss \u203a python \u203a langgraph \u203a durable-execution",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://docs.langchain.com/oss/javascript/langgraph/thinking-in-langgraph",
+        "title": "Thinking in LangGraph - Docs by LangChain",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://aerospike.com/blog/langgraph-production-latency-replay-scale",
+        "title": "LangGraph in Production: Latency, Replay, and Scale | Aerospike",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.edony.ink/en/a-deep-dive-of-langgraph-mechanisms-agent-design-patterns/",
+        "title": "A Deep Dive of LangGraph Mechanisms & Agent Design Patterns",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/blob/main/docs/docs/concepts/persistence.md",
+        "title": "langgraph/docs/docs/concepts/persistence.md at main \u00b7 langchain-ai/langgraph",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/blob/main/docs/docs/how-tos/state-reducers.ipynb",
+        "title": "langgraph/docs/docs/how-tos/state-reducers.ipynb at main \u00b7 langchain-ai/langgraph",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/3459&rut=af1f8413b9f53eeb2d82e83a09a36e85fd7280a1a606b0ef3c2e3a6c278aad83",
+        "title": "Reducers for other state members apart from messages \u00b7 langchain-ai/langgraph \u00b7 Discussion #3459",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/blob/ebe01c2639fd56c645483a4079e1d582b4a4bc2c/libs/langgraph/langgraph/graph/state.py",
+        "title": "langgraph/libs/langgraph/langgraph/graph/state.py at ebe01c2639fd56c645483a4079e1d582b4a4bc2c \u00b7 langchain-ai/langgraph",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/3459",
+        "title": "Reducers for other state members apart from messages #3459",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/2975",
+        "title": "Help me understand Reducers & Parallelization #2975 - GitHub",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://hshahin.com/blog/langsmith-tracing-redaction/",
+        "title": "Implementing Compliant AI Tracing with LangSmith | Haitham Shahin",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://opentelemetry.io/docs/specs/otel/trace/sdk/",
+        "title": "Tracing SDK - OpenTelemetry",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://galileo.ai/blog/best-llm-observability-tools-compared-for-2024",
+        "title": "Which LLM Observability Tools Prevent Failures in 2025?",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://zylos.ai/research/2026-01-10-llm-observability",
+        "title": "AI Observability & LLM Monitoring 2026 | Zylos Research",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arize.com/docs/phoenix/resources/frequently-asked-questions/open-source-langsmith-alternative-arize-phoenix-vs.-langsmith",
+        "title": "Open vs. Closed Source",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.firecrawl.dev/blog/best-llm-observability-tools",
+        "title": "Best LLM Observability Tools in 2026 - Firecrawl",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://signoz.io/comparisons/langsmith-alternatives/",
+        "title": "Top 7 LangSmith Alternatives for LLM Observability in 2026",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://lakefs.io/blog/llm-observability-tools/",
+        "title": "LLM Observability Tools: 2026 Comparison - lakeFS",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://blog.langchain.com/building-langgraph/",
+        "title": "Building LangGraph: Designing an Agent Runtime from first principles",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://blog.langchain.com/how-do-i-speed-up-my-agent/",
+        "title": "AI Agent Latency 101: How do I speed up my AI ... - LangChain Blog",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://changelog.langchain.com/announcements/reliable-streaming-and-efficient-state-management-in-langgraph",
+        "title": "Reliable streaming and efficient state management in LangGraph",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://docs.langchain.com/oss/python/streaming",
+        "title": "Streaming overview - Docs by LangChain",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://oneuptime.com/blog/post/2026-02-06-track-token-usage-prompt-costs-model-latency-opentelemetry/view",
+        "title": "How to Track Token Usage, Prompt Costs, and Model Latency with ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.traceloop.com/blog/visualizing-llm-performance-with-opentelemetry-tools-for-tracing-cost-and-latency",
+        "title": "Visualizing LLM Performance with OpenTelemetry Tools for Tracing ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://docs.solo.io/agentgateway/2.3.x/llm/cost-tracking/",
+        "title": "LLM cost tracking | Solo.io documentation - Docs",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://docs.base14.io/guides/ai-observability/llm-observability/",
+        "title": "LLM Observability with OpenTelemetry | base14 Scout - base14",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://zylos.ai/research/2026-02-28-opentelemetry-ai-agent-observability",
+        "title": "OpenTelemetry for AI Agents: Observability, Tracing, and the GenAI ...",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-10T19:35:48",
+    "run_label": "reference-track:Real-World Agent Use Cases and Production Patterns",
+    "sources": [
+      {
+        "url": "https://platform.openai.com/docs/guides/streaming-responses?api-mode=responses",
+        "title": "Streaming API responses - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/streaming",
+        "title": "Streaming support",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/responses-streaming",
+        "title": "Streaming events | OpenAI API Reference",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/structured-outputs/example-response",
+        "title": "Structured Outputs - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/structured-outputs/json-mode",
+        "title": "Structured model outputs - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.anthropic.com/de/docs/build-with-claude/streaming",
+        "title": "Streaming von Nachrichten",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.anthropic.com/en/api/rate-limits?_x_tr_hist=true",
+        "title": "Rate limits - Anthropic",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.anthropic.com/en/api/messages-streaming?debug_url=1&debug=1&debug=true",
+        "title": "Streaming Messages - Anthropic",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.anthropic.com/ja/docs/agents-and-tools/tool-use/fine-grained-tool-streaming",
+        "title": "\u7d30\u7c92\u5ea6\u30c4\u30fc\u30eb\u30b9\u30c8\u30ea\u30fc\u30df\u30f3\u30b0 - Anthropic",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.anthropic.com/id/docs/agents-and-tools/tool-use/fine-grained-tool-streaming",
+        "title": "Streaming tool berbutir halus",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://ar5iv.labs.arxiv.org/html/2411.13547",
+        "title": "SpecTool: A Benchmark for Characterizing Errors in Tool-Use LLMs",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/toolbench",
+        "title": "ToolBench: LLM Tool-Use Benchmark - Emergent Mind",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://lsh.plus/-lshwebsite/assets/publications/arxiv_toolllm/paper.pdf",
+        "title": "Preprint",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.iclr.cc/paper_files/paper/2024/file/28e50ee5b72e90b50e7196fde8ea260e-Paper-Conference.pdf",
+        "title": "[PDF] TOOLLLM: FACILITATING LARGE LANGUAGE MODELS TO ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.iclr.cc/paper_files/paper/2025/file/4d13b2d99519c5415661dad44ab7edcd-Paper-Conference.pdf",
+        "title": "[PDF] MTU-BENCH: A MULTI-GRANULARITY TOOL-USE BENCHMARK ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2308.03688v3",
+        "title": "AgentBench: Evaluating LLMs as Agents - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://agentic-design.ai/patterns/evaluation-monitoring/agentbench",
+        "title": "AgentBench (AgentBench) - Agentic Design Patterns",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://agentwiki.org/agentbench",
+        "title": "AgentBench [AI Agent Knowledge Base]",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/2308.03688",
+        "title": "[2308.03688] AgentBench: Evaluating LLMs as Agents - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/THUDM/AgentBench",
+        "title": "THUDM/AgentBench: A Comprehensive Benchmark to ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/2107.03374",
+        "title": "Evaluating Large Language Models Trained on Code - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2107.03374.pdf",
+        "title": "[PDF] Evaluating Large Language Models Trained on Code - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://bibbase.org/network/publication/chen-tworek-jun-yuan-pinto-kaplan-edwards-burda-etal-evaluatinglargelanguagemodelstrainedoncode-2021",
+        "title": "Evaluating Large Language Models Trained on Code",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://dailyai.github.io/2021-07-08/2107-03374",
+        "title": "Review \u00b7 Evaluating Large Language Models Trained on Code",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://matthiasplappert.com/publications/2021_OpenAI_Codex.pdf",
+        "title": "[PDF] Evaluating Large Language Models Trained on Code",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v70/guo17a/guo17a.pdf",
+        "title": "[PDF] On Calibration of Modern Neural Networks",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://fernandoperezc.github.io/Advanced-Topics-in-Machine-Learning-and-Data-Science/Fluri.pdf",
+        "title": "[PDF] On Calibration of Modern Neural Networks - GitHub Pages",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/1706.04599",
+        "title": "[1706.04599] On Calibration of Modern Neural Networks - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2203.07835v4",
+        "title": "Better Uncertainty Calibration via Proper Scores for Classification and Beyond",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.gatsby.ucl.ac.uk/~balaji/udl2021/accepted-papers/UDL2021-paper-074.pdf",
+        "title": "On The Dark Side Of Calibration For Modern Neural Networks",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://engineering.atspotify.com/2025/12/feedback-loops-background-coding-agents-part-3",
+        "title": "Background Coding Agents: Predictable Results Through Strong ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://engineering.atspotify.com/2019/4/whacking-a-million-moles-automated-incident-response-infrastructure-in-gcp",
+        "title": "Automated Incident Response Infrastructure in GCP",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://engineering.atspotify.com/2025/11/context-engineering-background-coding-agents-part-2",
+        "title": "Background Coding Agents: Context Engineering (Honk, Part 2)",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://engineering.atspotify.com/2023/1/whats-a-listening-personality",
+        "title": "What's a \u201cListening Personality\u201d? | Spotify Engineering",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://engineering.atspotify.com/2025/11/spotifys-background-coding-agent-part-1",
+        "title": "Spotify's Journey with Our Background Coding Agent (Honk, Part 1)",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://community.temporal.io/t/why-use-temporal-over-a-combination-of-aws-step-functions-and-aws-lambda/342",
+        "title": "Why use Temporal over a combination of AWS Step ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.readysetcloud.io/blog/allen.helton/step-functions-vs-temporal/",
+        "title": "AWS Step Functions vs Temporal: A Practical Developer Comparison",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://dev.to/aws-builders/from-step-functions-to-temporal-on-eks-durable-workflows-at-scale-without-breaking-the-bank-3cdf",
+        "title": "From Step Functions to Temporal on EKS: Durable Workflows at ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://hoop.dev/blog/step-functions-temporal-vs-similar-tools-which-fits-your-stack-best/",
+        "title": "Step Functions Temporal vs similar tools: which fits your stack best?",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://scalewithchintan.com/blog/step-functions-vs-temporal-long-running-workflows",
+        "title": "AWS Step Functions vs. Temporal: Long-Running Workflow ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.anup.io/temporal-langgraph-a-two-layer-architecture-for-multi-agent-coordination/",
+        "title": "Temporal + LangGraph: A Two-Layer Architecture for Multi- ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://temporal.io/blog/prototype-to-prod-ready-agentic-ai-grid-dynamics",
+        "title": "From prototype to production-ready agentic AI solution: A use case ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://paxrel.com/blog-ai-agent-orchestration",
+        "title": "LangGraph, Temporal & Custom Workflows (2026) - Paxrel",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://aiworkflowlab.dev/article/ai-workflow-orchestration-in-production-building-durable-agent-pipelines-with-langgraph-and-temporal",
+        "title": "AI Workflow Orchestration in Production: Durable Agent Pipelines ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.cnblogs.com/lightsong/p/19530436",
+        "title": "Temporal + LangGraph: A Two-Layer Architecture for Multi-Agent ...",
+        "need_type": "COMPARISON_DATA"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-10T19:37:28",
+    "run_label": "reference-track:Capstone: Designing and Building a Production-Ready Agent",
+    "sources": [
+      {
+        "url": "https://docs.langchain.com/langsmith/manage-datasets",
+        "title": "Manage datasets - Docs by LangChain",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.langchain.com/langsmith/run-evals-api-only",
+        "title": "How to use the REST API - Docs by LangChain",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.langchain.com/langsmith/trace-with-api",
+        "title": "Trace with API - Docs by LangChain",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.langchain.com/langsmith/evaluation-concepts",
+        "title": "Evaluation concepts - Docs by LangChain",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.langchain.com/langsmith/evaluation",
+        "title": "LangSmith Evaluation - Docs by LangChain",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://dl.acm.org/doi/abs/10.1561/1500000019",
+        "title": "The Probabilistic Relevance Framework: BM25 and Beyond",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.staff.city.ac.uk/~sbrp622/papers/foundations_bm25_review.pdf",
+        "title": "[PDF] The Probabilistic Relevance Framework: BM25 and Beyond Contents",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.gbv.de/dms/tib-ub-hannover/632343664.pdf",
+        "title": "[PDF] The Probabilistic Relevance Framework : BM25 and beyond - Gbv.de",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://web.stanford.edu/class/cs276/handouts/lecture12-bm25etc.pdf",
+        "title": "Introduction to Information Retrieval",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.site.uottawa.ca/~diana/csi4107/BM25.pdf",
+        "title": "1",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://aclanthology.org/2020.emnlp-main.550.pdf",
+        "title": "[PDF] Dense Passage Retrieval for Open-Domain Question Answering",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/dense-passage-retrieval",
+        "title": "5. Evaluation, Results, And...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://aclanthology.org/2020.emnlp-main.550/",
+        "title": "Dense Passage Retrieval for Open-Domain Question Answering",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2004.04906",
+        "title": "Dense Passage Retrieval for Open-Domain Question Answering",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://direct.mit.edu/tacl/article/doi/10.1162/tacl_a_00564/116466/Questions-Are-All-You-Need-to-Train-a-Dense",
+        "title": "Questions Are All You Need to Train a Dense Passage Retriever",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.cs.cmu.edu/~jgc/publication/The_Use_MMR_Diversity_Based_LTMIR_1998.pdf",
+        "title": "[PDF] The Use of MMR, Diversity-Based Reranking for Reordering ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.cs.cmu.edu/~jgc/publication/MMR_DiversityBased_Reranking_SIGIR_1998.pdf",
+        "title": "The",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www-nlpir.nist.gov/projects/duc/pubs/2001slides/utexas_duc_slides.htm/tsld020.htm",
+        "title": "Maximal Marginal Relevance",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://gist.github.com/alexandru-dinu/d973b212cc33e69a6b9b950ebd8b8fc3",
+        "title": "Maximal Marginal Relevance (Carbonell and Goldstein, 1998)",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://stepacademic.net/ijcsr/article/download/595/242/",
+        "title": "International Journal of Computing Sciences Research (ISSN print: 2546-0552; ISSN online: 2546-115X)",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://swe-rebench.com",
+        "title": "SWE-rebench Leaderboard",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://swe-agent.com/paper.pdf",
+        "title": "Preprint",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "http://www.swebench.com/index.html",
+        "title": "SWE-bench",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.iclr.cc/paper_files/paper/2024/file/edac78c3e300629acfe6cbe9ca88fb84-Paper-Conference.pdf",
+        "title": "[PDF] SWE-BENCH: CAN LANGUAGE MODELS RESOLVE REAL ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2509.16941",
+        "title": "4 Dataset Creation",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/2308.03688",
+        "title": "[2308.03688] AgentBench: Evaluating LLMs as Agents - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/THUDM/AgentBench",
+        "title": "THUDM/AgentBench: A Comprehensive Benchmark to ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://ai-scholar.tech/en/articles/agent-simulation/agentbench",
+        "title": "AgentBench, a comprehensive benchmark for evaluating AI agent ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://agentic-design.ai/patterns/evaluation-monitoring/agentbench",
+        "title": "AgentBench (AgentBench) - Agentic Design Patterns",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/2512.24565",
+        "title": "A Real-world Task Benchmark for Evaluating LLM Agent ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/2307.13854",
+        "title": "WebArena: A Realistic Web Environment for Building ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2307.13854v4",
+        "title": "WebArena: A Realistic Web Environment for Building Autonomous ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/webarena-benchmark",
+        "title": "WebArena Benchmark: Evaluating Web Agents - Emergent Mind",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://webarena.dev/static/paper.pdf",
+        "title": "WebArena: A Realistic Web Environment for Building",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/web-arena-x/visualwebarena",
+        "title": "VisualWebArena is a benchmark for multimodal agents.",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.anup.io/temporal-langgraph-a-two-layer-architecture-for-multi-agent-coordination/",
+        "title": "Temporal + LangGraph: A Two-Layer Architecture for Multi- ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://temporal.io/blog/prototype-to-prod-ready-agentic-ai-grid-dynamics",
+        "title": "From prototype to production-ready agentic AI solution: A use case ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.cnblogs.com/lightsong/p/19530436",
+        "title": "Temporal + LangGraph: A Two-Layer Architecture for Multi-Agent ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.digitalapplied.com/blog/ai-workflow-orchestration-platforms-comparison",
+        "title": "AI Workflow Orchestration Platforms: 2026 Comparison",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://aiworkflowlab.dev/article/ai-workflow-orchestration-in-production-building-durable-agent-pipelines-with-langgraph-and-temporal",
+        "title": "AI Workflow Orchestration in Production: Durable Agent Pipelines ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=skXmWJGsHu8",
+        "title": "Your Next AI Framework Decision: LangGraph vs CrewAI vs AutoGen",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=skXmWJGsHu8&vl=en-US",
+        "title": "Your Next AI Framework Decision: LangGraph vs CrewAI vs AutoGen",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://latenode.com/blog/platform-comparisons-alternatives/automation-platform-comparisons/langgraph-vs-autogen-vs-crewai-complete-ai-agent-framework-comparison-architecture-analysis-2025",
+        "title": "LangGraph vs AutoGen vs CrewAI: Complete AI Agent ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://o-mega.ai/articles/langgraph-vs-crewai-vs-autogen-top-10-agent-frameworks-2026",
+        "title": "LangGraph vs. CrewAI vs. AutoGen: Top 10 Agent Frameworks (2026)",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://f3fundit.com/multi-agent-orchestration-frameworks-compared-autogen-vs-crewai-vs-agentops-2026/",
+        "title": "AutoGen vs CrewAI vs AgentOps (2026) - F\u00b3 Fund It",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://galileo.ai/blog/human-in-the-loop-agent-oversight",
+        "title": "How to Build Human-in-the-Loop Oversight for AI Agents | Galileo",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://onereach.ai/blog/llmops-for-ai-agents-in-production/",
+        "title": "LLMOps for AI Agents: Monitoring, Testing & Iteration in Production",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/html/2411.12924v1",
+        "title": "Human-In-the-Loop Software Development Agents",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/html/2510.06674v1",
+        "title": "Agent-in-the-Loop: A Data Flywheel for Continuous Improvement in ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.zenml.io/llmops-database/production-agents-real-world-implementations-of-llm-powered-autonomous-systems",
+        "title": "Production Agents: Real-world Implementations of LLM ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://blog.malt.engineering/how-to-monitor-genai-applications-with-spring-ai-opentelemetry-and-datadog-24dbb2085c06?gi=b1911f426ad6",
+        "title": "How to Monitor GenAI applications with Spring AI, OpenTelemetry and Datadog",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-10T19:39:20",
+    "run_label": "reference-track:Framework Selection Criteria: Choosing the Right Tool for the Job",
+    "sources": [
+      {
+        "url": "https://community.temporal.io/t/why-use-temporal-over-a-combination-of-aws-step-functions-and-aws-lambda/342",
+        "title": "Why use Temporal over a combination of AWS Step ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.readysetcloud.io/blog/allen.helton/step-functions-vs-temporal/",
+        "title": "AWS Step Functions vs Temporal: A Practical Developer Comparison",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://dev.to/aws-builders/from-step-functions-to-temporal-on-eks-durable-workflows-at-scale-without-breaking-the-bank-3cdf",
+        "title": "From Step Functions to Temporal on EKS: Durable Workflows at ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://scalewithchintan.com/blog/step-functions-vs-temporal-long-running-workflows",
+        "title": "AWS Step Functions vs. Temporal: Long-Running Workflow ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://dev.to/aws-builders/aws-durable-functions-vs-step-functions-a-code-first-way-to-build-serverless-workflows-28mb",
+        "title": "AWS Durable Functions vs Step Functions: Is Code-First ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://aiworkflowlab.dev/article/ai-workflow-orchestration-in-production-building-durable-agent-pipelines-with-langgraph-and-temporal",
+        "title": "AI Workflow Orchestration in Production: Durable Agent Pipelines ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=UpnZ88bhkM0",
+        "title": "Temporal Vs Langgraph | Which Software Is Better? (2026)",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.anup.io/temporal-langgraph-a-two-layer-architecture-for-multi-agent-coordination/",
+        "title": "Temporal + LangGraph: A Two-Layer Architecture for Multi- ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://paxrel.com/blog-ai-agent-orchestration",
+        "title": "LangGraph, Temporal & Custom Workflows (2026) - Paxrel",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://temporal.io/blog/prototype-to-prod-ready-agentic-ai-grid-dynamics",
+        "title": "From prototype to production-ready agentic AI solution: A use case ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://docs.temporal.io/encyclopedia/detecting-activity-failures",
+        "title": "Detecting Activity failures | Temporal Platform Documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.temporal.io/activity-operations",
+        "title": "Activity Operations | Temporal Platform Documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.temporal.io/develop/php/failure-detection",
+        "title": "Failure detection - PHP SDK",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.temporal.io/develop/java/failure-detection",
+        "title": "Failure detection - Java SDK | Temporal Platform Documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.temporal.io/references/events",
+        "title": "Temporal Events reference | Temporal Platform Documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.aws.amazon.com/step-functions/latest/dg/service-quotas.html",
+        "title": "Quotas related to state...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.aws.amazon.com/step-functions/latest/dg/sfn-best-practices.html",
+        "title": "Handling Lambda exceptions",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.aws.amazon.com/es_es/step-functions/latest/dg/service-quotas.html",
+        "title": "Service Quotas de Step Functions - AWS Documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.aws.amazon.com/zh_tw/step-functions/latest/dg/service-quotas.html",
+        "title": "Step Functions \u670d\u52d9\u914d\u984d",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.aws.amazon.com/de_de/step-functions/latest/dg/service-quotas.html",
+        "title": "Step Functions Servicequotas",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://galileo.ai/blog/human-in-the-loop-agent-oversight",
+        "title": "How to Build Human-in-the-Loop Oversight for AI Agents | Galileo",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.zenml.io/llmops-database/production-agents-routing-testing-and-browser-automation-case-studies",
+        "title": "Production Agents: Routing, Testing and Browser Automation Case ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://docs.temporal.io/ai-cookbook/human-in-the-loop-python",
+        "title": "Architecture",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://genta.dev/resources/ai-agent-reliability-engineering",
+        "title": "AI Observability & Reliability Engineering for Agentic Systems in 2025",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2504.20068v1.pdf",
+        "title": "[PDF] arXiv:2504.20068v1 [cs.DC] 24 Apr 2025",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://learn.temporal.io/tutorials/ai/building-durable-ai-applications/human-in-the-loop/",
+        "title": "Part 2: Adding Durable Human-in-the-Loop to Our Research ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://docs.temporal.io/evaluate/development-production-features/observability",
+        "title": "Observability - Temporal feature | Temporal Platform Documentation",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://signoz.io/docs/dashboards/dashboard-templates/temporal-dashboard/",
+        "title": "Temporal AI Agents Dashboard",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.xgrid.co/resources/temporal-observability-in-production-guide/",
+        "title": "Temporal Observability in Production Guide - Xgrid",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.braintrust.dev/blog/temporal-braintrust-integration",
+        "title": "Building observable AI agents with Temporal - Blog - Braintrust",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/html/2509.10769v1",
+        "title": "A Comprehensive Benchmark to Evaluate Agent Architectures in ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.evologikai.com/benchmarks/agent-orchestration-speed",
+        "title": "Agent Orchestration Speed Benchmark - EvologikAI",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2509.10769",
+        "title": "A Comprehensive Benchmark to Evaluate Agent ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.vellum.ai/blog/understanding-your-agents-behavior-in-production",
+        "title": "Understanding your agent's behavior in production - Vellum AI",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aws.amazon.com/blogs/machine-learning/customize-agent-workflows-with-advanced-orchestration-techniques-using-strands-agents/",
+        "title": "Customize agent workflows with advanced orchestration techniques ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2512.07497v2",
+        "title": "How Do LLMs Fail In Agentic Scenarios? A Qualitative Analysis of ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.alphaxiv.org/overview/2509.25370v1",
+        "title": "Significance And Future...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=GYy-v5IhYi8",
+        "title": "How LLM Agents Fail: Analyzing 900 Autonomous Traces (KAMI Benchmark)",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://docs.kamiwaza.ai/assets/files/How_do_LLMs_fail_in_agentic_scenarios-eff27cdb81518717588e1fcdee00aec4.pdf",
+        "title": "[PDF] How Do LLMs Fail In Agentic Scenarios? - Kamiwaza Docs",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://docs.temporal.io/encyclopedia/event-history/event-history-typescript",
+        "title": "Event History walkthrough with the TypeScript SDK - Temporal Docs",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://docs.temporal.io/encyclopedia/event-history/event-history-python",
+        "title": "Event History walkthrough with the Python SDK - Temporal Docs",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://mintlify.wiki/temporalio/temporal/architecture/event-sourcing",
+        "title": "Event Sourcing Implementation - Temporal Server - Mintlify",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=XephqQtwPEE",
+        "title": "The Inner Workings of Temporal SDKs | Replay 2024",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://ijirt.org/publishedpaper/IJIRT196511_PAPER.pdf",
+        "title": "[PDF] Deterministic log test replay framework for Devops Environment - IJIRT",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.scitepress.org/Papers/2019/79187/79187.pdf",
+        "title": "The Saga Pattern in a Reactive Microservices Environment",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.ijfmr.com/papers/2025/4/54377.pdf",
+        "title": "[PDF] International Journal for Multidisciplinary Research (IJFMR) - A ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://microservices.io/patterns/data/saga.html",
+        "title": "Pattern: Saga - Microservices.io",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://is.muni.cz/th/gvv0m/text_digital.pdf",
+        "title": "Use of Transactions within a Reactive Microservices Environment",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.proquest.com/docview/2679673542",
+        "title": "Select language",
+        "need_type": "CONCEPT_EXPLAINER"
+      }
+    ]
+  }
+]

@@ -1,0 +1,258 @@
+[
+  {
+    "timestamp": "2026-04-09T16:37:21",
+    "run_label": "reference-track:Tokenization",
+    "sources": [
+      {
+        "url": "https://drscotthawley.github.io/blog/posts/2023-06-12-RVQ.html",
+        "title": "Residual Vector Quantization - Scott H. Hawley",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://learnius.com/slp/9+Speech+Synthesis/2+Advanced+Topics/4+Neural+Codec+Language+Modeling/residual+vector+quantization+(RVQ)",
+        "title": "residual vector quantization (RVQ) - learnius",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2305.02765.pdf",
+        "title": "[PDF] arXiv:2305.02765v1 [cs.SD] 4 May 2023",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.assemblyai.com/blog/what-is-residual-vector-quantization",
+        "title": "What is Residual Vector Quantization? - AssemblyAI",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=Xt9S74BHsvc",
+        "title": "Residual Vector Quantization for Audio and Speech Embeddings",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://drscotthawley.github.io/blog/posts/2023-06-12-RVQ.html",
+        "title": "Residual Vector Quantization - Scott H. Hawley",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2401.14732.pdf",
+        "title": "[PDF] Residual Quantization with Implicit Neural Codebooks - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2401.14732v2",
+        "title": "Residual Quantization with Implicit Neural Codebooks - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/residual-vector-quantization",
+        "title": "Residual Vector Quantization Overview",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://mikexcohen.substack.com/p/exploring-a-residual-vector-quantization",
+        "title": "Exploring a residual vector quantization (RVQ) model - Mike X Cohen",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2210.13438.pdf",
+        "title": "[PDF] High Fidelity Neural Audio Compression - arXiv.org",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/abs/2210.13438",
+        "title": "[2210.13438] High Fidelity Neural Audio Compression - arXiv",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=mV7bhf6b2Hs",
+        "title": "High Fidelity Neural Audio Compression | Paper & Code Explained",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/encodec-system",
+        "title": "EnCodec: High-Fidelity Neural Audio Codec",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=WPPoE4TrWFQ",
+        "title": "2210.13438 - High Fidelity Neural Audio Compression",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://mikexcohen.substack.com/p/exploring-a-residual-vector-quantization",
+        "title": "Exploring a residual vector quantization (RVQ) model - Mike X Cohen",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/WenzheLiu-Speech/WenzheLiu-Speech.github.io/blob/master/blogs/meta_encodec.md",
+        "title": "WenzheLiu-Speech.github.io/blogs/meta_encodec.md at master \u00b7 WenzheLiu-Speech/WenzheLiu-Speech.github.io",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://drscotthawley.github.io/blog/posts/2023-06-12-RVQ.html",
+        "title": "Residual Vector Quantization - Scott H. Hawley",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://mikexcohen.substack.com/p/exploring-a-residual-vector-quantization?action=share",
+        "title": "Exploring a residual vector quantization (RVQ) model - Mike X Cohen",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.archieb.in/rvq",
+        "title": "Waveform to Tokens | Archieb.in",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2305.02765.pdf",
+        "title": "[PDF] arXiv:2305.02765v1 [cs.SD] 4 May 2023",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2107.03312.pdf",
+        "title": "SoundStream: An End-to-End Neural Audio Codec",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/neural-audio-codec-models",
+        "title": "Neural Audio Codec Models - Emergent Mind",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://ai-information.blogspot.com/2025/09/audio-004-encodec-high-fidelity-neural.html",
+        "title": "Audio-004, EnCodec: High Fidelity Neural Audio Compression ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.isca-archive.org/interspeech_2024/li24ba_interspeech.pdf",
+        "title": "Single-Codec: Single-Codebook Speech Codec towards High ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/2107.03312",
+        "title": "[2107.03312] SoundStream: An End-to-End Neural Audio Codec",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://research.google/blog/soundstream-an-end-to-end-neural-audio-codec/",
+        "title": "SoundStream: An End-to-End Neural Audio Codec - Google Research",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2107.03312.pdf",
+        "title": "SoundStream: An End-to-End Neural Audio Codec",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.bohrium.com/paper-details/soundstream-an-end-to-end-neural-audio-codec/867747616891338793-108628",
+        "title": "SoundStream: An End-to-End Neural Audio Codec - Bohrium",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://axi.lims.ac.uk/paper/2306.06546",
+        "title": "High-Fidelity Audio Compression with Improved RVQGAN",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/unmasking-adds-an-extra-whitespace-for-bpe-tokenizer/69100",
+        "title": "Unmasking adds an extra whitespace for BPE tokenizer",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/bpe-tokenizers-and-spaces-before-words/475",
+        "title": "BPE tokenizers and spaces before words - Hugging Face Forums",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/roberta-pretokenizer-split-punctuation/79248",
+        "title": "Roberta pretokenizer - split punctuation? - Beginners",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/add-prefix-space-true-option-for-the-bpe-tokenizer/1633",
+        "title": "`add_prefix_space=True` option for the BPE tokenizer",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/use-a-pretrained-bytelevelbpetokenizer-on-text/348",
+        "title": "Use a pretrained ByteLevelBPETokenizer on text - Tokenizers",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/audio/stable/generated/torchaudio.save_with_torchcodec.html",
+        "title": "torchaudio.save_with_torchcodec - PyTorch documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/torchcodec/0.5/_downloads/11ef1d93158a89ea05a303d1d7c2cc02/audio_encoding.ipynb",
+        "title": "audio_encoding.ipynb",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/torchcodec/0.5/_downloads/83beac0daacb23697f2a04db723d6132/audio_encoding.zip",
+        "title": "audio_encoding.zip",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/torchcodec/stable/_modules/torchcodec/encoders/_audio_encoder.html",
+        "title": "Source code for torchcodec.encoders._audio_encoder",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/torchcodec/0.5/generated/torchcodec.encoders.AudioEncoder.html",
+        "title": "AudioEncoder\u00b6",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://codesignal.com/learn/courses/2-modern-tokenization-techniques-for-ai-llms/lessons/comparing-bpe-wordpiece-and-sentencepiece-in-nlp",
+        "title": "Comparing BPE, WordPiece, and SentencePiece in NLP - CodeSignal",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2411.17669v1",
+        "title": "A Comparative Analysis of Subword Tokenization Methods - arXiv.org",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2004.03720.pdf",
+        "title": "[PDF] arXiv:2004.03720v2 [cs.CL] 5 Oct 2020",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.digitalocean.com/community/conceptual-articles/llm-tokenizers-bpe-sentencepiece-custom-vs-pretrained",
+        "title": "LLM Tokenizers Simplified: BPE, SentencePiece, and More",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://emberverse.ai/stage1/tokenization_bpe_wordpiece_and_sentencepiece.html",
+        "title": "Tokenization: Bpe, Wordpiece, and Sentencepiece - Emberverse",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://luminary.blog/techs/08-subword-tokenization-algorithms/",
+        "title": "Differences",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2022.lrec-1.445.pdf",
+        "title": "[PDF] Evaluating Tokenizers Impact on OOVs Representation with ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/anthology-files/pdf/lrec/2022.lrec-1.445.pdf",
+        "title": "Evaluating Tokenizers Impact on OOVs Representation with Transformers Models",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://emberverse.ai/stage1/tokenization_bpe_wordpiece_and_sentencepiece.html",
+        "title": "Tokenization: Bpe, Wordpiece, and Sentencepiece - Emberverse",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://rahatibnrafiq.github.io/llm_tokenizer/",
+        "title": "Tokenizer Design: Choosing BPE, Unigram, and Vocabulary Size",
+        "need_type": "COMPARISON_DATA"
+      }
+    ]
+  }
+]

@@ -1,0 +1,701 @@
+[
+  {
+    "timestamp": "2026-04-10T19:07:34",
+    "run_label": "ensure-coverage:streaming-debugging-observability-langgraph",
+    "sources": [
+      {
+        "gap": "LangGraph streaming APIs and event model (how to stream graph execution to clients)",
+        "url": "https://docs.langchain.com/langsmith/streaming",
+        "title": "Streaming API - Docs by LangChain"
+      },
+      {
+        "gap": "LangGraph streaming APIs and event model (how to stream graph execution to clients)",
+        "url": "https://docs.langchain.com/oss/python/langgraph/streaming",
+        "title": "Streaming - Docs by LangChain"
+      },
+      {
+        "gap": "LangGraph streaming APIs and event model (how to stream graph execution to clients)",
+        "url": "https://github.com/langchain-ai/langgraph/blob/main/docs/docs/cloud/how-tos/stream_events.md",
+        "title": "langgraph/docs/docs/cloud/how-tos/stream_events.md at main \u00b7 langchain-ai/langgraph"
+      },
+      {
+        "gap": "LangGraph streaming APIs and event model (how to stream graph execution to clients)",
+        "url": "https://dev.to/sreeni5018/langgraph-streaming-101-5-modes-to-build-responsive-ai-applications-4p3f",
+        "title": "LangGraph Streaming 101: 5 Modes to Build Responsive AI Applications"
+      },
+      {
+        "gap": "LangGraph streaming APIs and event model (how to stream graph execution to clients)",
+        "url": "https://langchain-ai.github.io/langgraph/cloud/how-tos/stream_events/",
+        "title": "How to stream events\u00b6"
+      },
+      {
+        "gap": "Token-level streaming with LangGraph-integrated chat models (how to surface incremental LLM tokens)",
+        "url": "https://docs.langchain.com/oss/python/langgraph/streaming",
+        "title": "Streaming - Docs by LangChain"
+      },
+      {
+        "gap": "Token-level streaming with LangGraph-integrated chat models (how to surface incremental LLM tokens)",
+        "url": "https://docs.langchain.com/langsmith/streaming",
+        "title": "Streaming API - Docs by LangChain"
+      },
+      {
+        "gap": "Token-level streaming with LangGraph-integrated chat models (how to surface incremental LLM tokens)",
+        "url": "https://langchain-ai.github.io/langgraphjs/how-tos/stream-tokens/",
+        "title": "How to stream LLM tokens from your graph"
+      },
+      {
+        "gap": "Token-level streaming with LangGraph-integrated chat models (how to surface incremental LLM tokens)",
+        "url": "https://langchain-ai.github.io/langgraph/how-tos/streaming/",
+        "title": "Stream outputs - GitHub Pages"
+      },
+      {
+        "gap": "Token-level streaming with LangGraph-integrated chat models (how to surface incremental LLM tokens)",
+        "url": "https://langgraph.agentdevhub.com/how-tos/streaming/",
+        "title": "How to stream\u00b6"
+      },
+      {
+        "gap": "Step/node-level streaming in LangGraph (streaming per-node outputs and state updates)",
+        "url": "https://docs.langchain.com/oss/javascript/langgraph/streaming",
+        "title": "Streaming - Docs by LangChain"
+      },
+      {
+        "gap": "Step/node-level streaming in LangGraph (streaming per-node outputs and state updates)",
+        "url": "https://docs.langchain.com/oss/python/langgraph/streaming",
+        "title": "Streaming - Docs by LangChain"
+      },
+      {
+        "gap": "Step/node-level streaming in LangGraph (streaming per-node outputs and state updates)",
+        "url": "https://www.youtube.com/watch?v=_8rf7Ln1CdQ",
+        "title": "Real-Time Streaming in LangGraph | Node vs LLM Streaming Made Simple"
+      },
+      {
+        "gap": "Step/node-level streaming in LangGraph (streaming per-node outputs and state updates)",
+        "url": "https://langgraph.agentdevhub.com/how-tos/streaming/",
+        "title": "How to stream\u00b6"
+      },
+      {
+        "gap": "Step/node-level streaming in LangGraph (streaming per-node outputs and state updates)",
+        "url": "https://dev.to/sreeni5018/langgraph-streaming-101-5-modes-to-build-responsive-ai-applications-4p3f",
+        "title": "LangGraph Streaming 101: 5 Modes to Build Responsive AI Applications"
+      },
+      {
+        "gap": "How to inspect intermediate LangGraph state (state snapshots, checkpoints, per-step state diffs)",
+        "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+        "title": "Memory store"
+      },
+      {
+        "gap": "How to inspect intermediate LangGraph state (state snapshots, checkpoints, per-step state diffs)",
+        "url": "https://reference.langchain.com/python/langgraph/checkpoints/",
+        "title": "Checkpointing | LangChain Referencereference.langchain.com \u203a python \u203a langgraph \u203a checkpoints"
+      },
+      {
+        "gap": "How to inspect intermediate LangGraph state (state snapshots, checkpoints, per-step state diffs)",
+        "url": "https://github.com/langchain-ai/langgraph/blob/main/docs/docs/concepts/persistence.md",
+        "title": "langgraph/docs/docs/concepts/persistence.md at main \u00b7 langchain-ai/langgraph"
+      },
+      {
+        "gap": "How to inspect intermediate LangGraph state (state snapshots, checkpoints, per-step state diffs)",
+        "url": "https://dev.to/jamesli/checkpoints-and-human-computer-interaction-in-langgraph-26bk",
+        "title": "Checkpoints and Human-Computer Interaction in LangGraph"
+      },
+      {
+        "gap": "How to inspect intermediate LangGraph state (state snapshots, checkpoints, per-step state diffs)",
+        "url": "https://aws.amazon.com/blogs/database/build-durable-ai-agents-with-langgraph-and-amazon-dynamodb/",
+        "title": "Getting Started"
+      },
+      {
+        "gap": "LangGraph debugging workflows (debug mode, visualization, replaying runs, identifying failing nodes)",
+        "url": "https://www.youtube.com/watch?v=-JLoMQCoTKY",
+        "title": "LangGraph Debugging Part 1 | Visualize & Trace AI Workflows |Nidhi Chouhan"
+      },
+      {
+        "gap": "LangGraph debugging workflows (debug mode, visualization, replaying runs, identifying failing nodes)",
+        "url": "https://www.youtube.com/watch?v=5vEC0Y4sV8g",
+        "title": "Strategies for debugging agents with LangGraph Studio"
+      },
+      {
+        "gap": "LangGraph debugging workflows (debug mode, visualization, replaying runs, identifying failing nodes)",
+        "url": "https://forum.langchain.com/t/debug-issues-during-node-transitions/1837",
+        "title": "Debug issues during node transitions - LangGraph"
+      },
+      {
+        "gap": "LangGraph debugging workflows (debug mode, visualization, replaying runs, identifying failing nodes)",
+        "url": "https://marketplace.visualstudio.com/items?itemName=smazee.langgraph-visualizer",
+        "title": "LangGraph Visualizers - Visual Studio Marketplace"
+      },
+      {
+        "gap": "LangGraph debugging workflows (debug mode, visualization, replaying runs, identifying failing nodes)",
+        "url": "https://sumanmichael.github.io/langgraph-cheatsheet/cheatsheet/troubleshooting-debugging/",
+        "title": "V. Troubleshooting & Debugging \u00b7 LangGraph Cheatsheet"
+      },
+      {
+        "gap": "Tracing for LangGraph (integration with LangSmith/OpenTelemetry, spans, metadata captured)",
+        "url": "https://docs.langchain.com/langsmith/trace-with-opentelemetry",
+        "title": "Trace with OpenTelemetry - Docs by LangChain"
+      },
+      {
+        "gap": "Tracing for LangGraph (integration with LangSmith/OpenTelemetry, spans, metadata captured)",
+        "url": "https://blog.langchain.com/end-to-end-opentelemetry-langsmith/",
+        "title": "Introducing End-to-End OpenTelemetry Support in LangSmith"
+      },
+      {
+        "gap": "Tracing for LangGraph (integration with LangSmith/OpenTelemetry, spans, metadata captured)",
+        "url": "https://www.youtube.com/watch?v=NcRhyyTykVQ",
+        "title": "Trace Everything in LangGraph using LangSmith"
+      },
+      {
+        "gap": "Tracing for LangGraph (integration with LangSmith/OpenTelemetry, spans, metadata captured)",
+        "url": "https://hshahin.com/blog/langsmith-tracing-redaction/",
+        "title": "Implementing Compliant AI Tracing with LangSmith | Haitham Shahin"
+      },
+      {
+        "gap": "Tracing for LangGraph (integration with LangSmith/OpenTelemetry, spans, metadata captured)",
+        "url": "https://last9.io/blog/langchain-and-langgraph-instrumentation-guide/",
+        "title": "Instrument LangChain and LangGraph Apps with OpenTelemetry"
+      },
+      {
+        "gap": "Observability fundamentals for agentic graphs (logs/metrics/traces, correlation IDs, sampling)",
+        "url": "https://arxiv.org/html/2411.05285v1",
+        "title": "A Taxonomy of AgentOps for Enabling Observability of Foundation ..."
+      },
+      {
+        "gap": "Observability fundamentals for agentic graphs (logs/metrics/traces, correlation IDs, sampling)",
+        "url": "https://arxiv.org/html/2411.05285v2",
+        "title": "AgentOps: Enabling Observability of LLM Agents"
+      },
+      {
+        "gap": "Observability fundamentals for agentic graphs (logs/metrics/traces, correlation IDs, sampling)",
+        "url": "https://urfjournals.org/open-access/metrics-logs-and-traces-a-unified-approach-to-observability-in-microservices.pdf",
+        "title": "metrics-logs-and-traces-a-unified-approach-to-observability-in ..."
+      },
+      {
+        "gap": "Observability fundamentals for agentic graphs (logs/metrics/traces, correlation IDs, sampling)",
+        "url": "https://gradientflow.com/observability-for-agentic-ai/",
+        "title": "Beyond Black Boxes: A Guide to Observability for Agentic AI"
+      },
+      {
+        "gap": "Observability fundamentals for agentic graphs (logs/metrics/traces, correlation IDs, sampling)",
+        "url": "https://gerred.github.io/building-an-agentic-system/second-edition/part-iv-advanced-patterns/chapter-12-observability-and-monitoring.html",
+        "title": "The Agentic Systems Series"
+      },
+      {
+        "gap": "Production monitoring for LangGraph agents (latency, tool error rates, token/cost metrics, alerts, dashboards)",
+        "url": "https://www.langchain.com/conceptual-guides/production-monitoring",
+        "title": "Agent Observability: How to Monitor and Evaluate LLM ... - LangChain"
+      },
+      {
+        "gap": "Production monitoring for LangGraph agents (latency, tool error rates, token/cost metrics, alerts, dashboards)",
+        "url": "https://galileo.ai/blog/evaluate-langgraph-multi-agent-telecom",
+        "title": "How to Continuously Improve Your LangGraph Multi-Agent System"
+      },
+      {
+        "gap": "Production monitoring for LangGraph agents (latency, tool error rates, token/cost metrics, alerts, dashboards)",
+        "url": "https://www.getmaxim.ai/articles/how-to-continuously-improve-your-langgraph-multi-agent-system/",
+        "title": "How to Continuously Improve Your LangGraph Multi-Agent ..."
+      },
+      {
+        "gap": "Production monitoring for LangGraph agents (latency, tool error rates, token/cost metrics, alerts, dashboards)",
+        "url": "https://www.abhishekchauhan.it/blog/langsmith-production-observability-evaluation-debugging",
+        "title": "LangSmith in Production: Observability, Evaluation, and Debugging ..."
+      },
+      {
+        "gap": "Production monitoring for LangGraph agents (latency, tool error rates, token/cost metrics, alerts, dashboards)",
+        "url": "https://langfuse.com/guides/cookbook/example_langgraph_agents",
+        "title": "Example - Trace and Evaluate LangGraph Agents - Langfuse"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-10T19:09:11",
+    "run_label": "ensure-coverage:real-world-agent-use-cases-production-patterns",
+    "sources": [
+      {
+        "gap": "Production deployment patterns for agents: architecture, hosting, scaling, state/persistence, queues, rate limits, cost controls, observability (tracing/logging/metrics), SLOs, rollout/versioning",
+        "url": "https://www.manning.com/preview/ai-agents-in-action-second-edition/chapter-8",
+        "title": "8 Deploying agents and agentic systems"
+      },
+      {
+        "gap": "Production deployment patterns for agents: architecture, hosting, scaling, state/persistence, queues, rate limits, cost controls, observability (tracing/logging/metrics), SLOs, rollout/versioning",
+        "url": "https://guidesfor.dev/applied-agentic-ai-2026-guide/production-deployment-scaling/",
+        "title": "Chapter 13: Production Deployment & Scaling AI Agents"
+      },
+      {
+        "gap": "Production deployment patterns for agents: architecture, hosting, scaling, state/persistence, queues, rate limits, cost controls, observability (tracing/logging/metrics), SLOs, rollout/versioning",
+        "url": "https://www.agentik-os.com/blog/agent-deployment-patterns-production",
+        "title": "Shadow Testing In Production"
+      },
+      {
+        "gap": "Production deployment patterns for agents: architecture, hosting, scaling, state/persistence, queues, rate limits, cost controls, observability (tracing/logging/metrics), SLOs, rollout/versioning",
+        "url": "https://machinelearningmastery.com/deploying-ai-agents-to-production-architecture-infrastructure-and-implementation-roadmap/",
+        "title": "Deploying AI Agents to Production: Architecture, Infrastructure, and ..."
+      },
+      {
+        "gap": "Production deployment patterns for agents: architecture, hosting, scaling, state/persistence, queues, rate limits, cost controls, observability (tracing/logging/metrics), SLOs, rollout/versioning",
+        "url": "https://dev.to/fmquaglia/beyond-the-notebook-4-architectural-patterns-for-production-ready-ai-agents-3a16",
+        "title": "Beyond the Notebook: 4 Architectural Patterns for Production-Ready ..."
+      },
+      {
+        "gap": "Research assistant agent pattern: retrieval (RAG) pipelines, source selection/ranking, citation/grounding, multi-step research workflows, summarization with provenance, fact-checking loops",
+        "url": "https://d197for5662m48.cloudfront.net/documents/publicationstatus/273020/preprint_pdf/d6bce72bd2f35cbdcaf07db93401a95d.pdf",
+        "title": "[PDF] An Empirical Evaluation of a Multi-Agent Framework for Retrieval ..."
+      },
+      {
+        "gap": "Research assistant agent pattern: retrieval (RAG) pipelines, source selection/ranking, citation/grounding, multi-step research workflows, summarization with provenance, fact-checking loops",
+        "url": "https://www.arxiv.org/pdf/2507.11272.pdf",
+        "title": "[PDF] An Empirical Study of Multi-Agent RAG for Real-World University ..."
+      },
+      {
+        "gap": "Research assistant agent pattern: retrieval (RAG) pipelines, source selection/ranking, citation/grounding, multi-step research workflows, summarization with provenance, fact-checking loops",
+        "url": "https://arxiv.org/html/2508.05660v1",
+        "title": "Open-Source Agentic Hybrid RAG Framework for Scientific ... - arXiv"
+      },
+      {
+        "gap": "Research assistant agent pattern: retrieval (RAG) pipelines, source selection/ranking, citation/grounding, multi-step research workflows, summarization with provenance, fact-checking loops",
+        "url": "https://d197for5662m48.cloudfront.net/documents/publicationstatus/276113/preprint_pdf/d0ad4a1b24cbb2ee88d0e0ab48c34862.pdf",
+        "title": "[PDF] Fnu Neha1 and Deepshikha Bhati1 1Dept. of Computer Science ..."
+      },
+      {
+        "gap": "Research assistant agent pattern: retrieval (RAG) pipelines, source selection/ranking, citation/grounding, multi-step research workflows, summarization with provenance, fact-checking loops",
+        "url": "https://cig.fi.upm.es/wp-content/uploads/TFM_RAMIRO_LOPEZ_CENTO.pdf",
+        "title": "[PDF] Master Thesis Agentic Retrieval Augmented Generation for ..."
+      },
+      {
+        "gap": "Code generation agent pattern: repo context ingestion, toolchain integration (git, tests, linters), patch generation/apply, iterative debugging, sandboxing, security constraints",
+        "url": "https://arxiv.org/html/2401.07339v2",
+        "title": "CodeAgent: Enhancing Code Generation with Tool- ..."
+      },
+      {
+        "gap": "Code generation agent pattern: repo context ingestion, toolchain integration (git, tests, linters), patch generation/apply, iterative debugging, sandboxing, security constraints",
+        "url": "https://arxiv.org/abs/2602.11988",
+        "title": "Are Repository-Level Context Files Helpful for Coding Agents? - arXiv"
+      },
+      {
+        "gap": "Code generation agent pattern: repo context ingestion, toolchain integration (git, tests, linters), patch generation/apply, iterative debugging, sandboxing, security constraints",
+        "url": "https://aclanthology.org/2024.acl-long.737.pdf",
+        "title": "CODEAGENT: Enhancing Code Generation with Tool- ..."
+      },
+      {
+        "gap": "Code generation agent pattern: repo context ingestion, toolchain integration (git, tests, linters), patch generation/apply, iterative debugging, sandboxing, security constraints",
+        "url": "https://www.emergentmind.com/papers/2401.07339",
+        "title": "CodeAgent: Enhancing Repo-Level Code Generation"
+      },
+      {
+        "gap": "Code generation agent pattern: repo context ingestion, toolchain integration (git, tests, linters), patch generation/apply, iterative debugging, sandboxing, security constraints",
+        "url": "https://ligechina.github.io/My%20Papers/2024%20-%20ACL%20-%20CodeAgent-%20Enhancing%20Code%20Generation%20with%20Tool-Integrated%20Agent%20Systems%20for%20Real-World%20Repo-level%20Coding%20Challenges.pdf",
+        "title": "Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), pages 13643\u201313658"
+      },
+      {
+        "gap": "Customer support automation: ticket triage, knowledge base retrieval, CRM/helpdesk integrations, escalation/handoff to humans, policy compliance, QA review, deflection and CSAT metrics",
+        "url": "https://www.givainc.com/blog/automate-customer-support/",
+        "title": "How to Automate Customer Support + Pitfalls and Key Metrics | Giva"
+      },
+      {
+        "gap": "Customer support automation: ticket triage, knowledge base retrieval, CRM/helpdesk integrations, escalation/handoff to humans, policy compliance, QA review, deflection and CSAT metrics",
+        "url": "https://thinkbot.agency/blog/support-ticket-automation-playbook-triage-routing-slas-knowledge-qa",
+        "title": "Triage, Routing, SLAs, Knowledge, QA, and Human Handoff ..."
+      },
+      {
+        "gap": "Customer support automation: ticket triage, knowledge base retrieval, CRM/helpdesk integrations, escalation/handoff to humans, policy compliance, QA review, deflection and CSAT metrics",
+        "url": "https://www.aiagentlearn.site/tutorials/ai-agent-for-customer-service/",
+        "title": "AI Agent for Customer Service: Ticket Triage, Knowledge Base ..."
+      },
+      {
+        "gap": "Customer support automation: ticket triage, knowledge base retrieval, CRM/helpdesk integrations, escalation/handoff to humans, policy compliance, QA review, deflection and CSAT metrics",
+        "url": "https://reruption.com/en/knowledge/how-to-ai/customer-service/automate-customer-support/manual-ticket-triage/chatgpt",
+        "title": "Automate Manual Ticket Triage with ChatGPT"
+      },
+      {
+        "gap": "Customer support automation: ticket triage, knowledge base retrieval, CRM/helpdesk integrations, escalation/handoff to humans, policy compliance, QA review, deflection and CSAT metrics",
+        "url": "https://bizdevstrategy.com/customer-support-automation-guide-efficiency-satisfaction/",
+        "title": "Customer support automation guide: boost efficiency & satisfaction"
+      },
+      {
+        "gap": "Robust error handling: tool failure taxonomy, retries with backoff, timeouts, circuit breakers, idempotency, validation/repair loops, fallback strategies",
+        "url": "https://www.ijirmps.org/papers/2019/1/231996.pdf",
+        "title": "[PDF] Circuit Breakers, Retries, and Backoff Strategies - IJIRMPS"
+      },
+      {
+        "gap": "Robust error handling: tool failure taxonomy, retries with backoff, timeouts, circuit breakers, idempotency, validation/repair loops, fallback strategies",
+        "url": "https://arxiv.org/html/2603.18059v1",
+        "title": "Policy-First Control for Tool-Orchestrated Workflows - arXiv"
+      },
+      {
+        "gap": "Robust error handling: tool failure taxonomy, retries with backoff, timeouts, circuit breakers, idempotency, validation/repair loops, fallback strategies",
+        "url": "https://iam.slys.dev/p/how-systems-handle-failure-retries",
+        "title": "How systems handle failure \u2014 retries, circuit breakers, and ..."
+      },
+      {
+        "gap": "Robust error handling: tool failure taxonomy, retries with backoff, timeouts, circuit breakers, idempotency, validation/repair loops, fallback strategies",
+        "url": "https://system-design.space/en/chapter/resilience-patterns/",
+        "title": "Fault Tolerance Patterns: Circuit Breaker, Bulkhead, Retry"
+      },
+      {
+        "gap": "Robust error handling: tool failure taxonomy, retries with backoff, timeouts, circuit breakers, idempotency, validation/repair loops, fallback strategies",
+        "url": "https://pcsalt.com/architecture/designing-for-failure/",
+        "title": "Designing for Failure \u2014 Retry, Timeout, Bulkhead & Fallback ..."
+      },
+      {
+        "gap": "Agent reliability and evaluation: offline/online eval frameworks, golden datasets, task success metrics, tool-call correctness, hallucination/grounding measures, continuous regression testing and monitoring",
+        "url": "https://arxiv.org/html/2601.06112v1",
+        "title": "ReliabilityBench: Evaluating LLM Agent Reliability Under Production ..."
+      },
+      {
+        "gap": "Agent reliability and evaluation: offline/online eval frameworks, golden datasets, task success metrics, tool-call correctness, hallucination/grounding measures, continuous regression testing and monitoring",
+        "url": "https://arxiv.org/html/2508.05508v1",
+        "title": "Auto-Eval Judge: Towards a General Agentic Framework for Task ..."
+      },
+      {
+        "gap": "Agent reliability and evaluation: offline/online eval frameworks, golden datasets, task success metrics, tool-call correctness, hallucination/grounding measures, continuous regression testing and monitoring",
+        "url": "https://www.getmaxim.ai/articles/hallucination-evaluation-frameworks-technical-comparison-for-production-ai-systems-2025/",
+        "title": "Hallucination Evaluation Frameworks: Technical Comparison for ..."
+      },
+      {
+        "gap": "Agent reliability and evaluation: offline/online eval frameworks, golden datasets, task success metrics, tool-call correctness, hallucination/grounding measures, continuous regression testing and monitoring",
+        "url": "https://codelabs.developers.google.com/codelabs/production-ready-ai-roadshow/2-evaluating-multi-agent-systems/evaluating-multi-agent-systems",
+        "title": "From \"vibe checks\" to data-driven Agent Evaluation - Google Codelabs"
+      },
+      {
+        "gap": "Agent reliability and evaluation: offline/online eval frameworks, golden datasets, task success metrics, tool-call correctness, hallucination/grounding measures, continuous regression testing and monitoring",
+        "url": "https://testrigor.com/blog/different-evals-for-agentic-ai/",
+        "title": "Different Evals for Agentic AI: Methods, Metrics & Best Practices"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-10T19:10:52",
+    "run_label": "ensure-coverage:capstone-designing-building-production-ready-agent",
+    "sources": [
+      {
+        "gap": "A complete end-to-end production agent design methodology (requirements, architecture, safety, deployment, operations)",
+        "url": "https://arxiv.org/html/2512.08769v1",
+        "title": "A Practical Guide for Designing, Developing, and Deploying ... - arXiv"
+      },
+      {
+        "gap": "A complete end-to-end production agent design methodology (requirements, architecture, safety, deployment, operations)",
+        "url": "https://arxiv.org/abs/2512.08769",
+        "title": "[2512.08769] A Practical Guide for Designing, Developing, ..."
+      },
+      {
+        "gap": "A complete end-to-end production agent design methodology (requirements, architecture, safety, deployment, operations)",
+        "url": "https://www.sciencestack.ai/paper/2512.08769",
+        "title": "A Practical Guide for Designing, Developing, and Deploying ..."
+      },
+      {
+        "gap": "A complete end-to-end production agent design methodology (requirements, architecture, safety, deployment, operations)",
+        "url": "https://www.emergentmind.com/papers/2512.08769",
+        "title": "Guide to Production-Grade Agentic AI"
+      },
+      {
+        "gap": "A complete end-to-end production agent design methodology (requirements, architecture, safety, deployment, operations)",
+        "url": "https://papers.cool/arxiv/2512.08769",
+        "title": "2512.08769"
+      },
+      {
+        "gap": "LangGraph orchestration in depth: state modeling, node/edge patterns, control flow, persistence semantics, retries, streaming, deployment",
+        "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+        "title": "LangGraph overview - Docs by LangChain"
+      },
+      {
+        "gap": "LangGraph orchestration in depth: state modeling, node/edge patterns, control flow, persistence semantics, retries, streaming, deployment",
+        "url": "https://latenode.com/blog/ai-frameworks-technical-infrastructure/langgraph-multi-agent-orchestration/langgraph-ai-framework-2025-complete-architecture-guide-multi-agent-orchestration-analysis",
+        "title": "LangGraph AI Framework 2025: Complete Architecture Guide + ..."
+      },
+      {
+        "gap": "LangGraph orchestration in depth: state modeling, node/edge patterns, control flow, persistence semantics, retries, streaming, deployment",
+        "url": "https://conf42.github.io/static/slides/Rajeshwari%20Sah%20-%20Conf42%20Machine%20Learning%202026.pdf",
+        "title": "[PDF] Orchestrating Agentic State Machines with LangGraph - GitHub Pages"
+      },
+      {
+        "gap": "LangGraph orchestration in depth: state modeling, node/edge patterns, control flow, persistence semantics, retries, streaming, deployment",
+        "url": "https://www.emergentmind.com/topics/langgraph",
+        "title": "LangGraph: Modular LLM Agent Orchestration"
+      },
+      {
+        "gap": "LangGraph orchestration in depth: state modeling, node/edge patterns, control flow, persistence semantics, retries, streaming, deployment",
+        "url": "https://www.emergentmind.com/topics/langgraph-architecture",
+        "title": "LangGraph Architecture - Emergent Mind"
+      },
+      {
+        "gap": "RAG fundamentals and production details: chunking, embeddings, indexing, retrieval strategies, grounding/citations, evaluation of retrieval",
+        "url": "https://arxiv.org/abs/2504.19754",
+        "title": "Evaluating Advanced Chunking Strategies for Retrieval-Augmented ..."
+      },
+      {
+        "gap": "RAG fundamentals and production details: chunking, embeddings, indexing, retrieval strategies, grounding/citations, evaluation of retrieval",
+        "url": "https://arxiv.org/abs/2601.15457",
+        "title": "An Empirical Evaluation of RAG Architectures for Policy Document ..."
+      },
+      {
+        "gap": "RAG fundamentals and production details: chunking, embeddings, indexing, retrieval strategies, grounding/citations, evaluation of retrieval",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12649634/",
+        "title": "Comparative Evaluation of Advanced Chunking for Retrieval ..."
+      },
+      {
+        "gap": "RAG fundamentals and production details: chunking, embeddings, indexing, retrieval strategies, grounding/citations, evaluation of retrieval",
+        "url": "https://tldr.takara.ai/p/2601.15457v1",
+        "title": "Chunking, Retrieval, and Re-ranking: An Empirical Evaluation of ..."
+      },
+      {
+        "gap": "RAG fundamentals and production details: chunking, embeddings, indexing, retrieval strategies, grounding/citations, evaluation of retrieval",
+        "url": "https://gpt-trainer.com/blog/rag+chunking+strategy",
+        "title": "RAG Chunking Strategy | GPT-trainer Blog"
+      },
+      {
+        "gap": "Structured tool calling implementation details: schema design, validation, tool error handling, tool-result integration patterns",
+        "url": "https://arxiv.org/pdf/2603.16901.pdf",
+        "title": "[PDF] Reliable Structured Tool Calling via Data-Centric Fine-Tuning - arXiv"
+      },
+      {
+        "gap": "Structured tool calling implementation details: schema design, validation, tool error handling, tool-result integration patterns",
+        "url": "https://tianpan.co/blog/2025-10-12-tool-use-function-calling-patterns",
+        "title": "Tool Use in Production: Function Calling Patterns That Actually Work"
+      },
+      {
+        "gap": "Structured tool calling implementation details: schema design, validation, tool error handling, tool-result integration patterns",
+        "url": "https://ai-sdk.dev/docs/ai-sdk-core/tools-and-tool-calling",
+        "title": "AI SDK Core: Tool Calling"
+      },
+      {
+        "gap": "Structured tool calling implementation details: schema design, validation, tool error handling, tool-result integration patterns",
+        "url": "https://arxiv.org/pdf/2603.13404.pdf",
+        "title": "[PDF] Schema First Tool APIs for LLM Agents: A Controlled Study of ... - arXiv"
+      },
+      {
+        "gap": "Structured tool calling implementation details: schema design, validation, tool error handling, tool-result integration patterns",
+        "url": "https://www.educative.io/courses/generative-ai-system-design/llm-tool-calling-architectures-for-ai-agents",
+        "title": "LLM Tool Calling Architectures for AI Agents - Educative.io"
+      },
+      {
+        "gap": "Human-in-the-loop approval checkpoints in LangGraph: interrupt/pause-resume, approval gates, audit trails",
+        "url": "https://machinelearningmastery.com/building-a-human-in-the-loop-approval-gate-for-autonomous-agents/",
+        "title": "Building a 'Human-in-the-Loop' Approval Gate for Autonomous Agents"
+      },
+      {
+        "gap": "Human-in-the-loop approval checkpoints in LangGraph: interrupt/pause-resume, approval gates, audit trails",
+        "url": "https://docs.langchain.com/oss/python/langchain/human-in-the-loop",
+        "title": "Human-in-the-loop - Docs by LangChain"
+      },
+      {
+        "gap": "Human-in-the-loop approval checkpoints in LangGraph: interrupt/pause-resume, approval gates, audit trails",
+        "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+        "title": "Interrupts - Docs by LangChain"
+      },
+      {
+        "gap": "Human-in-the-loop approval checkpoints in LangGraph: interrupt/pause-resume, approval gates, audit trails",
+        "url": "https://dev.to/jamesbmour/interrupts-and-commands-in-langgraph-building-human-in-the-loop-workflows-4ngl",
+        "title": "Interrupts and Commands in LangGraph: Building Human- ..."
+      },
+      {
+        "gap": "Human-in-the-loop approval checkpoints in LangGraph: interrupt/pause-resume, approval gates, audit trails",
+        "url": "https://rampakanayev.com/blog/langgraph-human-in-the-loop",
+        "title": "How to Implement Human-in-the-Loop in LangGraph"
+      },
+      {
+        "gap": "Observability for agents: tracing/logging/metrics, how to instrument LangGraph runs, debugging workflows",
+        "url": "https://dev.to/kuldeep_paul/how-to-implement-observability-for-ai-agents-with-langgraph-openai-agents-and-crew-ai-5e7k",
+        "title": "How to Implement Observability for AI Agents with LangGraph ..."
+      },
+      {
+        "gap": "Observability for agents: tracing/logging/metrics, how to instrument LangGraph runs, debugging workflows",
+        "url": "https://docs.langchain.com/oss/python/langgraph/observability",
+        "title": "LangSmith Observability - Docs by LangChain"
+      },
+      {
+        "gap": "Observability for agents: tracing/logging/metrics, how to instrument LangGraph runs, debugging workflows",
+        "url": "https://langfuse.com/guides/cookbook/integration_langgraph",
+        "title": "Open Source Observability for LangGraph - Langfuse"
+      },
+      {
+        "gap": "Observability for agents: tracing/logging/metrics, how to instrument LangGraph runs, debugging workflows",
+        "url": "https://langfuse.com/guides/cookbook/example_langgraph_agents",
+        "title": "Example - Trace and Evaluate LangGraph Agents - Langfuse"
+      },
+      {
+        "gap": "Observability for agents: tracing/logging/metrics, how to instrument LangGraph runs, debugging workflows",
+        "url": "https://ubiai.tools/building-observable-and-reliable-ai-agents-using-langgraph-langsmith-and-ubiai/",
+        "title": "Building Observable and Reliable AI Agents Using LangGraph ..."
+      },
+      {
+        "gap": "Agent evaluation: offline/online eval design, harnesses, rubrics, automated evaluation, regression testing, monitoring and drift",
+        "url": "https://nlp.cs.berkeley.edu/pubs/Pan-Zhang-Tomlin-Zhou-Levine-Suhr_2024_Autonomous_paper.pdf",
+        "title": "Published as a conference paper at COLM 2024"
+      },
+      {
+        "gap": "Agent evaluation: offline/online eval design, harnesses, rubrics, automated evaluation, regression testing, monitoring and drift",
+        "url": "https://arxiv.org/html/2602.18029v1",
+        "title": "Towards More Standardized AI Evaluation: From Models to Agents"
+      },
+      {
+        "gap": "Agent evaluation: offline/online eval design, harnesses, rubrics, automated evaluation, regression testing, monitoring and drift",
+        "url": "https://arxiv.org/html/2508.05508v1",
+        "title": "Auto-Eval Judge: Towards a General Agentic Framework for Task ..."
+      },
+      {
+        "gap": "Agent evaluation: offline/online eval design, harnesses, rubrics, automated evaluation, regression testing, monitoring and drift",
+        "url": "https://www.manning.com/preview/ai-agents-in-action-second-edition/chapter-7",
+        "title": "7 Building robust agents with evaluation and feedback"
+      },
+      {
+        "gap": "Agent evaluation: offline/online eval design, harnesses, rubrics, automated evaluation, regression testing, monitoring and drift",
+        "url": "https://adp.xindoo.xyz/original/Chapter%2019_%20Evaluation%20and%20Monitoring/",
+        "title": "Chapter 19: Evaluation and Monitoring | Agentic Design Patterns"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-10T19:12:41",
+    "run_label": "ensure-coverage:framework-selection-criteria-right-tool",
+    "sources": [
+      {
+        "gap": "A structured framework-selection decision process for agent frameworks (mapping production requirements to framework primitives)",
+        "url": "https://www.ijcttjournal.org/2025/Volume-73%20Issue-5/IJCTT-V73I5P105.pdf",
+        "title": "[PDF] A Systematic Approach to Agent Architecture Selection"
+      },
+      {
+        "gap": "A structured framework-selection decision process for agent frameworks (mapping production requirements to framework primitives)",
+        "url": "https://ijcttjournal.org/2025/Volume-73%20Issue-5/IJCTT-V73I5P105.pdf",
+        "title": "Multi-Agent Decision Framework: A Systematic Approach to ..."
+      },
+      {
+        "gap": "A structured framework-selection decision process for agent frameworks (mapping production requirements to framework primitives)",
+        "url": "https://arxiv.org/pdf/2512.01939.pdf",
+        "title": "An Empirical Study of Agent Developer Practices in AI Agent Frameworks"
+      },
+      {
+        "gap": "A structured framework-selection decision process for agent frameworks (mapping production requirements to framework primitives)",
+        "url": "https://machinelearningmastery.com/the-complete-ai-agent-decision-framework/",
+        "title": "The Complete AI Agent Decision Framework"
+      },
+      {
+        "gap": "A structured framework-selection decision process for agent frameworks (mapping production requirements to framework primitives)",
+        "url": "https://static.aminer.org/pdf/20170130/pdfs/oopsla/xcsyoq8gavfdiabv1epkpjje6wub9hwy.pdf",
+        "title": "oopsla2000-final-pdf.PDF"
+      },
+      {
+        "gap": "Deployment constraints for agent systems (on-prem vs cloud, data residency, auth/secrets, networking, cost/latency SLOs) and how they affect framework choice",
+        "url": "https://agenticaiguide.ai/ch_8/sec_8-1.html",
+        "title": "8.1 Deployment Options \u2013 Cloud, On-Premise, and Hybrid Systems"
+      },
+      {
+        "gap": "Deployment constraints for agent systems (on-prem vs cloud, data residency, auth/secrets, networking, cost/latency SLOs) and how they affect framework choice",
+        "url": "https://arxiv.org/html/2508.03345v1",
+        "title": "Adaptive AI Agent Placement and Migration in Edge ..."
+      },
+      {
+        "gap": "Deployment constraints for agent systems (on-prem vs cloud, data residency, auth/secrets, networking, cost/latency SLOs) and how they affect framework choice",
+        "url": "https://aiwithkt.substack.com/p/31-deploying-and-securing-agentic",
+        "title": "#31: Deploying and Securing Agentic AI Systems: Best Practices & Challenges [8-min read]."
+      },
+      {
+        "gap": "Deployment constraints for agent systems (on-prem vs cloud, data residency, auth/secrets, networking, cost/latency SLOs) and how they affect framework choice",
+        "url": "https://ceur-ws.org/Vol-2975/paper1.pdf",
+        "title": "11th International Workshop on Science Gateways (IWSG 2019), 12-14 June 2019"
+      },
+      {
+        "gap": "Deployment constraints for agent systems (on-prem vs cloud, data residency, auth/secrets, networking, cost/latency SLOs) and how they affect framework choice",
+        "url": "https://dl.acm.org/doi/pdf/10.1145/3698038.3698525",
+        "title": "Building AI Agents for Autonomous Clouds: Challenges and Design Principles"
+      },
+      {
+        "gap": "Scalability/serving considerations for agents (concurrency, durable queues, retries, backpressure, multi-tenancy) and framework support",
+        "url": "https://agentcenter.cloud/blogs/scaling-ai-agents-production",
+        "title": "Scaling AI Agents \u2014 From 10 to 10,000 Concurrent Agents"
+      },
+      {
+        "gap": "Scalability/serving considerations for agents (concurrency, durable queues, retries, backpressure, multi-tenancy) and framework support",
+        "url": "https://arxiv.org/html/2602.10479",
+        "title": "The Evolution of Agentic AI Software Architecture - arXiv"
+      },
+      {
+        "gap": "Scalability/serving considerations for agents (concurrency, durable queues, retries, backpressure, multi-tenancy) and framework support",
+        "url": "https://www.arunbaby.com/ai-agents/0054-scaling-multi-agent-systems/",
+        "title": "Production Considerations"
+      },
+      {
+        "gap": "Scalability/serving considerations for agents (concurrency, durable queues, retries, backpressure, multi-tenancy) and framework support",
+        "url": "https://www.agentik-os.com/blog/scaling-agent-systems-architecture",
+        "title": "Scaling Agent Systems: Architecture That Survives Growth"
+      },
+      {
+        "gap": "Scalability/serving considerations for agents (concurrency, durable queues, retries, backpressure, multi-tenancy) and framework support",
+        "url": "https://dl.acm.org/doi/pdf/10.1145/336595.337033",
+        "title": "What is Scalability in Multi-Agent Systems?"
+      },
+      {
+        "gap": "Build vs buy tradeoffs for agent orchestration frameworks (maintenance, extensibility, lock-in, ecosystem, compliance)",
+        "url": "https://arxiv.org/html/2601.02577v1",
+        "title": "Orchestral AI: A Framework for Agent Orchestration - arXiv"
+      },
+      {
+        "gap": "Build vs buy tradeoffs for agent orchestration frameworks (maintenance, extensibility, lock-in, ecosystem, compliance)",
+        "url": "https://www.arxiv.org/pdf/2601.02577.pdf",
+        "title": "Orchestral AI: A Framework for Agent ..."
+      },
+      {
+        "gap": "Build vs buy tradeoffs for agent orchestration frameworks (maintenance, extensibility, lock-in, ecosystem, compliance)",
+        "url": "https://www.theagenticweb.dev/blueprint/build-vs-buy",
+        "title": "Chapter 3: When to Build vs Buy - The Agentic Web"
+      },
+      {
+        "gap": "Build vs buy tradeoffs for agent orchestration frameworks (maintenance, extensibility, lock-in, ecosystem, compliance)",
+        "url": "https://www.corti.ai/guides/ai-agents-solving-the-build-vs-buy-dilemma-for-developers",
+        "title": "AI Agents: Solving the build vs. buy dilemma for developers | Guides"
+      },
+      {
+        "gap": "Build vs buy tradeoffs for agent orchestration frameworks (maintenance, extensibility, lock-in, ecosystem, compliance)",
+        "url": "https://www.turing.com/resources/build-vs-buy-ai-agents",
+        "title": "Build vs. Buy AI Agents: A Strategic Guide for Enterprises"
+      },
+      {
+        "gap": "Human oversight patterns in production agents (interrupts, approval gates, escalation, audit trails) and selection implications",
+        "url": "https://arxiv.org/html/2604.04918v1",
+        "title": "Comparing Human Oversight Strategies for Computer-Use Agents"
+      },
+      {
+        "gap": "Human oversight patterns in production agents (interrupts, approval gates, escalation, audit trails) and selection implications",
+        "url": "https://understandingdata.com/posts/human-in-the-loop-patterns/",
+        "title": "Human-in-the-Loop Patterns: Approval, Input, and Escalation ..."
+      },
+      {
+        "gap": "Human oversight patterns in production agents (interrupts, approval gates, escalation, audit trails) and selection implications",
+        "url": "https://arxiv.org/html/2404.04059v2",
+        "title": "On the Quest for Effectiveness in Human Oversight - arXiv"
+      },
+      {
+        "gap": "Human oversight patterns in production agents (interrupts, approval gates, escalation, audit trails) and selection implications",
+        "url": "https://www.grizzlypeaksoftware.com/library/human-in-the-loop-patterns-for-ai-agents-n64sb2cm",
+        "title": "Human-in-the-Loop Patterns for AI Agents - Library"
+      },
+      {
+        "gap": "Human oversight patterns in production agents (interrupts, approval gates, escalation, audit trails) and selection implications",
+        "url": "https://www.sakurasky.com/blog/missing-primitives-for-trustworthy-ai-part-16/",
+        "title": "Trustworthy AI Agents: Human-in-the-Loop Governance - Sakura Sky"
+      },
+      {
+        "gap": "Observability and evaluation for agents (tracing models, metrics, offline/online evals, regression testing, prompt/tool-call audits)",
+        "url": "https://www.langchain.com/conceptual-guides/agent-observability-powers-agent-evaluation",
+        "title": "How to Debug & Evaluate AI Agents with Observability - LangChain"
+      },
+      {
+        "gap": "Observability and evaluation for agents (tracing models, metrics, offline/online evals, regression testing, prompt/tool-call audits)",
+        "url": "https://www.groundcover.com/learn/observability/ai-agent-observability",
+        "title": "AI Agent Observability Guide: Telemetry, Traces, Metrics, and Evals"
+      },
+      {
+        "gap": "Observability and evaluation for agents (tracing models, metrics, offline/online evals, regression testing, prompt/tool-call audits)",
+        "url": "https://arxiv.org/pdf/2503.06745.pdf",
+        "title": "Observability, Analytics, and Optimization of Agentic Systems"
+      },
+      {
+        "gap": "Observability and evaluation for agents (tracing models, metrics, offline/online evals, regression testing, prompt/tool-call audits)",
+        "url": "https://www.langchain.com/articles/agent-observability",
+        "title": "AI Agent Observability: Tracing, Testing, and Improving Agents"
+      },
+      {
+        "gap": "Observability and evaluation for agents (tracing models, metrics, offline/online evals, regression testing, prompt/tool-call audits)",
+        "url": "https://www.oracle.com/a/ocom/docs/applications/fusion-apps-ai-agents-observe-eval-guide.pdf",
+        "title": "AI agent observability and evaluation"
+      }
+    ]
+  }
+]

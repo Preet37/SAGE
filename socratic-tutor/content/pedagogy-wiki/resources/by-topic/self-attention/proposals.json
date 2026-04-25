@@ -1,0 +1,1785 @@
+[
+  {
+    "timestamp": "2026-04-07T14:49:51",
+    "run_label": "pipeline-test:queries-keys-values-qkv-framework",
+    "sources": [
+      {
+        "gap": "Query, key, and value vectors in transformer attention \u2014 definitions, how they are computed from input embeddings via learned weight matrices",
+        "url": "https://epichka.com/blog/2023/qkv-transformer/",
+        "title": "What is Query, Key, and Value (QKV) in the Transformer Architecture ..."
+      },
+      {
+        "gap": "Query, key, and value vectors in transformer attention \u2014 definitions, how they are computed from input embeddings via learned weight matrices",
+        "url": "https://arpitbhayani.me/blogs/qkv-matrices/",
+        "title": "The Weight Matrices"
+      },
+      {
+        "gap": "Query, key, and value vectors in transformer attention \u2014 definitions, how they are computed from input embeddings via learned weight matrices",
+        "url": "https://mbrenndoerfer.com/writing/query-key-value-attention-mechanism",
+        "title": "Query, Key, Value: The Foundation of Transformer Attention"
+      },
+      {
+        "gap": "Query, key, and value vectors in transformer attention \u2014 definitions, how they are computed from input embeddings via learned weight matrices",
+        "url": "https://introml.mit.edu/_static/fall24/LectureNotes/chapter_Transformers.pdf",
+        "title": "[PDF] 9.1 Vector embeddings and tokens - 6.390"
+      },
+      {
+        "gap": "Query, key, and value vectors in transformer attention \u2014 definitions, how they are computed from input embeddings via learned weight matrices",
+        "url": "https://ameersaleem.substack.com/p/queries-keys-and-values-in-attention",
+        "title": "Queries, Keys and Values in attention mechanisms"
+      },
+      {
+        "gap": "Scaled dot-product attention formula: softmax(QK^T / sqrt(d_k))V \u2014 full derivation and mechanics",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-2-attention-mechanism-core-concepts/scaled-dot-product-attention",
+        "title": "Scaled Dot-Product Attention Explained - ApX Machine Learning"
+      },
+      {
+        "gap": "Scaled dot-product attention formula: softmax(QK^T / sqrt(d_k))V \u2014 full derivation and mechanics",
+        "url": "https://codesignal.com/learn/courses/sequence-models-the-dawn-of-attention-1/lessons/scaled-dot-product-attention-and-masking-in-transformers-1",
+        "title": "Scaled Dot-Product Attention and Masking in Transformers"
+      },
+      {
+        "gap": "Scaled dot-product attention formula: softmax(QK^T / sqrt(d_k))V \u2014 full derivation and mechanics",
+        "url": "https://apxml.com/courses/introduction-to-transformer-models/chapter-2-self-attention-multi-head-attention/scaled-dot-product-attention",
+        "title": "Scaled Dot-Product Attention Mechanism"
+      },
+      {
+        "gap": "Scaled dot-product attention formula: softmax(QK^T / sqrt(d_k))V \u2014 full derivation and mechanics",
+        "url": "https://en.wikipedia.org/wiki/Attention_(machine_learning)",
+        "title": "Attention (machine learning) - Wikipedia"
+      },
+      {
+        "gap": "Scaled dot-product attention formula: softmax(QK^T / sqrt(d_k))V \u2014 full derivation and mechanics",
+        "url": "https://jaykmody.com/blog/attention-intuition/",
+        "title": "Scaled Dot Product Attention"
+      },
+      {
+        "gap": "Scaling factor sqrt(d_k) \u2014 why it is used, what problem it solves (dot product magnitude growth, softmax saturation)",
+        "url": "https://examm.pro/p/mastering-attention-mechanism-part",
+        "title": "Mastering Attention Mechanism: Part I"
+      },
+      {
+        "gap": "Scaling factor sqrt(d_k) \u2014 why it is used, what problem it solves (dot product magnitude growth, softmax saturation)",
+        "url": "https://community.deeplearning.ai/t/purpose-of-sqrt-dim-k-in-scaled-dot-product-attention/62880",
+        "title": "Purpose of sqrt(dim(k)) in Scaled dot product attention"
+      },
+      {
+        "gap": "Scaling factor sqrt(d_k) \u2014 why it is used, what problem it solves (dot product magnitude growth, softmax saturation)",
+        "url": "https://outcomeschool.com/blog/scaling-dot-product-attention",
+        "title": "Math behind \u221ad\u2096 Scaling Factor in Attention - Outcome School"
+      },
+      {
+        "gap": "Scaling factor sqrt(d_k) \u2014 why it is used, what problem it solves (dot product magnitude growth, softmax saturation)",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-2-attention-mechanism-core-concepts/scaled-dot-product-attention",
+        "title": "Scaled Dot-Product Attention Explained - ApX Machine Learning"
+      },
+      {
+        "gap": "Scaling factor sqrt(d_k) \u2014 why it is used, what problem it solves (dot product magnitude growth, softmax saturation)",
+        "url": "https://dev.to/samyak112/scaling-is-all-you-need-understanding-sqrtd-in-self-attention-29pk",
+        "title": "Scaling Is All You Need: Understanding sqrt(d\u2096) in Self-Attention"
+      },
+      {
+        "gap": "Attention matrix \u2014 how it is formed, what it represents, how softmax normalizes it",
+        "url": "https://people.tamu.edu/~sji/classes/attn-slides.pdf",
+        "title": "[PDF] A Mathematical View of Attention Models in Deep Learning"
+      },
+      {
+        "gap": "Attention matrix \u2014 how it is formed, what it represents, how softmax normalizes it",
+        "url": "https://people.tamu.edu/~sji/classes/attn.pdf",
+        "title": "[PDF] A Mathematical View of Attention Models in Deep Learning"
+      },
+      {
+        "gap": "Attention matrix \u2014 how it is formed, what it represents, how softmax normalizes it",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-2-attention-mechanism-core-concepts/softmax-attention-weights",
+        "title": "The Softmax Function for Attention Weights"
+      },
+      {
+        "gap": "Attention matrix \u2014 how it is formed, what it represents, how softmax normalizes it",
+        "url": "https://en.wikipedia.org/wiki/Attention_(machine_learning)",
+        "title": "Attention (machine learning) - Wikipedia"
+      },
+      {
+        "gap": "Attention matrix \u2014 how it is formed, what it represents, how softmax normalizes it",
+        "url": "https://arxiv.org/html/2310.11685v2",
+        "title": "Why Softmax Attention Outperforms Linear Attention"
+      },
+      {
+        "gap": "Self-attention mechanism \u2014 tokens attending to all other tokens in the same sequence, QKV all derived from the same input",
+        "url": "https://www.codecademy.com/article/transformer-architecture-self-attention-mechanism",
+        "title": "Transformer Architecture Explained With Self-Attention Mechanism"
+      },
+      {
+        "gap": "Self-attention mechanism \u2014 tokens attending to all other tokens in the same sequence, QKV all derived from the same input",
+        "url": "https://epichka.com/blog/2023/qkv-transformer/",
+        "title": "What is Query, Key, and Value (QKV) in the Transformer Architecture ..."
+      },
+      {
+        "gap": "Self-attention mechanism \u2014 tokens attending to all other tokens in the same sequence, QKV all derived from the same input",
+        "url": "https://mbrenndoerfer.com/writing/query-key-value-attention-mechanism",
+        "title": "Query, Key, Value: The Foundation of Transformer Attention"
+      },
+      {
+        "gap": "Self-attention mechanism \u2014 tokens attending to all other tokens in the same sequence, QKV all derived from the same input",
+        "url": "https://arpitbhayani.me/blogs/qkv-matrices/",
+        "title": "The Weight Matrices"
+      },
+      {
+        "gap": "Self-attention mechanism \u2014 tokens attending to all other tokens in the same sequence, QKV all derived from the same input",
+        "url": "https://www.cse.iitk.ac.in/users/piyush/courses/ml-autumn23/slides/Lecture-25.pdf",
+        "title": "Attention Mechanism and Transformers"
+      },
+      {
+        "gap": "Sequence-to-sequence (cross) attention vs self-attention \u2014 differences in where Q, K, V originate",
+        "url": "https://aiml.com/explain-cross-attention-and-how-is-it-different-from-self-attention/",
+        "title": "Cross-Attention vs Self-Attention Explained - AIML.com"
+      },
+      {
+        "gap": "Sequence-to-sequence (cross) attention vs self-attention \u2014 differences in where Q, K, V originate",
+        "url": "https://web.stanford.edu/~lexing/selfattention.pdf",
+        "title": "[PDF] Journal of Machine Learning Why Self-Attention is Natural for ..."
+      },
+      {
+        "gap": "Sequence-to-sequence (cross) attention vs self-attention \u2014 differences in where Q, K, V originate",
+        "url": "https://www.geeksforgeeks.org/nlp/cross-attention-mechanism-in-transformers/",
+        "title": "Cross-Attention Mechanism in Transformers"
+      },
+      {
+        "gap": "Sequence-to-sequence (cross) attention vs self-attention \u2014 differences in where Q, K, V originate",
+        "url": "https://arxiv.org/html/1706.03762v7",
+        "title": "Attention Is All You Need - arXiv"
+      },
+      {
+        "gap": "Sequence-to-sequence (cross) attention vs self-attention \u2014 differences in where Q, K, V originate",
+        "url": "https://synsab.com/archive/whitepapers/attention-is-all-you-need.pdf",
+        "title": "Provided proper attribution is provided, Google hereby grants permission to"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-07T14:50:03",
+    "run_label": "pipeline-test:visualizing-attention-weights",
+    "sources": [
+      {
+        "gap": "How to extract attention weight matrices from transformer models in PyTorch/TensorFlow (practical code examples)",
+        "url": "https://gist.github.com/airalcorn2/50ec06517ce96ecc143503e21fa6cb91",
+        "title": "A simple script for extracting the attention weights from a PyTorch ..."
+      },
+      {
+        "gap": "How to extract attention weight matrices from transformer models in PyTorch/TensorFlow (practical code examples)",
+        "url": "https://discuss.pytorch.org/t/obtain-the-attention-weights-within-transformer-class/165456",
+        "title": "Obtain the attention weights within Transformer class - nlp"
+      },
+      {
+        "gap": "How to extract attention weight matrices from transformer models in PyTorch/TensorFlow (practical code examples)",
+        "url": "https://discuss.pytorch.org/t/obtaining-outputs-and-attention-weights-from-intermediate-transformer-layers/74474",
+        "title": "Obtaining outputs and attention weights from intermediate ..."
+      },
+      {
+        "gap": "How to extract attention weight matrices from transformer models in PyTorch/TensorFlow (practical code examples)",
+        "url": "https://gist.github.com/airalcorn2/50ec06517ce96ecc143503e21fa6cb91?permalink_comment_id=4407465",
+        "title": "A simple script for extracting the attention weights from a PyTorch Transformer."
+      },
+      {
+        "gap": "How to extract attention weight matrices from transformer models in PyTorch/TensorFlow (practical code examples)",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-7-implementation-details-optimization/practice-analyzing-attention-weights",
+        "title": "Practice: Analyzing Attention Weight Distributions"
+      },
+      {
+        "gap": "How to plot attention heatmaps using matplotlib or seaborn (step-by-step visualization techniques)",
+        "url": "https://plotivy.app/charts/attention-heatmap",
+        "title": "Attention Heatmap | Python matplotlib - Plotivy"
+      },
+      {
+        "gap": "How to plot attention heatmaps using matplotlib or seaborn (step-by-step visualization techniques)",
+        "url": "https://github.com/2201512/MLAttentionVisualizations",
+        "title": "GitHub - 2201512/MLAttentionVisualizations: Visualization Libaries for Self Attention"
+      },
+      {
+        "gap": "How to plot attention heatmaps using matplotlib or seaborn (step-by-step visualization techniques)",
+        "url": "https://www.youtube.com/watch?v=u7ESlujjoBc",
+        "title": "Seaborn Heatmap- A Deep Dive into Visualising Trends & Patterns using Python"
+      },
+      {
+        "gap": "How to plot attention heatmaps using matplotlib or seaborn (step-by-step visualization techniques)",
+        "url": "https://www.geeksforgeeks.org/python/seaborn-heatmap-a-comprehensive-guide/",
+        "title": "Seaborn Heatmap - A comprehensive guide"
+      },
+      {
+        "gap": "How to plot attention heatmaps using matplotlib or seaborn (step-by-step visualization techniques)",
+        "url": "https://gucci-j.github.io/SA-Visualization/",
+        "title": "Matplotlib\u3068seaborn\u306b\u3088\u308bSelf Attention\u306e\u53ef\u8996\u5316"
+      },
+      {
+        "gap": "Soft alignment vs hard alignment: detailed mechanics and differences with examples",
+        "url": "https://arxiv.org/pdf/2505.20892.pdf",
+        "title": "One-Time Soft Alignment Enables"
+      },
+      {
+        "gap": "Soft alignment vs hard alignment: detailed mechanics and differences with examples",
+        "url": "http://arxiv.org/pdf/2312.10952.pdf",
+        "title": "SOFT ALIGNMENT OF MODALITY SPACE FOR END-TO-END"
+      },
+      {
+        "gap": "Soft alignment vs hard alignment: detailed mechanics and differences with examples",
+        "url": "https://aclanthology.org/2023.acl-long.492.pdf",
+        "title": "[PDF] Soft Alignment Objectives for Robust Adaptation of Language ..."
+      },
+      {
+        "gap": "Soft alignment vs hard alignment: detailed mechanics and differences with examples",
+        "url": "https://aclanthology.org/S16-1110.pdf",
+        "title": "NUIG-UNLP at SemEval-2016 Task 1: Soft Alignment and ..."
+      },
+      {
+        "gap": "Soft alignment vs hard alignment: detailed mechanics and differences with examples",
+        "url": "https://bohrium.dp.tech/paper/arxiv/2312.10952",
+        "title": "Soft Alignment of Modality Space for End-to-end Speech Translation"
+      },
+      {
+        "gap": "Attention rollout: definition, algorithm, and use for multi-layer attention interpretation",
+        "url": "https://arxiv.org/html/2504.19414v1",
+        "title": "GMAR: Gradient-Driven Multi-Head Attention Rollout for Vision ..."
+      },
+      {
+        "gap": "Attention rollout: definition, algorithm, and use for multi-layer attention interpretation",
+        "url": "https://pure.uva.nl/ws/files/178487922/2020.acl-main.385.pdf",
+        "title": "[PDF] UvA-DARE (Digital Academic Repository)"
+      },
+      {
+        "gap": "Attention rollout: definition, algorithm, and use for multi-layer attention interpretation",
+        "url": "https://storrs.io/attention-rollout/",
+        "title": "Explained: Attention Visualization with Attention Rollout - Erik Storrs"
+      },
+      {
+        "gap": "Attention rollout: definition, algorithm, and use for multi-layer attention interpretation",
+        "url": "https://arxiv.org/html/2510.06070v1",
+        "title": "1 Explanation maps of (a) SOTA AttnLRP (b) Gradient ..."
+      },
+      {
+        "gap": "Attention rollout: definition, algorithm, and use for multi-layer attention interpretation",
+        "url": "https://www.shadecoder.com/ja/topics/attention-rollout-a-comprehensive-guide-for-2025",
+        "title": "Attention Rollout: A Comprehensive Guide for 2025"
+      },
+      {
+        "gap": "Limits of attention as an interpretability tool: specific failure modes and common misinterpretations",
+        "url": "https://proceedings.mlr.press/v287/yadav25a.html",
+        "title": "Pitfalls of Attention-based Model Interpretability for High ..."
+      },
+      {
+        "gap": "Limits of attention as an interpretability tool: specific failure modes and common misinterpretations",
+        "url": "https://digitalcommons.harrisburgu.edu/cgi/viewcontent.cgi?article=1000&context=dandt",
+        "title": "The Role of Attention Mechanisms in Enhancing Transparency and Interpretability of Neural Network Models in Explainable AI"
+      },
+      {
+        "gap": "Limits of attention as an interpretability tool: specific failure modes and common misinterpretations",
+        "url": "https://proceedings.mlr.press/v189/pandey23a/pandey23a.pdf",
+        "title": "[PDF] On the Interpretability of Attention Networks"
+      },
+      {
+        "gap": "Limits of attention as an interpretability tool: specific failure modes and common misinterpretations",
+        "url": "https://arxiv.org/abs/2212.14776",
+        "title": "On the Interpretability of Attention Networks"
+      },
+      {
+        "gap": "Limits of attention as an interpretability tool: specific failure modes and common misinterpretations",
+        "url": "https://experts.azregents.edu/en/publications/when-attention-fails-pitfalls-of-attention-based-model-interpreta-2/",
+        "title": "Pitfalls of Attention-based Model Interpretability for High- ..."
+      },
+      {
+        "gap": "Alignment visualization: how to read and interpret alignment matrices in seq2seq models",
+        "url": "http://pages.cvc.uab.es/afornes/publi/conferences/2021_GREC_PTorras.pdf",
+        "title": "A Transcription Is All You Need: Learning to Align through Attention"
+      },
+      {
+        "gap": "Alignment visualization: how to read and interpret alignment matrices in seq2seq models",
+        "url": "https://www.geneious.com/guides/understanding-sequence-alignment",
+        "title": "Understanding Sequence Alignment - Geneious"
+      },
+      {
+        "gap": "Alignment visualization: how to read and interpret alignment matrices in seq2seq models",
+        "url": "https://arxiv.org/pdf/2205.08288.pdf",
+        "title": "Measuring Alignment Bias in Neural Seq2Seq Semantic Parsers"
+      },
+      {
+        "gap": "Alignment visualization: how to read and interpret alignment matrices in seq2seq models",
+        "url": "https://pure.uva.nl/ws/files/181991444/NeurIPS-2021-structured-reordering-for-modeling-latent-alignments-in-sequence-transduction-Paper.pdf",
+        "title": "UvA-DARE is a service provided by the library of the University of Amsterdam (https://dare.uva.nl)"
+      },
+      {
+        "gap": "Alignment visualization: how to read and interpret alignment matrices in seq2seq models",
+        "url": "https://proceedings.iclr.cc/paper_files/paper/2024/file/5aadf1e309cc03cab3ec35afb7c9d0c8-Paper-Conference.pdf",
+        "title": "ALIGN WITH PURPOSE: OPTIMIZE DESIRED PROPER"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-07T15:17:06",
+    "run_label": "pipeline-test:bahdanau-additive-attention",
+    "sources": [
+      {
+        "gap": "Bahdanau additive scoring function formula: e(s_{t-1}, h_j) = v^T tanh(W_s * s_{t-1} + W_h * h_j)",
+        "url": "https://mbrenndoerfer.com/writing/bahdanau-attention-neural-machine-translation",
+        "title": "Bahdanau Attention: Dynamic Context for Neural Machine Translation"
+      },
+      {
+        "gap": "Bahdanau additive scoring function formula: e(s_{t-1}, h_j) = v^T tanh(W_s * s_{t-1} + W_h * h_j)",
+        "url": "https://blog.csdn.net/weixin_43114209/article/details/150382542",
+        "title": "\u7528\u4e00\u7bc7\u6587\u7ae0\u5f7b\u5e95\u641e\u61c2 Bahdanau\uff08\u52a0\u6027\uff09\u4ece\u52a8\u673a\u3001\u516c\u5f0f\u5230\u53ef\u76f4\u63a5\u8dd1\u7684 PyTorch \u4ee3\u7801"
+      },
+      {
+        "gap": "Bahdanau additive scoring function formula: e(s_{t-1}, h_j) = v^T tanh(W_s * s_{t-1} + W_h * h_j)",
+        "url": "https://gist.github.com/ritwikraha/2466b901cb22bbe65288e4bb499e0ebc",
+        "title": "why Bahdanau is Additive?"
+      },
+      {
+        "gap": "Bahdanau additive scoring function formula: e(s_{t-1}, h_j) = v^T tanh(W_s * s_{t-1} + W_h * h_j)",
+        "url": "https://www.sotaaz.com/blog/attention-mechanism-implementation-en",
+        "title": "Which One Should You Actually Use? (Spoiler: Luong) | SOTAAZ Blog"
+      },
+      {
+        "gap": "Bahdanau additive scoring function formula: e(s_{t-1}, h_j) = v^T tanh(W_s * s_{t-1} + W_h * h_j)",
+        "url": "https://blog.csdn.net/qq_40044912/article/details/142066406",
+        "title": "\u6ce8\u610f\u529b\u673a\u5236\u7684\u53d1\u5c55\u5386\u53f2"
+      },
+      {
+        "gap": "Alignment model mechanics in Bahdanau attention: how alignment scores are computed between decoder state and encoder annotations",
+        "url": "https://www.aryanupadhyay.com/post/bahdanau-vs-luong-attention-architecture-math-and-differences-explained",
+        "title": "Bahdanau vs. Luong Attention: Architecture, Math, and Differences ..."
+      },
+      {
+        "gap": "Alignment model mechanics in Bahdanau attention: how alignment scores are computed between decoder state and encoder annotations",
+        "url": "https://blog.paperspace.com/introduction-to-neural-machine-translation-with-bahdanaus-attention/",
+        "title": "Intuitive Introduction to Neural Machine Translation with Bahdanau ..."
+      },
+      {
+        "gap": "Alignment model mechanics in Bahdanau attention: how alignment scores are computed between decoder state and encoder annotations",
+        "url": "https://mbrenndoerfer.com/writing/bahdanau-attention-neural-machine-translation",
+        "title": "Bahdanau Attention: Dynamic Context for Neural Machine Translation"
+      },
+      {
+        "gap": "Alignment model mechanics in Bahdanau attention: how alignment scores are computed between decoder state and encoder annotations",
+        "url": "https://aryamccarthy.github.io/bahdanau2015neural/",
+        "title": "Neural Machine Translation by Jointly Learning to Align and Translate"
+      },
+      {
+        "gap": "Alignment model mechanics in Bahdanau attention: how alignment scores are computed between decoder state and encoder annotations",
+        "url": "https://machinelearningmastery.com/the-bahdanau-attention-mechanism/",
+        "title": "The Bahdanau Attention Mechanism - MachineLearningMastery.com"
+      },
+      {
+        "gap": "Softmax normalization in attention: converting energy scores to probability distribution over source positions",
+        "url": "https://www.arxiv.org/pdf/2602.01744.pdf",
+        "title": "Softmax Linear Attention: Reclaiming Global Competition"
+      },
+      {
+        "gap": "Softmax normalization in attention: converting energy scores to probability distribution over source positions",
+        "url": "https://arxiv.org/html/2501.13428v5",
+        "title": "Softplus Attention with Re-weighting Boosts Length Extrapolation in Large Language Models"
+      },
+      {
+        "gap": "Softmax normalization in attention: converting energy scores to probability distribution over source positions",
+        "url": "https://axi.lims.ac.uk/paper/2005.09561",
+        "title": "Normalized Attention Without Probability Cage"
+      },
+      {
+        "gap": "Softmax normalization in attention: converting energy scores to probability distribution over source positions",
+        "url": "https://aclanthology.org/2025.emnlp-main.421.pdf",
+        "title": "Variance Sensitivity Induces Attention Entropy Collapse in Transformers"
+      },
+      {
+        "gap": "Softmax normalization in attention: converting energy scores to probability distribution over source positions",
+        "url": "https://emberverse.ai/piece/the_softmax_function_exponentiation_normalization_and_the_competition_for_attent",
+        "title": "Softmax in Transformer Attention Heads | Emberverse"
+      },
+      {
+        "gap": "Attention weights computation and context vector formation in Bahdanau attention",
+        "url": "https://d2l.ai/chapter_attention-mechanisms-and-transformers/bahdanau-attention.html",
+        "title": "11.4. The Bahdanau Attention Mechanism - Dive into Deep Learning"
+      },
+      {
+        "gap": "Attention weights computation and context vector formation in Bahdanau attention",
+        "url": "https://aclanthology.org/D15-1166.pdf",
+        "title": "Effective Approaches to Attention-based Neural Machine Translation"
+      },
+      {
+        "gap": "Attention weights computation and context vector formation in Bahdanau attention",
+        "url": "https://www.arxiv.org/pdf/1512.08756v4.pdf",
+        "title": "[PDF] arXiv:1512.08756v4 [cs.LG] 28 Mar 2016"
+      },
+      {
+        "gap": "Attention weights computation and context vector formation in Bahdanau attention",
+        "url": "https://arxiv.org/pdf/1512.08756.pdf",
+        "title": "Workshop track - ICLR 2016"
+      },
+      {
+        "gap": "Attention weights computation and context vector formation in Bahdanau attention",
+        "url": "https://mbrenndoerfer.com/writing/bahdanau-attention-neural-machine-translation",
+        "title": "Bahdanau Attention: Dynamic Context for Neural Machine Translation"
+      },
+      {
+        "gap": "Concatenation-based scoring vs dot-product scoring in attention mechanisms",
+        "url": "https://arxiv.org/pdf/2406.06366.pdf",
+        "title": "[PDF] arXiv:2406.06366v2 [cs.CL] 19 Jun 2024"
+      },
+      {
+        "gap": "Concatenation-based scoring vs dot-product scoring in attention mechanisms",
+        "url": "https://d2l.ai/chapter_attention-mechanisms-and-transformers/attention-scoring-functions.html",
+        "title": "11.3. Attention Scoring Functions - Dive into Deep Learning"
+      },
+      {
+        "gap": "Concatenation-based scoring vs dot-product scoring in attention mechanisms",
+        "url": "https://mbrenndoerfer.com/writing/luong-attention-mechanisms-dot-product-general-local",
+        "title": "Luong Attention: Dot Product, General & Local Attention Mechanisms"
+      },
+      {
+        "gap": "Concatenation-based scoring vs dot-product scoring in attention mechanisms",
+        "url": "https://buomsoo-kim.github.io/attention/2020/03/19/Attention-mechanism-13.md/",
+        "title": "Attention Mechanism in Neural Networks - 13. Various ..."
+      },
+      {
+        "gap": "Concatenation-based scoring vs dot-product scoring in attention mechanisms",
+        "url": "https://www.baeldung.com/cs/attention-luong-vs-bahdanau",
+        "title": "4. Bahdanau Attention"
+      },
+      {
+        "gap": "Gradient flow through the attention alignment mechanism during backpropagation",
+        "url": "https://arxiv.org/html/2601.03329v1",
+        "title": "Attention Mechanisms in Neural Networks A Comprehensive ... - arXiv"
+      },
+      {
+        "gap": "Gradient flow through the attention alignment mechanism during backpropagation",
+        "url": "https://aclanthology.org/2023.acl-long.669.pdf",
+        "title": "[PDF] Generalizing Backpropagation for Gradient-Based Interpretability"
+      },
+      {
+        "gap": "Gradient flow through the attention alignment mechanism during backpropagation",
+        "url": "https://arxiv.org/html/2502.15765v1",
+        "title": "Feature Attribution for Transformer Models via Maximum Flow"
+      },
+      {
+        "gap": "Gradient flow through the attention alignment mechanism during backpropagation",
+        "url": "https://papers.cool/arxiv/2505.15080",
+        "title": "2505.15080"
+      },
+      {
+        "gap": "Gradient flow through the attention alignment mechanism during backpropagation",
+        "url": "https://www.research-collection.ethz.ch/server/api/core/bitstreams/f044a0aa-96a0-4df1-9c62-64ab6c151b52/content",
+        "title": "Generalizing Backpropagation for Gradient-Based ..."
+      },
+      {
+        "gap": "Bidirectional RNN encoder: forward and backward passes, annotation vectors h_j = [forward_h_j; backward_h_j]",
+        "url": "https://deeplearning.cs.cmu.edu/F20/document/readings/Bidirectional%20Recurrent%20Neural%20Networks.pdf",
+        "title": "Bidirectional Recurrent Neural Networks.pdf"
+      },
+      {
+        "gap": "Bidirectional RNN encoder: forward and backward passes, annotation vectors h_j = [forward_h_j; backward_h_j]",
+        "url": "https://d2l.ai/chapter_recurrent-modern/bi-rnn.html",
+        "title": "10.4. Bidirectional Recurrent Neural Networks - Dive into Deep Learning"
+      },
+      {
+        "gap": "Bidirectional RNN encoder: forward and backward passes, annotation vectors h_j = [forward_h_j; backward_h_j]",
+        "url": "http://deeplearning.cs.cmu.edu/F20/document/readings/Bidirectional%20Recurrent%20Neural%20Networks.pdf",
+        "title": "IEEE TRANSACTIONS ON SIGNAL PROCESSING, VOL. 45, NO. 11, NOVEMBER 1997"
+      },
+      {
+        "gap": "Bidirectional RNN encoder: forward and backward passes, annotation vectors h_j = [forward_h_j; backward_h_j]",
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2015/file/c75b6f114c23a4d7ea11331e7c00e73c-Paper.pdf",
+        "title": "Bidirectional Recurrent Neural Networks as Generative ..."
+      },
+      {
+        "gap": "Bidirectional RNN encoder: forward and backward passes, annotation vectors h_j = [forward_h_j; backward_h_j]",
+        "url": "https://www.digitalocean.com/community/tutorials/bidirectional-rnn-keras",
+        "title": "Advanced Recurrent Neural Networks: Bidirectional RNNs"
+      },
+      {
+        "gap": "Energy scores (e_ij) in Bahdanau attention: definition, computation, and role before softmax",
+        "url": "https://www.baeldung.com/cs/attention-luong-vs-bahdanau",
+        "title": "4. Bahdanau Attention"
+      },
+      {
+        "gap": "Energy scores (e_ij) in Bahdanau attention: definition, computation, and role before softmax",
+        "url": "https://www.khoury.northeastern.edu/home/vip/teach/MLcourse/7_adv_NN/notes/chatGPT_responses/attention_mechanisms_latest.pdf",
+        "title": "Class Notes: Attention Mechanisms in Neural Networks"
+      },
+      {
+        "gap": "Energy scores (e_ij) in Bahdanau attention: definition, computation, and role before softmax",
+        "url": "https://mbrenndoerfer.com/writing/bahdanau-attention-neural-machine-translation",
+        "title": "Bahdanau Attention: Dynamic Context for Neural Machine Translation"
+      },
+      {
+        "gap": "Energy scores (e_ij) in Bahdanau attention: definition, computation, and role before softmax",
+        "url": "https://mycourses.aalto.fi/pluginfile.php/1944946/mod_resource/content/2/attention_all_slides.pdf",
+        "title": "CS-E4890: Deep Learning  Attention-based models "
+      },
+      {
+        "gap": "Energy scores (e_ij) in Bahdanau attention: definition, computation, and role before softmax",
+        "url": "https://machinelearningmastery.com/the-bahdanau-attention-mechanism/",
+        "title": "The Bahdanau Attention Mechanism - MachineLearningMastery.com"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-07T15:18:20",
+    "run_label": "pipeline-test:luong-multiplicative-attention",
+    "sources": [
+      {
+        "gap": "Luong et al. 2015 'Effective Approaches to Attention-based Neural Machine Translation' \u2014 dot-product, general, and concat scoring functions",
+        "url": "https://arxiv.org/abs/1508.04025",
+        "title": "Effective Approaches to Attention-based Neural Machine Translation"
+      },
+      {
+        "gap": "Luong et al. 2015 'Effective Approaches to Attention-based Neural Machine Translation' \u2014 dot-product, general, and concat scoring functions",
+        "url": "https://nlp.stanford.edu/pubs/emnlp15_attn.pdf",
+        "title": "[PDF] Effective Approaches to Attention-based Neural Machine Translation"
+      },
+      {
+        "gap": "Luong et al. 2015 'Effective Approaches to Attention-based Neural Machine Translation' \u2014 dot-product, general, and concat scoring functions",
+        "url": "https://aclanthology.org/D15-1166/",
+        "title": "Effective Approaches to Attention-based Neural Machine Translation"
+      },
+      {
+        "gap": "Luong et al. 2015 'Effective Approaches to Attention-based Neural Machine Translation' \u2014 dot-product, general, and concat scoring functions",
+        "url": "https://arxiv.org/pdf/1508.04025.pdf",
+        "title": "[PDF] arXiv:1508.04025v5 [cs.CL] 20 Sep 2015"
+      },
+      {
+        "gap": "Luong et al. 2015 'Effective Approaches to Attention-based Neural Machine Translation' \u2014 dot-product, general, and concat scoring functions",
+        "url": "https://aclanthology.org/anthology-files/pdf/D/D15/D15-1166.pdf",
+        "title": "Effective Approaches to Attention-based Neural Machine ..."
+      },
+      {
+        "gap": "Luong global vs local attention mechanisms with definitions and examples",
+        "url": "https://arxiv.org/abs/1508.04025",
+        "title": "Effective Approaches to Attention-based Neural Machine Translation"
+      },
+      {
+        "gap": "Luong global vs local attention mechanisms with definitions and examples",
+        "url": "https://humanbrain.gitbook.io/notes/notes/natural-language-processing/luong_attention",
+        "title": "(2015. 8) Luong Attention | HumanBrain"
+      },
+      {
+        "gap": "Luong global vs local attention mechanisms with definitions and examples",
+        "url": "https://mbrenndoerfer.com/writing/luong-attention-mechanisms-dot-product-general-local",
+        "title": "Luong Attention: Dot Product, General & Local Attention Mechanisms"
+      },
+      {
+        "gap": "Luong global vs local attention mechanisms with definitions and examples",
+        "url": "https://nlp.stanford.edu/pubs/emnlp15_attn.pdf",
+        "title": "[PDF] Effective Approaches to Attention-based Neural Machine Translation"
+      },
+      {
+        "gap": "Luong global vs local attention mechanisms with definitions and examples",
+        "url": "https://machinelearningmastery.com/the-luong-attention-mechanism/",
+        "title": "The Luong Attention Mechanism - MachineLearningMastery.com"
+      },
+      {
+        "gap": "Luong local attention: monotonic and predictive alignment variants",
+        "url": "https://arxiv.org/pdf/1508.04025.pdf",
+        "title": "[PDF] arXiv:1508.04025v5 [cs.CL] 20 Sep 2015"
+      },
+      {
+        "gap": "Luong local attention: monotonic and predictive alignment variants",
+        "url": "http://arxiv.org/pdf/1705.08091.pdf",
+        "title": "Local Monotonic Attention Mechanism"
+      },
+      {
+        "gap": "Luong local attention: monotonic and predictive alignment variants",
+        "url": "https://machinelearningmastery.com/the-luong-attention-mechanism/",
+        "title": "The Luong Attention Mechanism - MachineLearningMastery.com"
+      },
+      {
+        "gap": "Luong local attention: monotonic and predictive alignment variants",
+        "url": "https://aclanthology.org/I17-1044.pdf",
+        "title": "Local Monotonic Attention Mechanism for End-to- ..."
+      },
+      {
+        "gap": "Luong local attention: monotonic and predictive alignment variants",
+        "url": "https://slds-lmu.github.io/seminar_nlp_ss20/attention-and-self-attention-for-nlp.html",
+        "title": "Chapter 8 Attention and Self-Attention for NLP"
+      },
+      {
+        "gap": "Luong input-feeding approach: concatenating attentional vector with decoder input",
+        "url": "https://wandb.ai/authors/under-attention/reports/Effective-Approaches-to-Attention-based-Neural-Machine-Translation--Vmlldzo1MzQwMjA",
+        "title": "Effective Approaches to Attention-based Neural Machine Translation"
+      },
+      {
+        "gap": "Luong input-feeding approach: concatenating attentional vector with decoder input",
+        "url": "https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1214/readings/cs224n-2019-notes06-NMT_seq2seq_attention.pdf",
+        "title": "CS224n: Natural Language Processing with Deep Learning   Lecture Notes: Part VI  Neural Machine Translation, Seq2seq and Attention"
+      },
+      {
+        "gap": "Luong input-feeding approach: concatenating attentional vector with decoder input",
+        "url": "https://machinelearningmastery.com/the-luong-attention-mechanism/",
+        "title": "The Luong Attention Mechanism - MachineLearningMastery.com"
+      },
+      {
+        "gap": "Luong input-feeding approach: concatenating attentional vector with decoder input",
+        "url": "https://www.baeldung.com/cs/attention-luong-vs-bahdanau",
+        "title": "4. Bahdanau Attention"
+      },
+      {
+        "gap": "Luong input-feeding approach: concatenating attentional vector with decoder input",
+        "url": "https://courses.grainger.illinois.edu/cs546/sp2020/Slides/Lecture15.pdf",
+        "title": "Effective Approaches to Attention-based Neural"
+      },
+      {
+        "gap": "Computational complexity comparison: additive (Bahdanau) vs multiplicative (Luong) attention",
+        "url": "https://blog.sotaaz.com/post/attention-mechanism-implementation-en",
+        "title": "Bahdanau vs Luong Attention: Which One Should You ..."
+      },
+      {
+        "gap": "Computational complexity comparison: additive (Bahdanau) vs multiplicative (Luong) attention",
+        "url": "https://as-proceeding.com/index.php/ijanser/article/download/2854/2715/5504",
+        "title": "Comparing Additive and Multiplicative Attention in CNN\u2013LSTM ..."
+      },
+      {
+        "gap": "Computational complexity comparison: additive (Bahdanau) vs multiplicative (Luong) attention",
+        "url": "https://www.baeldung.com/cs/attention-luong-vs-bahdanau",
+        "title": "4. Bahdanau Attention"
+      },
+      {
+        "gap": "Computational complexity comparison: additive (Bahdanau) vs multiplicative (Luong) attention",
+        "url": "https://www.sotaaz.com/post/attention-mechanism-implementation-en",
+        "title": "Bahdanau vs Luong Attention: Which One Should You Actually Use ..."
+      },
+      {
+        "gap": "Scoring function comparison: expressive power and efficiency trade-offs",
+        "url": "https://arxiv.org/pdf/2104.10880v1.pdf",
+        "title": "Efficient Relation-aware Scoring Function Search"
+      },
+      {
+        "gap": "Scoring function comparison: expressive power and efficiency trade-offs",
+        "url": "https://arxiv.org/abs/2202.06823",
+        "title": "Development and Comparison of Scoring Functions in ..."
+      },
+      {
+        "gap": "Scoring function comparison: expressive power and efficiency trade-offs",
+        "url": "https://www.moodle.is.ed.ac.uk/pluginfile.php/87442/mod_resource/content/1/Comparative%20Assessment%20of%20Scoring%20Functions%20on%20a%20Diverse%20Test%20Set-Cheng-Wang-2009.pdf",
+        "title": "[PDF] Comparative Assessment of Scoring Functions on a Diverse Test Set"
+      },
+      {
+        "gap": "Scoring function comparison: expressive power and efficiency trade-offs",
+        "url": "https://sdiaa.github.io/papers/ICDE21.pdf",
+        "title": "[PDF] Efficient Relation-aware Scoring Function Search for Knowledge ..."
+      },
+      {
+        "gap": "Scoring function comparison: expressive power and efficiency trade-offs",
+        "url": "https://openportal.isti.cnr.it/data/2016/366882/2016_366882.postprint.pdf?id=people______%3A%3A435a152f7fa79c40c1e023b339cdc4da",
+        "title": "Quality versus Efficiency in Document Scoring"
+      },
+      {
+        "gap": "Coverage mechanism in attention-based NMT (Tu et al. 2016 or similar)",
+        "url": "https://arxiv.org/abs/1601.04811",
+        "title": "Modeling Coverage for Neural Machine Translation"
+      },
+      {
+        "gap": "Coverage mechanism in attention-based NMT (Tu et al. 2016 or similar)",
+        "url": "https://nlp.stanford.edu/pubs/emnlp15_attn.pdf",
+        "title": "[PDF] Effective Approaches to Attention-based Neural Machine Translation"
+      },
+      {
+        "gap": "Coverage mechanism in attention-based NMT (Tu et al. 2016 or similar)",
+        "url": "https://arxiv.org/pdf/1601.04811v2.pdf",
+        "title": "[PDF] Coverage-based Neural Machine Translation - arXiv"
+      },
+      {
+        "gap": "Coverage mechanism in attention-based NMT (Tu et al. 2016 or similar)",
+        "url": "https://aclanthology.org/P18-2047.pdf",
+        "title": "[PDF] A Simple and Effective Approach to Coverage-Aware Neural ..."
+      },
+      {
+        "gap": "Coverage mechanism in attention-based NMT (Tu et al. 2016 or similar)",
+        "url": "https://www.semanticscholar.org/paper/Coverage-based-Neural-Machine-Translation-Tu-Lu/44a9d4711a5e9fa36bbd56aed8d5291acd9e8876",
+        "title": "[PDF] Coverage-based Neural Machine Translation | Semantic Scholar"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-07T15:46:51",
+    "run_label": "pipeline-test:queries-keys-values-unified-framework",
+    "sources": [
+      {
+        "gap": "QKV abstraction as a unified framework showing Bahdanau and Luong attention as special cases",
+        "url": "https://arxiv.org/pdf/2603.15665.pdf",
+        "title": "QV May Be Enough: Toward the Essence of Attention in LLMs"
+      },
+      {
+        "gap": "QKV abstraction as a unified framework showing Bahdanau and Luong attention as special cases",
+        "url": "https://arxiv.org/html/2603.15665v1",
+        "title": "QV May Be Enough: Toward the Essence of Attention in LLMs - arXiv"
+      },
+      {
+        "gap": "QKV abstraction as a unified framework showing Bahdanau and Luong attention as special cases",
+        "url": "https://www.khoury.northeastern.edu/home/vip/teach/MLcourse/7_adv_NN/notes/chatGPT_responses/attention_mechanisms_tikz.pdf",
+        "title": "[PDF] Class Notes: Attention Mechanisms in Neural Networks"
+      },
+      {
+        "gap": "QKV abstraction as a unified framework showing Bahdanau and Luong attention as special cases",
+        "url": "https://www.baeldung.com/cs/attention-luong-vs-bahdanau",
+        "title": "4. Bahdanau Attention"
+      },
+      {
+        "gap": "QKV abstraction as a unified framework showing Bahdanau and Luong attention as special cases",
+        "url": "https://www.khoury.northeastern.edu/home/vip/teach/MLcourse/7_adv_NN/notes/chatGPT_responses/attention_mechanisms_latest.pdf",
+        "title": "Class Notes: Attention Mechanisms in Neural Networks"
+      },
+      {
+        "gap": "Attention as differentiable dictionary lookup \u2014 the information-retrieval analogy with formal explanation",
+        "url": "https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf",
+        "title": "[PDF] Introduction to Information Retrieval - Stanford University"
+      },
+      {
+        "gap": "Attention as differentiable dictionary lookup \u2014 the information-retrieval analogy with formal explanation",
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2023/file/b113e1441ad107b80c576b5028fd2c51-Supplemental-Conference.pdf",
+        "title": "Supplemental Material for"
+      },
+      {
+        "gap": "Attention as differentiable dictionary lookup \u2014 the information-retrieval analogy with formal explanation",
+        "url": "https://kunvarthaman.com/posts/attention-is-a-differentiable-lookup.html",
+        "title": "Attention is a differentiable lookup. - Kunvar"
+      },
+      {
+        "gap": "Attention as differentiable dictionary lookup \u2014 the information-retrieval analogy with formal explanation",
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2023/file/b113e1441ad107b80c576b5028fd2c51-Paper-Conference.pdf",
+        "title": "[PDF] Learning Dictionary for Visual Attention - NeurIPS"
+      },
+      {
+        "gap": "Attention as differentiable dictionary lookup \u2014 the information-retrieval analogy with formal explanation",
+        "url": "https://d2l.ai/chapter_attention-mechanisms-and-transformers/queries-keys-values.html",
+        "title": "11.1. Queries, Keys, and Values - Dive into Deep Learning"
+      },
+      {
+        "gap": "Soft retrieval mechanics in the QKV framework",
+        "url": "https://arxiv.org/html/2502.13542v1",
+        "title": "5 Experiments"
+      },
+      {
+        "gap": "Soft retrieval mechanics in the QKV framework",
+        "url": "https://www.arxiv.org/abs/2502.13542",
+        "title": "Activation-aware Probe-Query: Effective Key-Value Retrieval for Long-Context LLMs Inference"
+      },
+      {
+        "gap": "Soft retrieval mechanics in the QKV framework",
+        "url": "https://proceedings.mlr.press/v162/goyal22a/goyal22a.pdf",
+        "title": "Retrieval Augmented Reinforcement Learning"
+      },
+      {
+        "gap": "Soft retrieval mechanics in the QKV framework",
+        "url": "https://mbrenndoerfer.com/writing/query-key-value-attention-mechanism",
+        "title": "Query, Key, Value: The Foundation of Transformer Attention"
+      },
+      {
+        "gap": "Soft retrieval mechanics in the QKV framework",
+        "url": "https://www.themoonlight.io/tw/review/softqe-learned-representations-of-queries-expanded-by-llms",
+        "title": "[\u8ad6\u6587\u8a55\u8ff0] SoftQE: Learned Representations of Queries Expanded ..."
+      },
+      {
+        "gap": "Cross-attention vs self-attention: explicit contrast using QKV notation (queries from decoder, keys/values from encoder)",
+        "url": "https://www.geeksforgeeks.org/nlp/cross-attention-mechanism-in-transformers/",
+        "title": "Cross-Attention Mechanism in Transformers"
+      },
+      {
+        "gap": "Cross-attention vs self-attention: explicit contrast using QKV notation (queries from decoder, keys/values from encoder)",
+        "url": "https://codefinity.com/courses/v2/e7ee0772-6b82-4a1c-96ba-69b85ddee608/f9544f59-f92f-46ce-96f6-6fadcdd0f1f3/f37bd0ae-3b90-4eff-a38b-9704b23f1fde",
+        "title": "Self-Attention vs Cross-Attention: Conceptual Differences - Codefinity"
+      },
+      {
+        "gap": "Cross-attention vs self-attention: explicit contrast using QKV notation (queries from decoder, keys/values from encoder)",
+        "url": "https://opencourse.inf.ed.ac.uk/sites/default/files/https/opencourse.inf.ed.ac.uk/fnlp/2024/27slides1.pdf",
+        "title": "27slides1.pdf"
+      },
+      {
+        "gap": "Cross-attention vs self-attention: explicit contrast using QKV notation (queries from decoder, keys/values from encoder)",
+        "url": "https://mbrenndoerfer.com/writing/encoder-decoder-architecture-cross-attention-transformers",
+        "title": "Encoder-Decoder Architecture: Cross-Attention & Sequence-to ..."
+      },
+      {
+        "gap": "Cross-attention vs self-attention: explicit contrast using QKV notation (queries from decoder, keys/values from encoder)",
+        "url": "https://magazine.sebastianraschka.com/p/understanding-and-coding-self-attention",
+        "title": "Understanding and Coding Self-Attention, Multi-Head ... - Ahead of AI"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-07T15:47:49",
+    "run_label": "pipeline-test:visualizing-interpreting-attention-weights",
+    "sources": [
+      {
+        "gap": "How to extract and visualize attention weight matrices as heatmaps in transformer models (tools, code, examples)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10290521/",
+        "title": "How Does Attention Work in Vision Transformers? A Visual Analytics ..."
+      },
+      {
+        "gap": "How to extract and visualize attention weight matrices as heatmaps in transformer models (tools, code, examples)",
+        "url": "https://discuss.huggingface.co/t/transformers-attention-viz-visualizing-cross-modal-attention-in-clip-blip-models/163913",
+        "title": "Visualizing Cross-Modal Attention in CLIP/BLIP Models - Show and ..."
+      },
+      {
+        "gap": "How to extract and visualize attention weight matrices as heatmaps in transformer models (tools, code, examples)",
+        "url": "https://apxml.com/courses/how-to-build-a-large-language-model/chapter-23-analyzing-model-behavior/attention-map-visualization",
+        "title": "Attention Map Visualization"
+      },
+      {
+        "gap": "How to extract and visualize attention weight matrices as heatmaps in transformer models (tools, code, examples)",
+        "url": "https://openaccess.thecvf.com/content/CVPR2021/papers/Chefer_Transformer_Interpretability_Beyond_Attention_Visualization_CVPR_2021_paper.pdf",
+        "title": "[PDF] Transformer Interpretability Beyond Attention Visualization"
+      },
+      {
+        "gap": "How to extract and visualize attention weight matrices as heatmaps in transformer models (tools, code, examples)",
+        "url": "http://arxiv.org/pdf/1904.02679.pdf",
+        "title": "Visualizing Attention in Transformer-Based"
+      },
+      {
+        "gap": "Alignment visualization in seq2seq and transformer models with concrete heatmap examples",
+        "url": "https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/",
+        "title": "Visualizing A Neural Machine Translation Model (Mechanics of ..."
+      },
+      {
+        "gap": "Alignment visualization in seq2seq and transformer models with concrete heatmap examples",
+        "url": "https://aclanthology.org/anthology-files/anthology-files/pdf/findings/2023.findings-emnlp.939.pdf",
+        "title": "Findings of the Association for Computational Linguistics: EMNLP 2023, pages 14094\u201314113"
+      },
+      {
+        "gap": "Alignment visualization in seq2seq and transformer models with concrete heatmap examples",
+        "url": "https://ar5iv.labs.arxiv.org/html/2305.13417",
+        "title": "VISIT: Visualizing and Interpreting the Semantic Information Flow of Transformers"
+      },
+      {
+        "gap": "Alignment visualization in seq2seq and transformer models with concrete heatmap examples",
+        "url": "https://www.studocu.com/row/document/jamaa%D8%A9-alkahr%D8%A9/machine-learning-fundamentals/visualizing-a-neural-machine-translation-model/27171774",
+        "title": "Visualizing the Seq2seq NMT Model with Attention ..."
+      },
+      {
+        "gap": "Alignment visualization in seq2seq and transformer models with concrete heatmap examples",
+        "url": "http://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/",
+        "title": "Visualizing A Neural Machine Translation Model (Mechanics of Seq2seq Models With Attention)"
+      },
+      {
+        "gap": "Attention weights as explanation for model decisions \u2014 the debate and key papers (e.g., Jain & Wallace 2019, Wiegreffe & Pinter 2019)",
+        "url": "https://arxiv.org/abs/1908.04626",
+        "title": "[1908.04626] Attention is not not Explanation - arXiv"
+      },
+      {
+        "gap": "Attention weights as explanation for model decisions \u2014 the debate and key papers (e.g., Jain & Wallace 2019, Wiegreffe & Pinter 2019)",
+        "url": "https://arxiv.org/abs/1902.10186",
+        "title": "[1902.10186] Attention is not Explanation"
+      },
+      {
+        "gap": "Attention weights as explanation for model decisions \u2014 the debate and key papers (e.g., Jain & Wallace 2019, Wiegreffe & Pinter 2019)",
+        "url": "https://aclanthology.org/D19-1002/",
+        "title": "Attention is not not Explanation - ACL Anthology"
+      },
+      {
+        "gap": "Attention weights as explanation for model decisions \u2014 the debate and key papers (e.g., Jain & Wallace 2019, Wiegreffe & Pinter 2019)",
+        "url": "https://users.cs.duke.edu/~bd149/papers/fool-attention.pdf",
+        "title": "Learning to Deceive with Attention-Based Explanations"
+      },
+      {
+        "gap": "Attention weights as explanation for model decisions \u2014 the debate and key papers (e.g., Jain & Wallace 2019, Wiegreffe & Pinter 2019)",
+        "url": "https://aclanthology.org/2020.blackboxnlp-1.14.pdf",
+        "title": "Why use attention as explanation when we have saliency ..."
+      },
+      {
+        "gap": "Comparison of attention-based explanations vs gradient-based saliency methods (e.g., integrated gradients, SHAP)",
+        "url": "https://aclanthology.org/2020.blackboxnlp-1.14.pdf",
+        "title": "Why use attention as explanation when we have saliency ..."
+      },
+      {
+        "gap": "Comparison of attention-based explanations vs gradient-based saliency methods (e.g., integrated gradients, SHAP)",
+        "url": "https://irlab.science.uva.nl/wp-content/papercite-data/pdf/neely-2021-order.pdf",
+        "title": "Order in the Court: Explainable AI Methods Prone to Disagreement"
+      },
+      {
+        "gap": "Comparison of attention-based explanations vs gradient-based saliency methods (e.g., integrated gradients, SHAP)",
+        "url": "https://ar5iv.labs.arxiv.org/html/2010.05607",
+        "title": "The elephant in the interpretability room: Why use attention as explanation when we have saliency methods?"
+      },
+      {
+        "gap": "Comparison of attention-based explanations vs gradient-based saliency methods (e.g., integrated gradients, SHAP)",
+        "url": "https://arxiv.org/html/2402.03485v1",
+        "title": "Attention Meets Post-hoc Interpretability: A Mathematical ..."
+      },
+      {
+        "gap": "Comparison of attention-based explanations vs gradient-based saliency methods (e.g., integrated gradients, SHAP)",
+        "url": "https://annalsmcs.org/index.php/amcs/article/download/547/220",
+        "title": "a survey of feature attribution techniques in explainable ai: ..."
+      },
+      {
+        "gap": "Attention rollout technique: definition, mechanics, and how it propagates attention across transformer layers",
+        "url": "https://storrs.io/attention-rollout/",
+        "title": "Explained: Attention Visualization with Attention Rollout - Erik Storrs"
+      },
+      {
+        "gap": "Attention rollout technique: definition, mechanics, and how it propagates attention across transformer layers",
+        "url": "https://arxiv.org/abs/2005.00928",
+        "title": "[2005.00928] Quantifying Attention Flow in Transformers - arXiv"
+      },
+      {
+        "gap": "Attention rollout technique: definition, mechanics, and how it propagates attention across transformer layers",
+        "url": "https://samiraabnar.github.io/articles/2020-04/attention_flow",
+        "title": "Quantifying Attention Flow in Transformers | Samira Abnar"
+      },
+      {
+        "gap": "Attention rollout technique: definition, mechanics, and how it propagates attention across transformer layers",
+        "url": "https://aclanthology.org/2020.acl-main.385.pdf",
+        "title": "[PDF] Quantifying Attention Flow in Transformers - ACL Anthology"
+      },
+      {
+        "gap": "Attention rollout technique: definition, mechanics, and how it propagates attention across transformer layers",
+        "url": "https://www.emergentmind.com/topics/gradient-attention-rollout",
+        "title": "Gradient Attention Rollout - Emergent Mind"
+      },
+      {
+        "gap": "Faithfulness vs plausibility in model explanations \u2014 definitions, distinction, and implications",
+        "url": "https://arxiv.org/html/2402.04614v1",
+        "title": "Faithfulness vs. Plausibility: On the (Un)Reliability of ..."
+      },
+      {
+        "gap": "Faithfulness vs plausibility in model explanations \u2014 definitions, distinction, and implications",
+        "url": "https://arxiv.org/abs/2402.04614",
+        "title": "Faithfulness vs. Plausibility: On the (Un)Reliability of Explanations from Large Language Models"
+      },
+      {
+        "gap": "Faithfulness vs plausibility in model explanations \u2014 definitions, distinction, and implications",
+        "url": "https://direct.mit.edu/coli/article/50/2/657/119158/Towards-Faithful-Model-Explanation-in-NLP-A-Survey",
+        "title": "Towards Faithful Model Explanation in NLP: A Survey"
+      },
+      {
+        "gap": "Faithfulness vs plausibility in model explanations \u2014 definitions, distinction, and implications",
+        "url": "https://www.themoonlight.io/en/review/faithfulness-vs-plausibility-on-the-unreliability-of-explanations-from-large-language-models",
+        "title": "[Literature Review] Faithfulness vs. Plausibility: On the (Un ..."
+      },
+      {
+        "gap": "Faithfulness vs plausibility in model explanations \u2014 definitions, distinction, and implications",
+        "url": "https://www.emergentmind.com/papers/2402.04614",
+        "title": "LLMs Explanations: Faithfulness vs Plausibility"
+      },
+      {
+        "gap": "Diagnostic probing as an interpretability method for transformer representations",
+        "url": "https://aclanthology.org/2022.blackboxnlp-1.32.pdf",
+        "title": "[PDF] Probing the representations of named entities in Transformer-based ..."
+      },
+      {
+        "gap": "Diagnostic probing as an interpretability method for transformer representations",
+        "url": "https://aclanthology.org/2022.blackboxnlp-1.32/",
+        "title": "Probing the representations of named entities in Transformer-based ..."
+      },
+      {
+        "gap": "Diagnostic probing as an interpretability method for transformer representations",
+        "url": "https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1254/final-reports/256912125.pdf",
+        "title": "[PDF] Needle in a Haystack: Probing Transformer Capabilities to ..."
+      },
+      {
+        "gap": "Diagnostic probing as an interpretability method for transformer representations",
+        "url": "https://people.cs.umass.edu/~miyyer/cs685/slides/interpet.pdf",
+        "title": "[PDF] Probing / interpretability"
+      },
+      {
+        "gap": "Diagnostic probing as an interpretability method for transformer representations",
+        "url": "https://arxiv.org/html/2407.02646v4",
+        "title": "A Practical Review of Mechanistic Interpretability for Transformer ..."
+      },
+      {
+        "gap": "Limitations of using attention weights for interpretability in deep learning models",
+        "url": "https://arxiv.org/abs/2006.05656",
+        "title": "[2006.05656] Why Attentions May Not Be Interpretable? - arXiv"
+      },
+      {
+        "gap": "Limitations of using attention weights for interpretability in deep learning models",
+        "url": "https://arxiv.org/html/2402.03485v2",
+        "title": "Attention Meets Post-hoc Interpretability: A Mathematical Perspective"
+      },
+      {
+        "gap": "Limitations of using attention weights for interpretability in deep learning models",
+        "url": "https://aclanthology.org/anthology-files/anthology-files/pdf/P/P19/P19-1282.pdf",
+        "title": "Is Attention Interpretable?"
+      },
+      {
+        "gap": "Limitations of using attention weights for interpretability in deep learning models",
+        "url": "https://www.emergentmind.com/papers/1906.03731",
+        "title": "Attention Interpretability in NLP - Emergent Mind"
+      },
+      {
+        "gap": "Limitations of using attention weights for interpretability in deep learning models",
+        "url": "https://www.emergentmind.com/topics/interpretability-of-attention-mechanisms",
+        "title": "Interpretability of Attention Mechanisms - Emergent Mind"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-08T01:25:35",
+    "run_label": "pipeline-test:multi-head-attention-representation-subspaces-and-implementation",
+    "sources": [
+      {
+        "gap": "Formal definition of multi-head attention (per-head scaled dot-product attention) and intuition for representation subspaces",
+        "url": "https://www.geeksforgeeks.org/nlp/multi-head-attention-mechanism/",
+        "title": "Multi-Head Attention Mechanism - GeeksforGeeks"
+      },
+      {
+        "gap": "Formal definition of multi-head attention (per-head scaled dot-product attention) and intuition for representation subspaces",
+        "url": "https://d2l.ai/chapter_attention-mechanisms-and-transformers/multihead-attention.html",
+        "title": "11.5. Multi-Head Attention - Dive into Deep Learning"
+      },
+      {
+        "gap": "Formal definition of multi-head attention (per-head scaled dot-product attention) and intuition for representation subspaces",
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf",
+        "title": "[PDF] Attention is All you Need - NIPS"
+      },
+      {
+        "gap": "Formal definition of multi-head attention (per-head scaled dot-product attention) and intuition for representation subspaces",
+        "url": "https://papers.neurips.cc/paper_files/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf",
+        "title": "Attention is All you Need"
+      },
+      {
+        "gap": "Formal definition of multi-head attention (per-head scaled dot-product attention) and intuition for representation subspaces",
+        "url": "https://arxiv.org/html/2410.11842v2",
+        "title": "MoH: Multi-Head Attention as Mixture-of- ..."
+      },
+      {
+        "gap": "Learned linear projections for Q, K, V and output projection (W_Q, W_K, W_V, W_O) and how they are applied",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-3-multi-head-self-attention/linear-projections-qkv-heads",
+        "title": "Linear Projections for Q, K, V per Head - ApX Machine Learning"
+      },
+      {
+        "gap": "Learned linear projections for Q, K, V and output projection (W_Q, W_K, W_V, W_O) and how they are applied",
+        "url": "https://arpitbhayani.me/blogs/qkv-matrices/",
+        "title": "The Q, K, V Matrices - Arpit Bhayani"
+      },
+      {
+        "gap": "Learned linear projections for Q, K, V and output projection (W_Q, W_K, W_V, W_O) and how they are applied",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-3-multi-head-self-attention/concatenation-final-projection",
+        "title": "Concatenation and Final Linear Projection - ApX Machine Learning"
+      },
+      {
+        "gap": "Learned linear projections for Q, K, V and output projection (W_Q, W_K, W_V, W_O) and how they are applied",
+        "url": "https://arxiv.org/html/2510.23912v4",
+        "title": "W_K,W_V is probably all you need: On the necessity of the Query ..."
+      },
+      {
+        "gap": "Learned linear projections for Q, K, V and output projection (W_Q, W_K, W_V, W_O) and how they are applied",
+        "url": "https://arxiv.org/pdf/2506.02939.pdf",
+        "title": "[PDF] QKV Projections Require a Fraction of Their Memory - arXiv.org"
+      },
+      {
+        "gap": "Head dimension relationships (d_model, num_heads, d_head) and scaling factor sqrt(d_head)",
+        "url": "https://www.andyrdt.com/notes/attention",
+        "title": "Attention | Andy Arditi"
+      },
+      {
+        "gap": "Head dimension relationships (d_model, num_heads, d_head) and scaling factor sqrt(d_head)",
+        "url": "https://mbrenndoerfer.com/writing/transformer-architecture-hyperparameters-design-guide",
+        "title": "Transformer Architecture Hyperparameters: Depth, Width, Heads ..."
+      },
+      {
+        "gap": "Head dimension relationships (d_model, num_heads, d_head) and scaling factor sqrt(d_head)",
+        "url": "https://mbrenndoerfer.com/writing/multi-head-attention-transformers",
+        "title": "Multi-Head Attention: Parallel Attention for Richer Representations"
+      },
+      {
+        "gap": "Head dimension relationships (d_model, num_heads, d_head) and scaling factor sqrt(d_head)",
+        "url": "https://cdn.jsdelivr.net/gh/yanfeng98/paper-is-all-you-need/papers/00001-scaling-laws.pdf",
+        "title": "Scaling Laws for Neural Language Models"
+      },
+      {
+        "gap": "Head dimension relationships (d_model, num_heads, d_head) and scaling factor sqrt(d_head)",
+        "url": "https://anandmoghan.me/posts/attention-everything-you-need",
+        "title": "Attention: Everything You Need | Anand Mohan"
+      },
+      {
+        "gap": "Tensor shapes for batched multi-head attention and common reshape/transpose patterns (e.g., [B,S,D] -> [B,H,S,d_head])",
+        "url": "https://d2l.ai/chapter_attention-mechanisms-and-transformers/multihead-attention.html",
+        "title": "11.5. Multi-Head Attention - Dive into Deep Learning"
+      },
+      {
+        "gap": "Tensor shapes for batched multi-head attention and common reshape/transpose patterns (e.g., [B,S,D] -> [B,H,S,d_head])",
+        "url": "https://uvadlc-notebooks.readthedocs.io/en/latest/tutorial_notebooks/tutorial6/Transformers_and_MHAttention.html",
+        "title": "Tutorial 6: Transformers and Multi-Head Attention\u00b6"
+      },
+      {
+        "gap": "Tensor shapes for batched multi-head attention and common reshape/transpose patterns (e.g., [B,S,D] -> [B,H,S,d_head])",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-3-multi-head-self-attention/practice-multi-head-attention-layer",
+        "title": "Hands-on Practical: Building a Multi-Head Attention Layer"
+      },
+      {
+        "gap": "Tensor shapes for batched multi-head attention and common reshape/transpose patterns (e.g., [B,S,D] -> [B,H,S,d_head])",
+        "url": "https://web.stanford.edu/class/cs224n/readings/cs224n-self-attention-transformers-2023_draft.pdf",
+        "title": "[PDF] [draft] Note 10: Self-Attention & Transformers 1"
+      },
+      {
+        "gap": "Tensor shapes for batched multi-head attention and common reshape/transpose patterns (e.g., [B,S,D] -> [B,H,S,d_head])",
+        "url": "https://www.tensorweaver.ai/chapters/28-multihead-attention.html",
+        "title": "28 Multi-Head Attention - Build Your Own Deep Learning Framework"
+      },
+      {
+        "gap": "How parallel attention across heads is implemented efficiently in modern frameworks (PyTorch/TF), including fused QKV projections",
+        "url": "https://uvadlc-notebooks.readthedocs.io/en/latest/tutorial_notebooks/tutorial6/Transformers_and_MHAttention.html",
+        "title": "Tutorial 6: Transformers and Multi-Head Attention\u00b6"
+      },
+      {
+        "gap": "How parallel attention across heads is implemented efficiently in modern frameworks (PyTorch/TF), including fused QKV projections",
+        "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.MultiheadAttention.html",
+        "title": "MultiheadAttention"
+      },
+      {
+        "gap": "How parallel attention across heads is implemented efficiently in modern frameworks (PyTorch/TF), including fused QKV projections",
+        "url": "https://dev-discuss.pytorch.org/t/understanding-multi-head-attention-for-ml-framework-developers/1792",
+        "title": "Understanding Multi-Head Attention for ML Framework Developers"
+      },
+      {
+        "gap": "How parallel attention across heads is implemented efficiently in modern frameworks (PyTorch/TF), including fused QKV projections",
+        "url": "https://github.com/pytorch/pytorch/issues/95210",
+        "title": "Add parallel attention layers and Multi-Query Attention (MQA) from PaLM to the fast path for transformers \u00b7 Issue #95210 \u00b7 pytorch/pytorch"
+      },
+      {
+        "gap": "How parallel attention across heads is implemented efficiently in modern frameworks (PyTorch/TF), including fused QKV projections",
+        "url": "https://arxiv.org/pdf/2510.01817.pdf",
+        "title": "[PDF] A Computationally Efficient Attention Mechanism with Query Heads ..."
+      },
+      {
+        "gap": "Concatenation of head outputs and final linear layer; alternative implementations (stacking vs concat, einsum/matmul patterns)",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-3-multi-head-self-attention/concatenation-final-projection",
+        "title": "Concatenation and Final Linear Projection - ApX Machine Learning"
+      },
+      {
+        "gap": "Concatenation of head outputs and final linear layer; alternative implementations (stacking vs concat, einsum/matmul patterns)",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-3-multi-head-self-attention-deep-dive/concatenation-final-projection",
+        "title": "Concatenation and Final Projection"
+      },
+      {
+        "gap": "Concatenation of head outputs and final linear layer; alternative implementations (stacking vs concat, einsum/matmul patterns)",
+        "url": "https://web.stanford.edu/class/cs224n/final-reports/final-report-169659061.pdf",
+        "title": "Three Heads Are Better Than One"
+      },
+      {
+        "gap": "Concatenation of head outputs and final linear layer; alternative implementations (stacking vs concat, einsum/matmul patterns)",
+        "url": "https://classic.d2l.ai/chapter_attention-mechanisms/multihead-attention.html",
+        "title": "10.5. Multi-Head Attention - Dive into Deep Learning"
+      },
+      {
+        "gap": "Concatenation of head outputs and final linear layer; alternative implementations (stacking vs concat, einsum/matmul patterns)",
+        "url": "https://www.themoonlight.io/fr/review/superiority-of-multi-head-attention-in-in-context-linear-regression",
+        "title": "[Revue de papier] Superiority of Multi-Head Attention in In-Context Linear Regression"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-08T11:02:23",
+    "run_label": "pipeline-test:scaled-dot-product-attention-math-masking-and-stability",
+    "sources": [
+      {
+        "gap": "Causal (look-ahead) masking in scaled dot-product attention: definition, why it prevents attending to future tokens, and how it is applied to the score matrix (additive -inf mask before softmax).",
+        "url": "https://mbrenndoerfer.com/writing/attention-masking-transformers",
+        "title": "Attention Masking: Controlling Information Flow in Transformers"
+      },
+      {
+        "gap": "Causal (look-ahead) masking in scaled dot-product attention: definition, why it prevents attending to future tokens, and how it is applied to the score matrix (additive -inf mask before softmax).",
+        "url": "https://codesignal.com/learn/courses/sequence-models-the-dawn-of-attention-1/lessons/scaled-dot-product-attention-and-masking-in-transformers-1",
+        "title": "Scaled Dot-Product Attention and Masking in Transformers"
+      },
+      {
+        "gap": "Causal (look-ahead) masking in scaled dot-product attention: definition, why it prevents attending to future tokens, and how it is applied to the score matrix (additive -inf mask before softmax).",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-5-encoder-decoder-stacks/masked-self-attention",
+        "title": "Masked Self-Attention in Decoders"
+      },
+      {
+        "gap": "Causal (look-ahead) masking in scaled dot-product attention: definition, why it prevents attending to future tokens, and how it is applied to the score matrix (additive -inf mask before softmax).",
+        "url": "https://arxiv.org/html/1706.03762v7",
+        "title": "Attention Is All You Need"
+      },
+      {
+        "gap": "Causal (look-ahead) masking in scaled dot-product attention: definition, why it prevents attending to future tokens, and how it is applied to the score matrix (additive -inf mask before softmax).",
+        "url": "https://apxml.com/courses/introduction-to-transformer-models/chapter-2-self-attention-multi-head-attention/practice-scaled-dot-product-attention",
+        "title": "Practice: Implement Scaled Dot-Product Attention"
+      },
+      {
+        "gap": "Padding masks: masking pad tokens in attention, typical shapes/broadcasting across heads and query positions, and interaction with variable-length batches.",
+        "url": "https://machinelearningmastery.com/a-gentle-introduction-to-attention-masking-in-transformer-models/",
+        "title": "A Gentle Introduction to Attention Masking in Transformer Models"
+      },
+      {
+        "gap": "Padding masks: masking pad tokens in attention, typical shapes/broadcasting across heads and query positions, and interaction with variable-length batches.",
+        "url": "https://codesignal.com/learn/courses/sequence-models-the-dawn-of-attention-1/lessons/scaled-dot-product-attention-and-masking-in-transformers-1",
+        "title": "Scaled Dot-Product Attention and Masking in Transformers"
+      },
+      {
+        "gap": "Padding masks: masking pad tokens in attention, typical shapes/broadcasting across heads and query positions, and interaction with variable-length batches.",
+        "url": "https://arxiv.org/html/2510.01238v1",
+        "title": "Silent Tokens, Loud Effects: Padding in LLMs"
+      },
+      {
+        "gap": "Padding masks: masking pad tokens in attention, typical shapes/broadcasting across heads and query positions, and interaction with variable-length batches.",
+        "url": "https://arxiv.org/html/2407.09105v6",
+        "title": "Enhancing Training Efficiency Using Packing with Flash Attention"
+      },
+      {
+        "gap": "Padding masks: masking pad tokens in attention, typical shapes/broadcasting across heads and query positions, and interaction with variable-length batches.",
+        "url": "https://www.youtube.com/watch?v=fwI_tVHcg4Q",
+        "title": "Padding and Attention Masks in LLMs: Preparing Batches for Training"
+      },
+      {
+        "gap": "Softmax numerical stability in attention: subtracting max logit, avoiding overflow/underflow, stable handling of masked positions (-inf), and practical implementation notes.",
+        "url": "https://www.marktechpost.com/2026/01/06/implementing-softmax-from-scratch-avoiding-the-numerical-stability-trap/",
+        "title": "Implementing Softmax From Scratch: Avoiding the Numerical ..."
+      },
+      {
+        "gap": "Softmax numerical stability in attention: subtracting max logit, avoiding overflow/underflow, stable handling of masked positions (-inf), and practical implementation notes.",
+        "url": "https://www.marktechpost.com/2026/01/06/implementing-softmax-from-scratch-avoiding-the-numerical-stability-trap/?amp",
+        "title": "Implementing Softmax From Scratch: Avoiding the ..."
+      },
+      {
+        "gap": "Softmax numerical stability in attention: subtracting max logit, avoiding overflow/underflow, stable handling of masked positions (-inf), and practical implementation notes.",
+        "url": "https://jarbus.net/blog/numerical-stability-in-flash-attention/",
+        "title": "Numerical Stability in Flash Attention - - jarbus"
+      },
+      {
+        "gap": "Softmax numerical stability in attention: subtracting max logit, avoiding overflow/underflow, stable handling of masked positions (-inf), and practical implementation notes.",
+        "url": "https://huggingface.co/blog/atharv6f/flash-attention-online-softmax",
+        "title": "Artifact 2.2b: FlashAttention \u2014 Online Softmax - Hugging Face"
+      },
+      {
+        "gap": "Softmax numerical stability in attention: subtracting max logit, avoiding overflow/underflow, stable handling of masked positions (-inf), and practical implementation notes.",
+        "url": "https://courses.cs.washington.edu/courses/cse599m/23sp/notes/flashattn.pdf",
+        "title": "[PDF] From Online Softmax to FlashAttention"
+      },
+      {
+        "gap": "Definition and usage of logits in attention: pre-softmax attention scores (QK^T/sqrt(d_k) + mask), terminology, and examples.",
+        "url": "https://mikexcohen.substack.com/p/llm-breakdown-56-attention",
+        "title": "LLM breakdown 5/6: Attention - by Mike X Cohen, PhD"
+      },
+      {
+        "gap": "Definition and usage of logits in attention: pre-softmax attention scores (QK^T/sqrt(d_k) + mask), terminology, and examples.",
+        "url": "https://en.wikipedia.org/wiki/Attention_(machine_learning)",
+        "title": "Attention (machine learning) - Wikipedia"
+      },
+      {
+        "gap": "Definition and usage of logits in attention: pre-softmax attention scores (QK^T/sqrt(d_k) + mask), terminology, and examples.",
+        "url": "https://www.stephendiehl.com/posts/mlir_transformers/",
+        "title": "Full Model"
+      },
+      {
+        "gap": "Definition and usage of logits in attention: pre-softmax attention scores (QK^T/sqrt(d_k) + mask), terminology, and examples.",
+        "url": "https://aclanthology.org/2025.emnlp-main.421.pdf",
+        "title": "Variance Sensitivity Induces Attention Entropy Collapse in Transformers"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-08T11:13:34",
+    "run_label": "pipeline-test:luong-multiplicative-attention-and-variants",
+    "sources": [
+      {
+        "gap": "Explicit definition and formula of Luong (multiplicative) attention scoring functions: dot, general (q^T W k), and (optionally) concat",
+        "url": "https://slds-lmu.github.io/seminar_nlp_ss20/attention-and-self-attention-for-nlp.html",
+        "title": "Chapter 8 Attention and Self-Attention for NLP"
+      },
+      {
+        "gap": "Explicit definition and formula of Luong (multiplicative) attention scoring functions: dot, general (q^T W k), and (optionally) concat",
+        "url": "https://machinelearningmastery.com/the-luong-attention-mechanism/",
+        "title": "The Luong Attention Mechanism - MachineLearningMastery.com"
+      },
+      {
+        "gap": "Explicit definition and formula of Luong (multiplicative) attention scoring functions: dot, general (q^T W k), and (optionally) concat",
+        "url": "https://mbrenndoerfer.com/writing/luong-attention-mechanisms-dot-product-general-local",
+        "title": "Luong Attention: Dot Product, General & Local Attention Mechanisms"
+      },
+      {
+        "gap": "Explicit definition and formula of Luong (multiplicative) attention scoring functions: dot, general (q^T W k), and (optionally) concat",
+        "url": "https://www.shadecoder.com/topics/luong-attention-a-comprehensive-guide-for-2025",
+        "title": "Luong Attention: A Comprehensive Guide for 2025 - Shadecoder"
+      },
+      {
+        "gap": "Explicit definition and formula of Luong (multiplicative) attention scoring functions: dot, general (q^T W k), and (optionally) concat",
+        "url": "https://www.baeldung.com/cs/attention-luong-vs-bahdanau",
+        "title": "4. Bahdanau Attention"
+      },
+      {
+        "gap": "Clear distinction between 'dot-product attention' and 'general attention' within Luong attention",
+        "url": "https://mbrenndoerfer.com/writing/luong-attention-mechanisms-dot-product-general-local",
+        "title": "Luong Attention: Dot Product, General & Local Attention Mechanisms"
+      },
+      {
+        "gap": "Clear distinction between 'dot-product attention' and 'general attention' within Luong attention",
+        "url": "https://www.baeldung.com/cs/attention-luong-vs-bahdanau",
+        "title": "4. Bahdanau Attention"
+      },
+      {
+        "gap": "Clear distinction between 'dot-product attention' and 'general attention' within Luong attention",
+        "url": "https://slds-lmu.github.io/seminar_nlp_ss20/attention-and-self-attention-for-nlp.html",
+        "title": "Chapter 8 Attention and Self-Attention for NLP"
+      },
+      {
+        "gap": "Global attention mechanics in Luong et al. (context vector over all encoder states; alignment weights via softmax over scores)",
+        "url": "https://nlp.stanford.edu/pubs/emnlp15_attn.pdf",
+        "title": "[PDF] Effective Approaches to Attention-based Neural Machine Translation"
+      },
+      {
+        "gap": "Global attention mechanics in Luong et al. (context vector over all encoder states; alignment weights via softmax over scores)",
+        "url": "https://arxiv.org/pdf/1508.04025v5.pdf",
+        "title": "arXiv:1508.04025v5  [cs.CL]  20 Sep 2015"
+      },
+      {
+        "gap": "Global attention mechanics in Luong et al. (context vector over all encoder states; alignment weights via softmax over scores)",
+        "url": "https://arxiv.org/pdf/1508.04025.pdf",
+        "title": "[PDF] arXiv:1508.04025v5 [cs.CL] 20 Sep 2015"
+      },
+      {
+        "gap": "Global attention mechanics in Luong et al. (context vector over all encoder states; alignment weights via softmax over scores)",
+        "url": "https://www-nlp.stanford.edu/pubs/emnlp15_attn.pdf",
+        "title": "emnlp15.dvi"
+      },
+      {
+        "gap": "Global attention mechanics in Luong et al. (context vector over all encoder states; alignment weights via softmax over scores)",
+        "url": "https://mbrenndoerfer.com/writing/luong-attention-mechanisms-dot-product-general-local",
+        "title": "Luong Attention: Dot Product, General & Local Attention Mechanisms"
+      },
+      {
+        "gap": "Local attention mechanics in Luong et al.: monotonic/local-p and local-m variants, predicted alignment position, window size, and optional Gaussian weighting",
+        "url": "https://nlp.stanford.edu/pubs/emnlp15_attn.pdf",
+        "title": "[PDF] Effective Approaches to Attention-based Neural Machine Translation"
+      },
+      {
+        "gap": "Local attention mechanics in Luong et al.: monotonic/local-p and local-m variants, predicted alignment position, window size, and optional Gaussian weighting",
+        "url": "https://arxiv.org/pdf/1508.04025v5.pdf",
+        "title": "arXiv:1508.04025v5  [cs.CL]  20 Sep 2015"
+      },
+      {
+        "gap": "Local attention mechanics in Luong et al.: monotonic/local-p and local-m variants, predicted alignment position, window size, and optional Gaussian weighting",
+        "url": "https://arxiv.org/pdf/1508.04025.pdf",
+        "title": "[PDF] arXiv:1508.04025v5 [cs.CL] 20 Sep 2015"
+      },
+      {
+        "gap": "Local attention mechanics in Luong et al.: monotonic/local-p and local-m variants, predicted alignment position, window size, and optional Gaussian weighting",
+        "url": "https://www-nlp.stanford.edu/pubs/emnlp15_attn.pdf",
+        "title": "emnlp15.dvi"
+      },
+      {
+        "gap": "Local attention mechanics in Luong et al.: monotonic/local-p and local-m variants, predicted alignment position, window size, and optional Gaussian weighting",
+        "url": "https://aclanthology.org/anthology-files/pdf/D/D15/D15-1166.pdf",
+        "title": "Effective Approaches to Attention-based Neural Machine ..."
+      },
+      {
+        "gap": "Computational tradeoffs: additive (Bahdanau) vs multiplicative (Luong) attention\u2014parameterization, matrix multiplications, and relative efficiency (especially for large hidden sizes), including complexity per decoding step",
+        "url": "https://blog.sotaaz.com/post/attention-mechanism-implementation-en",
+        "title": "Bahdanau vs Luong Attention: Which One Should You ..."
+      },
+      {
+        "gap": "Computational tradeoffs: additive (Bahdanau) vs multiplicative (Luong) attention\u2014parameterization, matrix multiplications, and relative efficiency (especially for large hidden sizes), including complexity per decoding step",
+        "url": "https://www.sotaaz.com/blog/attention-mechanism-implementation-en",
+        "title": "Which One Should You Actually Use? (Spoiler: Luong) | SOTAAZ Blog"
+      },
+      {
+        "gap": "Computational tradeoffs: additive (Bahdanau) vs multiplicative (Luong) attention\u2014parameterization, matrix multiplications, and relative efficiency (especially for large hidden sizes), including complexity per decoding step",
+        "url": "https://www.baeldung.com/cs/attention-luong-vs-bahdanau",
+        "title": "4. Bahdanau Attention"
+      },
+      {
+        "gap": "Computational tradeoffs: additive (Bahdanau) vs multiplicative (Luong) attention\u2014parameterization, matrix multiplications, and relative efficiency (especially for large hidden sizes), including complexity per decoding step",
+        "url": "https://www.ibm.com/think/topics/attention-mechanism",
+        "title": "What is an attention mechanism?"
+      },
+      {
+        "gap": "Computational tradeoffs: additive (Bahdanau) vs multiplicative (Luong) attention\u2014parameterization, matrix multiplications, and relative efficiency (especially for large hidden sizes), including complexity per decoding step",
+        "url": "https://aman.ai/primers/ai/attention/",
+        "title": "Aman's AI Journal \u2022 Natural Language Processing \u2022 Attention"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-09T15:49:54",
+    "run_label": "pipeline-test:luong-multiplicative-attention-and-variants",
+    "sources": [
+      {
+        "gap": "Explicit definition and mechanics of dot-product (multiplicative) attention: score=q\u00b7k (optionally scaled), softmax weights, context vector computation, worked example",
+        "url": "https://codesignal.com/learn/courses/sequence-models-the-dawn-of-attention-1/lessons/scaled-dot-product-attention-and-masking-in-transformers-1",
+        "title": "Scaled Dot-Product Attention and Masking in Transformers"
+      },
+      {
+        "gap": "Luong 'general' / bilinear attention: score=q^T W k, parameterization, relation to dot-product",
+        "url": "https://simonsuster.github.io/talks/attention_ML_RG.pdf",
+        "title": "[PDF] I want to know what attention is I want you to show me - Simon \u0160uster"
+      },
+      {
+        "gap": "Luong 'general' / bilinear attention: score=q^T W k, parameterization, relation to dot-product",
+        "url": "https://www.khoury.northeastern.edu/home/vip/teach/MLcourse/7_adv_NN/notes/chatGPT_responses/attention_mechanisms_tikz.pdf",
+        "title": "[PDF] Class Notes: Attention Mechanisms in Neural Networks"
+      },
+      {
+        "gap": "Luong 'general' / bilinear attention: score=q^T W k, parameterization, relation to dot-product",
+        "url": "https://machinelearningmastery.com/the-luong-attention-mechanism/",
+        "title": "The Luong Attention Mechanism - MachineLearningMastery.com"
+      },
+      {
+        "gap": "Luong attention variants: 'dot', 'general', and (if included) 'concat' scoring; how they compare to Bahdanau additive attention",
+        "url": "https://www.baeldung.com/cs/attention-luong-vs-bahdanau",
+        "title": "4. Bahdanau Attention"
+      },
+      {
+        "gap": "Luong attention variants: 'dot', 'general', and (if included) 'concat' scoring; how they compare to Bahdanau additive attention",
+        "url": "https://blog.sotaaz.com/post/attention-mechanism-implementation-en",
+        "title": "Bahdanau vs Luong Attention: Which One Should You ..."
+      },
+      {
+        "gap": "Luong attention variants: 'dot', 'general', and (if included) 'concat' scoring; how they compare to Bahdanau additive attention",
+        "url": "https://blog.csdn.net/IT_flying625/article/details/103498539",
+        "title": "Attention Mechanism Bahdanau attention vs Luong ... - CSDN\u535a\u5ba2"
+      },
+      {
+        "gap": "Luong attention variants: 'dot', 'general', and (if included) 'concat' scoring; how they compare to Bahdanau additive attention",
+        "url": "https://slds-lmu.github.io/seminar_nlp_ss20/attention-and-self-attention-for-nlp.html",
+        "title": "Chapter 8 Attention and Self-Attention for NLP"
+      },
+      {
+        "gap": "Global vs local attention in Luong et al. (2015): how local attention selects a subset (window) and/or predicts alignment position; equations and algorithm steps",
+        "url": "https://humanbrain.gitbook.io/notes/notes/natural-language-processing/luong_attention",
+        "title": "(2015. 8) Luong Attention | HumanBrain"
+      },
+      {
+        "gap": "Global vs local attention in Luong et al. (2015): how local attention selects a subset (window) and/or predicts alignment position; equations and algorithm steps",
+        "url": "https://arxiv.org/pdf/1508.04025.pdf",
+        "title": "[PDF] arXiv:1508.04025v5 [cs.CL] 20 Sep 2015"
+      },
+      {
+        "gap": "Global vs local attention in Luong et al. (2015): how local attention selects a subset (window) and/or predicts alignment position; equations and algorithm steps",
+        "url": "http://arxiv.org/pdf/1508.04025v5.pdf",
+        "title": "arXiv:1508.04025v5  [cs.CL]  20 Sep 2015"
+      },
+      {
+        "gap": "Global vs local attention in Luong et al. (2015): how local attention selects a subset (window) and/or predicts alignment position; equations and algorithm steps",
+        "url": "https://nlp.stanford.edu/pubs/emnlp15_attn.pdf",
+        "title": "[PDF] Effective Approaches to Attention-based Neural Machine Translation"
+      },
+      {
+        "gap": "Computational cost and practical trade-offs: additive vs multiplicative attention complexity, parameter counts, speed on GPU/CPU; global vs local runtime/memory implications",
+        "url": "https://arxiv.org/pdf/1812.01243.pdf",
+        "title": "Efficient Attention: Attention with Linear Complexities"
+      },
+      {
+        "gap": "Computational cost and practical trade-offs: additive vs multiplicative attention complexity, parameter counts, speed on GPU/CPU; global vs local runtime/memory implications",
+        "url": "https://arxiv.org/html/2507.07247",
+        "title": "A Comparative Study of Resource Utilization for Variants ..."
+      },
+      {
+        "gap": "Computational cost and practical trade-offs: additive vs multiplicative attention complexity, parameter counts, speed on GPU/CPU; global vs local runtime/memory implications",
+        "url": "https://aman.ai/primers/ai/attention/",
+        "title": "Aman's AI Journal \u2022 Natural Language Processing \u2022 Attention"
+      },
+      {
+        "gap": "Computational cost and practical trade-offs: additive vs multiplicative attention complexity, parameter counts, speed on GPU/CPU; global vs local runtime/memory implications",
+        "url": "https://proceedings.mlr.press/v201/duman-keles23a/duman-keles23a.pdf",
+        "title": "[PDF] On The Computational Complexity of Self-Attention"
+      },
+      {
+        "gap": "Computational cost and practical trade-offs: additive vs multiplicative attention complexity, parameter counts, speed on GPU/CPU; global vs local runtime/memory implications",
+        "url": "https://bohrium.dp.tech/paper/arxiv/2310.11960",
+        "title": "Fast Multipole Attention: A Divide-and-Conquer Attention Mechanism for Long Sequences"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-11T17:51:03",
+    "run_label": "ensure-coverage:scaled-dot-product-attention-math-and-implementation",
+    "sources": [
+      {
+        "gap": "Softmax definition and formula, including an explicit example on attention logits and how it normalizes rows",
+        "url": "https://arxiv.org/html/2410.01131v1",
+        "title": "nGPT: Normalized Transformer with Representation Learning ... - arXiv"
+      },
+      {
+        "gap": "Softmax definition and formula, including an explicit example on attention logits and how it normalizes rows",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-2-attention-mechanism-core-concepts/softmax-attention-weights",
+        "title": "The Softmax Function for Attention Weights"
+      },
+      {
+        "gap": "Softmax definition and formula, including an explicit example on attention logits and how it normalizes rows",
+        "url": "https://en.wikipedia.org/wiki/Softmax_function",
+        "title": "Softmax function - Wikipedia"
+      },
+      {
+        "gap": "Softmax definition and formula, including an explicit example on attention logits and how it normalizes rows",
+        "url": "https://emberverse.ai/stage1/the_softmax_function_exponentiation_normalization_and_the_competition_for_attent.html",
+        "title": "The Softmax Function Exponentiation Normalization and the ..."
+      },
+      {
+        "gap": "Softmax definition and formula, including an explicit example on attention logits and how it normalizes rows",
+        "url": "https://www.emergentmind.com/topics/softmax-attention-mechanism",
+        "title": "Softmax Attention Mechanism"
+      },
+      {
+        "gap": "Full matrix-operations walkthrough of scaled dot-product attention with tensor shapes: QK^T, scaling, row-wise softmax to form attention matrix A, and AV to produce outputs",
+        "url": "http://www.cs.cmu.edu/~mgormley/courses/10423-f24/slides/lecture3-learning.pdf",
+        "title": "Henry Chai & Matt Gormley"
+      },
+      {
+        "gap": "Full matrix-operations walkthrough of scaled dot-product attention with tensor shapes: QK^T, scaling, row-wise softmax to form attention matrix A, and AV to produce outputs",
+        "url": "https://aibook.zealmaker.com/nlp/dlai4/c4_w1_ungraded_lab_2_qkv_attention",
+        "title": "Scaled Dot-Product Attention: Ungraded Lab - AIBook - Rahul Saraf"
+      },
+      {
+        "gap": "Full matrix-operations walkthrough of scaled dot-product attention with tensor shapes: QK^T, scaling, row-wise softmax to form attention matrix A, and AV to produce outputs",
+        "url": "https://www.abhik.ai/concepts/attention/scaled-dot-product",
+        "title": "Scaled Dot-Product Attention | Abhik Sarkar"
+      },
+      {
+        "gap": "Full matrix-operations walkthrough of scaled dot-product attention with tensor shapes: QK^T, scaling, row-wise softmax to form attention matrix A, and AV to produce outputs",
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2021/file/56c3b2c6ea3a83aaeeff35eeb45d700d-Supplemental.pdf",
+        "title": "Supplementary Material for Kernel Identification"
+      },
+      {
+        "gap": "Full matrix-operations walkthrough of scaled dot-product attention with tensor shapes: QK^T, scaling, row-wise softmax to form attention matrix A, and AV to produce outputs",
+        "url": "https://cs231n.stanford.edu/slides/2025/lecture_8.pdf",
+        "title": "[PDF] Lecture 8: Attention and Transformers - CS231n"
+      },
+      {
+        "gap": "Numerical stability in softmax for attention (subtract max/log-sum-exp, masking with -inf, fp16/bf16 considerations)",
+        "url": "https://academic.oup.com/imajna/article-pdf/41/4/2311/40758053/draa038.pdf",
+        "title": "IMA Journal of Numerical Analysis (2021) 41, 2311\u20132330"
+      },
+      {
+        "gap": "Numerical stability in softmax for attention (subtract max/log-sum-exp, masking with -inf, fp16/bf16 considerations)",
+        "url": "https://arxiv.org/html/2501.13428v3",
+        "title": "Softplus Attention with Re-weighting Boosts Length Extrapolation in ..."
+      },
+      {
+        "gap": "Numerical stability in softmax for attention (subtract max/log-sum-exp, masking with -inf, fp16/bf16 considerations)",
+        "url": "https://jarbus.net/blog/numerical-stability-in-flash-attention/",
+        "title": "Numerical Stability in Flash Attention - - jarbus"
+      },
+      {
+        "gap": "Numerical stability in softmax for attention (subtract max/log-sum-exp, masking with -inf, fp16/bf16 considerations)",
+        "url": "https://arxiv.org/html/2501.19399v1",
+        "title": "Scalable-Softmax Is Superior for Attention"
+      },
+      {
+        "gap": "Numerical stability in softmax for attention (subtract max/log-sum-exp, masking with -inf, fp16/bf16 considerations)",
+        "url": "https://peterbloem.nl/blog/stable-softmax",
+        "title": "Stable softmax for sparse matrices"
+      },
+      {
+        "gap": "Vectorized/batched implementation details (multi-head reshaping, efficient matmul patterns, avoiding Python loops)",
+        "url": "https://sanjayasubedi.com.np/deeplearning/multihead-attention-from-scratch/",
+        "title": "Efficient Mha Implementation"
+      },
+      {
+        "gap": "Vectorized/batched implementation details (multi-head reshaping, efficient matmul patterns, avoiding Python loops)",
+        "url": "https://www.geeksforgeeks.org/nlp/multi-head-attention-mechanism/",
+        "title": "Multi-Head Attention Mechanism"
+      },
+      {
+        "gap": "Vectorized/batched implementation details (multi-head reshaping, efficient matmul patterns, avoiding Python loops)",
+        "url": "https://tvm.apache.org/2018/03/23/nmt-transformer-optimize",
+        "title": "Bringing TVM into TensorFlow for Optimizing Neural Machine ..."
+      },
+      {
+        "gap": "Vectorized/batched implementation details (multi-head reshaping, efficient matmul patterns, avoiding Python loops)",
+        "url": "https://www.adrian.idv.hk/2025-01-31-s19-mqa/",
+        "title": "Shazeer (2019) Fast Transformer Decoding. One Write-Head is All ..."
+      },
+      {
+        "gap": "Vectorized/batched implementation details (multi-head reshaping, efficient matmul patterns, avoiding Python loops)",
+        "url": "https://eli.thegreenplace.net/2025/notes-on-implementing-attention/",
+        "title": "Notes on implementing Attention - Eli Bendersky's website"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-11T17:57:13",
+    "run_label": "ensure-coverage:scaled-dot-product-attention-math-and-implementation",
+    "sources": [
+      {
+        "gap": "Softmax definition and mechanics (formula, normalization, row-wise application in attention, gradient behavior)",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-2-attention-mechanism-core-concepts/softmax-attention-weights",
+        "title": "The Softmax Function for Attention Weights"
+      },
+      {
+        "gap": "Softmax definition and mechanics (formula, normalization, row-wise application in attention, gradient behavior)",
+        "url": "https://en.wikipedia.org/wiki/Softmax_function",
+        "title": "Softmax function - Wikipedia"
+      },
+      {
+        "gap": "Softmax definition and mechanics (formula, normalization, row-wise application in attention, gradient behavior)",
+        "url": "https://aclanthology.org/2025.emnlp-main.397.pdf",
+        "title": "[PDF] Self-Adjust Softmax - ACL Anthology"
+      },
+      {
+        "gap": "Softmax definition and mechanics (formula, normalization, row-wise application in attention, gradient behavior)",
+        "url": "https://arxiv.org/pdf/2509.21936v1.pdf",
+        "title": "Statistical Advantage of Softmax Attention: Insights from Single ..."
+      },
+      {
+        "gap": "Full scaled dot-product attention as matrix operations with shapes: Q (n\u00d7d_k), K (m\u00d7d_k), V (m\u00d7d_v), scores=QK^T/sqrt(d_k), A=softmax(scores), output=AV",
+        "url": "https://codesignal.com/learn/courses/sequence-models-the-dawn-of-attention-1/lessons/scaled-dot-product-attention-and-masking-in-transformers-1",
+        "title": "Scaled Dot-Product Attention and Masking in Transformers"
+      },
+      {
+        "gap": "Full scaled dot-product attention as matrix operations with shapes: Q (n\u00d7d_k), K (m\u00d7d_k), V (m\u00d7d_v), scores=QK^T/sqrt(d_k), A=softmax(scores), output=AV",
+        "url": "https://apxml.com/courses/introduction-to-transformer-models/chapter-2-self-attention-multi-head-attention/scaled-dot-product-attention",
+        "title": "Scaled Dot-Product Attention Mechanism"
+      },
+      {
+        "gap": "Full scaled dot-product attention as matrix operations with shapes: Q (n\u00d7d_k), K (m\u00d7d_k), V (m\u00d7d_v), scores=QK^T/sqrt(d_k), A=softmax(scores), output=AV",
+        "url": "https://www.billparker.ai/2024/10/transformer-attention-simple-guide-to-q.html",
+        "title": "Transformer Attention: A Guide to the Q, K, and V Matrices - billparker.ai"
+      },
+      {
+        "gap": "Numerical stability in softmax/attention implementations (subtract max logits, handling masking with -inf, fp16/bf16 stability)",
+        "url": "https://arxiv.org/html/2510.21770v1",
+        "title": "1 Introduction - arXiv"
+      },
+      {
+        "gap": "Numerical stability in softmax/attention implementations (subtract max logits, handling masking with -inf, fp16/bf16 stability)",
+        "url": "https://arxiv.org/html/2501.13428v2",
+        "title": "Softplus Attention with Re-weighting Boosts Length ..."
+      },
+      {
+        "gap": "Numerical stability in softmax/attention implementations (subtract max logits, handling masking with -inf, fp16/bf16 stability)",
+        "url": "https://www.emergentmind.com/papers/2510.04212",
+        "title": "Low-Precision Transformer Training with Flash Attention"
+      },
+      {
+        "gap": "Numerical stability in softmax/attention implementations (subtract max logits, handling masking with -inf, fp16/bf16 stability)",
+        "url": "https://aminediro.com/posts/flash_attn/",
+        "title": "Reimplementing FlashAttention for performance and giggles"
+      },
+      {
+        "gap": "Vectorized implementation details (batching, multi-head reshaping/transposes, efficient GEMM usage, avoiding Python loops)",
+        "url": "https://mediatum.ub.tum.de/doc/1601278/zbkvhwtaatdlnckwxjkk40h5q.pdf",
+        "title": "[PDF] Optimization of small matrix multiplication kernels on Arm - mediaTUM"
+      },
+      {
+        "gap": "Vectorized implementation details (batching, multi-head reshaping/transposes, efficient GEMM usage, avoiding Python loops)",
+        "url": "https://arxiv.org/html/2601.16294v1",
+        "title": "Communication-Avoiding Matrix Multiplication Made Simple"
+      },
+      {
+        "gap": "Vectorized implementation details (batching, multi-head reshaping/transposes, efficient GEMM usage, avoiding Python loops)",
+        "url": "https://www.netlib.org/utk/people/JackDongarra/PAPERS/performance-design-and-autotuning.pdf",
+        "title": "[PDF] Performance, Design, and Autotuning of Batched GEMM for GPUs"
+      },
+      {
+        "gap": "Vectorized implementation details (batching, multi-head reshaping/transposes, efficient GEMM usage, avoiding Python loops)",
+        "url": "https://library.eecs.utk.edu/files/ut-eecs-16-740.pdf",
+        "title": "[PDF] High-performance matrix-matrix multiplications of very small matrices"
+      },
+      {
+        "gap": "Vectorized implementation details (batching, multi-head reshaping/transposes, efficient GEMM usage, avoiding Python loops)",
+        "url": "https://kth.diva-portal.org/smash/get/diva2:1985710/FULLTEXT01.pdf",
+        "title": "Performance Analysis of CUDA-based General Matrix ..."
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-11T19:27:39",
+    "run_label": "ensure-coverage:scaled-dot-product-attention-math-and-implementation",
+    "sources": [
+      {
+        "gap": "Define attention logits explicitly as the pre-softmax QK^T score matrix; include typical tensor shapes for batched multi-head attention",
+        "url": "https://www.geeksforgeeks.org/nlp/multi-head-attention-mechanism/",
+        "title": "Multi-Head Attention Mechanism"
+      },
+      {
+        "gap": "Define attention logits explicitly as the pre-softmax QK^T score matrix; include typical tensor shapes for batched multi-head attention",
+        "url": "https://www.codecademy.com/article/transformer-architecture-self-attention-mechanism",
+        "title": "Transformer Architecture Explained With Self-Attention ..."
+      },
+      {
+        "gap": "Define attention logits explicitly as the pre-softmax QK^T score matrix; include typical tensor shapes for batched multi-head attention",
+        "url": "https://machinelearningmastery.com/a-gentle-introduction-to-multi-head-attention-and-grouped-query-attention/",
+        "title": "A Gentle Introduction to Multi-Head Attention and Grouped- ..."
+      },
+      {
+        "gap": "Padding mask: how to build from pad token positions; how it differs from causal mask; how it is applied to attention logits before softmax",
+        "url": "https://codesignal.com/learn/courses/sequence-models-the-dawn-of-attention-1/lessons/scaled-dot-product-attention-and-masking-in-transformers-1",
+        "title": "Scaled Dot-Product Attention and Masking in Transformers"
+      },
+      {
+        "gap": "Padding mask: how to build from pad token positions; how it differs from causal mask; how it is applied to attention logits before softmax",
+        "url": "https://machinelearningmastery.com/a-gentle-introduction-to-attention-masking-in-transformer-models/",
+        "title": "A Gentle Introduction to Attention Masking in Transformer Models"
+      },
+      {
+        "gap": "Padding mask: how to build from pad token positions; how it differs from causal mask; how it is applied to attention logits before softmax",
+        "url": "https://codefinity.com/courses/v2/e7ee0772-6b82-4a1c-96ba-69b85ddee608/f35bf119-fe3c-4db6-8a48-51dbc163416f/8c99758d-e015-49c3-9f59-44cb55ae9aae",
+        "title": "Learn Masking in Attention: Causal and Padding Masks"
+      },
+      {
+        "gap": "Padding mask: how to build from pad token positions; how it differs from causal mask; how it is applied to attention logits before softmax",
+        "url": "https://www.youtube.com/watch?v=n13-r_eStb0",
+        "title": "Transformer self-attention  padding and causal  masking technique"
+      },
+      {
+        "gap": "Padding mask: how to build from pad token positions; how it differs from causal mask; how it is applied to attention logits before softmax",
+        "url": "https://www.abhik.ai/concepts/attention/masked-attention",
+        "title": "Masked and Causal Attention - Abhik Sarkar"
+      },
+      {
+        "gap": "Causal mask: standard lower-triangular mask mechanics; applying -inf (or large negative) to logits before softmax; interaction with padding masks",
+        "url": "https://www.abhik.ai/concepts/attention/masked-attention",
+        "title": "Masked and Causal Attention - Abhik Sarkar"
+      },
+      {
+        "gap": "Causal mask: standard lower-triangular mask mechanics; applying -inf (or large negative) to logits before softmax; interaction with padding masks",
+        "url": "https://codefinity.com/courses/v2/e7ee0772-6b82-4a1c-96ba-69b85ddee608/f35bf119-fe3c-4db6-8a48-51dbc163416f/8c99758d-e015-49c3-9f59-44cb55ae9aae",
+        "title": "Learn Masking in Attention: Causal and Padding Masks"
+      },
+      {
+        "gap": "Causal mask: standard lower-triangular mask mechanics; applying -inf (or large negative) to logits before softmax; interaction with padding masks",
+        "url": "https://machinelearningmastery.com/a-gentle-introduction-to-attention-masking-in-transformer-models/",
+        "title": "A Gentle Introduction to Attention Masking in Transformer Models"
+      },
+      {
+        "gap": "Causal mask: standard lower-triangular mask mechanics; applying -inf (or large negative) to logits before softmax; interaction with padding masks",
+        "url": "https://mbrenndoerfer.com/writing/attention-masking-transformers",
+        "title": "Attention Masking: Controlling Information Flow in Transformers"
+      },
+      {
+        "gap": "Causal mask: standard lower-triangular mask mechanics; applying -inf (or large negative) to logits before softmax; interaction with padding masks",
+        "url": "https://www.youtube.com/watch?v=n13-r_eStb0",
+        "title": "Transformer self-attention  padding and causal  masking technique"
+      },
+      {
+        "gap": "Broadcasting in attention implementations: mask shapes and broadcasting across batch and heads in PyTorch/JAX/TF; common pitfalls",
+        "url": "https://www.abhik.ai/concepts/attention/masked-attention",
+        "title": "Masked and Causal Attention - Abhik Sarkar"
+      },
+      {
+        "gap": "Broadcasting in attention implementations: mask shapes and broadcasting across batch and heads in PyTorch/JAX/TF; common pitfalls",
+        "url": "https://mbrenndoerfer.com/writing/attention-masking-transformers",
+        "title": "Attention Masking: Controlling Information Flow in Transformers"
+      },
+      {
+        "gap": "Broadcasting in attention implementations: mask shapes and broadcasting across batch and heads in PyTorch/JAX/TF; common pitfalls",
+        "url": "https://machinelearningmastery.com/a-gentle-introduction-to-attention-masking-in-transformer-models/",
+        "title": "A Gentle Introduction to Attention Masking in Transformer Models"
+      },
+      {
+        "gap": "Broadcasting in attention implementations: mask shapes and broadcasting across batch and heads in PyTorch/JAX/TF; common pitfalls",
+        "url": "https://runebook.dev/en/docs/pytorch/nn.attention.bias",
+        "title": "pytorch - Mastering torch.nn.attention.bias: Common Pitfalls and Optimized Code"
+      },
+      {
+        "gap": "Explicit step-by-step implementation recipe: compute logits = (Q @ K^T) / sqrt(d_k), add masks to logits, softmax over key dimension, output = weights @ V",
+        "url": "https://benjaminwarner.dev/2023/07/01/attention-mechanism",
+        "title": "Creating a Transformer From Scratch - Part One: The Attention Mechanism"
+      },
+      {
+        "gap": "Explicit step-by-step implementation recipe: compute logits = (Q @ K^T) / sqrt(d_k), add masks to logits, softmax over key dimension, output = weights @ V",
+        "url": "https://web.stanford.edu/~nanbhas/blog/sigmoid-softmax/",
+        "title": "Interpreting logits: Sigmoid vs Softmax | Nandita Bhaskhar"
+      },
+      {
+        "gap": "Explicit step-by-step implementation recipe: compute logits = (Q @ K^T) / sqrt(d_k), add masks to logits, softmax over key dimension, output = weights @ V",
+        "url": "https://www.scribd.com/document/868943586/Notes-on-implementing-Attention-Eli-Bendersky",
+        "title": "Notes On Implementing Attention - Eli Bendersky | PDF"
+      },
+      {
+        "gap": "Explicit step-by-step implementation recipe: compute logits = (Q @ K^T) / sqrt(d_k), add masks to logits, softmax over key dimension, output = weights @ V",
+        "url": "https://www.mosahmed.com/attention-paper.html",
+        "title": "Attention Is All You Need - Paper Analysis - Mos Ahmed"
+      },
+      {
+        "gap": "Explicit step-by-step implementation recipe: compute logits = (Q @ K^T) / sqrt(d_k), add masks to logits, softmax over key dimension, output = weights @ V",
+        "url": "https://sefer-raziel.tistory.com/204",
+        "title": "Transformer"
+      }
+    ]
+  }
+]

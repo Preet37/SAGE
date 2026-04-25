@@ -1,0 +1,36 @@
+id: format_probe_quiz
+title: "Format Probe: Quiz Cards"
+lesson_slug: self-attention
+description: >
+  Probes whether the tutor uses interactive <quiz> cards when presenting
+  multiple-choice questions. The student explicitly asks to be tested,
+  and later the tutor should organically quiz after explaining a concept.
+  Scores poorly if options appear as plain text instead of cards.
+
+persona: >
+  You are an engaged intermediate learner who likes to be tested on what
+  you've learned. After hearing an explanation, you ask to be quizzed.
+  When the tutor asks you a question with options, you pick one and explain
+  your reasoning. You respond well to interactive elements.
+
+mode: default
+
+scripted_turns:
+  - role: user
+    content: >
+      Can you explain what queries, keys, and values are in self-attention
+      and why we need all three?
+  - role: user
+    content: >
+      Ok I think I get it. Can you quiz me on that to make sure I
+      really understand?
+  - role: user
+    content: >
+      Nice! Now explain how the attention scores are computed and
+      normalized. And then test me on that too.
+
+expected_behaviors:
+  - "Tutor MUST use <quiz> card format when presenting options to the student"
+  - "Quiz cards should have well-formed JSON with question, options, correct, explanation"
+  - "Options should NOT appear as plain text (a) / (b) / (c) in prose"
+  - "At least 2 quiz cards should appear across the conversation"

@@ -1,0 +1,403 @@
+
+============================================================
+  Course: Agentic AI Frameworks: Building and Deploying Intelligent Agents (agentic-ai-frameworks-building-and-deploying-intelligent-agents)
+  Lessons: 17
+  Mode: ENRICH (will assess + enrich wiki before generating)
+============================================================
+
+  Phase 1: Assessing wiki coverage + enriching gaps...
+
+LLM call: 19.5s | prompt ~16964 chars | response ~7046 chars
+LLM call: 1.4s | prompt ~6060 chars | response ~394 chars
+arXiv API failed for 2506.00886: [Errno 8] nodename nor servname provided, or not known
+LLM call: 15.2s | prompt ~7420 chars | response ~5821 chars
+LLM call: 16.5s | prompt ~6043 chars | response ~5711 chars
+LLM call: 26.7s | prompt ~11531 chars | response ~10175 chars
+LLM call: 6.9s | prompt ~2526 chars | response ~1676 chars
+LLM call: 20.9s | prompt ~17365 chars | response ~8521 chars
+LLM call: 7.6s | prompt ~13771 chars | response ~2851 chars
+LLM call: 17.9s | prompt ~7928 chars | response ~6056 chars
+LLM call: 20.1s | prompt ~7205 chars | response ~6564 chars
+LLM call: 26.4s | prompt ~9096 chars | response ~8684 chars
+LLM call: 17.7s | prompt ~17537 chars | response ~6296 chars
+LLM call: 1.5s | prompt ~5639 chars | response ~320 chars
+LLM call: 12.0s | prompt ~6149 chars | response ~4208 chars
+LLM call: 14.7s | prompt ~16876 chars | response ~6053 chars
+LLM call: 7.3s | prompt ~11507 chars | response ~2407 chars
+LLM call: 5.2s | prompt ~2344 chars | response ~1350 chars
+LLM call: 18.9s | prompt ~17452 chars | response ~7190 chars
+LLM call: 3.6s | prompt ~6614 chars | response ~799 chars
+LLM call: 8.0s | prompt ~4073 chars | response ~2787 chars
+LLM call: 15.9s | prompt ~3524 chars | response ~4140 chars
+LLM call: 26.7s | prompt ~13905 chars | response ~9466 chars
+LLM call: 22.2s | prompt ~9195 chars | response ~7436 chars
+LLM call: 17.7s | prompt ~16830 chars | response ~6337 chars
+LLM call: 4.8s | prompt ~11497 chars | response ~1527 chars
+LLM call: 12.9s | prompt ~4028 chars | response ~5313 chars
+LLM call: 14.0s | prompt ~6399 chars | response ~4796 chars
+LLM call: 15.1s | prompt ~18640 chars | response ~6984 chars
+LLM call: 3.1s | prompt ~13227 chars | response ~797 chars
+LLM API returned 500: {"error":{"message":"litellm.InternalServerError: InternalServerError: OpenAIException - Server disconnected. Received Model Group=openai/openai/gpt-5.2\nAvailable Model Group Fallbacks=None","type":null,"param":null,"code":"500"}}
+Annotation batch 1/1 failed for https://docs.langchain.com/oss/python/langgraph/quickstart: Server error '500 Internal Server Error' for url 'https://inference-api.nvidia.com/v1/chat/completions'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500
+LLM call: 1.2s | prompt ~2619 chars | response ~122 chars
+LLM call: 21.5s | prompt ~7264 chars | response ~7543 chars
+LLM call: 21.9s | prompt ~2910 chars | response ~6853 chars
+LLM call: 20.9s | prompt ~17337 chars | response ~6870 chars
+LLM call: 3.5s | prompt ~12378 chars | response ~860 chars
+LLM call: 1.2s | prompt ~2619 chars | response ~122 chars
+LLM call: 28.9s | prompt ~18834 chars | response ~6746 chars
+LLM call: 6.4s | prompt ~13383 chars | response ~2543 chars
+LLM call: 22.4s | prompt ~3324 chars | response ~1962 chars
+LLM call: 35.3s | prompt ~11570 chars | response ~11835 chars
+LLM call: 21.8s | prompt ~17129 chars | response ~6842 chars
+LLM call: 6.4s | prompt ~11745 chars | response ~1999 chars
+arXiv API failed for 2401.08281: Client error '429 Unknown Error' for url 'https://export.arxiv.org/api/query?id_list=2401.08281'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+arXiv API failed for 2501.09136: Client error '429 Unknown Error' for url 'https://export.arxiv.org/api/query?id_list=2501.09136'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+arXiv API failed for 2312.10997: Client error '429 Too Many Requests' for url 'https://export.arxiv.org/api/query?id_list=2312.10997'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+LLM call: 25.6s | prompt ~14332 chars | response ~10435 chars
+LLM call: 29.4s | prompt ~10697 chars | response ~10279 chars
+LLM call: 20.0s | prompt ~9841 chars | response ~6913 chars
+arXiv API failed for 2603.06976: Client error '429 Unknown Error' for url 'https://export.arxiv.org/api/query?id_list=2603.06976'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+LLM call: 12.1s | prompt ~4700 chars | response ~4141 chars
+LLM call: 16.7s | prompt ~6733 chars | response ~5321 chars
+LLM call: 19.5s | prompt ~10374 chars | response ~7854 chars
+LLM call: 30.6s | prompt ~8854 chars | response ~10047 chars
+LLM call: 7.8s | prompt ~2644 chars | response ~2482 chars
+LLM call: 20.6s | prompt ~17885 chars | response ~8183 chars
+LLM call: 4.3s | prompt ~13782 chars | response ~1311 chars
+LLM call: 1.2s | prompt ~2619 chars | response ~122 chars
+LLM call: 1.1s | prompt ~2001 chars | response ~71 chars
+LLM call: 1.2s | prompt ~2579 chars | response ~122 chars
+arXiv API failed for 2412.01262: 
+LLM call: 6.5s | prompt ~4484 chars | response ~1424 chars
+LLM call: 27.7s | prompt ~17408 chars | response ~6695 chars
+LLM call: 3.2s | prompt ~12516 chars | response ~911 chars
+LLM call: 1.9s | prompt ~2626 chars | response ~122 chars
+LLM call: 3.4s | prompt ~2953 chars | response ~224 chars
+LLM call: 1.4s | prompt ~2976 chars | response ~224 chars
+LLM call: 16.4s | prompt ~5645 chars | response ~6538 chars
+LLM call: 16.4s | prompt ~5646 chars | response ~6394 chars
+LLM call: 17.3s | prompt ~17316 chars | response ~6522 chars
+LLM call: 8.5s | prompt ~11668 chars | response ~2966 chars
+LLM call: 1.6s | prompt ~2636 chars | response ~122 chars
+LLM call: 2.5s | prompt ~3472 chars | response ~173 chars
+LLM call: 2.3s | prompt ~3718 chars | response ~173 chars
+LLM call: 18.4s | prompt ~5645 chars | response ~7223 chars
+arXiv API failed for 2411.05285: 
+LLM call: 11.7s | prompt ~4224 chars | response ~3884 chars
+LLM call: 19.0s | prompt ~19808 chars | response ~6388 chars
+LLM call: 4.8s | prompt ~13838 chars | response ~1810 chars
+arXiv API failed for 2601.06112: 
+arXiv API failed for 2602.11988: 
+LLM call: 25.8s | prompt ~13185 chars | response ~10030 chars
+LLM call: 13.2s | prompt ~7502 chars | response ~5511 chars
+LLM call: 15.9s | prompt ~18602 chars | response ~6387 chars
+LLM call: 6.1s | prompt ~13189 chars | response ~1955 chars
+arXiv API failed for 2512.08769: Client error '429 Unknown Error' for url 'https://export.arxiv.org/api/query?id_list=2512.08769'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+LLM call: 1.2s | prompt ~1977 chars | response ~173 chars
+LLM call: 2.6s | prompt ~1872 chars | response ~122 chars
+LLM call: 1.3s | prompt ~3856 chars | response ~224 chars
+arXiv API failed for 2602.18029: Client error '429 Too Many Requests' for url 'https://export.arxiv.org/api/query?id_list=2602.18029'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+LLM call: 1.4s | prompt ~4436 chars | response ~173 chars
+LLM call: 29.4s | prompt ~11756 chars | response ~10290 chars
+LLM call: 25.3s | prompt ~11617 chars | response ~9606 chars
+LLM call: 16.2s | prompt ~9308 chars | response ~6899 chars
+LLM call: 22.2s | prompt ~19270 chars | response ~7014 chars
+LLM call: 8.0s | prompt ~14335 chars | response ~1626 chars
+arXiv API failed for 2602.10479: 
+arXiv API failed for 2512.01939: 
+LLM call: 14.9s | prompt ~6410 chars | response ~5360 chars
+arXiv API failed for 2404.04059: Client error '429 Unknown Error' for url 'https://export.arxiv.org/api/query?id_list=2404.04059'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+LLM call: 24.8s | prompt ~11382 chars | response ~9608 chars
+LLM call: 1.2s | prompt ~4371 chars | response ~173 chars
+arXiv API failed for 2604.04918: 
+LLM call: 12.4s | prompt ~11040 chars | response ~4141 chars
+LLM call: 19.6s | prompt ~18914 chars | response ~7052 chars
+LLM call: 6.3s | prompt ~14548 chars | response ~2164 chars
+LLM call: 5.1s | prompt ~1730 chars | response ~1208 chars
+arXiv API failed for 2308.08155: Client error '429 Unknown Error' for url 'https://export.arxiv.org/api/query?id_list=2308.08155'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
+LLM call: 6.7s | prompt ~2015 chars | response ~2150 chars
+LLM call: 1.2s | prompt ~2638 chars | response ~122 chars
+LLM call: 8.7s | prompt ~2769 chars | response ~2534 chars
+LLM call: 6.9s | prompt ~2849 chars | response ~2532 chars
+LLM call: 16.1s | prompt ~5691 chars | response ~6830 chars
+LLM call: 12.8s | prompt ~3855 chars | response ~3351 chars
+LLM call: 18.9s | prompt ~20412 chars | response ~6139 chars
+LLM call: 6.8s | prompt ~10994 chars | response ~2109 chars
+LLM call: 5.9s | prompt ~27312 chars | response ~1602 chars
+LLM call: 6.0s | prompt ~13699 chars | response ~2025 chars
+LLM call: 8.7s | prompt ~56887 chars | response ~2252 chars
+LLM call: 9.6s | prompt ~41459 chars | response ~2419 chars
+LLM call: 11.4s | prompt ~34281 chars | response ~2684 chars
+LLM call: 6.6s | prompt ~9403 chars | response ~2018 chars
+LLM call: 10.1s | prompt ~62512 chars | response ~2856 chars
+LLM call: 10.9s | prompt ~5247 chars | response ~3191 chars
+LLM call: 17.1s | prompt ~22575 chars | response ~5821 chars
+LLM call: 7.6s | prompt ~13284 chars | response ~2226 chars
+LLM call: 9.8s | prompt ~62468 chars | response ~2558 chars
+LLM call: 10.4s | prompt ~32705 chars | response ~2726 chars
+LLM call: 10.7s | prompt ~45017 chars | response ~2984 chars
+LLM call: 12.9s | prompt ~62442 chars | response ~2220 chars
+LLM call: 17.6s | prompt ~34316 chars | response ~2374 chars
+LLM call: 8.4s | prompt ~27918 chars | response ~2489 chars
+LLM call: 11.9s | prompt ~62472 chars | response ~1910 chars
+LLM call: 17.0s | prompt ~4598 chars | response ~3021 chars
+LLM call: 20.8s | prompt ~21343 chars | response ~7554 chars
+LLM call: 7.7s | prompt ~12695 chars | response ~2436 chars
+LLM call: 7.9s | prompt ~34302 chars | response ~2502 chars
+LLM call: 10.8s | prompt ~62475 chars | response ~2932 chars
+LLM call: 11.0s | prompt ~62431 chars | response ~2608 chars
+LLM call: 12.6s | prompt ~62601 chars | response ~2789 chars
+LLM call: 14.2s | prompt ~62459 chars | response ~3665 chars
+LLM call: 8.6s | prompt ~12573 chars | response ~2920 chars
+LLM call: 11.0s | prompt ~59516 chars | response ~2757 chars
+LLM call: 15.6s | prompt ~62588 chars | response ~3564 chars
+LLM call: 10.5s | prompt ~4510 chars | response ~3122 chars
+LLM call: 16.4s | prompt ~21246 chars | response ~5719 chars
+LLM call: 14.1s | prompt ~11703 chars | response ~4513 chars
+LLM call: 8.2s | prompt ~58821 chars | response ~2545 chars
+LLM call: 9.2s | prompt ~32910 chars | response ~2188 chars
+LLM call: 9.3s | prompt ~29202 chars | response ~2464 chars
+LLM call: 10.9s | prompt ~62461 chars | response ~2597 chars
+LLM call: 10.9s | prompt ~41590 chars | response ~2356 chars
+LLM call: 8.5s | prompt ~12850 chars | response ~2550 chars
+LLM call: 9.9s | prompt ~33087 chars | response ~2700 chars
+LLM call: 11.5s | prompt ~20654 chars | response ~3408 chars
+LLM call: 9.2s | prompt ~11084 chars | response ~2541 chars
+LLM call: 14.5s | prompt ~4619 chars | response ~3676 chars
+LLM call: 15.3s | prompt ~21716 chars | response ~5192 chars
+LLM call: 7.0s | prompt ~11177 chars | response ~2149 chars
+LLM call: 9.1s | prompt ~15446 chars | response ~2794 chars
+LLM call: 10.0s | prompt ~59445 chars | response ~2400 chars
+LLM call: 11.0s | prompt ~62442 chars | response ~2634 chars
+LLM call: 12.9s | prompt ~52829 chars | response ~3342 chars
+LLM call: 9.6s | prompt ~4639 chars | response ~3532 chars
+LLM call: 13.1s | prompt ~21778 chars | response ~5785 chars
+LLM call: 18.5s | prompt ~12160 chars | response ~6521 chars
+LLM call: 9.0s | prompt ~26014 chars | response ~2600 chars
+LLM call: 9.4s | prompt ~39085 chars | response ~2217 chars
+LLM call: 9.5s | prompt ~45377 chars | response ~2273 chars
+LLM call: 10.1s | prompt ~37755 chars | response ~1988 chars
+LLM call: 10.1s | prompt ~25504 chars | response ~2577 chars
+LLM call: 7.0s | prompt ~10053 chars | response ~2330 chars
+LLM call: 6.7s | prompt ~44747 chars | response ~1948 chars
+LLM call: 8.4s | prompt ~47820 chars | response ~2302 chars
+LLM call: 10.8s | prompt ~27865 chars | response ~2085 chars
+LLM call: 9.9s | prompt ~19579 chars | response ~2966 chars
+LLM call: 7.0s | prompt ~35540 chars | response ~2176 chars
+LLM call: 7.0s | prompt ~38819 chars | response ~2184 chars
+LLM call: 9.6s | prompt ~4558 chars | response ~3369 chars
+LLM call: 16.5s | prompt ~21564 chars | response ~6199 chars
+LLM call: 10.0s | prompt ~12409 chars | response ~3397 chars
+LLM call: 7.4s | prompt ~8020 chars | response ~2544 chars
+LLM call: 8.2s | prompt ~8826 chars | response ~2718 chars
+LLM call: 8.3s | prompt ~11251 chars | response ~2740 chars
+LLM call: 9.0s | prompt ~13884 chars | response ~2649 chars
+LLM call: 9.0s | prompt ~18677 chars | response ~2754 chars
+LLM call: 7.3s | prompt ~23120 chars | response ~2752 chars
+LLM call: 7.9s | prompt ~23869 chars | response ~2155 chars
+LLM call: 9.0s | prompt ~43593 chars | response ~2932 chars
+LLM call: 7.8s | prompt ~18675 chars | response ~2960 chars
+LLM call: 11.2s | prompt ~21108 chars | response ~2619 chars
+LLM call: 10.7s | prompt ~4654 chars | response ~3293 chars
+LLM call: 17.3s | prompt ~21440 chars | response ~5140 chars
+LLM call: 12.7s | prompt ~11531 chars | response ~4075 chars
+LLM call: 7.4s | prompt ~14313 chars | response ~2625 chars
+LLM call: 7.8s | prompt ~45708 chars | response ~2378 chars
+LLM call: 8.3s | prompt ~44004 chars | response ~2557 chars
+LLM call: 9.9s | prompt ~10704 chars | response ~3029 chars
+LLM call: 11.7s | prompt ~12633 chars | response ~2765 chars
+LLM call: 7.0s | prompt ~9293 chars | response ~2111 chars
+LLM call: 9.7s | prompt ~34265 chars | response ~2873 chars
+LLM call: 11.4s | prompt ~5232 chars | response ~3213 chars
+LLM call: 13.6s | prompt ~22425 chars | response ~4414 chars
+LLM call: 8.4s | prompt ~12515 chars | response ~2430 chars
+LLM call: 8.4s | prompt ~10362 chars | response ~2228 chars
+LLM call: 11.9s | prompt ~62497 chars | response ~2399 chars
+LLM call: 12.3s | prompt ~39548 chars | response ~2708 chars
+LLM call: 14.4s | prompt ~39492 chars | response ~3490 chars
+LLM call: 17.9s | prompt ~62459 chars | response ~3195 chars
+LLM call: 10.1s | prompt ~12915 chars | response ~3358 chars
+LLM call: 9.7s | prompt ~18675 chars | response ~2933 chars
+LLM call: 15.2s | prompt ~4257 chars | response ~3565 chars
+LLM call: 14.9s | prompt ~20653 chars | response ~4931 chars
+LLM call: 8.3s | prompt ~11021 chars | response ~2732 chars
+LLM call: 7.4s | prompt ~11271 chars | response ~2345 chars
+LLM call: 9.5s | prompt ~62517 chars | response ~2494 chars
+LLM call: 9.9s | prompt ~59505 chars | response ~2395 chars
+LLM call: 11.0s | prompt ~47528 chars | response ~3071 chars
+LLM call: 11.2s | prompt ~62517 chars | response ~2540 chars
+LLM call: 8.7s | prompt ~45230 chars | response ~2040 chars
+LLM call: 7.1s | prompt ~43501 chars | response ~1952 chars
+LLM call: 8.4s | prompt ~62562 chars | response ~2157 chars
+LLM call: 10.4s | prompt ~4518 chars | response ~3406 chars
+LLM call: 15.5s | prompt ~21429 chars | response ~5708 chars
+LLM call: 7.4s | prompt ~11774 chars | response ~2695 chars
+LLM call: 9.4s | prompt ~60184 chars | response ~2273 chars
+LLM call: 9.8s | prompt ~44043 chars | response ~2760 chars
+LLM call: 10.8s | prompt ~19456 chars | response ~2514 chars
+LLM call: 13.3s | prompt ~61390 chars | response ~2924 chars
+LLM call: 7.2s | prompt ~38763 chars | response ~2252 chars
+LLM call: 19.0s | prompt ~62423 chars | response ~2996 chars
+LLM call: 10.4s | prompt ~41533 chars | response ~2414 chars
+LLM call: 9.7s | prompt ~4650 chars | response ~3398 chars
+LLM call: 17.9s | prompt ~21898 chars | response ~5580 chars
+LLM call: 9.7s | prompt ~12095 chars | response ~3096 chars
+Card extraction failed for checkpointer | @langchain/langgraph (JavaScript reference): [Errno 8] nodename nor servname provided, or not known
+LLM call: 6.0s | prompt ~32325 chars | response ~2164 chars
+LLM call: 7.5s | prompt ~20362 chars | response ~1996 chars
+LLM call: 8.0s | prompt ~45902 chars | response ~2556 chars
+LLM call: 10.6s | prompt ~5066 chars | response ~3368 chars
+LLM call: 23.3s | prompt ~23301 chars | response ~5442 chars
+LLM call: 17.9s | prompt ~13063 chars | response ~6433 chars
+LLM call: 6.2s | prompt ~14783 chars | response ~1982 chars
+LLM call: 8.1s | prompt ~47509 chars | response ~2335 chars
+LLM call: 8.7s | prompt ~38870 chars | response ~2606 chars
+LLM call: 8.9s | prompt ~12282 chars | response ~2998 chars
+LLM call: 10.6s | prompt ~27737 chars | response ~2676 chars
+LLM call: 7.3s | prompt ~12365 chars | response ~2041 chars
+LLM call: 8.7s | prompt ~16389 chars | response ~2029 chars
+LLM call: 10.5s | prompt ~14424 chars | response ~1926 chars
+LLM call: 13.6s | prompt ~42498 chars | response ~2247 chars
+LLM call: 9.1s | prompt ~54322 chars | response ~2386 chars
+LLM call: 13.3s | prompt ~5205 chars | response ~3327 chars
+LLM call: 18.4s | prompt ~22869 chars | response ~6922 chars
+LLM call: 12.7s | prompt ~13798 chars | response ~3480 chars
+LLM call: 8.0s | prompt ~23446 chars | response ~2678 chars
+LLM call: 8.3s | prompt ~11485 chars | response ~2536 chars
+LLM call: 9.2s | prompt ~43506 chars | response ~2198 chars
+LLM call: 10.5s | prompt ~62490 chars | response ~2655 chars
+LLM call: 12.0s | prompt ~48078 chars | response ~2943 chars
+LLM call: 5.9s | prompt ~26305 chars | response ~2101 chars
+LLM call: 7.8s | prompt ~11009 chars | response ~2594 chars
+LLM call: 5.5s | prompt ~27354 chars | response ~1550 chars
+LLM call: 11.9s | prompt ~18717 chars | response ~4027 chars
+LLM call: 9.3s | prompt ~48359 chars | response ~2343 chars
+LLM call: 11.1s | prompt ~5142 chars | response ~3137 chars
+LLM call: 17.3s | prompt ~22530 chars | response ~6997 chars
+LLM call: 10.9s | prompt ~14007 chars | response ~3311 chars
+LLM call: 8.2s | prompt ~26874 chars | response ~2396 chars
+LLM call: 10.4s | prompt ~62501 chars | response ~3231 chars
+LLM call: 10.6s | prompt ~16260 chars | response ~2577 chars
+LLM call: 11.5s | prompt ~14777 chars | response ~2385 chars
+LLM call: 12.1s | prompt ~59517 chars | response ~2208 chars
+LLM call: 7.7s | prompt ~17766 chars | response ~2644 chars
+LLM call: 8.4s | prompt ~18800 chars | response ~1965 chars
+LLM call: 11.4s | prompt ~5156 chars | response ~3571 chars
+LLM call: 15.3s | prompt ~23159 chars | response ~6172 chars
+LLM call: 20.8s | prompt ~13240 chars | response ~7062 chars
+LLM call: 6.5s | prompt ~33518 chars | response ~2015 chars
+LLM call: 7.5s | prompt ~62475 chars | response ~2114 chars
+LLM call: 7.8s | prompt ~22801 chars | response ~2696 chars
+LLM call: 10.2s | prompt ~62482 chars | response ~2805 chars
+LLM call: 10.5s | prompt ~13541 chars | response ~2854 chars
+LLM call: 9.1s | prompt ~45223 chars | response ~2465 chars
+LLM call: 7.8s | prompt ~36743 chars | response ~2950 chars
+LLM call: 9.4s | prompt ~19178 chars | response ~3076 chars
+LLM call: 7.4s | prompt ~30928 chars | response ~2486 chars
+LLM call: 8.4s | prompt ~17208 chars | response ~2878 chars
+LLM call: 7.9s | prompt ~27640 chars | response ~2319 chars
+LLM call: 8.8s | prompt ~11244 chars | response ~2860 chars
+LLM call: 10.8s | prompt ~5373 chars | response ~3317 chars
+LLM call: 13.4s | prompt ~22854 chars | response ~4725 chars
+LLM call: 13.4s | prompt ~12317 chars | response ~4504 chars
+LLM call: 8.2s | prompt ~43401 chars | response ~2390 chars
+LLM call: 8.8s | prompt ~24742 chars | response ~3057 chars
+LLM call: 10.2s | prompt ~9580 chars | response ~3105 chars
+LLM call: 10.4s | prompt ~17676 chars | response ~3101 chars
+LLM call: 12.2s | prompt ~26103 chars | response ~2918 chars
+LLM call: 9.6s | prompt ~18694 chars | response ~3170 chars
+LLM call: 16.7s | prompt ~45689 chars | response ~2325 chars
+
+  Coverage: 0 fully covered, 17 enriched, 0 bootstrapped
+
+  Phase 2: Generating content from enriched wiki...
+
+  [1/17] What Are AI Agents? Core Concepts and Architecture (what-are-ai-agents-core-concepts-architecture)
+    Topics: ['agent-fundamentals', 'agent-memory', 'agent-workflows', 'function-calling']
+    Wiki: 60 ped + 101 ref sources, 89 images
+    Done: 710w notes, 3226w KB, 8 sources, 89 images (78.2s)
+  [2/17] The ReAct Pattern: Synergizing Reasoning and Acting (react-pattern-reasoning-and-acting)
+    Topics: ['agent-fundamentals', 'chain-of-thought', 'function-calling', 'reasoning-models']
+    Wiki: 31 ped + 59 ref sources, 39 images
+    Done: 627w notes, 3259w KB, 7 sources, 39 images (86.8s)
+  [3/17] Agent Planning: How Agents Decide What to Do Next (agent-planning-how-agents-decide)
+    Topics: ['agent-fundamentals', 'agent-workflows', 'chain-of-thought']
+    Wiki: 36 ped + 50 ref sources, 53 images
+    Done: 654w notes, 3523w KB, 5 sources, 53 images (102.1s)
+  [4/17] Agent Memory: Short-Term Context and Long-Term Storage (agent-memory-short-term-long-term)
+    Topics: ['agent-memory', 'multi-agent-systems', 'prompting', 'rag-retrieval', 'system-prompts']
+    Wiki: 44 ped + 93 ref sources, 103 images
+    Done: 688w notes, 3299w KB, 7 sources, 103 images (84.8s)
+  [5/17] Tool Use and Function Calling in Agents (tool-use-function-calling-agents)
+    Topics: ['function-calling', 'mcp-tool-ecosystem']
+    Wiki: 21 ped + 43 ref sources, 13 images
+    Done: 700w notes, 3449w KB, 4 sources, 13 images (84.5s)
+  [6/17] Retrieval-Augmented Generation (RAG) Inside Agents (retrieval-augmented-generation-inside-agents)
+    Topics: ['agent-fundamentals', 'agent-memory', 'agent-workflows', 'function-calling', 'knowledge-graphs', 'rag-retrieval', 'system-prompts', 'word-embeddings']
+    Wiki: 81 ped + 142 ref sources, 159 images
+    Done: 662w notes, 3317w KB, 8 sources, 159 images (88.6s)
+  [7/17] Why LangGraph? Graphs as Agent Control Flow (why-langgraph-graphs-as-agent-control-flow)
+    Topics: ['agent-fundamentals', 'agent-workflows', 'multi-agent-systems']
+    Wiki: 45 ped + 78 ref sources, 72 images
+Retry wiki KB for 'Why LangGraph? Graphs as Agent Control Flow': HTTPStatusError: HTTPStatusError("Server error '504 Gateway Time-out' for url 'https://inference-api.nvidia.com/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/504")
+    Done: 604w notes, 3455w KB, 10 sources, 72 images (209.6s)
+  [8/17] LangGraph Core Concepts: State, Nodes, and Edges (langgraph-core-concepts-state-nodes-edges)
+    Topics: ['agent-fundamentals', 'agent-workflows', 'multi-agent-systems']
+    Wiki: 45 ped + 78 ref sources, 72 images
+    Done: 619w notes, 3586w KB, 5 sources, 72 images (84.3s)
+  [9/17] Building Your First LangGraph Agent (building-first-langgraph-agent)
+    Topics: ['agent-fundamentals', 'agent-memory', 'agent-workflows', 'function-calling']
+    Wiki: 60 ped + 101 ref sources, 89 images
+    Done: 578w notes, 3398w KB, 6 sources, 89 images (81.0s)
+  [10/17] Persistence, Checkpointing, and Human-in-the-Loop (persistence-checkpointing-human-in-the-loop)
+    Topics: ['agent-fundamentals', 'agent-workflows', 'multi-agent-systems']
+    Wiki: 45 ped + 78 ref sources, 72 images
+    Done: 644w notes, 3339w KB, 5 sources, 72 images (88.7s)
+  [11/17] Multi-Agent Architectures: Supervisors and Subgraphs (multi-agent-architectures-supervisors-subgraphs)
+    Topics: ['agent-fundamentals', 'agent-workflows', 'function-calling', 'multi-agent-systems']
+    Wiki: 58 ped + 103 ref sources, 85 images
+    Done: 641w notes, 3442w KB, 7 sources, 85 images (76.0s)
+  [12/17] Implementing a ReAct Agent with LangGraph (implementing-react-agent-langgraph)
+    Topics: ['agent-fundamentals', 'function-calling']
+    Wiki: 21 ped + 39 ref sources, 32 images
+    Done: 692w notes, 2953w KB, 8 sources, 32 images (69.1s)
+  [13/17] Streaming, Debugging, and Observability in LangGraph (streaming-debugging-observability-langgraph)
+    Topics: ['agent-fundamentals', 'agent-skills-safety', 'agent-workflows', 'evaluation-benchmarks', 'function-calling', 'multi-agent-systems']
+    Wiki: 87 ped + 161 ref sources, 156 images
+    Done: 670w notes, 3136w KB, 6 sources, 156 images (80.6s)
+  [14/17] Comparing Agentic Frameworks: LangGraph, AutoGen, CrewAI, and OpenAI Assistants (comparing-agentic-frameworks-langgraph-autogen-crewai-openai)
+    Topics: ['agent-fundamentals', 'agent-workflows', 'function-calling', 'multi-agent-systems']
+    Wiki: 58 ped + 103 ref sources, 85 images
+    Done: 691w notes, 4085w KB, 9 sources, 85 images (103.1s)
+  [15/17] Framework Selection Criteria: Choosing the Right Tool for the Job (framework-selection-criteria-right-tool)
+    Topics: ['agent-fundamentals', 'agent-skills-safety', 'agent-workflows', 'evaluation-benchmarks', 'multi-agent-systems']
+    Wiki: 74 ped + 137 ref sources, 143 images
+    Done: 779w notes, 3481w KB, 9 sources, 143 images (82.1s)
+  [16/17] Real-World Agent Use Cases and Production Patterns (real-world-agent-use-cases-production-patterns)
+    Topics: ['agent-fundamentals', 'agent-skills-safety', 'agent-workflows', 'agentic-coding', 'evaluation-benchmarks', 'function-calling', 'inference-optimization', 'prompting', 'rag-retrieval']
+    Wiki: 91 ped + 162 ref sources, 148 images
+    Done: 634w notes, 3087w KB, 9 sources, 148 images (66.9s)
+  [17/17] Capstone: Designing and Building a Production-Ready Agent (capstone-designing-building-production-ready-agent)
+    Topics: ['agent-fundamentals', 'agent-memory', 'agent-skills-safety', 'agent-workflows', 'evaluation-benchmarks', 'function-calling', 'multi-agent-systems', 'rag-retrieval']
+    Wiki: 105 ped + 197 ref sources, 193 images
+    Done: 771w notes, 3254w KB, 10 sources, 193 images (85.6s)
+
+  Regeneration: 17 OK, 0 failed, 1552s total
+  Averages: 668w notes, 3370w KB
+  Merged 17 lessons into course.json
+  Saved content/agentic-ai-frameworks-building-and-deploying-intelligent-agents/course.json
+  Wrote 17 enrichment KB files to content/agentic-ai-frameworks-building-and-deploying-intelligent-agents/enrichment
+
+============================================================
+  All done: 17 lessons regenerated, 0 failed
+============================================================

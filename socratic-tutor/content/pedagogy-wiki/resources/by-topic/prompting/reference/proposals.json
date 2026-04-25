@@ -1,0 +1,253 @@
+[
+  {
+    "timestamp": "2026-04-09T16:31:36",
+    "run_label": "reference-track:Prompting",
+    "sources": [
+      {
+        "url": "https://proceedings.mlr.press/v70/guo17a/guo17a.pdf",
+        "title": "On Calibration of Modern Neural Networks",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://docs.aws.amazon.com/prescriptive-guidance/latest/ml-quantifying-uncertainty/temp-scaling.html",
+        "title": "Temperature scaling - AWS Prescriptive Guidance",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "http://proceedings.mlr.press/v70/guo17a/guo17a-supp.pdf",
+        "title": "[PDF] On Calibration of Modern Neural Networks",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/1706.04599",
+        "title": "[1706.04599] On Calibration of Modern Neural Networks - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://users.cs.fiu.edu/~sjha/class2023/Lecture8/Slides/2017TemperatureScaling.pdf",
+        "title": "[PDF] On Calibration of Modern Neural Networks: Temperature Scaling",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://ceur-ws.org/Vol-2540/FAIR2019_paper_15.pdf",
+        "title": "The curious case of neural text degeneration",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=dCORspO2yVY",
+        "title": "Nucleus Sampling: The Curious Case of Neural Text Degeneration (Research Paper Walkthrough)",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/1904.09751",
+        "title": "[1904.09751] The Curious Case of Neural Text Degeneration - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://ar5iv.labs.arxiv.org/html/1904.09751",
+        "title": "[1904.09751] The Curious Case of Neural Text Degeneration",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.iclr.cc/paper_files/paper/2024/file/34899013589ef41aea4d7b2f0ef310c1-Paper-Conference.pdf",
+        "title": "[PDF] CLOSING THE CURIOUS CASE OF NEURAL TEXT DEGENERATION",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper/2020/file/1457c0d6bfcb4967418bfb8ac142f64a-Paper.pdf",
+        "title": "[PDF] Language Models are Few-Shot Learners - NIPS papers",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2005.14165.pdf",
+        "title": "[PDF] Language Models are Few-Shot Learners - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://papers.nips.cc/paper/2020/file/1457c0d6bfcb4967418bfb8ac142f64a-Paper.pdf",
+        "title": "[PDF] Language Models are Few-Shot Learners",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2020/file/1457c0d6bfcb4967418bfb8ac142f64a-Paper.pdf",
+        "title": "Language Models are Few-Shot Learners - NeurIPS",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/2202.12837",
+        "title": "Rethinking the Role of Demonstrations: What Makes In-Context ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2022.emnlp-main.759/",
+        "title": "Rethinking the Role of Demonstrations: What Makes In-Context Learning Work?",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2022.emnlp-main.759.pdf",
+        "title": "What Makes In-Context Learning Work?",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2202.12837v2.pdf",
+        "title": "Rethinking the Role of Demonstrations:",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://hyeonjeong1.github.io/paper%20review/paper_rethinking/",
+        "title": "[Paper Review] Rethinking the Role of Demonstrations",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/json-mode",
+        "title": "Structured Outputs - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/structured-outputs/json-mode",
+        "title": "Structured model outputs - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/text-generation/json-mode",
+        "title": "Structured model outputs | OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/chat",
+        "title": "Chat Completions | OpenAI API Reference",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/structured-outputs/",
+        "title": "OpenAI Platform",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/openai/openai-python/issues/1733",
+        "title": "Structured outputs response_format requires strict function ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/openai/openai-agents-python/issues/66",
+        "title": "response_format.type `json_schema` \u00b7 Issue #66 \u00b7 openai ... - GitHub",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/seeq12/openai-python/blob/main/helpers.md",
+        "title": "openai-python/helpers.md at main \u00b7 seeq12/openai-python",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/openai/openai-python/blob/main/helpers.md",
+        "title": "openai-python/helpers.md at main \u00b7 openai/openai-python",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/cgayapr/openai-python/blob/main/helpers.md",
+        "title": "openai-python/helpers.md at main \u00b7 cgayapr/openai-python",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://community.openai.com/t/json-mode-vs-function-calling/476994",
+        "title": "JSON mode vs Function Calling - API - OpenAI Developer Community",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://boundaryml.com/blog/schema-aligned-parsing",
+        "title": "Prompting vs JSON Mode vs Function Calling vs ... - BAML",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://zenn.dev/stafes_blog/articles/7f96753fa0de75",
+        "title": "OpenAI API\u306eJSON Mode\u3068Function Calling\u306e\u7cbe\u5ea6\u6bd4\u8f03",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.vellum.ai/blog/when-should-i-use-function-calling-structured-outputs-or-json-mode",
+        "title": "When should I use function calling, structured outputs or JSON mode?",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.boundaryml.com/research/schema-aligned-parsing",
+        "title": "Prompting vs JSON Mode vs Function Calling vs Constrained Generation vs SAP",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2501.10868v1",
+        "title": "Generating Structured Outputs from Language Models: Benchmark ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2501.10868v3",
+        "title": "JSONSchemaBench: A Rigorous Benchmark of Structured Outputs ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://icml.cc/virtual/2025/51849",
+        "title": "Evaluating Constrained Decoding with LLMs on Efficiency ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/constrained-decoding-json-mode",
+        "title": "Constrained Decoding (JSON-mode) - Emergent Mind",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2025.ranlp-1.124.pdf",
+        "title": "[PDF] How Constrained Decoding Affects Language Model Performance",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://openai.com/index/introducing-structured-outputs-in-the-api/",
+        "title": "Constrained Decoding",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://community.openai.com/t/difference-between-structured-outputs-and-function-calling-required/937697",
+        "title": "Difference between Structured Outputs and function calling required",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://community.openai.com/t/feedback-on-gpt-model-selection-methodology-for-entity-extraction-cost-vs-latency-vs-quality/1372267",
+        "title": "Feedback on GPT model selection methodology for entity extraction ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://community.openai.com/t/function-calling-looping-uncontrollably-and-calling-unnecessarily/931730",
+        "title": "Function calling looping uncontrollably and ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://community.openai.com/t/why-are-structured-formatting-so-much-slower-than-function-calling/940459",
+        "title": "Why are structured formatting so much slower than function calling",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://python.useinstructor.com/blog/2024/08/20/should-i-be-using-structured-outputs/",
+        "title": "Should I Be Using Structured Outputs? - Instructor",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://indx.jp/en/blog/llm-structured-outputs",
+        "title": "Practical Implementation of LLM Structured Outputs | INDX Co., Ltd.",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://engineersofai.com/docs/llms/structured-generation/why-structured-output-matters",
+        "title": "Why Structured Output Matters in Production | EngineersOfAI \u2014 The ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://tianpan.co/blog/2025-10-29-structured-outputs-llm-production",
+        "title": "Beyond JSON Mode: Getting Reliable Structured Outputs from LLMs ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.decisioncrafters.com/structured-output-llms-production-reality/",
+        "title": "Structured Output from LLMs: Production Reality Guide",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  }
+]

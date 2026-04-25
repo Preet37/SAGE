@@ -1,0 +1,188 @@
+[
+  {
+    "timestamp": "2026-04-09T16:38:19",
+    "run_label": "reference-track:Transformer Architecture",
+    "sources": [
+      {
+        "url": "https://arxiv.org/abs/1910.07467",
+        "title": "Root Mean Square Layer Normalization",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://dl.acm.org/doi/abs/10.5555/3454287.3455397",
+        "title": "Root mean square layer normalization | Proceedings of the 33rd International Conference on Neural Information Processing Systems",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.pure.ed.ac.uk/ws/portalfiles/portal/116965957/Root_Mean_Square_ZHANG_DOA03092019_AFV.pdf",
+        "title": "Edinburgh Research Explorer",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.semanticscholar.org/paper/Root-Mean-Square-Layer-Normalization-Zhang-Sennrich/10eda4521c032adabaa8e70d6569e17370b29dcd",
+        "title": "[PDF] Root Mean Square Layer Normalization | Semantic Scholar",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://papers.nips.cc/paper/2019/file/1e8a19426224ca89e83cef47f1e7f53b-Paper.pdf",
+        "title": "Root Mean Square Layer Normalization - NIPSpapers.nips.cc \u203a paper \u203a file",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2002.05202",
+        "title": "[2002.05202] GLU Variants Improve Transformer - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://naokishibuya.github.io/blog/2023-04-30-swiglu-2020/index.html",
+        "title": "SwiGLU: GLU Variants Improve Transformer (2020) - Naoki Shibuya",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.alphaxiv.org/overview/2002.05202v1",
+        "title": "GLU Variants Improve Transformer",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://github.com/ngdonna2020/glu",
+        "title": "GitHub - ngdonna2020/glu: GLU variants improve transformer",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://naokishibuya.github.io/blog/2023-04-30-swiglu-2020/",
+        "title": "SwiGLU: GLU Variants Improve Transformer (2020) \u2013 Naoki Shibuya",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2101.03961.pdf",
+        "title": "Journal of Machine Learning Research 23 (2022) 1-40",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://jmlr.org/papers/volume23/21-0998/21-0998.pdf",
+        "title": "[PDF] Scaling to Trillion Parameter Models with Simple and Efficient Sparsity",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://mbrenndoerfer.com/writing/switch-transformer-top-1-routing-trillion-parameter-scaling",
+        "title": "Switch Transformer: Top-1 Routing & Trillion-Parameter Scaling",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://dl.acm.org/doi/pdf/10.5555/3586589.3586709",
+        "title": "Journal of Machine Learning Research 23 (2022) 1-39",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://docsaid.org/en/papers/transformers/switch-transformer/",
+        "title": "Model And Data...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://intuitionlabs.ai/articles/mixture-of-experts-moe-models",
+        "title": "Understanding Mixture of Experts (MoE) Neural Networks",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2006.16668.pdf",
+        "title": "[PDF] GShard: Scaling Giant Models with Conditional Computation ... - arXiv",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Mixture_of_experts",
+        "title": "Mixture of experts - Wikipedia",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/tensorflow/lingvo/blob/master/lingvo/core/gshard_builder.py",
+        "title": "lingvo/lingvo/core/gshard_builder.py at master \u00b7 tensorflow/lingvo",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2006.16668v1.pdf",
+        "title": "GShard: Scaling Giant Models with Conditional",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.arxiv.org/pdf/2503.08067.pdf",
+        "title": "Context-aware Biases for Length Extrapolation",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2023.acl-long.816.pdf",
+        "title": "[PDF] A Length-Extrapolatable Transformer - ACL Anthology",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2406.13282v1",
+        "title": "Understanding the RoPE Extensions of Long-Context LLMs - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2023.acl-long.756.pdf",
+        "title": "[PDF] Dissecting Transformer Length Extrapolation via The Lens of ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2024/file/9f12dd32d552f3ad9eaa0e9dfec291be-Paper-Conference.pdf",
+        "title": "[PDF] Base of RoPE Bounds Context Length - NIPS papers",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2502.02732v1",
+        "title": "Peri-LN: Revisiting Layer Normalization in the Transformer ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://rohitbandaru.github.io/blog/Transformer-Design-Guide-Pt2/",
+        "title": "Transformer Design Guide (Part 2: Modern Architecture)",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2410.09637",
+        "title": "ReLU\u2019s Revival: On the Entropic Overload in Normalization-Free Large Language Models",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.scribd.com/document/932740261/Lecture-3-Architecture",
+        "title": "Lecture 3 - Architecture | PDF | Machine Learning - Scribd",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://yishuai.github.io/bigalgo/ppt/18-deep/12-5-architecture.pdf",
+        "title": "Lecture 3",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/failed-to-train-llama-model/46215",
+        "title": "Failed to train Llama model - Hugging Face Forums",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.TransformerEncoderLayer.html",
+        "title": "TransformerEncoderLayer \u2014 PyTorch 2.11 documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/2.8/generated/torch.nn.TransformerEncoderLayer.html",
+        "title": "TransformerEncoderLayer \u2014 PyTorch 2.8 documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/2.9/generated/torch.nn.TransformerEncoderLayer.html",
+        "title": "TransformerEncoderLayer \u2014 PyTorch 2.9 documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "http://docs.pytorch.org/docs/stable/generated/torch.nn.TransformerEncoderLayer.html",
+        "title": "TransformerEncoderLayer",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Transformer.html",
+        "title": "Transformer \u2014 PyTorch 2.11 documentation",
+        "need_type": "API_REFERENCE"
+      }
+    ]
+  }
+]

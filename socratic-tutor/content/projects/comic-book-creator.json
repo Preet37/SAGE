@@ -1,0 +1,47 @@
+{
+  "slug": "comic-book-creator",
+  "title": "Protagonist: You — Comic Book Creator",
+  "subtitle": "Create personalized comic books with you as the hero using LLMs and diffusion models",
+  "course_slug": "intro-to-multimodal",
+  "status": "coming_soon",
+  "difficulty": "intermediate",
+  "hero_emoji": "🦸",
+  "vision": "What if you could snap a selfie and become the hero of your own comic book?\n\nThis project combines **vision models**, **large language models**, and **diffusion-based image generation** to create personalized comic books — panel by panel. You provide a photo (or a description), choose a genre, and an AI agent writes an interactive story while generating comic-style artwork for each scene.\n\nThe pipeline demonstrates how multiple AI modalities work together:\n- A **vision model** analyzes your photo to create a detailed character sheet\n- An **LLM with structured tools** drives the narrative, calling scene-setting, character introduction, and action-sequence tools\n- A **diffusion model** (FLUX.1-dev) renders each panel from the tool outputs\n- A **prompt engineering strategy** maintains visual consistency across panels without fine-tuning\n\nThe result is a multi-panel comic page starring *you*, generated entirely by AI.",
+  "learning_outcomes": [
+    "Build end-to-end multimodal pipelines combining text, image understanding, and image generation",
+    "Use structured tool calling with LLMs to drive complex creative workflows",
+    "Apply prompt engineering techniques for visual consistency in diffusion models",
+    "Work with LLM and image generation APIs to build end-to-end pipelines",
+    "Design agentic systems that coordinate multiple AI capabilities"
+  ],
+  "concepts": [
+    "text-to-image generation",
+    "diffusion models",
+    "prompt engineering",
+    "multimodal pipelines",
+    "agentic AI",
+    "structured tool use",
+    "FLUX",
+    "character consistency",
+    "vision-language models"
+  ],
+    "architecture_mermaid": "flowchart LR\n    subgraph userInput [User Input]\n        Photo[\"Photo (optional)\"]\n        Genre[\"Genre choice\"]\n        Choices[\"Story choices\"]\n    end\n    subgraph llm [LLM]\n        Story[\"Story Generation\\n(LLM)\"]\n    end\n    subgraph tools [Structured Tools]\n        SetScene[\"set_scene\"]\n        Character[\"introduce_character\"]\n        Action[\"action_sequence\"]\n    end\n    subgraph imageGen [Image Generation]\n        PromptBuilder[\"Panel Prompt\\nBuilder\"]\n        Flux[\"FLUX.1-dev\"]\n    end\n    subgraph output [Output]\n        PanelGrid[\"Comic Page\\n(HTML Grid)\"]\n    end\n    Photo --> Story\n    Genre --> Story\n    Choices --> Story\n    Story --> tools\n    tools --> PromptBuilder\n    PromptBuilder --> Flux\n    Flux --> PanelGrid",
+  "demo_url": "",
+  "demo_embed": false,
+  "repo_url": "",
+  "setup_instructions": "```bash\n# Clone the repository\ngit clone <repo-url>\ncd comic-agent\n\n# Install dependencies\nuv sync\n\n# Set up environment variables\ncp .env.example .env\n# Edit .env with your LLM_API_KEY and IMAGE_API_KEY\n\n# Run the CLI agent\nuv run python agent.py --genre sci-fi\n\n# Or launch the web UI\nuv run python app.py\n```",
+  "challenges": [
+    "Add character consistency using FLUX.1-Kontext-dev (requires Replicate or self-hosting)",
+    "Implement speech bubble rendering directly on generated panel images",
+    "Build a panel layout composer that arranges panels in different comic page formats",
+    "Add panel-to-panel pose chaining for more dynamic action sequences",
+    "Create a style transfer mode that matches different comic art styles (manga, Western, graphic novel)"
+  ],
+  "related_lesson_slugs": [
+    "diffusion-models",
+    "multimodal-rag",
+    "prompt-engineering-images",
+    "vision-language-models"
+  ],
+  "order_index": 0
+}

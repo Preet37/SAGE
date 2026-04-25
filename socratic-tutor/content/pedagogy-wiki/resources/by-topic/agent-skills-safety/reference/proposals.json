@@ -1,0 +1,233 @@
+[
+  {
+    "timestamp": "2026-04-09T16:13:27",
+    "run_label": "reference-track:Agent Skills and Safety",
+    "sources": [
+      {
+        "url": "https://arxiv.org/html/2406.13352v3",
+        "title": "AgentDojo: A Dynamic Environment to Evaluate Prompt ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/2406.13352",
+        "title": "AgentDojo: A Dynamic Environment to Evaluate Prompt Injection ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2024/file/97091a5177d8dc64b1da8bf3e1f6fb54-Paper-Datasets_and_Benchmarks_Track.pdf",
+        "title": "AgentDojo: A Dynamic Environment to Evaluate",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://bohrium.dp.tech/paper/arxiv/2406.13352",
+        "title": "AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/agentdojo-benchmark",
+        "title": "AgentDojo Benchmark: LLM Security Evaluation - Emergent Mind",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2507.15219v1",
+        "title": "4.1 Promptarmor Vs. Existing...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2025.llmsec-1.13.pdf",
+        "title": "[PDF] CAPTURE: Context-Aware Prompt Injection Testing and Robustness ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.arxiv.org/pdf/2505.12368.pdf",
+        "title": "CAPTURE: Context-Aware Prompt Injection Testing and Robustness Enhancement",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/anthology-files/pdf/llmsec/2025.llmsec-1.13.pdf",
+        "title": "Context-Aware Prompt Injection Testing and Robustness ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://docs.aws.amazon.com/prescriptive-guidance/latest/agentic-ai-security/best-practices-input-validation.html",
+        "title": "4. Input validation and guardrails for agentic AI systems on AWS",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://blog.premai.io/production-llm-guardrails-nemo-guardrails-ai-llama-guard-compared/",
+        "title": "Production LLM Guardrails: NeMo, Guardrails AI, Llama Guard ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://krnel.ai/blog/2025-06-09-guardrail-comparison/",
+        "title": "Surveying the Precision-Recall Gap in LLM Security - Krnel.ai",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://dev.to/darbogach/clawmoat-vs-llamafirewall-vs-nemo-guardrails-which-open-source-ai-agent-security-tool-should-you-128h",
+        "title": "Which Open-Source AI Agent Security Tool Should You Use?",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2402.01822v1",
+        "title": "4.3 Neural-Symbolic Approach...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://samuel-friedman.com/guardrails-2024.pdf",
+        "title": "[PDF] A Comparative Analysis of Guardrail Frameworks for Large ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.arxiv.org/pdf/2502.13458.pdf",
+        "title": "THINKGUARD: Deliberative Slow Thinking Leads to Cautious Guardrails",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.arxiv.org/pdf/2511.22047.pdf",
+        "title": "[PDF] Evaluating the Robustness of Large Language Model Safety ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://github.com/llmguardrails/LLMGuardrailsPaper",
+        "title": "GitHub - llmguardrails/LLMGuardrailsPaper: Code and datasets for paper",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://snailsploit.com/ai-security/rai-judge-blind-spots/",
+        "title": "What Actually Works",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://samuel-friedman.com/guardrails-2024.pdf",
+        "title": "[PDF] A Comparative Analysis of Guardrail Frameworks for Large ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://docs.anthropic.com/en/docs/claude-code/cli-reference.md",
+        "title": "docs.anthropic.com",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.anthropic.com/ru/docs/claude-code/cli-usage",
+        "title": "\u0418\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435 CLI \u0438 \u0443\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.anthropic.com/de/docs/agents-and-tools/claude-code/overview",
+        "title": "Claude Code \u00dcberblick - Anthropic",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.anthropic.com/ko/docs/claude-code/configuration",
+        "title": "Claude Code \uc124\uc815\ud558\uae30 - Anthropic",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.anthropic.com/zh-TW/docs/agents-and-tools/claude-code/overview",
+        "title": "Claude Code \u6982\u8ff0 - Anthropic",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://how2.sh/posts/how-to-implement-an-agent-sandbox-with-allowlisted-tools/",
+        "title": "How to Implement an Agent Sandbox with Allowlisted Tools",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://mbrenndoerfer.com/writing/action-restrictions-and-permissions-ai-agents",
+        "title": "Controlling What Your AI Agent Can Do - Michael Brenndoerfer",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://developer.nvidia.com/blog/practical-security-guidance-for-sandboxing-agentic-workflows-and-managing-execution-risk/",
+        "title": "Practical Security Guidance for Sandboxing Agentic Workflows and ...",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://genmind.ch/posts/Securing-AI-Agents-with-Zero-Trust-and-Sandboxing/",
+        "title": "Securing AI Agents with Zero Trust and Sandboxing: The Production ...",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.gend.co/blog/agents-benefit-sandboxes-over-larger-contexts",
+        "title": "Why Agents Benefit from Sandboxes Over Larger Contexts",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://docs.langchain.com/oss/javascript/deepagents/sandboxes",
+        "title": "Sandbox as tool pattern",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://docs.langchain.com/oss/python/deepagents/sandboxes",
+        "title": "Sandboxes - Docs by LangChain",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.sourcery.ai/security/categories/insecure_tool_calls",
+        "title": "Insecure Tool Use & Function Calls | Security Categories - Sourcery",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/vndee/llm-sandbox/blob/main/examples/langchain_tool.py",
+        "title": "llm-sandbox/examples/langchain_tool.py at main \u00b7 vndee/llm-sandbox",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langchain-sandbox",
+        "title": "LangChain Sandbox",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.systemoverflow.com/learn/ml-llm-genai/agent-systems-tool-use/production-implementation-and-llmops",
+        "title": "Production Implementation and LLMOps | Agent Systems & Tool Use",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2511.20975.pdf",
+        "title": "Just-in-Time Model Routing for Scalable Serving of Agentic ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://manthanguptaa.in/posts/agentic_systems_pattern/",
+        "title": "Agentic System Patterns That Increased Accuracy by 50% ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://proagenticworkflows.ai/optimizing-ai-agentic-workflows-reducing-llm-calls",
+        "title": "Optimizing AI Agentic Workflows: Reducing LLM Calls for ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://ertyurk.com/posts/circuit-breakers-rate-limits-and-cost-ceilings/",
+        "title": "Cost Ceilings",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/html/2507.14293v1",
+        "title": "Building a Generalizable Guardrail for Web Agents",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/html/2408.02205v3",
+        "title": "Designing Multi-layered Runtime Guardrails for Foundation ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://galileo.ai/blog/ai-agent-guardrails-framework",
+        "title": "Essential Framework for AI Agent Guardrails",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.querypie.com/ko/features/documentation/white-paper/29/ai-agent-guardrails-governance-2026-implementation",
+        "title": "Guardrail Design in the AI Agent Era (2026 Edition) \u2014 Part 2",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.reco.ai/hub/guardrails-for-ai-agents",
+        "title": "Adding Guardrails for AI Agents: Policy and Configuration Guide",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  }
+]

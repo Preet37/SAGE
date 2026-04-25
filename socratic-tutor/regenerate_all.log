@@ -1,0 +1,293 @@
+========== Starting intro-to-llms at Fri Apr 10 16:44:11 PDT 2026 ==========
+
+============================================================
+  Course: Introduction to Large Language Models (intro-to-llms)
+  Lessons: 12
+============================================================
+
+  [1/12] How Language Models Work (how-language-models-work)
+    Topics: ['pre-training', 'prompting']
+    Wiki: 14 ped + 16 ref sources, 78 images
+    Done: 627w notes, 2782w KB, 6 sources, 78 images (79.6s)
+  [2/12] Tokenization & Vocabulary (tokenization-vocabulary)
+    Topics: ['tokenization']
+    Wiki: 6 ped + 7 ref sources, 24 images
+    Done: 653w notes, 3034w KB, 5 sources, 24 images (71.9s)
+  [3/12] Self-Attention from Scratch (self-attention)
+    Topics: ['self-attention']
+    Wiki: 31 ped + 7 ref sources, 130 images
+    Done: 664w notes, 3069w KB, 9 sources, 130 images (84.8s)
+  [4/12] Multi-Head Attention & Positional Encoding (multi-head-attention)
+    Topics: ['multi-head-attention', 'transformer-architecture']
+    Wiki: 15 ped + 15 ref sources, 132 images
+    Done: 656w notes, 3305w KB, 4 sources, 132 images (81.1s)
+  [5/12] The Transformer Block (transformer-block)
+    Topics: ['transformer-architecture']
+    Wiki: 8 ped + 9 ref sources, 67 images
+    Done: 611w notes, 3120w KB, 4 sources, 67 images (83.8s)
+  [6/12] Scaling Laws & Modern Architectures (scaling-modern-architectures)
+    Topics: ['mixture-of-experts', 'scaling-laws']
+    Wiki: 17 ped + 18 ref sources, 75 images
+    Done: 796w notes, 3155w KB, 8 sources, 75 images (91.9s)
+  [7/12] Pre-training at Scale (pretraining-at-scale)
+    Topics: ['optimization-algorithms', 'scaling-laws']
+    Wiki: 20 ped + 17 ref sources, 90 images
+    Done: 678w notes, 3484w KB, 5 sources, 90 images (87.8s)
+  [8/12] Alignment & RLHF (alignment-rlhf)
+    Topics: ['rlhf-alignment']
+    Wiki: 7 ped + 37 ref sources, 31 images
+    Done: 754w notes, 0w KB, 6 sources, 31 images (92.0s)
+  [9/12] Prompting Techniques (prompting-techniques)
+    Topics: ['chain-of-thought', 'prompting', 'system-prompts']
+    Wiki: 14 ped + 27 ref sources, 47 images
+    Done: 629w notes, 3354w KB, 7 sources, 47 images (90.3s)
+  [10/12] RAG & Retrieval-Augmented Generation (rag-retrieval)
+    Topics: ['rag-retrieval', 'rlhf-alignment', 'word-embeddings']
+    Wiki: 21 ped + 57 ref sources, 66 images
+    Done: 648w notes, 2841w KB, 5 sources, 66 images (67.4s)
+  [11/12] LoRA & Parameter-Efficient Methods (lora-parameter-efficient)
+    Topics: ['inference-optimization', 'lora-peft']
+    Wiki: 13 ped + 18 ref sources, 33 images
+    Done: 663w notes, 0w KB, 7 sources, 33 images (91.3s)
+  [12/12] Evaluation & Benchmarks (evaluation-benchmarks)
+    Topics: ['evaluation-benchmarks', 'rlhf-alignment']
+    Wiki: 15 ped + 44 ref sources, 79 images
+    Done: 652w notes, 3167w KB, 9 sources, 79 images (83.4s)
+
+  Regeneration: 12 OK, 0 failed, 1005s total
+  Averages: 669w notes, 2609w KB
+  Merged 12 lessons into course.json
+  Saved content/intro-to-llms/course.json
+  Wrote 10 enrichment KB files to content/intro-to-llms/enrichment
+
+============================================================
+  All done: 12 lessons regenerated, 0 failed
+============================================================
+
+========== Starting intro-to-multimodal at Fri Apr 10 17:00:57 PDT 2026 ==========
+
+============================================================
+  Course: Introduction to Multi-Modal AI (intro-to-multimodal)
+  Lessons: 12
+============================================================
+
+  [1/12] What is Multi-Modal Learning (what-is-multimodal-learning)
+    Topics: ['multimodal-fundamentals', 'rlhf-alignment']
+    Wiki: 14 ped + 45 ref sources, 92 images
+    Done: 682w notes, 3025w KB, 4 sources, 92 images (93.6s)
+  [2/12] Modality Representations & Embeddings (modality-representations)
+    Topics: ['cnns', 'contrastive-learning', 'text-to-video', 'vision-language-models', 'word-embeddings']
+    Wiki: 29 ped + 44 ref sources, 157 images
+    Done: 751w notes, 2970w KB, 4 sources, 157 images (74.7s)
+  [3/12] Contrastive Learning & CLIP (contrastive-learning-clip)
+    Topics: ['contrastive-learning']
+    Wiki: 4 ped + 6 ref sources, 29 images
+    Done: 735w notes, 0w KB, 4 sources, 29 images (114.8s)
+  [4/12] Visual Instruction Tuning (visual-instruction-tuning)
+    Topics: ['lora-peft', 'vision-language-models']
+    Wiki: 15 ped + 19 ref sources, 93 images
+    Done: 640w notes, 3518w KB, 4 sources, 93 images (108.6s)
+  [5/12] Cross-Attention & Fusion Architectures (cross-attention-fusion)
+    Topics: ['multi-head-attention', 'vision-language-models']
+    Wiki: 17 ped + 16 ref sources, 125 images
+    Done: 757w notes, 0w KB, 6 sources, 125 images (97.8s)
+  [6/12] Multi-Modal Pre-training (multimodal-pretraining)
+    Topics: ['pre-training', 'vision-language-models']
+    Wiki: 14 ped + 17 ref sources, 127 images
+    Done: 701w notes, 3302w KB, 5 sources, 127 images (89.6s)
+  [7/12] Diffusion Models for Image Generation (diffusion-models)
+    Topics: ['diffusion-models', 'transformer-architecture']
+    Wiki: 13 ped + 15 ref sources, 96 images
+    Done: 699w notes, 0w KB, 4 sources, 96 images (96.8s)
+  [8/12] Text-to-Video & Beyond (text-to-video)
+    Topics: ['3d-gaussian-splatting', 'nerf', 'reinforcement-learning', 'text-to-video']
+    Wiki: 25 ped + 39 ref sources, 210 images
+    Done: 821w notes, 3650w KB, 9 sources, 210 images (89.7s)
+  [9/12] Speech-Language Models (speech-language-models)
+    Topics: ['audio-speech-models', 'text-to-video', 'tokenization']
+    Wiki: 18 ped + 21 ref sources, 39 images
+    Done: 674w notes, 2994w KB, 4 sources, 39 images (75.1s)
+  [10/12] Multi-Modal Agents & Tool Use (multimodal-agents)
+    Topics: ['chain-of-thought', 'multimodal-fundamentals']
+    Wiki: 12 ped + 17 ref sources, 68 images
+    Done: 758w notes, 0w KB, 6 sources, 68 images (86.8s)
+  [11/12] Document Understanding & Multi-Modal RAG (document-understanding-multimodal-rag)
+    Topics: ['document-understanding', 'rag-retrieval']
+    Wiki: 11 ped + 18 ref sources, 7 images
+    Done: 752w notes, 3325w KB, 5 sources, 7 images (84.8s)
+  [12/12] Fine-Tuning Multi-Modal Models (finetuning-multimodal-models)
+    Topics: ['agent-skills-safety', 'domain-adaptation', 'evaluation-benchmarks', 'lora-peft']
+    Wiki: 29 ped + 35 ref sources, 109 images
+    Done: 705w notes, 3167w KB, 8 sources, 109 images (92.9s)
+
+  Regeneration: 12 OK, 0 failed, 1105s total
+  Averages: 723w notes, 2163w KB
+  Merged 12 lessons into course.json
+  Saved content/intro-to-multimodal/course.json
+  Wrote 8 enrichment KB files to content/intro-to-multimodal/enrichment
+
+============================================================
+  All done: 12 lessons regenerated, 0 failed
+============================================================
+
+========== Starting intro-to-agentic-ai at Fri Apr 10 17:19:22 PDT 2026 ==========
+
+============================================================
+  Course: Introduction to Agentic AI (intro-to-agentic-ai)
+  Lessons: 13
+============================================================
+
+  [1/13] From Chatbots to Agents (from-chatbots-to-agents)
+    Topics: ['agent-fundamentals']
+    Wiki: 7 ped + 11 ref sources, 19 images
+    Done: 651w notes, 0w KB, 4 sources, 19 images (88.8s)
+  [2/13] Reasoning & Planning (reasoning-and-planning)
+    Topics: ['agent-fundamentals', 'chain-of-thought']
+    Wiki: 11 ped + 19 ref sources, 26 images
+    Done: 629w notes, 3466w KB, 6 sources, 26 images (101.2s)
+  [3/13] Function Calling & APIs (function-calling-apis)
+    Topics: ['function-calling', 'mcp-tool-ecosystem']
+    Wiki: 6 ped + 18 ref sources, 12 images
+    Done: 703w notes, 3642w KB, 4 sources, 12 images (80.8s)
+  [4/13] Code Execution & Retrieval Tools (code-execution-retrieval)
+    Topics: ['function-calling', 'rag-retrieval']
+    Wiki: 12 ped + 20 ref sources, 19 images
+    Done: 659w notes, 0w KB, 8 sources, 19 images (94.7s)
+  [5/13] Conversation Memory & Context (conversation-memory-context)
+    Topics: ['system-prompts']
+    Wiki: 4 ped + 9 ref sources, 29 images
+    Done: 734w notes, 3211w KB, 4 sources, 29 images (82.7s)
+  [6/13] Long-Term Memory & Knowledge (long-term-memory-knowledge)
+    Topics: ['agent-memory', 'knowledge-graphs']
+    Wiki: 6 ped + 18 ref sources, 12 images
+    Done: 706w notes, 3535w KB, 6 sources, 12 images (92.1s)
+  [7/13] Multi-Agent Architectures (multi-agent-architectures)
+    Topics: ['multi-agent-systems']
+    Wiki: 6 ped + 8 ref sources, 12 images
+    Done: 601w notes, 3623w KB, 5 sources, 12 images (78.0s)
+  [8/13] Agent Communication & Coordination (agent-communication-coordination)
+    Topics: ['agent-workflows', 'multi-agent-systems']
+    Wiki: 12 ped + 16 ref sources, 12 images
+    Done: 758w notes, 3526w KB, 7 sources, 12 images (90.4s)
+  [9/13] Agent Frameworks & SDKs (agent-frameworks-sdks)
+    Topics: ['agent-fundamentals', 'multi-agent-systems']
+    Wiki: 12 ped + 19 ref sources, 31 images
+    Done: 720w notes, 3164w KB, 6 sources, 31 images (77.2s)
+  [10/13] Building Agents End-to-End (building-agents-end-to-end)
+    Topics: ['agent-fundamentals', 'agent-skills-safety', 'function-calling', 'prompting', 'system-prompts']
+    Wiki: 21 ped + 47 ref sources, 83 images
+    Done: 693w notes, 3461w KB, 7 sources, 83 images (80.3s)
+  [11/13] Agent Skills & CLI Agents (agent-skills-cli)
+    Topics: ['agent-skills-safety', 'agentic-coding']
+    Wiki: 6 ped + 17 ref sources, 12 images
+    Done: 710w notes, 3211w KB, 5 sources, 12 images (71.2s)
+  [12/13] Guardrails & Agent Safety (guardrails-agent-safety)
+    Topics: ['agent-skills-safety', 'rlhf-alignment']
+    Wiki: 12 ped + 46 ref sources, 43 images
+    Done: 663w notes, 2915w KB, 4 sources, 43 images (79.5s)
+  [13/13] Evaluation & Production Deployment (evaluation-production-deployment)
+    Topics: ['agent-workflows', 'evaluation-benchmarks']
+    Wiki: 15 ped + 15 ref sources, 48 images
+    Done: 714w notes, 3586w KB, 6 sources, 48 images (88.3s)
+
+  Regeneration: 13 OK, 0 failed, 1105s total
+  Averages: 688w notes, 2872w KB
+  Merged 13 lessons into course.json
+  Saved content/intro-to-agentic-ai/course.json
+  Wrote 11 enrichment KB files to content/intro-to-agentic-ai/enrichment
+
+============================================================
+  All done: 13 lessons regenerated, 0 failed
+============================================================
+
+========== Starting intro-to-physical-ai at Fri Apr 10 17:37:48 PDT 2026 ==========
+
+============================================================
+  Course: Introduction to Physical AI (intro-to-physical-ai)
+  Lessons: 12
+============================================================
+
+  [1/12] From Digital to Physical Intelligence (from-digital-to-physical)
+    Topics: ['physical-ai-foundations', 'robot-manipulation']
+    Wiki: 4 ped + 17 ref sources, 12 images
+    Done: 713w notes, 3418w KB, 4 sources, 12 images (95.1s)
+  [2/12] Sensors, Perception & 3D Understanding (sensors-perception-3d)
+    Topics: ['3d-gaussian-splatting', 'nerf', 'physical-ai-foundations']
+    Wiki: 12 ped + 30 ref sources, 37 images
+    Done: 790w notes, 3345w KB, 7 sources, 37 images (83.4s)
+  [3/12] Physics Simulation for AI (physics-simulation-for-ai)
+    Topics: ['domain-adaptation', 'physics-simulation']
+    Wiki: 11 ped + 17 ref sources, 23 images
+    Done: 690w notes, 3459w KB, 5 sources, 23 images (97.6s)
+  [4/12] Digital Twins & Synthetic Data (digital-twins-synthetic-data)
+    Topics: ['3d-gaussian-splatting', 'domain-adaptation', 'physics-simulation']
+    Wiki: 15 ped + 27 ref sources, 29 images
+    Done: 713w notes, 3101w KB, 4 sources, 29 images (93.6s)
+  [5/12] Reinforcement Learning for Robotics (reinforcement-learning-robotics)
+    Topics: ['reinforcement-learning', 'robot-manipulation']
+    Wiki: 11 ped + 18 ref sources, 170 images
+    Done: 648w notes, 0w KB, 8 sources, 170 images (93.3s)
+  [6/12] Imitation Learning & Demonstrations (imitation-learning-demonstrations)
+    Topics: ['imitation-learning']
+    Wiki: 4 ped + 9 ref sources, 12 images
+    Done: 768w notes, 3330w KB, 3 sources, 12 images (78.4s)
+  [7/12] Vision-Language-Action Models (vision-language-action-models)
+    Topics: ['imitation-learning']
+    Wiki: 4 ped + 9 ref sources, 12 images
+    Done: 700w notes, 3231w KB, 4 sources, 12 images (87.3s)
+  [8/12] Robot Foundation Models (robot-foundation-models)
+    Topics: ['domain-adaptation', 'physics-simulation', 'scaling-laws']
+    Wiki: 24 ped + 25 ref sources, 98 images
+    Done: 823w notes, 3252w KB, 4 sources, 98 images (84.7s)
+  [9/12] Self-Driving & Autonomous Navigation (self-driving-autonomous-navigation)
+    Topics: ['reinforcement-learning', 'robot-manipulation']
+    Wiki: 11 ped + 18 ref sources, 170 images
+    Done: 843w notes, 2969w KB, 3 sources, 170 images (76.1s)
+  [10/12] Manipulation & Dexterous Control (manipulation-dexterous-control)
+    Topics: ['physical-ai-foundations', 'robot-manipulation']
+    Wiki: 4 ped + 17 ref sources, 12 images
+    Done: 655w notes, 3194w KB, 3 sources, 12 images (86.2s)
+  [11/12] Sim-to-Real Transfer (sim-to-real-transfer)
+    Topics: ['domain-adaptation', 'physics-simulation']
+    Wiki: 11 ped + 17 ref sources, 23 images
+    Done: 655w notes, 3339w KB, 4 sources, 23 images (100.6s)
+  [12/12] The Road Ahead (the-road-ahead-physical-ai)
+    Topics: ['physical-ai-foundations', 'physics-simulation', 'reinforcement-learning']
+    Wiki: 17 ped + 28 ref sources, 189 images
+    Done: 796w notes, 3264w KB, 8 sources, 189 images (86.2s)
+
+  Regeneration: 12 OK, 0 failed, 1063s total
+  Averages: 733w notes, 2992w KB
+  Merged 12 lessons into course.json
+  Saved content/intro-to-physical-ai/course.json
+  Wrote 11 enrichment KB files to content/intro-to-physical-ai/enrichment
+
+============================================================
+  All done: 12 lessons regenerated, 0 failed
+============================================================
+
+========== Running seed.py at Fri Apr 10 17:55:32 PDT 2026 ==========
+Creating database tables...
+Found 5 course(s) in /Users/pramehta/Documents/WorkProjects/SocraticTutor/content
+
+  Introduction to Agentic AI already exists — updating content (preserving reference_kb)...
+  Updated 13 lessons.
+
+  Introduction to Large Language Models already exists — updating content (preserving reference_kb)...
+  Updated 12 lessons.
+
+  Introduction to Multi-Modal AI already exists — updating content (preserving reference_kb)...
+  Updated 12 lessons.
+
+  Introduction to Physical AI already exists — updating content (preserving reference_kb)...
+  Updated 12 lessons.
+
+  ML Engineering Foundations already exists — updating content (preserving reference_kb)...
+  Updated 8 lessons.
+
+  Concept pages: 62 already cached, 0 loaded from preloaded_concepts.json
+
+  Projects: 2 updated, 0 created
+
+Seed complete!
+========== ALL DONE at Fri Apr 10 17:55:33 PDT 2026 ==========

@@ -1,0 +1,253 @@
+[
+  {
+    "timestamp": "2026-04-09T16:20:31",
+    "run_label": "reference-track:Imitation Learning",
+    "sources": [
+      {
+        "url": "https://www.ri.cmu.edu/pub_files/2011/4/Ross-AISTATS11-NoRegret.pdf",
+        "title": "[PDF] A Reduction of Imitation Learning and Structured Prediction to No ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v15/ross11a.html",
+        "title": "A Reduction of Imitation Learning and Structured Prediction to No ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.cs.utexas.edu/~yukez/cs391r_fall2021/slides/pre_10-21_Amit.pdf",
+        "title": "[PDF] A Reduction of Imitation Learning and Structured Prediction to No ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://hackmd.io/@XiNyAicATy2jGaBhGc2ZRg/r1a97tfCU",
+        "title": "A Reduction of Imitation Learning and Structured Prediction to No ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://yobibyte.github.io/files/paper_notes/Generative_Adversarial_Imitation_Learning__Ho_Ermon__2017.pdf",
+        "title": "Generative Adversarial Imitation Learning",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/1606.03476",
+        "title": "[1606.03476] Generative Adversarial Imitation Learning - arXiv.org",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1606.03476.pdf",
+        "title": "[PDF] Generative Adversarial Imitation Learning - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2016/file/cc7e2b878868cbae992d1fb743995d8f-Paper.pdf",
+        "title": "Generative Adversarial Imitation Learning",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "http://proceedings.mlr.press/v119/zhang20d/zhang20d-supp.pdf",
+        "title": "[PDF] Generative Adversarial Imitation Learning with Neural Network ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://robotics-transformer1.github.io",
+        "title": "RT-1: Robotics Transformer",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2212.06817v2",
+        "title": "RT-1: Robotics Transformer for Real-World Control at Scale",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://research.google/blog/rt-1-robotics-transformer-for-real-world-control-at-scale/",
+        "title": "RT-1: Robotics Transformer for real-world control at scale",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://ar5iv.labs.arxiv.org/html/2212.06817",
+        "title": "RT-1: Robotics Transformer for Real-World Control at Scale",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://roboticsproceedings.org/rss19/p025.pdf",
+        "title": "Robotics: Science and Systems 2023",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v229/zitkovich23a/zitkovich23a.pdf",
+        "title": "RT-2: Vision-Language-Action Models",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://deepmind.google/blog/rt-2-new-model-translates-vision-and-language-into-action/",
+        "title": "RT-2: New model translates vision and language into action",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.cs.utexas.edu/~yukez/cs391r_fall2023/slides/pre_10-24_Ming.pdf",
+        "title": "[PDF] RT-2: Vision-Language-Action Models Transfer Web Knowledge to ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2402.08178v1",
+        "title": "Benchmarking Language-orien-ted Task Planners for ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12922581/table/T2/",
+        "title": "Table 2.",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://imitation.readthedocs.io/en/latest/algorithms/dagger.html",
+        "title": "DAgger#",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://imitation.readthedocs.io/en/latest/algorithms/gail.html",
+        "title": "Generative Adversarial Imitation Learning (GAIL)#",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://imitation.readthedocs.io/en/latest/_api/imitation.algorithms.dagger.html",
+        "title": "imitation.algorithms.dagger#",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://imitation.readthedocs.io/en/latest/algorithms/bc.html",
+        "title": "Behavioral Cloning (BC)#",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://imitation.readthedocs.io/en/latest/getting-started/cli.html",
+        "title": "Command Line Interface#",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://robomimic.github.io/docs/tutorials/training_transformers.html",
+        "title": "Training Transformers",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://robomimic.github.io/docs/v0.2/datasets/overview.html",
+        "title": "Overview",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://robomimic.github.io/docs/tutorials/configs.html",
+        "title": "Configuring and Launching Training Runs - robomimic",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://robomimic.github.io/docs/api/robomimic.html",
+        "title": "robomimic package",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://robomimic.github.io/docs/tutorials/hyperparam_scan.html",
+        "title": "Running Hyperparameter Scans \u2014 robomimic 0.5 documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/google-research/robotics_transformer/blob/master/README.md",
+        "title": "robotics_transformer/README.md at master \u00b7 google-research/robotics_transformer",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/google-research/robotics_transformer",
+        "title": "GitHub - google-research/robotics_transformer",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/hyy02/RT-1",
+        "title": "GitHub - hyy02/RT-1: This is the completion of google's rt-1 project code and can run directly.",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/RLC-Lab/Foundation-Models-for-Robots",
+        "title": "GitHub - RLC-Lab/Foundation-Models-for-Robots: This is the completion of google's rt-1 project code and can run directly.",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/google-research/robotics_transformer/blob/master/transformer.py",
+        "title": "robotics_transformer/transformer.py at master \u00b7 google-research/robotics_transformer",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/droid-dataset/droid_policy_learning/blob/master/robomimic/algo/diffusion_policy.py",
+        "title": "droid_policy_learning/robomimic/algo/diffusion_policy.py at master \u00b7 droid-dataset/droid_policy_learning",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/ARISE-Initiative/robomimic/releases",
+        "title": "Releases \u00b7 ARISE-Initiative/robomimic",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/MarijaGolubovic/robo_imitate",
+        "title": "GitHub - MarijaGolubovic/robo_imitate: End-to-end robot control based on generative diffusion model",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/srl-ethz/srl_il",
+        "title": "GitHub - srl-ethz/srl_il: A code framework for imitation learning, from ETHz Soft Robotics Labs",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/EDiRobotics/mimictest/blob/main/README.md",
+        "title": "mimictest/README.md at main \u00b7 EDiRobotics/mimictest",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://say-can.github.io/assets/palm_saycan.pdf",
+        "title": "Do As I Can, Not As I Say:",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=Ru23eWAQ6_E",
+        "title": "Do As I Can, Not As I Say: Grounding Language in Robotic Affordances (SayCan - Paper Explained)",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "http://arxiv.org/pdf/2204.01691.pdf",
+        "title": "Do As I Can, Not As I Say:",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://say-can.github.io",
+        "title": "SayCan: Grounding Language in Robotic Affordances",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://s10251.pcdn.co/pdf/2022-google-LLM-robots.pdf",
+        "title": "DO AS I CAN, NOT AS I SAY:",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/CVPR2024W/OpenSUN3D/papers/Qian_AffordanceLLM_Grounding_Affordance_from_Vision_Language_Models_CVPRW_2024_paper.pdf",
+        "title": "Grounding Affordance from Vision Language Models",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2404.11000v2",
+        "title": "Ii Related Works",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://axi.lims.ac.uk/paper/2412.20451",
+        "title": "Improving Vision-Language-Action Models via Chain-of-Affordance",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "http://ais.informatik.uni-freiburg.de/publications/papers/mees23icra.pdf",
+        "title": "[PDF] Grounding Language with Visual Affordances over Unstructured Data",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://axi.lims.ac.uk/paper/2404.02523",
+        "title": "Text-driven Affordance Learning from Ego...",
+        "need_type": "CONCEPT_EXPLAINER"
+      }
+    ]
+  }
+]

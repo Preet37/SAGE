@@ -1,0 +1,595 @@
+[
+  {
+    "timestamp": "2026-04-10T18:59:02",
+    "run_label": "ensure-coverage:langgraph-core-concepts-state-nodes-edges",
+    "sources": [
+      {
+        "gap": "StateGraph conceptual model and execution semantics (stateful directed graph; nodes read state and emit partial updates)",
+        "url": "https://elib.dlr.de/62364/1/otter2009-modelica-stategraph2.pdf",
+        "title": "A New Formalism for Modeling of Reactive and Hybrid ..."
+      },
+      {
+        "gap": "StateGraph conceptual model and execution semantics (stateful directed graph; nodes read state and emit partial updates)",
+        "url": "https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=4ffdcd5118a29fc281c9ad7037c11065b8fe2b68",
+        "title": "A New Formalism for Modeling of Reactive and Hybrid Systems"
+      },
+      {
+        "gap": "StateGraph conceptual model and execution semantics (stateful directed graph; nodes read state and emit partial updates)",
+        "url": "https://zalt.me/blog/2026/01/stategraphs-distributed-conversations",
+        "title": "How StateGraphs Turn Functions Into Distributed Conversations"
+      },
+      {
+        "gap": "StateGraph conceptual model and execution semantics (stateful directed graph; nodes read state and emit partial updates)",
+        "url": "https://stategraph.com/how-stategraph-works",
+        "title": "How Stategraph Works"
+      },
+      {
+        "gap": "StateGraph conceptual model and execution semantics (stateful directed graph; nodes read state and emit partial updates)",
+        "url": "https://docs.upsonic.ai/concepts/stategraph/state-graph-overview",
+        "title": "StateGraph - Upsonic AI"
+      },
+      {
+        "gap": "How to define a typed state schema in LangGraph (TypedDict/Pydantic), including field typing and validation",
+        "url": "https://www.youtube.com/watch?v=-4HLlakw8m4",
+        "title": "LangGraph State Schemas: TypedDict, Dataclass & Pydantic | LangGraph full Course | Generative AI #ai"
+      },
+      {
+        "gap": "How to define a typed state schema in LangGraph (TypedDict/Pydantic), including field typing and validation",
+        "url": "https://shazaali.substack.com/p/type-safety-in-langgraph-when-to",
+        "title": "Type Safety in LangGraph: When to Use TypedDict vs. Pydantic"
+      },
+      {
+        "gap": "How to define a typed state schema in LangGraph (TypedDict/Pydantic), including field typing and validation",
+        "url": "https://docs.langchain.com/oss/python/langgraph/use-graph-api",
+        "title": "Defer node execution"
+      },
+      {
+        "gap": "How to define a typed state schema in LangGraph (TypedDict/Pydantic), including field typing and validation",
+        "url": "https://github.com/langchain-ai/langgraph/issues/1977",
+        "title": "Surprising results when using pydantic for state schema \u00b7 Issue #1977 \u00b7 langchain-ai/langgraph"
+      },
+      {
+        "gap": "How to define a typed state schema in LangGraph (TypedDict/Pydantic), including field typing and validation",
+        "url": "https://www.youtube.com/watch?v=jVZ8mcAiBiY",
+        "title": "Deep Dive into LangGraph \u2013 State & State Schema"
+      },
+      {
+        "gap": "Node function requirements: signatures, reading state, returning partial updates, and how updates are merged",
+        "url": "https://crdt.guillaumebogard.dev",
+        "title": "Guillaume Bogard: A gentle introduction to conflict-free replicated ..."
+      },
+      {
+        "gap": "Node function requirements: signatures, reading state, returning partial updates, and how updates are merged",
+        "url": "https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type",
+        "title": "Conflict-free replicated data type - Wikipedia"
+      },
+      {
+        "gap": "Node function requirements: signatures, reading state, returning partial updates, and how updates are merged",
+        "url": "https://ph.pollub.pl/index.php/acs/article/download/3224/4427/23721",
+        "title": "27"
+      },
+      {
+        "gap": "Node function requirements: signatures, reading state, returning partial updates, and how updates are merged",
+        "url": "http://www2.compute.dtu.dk/courses/02282/2019/persistence/persistence.pdf",
+        "title": "persistenceF16.key"
+      },
+      {
+        "gap": "Node function requirements: signatures, reading state, returning partial updates, and how updates are merged",
+        "url": "http://nil.csail.mit.edu/6.824/2016/notes/l-bayou.txt",
+        "title": "Disconnected Operation: Eventual Consistency"
+      },
+      {
+        "gap": "Edges semantics: START/END, ordering, transitions, and multi-edge behavior",
+        "url": "https://www.scitepress.org/Papers/2025/132722/132722.pdf",
+        "title": "Behaviour and Execution Semantics of Extended Sequence Edges in"
+      },
+      {
+        "gap": "Edges semantics: START/END, ordering, transitions, and multi-edge behavior",
+        "url": "https://www.insticc.org/Primoris/Resources/PaperPdf.ashx?idPaper=yIFVMVjz6Ww%3D",
+        "title": "Behaviour and Execution Semantics of Extended ..."
+      },
+      {
+        "gap": "Edges semantics: START/END, ordering, transitions, and multi-edge behavior",
+        "url": "https://www.khoury.northeastern.edu/home/lieber/com1205/f00/lectures/edge-methods.PDF",
+        "title": "[PDF] Semantics of Edge Visitor Methods"
+      },
+      {
+        "gap": "Edges semantics: START/END, ordering, transitions, and multi-edge behavior",
+        "url": "http://vision.stanford.edu/teaching/cs131_fall1718/files/05_edges.pdf",
+        "title": "Lecture 5 -"
+      },
+      {
+        "gap": "Edges semantics: START/END, ordering, transitions, and multi-edge behavior",
+        "url": "https://royalsocietypublishing.org/doi/10.1098/rspa.2019.0741",
+        "title": "Architecture and evolution of semantic networks in mathematics texts | Proceedings of the Royal Society A: Mathematical, Physical and Engineering Sciences"
+      },
+      {
+        "gap": "Conditional edges / dynamic routing: router functions, add_conditional_edges, branching patterns",
+        "url": "https://datmt.com/python/lesson-3-1-the-router-conditional-edges/",
+        "title": "Lesson 3.1: The Router (Conditional Edges) - datmt"
+      },
+      {
+        "gap": "Conditional edges / dynamic routing: router functions, add_conditional_edges, branching patterns",
+        "url": "https://playbooks.com/skills/yonatangross/orchestkit/langgraph-routing",
+        "title": "langgraph-routing skill by yonatangross/orchestkit - playbooks"
+      },
+      {
+        "gap": "Conditional edges / dynamic routing: router functions, add_conditional_edges, branching patterns",
+        "url": "https://mlvector.com/2025/06/11/30daysoflangchain-day-11-dynamic-workflows-conditional-edges-looping-in-langgraph/",
+        "title": "#30DaysOfLangChain \u2013 Day 11: Dynamic Workflows: Conditional ..."
+      },
+      {
+        "gap": "Conditional edges / dynamic routing: router functions, add_conditional_edges, branching patterns",
+        "url": "https://dev.to/programmingcentral/stop-building-rigid-ai-master-conditional-edges-to-build-real-decision-trees-1gli",
+        "title": "Master Conditional Edges to Build Real Decision Trees"
+      },
+      {
+        "gap": "Conditional edges / dynamic routing: router functions, add_conditional_edges, branching patterns",
+        "url": "https://deepwiki.com/hiroshi75/langgraph-architect/7.2.2-branching-patterns",
+        "title": "Branching Patterns | hiroshi75/langgraph-architect | DeepWiki"
+      },
+      {
+        "gap": "Graph compilation: `compile()` behavior, what object is produced, validation, and how to run/invoke the compiled graph",
+        "url": "https://leeroopedia.com/index.php/Principle:Langchain_ai_Langgraph_Graph_Compilation",
+        "title": "Principle:Langchain ai Langgraph Graph Compilation - Leeroopedia"
+      },
+      {
+        "gap": "Graph compilation: `compile()` behavior, what object is produced, validation, and how to run/invoke the compiled graph",
+        "url": "https://cs.rochester.edu/~sree/papers/sree-oopsla2016.pdf",
+        "title": "A Compiler for Throughput Optimization of Graph ..."
+      },
+      {
+        "gap": "Graph compilation: `compile()` behavior, what object is produced, validation, and how to run/invoke the compiled graph",
+        "url": "https://arxiv.org/html/2508.15967v1",
+        "title": "graph_framework: A Domain Specific Compiler for Building ..."
+      },
+      {
+        "gap": "Graph compilation: `compile()` behavior, what object is produced, validation, and how to run/invoke the compiled graph",
+        "url": "https://bahr.io/pubs/files/graphcalc-paper.pdf",
+        "title": "Calculating Graph-Based Compilers (Functional Pearl)"
+      },
+      {
+        "gap": "Graph compilation: `compile()` behavior, what object is produced, validation, and how to run/invoke the compiled graph",
+        "url": "https://www.cs.nott.ac.uk/~pszgmh/graphs.pdf",
+        "title": "Beyond Trees: Calculating Graph-Based Compilers"
+      },
+      {
+        "gap": "Message passing patterns with MessagesState: how messages are appended/propagated across nodes",
+        "url": "https://ar5iv.labs.arxiv.org/html/2202.11097",
+        "title": "Message passing all the way up"
+      },
+      {
+        "gap": "Message passing patterns with MessagesState: how messages are appended/propagated across nodes",
+        "url": "https://www.cs.cornell.edu/courses/cs4786/2016fa/lectures/lec23.pdf",
+        "title": "lec23(message passing)"
+      },
+      {
+        "gap": "Message passing patterns with MessagesState: how messages are appended/propagated across nodes",
+        "url": "https://biomedicalai.inf.ed.ac.uk/book/Section3/Part1.html",
+        "title": "Part 1 : Message Passing"
+      },
+      {
+        "gap": "Message passing patterns with MessagesState: how messages are appended/propagated across nodes",
+        "url": "https://arxiv.org/html/2407.08941v1",
+        "title": "Two Classes of Optimal Multi-Input Structures for Node Computations in Message Passing Algorithms"
+      },
+      {
+        "gap": "Message passing patterns with MessagesState: how messages are appended/propagated across nodes",
+        "url": "https://www.auroria.io/intro-graph-neural-networks-message-passing-framework/",
+        "title": "Introduction to Graph Neural Networks: The Message Passing ..."
+      },
+      {
+        "gap": "State reducers: built-in reducers (e.g., message reducers) and how to implement custom reducers for state key merges",
+        "url": "https://redux.js.org/tutorials/fundamentals/part-3-state-actions-reducers",
+        "title": "Redux Fundamentals, Part 3: State, Actions, and Reducers"
+      },
+      {
+        "gap": "State reducers: built-in reducers (e.g., message reducers) and how to implement custom reducers for state key merges",
+        "url": "https://redux.gitbook.io/docs/basics/reducers",
+        "title": "Reducers | Redux"
+      },
+      {
+        "gap": "State reducers: built-in reducers (e.g., message reducers) and how to implement custom reducers for state key merges",
+        "url": "https://ko.react.dev/learn/extracting-state-logic-into-a-reducer",
+        "title": "reducer \uc798 \uc791\uc131\ud558\uae30"
+      },
+      {
+        "gap": "State reducers: built-in reducers (e.g., message reducers) and how to implement custom reducers for state key merges",
+        "url": "https://ko.redux.js.org/tutorials/fundamentals/part-3-state-actions-reducers/",
+        "title": "Redux \uae30\ubc18, Part 3: State, Actions, and Reducers"
+      },
+      {
+        "gap": "State reducers: built-in reducers (e.g., message reducers) and how to implement custom reducers for state key merges",
+        "url": "https://www.cocoawithlove.com/blog/statements-messages-reducers.html",
+        "title": "Statements, messages and reducers"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-10T19:01:00",
+    "run_label": "ensure-coverage:why-langgraph-graphs-as-agent-control-flow",
+    "sources": [
+      {
+        "gap": "LangGraph execution semantics: how graph traversal works as agent control flow (step-by-step execution model)",
+        "url": "https://docs.langchain.com/oss/python/langgraph/graph-api",
+        "title": "Graph API overview - Docs by LangChain"
+      },
+      {
+        "gap": "LangGraph execution semantics: how graph traversal works as agent control flow (step-by-step execution model)",
+        "url": "https://www.emergentmind.com/topics/langgraph-implementation",
+        "title": "LangGraph Implementation Overview - Emergent Mind"
+      },
+      {
+        "gap": "LangGraph execution semantics: how graph traversal works as agent control flow (step-by-step execution model)",
+        "url": "https://leeroopedia.com/index.php/Principle:Langchain_ai_Langgraph_Agent_Execution",
+        "title": "Principle:Langchain ai Langgraph Agent Execution - Leeroopedia"
+      },
+      {
+        "gap": "LangGraph execution semantics: how graph traversal works as agent control flow (step-by-step execution model)",
+        "url": "https://arxiv.org/html/2412.01490v2",
+        "title": "Intelligent Spark Agents: A Modular LangGraph Framework ... - arXiv"
+      },
+      {
+        "gap": "LangGraph execution semantics: how graph traversal works as agent control flow (step-by-step execution model)",
+        "url": "https://www.ciscolive.com/c/dam/r/ciscolive/global-event/docs/2025/pdf/CISCOU-3005.pdf",
+        "title": "Langgraph: The Secret to Building Intelligent Agents"
+      },
+      {
+        "gap": "Meaning of nodes and edges in LangGraph (node responsibilities, edge routing, START/END semantics)",
+        "url": "https://docs.langchain.com/oss/python/langgraph/graph-api",
+        "title": "Graph API overview - Docs by LangChain"
+      },
+      {
+        "gap": "Meaning of nodes and edges in LangGraph (node responsibilities, edge routing, START/END semantics)",
+        "url": "https://dev.to/aiengineering/a-beginners-guide-to-getting-started-on-edges-in-langgraph-59be",
+        "title": "A Beginner's Guide to Getting Started on Edges in LangGraph"
+      },
+      {
+        "gap": "Meaning of nodes and edges in LangGraph (node responsibilities, edge routing, START/END semantics)",
+        "url": "https://dev.to/raunaklallala/understanding-core-concepts-of-langgraph-deep-dive-1d7h",
+        "title": "Understanding Core Concepts of LangGraph (Deep Dive)"
+      },
+      {
+        "gap": "Meaning of nodes and edges in LangGraph (node responsibilities, edge routing, START/END semantics)",
+        "url": "https://www.youtube.com/watch?v=qRxsCunfhws",
+        "title": "Introduction to LangGraph: Nodes, Edges, and Agents | Examples | LangGraph Tutorial Series"
+      },
+      {
+        "gap": "Meaning of nodes and edges in LangGraph (node responsibilities, edge routing, START/END semantics)",
+        "url": "https://docs.langchain.com/oss/javascript/langgraph/graph-api.md",
+        "title": "graph-api.md"
+      },
+      {
+        "gap": "Shared state model in LangGraph (state schema, how nodes read/write state, state merging/reducers)",
+        "url": "https://docs.langchain.com/oss/python/langgraph/graph-api",
+        "title": "Graph API overview - Docs by LangChain"
+      },
+      {
+        "gap": "Shared state model in LangGraph (state schema, how nodes read/write state, state merging/reducers)",
+        "url": "https://reference.langchain.com/python/langgraph/graph/state/StateGraph",
+        "title": "StateGraph | langgraph - LangChain Reference Docs"
+      },
+      {
+        "gap": "Shared state model in LangGraph (state schema, how nodes read/write state, state merging/reducers)",
+        "url": "https://www.youtube.com/watch?v=jVZ8mcAiBiY",
+        "title": "Deep Dive into LangGraph \u2013 State & State Schema"
+      },
+      {
+        "gap": "Shared state model in LangGraph (state schema, how nodes read/write state, state merging/reducers)",
+        "url": "https://www.youtube.com/watch?v=Xgyk7Qtmf8s",
+        "title": "Ep-2. Nodes, Edges and Shard State in LangGraph"
+      },
+      {
+        "gap": "Shared state model in LangGraph (state schema, how nodes read/write state, state merging/reducers)",
+        "url": "https://langchain-ai.github.io/langgraphjs/reference/classes/langgraph.StateGraph.html",
+        "title": "StateGraph | LangGraph.js API Reference - GitHub Pages"
+      },
+      {
+        "gap": "Branching/conditional edges and routing patterns (examples beyond a linear graph)",
+        "url": "https://arxiv.org/html/2403.07965v1",
+        "title": "Conditional computation in neural networks: principles and research ..."
+      },
+      {
+        "gap": "Branching/conditional edges and routing patterns (examples beyond a linear graph)",
+        "url": "https://deepwiki.com/hiroshi75/langgraph-architect/7.2.2-branching-patterns",
+        "title": "Branching Patterns | hiroshi75/langgraph-architect | DeepWiki"
+      },
+      {
+        "gap": "Branching/conditional edges and routing patterns (examples beyond a linear graph)",
+        "url": "https://www.sable.mcgill.ca/~hendren/621/ControlFlowAnalysis_Handouts.pdf",
+        "title": "[PDF] Control Flow Analysis"
+      },
+      {
+        "gap": "Branching/conditional edges and routing patterns (examples beyond a linear graph)",
+        "url": "http://aeholroyd.org/papers/bundle-full.pdf",
+        "title": "[PDF] Edge Routing with Ordered Bundles - Alexander Holroyd"
+      },
+      {
+        "gap": "Branching/conditional edges and routing patterns (examples beyond a linear graph)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7702082/pdf/NET-76-431.pdf",
+        "title": "Secure and efficient routing on nodes, edges, and arcs of simple-graphs and of multi-graphs"
+      },
+      {
+        "gap": "Cyclic graphs/loops in LangGraph (how to define cycles, termination conditions, preventing infinite loops)",
+        "url": "https://rajatpandit.com/optimizing-langgraph-cycles/",
+        "title": "Optimizing LangGraph Cycles: Stopping the Infinite Loop \u2014 AI ..."
+      },
+      {
+        "gap": "Cyclic graphs/loops in LangGraph (how to define cycles, termination conditions, preventing infinite loops)",
+        "url": "https://dev.to/es404020/cycles-and-conditional-edges-in-langgraph-controlling-workflow-execution-53a4",
+        "title": "Cycles and Conditional Edges in LangGraph: Controlling Workflow Execution"
+      },
+      {
+        "gap": "Cyclic graphs/loops in LangGraph (how to define cycles, termination conditions, preventing infinite loops)",
+        "url": "https://rajatpandit.com/ai-engineering/optimizing-langgraph-cycles/",
+        "title": "Optimizing LangGraph Cycles: Stopping the Infinite Loop"
+      },
+      {
+        "gap": "Cyclic graphs/loops in LangGraph (how to define cycles, termination conditions, preventing infinite loops)",
+        "url": "https://www.youtube.com/watch?v=prBQ9EOlACc",
+        "title": "Why Your AI Agent Needs Loops: A Deep Dive into LangGraph"
+      },
+      {
+        "gap": "Cyclic graphs/loops in LangGraph (how to define cycles, termination conditions, preventing infinite loops)",
+        "url": "https://aiworkshack.com/tools/langgraph/debugging-langgraph-agents-how-to-stop-flying-blind-in-cyclic-graphs.html",
+        "title": "Debugging LangGraph Agents: How to Stop Flying Blind in Cyclic ..."
+      },
+      {
+        "gap": "Persistence/durable execution and checkpointing (how state is persisted and resumed for long-running workflows)",
+        "url": "https://zylos.ai/research/2026-03-04-ai-agent-workflow-checkpointing-resumability",
+        "title": "AI Agent Workflow Checkpointing and Resumability | Zylos Research"
+      },
+      {
+        "gap": "Persistence/durable execution and checkpointing (how state is persisted and resumed for long-running workflows)",
+        "url": "https://www.cse.iitk.ac.in/users/kparun/HPCA24.pdf",
+        "title": "2024 IEEE International Symposium on High-Performance Computer Architecture (HPCA)"
+      },
+      {
+        "gap": "Persistence/durable execution and checkpointing (how state is persisted and resumed for long-running workflows)",
+        "url": "https://www.theinfiniteloop.dev/microsoft-agent-framework-stateless-human-in-the-loop/",
+        "title": "Stateless Human-In-The-Loop"
+      },
+      {
+        "gap": "Persistence/durable execution and checkpointing (how state is persisted and resumed for long-running workflows)",
+        "url": "http://www.ittc.ku.edu/~sun/publications/topc22.pdf",
+        "title": "Checkpointing Workflows \u00e0 la Young/Daly Is Not Good ..."
+      },
+      {
+        "gap": "Persistence/durable execution and checkpointing (how state is persisted and resumed for long-running workflows)",
+        "url": "https://www.cs.vu.nl/~amo/papers/checkpointing.pdf",
+        "title": "Persistent Fault-tolerance for"
+      },
+      {
+        "gap": "Human-in-the-loop interrupts (how interrupts are represented in the graph/state and how resumption works)",
+        "url": "https://docs.langchain.com/oss/python/langchain/human-in-the-loop",
+        "title": "Human-in-the-loop - Docs by LangChain"
+      },
+      {
+        "gap": "Human-in-the-loop interrupts (how interrupts are represented in the graph/state and how resumption works)",
+        "url": "https://dev.to/jamesbmour/interrupts-and-commands-in-langgraph-building-human-in-the-loop-workflows-4ngl",
+        "title": "Interrupts and Commands in LangGraph: Building Human- ..."
+      },
+      {
+        "gap": "Human-in-the-loop interrupts (how interrupts are represented in the graph/state and how resumption works)",
+        "url": "https://www.scribd.com/document/943643214/Add-Human-Intervention",
+        "title": "Add Human Intervention | PDF | Vertex (Graph Theory) - Scribd"
+      },
+      {
+        "gap": "Human-in-the-loop interrupts (how interrupts are represented in the graph/state and how resumption works)",
+        "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+        "title": "Interrupts - Docs by LangChain"
+      },
+      {
+        "gap": "Human-in-the-loop interrupts (how interrupts are represented in the graph/state and how resumption works)",
+        "url": "https://langgraph.agentdevhub.com/concepts/human_in_the_loop/",
+        "title": "Human-in-the-loop\u00b6"
+      },
+      {
+        "gap": "Debugging/observability benefits specific to graph-based orchestration (tracing, visualization, reproducibility)",
+        "url": "https://arxiv.org/pdf/2010.13681.pdf",
+        "title": "Aggregate-Driven Trace Visualizations for Performance Debugging (Vision)"
+      },
+      {
+        "gap": "Debugging/observability benefits specific to graph-based orchestration (tracing, visualization, reproducibility)",
+        "url": "https://www.langchain.com/articles/ai-observability",
+        "title": "AI Observability: Capturing Failures That Traditional Metrics Miss"
+      },
+      {
+        "gap": "Debugging/observability benefits specific to graph-based orchestration (tracing, visualization, reproducibility)",
+        "url": "https://www.ijset.in/wp-content/uploads/IJSET_V9_issue6_538.pdf",
+        "title": "[PDF] Observability-Driven Optimization of Cloud and Distributed Systems"
+      },
+      {
+        "gap": "Debugging/observability benefits specific to graph-based orchestration (tracing, visualization, reproducibility)",
+        "url": "https://zylos.ai/research/2026-04-04-ai-agent-observability-tracing-debugging",
+        "title": "AI Agent Observability: Tracing, Debugging, and the OpenTelemetry ..."
+      },
+      {
+        "gap": "Debugging/observability benefits specific to graph-based orchestration (tracing, visualization, reproducibility)",
+        "url": "https://logiciel.io/blog/observability-and-reasoning-transparency",
+        "title": "How to Debug AI Systems Before They Fail | Logiciel Solutions"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-10T19:06:15",
+    "run_label": "ensure-coverage:persistence-checkpointing-human-in-the-loop",
+    "sources": [
+      {
+        "gap": "LangGraph checkpointers: definition, purpose, and how to configure/use them in code",
+        "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+        "title": "Memory store"
+      },
+      {
+        "gap": "LangGraph checkpointers: definition, purpose, and how to configure/use them in code",
+        "url": "https://pypi.org/project/langgraph-checkpoint/",
+        "title": "langgraph-checkpoint"
+      },
+      {
+        "gap": "LangGraph checkpointers: definition, purpose, and how to configure/use them in code",
+        "url": "https://reference.langchain.com/python/langgraph/checkpoints/",
+        "title": "Checkpointing | LangChain Referencereference.langchain.com \u203a python \u203a langgraph \u203a checkpoints"
+      },
+      {
+        "gap": "LangGraph checkpointers: definition, purpose, and how to configure/use them in code",
+        "url": "https://dev.to/jamesli/checkpoints-and-human-computer-interaction-in-langgraph-26bk",
+        "title": "Checkpoints and Human-Computer Interaction in LangGraph"
+      },
+      {
+        "gap": "LangGraph checkpointers: definition, purpose, and how to configure/use them in code",
+        "url": "https://developer.couchbase.com/tutorial-langgraph-persistence-checkpoint/",
+        "title": "Tutorial - Persist LangGraph State with Couchbase Checkpointer"
+      },
+      {
+        "gap": "Thread-scoped state in LangGraph: what a 'thread' is, thread IDs, and how state is persisted per thread",
+        "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+        "title": "Memory store"
+      },
+      {
+        "gap": "Thread-scoped state in LangGraph: what a 'thread' is, thread IDs, and how state is persisted per thread",
+        "url": "https://docs.langchain.com/oss/python/langgraph/memory",
+        "title": "Memory overview - Docs by LangChain"
+      },
+      {
+        "gap": "Thread-scoped state in LangGraph: what a 'thread' is, thread IDs, and how state is persisted per thread",
+        "url": "https://langchain-ai.github.io/langgraph/cloud/concepts/threads/",
+        "title": "Threads\u00b6"
+      },
+      {
+        "gap": "Thread-scoped state in LangGraph: what a 'thread' is, thread IDs, and how state is persisted per thread",
+        "url": "https://www.youtube.com/watch?v=Ct4mSNy3UyM",
+        "title": "State Persistence and Memory Management in LangGraph - Part 9/14"
+      },
+      {
+        "gap": "Thread-scoped state in LangGraph: what a 'thread' is, thread IDs, and how state is persisted per thread",
+        "url": "https://github.com/langchain-ai/langgraph/blob/main/docs/docs/concepts/persistence.md",
+        "title": "langgraph/docs/docs/concepts/persistence.md at main \u00b7 langchain-ai/langgraph"
+      },
+      {
+        "gap": "Durable execution in LangGraph: failure recovery model, retries, resume semantics, and guarantees",
+        "url": "https://docs.langchain.com/oss/python/langgraph/durable-execution",
+        "title": "Durable execution - Docs by LangChaindocs.langchain.com \u203a oss \u203a python \u203a langgraph \u203a durable-execution"
+      },
+      {
+        "gap": "Durable execution in LangGraph: failure recovery model, retries, resume semantics, and guarantees",
+        "url": "https://docs.langchain.com/oss/javascript/langgraph/durable-execution",
+        "title": "Durable execution - Docs by LangChain"
+      },
+      {
+        "gap": "Durable execution in LangGraph: failure recovery model, retries, resume semantics, and guarantees",
+        "url": "https://www.scribd.com/document/943643104/Overview",
+        "title": "Overview | PDF | Synchronization | Vertex (Graph Theory) - Scribd"
+      },
+      {
+        "gap": "Durable execution in LangGraph: failure recovery model, retries, resume semantics, and guarantees",
+        "url": "https://www.youtube.com/watch?v=BYVR54yuQL8",
+        "title": "Durable Execution with LangGraph Tasks - Part 1/3"
+      },
+      {
+        "gap": "Durable execution in LangGraph: failure recovery model, retries, resume semantics, and guarantees",
+        "url": "https://blog.csdn.net/czhcc/article/details/153637566",
+        "title": "LangGraph-\u6301\u4e45\u6267\u884c\uff08Durable Execution\uff09 \u539f\u521b - CSDN\u535a\u5ba2"
+      },
+      {
+        "gap": "Workflow interruption/pause mechanisms in LangGraph (e.g., interrupt points, waiting for external/human input) and how resumption works",
+        "url": "https://docs.langchain.com/oss/python/langgraph/interrupts",
+        "title": "Interrupts - Docs by LangChain"
+      },
+      {
+        "gap": "Workflow interruption/pause mechanisms in LangGraph (e.g., interrupt points, waiting for external/human input) and how resumption works",
+        "url": "https://docs.langchain.com/oss/javascript/langgraph/interrupts",
+        "title": "Interrupts - Docs by LangChain"
+      },
+      {
+        "gap": "Workflow interruption/pause mechanisms in LangGraph (e.g., interrupt points, waiting for external/human input) and how resumption works",
+        "url": "https://www.youtube.com/watch?v=PYH7Mn4pXUc",
+        "title": "LangGraph Interrupt and Resume Workflow - Part 4/22"
+      },
+      {
+        "gap": "Workflow interruption/pause mechanisms in LangGraph (e.g., interrupt points, waiting for external/human input) and how resumption works",
+        "url": "https://dev.to/jamesbmour/interrupts-and-commands-in-langgraph-building-human-in-the-loop-workflows-4ngl",
+        "title": "Interrupts and Commands in LangGraph: Building Human- ..."
+      },
+      {
+        "gap": "Workflow interruption/pause mechanisms in LangGraph (e.g., interrupt points, waiting for external/human input) and how resumption works",
+        "url": "https://www.youtube.com/watch?v=NrUVOH8zssk",
+        "title": "LangGraph Interrupt and Resume Workflow - Part 1/22"
+      },
+      {
+        "gap": "Human-in-the-loop patterns in LangGraph: review/approval/intervention at arbitrary nodes, UI/API integration, and state updates from humans",
+        "url": "https://docs.langchain.com/oss/python/langgraph/human-in-the-loop",
+        "title": "Human-in-the-loop overview - Docs by LangChain"
+      },
+      {
+        "gap": "Human-in-the-loop patterns in LangGraph: review/approval/intervention at arbitrary nodes, UI/API integration, and state updates from humans",
+        "url": "https://rampakanayev.com/blog/langgraph-human-in-the-loop",
+        "title": "How to Implement Human-in-the-Loop in LangGraph"
+      },
+      {
+        "gap": "Human-in-the-loop patterns in LangGraph: review/approval/intervention at arbitrary nodes, UI/API integration, and state updates from humans",
+        "url": "https://www.youtube.com/watch?v=YmAaKKlDy7k",
+        "title": "LangGraph Agents - Human-In-The-Loop - User Feedback"
+      },
+      {
+        "gap": "Human-in-the-loop patterns in LangGraph: review/approval/intervention at arbitrary nodes, UI/API integration, and state updates from humans",
+        "url": "https://langchain-ai.github.io/langgraph/concepts/human_in_the_loop/",
+        "title": "LangGraph's human-in-the-loop - Overview"
+      },
+      {
+        "gap": "Human-in-the-loop patterns in LangGraph: review/approval/intervention at arbitrary nodes, UI/API integration, and state updates from humans",
+        "url": "https://www.ibm.com/think/tutorials/human-in-the-loop-ai-agent-langraph-watsonx-ai",
+        "title": "Human in the loop tutorial"
+      },
+      {
+        "gap": "Approval workflow examples implemented as graphs (approval gates, conditional edges, escalation paths)",
+        "url": "https://mockflow.com/flowchart-examples/document-approval-process-swimlane-diagram-example",
+        "title": "Document Approval Workflow | Swimlane Diagram - MockFlow"
+      },
+      {
+        "gap": "Approval workflow examples implemented as graphs (approval gates, conditional edges, escalation paths)",
+        "url": "https://oneuptime.com/blog/post/2026-01-30-approval-workflows/view",
+        "title": "How to Create Approval Workflows - OneUptime"
+      },
+      {
+        "gap": "Approval workflow examples implemented as graphs (approval gates, conditional edges, escalation paths)",
+        "url": "https://610486.fs1.hubspotusercontent-na1.net/hubfs/610486/Approval-Workflow-Reimagined-Integrify.pdf",
+        "title": "[PDF] Approval Workflow Re-Imagined"
+      },
+      {
+        "gap": "Approval workflow examples implemented as graphs (approval gates, conditional edges, escalation paths)",
+        "url": "https://www.francescoboschi.com/archpilot-step-4-approval-workflow-engine-multi-step-routing-status-tracking-escalation-paths/",
+        "title": "Approval Workflow Engine Multi-step routing, status ..."
+      },
+      {
+        "gap": "Approval workflow examples implemented as graphs (approval gates, conditional edges, escalation paths)",
+        "url": "https://docs.elsaworkflows.io/guides/patterns",
+        "title": "Workflow Patterns | Elsa 3"
+      },
+      {
+        "gap": "Operational guidance: storage backends for persistence (e.g., SQLite/Postgres/Redis), data model, and lifecycle management for checkpoints",
+        "url": "https://arxiv.org/pdf/2403.11716.pdf",
+        "title": "Models for Storage in Database Backends"
+      },
+      {
+        "gap": "Operational guidance: storage backends for persistence (e.g., SQLite/Postgres/Redis), data model, and lifecycle management for checkpoints",
+        "url": "https://www.usenix.org/system/files/nsdi25-wan-borui.pdf",
+        "title": "Open access to the Proceedings of the"
+      },
+      {
+        "gap": "Operational guidance: storage backends for persistence (e.g., SQLite/Postgres/Redis), data model, and lifecycle management for checkpoints",
+        "url": "https://dev.to/shayanhussainsb/six-frameworks-four-storage-backends-one-import-zero-dependencies-2k1o",
+        "title": "Six frameworks. Four storage backends. One import. Zero dependencies."
+      },
+      {
+        "gap": "Operational guidance: storage backends for persistence (e.g., SQLite/Postgres/Redis), data model, and lifecycle management for checkpoints",
+        "url": "https://berb.github.io/diploma-thesis/original/073_pers.html",
+        "title": "7.3 Choosing a Storage Backend"
+      },
+      {
+        "gap": "Operational guidance: storage backends for persistence (e.g., SQLite/Postgres/Redis), data model, and lifecycle management for checkpoints",
+        "url": "https://arxiv.org/html/2406.13768v1",
+        "title": "FastPersist: Accelerating Model Checkpointing in Deep Learning"
+      }
+    ]
+  }
+]

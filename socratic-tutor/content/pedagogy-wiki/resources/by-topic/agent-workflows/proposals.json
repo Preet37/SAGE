@@ -1,0 +1,470 @@
+[
+  {
+    "timestamp": "2026-04-10T18:55:32",
+    "run_label": "ensure-coverage:agent-planning-how-agents-decide",
+    "sources": [
+      {
+        "gap": "A concrete definition of LLM agent planning as a loop (goal -> plan -> act -> observe -> update), including plan representations and termination conditions",
+        "url": "https://arxiv.org/html/2408.04168v3",
+        "title": "Perceive, Reflect, and Plan: Designing LLM Agent for Goal ..."
+      },
+      {
+        "gap": "A concrete definition of LLM agent planning as a loop (goal -> plan -> act -> observe -> update), including plan representations and termination conditions",
+        "url": "https://arxiv.org/abs/2402.02716",
+        "title": "Understanding the planning of LLM agents: A survey"
+      },
+      {
+        "gap": "A concrete definition of LLM agent planning as a loop (goal -> plan -> act -> observe -> update), including plan representations and termination conditions",
+        "url": "https://www.pure.ed.ac.uk/ws/portalfiles/portal/482086583/DaganEtalLanguageGamification2024DynamicPlanning_final_version_.pdf",
+        "title": "Edinburgh Research Explorer"
+      },
+      {
+        "gap": "A concrete definition of LLM agent planning as a loop (goal -> plan -> act -> observe -> update), including plan representations and termination conditions",
+        "url": "https://aclanthology.org/2024.emnlp-main.93.pdf",
+        "title": "[PDF] Watch Every Step! LLM Agent Learning via Iterative Step-Level ..."
+      },
+      {
+        "gap": "A concrete definition of LLM agent planning as a loop (goal -> plan -> act -> observe -> update), including plan representations and termination conditions",
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2023/file/6b8dfb8c0c12e6fafc6c256cb08a5ca7-Paper-Conference.pdf",
+        "title": "Describe, Explain, Plan and Select:"
+      },
+      {
+        "gap": "Methods for subgoal generation (prompt patterns, heuristics, search/planning algorithms, prioritization) with worked examples",
+        "url": "https://arxiv.org/html/2406.03361",
+        "title": "Micha\u0142 Zawalski"
+      },
+      {
+        "gap": "Methods for subgoal generation (prompt patterns, heuristics, search/planning algorithms, prioritization) with worked examples",
+        "url": "https://arxiv.org/html/2401.14043v2",
+        "title": "2.4 Evaluating Sub-Goal..."
+      },
+      {
+        "gap": "Methods for subgoal generation (prompt patterns, heuristics, search/planning algorithms, prioritization) with worked examples",
+        "url": "https://www.ijcai.org/Proceedings/87-2/Papers/092.pdf",
+        "title": "Subgoal Ordering and Goal Augmentation"
+      },
+      {
+        "gap": "Methods for subgoal generation (prompt patterns, heuristics, search/planning algorithms, prioritization) with worked examples",
+        "url": "https://proceedings.neurips.cc/paper/2021/file/ee39e503b6bedf0c98c388b7e8589aca-Paper.pdf",
+        "title": "[PDF] Landmark-Guided Subgoal Generation in Hierarchical ..."
+      },
+      {
+        "gap": "Methods for subgoal generation (prompt patterns, heuristics, search/planning algorithms, prioritization) with worked examples",
+        "url": "https://openaccess.thecvf.com/content/CVPR2024/papers/Ni_Generate_Subgoal_Images_before_Act_Unlocking_the_Chain-of-Thought_Reasoning_in_CVPR_2024_paper.pdf",
+        "title": "[PDF] Generate Subgoal Images before Act: Unlocking the Chain-of ..."
+      },
+      {
+        "gap": "Plan execution mechanics in tool-using agents (action selection, sequencing, tool-call/observation handling, error handling/retries)",
+        "url": "https://aclanthology.org/2025.findings-naacl.54.pdf",
+        "title": "[PDF] Efficient Multi-Agent Collaboration with Tool Use for Online Planning ..."
+      },
+      {
+        "gap": "Plan execution mechanics in tool-using agents (action selection, sequencing, tool-call/observation handling, error handling/retries)",
+        "url": "https://arxiv.org/pdf/2404.11584.pdf",
+        "title": "[PDF] arXiv:2404.11584v1 [cs.AI] 17 Apr 2024"
+      },
+      {
+        "gap": "Plan execution mechanics in tool-using agents (action selection, sequencing, tool-call/observation handling, error handling/retries)",
+        "url": "https://www.arxiv.org/pdf/2602.19633.pdf",
+        "title": "TAPE: Tool-Guided Adaptive Planning and Constrained Execution in Language Model Agents"
+      },
+      {
+        "gap": "Plan execution mechanics in tool-using agents (action selection, sequencing, tool-call/observation handling, error handling/retries)",
+        "url": "https://scholarlypublications.universiteitleiden.nl/access/item:4249454/download",
+        "title": "Learning to use tools via cooperative and interactive agents"
+      },
+      {
+        "gap": "Plan execution mechanics in tool-using agents (action selection, sequencing, tool-call/observation handling, error handling/retries)",
+        "url": "https://www.rivista.ai/wp-content/uploads/2024/06/2404.11584v1.pdf",
+        "title": "[PDF] arXiv:2404.11584v1 [cs.AI] 17 Apr 2024 - Rivista AI"
+      },
+      {
+        "gap": "Feedback-driven replanning: how observations are compared to expectations, when to revise vs continue, and how to incorporate environment signals to reduce hallucinations",
+        "url": "https://arxiv.org/pdf/2406.12221.pdf",
+        "title": "arXiv:2406.12221v6 [cs.CL] 26 May 2025"
+      },
+      {
+        "gap": "Feedback-driven replanning: how observations are compared to expectations, when to revise vs continue, and how to incorporate environment signals to reduce hallucinations",
+        "url": "https://arxiv.org/html/2406.12221v1",
+        "title": "On-Policy Fine-grained Knowledge Feedback for Hallucination ..."
+      },
+      {
+        "gap": "Feedback-driven replanning: how observations are compared to expectations, when to revise vs continue, and how to incorporate environment signals to reduce hallucinations",
+        "url": "https://proceedings.nips.cc/paper_files/paper/2023/file/b5c8c1c117618267944b2617add0a766-Paper-Conference.pdf",
+        "title": "AdaPlanner: Adaptive Planning from Feedback with"
+      },
+      {
+        "gap": "Feedback-driven replanning: how observations are compared to expectations, when to revise vs continue, and how to incorporate environment signals to reduce hallucinations",
+        "url": "https://www.themoonlight.io/fr/review/replan-robotic-replanning-with-perception-and-language-models",
+        "title": "[Revue de papier] RePLan: Robotic Replanning with Perception and ..."
+      },
+      {
+        "gap": "Feedback-driven replanning: how observations are compared to expectations, when to revise vs continue, and how to incorporate environment signals to reduce hallucinations",
+        "url": "https://aclanthology.org/2025.findings-acl.271.pdf",
+        "title": "[PDF] On-Policy Self-Alignment with Fine-grained Knowledge Feedback ..."
+      },
+      {
+        "gap": "Multi-step reasoning explanations with step-by-step examples (beyond just mentioning chain-of-thought/ReAct)",
+        "url": "https://arxiv.org/html/2407.11511v2",
+        "title": "Multi-Step Reasoning with Large Language Models, a ..."
+      },
+      {
+        "gap": "Multi-step reasoning explanations with step-by-step examples (beyond just mentioning chain-of-thought/ReAct)",
+        "url": "https://arxiv.org/abs/2402.18312",
+        "title": "How to think step-by-step: A mechanistic understanding of chain-of-thought reasoning"
+      },
+      {
+        "gap": "Multi-step reasoning explanations with step-by-step examples (beyond just mentioning chain-of-thought/ReAct)",
+        "url": "https://papers.nips.cc/paper_files/paper/2022/file/11332b6b6cf4485b84afadb1352d3a9a-Paper-Conference.pdf",
+        "title": "Learn to Explain: Multimodal Reasoning via"
+      },
+      {
+        "gap": "Multi-step reasoning explanations with step-by-step examples (beyond just mentioning chain-of-thought/ReAct)",
+        "url": "https://liacs.leidenuniv.nl/~plaata1/papers/3774896.pdf",
+        "title": "[PDF] Multi-Step Reasoning with Large Language Models, a Survey"
+      },
+      {
+        "gap": "Multi-step reasoning explanations with step-by-step examples (beyond just mentioning chain-of-thought/ReAct)",
+        "url": "https://aclanthology.org/anthology-files/pdf/emnlp/2023.emnlp-main.41.pdf",
+        "title": "Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing, pages 619\u2013637"
+      },
+      {
+        "gap": "Goal-directed behavior in agents: explicit goals, constraints, reward/utility proxies, and how goals control next-action decisions",
+        "url": "https://arxiv.org/html/2508.13247v1",
+        "title": "Goal-Directedness is in the Eye of the Beholder - arXiv"
+      },
+      {
+        "gap": "Goal-directed behavior in agents: explicit goals, constraints, reward/utility proxies, and how goals control next-action decisions",
+        "url": "https://arxiv.org/pdf/2508.15013.pdf",
+        "title": "See more"
+      },
+      {
+        "gap": "Goal-directed behavior in agents: explicit goals, constraints, reward/utility proxies, and how goals control next-action decisions",
+        "url": "https://royalsocietypublishing.org/doi/10.1098/rstb.2013.0483",
+        "title": "The why, what, where, when and how of goal-directed choice: neuronal and computational principles | Philosophical Transactions of the Royal Society B: Biological Sciences"
+      },
+      {
+        "gap": "Goal-directed behavior in agents: explicit goals, constraints, reward/utility proxies, and how goals control next-action decisions",
+        "url": "https://guydavidson.me/files/position_human_like_rl_structured_expressive_goals.pdf",
+        "title": "[PDF] Position: Human-like reinforcement learning is facilitated ..."
+      },
+      {
+        "gap": "Goal-directed behavior in agents: explicit goals, constraints, reward/utility proxies, and how goals control next-action decisions",
+        "url": "https://papers.nips.cc/paper_files/paper/2024/file/1551c01d7a3d0bf21e2518331e9f7074-Paper-Conference.pdf",
+        "title": "[PDF] Measuring Goal-Directedness - NIPS papers"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-10T19:02:13",
+    "run_label": "ensure-coverage:multi-agent-architectures-supervisors-subgraphs",
+    "sources": [
+      {
+        "gap": "Supervisor (router/controller) agent pattern: definition, routing logic, maintaining small context, coordinating specialist agents, and concrete examples",
+        "url": "https://www.kore.ai/blog/choosing-the-right-orchestration-pattern-for-multi-agent-systems",
+        "title": "Choosing the right orchestration pattern for multi-agent systems"
+      },
+      {
+        "gap": "Supervisor (router/controller) agent pattern: definition, routing logic, maintaining small context, coordinating specialist agents, and concrete examples",
+        "url": "https://www.trixlyai.com/blog/technical-14/design-patterns-for-multi-agent-systems-building-supervisor-to-worker-architectures-93",
+        "title": "Design Patterns for Multi-Agent Systems: Building Supervisor to ..."
+      },
+      {
+        "gap": "Supervisor (router/controller) agent pattern: definition, routing logic, maintaining small context, coordinating specialist agents, and concrete examples",
+        "url": "https://esy.com/agents/patterns/router-supervisor/",
+        "title": "Router-Supervisor Pattern | Esy Agents Reference"
+      },
+      {
+        "gap": "Supervisor (router/controller) agent pattern: definition, routing logic, maintaining small context, coordinating specialist agents, and concrete examples",
+        "url": "https://livekit.com/blog/supervisor-pattern-voice-agents",
+        "title": "How to Use the Supervisor Pattern for Multi-Agent Voice AI Systems"
+      },
+      {
+        "gap": "Supervisor (router/controller) agent pattern: definition, routing logic, maintaining small context, coordinating specialist agents, and concrete examples",
+        "url": "https://dev.to/ameer-pk/architecting-multi-agent-systems-solving-the-supervisor-bottleneck-in-production-286g",
+        "title": "Architecting Multi-Agent Systems: Solving the 'Supervisor Bottleneck ..."
+      },
+      {
+        "gap": "LangGraph subgraphs: what a subgraph is, how to package a multi-node/agent workflow as a reusable module, and how to compose subgraphs into larger graphs",
+        "url": "https://dev.to/sreeni5018/langgraph-subgraphs-a-guide-to-modular-ai-agents-development-31ob",
+        "title": "LangGraph Subgraphs: A Guide to Modular AI Agents ..."
+      },
+      {
+        "gap": "LangGraph subgraphs: what a subgraph is, how to package a multi-node/agent workflow as a reusable module, and how to compose subgraphs into larger graphs",
+        "url": "https://docs.langchain.com/oss/python/langgraph/use-subgraphs",
+        "title": "Subgraphs - Docs by LangChain"
+      },
+      {
+        "gap": "LangGraph subgraphs: what a subgraph is, how to package a multi-node/agent workflow as a reusable module, and how to compose subgraphs into larger graphs",
+        "url": "https://dev.to/jamesli/building-complex-ai-workflows-with-langgraph-a-detailed-explanation-of-subgraph-architecture-1dj5",
+        "title": "Building Complex AI Workflows with LangGraph - DEV Community"
+      },
+      {
+        "gap": "LangGraph subgraphs: what a subgraph is, how to package a multi-node/agent workflow as a reusable module, and how to compose subgraphs into larger graphs",
+        "url": "https://7x.mintlify.app/oss/javascript/langgraph/use-subgraphs",
+        "title": "Subgraphs - Docs by LangChain"
+      },
+      {
+        "gap": "LangGraph subgraphs: what a subgraph is, how to package a multi-node/agent workflow as a reusable module, and how to compose subgraphs into larger graphs",
+        "url": "https://www.youtube.com/watch?v=52oj4SPUHRA",
+        "title": "LangGraph Intro - Structuring AI Agent Workflows with Subgraphs in LangGraph"
+      },
+      {
+        "gap": "Parallel execution in multi-agent/graph runtimes: fan-out/fan-in patterns, concurrency controls, merging/aggregation strategies, and failure handling",
+        "url": "https://arxiv.org/html/2503.07675v1",
+        "title": "DynTaskMAS: A Dynamic Task Graph-driven Framework for ... - arXiv"
+      },
+      {
+        "gap": "Parallel execution in multi-agent/graph runtimes: fan-out/fan-in patterns, concurrency controls, merging/aggregation strategies, and failure handling",
+        "url": "https://arxiv.org/html/2601.10560v1",
+        "title": "Learning Latency-Aware Orchestration for Parallel Multi-Agent ..."
+      },
+      {
+        "gap": "Parallel execution in multi-agent/graph runtimes: fan-out/fan-in patterns, concurrency controls, merging/aggregation strategies, and failure handling",
+        "url": "https://openagenthub.io/patterns/orchestration/parallel/",
+        "title": "Parallel Fan-Out - openagent"
+      },
+      {
+        "gap": "Parallel execution in multi-agent/graph runtimes: fan-out/fan-in patterns, concurrency controls, merging/aggregation strategies, and failure handling",
+        "url": "https://arafattehsin.com/blog/agent-orchestration-patterns-part-3/",
+        "title": "Concurrent Multi-Agent Orchestration: Fan-out/Fan-in with Microsoft ..."
+      },
+      {
+        "gap": "Parallel execution in multi-agent/graph runtimes: fan-out/fan-in patterns, concurrency controls, merging/aggregation strategies, and failure handling",
+        "url": "https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/ai-agent-design-patterns",
+        "title": "AI Agent Orchestration Patterns - Azure Architecture Center"
+      },
+      {
+        "gap": "Agent delegation and handoffs: protocols for transferring task, state, and tool results; criteria for selecting delegate agents; examples using OpenAI Agents SDK",
+        "url": "https://openai.github.io/openai-agents-python/handoffs/",
+        "title": "Handoffs - OpenAI Agents SDK"
+      },
+      {
+        "gap": "Agent delegation and handoffs: protocols for transferring task, state, and tool results; criteria for selecting delegate agents; examples using OpenAI Agents SDK",
+        "url": "https://openai.github.io/openai-agents-js/guides/handoffs/",
+        "title": "Handoffs | OpenAI Agents SDK"
+      },
+      {
+        "gap": "Agent delegation and handoffs: protocols for transferring task, state, and tool results; criteria for selecting delegate agents; examples using OpenAI Agents SDK",
+        "url": "https://www.youtube.com/watch?v=LuarehusOWU",
+        "title": "OpenAI Agents SDK Handoffs | Deep Dive Tutorial"
+      },
+      {
+        "gap": "Agent delegation and handoffs: protocols for transferring task, state, and tool results; criteria for selecting delegate agents; examples using OpenAI Agents SDK",
+        "url": "https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf",
+        "title": "[PDF] A practical guide to building agents - OpenAI"
+      },
+      {
+        "gap": "Agent delegation and handoffs: protocols for transferring task, state, and tool results; criteria for selecting delegate agents; examples using OpenAI Agents SDK",
+        "url": "https://codesignal.com/learn/courses/coordinating-openai-agents-workflows-in-typescript/lessons/dynamic-task-delegation-with-handoffs-in-openai-agents-typescript",
+        "title": "Delegating Tasks Between Agents Using Handoffs | CodeSignal Learn"
+      },
+      {
+        "gap": "Agents-as-tools pattern: how an agent is exposed/invoked like a tool, interface contracts (inputs/outputs), and tracing/debugging implications",
+        "url": "https://dev.to/aws/build-multi-agent-systems-using-the-agents-as-tools-pattern-jce",
+        "title": "Build Multi-Agent Systems Using the Agents as Tools Pattern"
+      },
+      {
+        "gap": "Agents-as-tools pattern: how an agent is exposed/invoked like a tool, interface contracts (inputs/outputs), and tracing/debugging implications",
+        "url": "https://d197for5662m48.cloudfront.net/documents/publicationstatus/309150/preprint_pdf/b3bd1bfce66b1f7fab19bd07b3f95873.pdf",
+        "title": "[PDF] Agent, Sub-Agent, Skill, or Tool? A Practitioner's Guide to Extending ..."
+      },
+      {
+        "gap": "Agents-as-tools pattern: how an agent is exposed/invoked like a tool, interface contracts (inputs/outputs), and tracing/debugging implications",
+        "url": "https://www.elumenotion.com/journal/toolbasedagents/",
+        "title": "Tool Based Agent Pattern - Elumenotion"
+      },
+      {
+        "gap": "Agents-as-tools pattern: how an agent is exposed/invoked like a tool, interface contracts (inputs/outputs), and tracing/debugging implications",
+        "url": "https://deepwiki.com/google/adk-go/6.5-agent-as-tool-pattern",
+        "title": "Agent-as-Tool Pattern | google/adk-go | DeepWiki"
+      },
+      {
+        "gap": "Agents-as-tools pattern: how an agent is exposed/invoked like a tool, interface contracts (inputs/outputs), and tracing/debugging implications",
+        "url": "https://aws.amazon.com/blogs/machine-learning/multi-agent-collaboration-patterns-with-strands-agents-and-amazon-nova/",
+        "title": "Graph Pattern"
+      },
+      {
+        "gap": "General multi-agent system fundamentals: communication patterns, coordination strategies, role specialization, and orchestration responsibilities",
+        "url": "https://www.sci.brooklyn.cuny.edu/~sklar/teaching/f08/mas/coord.pdf",
+        "title": "[PDF] coordination in multi-agent systems - Brooklyn College"
+      },
+      {
+        "gap": "General multi-agent system fundamentals: communication patterns, coordination strategies, role specialization, and orchestration responsibilities",
+        "url": "https://www.arxiv.org/pdf/2601.13671.pdf",
+        "title": "[PDF] The Orchestration of Multi-Agent Systems: Architectures, Protocols ..."
+      },
+      {
+        "gap": "General multi-agent system fundamentals: communication patterns, coordination strategies, role specialization, and orchestration responsibilities",
+        "url": "https://arxiv.org/html/2601.13671v1",
+        "title": "The Orchestration of Multi-Agent Systems: Architectures, Protocols ..."
+      },
+      {
+        "gap": "General multi-agent system fundamentals: communication patterns, coordination strategies, role specialization, and orchestration responsibilities",
+        "url": "http://www.cs.ucf.edu/~gitars/cap6671-2009/Papers/sycara-mas.pdf",
+        "title": "[PDF] Multiagent Systems - UCF Department of Computer Science"
+      },
+      {
+        "gap": "General multi-agent system fundamentals: communication patterns, coordination strategies, role specialization, and orchestration responsibilities",
+        "url": "https://d197for5662m48.cloudfront.net/documents/publicationstatus/227824/preprint_pdf/ce288ef394ee74d038f88523f7971bfb.pdf",
+        "title": "Posted on 15 Oct 2024 \u2014 CC-BY 4.0 \u2014 https://doi.org/10.36227/techrxiv.172902764.41177581/v1 \u2014 e-Prints posted on TechRxiv are preliminary reports that are not peer reviewed. They should not b..."
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-10T19:13:38",
+    "run_label": "ensure-coverage:comparing-agentic-frameworks-langgraph-autogen-crewai-openai",
+    "sources": [
+      {
+        "gap": "CrewAI fundamentals: roles, crews/teams, tasks, process models, and examples of role-based coordination",
+        "url": "https://www.digitalocean.com/community/tutorials/crewai-crash-course-role-based-agent-orchestration",
+        "title": "CrewAI: A Practical Guide to Role-Based Agent Orchestration"
+      },
+      {
+        "gap": "CrewAI fundamentals: roles, crews/teams, tasks, process models, and examples of role-based coordination",
+        "url": "https://docs.crewai.com/en/introduction",
+        "title": "Introduction - CrewAI Documentation"
+      },
+      {
+        "gap": "CrewAI fundamentals: roles, crews/teams, tasks, process models, and examples of role-based coordination",
+        "url": "https://docs.crewai.com/en/concepts/tasks",
+        "title": "Tasks - CrewAI Documentation"
+      },
+      {
+        "gap": "CrewAI fundamentals: roles, crews/teams, tasks, process models, and examples of role-based coordination",
+        "url": "https://www.scribd.com/document/948620521/Notes1",
+        "title": "Notes 1 | PDF | Artificial Intelligence - Scribd"
+      },
+      {
+        "gap": "CrewAI fundamentals: roles, crews/teams, tasks, process models, and examples of role-based coordination",
+        "url": "https://docs.aws.amazon.com/prescriptive-guidance/latest/agentic-ai-frameworks/crewai.html",
+        "title": "Implementation approach for..."
+      },
+      {
+        "gap": "AutoGen core abstractions and mechanics: multi-agent conversation patterns, agent types, message routing/turn-taking, tool use, and human-in-the-loop collaboration examples",
+        "url": "https://arxiv.org/abs/2308.08155",
+        "title": "AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent ..."
+      },
+      {
+        "gap": "AutoGen core abstractions and mechanics: multi-agent conversation patterns, agent types, message routing/turn-taking, tool use, and human-in-the-loop collaboration examples",
+        "url": "https://arxiv.org/pdf/2308.08155/v1.pdf",
+        "title": "arXiv:2308.08155v2 [cs.AI] 3 Oct 2023"
+      },
+      {
+        "gap": "AutoGen core abstractions and mechanics: multi-agent conversation patterns, agent types, message routing/turn-taking, tool use, and human-in-the-loop collaboration examples",
+        "url": "http://ryenwhite.com/papers/WuLLMAgents2024.pdf",
+        "title": "[PDF] AUTOGEN: ENABLING NEXT-GEN LLM APPLICATIONS VIA MULTI ..."
+      },
+      {
+        "gap": "AutoGen core abstractions and mechanics: multi-agent conversation patterns, agent types, message routing/turn-taking, tool use, and human-in-the-loop collaboration examples",
+        "url": "https://www.microsoft.com/en-us/research/uploads/prodnew/2023/08/LLM_agent.pdf",
+        "title": "Published as a conference paper at COLM 2024"
+      },
+      {
+        "gap": "AutoGen core abstractions and mechanics: multi-agent conversation patterns, agent types, message routing/turn-taking, tool use, and human-in-the-loop collaboration examples",
+        "url": "https://juekong-research.com/data/publications/Autogen.pdf",
+        "title": "[PDF] Implementation, Insights, and Prospects in Multi-Agent Systems"
+      },
+      {
+        "gap": "OpenAI Assistants API specifics (not just Agents SDK): threads/sessions, runs, tool-calling loop, persistence, guardrails, and lifecycle examples",
+        "url": "https://platform.openai.com/docs/assistants/deep-dive",
+        "title": "Assistants API deep dive - OpenAI API"
+      },
+      {
+        "gap": "OpenAI Assistants API specifics (not just Agents SDK): threads/sessions, runs, tool-calling loop, persistence, guardrails, and lifecycle examples",
+        "url": "https://platform.openai.com/docs/assistants",
+        "title": "Assistants API - OpenAI Platform"
+      },
+      {
+        "gap": "OpenAI Assistants API specifics (not just Agents SDK): threads/sessions, runs, tool-calling loop, persistence, guardrails, and lifecycle examples",
+        "url": "https://learn.microsoft.com/en-us/azure/foundry-classic/openai/concepts/assistants",
+        "title": "Azure OpenAI Assistants API (Preview) (classic) - Microsoft Learn"
+      },
+      {
+        "gap": "OpenAI Assistants API specifics (not just Agents SDK): threads/sessions, runs, tool-calling loop, persistence, guardrails, and lifecycle examples",
+        "url": "https://michaeljohnpena.com/blog/2024-01-03-assistants-api-patterns/",
+        "title": "OpenAI Assistants API: Production Patterns and Best Practices"
+      },
+      {
+        "gap": "OpenAI Assistants API specifics (not just Agents SDK): threads/sessions, runs, tool-calling loop, persistence, guardrails, and lifecycle examples",
+        "url": "https://agent-skills.md/skills/ovachiever/droid-tings/openai-assistants",
+        "title": "Agent Skills: OpenAI Assistants API v2"
+      },
+      {
+        "gap": "Comparative control-flow models across frameworks: explicit graphs (LangGraph) vs conversational multi-agent orchestration (AutoGen) vs role-based teams (CrewAI) vs managed tool-calling loops (Assistants/Agents)",
+        "url": "https://dev.to/pockit_tools/langgraph-vs-crewai-vs-autogen-the-complete-multi-agent-ai-orchestration-guide-for-2026-2d63",
+        "title": "LangGraph vs CrewAI vs AutoGen: The Complete Multi-Agent AI Orchestration Guide for 2026"
+      },
+      {
+        "gap": "Comparative control-flow models across frameworks: explicit graphs (LangGraph) vs conversational multi-agent orchestration (AutoGen) vs role-based teams (CrewAI) vs managed tool-calling loops (Assistants/Agents)",
+        "url": "https://arxiv.org/html/2510.04173v4",
+        "title": "1 Introduction - arXiv"
+      },
+      {
+        "gap": "Comparative control-flow models across frameworks: explicit graphs (LangGraph) vs conversational multi-agent orchestration (AutoGen) vs role-based teams (CrewAI) vs managed tool-calling loops (Assistants/Agents)",
+        "url": "https://galileo.ai/blog/autogen-vs-crewai-vs-langgraph-vs-openai-agents-framework",
+        "title": "AutoGen vs. CrewAI vs. LangGraph vs. OpenAI AI Agents Framework"
+      },
+      {
+        "gap": "Comparative control-flow models across frameworks: explicit graphs (LangGraph) vs conversational multi-agent orchestration (AutoGen) vs role-based teams (CrewAI) vs managed tool-calling loops (Assistants/Agents)",
+        "url": "https://arxiv.org/html/2411.18241v1",
+        "title": "Exploration of LLM Multi-Agent Application Implementation Based ..."
+      },
+      {
+        "gap": "Comparative control-flow models across frameworks: explicit graphs (LangGraph) vs conversational multi-agent orchestration (AutoGen) vs role-based teams (CrewAI) vs managed tool-calling loops (Assistants/Agents)",
+        "url": "https://hub.stabilarity.com/agent-orchestration-frameworks-langchain-autogen-crewai-compared/",
+        "title": "Agent Orchestration Frameworks \u2014 LangChain, AutoGen, CrewAI ..."
+      },
+      {
+        "gap": "Durable execution in LangGraph: checkpointing, state persistence, replay/resume semantics, failure recovery, and concrete usage examples",
+        "url": "https://docs.langchain.com/oss/python/langgraph/durable-execution",
+        "title": "Durable execution - Docs by LangChaindocs.langchain.com \u203a oss \u203a python \u203a langgraph \u203a durable-execution"
+      },
+      {
+        "gap": "Durable execution in LangGraph: checkpointing, state persistence, replay/resume semantics, failure recovery, and concrete usage examples",
+        "url": "https://docs.langchain.com/oss/python/langgraph/persistence",
+        "title": "Memory store"
+      },
+      {
+        "gap": "Durable execution in LangGraph: checkpointing, state persistence, replay/resume semantics, failure recovery, and concrete usage examples",
+        "url": "https://aws.amazon.com/blogs/database/build-durable-ai-agents-with-langgraph-and-amazon-dynamodb/",
+        "title": "Getting Started"
+      },
+      {
+        "gap": "Durable execution in LangGraph: checkpointing, state persistence, replay/resume semantics, failure recovery, and concrete usage examples",
+        "url": "https://www.youtube.com/watch?v=BYVR54yuQL8",
+        "title": "Durable Execution with LangGraph Tasks - Part 1/3"
+      },
+      {
+        "gap": "Durable execution in LangGraph: checkpointing, state persistence, replay/resume semantics, failure recovery, and concrete usage examples",
+        "url": "https://blog.csdn.net/czhcc/article/details/153637566",
+        "title": "LangGraph-\u6301\u4e45\u6267\u884c\uff08Durable Execution\uff09 \u539f\u521b - CSDN\u535a\u5ba2"
+      },
+      {
+        "gap": "Human-in-the-loop in LangGraph (and others): interrupts, approvals, review steps, and implementation patterns",
+        "url": "https://langchain-ai.github.io/langgraph/concepts/human_in_the_loop/",
+        "title": "LangGraph's human-in-the-loop - Overview"
+      },
+      {
+        "gap": "Human-in-the-loop in LangGraph (and others): interrupts, approvals, review steps, and implementation patterns",
+        "url": "https://langchain-ai.github.io/langgraph/tutorials/get-started/4-human-in-the-loop/",
+        "title": "4. Add human-in-the-loop"
+      },
+      {
+        "gap": "Human-in-the-loop in LangGraph (and others): interrupts, approvals, review steps, and implementation patterns",
+        "url": "https://docs.langchain.com/oss/python/langgraph/human-in-the-loop",
+        "title": "Human-in-the-loop overview - Docs by LangChain"
+      },
+      {
+        "gap": "Human-in-the-loop in LangGraph (and others): interrupts, approvals, review steps, and implementation patterns",
+        "url": "https://www.youtube.com/watch?v=YmAaKKlDy7k",
+        "title": "LangGraph Agents - Human-In-The-Loop - User Feedback"
+      },
+      {
+        "gap": "Human-in-the-loop in LangGraph (and others): interrupts, approvals, review steps, and implementation patterns",
+        "url": "https://docs.langchain.com/oss/python/langchain/human-in-the-loop",
+        "title": "Human-in-the-loop - Docs by LangChain"
+      }
+    ]
+  }
+]

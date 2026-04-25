@@ -1,0 +1,454 @@
+[
+  {
+    "timestamp": "2026-04-09T16:40:06",
+    "run_label": "reference-track:Word Embeddings",
+    "sources": [
+      {
+        "url": "https://arxiv.org/pdf/1402.3722.pdf",
+        "title": "[PDF] Deriving Mikolov et al.'s Negative-Sampling Word-Embedding Method",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2013/file/9aa42b31882ec039965f3c4923ce901b-Paper.pdf",
+        "title": "[PDF] Distributed Representations of Words and Phrases and their ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://papers.nips.cc/paper_files/paper/2013/file/9aa42b31882ec039965f3c4923ce901b-Paper.pdf",
+        "title": "Distributed Representations of Words and Phrases and their Compositionality",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://christophegaron.com/articles/research/demystifying-mikolov-et-al-s-negative-sampling-word-embedding-method-understanding-word2vec/",
+        "title": "Demystifying Mikolov et al.'s Negative-Sampling Word-Embedding Method: Understanding word2vec - Christophe Garon",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://nlp.stanford.edu/pubs/glove.pdf",
+        "title": "[PDF] GloVe: Global Vectors for Word Representation - Stanford NLP Group",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://nlp.stanford.edu/projects/glove/",
+        "title": "GloVe: Global Vectors for Word Representation",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://aclanthology.org/D14-1162.pdf",
+        "title": "Glove: Global Vectors for Word Representation",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.studeersnel.nl/nl/document/universiteit-utrecht/machine-learning-for-human-vision-and-language/glove-global-vectors-for-word-representation-cs224n-lecture-notes/144537557",
+        "title": "GloVe: Global Vectors for Word Representation - CS224N ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.studeersnel.nl/nl/document/universiteit-utrecht/machine-learning-for-human-vision-and-language/glove-global-vectors-for-word-representation-cs224n-lecture-notes/144537557?origin=course-new-1",
+        "title": "GloVe: Global Vectors for Word Representation - Studeersnel",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1301.3781v1.pdf",
+        "title": "Ef\ufb01cient Estimation of Word Representationsin Vector Space",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.semanticscholar.org/paper/Efficient-Estimation-of-Word-Representations-in-Mikolov-Chen/f6b51c8753a871dc94ff32152c00c01e94f90f09",
+        "title": "[PDF] Efficient Estimation of Word Representations in Vector Space | Semantic Scholar",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.studocu.com/row/document/jigjiga-university/machine-learning/mikolov-et-al-13-efficient-estimation-of-word-representations-in-vector-space/82063986",
+        "title": "Mikolov et al 13 (Efficient estimation of word representations in vector space) - Efficient - Studocu",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://scholar.google.com/citations?view_op=view_citation&user=NMS69lQAAAAJ&cstart=200&pagesize=100&sortby=pubdate&citation_for_view=NMS69lQAAAAJ%3Ak8Z6L05lTy4C",
+        "title": "Efficient estimation of word representations in vector space",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://nlp.stanford.edu/pubs/glove.pdf",
+        "title": "[PDF] GloVe: Global Vectors for Word Representation - Stanford NLP Group",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/D14-1162.pdf",
+        "title": "Glove: Global Vectors for Word Representation",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://web.stanford.edu/class/cs224n/readings/cs224n-2019-notes02-wordvecs2.pdf",
+        "title": "Natural Language Processing with Deep Learning Lecture Notes: Part II ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://hlt.bme.hu/media/pdf/vec2dict.pdf",
+        "title": "Comparison of distributed language models on medium- ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2009.04732.pdf",
+        "title": "arXiv:2009.04732v1 [cs.CL] 10 Sep 2020",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://radimrehurek.com/gensim/models/word2vec.html",
+        "title": "models.word2vec \u2013 Word2vec embeddings \u2014 gensim",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://radimrehurek.com/gensim_3.8.3/models/word2vec.html",
+        "title": "models.word2vec \u2013 Word2vec embeddings - gensim",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://radimrehurek.com/gensim/scripts/word2vec_standalone.html",
+        "title": "Gensim: topic modelling for humans",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://radimrehurek.com/gensim_3.8.3/models/deprecated/word2vec.html",
+        "title": "gensim: models.deprecated.word2vec",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://radimrehurek.com/gensim_3.8.3/sklearn_api/w2vmodel.html",
+        "title": "gensim: topic modelling for humans",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://code.google.com",
+        "title": "Google Code",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://code.google.com/?hl=fr",
+        "title": "Google Open Source",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://code.google.com/see_source_code_license.html",
+        "title": "See Source Code License",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://code.google.com/multiple_licenses.html",
+        "title": "Multiple Licenses",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://aclanthology.org/N18-1202.pdf",
+        "title": "[PDF] Deep Contextualized Word Representations - ACL Anthology",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://thesis.eur.nl/pub/65670/Thesis-Word-embeddings.v2.pdf",
+        "title": "Erasmus University Rotterdam",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://nlp.stanford.edu/pubs/glove.pdf",
+        "title": "[PDF] GloVe: Global Vectors for Word Representation - Stanford NLP Group",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/N18-1202/",
+        "title": "Deep Contextualized Word Representations",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://github.com/bentrevett/paper-notes/blob/master/notes/deep-contextualized-word-representations.md",
+        "title": "paper-notes/notes/deep-contextualized-word-representations.md at master \u00b7 bentrevett/paper-notes",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2024.naacl-long.240.pdf",
+        "title": "[PDF] A Systematic Comparison of Contextualized Word Embeddings for ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2020.repl4nlp-1.15.pdf",
+        "title": "[PDF] an in-depth Linguistic Investigation - ACL Anthology",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.changeiskey.org/publication/2024-lsccomparison/lsc-comparison.pdf",
+        "title": "A Systematic Comparison of Contextualized Word Embeddings for",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://agombert.github.io/AdvancedNLPClasses/chapter3/Session_3_2_Embedding_Evaluation/",
+        "title": "\ud83d\udcda Embedding Evaluation: Intrinsic and Extrinsic\u00b6",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://ar5iv.labs.arxiv.org/html/2003.07278",
+        "title": "A Survey on Contextual Embeddings",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://netflixtechblog.com/tagged/recommendation-system?gi=2fa4c64915fb",
+        "title": "Recommendation System \u2013 Netflix TechBlog",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://engineering.linkedin.com/data/publications/kdd-2017/deep-learning-tutorial",
+        "title": "KDD 2017 Deep Learning Tutorial",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://engineering.linkedin.com/content/dam/me/engineering/li-en/research/SIGIR-2018.pdf",
+        "title": "Talent Search and Recommendation Systems at LinkedIn: Practical Challenges and Lessons Learned",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://engineering.linkedin.com/performance/taming-database-replication-latency-capacity-planning",
+        "title": "Taming Database Replication Latency by Capacity Planning",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://engineering.linkedin.com/faceting/many-facets-faceted-search",
+        "title": "Counting Approximation",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://engineering.linkedin.com/content/dam/me/engineering/li-en/research/WWW-2019.pdf",
+        "title": "Entity Personalized Talent Search Models  with Tree Interaction Features",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-10T19:29:28",
+    "run_label": "reference-track:Retrieval-Augmented Generation (RAG) Inside Agents",
+    "sources": [
+      {
+        "url": "https://proceedings.neurips.cc/paper/2020/file/6b493230205f780e1bc26945df7481e5-Paper.pdf",
+        "title": "[PDF] Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html",
+        "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2005.11401",
+        "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://dl.acm.org/doi/abs/10.5555/3495724.3496517",
+        "title": "Retrieval-augmented generation for knowledge-intensive NLP tasks | Proceedings of the 34th International Conference on Neural Information Processing Systems",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2005.11401.pdf",
+        "title": "Retrieval-Augmented Generation for",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://aclanthology.org/2020.emnlp-main.550.pdf",
+        "title": "[PDF] Dense Passage Retrieval for Open-Domain Question Answering",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://aclanthology.org/anthology-files/anthology-files/pdf/emnlp/2020.emnlp-main.550.pdf",
+        "title": "[PDF] Dense Passage Retrieval for Open-Domain Question Answering",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2004.04906",
+        "title": "Dense Passage Retrieval for Open-Domain Question Answering",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2108.06027v1.pdf",
+        "title": "arXiv:2108.06027v1 [cs.IR] 13 Aug 2021",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://github.com/ant-louis/awesome-dense-text-retrieval/blob/main/summaries/karpukhin2020dense.md",
+        "title": "awesome-dense-text-retrieval/summaries/karpukhin2020dense.md at main \u00b7 ant-louis/awesome-dense-text-retrieval",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://discovery.ucl.ac.uk/id/eprint/10129948/1/Rockta%CC%88schel_2021.naacl-main.200.pdf",
+        "title": "KILT: a Benchmark for Knowledge Intensive Language Tasks",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2021.naacl-main.200.pdf",
+        "title": "[PDF] KILT: a Benchmark for Knowledge Intensive Language Tasks",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://hyper.ai/en/sota/tasks/open-domain-question-answering/benchmark/open-domain-question-answering-on-kilt-eli5",
+        "title": "HyperAI\u8d85\u795e\u7ecf",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://ar5iv.labs.arxiv.org/html/2108.13934",
+        "title": "[2108.13934] Robust Retrieval Augmented Generation for Zero-shot ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://staff.fnwi.uva.nl/m.derijke/wp-content/papercite-data/pdf/chen-2023-unified.pdf",
+        "title": "A Unified Generative Retriever for Knowledge-Intensive Language ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.arxiv.org/pdf/2505.16014v1.pdf",
+        "title": "Replacing Re-ranking with Selection in RAG for Sensitive ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2505.13538v2",
+        "title": "From Explainable Evaluation to Actionable Guidance of RAG Pipelines",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.datacamp.com/tutorial/how-to-improve-rag-performance-5-key-techniques-with-examples",
+        "title": "How to Improve RAG Performance: 5 Key Techniques with Examples",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://towardsai.net/p/machine-learning/production-rag-the-chunking-retrieval-and-evaluation-strategies-that-actually-work",
+        "title": "Production RAG: The Chunking, Retrieval, and Evaluation ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.mitchellbryson.com/articles/ai-rag-data-quality-at-scale",
+        "title": "RAG data quality at scale: deduplication, semantic chunking ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/facebookresearch/faiss/wiki/Faiss-indexes",
+        "title": "Faiss indexes \u00b7 facebookresearch/faiss Wiki",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/facebookresearch/faiss/wiki/Guidelines-to-choose-an-index",
+        "title": "Guidelines to choose an index \u00b7 facebookresearch/faiss Wiki - GitHub",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/facebookresearch/faiss/issues/2208",
+        "title": "IVFx_HNSW32 efSearch/efConstruction for HNSW32 \u00b7 Issue #2208 \u00b7 facebookresearch/faiss",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/facebookresearch/faiss/wiki/Faiss-indexes/8aff552c8d4e534a3673e3c705e82b974c43e485",
+        "title": "Faiss indexes",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/facebookresearch/faiss/wiki/Guidelines-to-choose-an-index/0c700325db3df7fa2bdc3254aeab7b3179cb3d43",
+        "title": "Guidelines to choose an index",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://milvus.io/docs/index.md",
+        "title": "HNSW",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://milvus.io/docs/hnsw.md",
+        "title": "HNSW | Milvus Documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://milvus.io/docs/ivf-flat.md",
+        "title": "IVF_FLAT | Milvus Documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://milvus.io/docs/v2.4.x/index.md?tab=floating",
+        "title": "In-memory Index Milvus v2.4.x documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://milvus.io/docs/v2.2.x/index.md",
+        "title": "In-memory Index Milvus v2.2.x documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.langchain.com/oss/javascript/langgraph/agentic-rag",
+        "title": "Build a custom RAG agent with LangGraph - Docs by LangChain",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://docs.langchain.com/oss/python/langgraph/agentic-rag",
+        "title": "Build a custom RAG agent with LangGraph - Docs by LangChain",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.leanware.co/insights/langgraph-rag-agentic",
+        "title": "LangGraph RAG: Build Agentic Retrieval\u2011Augmented Generation",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://langchain-ai.github.io/langgraph/tutorials/rag/langgraph_agentic_rag/",
+        "title": "Agentic RAG - GitHub Pages",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/blob/main/examples/rag/langgraph_agentic_rag.ipynb",
+        "title": "langgraph/examples/rag/langgraph_agentic_rag.ipynb at main \u00b7 langchain-ai/langgraph",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://developers.redhat.com/articles/2025/03/10/retrieval-augmented-generation-nodejs-podman-ai-lab-react",
+        "title": "Retrieval-augmented generation with Node.js, Podman AI Lab & React",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=slU0kOA31vI",
+        "title": "A ReAct based AI agent with RAG and an autonomous coding loop",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=qN_2fnOPY-M",
+        "title": "Local Retrieval Augmented Generation (RAG) from Scratch (step by step tutorial)",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=kEtGm75uBes",
+        "title": "Build a Full Stack RAG System with React, Langchain & Node.js",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://shafiqulai.github.io/blogs/blog_6.html?id=6",
+        "title": "Build a Smart RAGent Chatbot: Combine RAG and ReAct Agent with Tools in One Powerful App",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://hackernoon.com/designing-production-ready-rag-pipelines-tackling-latency-hallucinations-and-cost-at-scale",
+        "title": "Designing Production-Ready RAG Pipelines: Tackling Latency ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/html/2509.09360v1",
+        "title": "Metamorphic Testing for Hallucination Detection in RAG Systems",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.mexc.com/news/134916",
+        "title": "Case Study / Example...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.mexc.co/news/134916",
+        "title": "Tackling Latency, Hallucinations, and Cost at Scale | MEXC News",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.mexc.com/nl-NL/news/designing-production-ready-rag-pipelines-tackling-latency-hallucinations-and-cost-at-scale/134916",
+        "title": "Designing Production-Ready RAG Pipelines: Tackling ...",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  }
+]

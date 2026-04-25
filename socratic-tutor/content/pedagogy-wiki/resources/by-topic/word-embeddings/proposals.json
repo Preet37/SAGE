@@ -1,0 +1,208 @@
+[
+  {
+    "timestamp": "2026-04-10T19:03:57",
+    "run_label": "ensure-coverage:retrieval-augmented-generation-inside-agents",
+    "sources": [
+      {
+        "gap": "Clear definition of Retrieval-Augmented Generation (RAG) and end-to-end pipeline steps (indexing, retrieval, augmentation, generation)",
+        "url": "https://elibrary-dev.nusamandiri.ac.id/assets/fileebook/250125.pdf",
+        "title": "[PDF] A Simple Guide to Retrieval Augmented Generation"
+      },
+      {
+        "gap": "Clear definition of Retrieval-Augmented Generation (RAG) and end-to-end pipeline steps (indexing, retrieval, augmentation, generation)",
+        "url": "https://aws.amazon.com/what-is/retrieval-augmented-generation/",
+        "title": "What is RAG? - Retrieval-Augmented Generation AI ..."
+      },
+      {
+        "gap": "Clear definition of Retrieval-Augmented Generation (RAG) and end-to-end pipeline steps (indexing, retrieval, augmentation, generation)",
+        "url": "https://www.databricks.com/blog/what-is-retrieval-augmented-generation",
+        "title": "What is Retrieval Augmented Generation (RAG)?"
+      },
+      {
+        "gap": "Clear definition of Retrieval-Augmented Generation (RAG) and end-to-end pipeline steps (indexing, retrieval, augmentation, generation)",
+        "url": "https://arxiv.org/html/2312.10997v5",
+        "title": "Retrieval-Augmented Generation for Large Language Models"
+      },
+      {
+        "gap": "Clear definition of Retrieval-Augmented Generation (RAG) and end-to-end pipeline steps (indexing, retrieval, augmentation, generation)",
+        "url": "https://studylib.net/doc/28051935/intro-to-rag-1722494456",
+        "title": "RAG: A Simple Introduction to Retrieval Augmented Generation"
+      },
+      {
+        "gap": "Embedding-based retrieval: how embeddings are computed for queries/documents and used for similarity matching",
+        "url": "https://www.cs.columbia.edu/~sedwards/classes/2024/4995-fall/proposals/document_retrieval.pdf",
+        "title": "Document Retrieval using Embedding Search"
+      },
+      {
+        "gap": "Embedding-based retrieval: how embeddings are computed for queries/documents and used for similarity matching",
+        "url": "https://web.stanford.edu/~jurafsky/slp3/11.pdf",
+        "title": "Information Retrieval and Retrieval-Augmented Generation"
+      },
+      {
+        "gap": "Embedding-based retrieval: how embeddings are computed for queries/documents and used for similarity matching",
+        "url": "https://aclanthology.org/2021.naacl-main.292.pdf",
+        "title": "[PDF] An Efficient Model For Embedding-Based Large-Scale Retrieval"
+      },
+      {
+        "gap": "Embedding-based retrieval: how embeddings are computed for queries/documents and used for similarity matching",
+        "url": "https://www.zbw.eu/fileadmin/pdf/forschung/2017-colloquium-galke-word-embeddings.pdf",
+        "title": "Word Embeddings for Similarity Scoring in Practical ..."
+      },
+      {
+        "gap": "Embedding-based retrieval: how embeddings are computed for queries/documents and used for similarity matching",
+        "url": "https://www.mpi.nl/publications/item3367544/word-embeddings-practical-information-retrieval",
+        "title": "Word embeddings for practical information retrieval"
+      },
+      {
+        "gap": "Vector search fundamentals: similarity metrics (cosine/dot/L2), ANN indexes (HNSW/IVF/FAISS), top-k retrieval, filtering",
+        "url": "https://arxiv.org/html/2401.08281v2",
+        "title": "The Faiss Library - arXiv"
+      },
+      {
+        "gap": "Vector search fundamentals: similarity metrics (cosine/dot/L2), ANN indexes (HNSW/IVF/FAISS), top-k retrieval, filtering",
+        "url": "https://arxiv.org/html/2602.11443",
+        "title": "Filtered Approximate Nearest Neighbor Search in Vector ..."
+      },
+      {
+        "gap": "Vector search fundamentals: similarity metrics (cosine/dot/L2), ANN indexes (HNSW/IVF/FAISS), top-k retrieval, filtering",
+        "url": "https://milvus.io/blog/understanding-ivf-vector-index-how-It-works-and-when-to-choose-it-over-hnsw.md",
+        "title": "How to Choose Between IVF and HNSW for ANN Vector Search"
+      },
+      {
+        "gap": "Vector search fundamentals: similarity metrics (cosine/dot/L2), ANN indexes (HNSW/IVF/FAISS), top-k retrieval, filtering",
+        "url": "https://mdi.hkust-gz.edu.cn/static/website/files/projects/vector_retrieval.pdf",
+        "title": "[PDF] Vector Retrieval"
+      },
+      {
+        "gap": "Vector search fundamentals: similarity metrics (cosine/dot/L2), ANN indexes (HNSW/IVF/FAISS), top-k retrieval, filtering",
+        "url": "https://www.pinecone.io/learn/series/faiss/vector-indexes/",
+        "title": "Hierarchical Navigable Small..."
+      },
+      {
+        "gap": "Document chunking strategies: chunk size, overlap, structure-aware splitting, metadata, and impact on retrieval quality",
+        "url": "https://arxiv.org/html/2603.06976",
+        "title": "A Systematic Investigation of Document Chunking ..."
+      },
+      {
+        "gap": "Document chunking strategies: chunk size, overlap, structure-aware splitting, metadata, and impact on retrieval quality",
+        "url": "https://arxiv.org/pdf/2603.06976.pdf",
+        "title": "A Systematic Investigation of Document Chunking ..."
+      },
+      {
+        "gap": "Document chunking strategies: chunk size, overlap, structure-aware splitting, metadata, and impact on retrieval quality",
+        "url": "https://elib.dlr.de/221921/1/COINS_CAMERA_READY_IEEE_APPROVED.pdf",
+        "title": "[PDF] The Impact of Chunking Strategies on Domain-Specific Information ..."
+      },
+      {
+        "gap": "Document chunking strategies: chunk size, overlap, structure-aware splitting, metadata, and impact on retrieval quality",
+        "url": "https://www.dataquest.io/blog/document-chunking-strategies-for-vector-databases/",
+        "title": "Document Chunking Strategies for Vector Databases - Dataquest"
+      },
+      {
+        "gap": "Document chunking strategies: chunk size, overlap, structure-aware splitting, metadata, and impact on retrieval quality",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12649634/",
+        "title": "Comparative Evaluation of Advanced Chunking for Retrieval ..."
+      },
+      {
+        "gap": "Context injection patterns: prompt templates, citations, tool-result formatting, and managing context window/token budgets",
+        "url": "https://arxiv.org/pdf/2602.21257.pdf",
+        "title": "[PDF] Structured Prompt Language: Declarative Context Management for ..."
+      },
+      {
+        "gap": "Context injection patterns: prompt templates, citations, tool-result formatting, and managing context window/token budgets",
+        "url": "https://www.digitalocean.com/community/tutorials/context-engineering-moving-beyond-prompting-ai",
+        "title": "Context Engineering: Moving Beyond Prompting in AI - DigitalOcean"
+      },
+      {
+        "gap": "Context injection patterns: prompt templates, citations, tool-result formatting, and managing context window/token budgets",
+        "url": "https://randeepbhatia.com/reference/context-injection-strategies",
+        "title": "Context Injection Strategies | AI Reference - Randeep Bhatia"
+      },
+      {
+        "gap": "Context injection patterns: prompt templates, citations, tool-result formatting, and managing context window/token budgets",
+        "url": "https://masterprompting.net/learn/advanced/context-engineering",
+        "title": "Context Engineering: The 2025 Evolution of Prompt Engineering"
+      },
+      {
+        "gap": "Context injection patterns: prompt templates, citations, tool-result formatting, and managing context window/token budgets",
+        "url": "https://contextpatterns.com/guides/system-prompt-engineering/",
+        "title": "System Prompt Engineering | Context Patterns"
+      },
+      {
+        "gap": "Grounded generation: definition, how grounding reduces hallucinations, and ways to audit/attribute outputs to sources",
+        "url": "https://arxiv.org/html/2406.14492v1",
+        "title": "Does Object Grounding Really Reduce Hallucination of ..."
+      },
+      {
+        "gap": "Grounded generation: definition, how grounding reduces hallucinations, and ways to audit/attribute outputs to sources",
+        "url": "https://aclanthology.org/2024.emnlp-main.159/",
+        "title": "Does Object Grounding Really Reduce Hallucination of Large ..."
+      },
+      {
+        "gap": "Grounded generation: definition, how grounding reduces hallucinations, and ways to audit/attribute outputs to sources",
+        "url": "https://aclanthology.org/2024.swisstext-1.53.pdf",
+        "title": "Grounding Generative AI Models \u2013 Introduction"
+      },
+      {
+        "gap": "Grounded generation: definition, how grounding reduces hallucinations, and ways to audit/attribute outputs to sources",
+        "url": "http://arxiv.org/pdf/2406.14492.pdf",
+        "title": "Does Object Grounding Really Reduce Hallucination of Large"
+      },
+      {
+        "gap": "Grounded generation: definition, how grounding reduces hallucinations, and ways to audit/attribute outputs to sources",
+        "url": "https://researchguides.elac.edu/c.php?g=1456454&p=10888157",
+        "title": "Generative AI: Terminology - Research Guides - ELAC"
+      },
+      {
+        "gap": "Long-term memory retrieval in agents: memory stores, retrieval/ranking (recency/importance/relevance), summarization vs raw recall, and update policies",
+        "url": "https://arxiv.org/html/2508.06433v2",
+        "title": "Memory Storage & Retrieval"
+      },
+      {
+        "gap": "Long-term memory retrieval in agents: memory stores, retrieval/ranking (recency/importance/relevance), summarization vs raw recall, and update policies",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12092450/",
+        "title": "4 Results"
+      },
+      {
+        "gap": "Long-term memory retrieval in agents: memory stores, retrieval/ranking (recency/importance/relevance), summarization vs raw recall, and update policies",
+        "url": "https://arxiv.org/html/2601.23014v2",
+        "title": "Mem-T: Densifying Rewards for Long-Horizon Memory Agents - arXiv"
+      },
+      {
+        "gap": "Long-term memory retrieval in agents: memory stores, retrieval/ranking (recency/importance/relevance), summarization vs raw recall, and update policies",
+        "url": "https://public-pages-files-2025.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2025.1591618/xml/nlm",
+        "title": "https://public-pages-files-2025.frontiersin.org/journals/ ..."
+      },
+      {
+        "gap": "Long-term memory retrieval in agents: memory stores, retrieval/ranking (recency/importance/relevance), summarization vs raw recall, and update policies",
+        "url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2025.1591618/full",
+        "title": "Enhancing memory retrieval in generative agents through ..."
+      },
+      {
+        "gap": "RAG as a callable tool in agent loops: repeated retrieval, planner-controller patterns, and tracing/auditability of retrieval steps",
+        "url": "https://arxiv.org/abs/2501.09136",
+        "title": "Agentic Retrieval-Augmented Generation: A Survey on ..."
+      },
+      {
+        "gap": "RAG as a callable tool in agent loops: repeated retrieval, planner-controller patterns, and tracing/auditability of retrieval steps",
+        "url": "https://arxiv.org/html/2603.07379v1",
+        "title": "SoK: Agentic Retrieval-Augmented Generation (RAG) - arXiv"
+      },
+      {
+        "gap": "RAG as a callable tool in agent loops: repeated retrieval, planner-controller patterns, and tracing/auditability of retrieval steps",
+        "url": "https://d197for5662m48.cloudfront.net/documents/publicationstatus/276113/preprint_pdf/d0ad4a1b24cbb2ee88d0e0ab48c34862.pdf",
+        "title": "[PDF] Fnu Neha1 and Deepshikha Bhati1 1Dept. of Computer Science ..."
+      },
+      {
+        "gap": "RAG as a callable tool in agent loops: repeated retrieval, planner-controller patterns, and tracing/auditability of retrieval steps",
+        "url": "https://papers.cool/arxiv/2603.07379",
+        "title": "SoK: Agentic Retrieval-Augmented Generation (RAG): Taxonomy ..."
+      },
+      {
+        "gap": "RAG as a callable tool in agent loops: repeated retrieval, planner-controller patterns, and tracing/auditability of retrieval steps",
+        "url": "https://tldr.takara.ai/p/2603.07379",
+        "title": "SoK: Agentic Retrieval-Augmented Generation (RAG) - Takara TLDR"
+      }
+    ]
+  }
+]

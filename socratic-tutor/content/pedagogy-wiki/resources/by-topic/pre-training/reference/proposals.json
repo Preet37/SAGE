@@ -1,0 +1,193 @@
+[
+  {
+    "timestamp": "2026-04-09T16:29:59",
+    "run_label": "reference-track:Pre-Training",
+    "sources": [
+      {
+        "url": "https://www.gilesthomas.com/2025/10/llm-from-scratch-21-perplexed-by-perplexity",
+        "title": "Writing an LLM from scratch, part 21 -- perplexed by ... - Giles' blog",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2212.11281v2",
+        "title": "Language Models Are Better Than Humans at Next-token ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://skeptric.com/perplexity/",
+        "title": "Measuring a Language Model - Skeptric",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Perplexity",
+        "title": "Perplexity - Wikipedia",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://mbrenndoerfer.com/writing/perplexity-language-model-evaluation-metric",
+        "title": "Perplexity: The Standard Metric for Evaluating Language Models",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2402.12613",
+        "title": "1 Introduction",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2403.18699v2.pdf",
+        "title": "Published as a conference paper at ICLR 2025",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/temperature-free-h-infonce",
+        "title": "Temperature-Free H-InfoNCE - Emergent Mind",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.rinabuoy.com/clip",
+        "title": "Contrastive Language\u2013Image Pretraining (CLIP) - Rina Buoy",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://rinabuoy.com/clip",
+        "title": "Contrastive Language-Image Pretraining (CLIP) - Internals, Architecture ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2210.08402",
+        "title": "LAION-5B: An open large-scale dataset for training next generation ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2022/file/a1859debfb3b59d094f3504d5ebb6c25-Paper-Datasets_and_Benchmarks.pdf",
+        "title": "LAION-5B: An open large-scale dataset for training next generation ...proceedings.neurips.cc \u203a paper_files \u203a paper \u203a file",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://laion.ai/blog/laion-5b/?WT.mc_id=academic-105485-koreyst",
+        "title": "LAION-5B: A NEW ERA OF OPEN LARGE-SCALE MULTI-MODAL DATASETS | LAION",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://papers.nips.cc/paper/2022/file/a1859debfb3b59d094f3504d5ebb6c25-Paper-Datasets_and_Benchmarks.pdf",
+        "title": "LAION-5B: An open large-scale dataset for training",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://laion.ai/blog/laion-5b/",
+        "title": "Laion-5b: a New Era of Open Large-scale Multi-modal Datasets",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/abs/2210.08402",
+        "title": "LAION-5B: An open large-scale dataset for training next generation ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://laion.ai/blog/laion-5b/",
+        "title": "Laion-5b: a New Era of Open Large-scale Multi-modal Datasets",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://ar5iv.labs.arxiv.org/html/2210.08402",
+        "title": "[2210.08402] LAION-5B: An open large-scale dataset for training ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://laion.ai/blog/laion-5b/?WT.mc_id=academic-105485-koreyst",
+        "title": "LAION-5B: A NEW ERA OF OPEN LARGE-SCALE MULTI-MODAL DATASETS | LAION",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2022/file/a1859debfb3b59d094f3504d5ebb6c25-Supplemental-Datasets_and_Benchmarks.pdf",
+        "title": "Appendix (LAION-5B: An open large-scale dataset for training next",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/abs/2001.08361",
+        "title": "[2001.08361] Scaling Laws for Neural Language Models",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.semanticscholar.org/paper/Scaling-Laws-for-Neural-Language-Models-Kaplan-McCandlish/e6c561d02500b2596a230b341a8eb8b921ca5bf2",
+        "title": "[PDF] Scaling Laws for Neural Language Models - Semantic Scholar",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://mbrenndoerfer.com/writing/kaplan-scaling-laws-language-model-performance",
+        "title": "Kaplan Scaling Laws: Predicting Language Model Performance",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://ar5iv.labs.arxiv.org/html/2001.08361",
+        "title": "[2001.08361] Scaling Laws for Neural Language Models - ar5iv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/shehper/scaling_laws",
+        "title": "An open-source implementation of Scaling Laws for Neural ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://s10251.pcdn.co/pdf/2022-hoffman-chinchilla.pdf",
+        "title": "Training Compute-Optimal Large Language Models",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2022/file/c1e2faff6f588870935f114ebe04a3e5-Paper-Conference.pdf",
+        "title": "[PDF] Training Compute-Optimal Large Language Models",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/2203.15556",
+        "title": "Training Compute-Optimal Large Language Models",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.semanticscholar.org/paper/Training-Compute-Optimal-Large-Language-Models-Hoffmann-Borgeaud/8342b592fe238f3d230e4959b06fd10153c45db1",
+        "title": "[PDF] Training Compute-Optimal Large Language Models | Semantic Scholar",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://tarlton.info/zot2/@hoffmannTrainingComputeOptimalLarge2022",
+        "title": "@hoffmannTrainingComputeOptimalLarge2022 - Tarlton.info",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/using-perplexity-as-metric-during-training/42354",
+        "title": "Using perplexity as metric during training - Hugging Face Forums",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/how-can-i-use-evaluates-perplexity-metric-on-a-model-thats-already-loaded/48564",
+        "title": "How can I use evaluate's perplexity metric on a model that's already ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.huggingface.co/transformers/v3.0.2/main_classes/optimizer_schedules.html",
+        "title": "Optimization \u2014 transformers 3.0.2 documentation - Hugging Face",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/using-cosine-lr-scheduler-via-trainingarguments-in-trainer/14783/8",
+        "title": "Using Cosine LR scheduler via TrainingArguments in Trainer",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/trainer-ignoring-weight-decay-beta-arguments/48541",
+        "title": "Trainer Ignoring Weight Decay, Beta arguments - Beginners",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/trainer-optimizer/2146",
+        "title": "Trainer optimizer - Transformers - Hugging Face Forums",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/how-do-use-lr-scheduler/4046",
+        "title": "How do use lr_scheduler - Beginners - Hugging Face Forums",
+        "need_type": "API_REFERENCE"
+      }
+    ]
+  }
+]

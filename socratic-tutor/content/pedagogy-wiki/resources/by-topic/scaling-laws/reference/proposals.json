@@ -1,0 +1,248 @@
+[
+  {
+    "timestamp": "2026-04-09T16:35:09",
+    "run_label": "reference-track:Scaling Laws",
+    "sources": [
+      {
+        "url": "https://www.semanticscholar.org/paper/Scaling-Laws-for-Neural-Language-Models-Kaplan-McCandlish/e6c561d02500b2596a230b341a8eb8b921ca5bf2",
+        "title": "[PDF] Scaling Laws for Neural Language Models - Semantic Scholar",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2001.08361.pdf",
+        "title": "Scaling Laws for Neural Language Models",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.libertify.com/interactive-library/scaling-laws-neural-language-models-technical-analysis/",
+        "title": "Scaling Laws for Neural Language Models: How Size, Data, and ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://papers.baulab.info/papers/Kaplan-2020.pdf",
+        "title": "Scaling Laws for Neural Language Models - papers.baulab.info",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://s10251.pcdn.co/pdf/2022-hoffman-chinchilla.pdf",
+        "title": "Training Compute-Optimal Large Language Models",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2022/file/c1e2faff6f588870935f114ebe04a3e5-Paper-Conference.pdf",
+        "title": "[PDF] Training Compute-Optimal Large Language Models",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.semanticscholar.org/paper/Training-Compute-Optimal-Large-Language-Models-Hoffmann-Borgeaud/8342b592fe238f3d230e4959b06fd10153c45db1",
+        "title": "[PDF] Training Compute-Optimal Large Language Models | Semantic Scholar",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2203.15556.pdf",
+        "title": "[PDF] Training Compute-Optimal Large Language Models - arXiv.org",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2407.08608v2",
+        "title": "FlashAttention-3: Fast and Accurate Attention with ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2024/file/7ede97c3e082c6df10a8d6103a2eebd2-Paper-Conference.pdf",
+        "title": "[PDF] FlashAttention-3: Fast and Accurate Attention with Asynchrony and ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2407.08608v1.pdf",
+        "title": "[PDF] arXiv:2407.08608v1 [cs.LG] 11 Jul 2024",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://3dvar.com/Dao2022FlashAttention.pdf",
+        "title": "[PDF] arXiv:2205.14135v2 [cs.LG] 23 Jun 2022",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2022/file/67d57c32e20fd0a7a302cb81d36e40d5-Paper-Conference.pdf",
+        "title": "FLASHATTENTION: Fast and",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.ibm.com/think/topics/grouped-query-attention",
+        "title": "What is grouped query attention (GQA)?",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=yUZWhh3RBCM",
+        "title": "Why Grouped Query Attention (GQA) Outperforms Multi-head Attention",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/group-query-attention-gqa",
+        "title": "Grouped-Query Attention Overview - Emergent Mind",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://sebastianraschka.com/llms-from-scratch/ch04/04_gqa/",
+        "title": "Grouped-Query Attention (GQA) | Sebastian Raschka, PhD",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/grouped-query-attention-with-shared-k-v-projections",
+        "title": "Grouped-Query Attention with Shared K/V Projections - Emergent Mind",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/stable/fsdp.html",
+        "title": "FullyShardedDataParallel \u2014 PyTorch 2.11 documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/tutorials/intermediate/FSDP_advanced_tutorial.html",
+        "title": "Advanced Model Training with Fully Sharded Data Parallel (FSDP)",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/tutorials/intermediate/FSDP_tutorial.html",
+        "title": "Getting Started with Fully Sharded Data Parallel (FSDP2)",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/2.1/fsdp.html",
+        "title": "FullyShardedDataParallel\u00b6",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/tutorials/_sources/intermediate/FSDP_advanced_tutorial.rst.txt",
+        "title": "FSDP_advanced_tutorial.rst.txt - PyTorch",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.deepspeed.ai/tutorials/zero/",
+        "title": "Zero Redundancy Optimizer - DeepSpeed",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.deepspeed.ai/docs/config-json/",
+        "title": "DeepSpeed Configuration JSON",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.deepspeed.ai/tutorials/zeropp/",
+        "title": "ZeRO++ - DeepSpeed",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.deepspeed.ai/tutorials/zero-offload/",
+        "title": "ZeRO-Offload - DeepSpeed",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.deepspeed.ai/getting-started/",
+        "title": "DeepSpeed Configuration",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2101.00027",
+        "title": "The Pile: An 800GB Dataset of Diverse Text for Language ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://pile.eleuther.ai/paper.pdf",
+        "title": "[PDF] An 800GB Dataset of Diverse Text for Language Modeling - The Pile",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://pile.eleuther.ai",
+        "title": "The Pile",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2506.05209v1",
+        "title": "The Common Pile v0.1: An 8TB Dataset of Public Domain ... - arXiv.org",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "http://www.gabormelli.com/RKB/The_Pile_Text_Corpus",
+        "title": "The Pile Text Corpus - GM-RKB",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2306.01116.pdf",
+        "title": "[PDF] The RefinedWeb Dataset for Falcon LLM: Outperforming Curated ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.emergentmind.com/papers/2306.01116",
+        "title": "RefinedWeb: Web Data for Falcon LLM",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://neurips.cc/virtual/2023/poster/73487",
+        "title": "Outperforming Curated Corpora with Web Data Only - NeurIPS 2026",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.alphaxiv.org/ko/overview/2306.01116v1",
+        "title": "The RefinedWeb Dataset for Falcon LLM - alphaXiv",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://api.emergentmind.com/papers/2306.01116",
+        "title": "RefinedWeb: Web Data for Falcon LLM - Emergent Mind",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/abs/2309.06180",
+        "title": "Efficient Memory Management for Large Language Model Serving ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www2.eecs.berkeley.edu/Pubs/TechRpts/2025/EECS-2025-192.pdf",
+        "title": "[PDF] vLLM: An Efficient Inference Engine for Large Language ... - EECS",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://datasciencedojo.com/blog/understanding-paged-attention/",
+        "title": "How Paged Attention Powers the vLLM Inference Engine Part 2 ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2309.06180.pdf",
+        "title": "Efficient Memory Management for Large Language Model ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://llmsystem.github.io/llmsystem2025spring/assets/files/llmsys-22-vLLM_woosuk_kwon-1f34697dbb1a1fb5b798daf6eff14b67.pdf",
+        "title": "[PDF] PagedAttention & vLLM for Efficient LLM Inference",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/user_guide/optimization.html",
+        "title": "Optimization \u2014 NVIDIA Triton Inference Server",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://docs.nvidia.com/deeplearning/triton-inference-server/archives/triton_inference_server_1120/triton-inference-server-guide/docs/optimization.html",
+        "title": "Optimization \u2014 NVIDIA Triton Inference Server 1.12.0 documentation",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://github.com/triton-inference-server/tutorials/blob/main/Conceptual_Guide/Part_2-improving_resource_utilization/README.md",
+        "title": "tutorials/Conceptual_Guide/Part_2-improving_resource_utilization/README.md at main \u00b7 triton-inference-server/tutorials",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://github.com/triton-inference-server/server/issues/5721",
+        "title": "Dynamic batching does not work on server side \u00b7 Issue #5721 - GitHub",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://github.com/triton-inference-server/server/issues/7676",
+        "title": "Dynamic batching not working with TRT-LLM backend \u00b7 Issue #7676 \u00b7 triton-inference-server/server",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  }
+]

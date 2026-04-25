@@ -1,0 +1,258 @@
+[
+  {
+    "timestamp": "2026-04-09T18:35:15",
+    "run_label": "reference-track:Video Understanding",
+    "sources": [
+      {
+        "url": "https://arxiv.org/pdf/2109.14084.pdf",
+        "title": "VideoCLIP: Contrastive Pre-training for",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/abs/2109.14084",
+        "title": "VideoCLIP: Contrastive Pre-training for Zero-shot Video-Text Understanding",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://aclanthology.org/2021.emnlp-main.544/",
+        "title": "Contrastive Pre-training for Zero-shot Video-Text Understanding",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://aclanthology.org/2021.emnlp-main.544.pdf",
+        "title": "VideoCLIP: Contrastive Pre-training for Zero-shot Video- ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.scribd.com/document/986366015/Videoclip",
+        "title": "Videoclip | PDF | Computing | Machine Learning - Scribd",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://iaee.substack.com/p/flamingo-intuitively-and-exhaustively-explained-bf745611238b",
+        "title": "Flamingo \u2014 Intuitively and Exhaustively Explained",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2022/file/960a172bc7fbf0177ccccbb411a7d800-Paper-Conference.pdf",
+        "title": "\ud83e\udda9Flamingo: a Visual Language Model",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.cs.toronto.edu/~cmaddis/courses/csc2541_w25/presentations/zhao_lee_flamingo.pdf",
+        "title": "[PDF] Flamingo: a Visual Language Model for Few-Shot Learning",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2312.11897v1",
+        "title": "Text-Conditioned Resampler For Long Form Video Understanding",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://llmsystem.github.io/llmsystem2024spring/assets/files/Group-Flamingo-98ae9c68fca94cd437716229a2cf42c1.pdf",
+        "title": "Flamingo: a visual language model for few-shot learning",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://video-mme.github.io/home_page.html",
+        "title": "The First-Ever Comprehensive Evaluation Benchmark ... - Video-MME",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/MME-Benchmarks/Video-MME",
+        "title": "Video-MME: The First-Ever Comprehensive Evaluation ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2405.21075v1",
+        "title": "Video-MME: The First-Ever Comprehensive Evaluation ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2405.21075v3",
+        "title": "Video-MME: The First-Ever Comprehensive Evaluation ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/CVPR2025/papers/Fu_Video-MME_The_First-Ever_Comprehensive_Evaluation_Benchmark_of_Multi-modal_LLMs_in_CVPR_2025_paper.pdf",
+        "title": "The First-Ever Comprehensive Evaluation Benchmark of Multi ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2023/file/90ce332aff156b910b002ce4e6880dec-Paper-Datasets_and_Benchmarks.pdf",
+        "title": "EgoSchema: A Diagnostic Benchmark for Very Long-form ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/2308.09126",
+        "title": "EgoSchema: A Diagnostic Benchmark for Very Long-form ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2505.20644v1",
+        "title": "HCQA-1.5 @ Ego4D EgoSchema Challenge 2025",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/04936-supp.pdf",
+        "title": "Supplementary Material for LongVLM: Efficient",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://mengyeren.com/research/2023/lifelong-memory-leveraging-llms-for-answering-queries-in-long-form-egocentric-videos/",
+        "title": "Leveraging LLMs for Answering Queries in Long-form Egocentric ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2312.17432v5",
+        "title": "Video Understanding with Large Language Models: A Survey",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2406.05615v2",
+        "title": "Video-Language Understanding: A Survey from Model ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "http://vision.soic.indiana.edu/papers/videoandlanguage2023cvpr.pdf",
+        "title": "[PDF] VindLU: A Recipe for Effective Video-and-Language Pretraining",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2022/file/c355566ce402de341c3320cf69a10750-Supplemental-Conference.pdf",
+        "title": "Supplementary Material for",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/CVPR2024/supplemental/Zhao_Distilling_Vision-Language_Models_CVPR_2024_supplemental.pdf",
+        "title": "Distilling Vision-Language Models on Millions of Videos",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/ICCV2023/supplemental/Ko_Open-vocabulary_Video_Question_ICCV_2023_supplemental.pdf",
+        "title": "Open-Vocabulary Video Question Answering: A New Benchmark for",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/ICCV2023/papers/Ko_Open-vocabulary_Video_Question_Answering_A_New_Benchmark_for_Evaluating_the_ICCV_2023_paper.pdf",
+        "title": "Open-vocabulary Video Question Answering",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2308.09363.pdf",
+        "title": "Open-vocabulary Video Question Answering: A New Benchmark for",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2101.05954.pdf",
+        "title": "arXiv:2101.05954v2  [cs.CV]  18 Mar 2021",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/05543-supp.pdf",
+        "title": "[PDF] A Implementation Details B Datasets and Metrics Details",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://ai.google.dev/gemini-api/docs/video-understanding",
+        "title": "Video understanding | Gemini API - Google AI for Developers",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://ai.google.dev/gemini-api/docs/video",
+        "title": "Generate videos with Veo 3.1 in Gemini API | Google AI for Developers",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://ai.google.dev/gemini-api/docs/video-understanding.md.txt",
+        "title": "video-understanding.md.txt - Google AI for Developers",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://ai.google.dev/gemini-api/docs/video-understanding?authuser=1",
+        "title": "Video understanding | Gemini API | Google AI for Developers",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://ai.google.dev/gemini-api/docs/video-understanding?hl=th",
+        "title": "\u0e01\u0e32\u0e23\u0e17\u0e33\u0e04\u0e27\u0e32\u0e21\u0e40\u0e02\u0e49\u0e32\u0e43\u0e08\u0e27\u0e34\u0e14\u0e35\u0e42\u0e2d | Gemini API | Google AI for Developers",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/pricing",
+        "title": "Pricing | OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/models/gpt-4o",
+        "title": "GPT-4o Model | OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/pricing?product=WM",
+        "title": "Pricing - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/models/compare?model=gpt-4o",
+        "title": "Compare models - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/models/compare?model=gpt-4o-realtime-preview",
+        "title": "Compare models | OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=TiSiMkqs1hY&vl=en",
+        "title": "Question Answering With Hugging Face Transformers | Hugging Face Tutorial | Amit Thinks",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/huggingface/transformers/blob/main/src/transformers/pipelines/visual_question_answering.py",
+        "title": "transformers/src/transformers/pipelines/visual_question_answering.py at main \u00b7 huggingface/transformers",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/huggingface/transformers/blob/v4.48.2/src/transformers/pipelines/visual_question_answering.py",
+        "title": "transformers/src/transformers/pipelines/visual_question_answering.py at v4.48.2 \u00b7 huggingface/transformers",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/huggingface/transformers/blob/v4.44.1/src/transformers/pipelines/visual_question_answering.py",
+        "title": "transformers/src/transformers/pipelines/visual_question_answering.py at v4.44.1 \u00b7 huggingface/transformers",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=gHEbNhX0sSQ",
+        "title": "Hugging Face - Question & Answering - Getting started in 7 minutes",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=TMluKh8X3J4",
+        "title": "Using GPT4 Vision & LangChain to Query Memories from a Video",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=bFw92AAffJw",
+        "title": "Step-by-Step YouTube Video Summarization with Langchain & OpenAI LLMs",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=gDATAZEi5SE",
+        "title": "Summarize Videos Using AI with Gemma 3, LangChain and Streamlit",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://gist.github.com/Cdaprod/98553701e9a0249deb5be1884efb3160",
+        "title": "These steps provide a structured approach to processing, analyzing, and searching video files using LangChain and related tools. This workflow leverages the strengths of various components to provide comprehensive video analysis capabilities.",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=pNcQ5XXMgH4",
+        "title": "LangChain 101: YouTube Transcripts + OpenAI",
+        "need_type": "WORKING_EXAMPLE"
+      }
+    ]
+  }
+]

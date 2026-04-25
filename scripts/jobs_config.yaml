@@ -1,0 +1,45 @@
+# SocraticTutor Background Jobs
+#
+# Each job has:
+#   description   - human-readable summary
+#   script        - path to the job script (relative to repo root)
+#   enabled       - set false to disable without deleting
+#   trigger       - one of:
+#       sentinel: <path>       fire when this file exists (relative to repo root)
+#       interval_hours: <n>    fire every N hours
+#       manual                 only run when explicitly requested via --job <name>
+#   timeout_minutes - kill the job if it runs longer than this (default: 30)
+
+jobs:
+
+  rebuild-wiki:
+    description: "Re-classify any new topics via LLM, regenerate Quartz wiki content, and rebuild the static site."
+    script: "scripts/jobs/rebuild_wiki.py"
+    enabled: true
+    trigger:
+      sentinel: "wiki/.needs-rebuild"
+    timeout_minutes: 10
+
+  enrich-topics:
+    description: "Run the wiki enrichment pipeline to download new resources for stub topics."
+    script: "scripts/jobs/enrich_topics.py"
+    enabled: false
+    trigger:
+      interval_hours: 24
+    timeout_minutes: 60
+
+  curate-wiki:
+    description: "Audit and fix wiki source quality (missing URLs, placeholders, formatting)."
+    script: "scripts/jobs/curate_wiki.py"
+    enabled: true
+    trigger:
+      interval_hours: 24
+    timeout_minutes: 5
+
+  quality-check:
+    description: "Run course quality checks across all published drafts and log results."
+    script: "scripts/jobs/quality_check.py"
+    enabled: false
+    trigger:
+      interval_hours: 12
+    timeout_minutes: 20

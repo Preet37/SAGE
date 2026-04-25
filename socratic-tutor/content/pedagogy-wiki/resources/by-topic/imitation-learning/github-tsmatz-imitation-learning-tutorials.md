@@ -1,0 +1,67 @@
+# Source: https://github.com/tsmatz/imitation-learning-tutorials
+# Downloaded: 2026-04-06
+# Words: 987
+# Author: Tsuyoshi Matsuzaki
+# Author Slug: tsuyoshi-matsuzaki
+This repository shows you the implementation examples of imitation learning (IL) from scratch in Python, with theoretical aspects behind code.
+[Behavior Cloning (BC)](/tsmatz/imitation-learning-tutorials/blob/master/01_bc.ipynb)[Dataset Aggregation (DAgger)](/tsmatz/imitation-learning-tutorials/blob/master/02_dagger.ipynb)[Maximum Entropy Inverse Reinforcement Learning (max-ent IRL)](/tsmatz/imitation-learning-tutorials/blob/master/03_maxent_irl.ipynb)[Maximum Causal Entropy Inverse Reinforcement Learning (MCE IRL)](/tsmatz/imitation-learning-tutorials/blob/master/04_mce_irl.ipynb)[Relative Entropy Inverse Reinforcement Learning (rel-ent IRL)](/tsmatz/imitation-learning-tutorials/blob/master/05_relent_irl.ipynb)[Generative Adversarial Imitation Learning (GAIL)](/tsmatz/imitation-learning-tutorials/blob/master/06_gail.ipynb)
+In this repository, I focus on above 6 IL methods, which affected other works a lot in history.
+These are fundamental algorithms, and might also help you learn other recent IL algorithms (such as, [rank-game](https://www.microsoft.com/en-us/research/blog/unifying-learning-from-preferences-and-demonstration-via-a-ranking-game-for-imitation-learning/), etc).
+In this repository, I'll often use basic terminologies for behavioral learning - such as, "discount", "policy", "advantages", ... If you're new to learn behavioral learning, I recommend you to learn [reinforcement learning (RL)](https://github.com/tsmatz/reinforcement-learning-tutorials) briefly at first.
+Note : In this repository, I focus on model-free IL algorithms.
+Also, this repository focuses on action-state learning, and trajectory learning (which is sometimes applied in robotics) is out of scope.
+In trajectory learning, the trajectory is modeled by[GMM],[HMM], or MP (Movement Primitive), etc. (See[here]for details.)
+Such like [reinforcement learning](https://github.com/tsmatz/reinforcement-learning-tutorials), imitation learning is an approach to learn how the agent takes the action to get optimal results. However, unlike reinforcement learning, imitation learning never use prior reward's functions, but do use expert's behaviors instead.
+There exist two main approaches for imitation learning - Behavior Cloning (BC) and Inverse Reinforcement Learning (IRL).
+Behavioral Cloning (BC) directly learns expert's (demonstrated) behaviors without reward functions, in which the optimal mapping from states to actions is explored. It simply finds optimal solution by solving a regression or classification problem using expert's behaviors (dataset) as a supervised learning problem.
+When you want to refine the policy optimized by Behavioral Cloning (BC), you can also apply regular reinforcement learning method after that.
+The methods of [Behavior Cloning (BC)](/tsmatz/imitation-learning-tutorials/blob/master/01_bc.ipynb) and [Dataset Aggregation (DAgger)](/tsmatz/imitation-learning-tutorials/blob/master/02_dagger.ipynb) belongs to this approach.
+Inverse Reinforcement Learning (IRL), on the other hand, is a method to learn a cost function, i.e, recovering the unknown reward function from expert's behaviors, and then extract a policy
+from the generated cost function with reinforcement learning. In complex systems, it'll often be difficult to design manual reward functions, especially when they involve human interaction. In such cases, Inverse Reinforcement Learning (IRL) will come into play.
+The methods of [Maximum Entropy Inverse Reinforcement Learning](/tsmatz/imitation-learning-tutorials/blob/master/03_maxent_irl.ipynb), [Maximum Causal Entropy Inverse Reinforcement Learning](/tsmatz/imitation-learning-tutorials/blob/master/04_mce_irl.ipynb) and [Relative Entropy Inverse Reinforcement Learning](/tsmatz/imitation-learning-tutorials/blob/master/05_relent_irl.ipynb) belongs to this approach.
+Finally, [Generative Adversarial Imitation Learning (GAIL)](/tsmatz/imitation-learning-tutorials/blob/master/06_gail.ipynb) is a method inspired by Generative Adversarial Networks (GANs) and IRL, but unlike IRL method, it constrains the behavior of the agent to be approximately optimal without explicitly recovering the reward's (or cost's) function. (Hence GAIL is also applied in complex systems, unlike BC + RL.)
+GAIL is one of today's state-of-the-art (SOTA) imitation learning algorithm.
+Reinforcement learning (RL) has achieved a great success in a wide variety of agentic and autonomous tasks. However, it's sometimes time-consuming and hard to learn from scratch in case of some complex tasks.
+The imitation learning makes sense in such systems, and a lot of prior successful works show us the benefits to provide prior knowledge by imitation learning, before applying reinforcement learning directly.
+Note : There also exist a lot of works to learn policy from expert's behaviors in gaming - such as,
+[1],[2], or[3].
+This repository includes expert dataset (./expert_data/ckpt0.pkl
+), which is trained by PPO (state-of-the-art RL algorithm) to solve GridWorld environment.
+GridWorld is a primitive environment, but widely used for behavioral training - such as, reinforcement learning or imitation learning.
+The following is the game rule of GridWorld environment used in this repository. (This definition is motivated by the paper "[Relative Entropy Inverse Reinforcement Learning](https://proceedings.mlr.press/v15/boularias11a/boularias11a.pdf)".)
+- It has 50 x 50 grids (cells) and the state corresponds to the location of the agent on the grid.
+- The agent has four actions to move in one of the directions of the compass.
+- When the agent reaches to the goal state (located on the bottom-right corner), a reward
+10.0
+is given. - For the remaining states, the reward was randomly set to
+0.0
+with probability 2/3 and to−1.0
+with probability 1/3. - The duration of each trajectory has maximum
+200
+time-step. - If the agent tries to exceed the border, the fail reward (i.e, reward=
+-1.0
+) is given and the agent keeps the same state.
+The following picture shows GridWorld environment used in this repository (which is generated with a fixed seed value, 1000
+).
+When the agent is on the gray-colored states, the agent can reach to the goal state without losing any rewards. The initial state is sampled from a uniform distribution on the gray-colored states, and then maximum total reward in a single episode always becomes 10.0
+.
+The expert dataset ./expert_data/ckpt0.pkl
+includes the following entities.
+| name | description |
+|---|---|
+| states | Numpy array of visited states. The state is an integer - in which, the left-top corner is 0 and the right-bottom corner is 2499 . |
+| actions | Numpy array of corresponding actions to be taken. The action is also an integer - in which, 0=UP 1=DOWN 2=LEFT 3=RIGHT. |
+| rewards | Numpy array of corresponding rewards to be obtained. This is never used in imitation learning. (This is for reference.) |
+| timestep_lens | Numpy array of time-step length. Thus, the length of this array becomes the number of demonstration's episodes. |
+This repository also has the script [00_generate_expert_trajectories.ipynb](/tsmatz/imitation-learning-tutorials/blob/master/00_generate_expert_trajectories.ipynb) which is used to create expert model and dataset.
+By modifying and running this script, you can also customize and build your own expert demonstrations.
+Note : By setting
+transition_prob=True
+in environment's constructor, you can apply the transition probability - in which, the action succeeds with probability0.7
+, a failure results in a uniform random transition to one of the adjacent states (i.e,0.1
+,0.1
+,0.1
+respectively).
+Dataset in this repository (./expert_data/ckpt0.pkl
+) is generated without transition probability (i.e, always transit to the selected direction deterministically).
+Tsuyoshi Matsuzaki @ Microsoft

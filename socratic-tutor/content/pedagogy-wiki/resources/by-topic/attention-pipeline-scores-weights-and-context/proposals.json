@@ -1,0 +1,133 @@
+[
+  {
+    "timestamp": "2026-04-11T19:19:43",
+    "run_label": "ensure-coverage:scaled-dot-product-attention-math-and-implementation",
+    "sources": [
+      {
+        "gap": "Define attention logits explicitly as QK^T (pre-softmax) and explain their tensor shapes (batch, heads, query_len, key_len)",
+        "url": "https://uvadlc-notebooks.readthedocs.io/en/latest/tutorial_notebooks/tutorial6/Transformers_and_MHAttention.html",
+        "title": "Tutorial 6: Transformers and Multi-Head Attention\u00b6"
+      },
+      {
+        "gap": "Define attention logits explicitly as QK^T (pre-softmax) and explain their tensor shapes (batch, heads, query_len, key_len)",
+        "url": "https://www.codecademy.com/article/transformer-architecture-self-attention-mechanism",
+        "title": "Transformer Architecture Explained With Self-Attention ..."
+      },
+      {
+        "gap": "Define attention logits explicitly as QK^T (pre-softmax) and explain their tensor shapes (batch, heads, query_len, key_len)",
+        "url": "https://mikexcohen.substack.com/p/llm-breakdown-56-attention",
+        "title": "LLM breakdown 5/6: Attention - by Mike X Cohen, PhD"
+      },
+      {
+        "gap": "Define attention logits explicitly as QK^T (pre-softmax) and explain their tensor shapes (batch, heads, query_len, key_len)",
+        "url": "https://transformer-circuits.pub/2025/attention-qk/index.html",
+        "title": "Tracing Attention Computation Through Feature Interactions"
+      },
+      {
+        "gap": "Define attention logits explicitly as QK^T (pre-softmax) and explain their tensor shapes (batch, heads, query_len, key_len)",
+        "url": "https://www.enbao.me/posts/attention",
+        "title": "Understanding Attention"
+      },
+      {
+        "gap": "Numerically stable softmax in attention (subtract max, handling -inf for masks, dtype considerations)",
+        "url": "https://arxiv.org/html/2505.14201v1",
+        "title": "FLASH-D: FlashAttention with Hidden Softmax Division - arXiv"
+      },
+      {
+        "gap": "Numerically stable softmax in attention (subtract max, handling -inf for masks, dtype considerations)",
+        "url": "https://haroldbenoit.com/notes/ml/llms/architecture/transformers/long-context-attention",
+        "title": "Long Context Attention - Harold Benoit"
+      },
+      {
+        "gap": "Numerically stable softmax in attention (subtract max, handling -inf for masks, dtype considerations)",
+        "url": "https://www.sethweidman.com/blog/streaming_softmax.html",
+        "title": "Streaming Softmax: A Trick Powering FlashAttention - Seth Weidman"
+      },
+      {
+        "gap": "Numerically stable softmax in attention (subtract max, handling -inf for masks, dtype considerations)",
+        "url": "https://papers.neurips.cc/paper_files/paper/2023/file/1bfd87d2d92f0556819467dc08034f76-Paper-Conference.pdf",
+        "title": "[PDF] Blockwise Parallel Transformers for Large Context Models"
+      },
+      {
+        "gap": "Numerically stable softmax in attention (subtract max, handling -inf for masks, dtype considerations)",
+        "url": "https://d2l.ai/chapter_attention-mechanisms-and-transformers/attention-scoring-functions.html",
+        "title": "11.3. Attention Scoring Functions - Dive into Deep Learning"
+      },
+      {
+        "gap": "Padding masks: creation from padding tokens/attention_mask, and applying to logits before softmax",
+        "url": "https://machinelearningmastery.com/a-gentle-introduction-to-attention-masking-in-transformer-models/",
+        "title": "A Gentle Introduction to Attention Masking in Transformer Models"
+      },
+      {
+        "gap": "Padding masks: creation from padding tokens/attention_mask, and applying to logits before softmax",
+        "url": "https://codesignal.com/learn/courses/sequence-models-the-dawn-of-attention-1/lessons/scaled-dot-product-attention-and-masking-in-transformers-1",
+        "title": "Scaled Dot-Product Attention and Masking in Transformers"
+      },
+      {
+        "gap": "Padding masks: creation from padding tokens/attention_mask, and applying to logits before softmax",
+        "url": "https://meechos.github.io/Attention_masking",
+        "title": "Effective Attention Scoring for Padded Inputs"
+      },
+      {
+        "gap": "Padding masks: creation from padding tokens/attention_mask, and applying to logits before softmax",
+        "url": "https://arxiv.org/html/2510.01238v1",
+        "title": "Silent Tokens, Loud Effects: Padding in LLMs"
+      },
+      {
+        "gap": "Padding masks: creation from padding tokens/attention_mask, and applying to logits before softmax",
+        "url": "https://codefinity.com/courses/v2/e7ee0772-6b82-4a1c-96ba-69b85ddee608/f35bf119-fe3c-4db6-8a48-51dbc163416f/8c99758d-e015-49c3-9f59-44cb55ae9aae",
+        "title": "Learn Masking in Attention: Causal and Padding Masks"
+      },
+      {
+        "gap": "Causal masks: triangular masks for autoregressive decoding and combining with padding masks",
+        "url": "https://mbrenndoerfer.com/writing/decoder-architecture-causal-masking-autoregressive-transformers",
+        "title": "Decoder Architecture: Causal Masking & Autoregressive ..."
+      },
+      {
+        "gap": "Causal masks: triangular masks for autoregressive decoding and combining with padding masks",
+        "url": "https://ar5iv.labs.arxiv.org/html/2402.04779",
+        "title": "[2402.04779] StableMask: Refining Causal Masking in Decoder ..."
+      },
+      {
+        "gap": "Causal masks: triangular masks for autoregressive decoding and combining with padding masks",
+        "url": "https://www.abhik.ai/concepts/attention/masked-attention",
+        "title": "Masked and Causal Attention - Abhik Sarkar"
+      },
+      {
+        "gap": "Causal masks: triangular masks for autoregressive decoding and combining with padding masks",
+        "url": "https://arxiv.org/html/2403.07692v1",
+        "title": "Masked AutoDecoder is Effective Multi-Task Vision ..."
+      },
+      {
+        "gap": "Causal masks: triangular masks for autoregressive decoding and combining with padding masks",
+        "url": "https://machinelearningmastery.com/a-gentle-introduction-to-attention-masking-in-transformer-models/",
+        "title": "A Gentle Introduction to Attention Masking in Transformer Models"
+      },
+      {
+        "gap": "Broadcasting rules for masks across batch and heads; practical PyTorch/NumPy implementations of masked softmax and attention",
+        "url": "https://machinelearningmastery.com/a-gentle-introduction-to-attention-masking-in-transformer-models/",
+        "title": "A Gentle Introduction to Attention Masking in Transformer Models"
+      },
+      {
+        "gap": "Broadcasting rules for masks across batch and heads; practical PyTorch/NumPy implementations of masked softmax and attention",
+        "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.MultiheadAttention.html",
+        "title": "MultiheadAttention \u2014 PyTorch 2.11 documentation"
+      },
+      {
+        "gap": "Broadcasting rules for masks across batch and heads; practical PyTorch/NumPy implementations of masked softmax and attention",
+        "url": "http://juditacs.github.io/2018/12/27/masked-attention.html",
+        "title": "Masking attention weights in PyTorch"
+      },
+      {
+        "gap": "Broadcasting rules for masks across batch and heads; practical PyTorch/NumPy implementations of masked softmax and attention",
+        "url": "https://gist.github.com/kaniblu/94f3ede72d1651b087a561cf80b306ca",
+        "title": "Masked Softmax in PyTorch"
+      },
+      {
+        "gap": "Broadcasting rules for masks across batch and heads; practical PyTorch/NumPy implementations of masked softmax and attention",
+        "url": "https://github.com/pytorch/pytorch/issues/44945",
+        "title": "Fuse softmax and masking in MultiheadAttention \u00b7 Issue #44945 \u00b7 pytorch/pytorch"
+      }
+    ]
+  }
+]

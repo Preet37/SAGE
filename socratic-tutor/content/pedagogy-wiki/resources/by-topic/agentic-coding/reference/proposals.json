@@ -1,0 +1,253 @@
+[
+  {
+    "timestamp": "2026-04-09T18:31:32",
+    "run_label": "reference-track:Agentic Coding",
+    "sources": [
+      {
+        "url": "https://docs.anthropic.com/en/docs/claude-code/cli-reference.md",
+        "title": "docs.anthropic.com",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.anthropic.com/ko/docs/claude-code/configuration",
+        "title": "Claude Code \uc124\uc815\ud558\uae30 - Anthropic",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.anthropic.com/zh-TW/docs/agents-and-tools/claude-code/overview",
+        "title": "Claude Code \u6982\u8ff0 - Anthropic",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.anthropic.com/it/docs/agents-and-tools/claude-code/overview",
+        "title": "Panoramica di Claude Code - Anthropic",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.anthropic.com/ru/docs/claude-code/cli-usage",
+        "title": "\u0418\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435 CLI \u0438 \u0443\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.cursor.com/en/context/rules",
+        "title": "Cursor \u2013 Rules",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.cursor.com/zh-Hant/context/rules",
+        "title": "\u898f\u5247",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.cursor.com/id/context/rules",
+        "title": "Contoh",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.cursor.com/ja/context/rules",
+        "title": "\u30eb\u30fc\u30eb",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.cursor.com/tr/context/rules",
+        "title": "Kurallar",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.swebench.com/verified.html",
+        "title": "SWE-bench Verified",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.swebench.com",
+        "title": "SWE-bench Leaderboards",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://openai.com/index/introducing-swe-bench-verified/",
+        "title": "Introducing SWE-bench Verified",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2509.16941v1",
+        "title": "4 Dataset Creation",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.verdent.ai/blog/swe-bench-verified-technical-report",
+        "title": "SWE-bench Verified Technical Report - Verdent AI",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.iclr.cc/paper_files/paper/2024/file/d191ba4c8923ed8fd8935b7c98658b5f-Paper-Conference.pdf",
+        "title": "[PDF] REPOBENCH: BENCHMARKING REPOSITORY-LEVEL CODE ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2306.03091.pdf",
+        "title": "RepoBench: Benchmarking Repository-Level Code",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2603.26337v1",
+        "title": "A Benchmark for Evaluating Repository-Level Code Agents ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://cseweb.ucsd.edu/~jmcauley/reviews/iclr24.txt",
+        "title": "iclr24.txt",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://bohrium.dp.tech/paper/arxiv/2306.03091",
+        "title": "RepoBench: Benchmarking Repository-Level Code Auto-Completion Systems",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/SWE-agent/SWE-agent/issues/1014",
+        "title": "Reproduction of SWE-bench results \u00b7 Issue #1014 \u00b7 SWE-agent/SWE-agent",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/OpenAutoCoder/Agentless/blob/main/README_swebench.md",
+        "title": "Agentless/README_swebench.md at main \u00b7 OpenAutoCoder/Agentless",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/swe-bench/experiments/issues/16",
+        "title": "Whether using test patch is allowed \u00b7 Issue #16 \u00b7 SWE-bench/experiments",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/SWE-agent/SWE-agent/blob/main/docs/usage/benchmarking.md",
+        "title": "SWE-agent/docs/usage/benchmarking.md at main \u00b7 SWE-agent/SWE-agent",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/princeton-nlp/SWE-bench",
+        "title": "GitHub - SWE-bench/SWE-bench: SWE-bench [Multimodal]: Can Language Models Resolve Real-world Github Issues?",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://code.claude.com/docs/en/common-workflows",
+        "title": "Common workflows - Claude Code Docs",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www-cdn.anthropic.com/58284b19e702b49db9302d5b6f135ad8871e7658.pdf",
+        "title": "[PDF] How Anthropic teams use Claude Code",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://resources.anthropic.com/hubfs/The-Complete-Guide-to-Building-Skill-for-Claude.pdf?hsLang=en",
+        "title": "The Complete Guide to Building Skills for Claude | Anthropicresources.anthropic.com \u203a hubfs \u203a The-Complete-Guide-to-Building-Skill-f...",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://code.claude.com/docs/en/best-practices",
+        "title": "Best Practices for Claude Code - Claude Code Docs",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://claude-ai.chat/guides/refactoring-legacy-code/",
+        "title": "Claude for Refactoring Legacy Code in Large Projects",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://react-lm.github.io",
+        "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.semanticscholar.org/paper/ReAct:-Synergizing-Reasoning-and-Acting-in-Language-Yao-Zhao/99832586d55f540f603637e458a292406a0ed75d",
+        "title": "[PDF] ReAct: Synergizing Reasoning and Acting in Language Models | Semantic Scholar",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://research.google/blog/react-synergizing-reasoning-and-acting-in-language-models/",
+        "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://blog.langchain.com/content/files/abs/2210.xml",
+        "title": "Synergizing Reasoning and Acting in Language Models",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/abs/2302.04761",
+        "title": "Language Models Can Teach Themselves to Use Tools",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://ai.meta.com/research/publications/toolformer-language-models-can-teach-themselves-to-use-tools/",
+        "title": "Toolformer: Language Models Can Teach Themselves to Use Tools",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://neurips.cc/virtual/2023/poster/71288",
+        "title": "Toolformer: Language Models Can Teach Themselves to Use Tools",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://liner.com/review/toolformer-language-models-can-teach-themselves-to-use-tools",
+        "title": "Toolformer: Language Models Can Teach Themselves to Use Tools",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://sino-huang.github.io/posts/timo_schick-toolformer-language-models-can-teach-themselves-to-use-tools-2023/",
+        "title": "Timo_schick Toolformer Language Models Can Teach Themselves ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.harness.io/blog/the-impact-of-github-copilot-on-developer-productivity-a-case-study",
+        "title": "The Impact of Github Copilot on Developer Productivity: A Case Study",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://cacm.acm.org/research/measuring-github-copilots-impact-on-productivity/",
+        "title": "Settings",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://github.blog/news-insights/research/research-quantifying-github-copilots-impact-on-developer-productivity-and-happiness/",
+        "title": "quantifying GitHub Copilot's impact on developer productivity and ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.worklytics.co/blog/the-roi-of-github-copilot-for-your-organization-a-metrics-driven-analysis",
+        "title": "GitHub Copilot ROI: Metrics & Real-World Productivity Data",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://devops.com/measuring-github-copilots-impact-on-engineering-productivity/",
+        "title": "Best of 2023: Measuring GitHub Copilot's Impact on ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://harini.blog/2025/05/07/detailed-security-and-enterprise-readiness-report-cursor-ai-ide/",
+        "title": "9. Subprocessor Overview",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://dev.to/tawe/cursor-ai-security-deep-dive-into-risk-policy-and-practice-4epp",
+        "title": "Developer Policies That...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://cursor.com/blog/security-agents",
+        "title": "#agentic Security Review",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.lowcode.agency/blog/cursor-for-enterprise",
+        "title": "Cursor for Enterprise Teams | Security, Compliance, & Deployment",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.cncso.com/en/cursor-ide-secure-development-guide.html",
+        "title": "AI Security : Cursor IDE Enterprise Security Developer's Guide",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  }
+]

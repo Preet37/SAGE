@@ -1,0 +1,1337 @@
+[
+  {
+    "timestamp": "2026-04-07T15:03:59",
+    "run_label": "pipeline-test:queries-keys-values-framework",
+    "sources": [
+      {
+        "gap": "Query vector: definition, derivation from input embeddings, role in attention",
+        "url": "https://apxml.com/courses/introduction-to-transformer-models/chapter-2-self-attention-multi-head-attention/query-key-value-vectors",
+        "title": "Query, Key, and Value Vectors in Self-Attention"
+      },
+      {
+        "gap": "Query vector: definition, derivation from input embeddings, role in attention",
+        "url": "https://www.apxml.com/courses/introduction-to-transformer-models/chapter-2-self-attention-multi-head-attention/query-key-value-vectors",
+        "title": "Query, Key, Value Vectors Explained"
+      },
+      {
+        "gap": "Query vector: definition, derivation from input embeddings, role in attention",
+        "url": "https://www.ibm.com/think/topics/attention-mechanism",
+        "title": "What is an attention mechanism?"
+      },
+      {
+        "gap": "Query vector: definition, derivation from input embeddings, role in attention",
+        "url": "https://www.geeksforgeeks.org/artificial-intelligence/ml-attention-mechanism/",
+        "title": "Attention Mechanism in ML"
+      },
+      {
+        "gap": "Query vector: definition, derivation from input embeddings, role in attention",
+        "url": "https://epichka.com/blog/2023/qkv-transformer/",
+        "title": "What is Query, Key, and Value (QKV) in the Transformer Architecture ..."
+      },
+      {
+        "gap": "Key vector: definition, derivation from input embeddings, role in compatibility scoring",
+        "url": "http://arxiv.org/pdf/1709.09749.pdf",
+        "title": "KeyVec: Key-semantics Preserving Document Representations"
+      },
+      {
+        "gap": "Key vector: definition, derivation from input embeddings, role in compatibility scoring",
+        "url": "https://people.ischool.berkeley.edu/~dbamman/info256_slides/13_transformers_2.pdf",
+        "title": "13_transformers_2"
+      },
+      {
+        "gap": "Key vector: definition, derivation from input embeddings, role in compatibility scoring",
+        "url": "https://www.apxml.com/courses/introduction-to-transformer-models/chapter-2-self-attention-multi-head-attention/query-key-value-vectors",
+        "title": "Query, Key, Value Vectors Explained"
+      },
+      {
+        "gap": "Key vector: definition, derivation from input embeddings, role in compatibility scoring",
+        "url": "https://apxml.com/courses/introduction-to-transformer-models/chapter-2-self-attention-multi-head-attention/query-key-value-vectors",
+        "title": "Query, Key, and Value Vectors in Self-Attention"
+      },
+      {
+        "gap": "Key vector: definition, derivation from input embeddings, role in compatibility scoring",
+        "url": "https://www.shadecoder.com/topics/key-vector-a-comprehensive-guide-for-2025",
+        "title": "Key Vector: A Comprehensive Guide for 2025"
+      },
+      {
+        "gap": "Value vector: definition, derivation from input embeddings, role in weighted retrieval",
+        "url": "https://www.arxiv.org/abs/2401.09350",
+        "title": "Foundations of Vector Retrieval"
+      },
+      {
+        "gap": "Value vector: definition, derivation from input embeddings, role in weighted retrieval",
+        "url": "https://arxiv.org/pdf/2208.14754.pdf",
+        "title": "Published as a conference paper at ICLR 2023"
+      },
+      {
+        "gap": "Value vector: definition, derivation from input embeddings, role in weighted retrieval",
+        "url": "https://www.neper.fr/wp-content/uploads/2025/08/2405.19504v1.pdf",
+        "title": "Multi-Vector Retrieval via Fixed Dimensional Encodings"
+      },
+      {
+        "gap": "Value vector: definition, derivation from input embeddings, role in weighted retrieval",
+        "url": "https://opus.lib.uts.edu.au/rest/bitstreams/61b05435-f5a7-41ae-915a-5de69c52c53e/retrieve",
+        "title": "\u00a9 ACM 2023. This is the author's version of the work."
+      },
+      {
+        "gap": "Value vector: definition, derivation from input embeddings, role in weighted retrieval",
+        "url": "https://dcreager.net/pdf/Bruch2024.pdf",
+        "title": "Sebastian Bruch"
+      },
+      {
+        "gap": "QKV projection: how W_Q, W_K, W_V matrices project inputs into query/key/value spaces",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-3-multi-head-self-attention/linear-projections-qkv-heads",
+        "title": "Linear Projections for Q, K, V per Head - ApX Machine Learning"
+      },
+      {
+        "gap": "QKV projection: how W_Q, W_K, W_V matrices project inputs into query/key/value spaces",
+        "url": "https://arpitbhayani.me/blogs/qkv-matrices/",
+        "title": "The Weight Matrices"
+      },
+      {
+        "gap": "QKV projection: how W_Q, W_K, W_V matrices project inputs into query/key/value spaces",
+        "url": "https://mbrenndoerfer.com/writing/query-key-value-attention-mechanism",
+        "title": "Query, Key, Value: The Foundation of Transformer Attention"
+      },
+      {
+        "gap": "QKV projection: how W_Q, W_K, W_V matrices project inputs into query/key/value spaces",
+        "url": "https://arpitbhayani.me/blogs/qkv-matrices",
+        "title": "The Q, K, V Matrices"
+      },
+      {
+        "gap": "QKV projection: how W_Q, W_K, W_V matrices project inputs into query/key/value spaces",
+        "url": "https://arxiv.org/html/2603.15665v1",
+        "title": "QV May Be Enough: Toward the Essence of Attention in LLMs - arXiv"
+      },
+      {
+        "gap": "Attention as retrieval: soft key-value store analogy, decoupling what-to-attend-to from what-to-retrieve",
+        "url": "https://arxiv.org/html/2501.02950v1",
+        "title": "2 Computational Foundations..."
+      },
+      {
+        "gap": "Attention as retrieval: soft key-value store analogy, decoupling what-to-attend-to from what-to-retrieve",
+        "url": "https://arxiv.org/html/2409.10516v2",
+        "title": "3 Retrievalattention Design"
+      },
+      {
+        "gap": "Attention as retrieval: soft key-value store analogy, decoupling what-to-attend-to from what-to-retrieve",
+        "url": "https://eu.36kr.com/en/p/3556757411027328",
+        "title": "Lu Baotong, Microsoft Research: Reshape Model Attention via ..."
+      },
+      {
+        "gap": "Attention as retrieval: soft key-value store analogy, decoupling what-to-attend-to from what-to-retrieve",
+        "url": "https://mila.quebec/en/article/compositional-attention-disentangling-search-and-retrieval",
+        "title": "Compositional Attention: Disentangling Search and Retrieval"
+      },
+      {
+        "gap": "Attention as retrieval: soft key-value store analogy, decoupling what-to-attend-to from what-to-retrieve",
+        "url": "https://fleuret.org/dlc/materials/dlc-handout-13-2-attention-mechanisms.pdf",
+        "title": "[PDF] Deep learning 13.2. Attention Mechanisms - Fran\u00e7ois Fleuret"
+      },
+      {
+        "gap": "Compatibility function: dot-product attention, scaled dot-product, additive/Bahdanau scoring",
+        "url": "https://arxiv.org/html/2601.03329v1",
+        "title": "Attention Mechanisms in Neural Networks A Comprehensive ... - arXiv"
+      },
+      {
+        "gap": "Compatibility function: dot-product attention, scaled dot-product, additive/Bahdanau scoring",
+        "url": "https://arxiv.org/pdf/1706.03762.pdf",
+        "title": "Provided proper attribution is provided, Google hereby grants permission to"
+      },
+      {
+        "gap": "Compatibility function: dot-product attention, scaled dot-product, additive/Bahdanau scoring",
+        "url": "https://d2l.ai/chapter_attention-mechanisms-and-transformers/attention-scoring-functions.html",
+        "title": "11.3. Attention Scoring Functions - Dive into Deep Learning"
+      },
+      {
+        "gap": "Compatibility function: dot-product attention, scaled dot-product, additive/Bahdanau scoring",
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf",
+        "title": "[PDF] Attention is All you Need - NIPS"
+      },
+      {
+        "gap": "Compatibility function: dot-product attention, scaled dot-product, additive/Bahdanau scoring",
+        "url": "https://www.research.pitt.edu/sites/default/files/Attention%20is%20All%20You%20Need.pdf",
+        "title": "Attention Is All You Need"
+      },
+      {
+        "gap": "Weighted aggregation: softmax over compatibility scores, weighted sum of value vectors",
+        "url": "https://www.arxiv.org/abs/2407.10230",
+        "title": "Weighted Aggregation of Conformity Scores for Classification"
+      },
+      {
+        "gap": "Weighted aggregation: softmax over compatibility scores, weighted sum of value vectors",
+        "url": "https://arxiv.org/html/2603.19344v1",
+        "title": "Beyond Weighted Summation: Learnable Nonlinear Aggregation Functions for Robust Artificial Neurons"
+      },
+      {
+        "gap": "Weighted aggregation: softmax over compatibility scores, weighted sum of value vectors",
+        "url": "https://openaccess.thecvf.com/content/ICCV2023/papers/Gurbuz_Generalized_Sum_Pooling_for_Metric_Learning_ICCV_2023_paper.pdf",
+        "title": "Generalized Sum Pooling for Metric Learning"
+      },
+      {
+        "gap": "Weighted aggregation: softmax over compatibility scores, weighted sum of value vectors",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-2-attention-mechanism-core-concepts/softmax-attention-weights",
+        "title": "The Softmax Function for Attention Weights"
+      },
+      {
+        "gap": "Weighted aggregation: softmax over compatibility scores, weighted sum of value vectors",
+        "url": "https://mbrenndoerfer.com/writing/attention-mechanism-intuition-soft-lookup-weights-context-vectors",
+        "title": "Attention Mechanism Intuition: Soft Lookup, Weights & Context Vectors"
+      },
+      {
+        "gap": "Linear projections in attention: role and mechanics of learned projection matrices",
+        "url": "https://arxiv.org/pdf/2603.13381.pdf",
+        "title": "Beyond Linearity in Attention Projections: The Case for Nonlinear Queries"
+      },
+      {
+        "gap": "Linear projections in attention: role and mechanics of learned projection matrices",
+        "url": "https://arxiv.org/html/2603.13314v1",
+        "title": "Linear Predictability of Attention Heads in Large Language Models"
+      },
+      {
+        "gap": "Linear projections in attention: role and mechanics of learned projection matrices",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-3-multi-head-self-attention/linear-projections-qkv-heads",
+        "title": "Linear Projections for Q, K, V per Head - ApX Machine Learning"
+      },
+      {
+        "gap": "Linear projections in attention: role and mechanics of learned projection matrices",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-3-multi-head-self-attention/concatenation-final-projection",
+        "title": "Concatenation and Final Linear Projection - ApX Machine Learning"
+      },
+      {
+        "gap": "Linear projections in attention: role and mechanics of learned projection matrices",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11511033/",
+        "title": "Attention-Linear Trajectory Prediction - PMC"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-07T15:19:04",
+    "run_label": "pipeline-test:bottleneck-problem-seq2seq",
+    "sources": [
+      {
+        "gap": "Encoder-decoder RNN architecture: how encoder processes input tokens into hidden states and decoder generates output sequence",
+        "url": "https://arxiv.org/pdf/1406.1078v1.pdf",
+        "title": "[PDF] arXiv:1406.1078v1 [cs.CL] 3 Jun 2014"
+      },
+      {
+        "gap": "Encoder-decoder RNN architecture: how encoder processes input tokens into hidden states and decoder generates output sequence",
+        "url": "https://www.arxiv.org/pdf/1406.1078v2.pdf",
+        "title": "arXiv:1406.1078v2 [cs.CL] 24 Jul 2014"
+      },
+      {
+        "gap": "Encoder-decoder RNN architecture: how encoder processes input tokens into hidden states and decoder generates output sequence",
+        "url": "https://www1.se.cuhk.edu.hk/~seem5680/lecture/Encoder-Decoder-Attention-2022spring.pdf",
+        "title": "[PDF] Encoder\u2010Decoder Models and Attention"
+      },
+      {
+        "gap": "Encoder-decoder RNN architecture: how encoder processes input tokens into hidden states and decoder generates output sequence",
+        "url": "https://web.engr.oregonstate.edu/~huanlian/teaching/ai100/2026winter/unit4-dl/sequence.html",
+        "title": "Encoder-Decoder Architecture (with RNNs)"
+      },
+      {
+        "gap": "Encoder-decoder RNN architecture: how encoder processes input tokens into hidden states and decoder generates output sequence",
+        "url": "https://d2l.ai/chapter_recurrent-modern/encoder-decoder.html",
+        "title": "10.6. The Encoder\u2013Decoder Architecture"
+      },
+      {
+        "gap": "Fixed-length context vector: construction, role in seq2seq, and why variable-length sequences are compressed into a single vector",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-2-attention-mechanism-core-concepts/motivation-for-attention",
+        "title": "Motivation: Overcoming Fixed-Length Context Vectors"
+      },
+      {
+        "gap": "Fixed-length context vector: construction, role in seq2seq, and why variable-length sequences are compressed into a single vector",
+        "url": "https://web.stanford.edu/class/cs224n/readings/cs224n-2019-notes06-NMT_seq2seq_attention.pdf",
+        "title": "Part VI Neural Machine Translation, Seq2seq and Attenti"
+      },
+      {
+        "gap": "Fixed-length context vector: construction, role in seq2seq, and why variable-length sequences are compressed into a single vector",
+        "url": "https://blog.sotaaz.com/post/context-vector-limitation-en",
+        "title": "5.3 Why Lstm Also Has..."
+      },
+      {
+        "gap": "Fixed-length context vector: construction, role in seq2seq, and why variable-length sequences are compressed into a single vector",
+        "url": "https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1194/readings/cs224n-2019-notes06-NMT_seq2seq_attention.pdf",
+        "title": "CS224n: Natural Language Processing with Deep Learning   Lecture Notes: Part VI  Neural Machine Translation, Seq2seq and Attention"
+      },
+      {
+        "gap": "Fixed-length context vector: construction, role in seq2seq, and why variable-length sequences are compressed into a single vector",
+        "url": "https://ajkdrag.in/2-Zettels/fixed-length-context-vector-bottleneck",
+        "title": "fixed-length context vector bottleneck"
+      },
+      {
+        "gap": "Information bottleneck in seq2seq: performance degradation on long sequences due to fixed-length vector compression",
+        "url": "https://blog.sotaaz.com/post/context-vector-limitation-en",
+        "title": "5.3 Why Lstm Also Has..."
+      },
+      {
+        "gap": "Information bottleneck in seq2seq: performance degradation on long sequences due to fixed-length vector compression",
+        "url": "https://apxml.com/courses/introduction-to-transformer-models/chapter-1-sequence-modeling-attention-fundamentals/sequence-to-sequence-challenges",
+        "title": "Challenges in Sequence-to-Sequence Tasks"
+      },
+      {
+        "gap": "Information bottleneck in seq2seq: performance degradation on long sequences due to fixed-length vector compression",
+        "url": "https://www.apxml.com/courses/introduction-to-transformer-models/chapter-1-sequence-modeling-attention-fundamentals/sequence-to-sequence-challenges",
+        "title": "Sequence-to-Sequence Task Challenges"
+      },
+      {
+        "gap": "Information bottleneck in seq2seq: performance degradation on long sequences due to fixed-length vector compression",
+        "url": "https://research.cs.aalto.fi/pml/papers/icml04.pdf",
+        "title": "[PDF] Sequential Information Bottleneck for Finite Data Jaakko Peltonen1 ..."
+      },
+      {
+        "gap": "Information bottleneck in seq2seq: performance degradation on long sequences due to fixed-length vector compression",
+        "url": "https://en.wikipedia.org/wiki/Seq2seq",
+        "title": "Seq2seq - Wikipedia"
+      },
+      {
+        "gap": "Sequence-to-sequence learning: training procedure, teacher forcing, and applications",
+        "url": "https://d2l.ai/chapter_recurrent-modern/seq2seq.html",
+        "title": "10.7. Sequence-to-Sequence Learning for Machine Translation"
+      },
+      {
+        "gap": "Sequence-to-sequence learning: training procedure, teacher forcing, and applications",
+        "url": "https://cedar.buffalo.edu/~srihari/CSE676/10.2.1%20TeacherForcing.pdf",
+        "title": "[PDF] RNNs: Teacher Forcing - CEDAR"
+      },
+      {
+        "gap": "Sequence-to-sequence learning: training procedure, teacher forcing, and applications",
+        "url": "https://www.arxiv.org/pdf/1909.12289v1.pdf",
+        "title": "[PDF] attention forcing for sequence-to-sequence model training - arXiv"
+      },
+      {
+        "gap": "Sequence-to-sequence learning: training procedure, teacher forcing, and applications",
+        "url": "https://mbrenndoerfer.com/writing/teacher-forcing-seq2seq-training-exposure-bias-scheduled-sampling",
+        "title": "Teacher Forcing: Training Seq2Seq Models with Ground Truth ..."
+      },
+      {
+        "gap": "Sequence-to-sequence learning: training procedure, teacher forcing, and applications",
+        "url": "https://ar5iv.labs.arxiv.org/html/1909.12289",
+        "title": "Attention Forcing for Sequence-to-sequence Model Training"
+      },
+      {
+        "gap": "Vanishing gradient problem in RNNs: definition, mechanics, and impact on learning long-range dependencies",
+        "url": "https://mbrenndoerfer.com/writing/vanishing-gradients-rnn-long-range-dependencies",
+        "title": "Vanishing Gradients in RNNs: Why Neural Networks Forget Long ..."
+      },
+      {
+        "gap": "Vanishing gradient problem in RNNs: definition, mechanics, and impact on learning long-range dependencies",
+        "url": "https://en.wikipedia.org/wiki/Vanishing_gradient_problem",
+        "title": "Vanishing gradient problem - Wikipedia"
+      },
+      {
+        "gap": "Vanishing gradient problem in RNNs: definition, mechanics, and impact on learning long-range dependencies",
+        "url": "https://arxiv.org/html/2405.21064v1",
+        "title": "vanishing and exploding gradients are not the end of the story - arXiv"
+      },
+      {
+        "gap": "Vanishing gradient problem in RNNs: definition, mechanics, and impact on learning long-range dependencies",
+        "url": "https://arxiv.org/abs/1603.00423",
+        "title": "Quantifying the vanishing gradient and long distance ..."
+      },
+      {
+        "gap": "Vanishing gradient problem in RNNs: definition, mechanics, and impact on learning long-range dependencies",
+        "url": "https://aclanthology.org/W16-1610.pdf",
+        "title": "[PDF] Quantifying the Vanishing Gradient and Long Distance Dependency ..."
+      },
+      {
+        "gap": "LSTM hidden state: cell state, hidden state, gating mechanisms, and how LSTM mitigates vanishing gradients",
+        "url": "https://www.baeldung.com/cs/lstm-vanishing-gradient-prevention",
+        "title": "Prevent the Vanishing Gradient Problem with LSTM"
+      },
+      {
+        "gap": "LSTM hidden state: cell state, hidden state, gating mechanisms, and how LSTM mitigates vanishing gradients",
+        "url": "https://weberna.github.io/blog/2017/11/15/LSTM-Vanishing-Gradients.html",
+        "title": "Why LSTMs Stop Your Gradients From Vanishing"
+      },
+      {
+        "gap": "LSTM hidden state: cell state, hidden state, gating mechanisms, and how LSTM mitigates vanishing gradients",
+        "url": "https://d2l.ai/chapter_recurrent-modern/lstm.html",
+        "title": "10.1. Long Short-Term Memory (LSTM) - Dive into Deep Learning"
+      },
+      {
+        "gap": "LSTM hidden state: cell state, hidden state, gating mechanisms, and how LSTM mitigates vanishing gradients",
+        "url": "https://arxiv.org/html/2408.10006v1",
+        "title": "Unlocking the Power of LSTM for Long Term Time Series ..."
+      },
+      {
+        "gap": "LSTM hidden state: cell state, hidden state, gating mechanisms, and how LSTM mitigates vanishing gradients",
+        "url": "https://www.hilarispublisher.com/open-access/long-shortterm-memory-networks-overcoming-vanishing-gradient-problem-in-recurrent-neural-networks-98839.html",
+        "title": "Long Short-Term Memory Networks: Overcoming ..."
+      },
+      {
+        "gap": "Machine translation benchmarks: BLEU score definition, WMT datasets, and how performance is measured on long vs short sentences",
+        "url": "https://aclanthology.org/P02-1040.pdf",
+        "title": "[PDF] BLEU: a Method for Automatic Evaluation of Machine Translation"
+      },
+      {
+        "gap": "Machine translation benchmarks: BLEU score definition, WMT datasets, and how performance is measured on long vs short sentences",
+        "url": "https://en.wikipedia.org/wiki/BLEU",
+        "title": "BLEU - Wikipedia"
+      },
+      {
+        "gap": "Machine translation benchmarks: BLEU score definition, WMT datasets, and how performance is measured on long vs short sentences",
+        "url": "https://mbrenndoerfer.com/writing/history-bleu-metric-evaluation",
+        "title": "BLEU Metric - Automatic Evaluation for Machine Translation"
+      },
+      {
+        "gap": "Machine translation benchmarks: BLEU score definition, WMT datasets, and how performance is measured on long vs short sentences",
+        "url": "https://aclanthology.org/2020.acl-main.448.pdf",
+        "title": "[PDF] Tangled up in BLEU: Reevaluating the Evaluation of Automatic ..."
+      },
+      {
+        "gap": "Machine translation benchmarks: BLEU score definition, WMT datasets, and how performance is measured on long vs short sentences",
+        "url": "https://diposit.ub.edu/server/api/core/bitstreams/f27c4922-841b-4254-8ee4-e6a6d59e2b8c/content",
+        "title": "Machine Translation evaluation metrics benchmarking"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-08T01:17:29",
+    "run_label": "pipeline-test:attention-as-differentiable-retrieval-queries-keys-values",
+    "sources": [
+      {
+        "gap": "Explicit definition and role of keys in attention (what keys represent and how they are used with queries)",
+        "url": "https://d2l.ai/chapter_attention-mechanisms-and-transformers/queries-keys-values.html",
+        "title": "11.1. Queries, Keys, and Values - Dive into Deep Learning"
+      },
+      {
+        "gap": "Explicit definition and role of keys in attention (what keys represent and how they are used with queries)",
+        "url": "https://epichka.com/blog/2023/qkv-transformer/",
+        "title": "What is Query, Key, and Value (QKV) in the Transformer Architecture ..."
+      },
+      {
+        "gap": "Explicit definition and role of keys in attention (what keys represent and how they are used with queries)",
+        "url": "https://www.youtube.com/watch?v=RFdb2rKAqFw",
+        "title": "Keys, Queries, and Values: The celestial mechanics of attention"
+      },
+      {
+        "gap": "Explicit definition and role of keys in attention (what keys represent and how they are used with queries)",
+        "url": "https://blog.csdn.net/xw555666/article/details/137104768",
+        "title": "Queries, Keys, and Values"
+      },
+      {
+        "gap": "Explicit formulation of attention output as a weighted sum over values (alpha = softmax(sim(q,k)); output = \u03a3 alpha_i v_i) with a worked example",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-2-attention-mechanism-core-concepts/softmax-attention-weights",
+        "title": "The Softmax Function for Attention Weights"
+      },
+      {
+        "gap": "Explicit formulation of attention output as a weighted sum over values (alpha = softmax(sim(q,k)); output = \u03a3 alpha_i v_i) with a worked example",
+        "url": "https://arxiv.org/html/1706.03762v7",
+        "title": "Attention Is All You Need"
+      },
+      {
+        "gap": "Explicit formulation of attention output as a weighted sum over values (alpha = softmax(sim(q,k)); output = \u03a3 alpha_i v_i) with a worked example",
+        "url": "https://slds-lmu.github.io/seminar_nlp_ss20/attention-and-self-attention-for-nlp.html",
+        "title": "Chapter 8 Attention and Self-Attention for NLP"
+      },
+      {
+        "gap": "Explicit formulation of attention output as a weighted sum over values (alpha = softmax(sim(q,k)); output = \u03a3 alpha_i v_i) with a worked example",
+        "url": "https://jaykmody.com/blog/attention-intuition/",
+        "title": "Scaled Dot Product Attention"
+      },
+      {
+        "gap": "Attention as differentiable retrieval/lookup: interpreting keys as addresses, values as stored content, and softmax weights as differentiable read weights",
+        "url": "https://arxiv.org/html/2501.02950v1",
+        "title": "2 Computational Foundations..."
+      },
+      {
+        "gap": "Attention as differentiable retrieval/lookup: interpreting keys as addresses, values as stored content, and softmax weights as differentiable read weights",
+        "url": "http://arxiv.org/pdf/2006.13561.pdf",
+        "title": "Differentiable Window for Dynamic Local Attention"
+      },
+      {
+        "gap": "Attention as differentiable retrieval/lookup: interpreting keys as addresses, values as stored content, and softmax weights as differentiable read weights",
+        "url": "https://dav.students.cs.unibo.it/deep-learning/notes/2022-angelo-galavotti-notes/2023-05-03-attention-transformers.pdf",
+        "title": "Attention"
+      },
+      {
+        "gap": "Attention as differentiable retrieval/lookup: interpreting keys as addresses, values as stored content, and softmax weights as differentiable read weights",
+        "url": "https://rjbruintjes.nl/lecture-self-attention.pdf",
+        "title": "Self-Attention for Vision"
+      },
+      {
+        "gap": "Attention as differentiable retrieval/lookup: interpreting keys as addresses, values as stored content, and softmax weights as differentiable read weights",
+        "url": "https://www.xiaoguangwang.com/wp-content/uploads/2024/07/lec14.pdf",
+        "title": "AIE1007: Natural Language Processing"
+      },
+      {
+        "gap": "Connection to memory networks / key-value memory networks and how attention implements differentiable memory access",
+        "url": "https://gershmanlab.com/pubs/GershmanFieteIrie25.pdf",
+        "title": "[PDF] Key-value memory in the brain - Gershman Lab"
+      },
+      {
+        "gap": "Connection to memory networks / key-value memory networks and how attention implements differentiable memory access",
+        "url": "https://ar5iv.labs.arxiv.org/html/2501.02950",
+        "title": "[2501.02950] Key-value memory in the brain - ar5iv - arXiv"
+      },
+      {
+        "gap": "Connection to memory networks / key-value memory networks and how attention implements differentiable memory access",
+        "url": "https://proceedings.neurips.cc/paper/2021/file/bacadc62d6e67d7897cef027fa2d416c-Paper.pdf",
+        "title": "Biological learning in key-value memory networks"
+      },
+      {
+        "gap": "Connection to memory networks / key-value memory networks and how attention implements differentiable memory access",
+        "url": "https://chunpai.github.io/2020/06/21/Attention-Mechanism-3.html",
+        "title": "Dynamic Key-value Memory..."
+      },
+      {
+        "gap": "Connection to memory networks / key-value memory networks and how attention implements differentiable memory access",
+        "url": "https://ar5iv.labs.arxiv.org/html/1606.03126",
+        "title": "Key-Value Memory Networks for Directly Reading Documents"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-08T01:19:11",
+    "run_label": "pipeline-test:from-encoder-decoder-bottlenecks-to-attention",
+    "sources": [
+      {
+        "gap": "Explicit definition and role of the seq2seq 'context vector' (how it is computed in classic encoder-decoder RNNs and how the decoder conditions on it at each step)",
+        "url": "https://web.stanford.edu/class/cs224n/readings/cs224n-2019-notes06-NMT_seq2seq_attention.pdf",
+        "title": "Part VI Neural Machine Translation, Seq2seq and Attenti"
+      },
+      {
+        "gap": "Explicit definition and role of the seq2seq 'context vector' (how it is computed in classic encoder-decoder RNNs and how the decoder conditions on it at each step)",
+        "url": "https://en.wikipedia.org/wiki/Seq2seq",
+        "title": "Seq2seq - Wikipedia"
+      },
+      {
+        "gap": "Explicit definition and role of the seq2seq 'context vector' (how it is computed in classic encoder-decoder RNNs and how the decoder conditions on it at each step)",
+        "url": "https://mbrenndoerfer.com/writing/encoder-decoder-framework-seq2seq-architecture-machine-translation",
+        "title": "Encoder-Decoder Framework: Seq2Seq Architecture for ..."
+      },
+      {
+        "gap": "Explicit definition and role of the seq2seq 'context vector' (how it is computed in classic encoder-decoder RNNs and how the decoder conditions on it at each step)",
+        "url": "http://web.stanford.edu/class/cs224n/readings/cs224n-2019-notes06-NMT_seq2seq_attention.pdf",
+        "title": "CS224n: Natural Language Processing with Deep Learning   Lecture Notes: Part VI  Neural Machine Translation, Seq2seq and Attention"
+      },
+      {
+        "gap": "Explicit definition and role of the seq2seq 'context vector' (how it is computed in classic encoder-decoder RNNs and how the decoder conditions on it at each step)",
+        "url": "https://swabhs.com/f24-csci544-appliednlp/assets/slides/24f-csci544-appliednlp-lec10-seq2seq.pdf",
+        "title": "[PDF] Sequence-to-Sequence Modeling with Encoder-Decoder Architectures"
+      },
+      {
+        "gap": "Detailed explanation of the fixed-length context 'information bottleneck' in classic seq2seq (why it limits performance, especially on long sequences; typical failure modes/intuition and/or evidence)",
+        "url": "https://blog.sotaaz.com/post/context-vector-limitation-en",
+        "title": "5.3 Why Lstm Also Has..."
+      },
+      {
+        "gap": "Detailed explanation of the fixed-length context 'information bottleneck' in classic seq2seq (why it limits performance, especially on long sequences; typical failure modes/intuition and/or evidence)",
+        "url": "https://bimsa.net/doc/notes/27196.pdf",
+        "title": "[PDF] Neural Machine Translation Model (Seq2seq Models With Attention)"
+      },
+      {
+        "gap": "Detailed explanation of the fixed-length context 'information bottleneck' in classic seq2seq (why it limits performance, especially on long sequences; typical failure modes/intuition and/or evidence)",
+        "url": "https://apxml.com/courses/introduction-to-transformer-models/chapter-1-sequence-modeling-attention-fundamentals/sequence-to-sequence-challenges",
+        "title": "Challenges in Sequence-to-Sequence Tasks"
+      },
+      {
+        "gap": "Detailed explanation of the fixed-length context 'information bottleneck' in classic seq2seq (why it limits performance, especially on long sequences; typical failure modes/intuition and/or evidence)",
+        "url": "https://en.wikipedia.org/wiki/Seq2seq",
+        "title": "Seq2seq - Wikipedia"
+      },
+      {
+        "gap": "Detailed explanation of the fixed-length context 'information bottleneck' in classic seq2seq (why it limits performance, especially on long sequences; typical failure modes/intuition and/or evidence)",
+        "url": "https://www.apxml.com/courses/introduction-to-transformer-models/chapter-1-sequence-modeling-attention-fundamentals/sequence-to-sequence-challenges",
+        "title": "Sequence-to-Sequence Task Challenges"
+      },
+      {
+        "gap": "Mechanics of alignment in attention-based NMT (alignment scores/weights, soft alignment vs hard alignment, how per-target-step context is computed as a weighted sum of encoder hidden states, worked example/visualization)",
+        "url": "https://nlp.stanford.edu/pubs/emnlp15_attn.pdf",
+        "title": "[PDF] Effective Approaches to Attention-based Neural Machine Translation"
+      },
+      {
+        "gap": "Mechanics of alignment in attention-based NMT (alignment scores/weights, soft alignment vs hard alignment, how per-target-step context is computed as a weighted sum of encoder hidden states, worked example/visualization)",
+        "url": "https://arxiv.org/pdf/1507.01053.pdf",
+        "title": "1"
+      },
+      {
+        "gap": "Mechanics of alignment in attention-based NMT (alignment scores/weights, soft alignment vs hard alignment, how per-target-step context is computed as a weighted sum of encoder hidden states, worked example/visualization)",
+        "url": "https://ufal.mff.cuni.cz/pbml/108/art-peter-nix-ney.pdf",
+        "title": "Generating Alignments Using Target Foresight in Attention-Based Neural Machine Translation"
+      },
+      {
+        "gap": "Mechanics of alignment in attention-based NMT (alignment scores/weights, soft alignment vs hard alignment, how per-target-step context is computed as a weighted sum of encoder hidden states, worked example/visualization)",
+        "url": "https://eprints.whiterose.ac.uk/id/eprint/166668/1/MTJ_2020.pdf",
+        "title": "[PDF] Investigating alignment interpretability for low-resource NMT"
+      },
+      {
+        "gap": "Mechanics of alignment in attention-based NMT (alignment scores/weights, soft alignment vs hard alignment, how per-target-step context is computed as a weighted sum of encoder hidden states, worked example/visualization)",
+        "url": "https://d-nb.info/1196210853/34",
+        "title": "Generating Alignments Using Target Foresight in Attention- ..."
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-08T01:22:52",
+    "run_label": "pipeline-test:bahdanau-additive-attention-formulation-and-intuition",
+    "sources": [
+      {
+        "gap": "Bahdanau (additive) attention formulation with equations: energy/score function using an MLP (tanh) over decoder state and encoder hidden states",
+        "url": "https://gist.github.com/ritwikraha/2466b901cb22bbe65288e4bb499e0ebc",
+        "title": "why Bahdanau is Additive?"
+      },
+      {
+        "gap": "Bahdanau (additive) attention formulation with equations: energy/score function using an MLP (tanh) over decoder state and encoder hidden states",
+        "url": "https://d2l.ai/chapter_attention-mechanisms-and-transformers/bahdanau-attention.html",
+        "title": "11.4. The Bahdanau Attention Mechanism - Dive into Deep Learning"
+      },
+      {
+        "gap": "Bahdanau (additive) attention formulation with equations: energy/score function using an MLP (tanh) over decoder state and encoder hidden states",
+        "url": "https://mbrenndoerfer.com/writing/bahdanau-attention-neural-machine-translation",
+        "title": "Bahdanau Attention: Dynamic Context for Neural Machine Translation"
+      },
+      {
+        "gap": "Bahdanau (additive) attention formulation with equations: energy/score function using an MLP (tanh) over decoder state and encoder hidden states",
+        "url": "https://glouppe.github.io/info8010-deep-learning/pdf/lec7.pdf",
+        "title": "[PDF] Deep Learning - Gilles Louppe"
+      },
+      {
+        "gap": "Bahdanau (additive) attention formulation with equations: energy/score function using an MLP (tanh) over decoder state and encoder hidden states",
+        "url": "https://slds-lmu.github.io/seminar_nlp_ss20/attention-and-self-attention-for-nlp.html",
+        "title": "Chapter 8 Attention and Self-Attention for NLP"
+      },
+      {
+        "gap": "Definition and computation of alignment scores e_{t,i} and attention weights alpha_{t,i} for RNN seq2seq",
+        "url": "https://lena-voita.github.io/nlp_course/seq2seq_and_attention.html",
+        "title": "Seq2seq and Attention"
+      },
+      {
+        "gap": "Definition and computation of alignment scores e_{t,i} and attention weights alpha_{t,i} for RNN seq2seq",
+        "url": "https://arxiv.org/html/2506.17424v1",
+        "title": "The Seq2seq Model Provides..."
+      },
+      {
+        "gap": "Definition and computation of alignment scores e_{t,i} and attention weights alpha_{t,i} for RNN seq2seq",
+        "url": "https://chunpai.github.io/2020/06/15/Attention-Mechanism-1.html",
+        "title": "Attention Mechanism [1]: Seq2Seq Models - Chunpai Wang"
+      },
+      {
+        "gap": "Definition and computation of alignment scores e_{t,i} and attention weights alpha_{t,i} for RNN seq2seq",
+        "url": "https://datajourney24.substack.com/p/advanced-sequence-models-from-bidirectional",
+        "title": "Advanced Sequence Models: From Bidirectional RNNs to Attention"
+      },
+      {
+        "gap": "Definition and computation of alignment scores e_{t,i} and attention weights alpha_{t,i} for RNN seq2seq",
+        "url": "https://bimsa.net/doc/notes/27196.pdf",
+        "title": "[PDF] Neural Machine Translation Model (Seq2seq Models With Attention)"
+      },
+      {
+        "gap": "Context vector computation c_t as a weighted sum of encoder hidden states and how it feeds into the decoder",
+        "url": "https://www1.se.cuhk.edu.hk/~seem5680/lecture/Encoder-Decoder-Attention-2022spring.pdf",
+        "title": "[PDF] Encoder\u2010Decoder Models and Attention"
+      },
+      {
+        "gap": "Context vector computation c_t as a weighted sum of encoder hidden states and how it feeds into the decoder",
+        "url": "https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-nmt-attention/",
+        "title": "Attention in RNN-based NMT - Introduction"
+      },
+      {
+        "gap": "Context vector computation c_t as a weighted sum of encoder hidden states and how it feeds into the decoder",
+        "url": "https://www.geeksforgeeks.org/artificial-intelligence/ml-attention-mechanism/",
+        "title": "Attention Mechanism in ML"
+      },
+      {
+        "gap": "Context vector computation c_t as a weighted sum of encoder hidden states and how it feeds into the decoder",
+        "url": "https://ahcweb01.naist.jp/papers/conference/2017/201711_IJCNLP_Tjandra_1/201711_IJCNLP_Tjandra_1.paper.pdf",
+        "title": "Proceedings of the The 8th International Joint Conference on Natural Language Processing, pages 431\u2013440,"
+      },
+      {
+        "gap": "Context vector computation c_t as a weighted sum of encoder hidden states and how it feeds into the decoder",
+        "url": "https://proceedings.neurips.cc/paper/2021/file/ba3c736667394d5082f86f28aef38107-Supplemental.pdf",
+        "title": "A"
+      },
+      {
+        "gap": "Role of the RNN decoder hidden state (s_{t-1} or s_t) as the query in additive attention",
+        "url": "https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-nmt-attention/",
+        "title": "Attention in RNN-based NMT - Introduction"
+      },
+      {
+        "gap": "Role of the RNN decoder hidden state (s_{t-1} or s_t) as the query in additive attention",
+        "url": "https://d2l.ai/chapter_attention-mechanisms-and-transformers/bahdanau-attention.html",
+        "title": "11.4. The Bahdanau Attention Mechanism - Dive into Deep Learning"
+      },
+      {
+        "gap": "Role of the RNN decoder hidden state (s_{t-1} or s_t) as the query in additive attention",
+        "url": "https://www1.se.cuhk.edu.hk/~seem5680/lecture/Encoder-Decoder-Attention-2022spring.pdf",
+        "title": "[PDF] Encoder\u2010Decoder Models and Attention"
+      },
+      {
+        "gap": "Role of the RNN decoder hidden state (s_{t-1} or s_t) as the query in additive attention",
+        "url": "https://www.geeksforgeeks.org/artificial-intelligence/ml-attention-mechanism/",
+        "title": "Attention Mechanism in ML"
+      },
+      {
+        "gap": "Role of the RNN decoder hidden state (s_{t-1} or s_t) as the query in additive attention",
+        "url": "https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-nmt-attention/index.html",
+        "title": "Engineering AI Agents"
+      },
+      {
+        "gap": "Intuition for soft alignment vs hard alignment and how attention mitigates the fixed-length bottleneck / improves long-range dependencies",
+        "url": "https://arxiv.org/pdf/1712.05382.pdf",
+        "title": "Published as a conference paper at ICLR 2018"
+      },
+      {
+        "gap": "Intuition for soft alignment vs hard alignment and how attention mitigates the fixed-length bottleneck / improves long-range dependencies",
+        "url": "https://aclanthology.org/D18-1473.pdf",
+        "title": "Hard Non-Monotonic Attention for Character-Level ..."
+      },
+      {
+        "gap": "Intuition for soft alignment vs hard alignment and how attention mitigates the fixed-length bottleneck / improves long-range dependencies",
+        "url": "https://aclanthology.org/2023.acl-long.492.pdf",
+        "title": "[PDF] Soft Alignment Objectives for Robust Adaptation of Language ..."
+      },
+      {
+        "gap": "Intuition for soft alignment vs hard alignment and how attention mitigates the fixed-length bottleneck / improves long-range dependencies",
+        "url": "https://rycolab.io/papers/wu+al.emnlp18.pdf",
+        "title": "This paper appeared in EMNLP 2018 and was presented in Brussels in November 2018. This version"
+      },
+      {
+        "gap": "Intuition for soft alignment vs hard alignment and how attention mitigates the fixed-length bottleneck / improves long-range dependencies",
+        "url": "https://rohanvarma.me/attention",
+        "title": "Notes: Neural Machine Translation by Jointly Learning to Align and Translate"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-08T01:24:15",
+    "run_label": "pipeline-test:attention-complexity-and-efficient-alternatives",
+    "sources": [
+      {
+        "gap": "Derivation and explanation of standard self-attention O(n^2) time and memory complexity (attention matrix computation and softmax)",
+        "url": "https://arxiv.org/html/2503.15758v1",
+        "title": "Attention2D: Communication Efficient Distributed Self ..."
+      },
+      {
+        "gap": "Derivation and explanation of standard self-attention O(n^2) time and memory complexity (attention matrix computation and softmax)",
+        "url": "https://arxiv.org/pdf/2209.04881.pdf",
+        "title": "[PDF] on the computational complexity of self-attention - arXiv"
+      },
+      {
+        "gap": "Derivation and explanation of standard self-attention O(n^2) time and memory complexity (attention matrix computation and softmax)",
+        "url": "https://proceedings.mlr.press/v201/duman-keles23a/duman-keles23a.pdf",
+        "title": "[PDF] On The Computational Complexity of Self-Attention"
+      },
+      {
+        "gap": "Derivation and explanation of standard self-attention O(n^2) time and memory complexity (attention matrix computation and softmax)",
+        "url": "https://dev.to/lewis_won/efficient-self-attention-mechanism-1p64",
+        "title": "Efficient self-attention mechanism"
+      },
+      {
+        "gap": "Derivation and explanation of standard self-attention O(n^2) time and memory complexity (attention matrix computation and softmax)",
+        "url": "https://www.onenoughtone.com/learn/self-attention/5",
+        "title": "Self-Attention - Page 5 of 5 | OneNoughtOne"
+      },
+      {
+        "gap": "Practical memory footprint details: training activations vs inference, attention matrix storage, KV cache, and scaling with context length",
+        "url": "https://arxiv.org/html/2506.05345v1",
+        "title": "Inference-Time Hyper-Scaling with KV Cache Compression - arXiv.org"
+      },
+      {
+        "gap": "Practical memory footprint details: training activations vs inference, attention matrix storage, KV cache, and scaling with context length",
+        "url": "https://odr.chalmers.se/server/api/core/bitstreams/46f57dac-8274-4fb1-8e51-ea179b75d95e/content",
+        "title": "[PDF] Adaptive KV Cache Management for Efficient Transformer-based ..."
+      },
+      {
+        "gap": "Practical memory footprint details: training activations vs inference, attention matrix storage, KV cache, and scaling with context length",
+        "url": "https://www.arxiv.org/pdf/2512.24449v2.pdf",
+        "title": "[PDF] PackKV: Reducing KV Cache Memory Footprint through LLM-Aware ..."
+      },
+      {
+        "gap": "Practical memory footprint details: training activations vs inference, attention matrix storage, KV cache, and scaling with context length",
+        "url": "https://aclanthology.org/2024.findings-emnlp.899.pdf",
+        "title": "[PDF] Attention in Low-Rank Space for KV Cache Compression"
+      },
+      {
+        "gap": "Practical memory footprint details: training activations vs inference, attention matrix storage, KV cache, and scaling with context length",
+        "url": "https://papers.nips.cc/paper_files/paper/2024/file/028fcbcf85435d39a40c4d61b42c99a4-Paper-Conference.pdf",
+        "title": "[PDF] Towards 10 Million Context Length LLM Inference with KV Cache ..."
+      },
+      {
+        "gap": "Sparse attention strategies: local/windowed attention, block-sparse patterns, global tokens, routing-based sparsity, and complexity/quality tradeoffs",
+        "url": "https://arxiv.org/html/2507.19595v1",
+        "title": "Efficient Attention Mechanisms for Large Language Models: A Survey"
+      },
+      {
+        "gap": "Sparse attention strategies: local/windowed attention, block-sparse patterns, global tokens, routing-based sparsity, and complexity/quality tradeoffs",
+        "url": "https://arxiv.org/html/2505.00315v1",
+        "title": "Content-Based Learnable Sparse Attention via Expert-Choice Routing"
+      },
+      {
+        "gap": "Sparse attention strategies: local/windowed attention, block-sparse patterns, global tokens, routing-based sparsity, and complexity/quality tradeoffs",
+        "url": "https://www.scribd.com/document/968919690/2505-00315v1",
+        "title": "Content-Based Learnable Sparse Attention Via Expert-Choice Routing"
+      },
+      {
+        "gap": "Sparse attention strategies: local/windowed attention, block-sparse patterns, global tokens, routing-based sparsity, and complexity/quality tradeoffs",
+        "url": "https://aclanthology.org/2021.tacl-1.4.pdf",
+        "title": "Efficient Content-Based Sparse Attention with Routing ..."
+      },
+      {
+        "gap": "Sparse attention strategies: local/windowed attention, block-sparse patterns, global tokens, routing-based sparsity, and complexity/quality tradeoffs",
+        "url": "https://david.grangier.info/papers/2020/aurkoroy-routing-transformer-2020.pdf",
+        "title": "[PDF] Efficient Content-Based Sparse Attention with Routing Transformers"
+      },
+      {
+        "gap": "Low-rank attention approximations: Linformer, Nystr\u00f6mformer, SVD/factorization intuition, projection dimensions, and approximation error considerations",
+        "url": "https://arxiv.org/pdf/2006.04768.pdf",
+        "title": "[PDF] Linformer: Self-Attention with Linear Complexity - arXiv"
+      },
+      {
+        "gap": "Low-rank attention approximations: Linformer, Nystr\u00f6mformer, SVD/factorization intuition, projection dimensions, and approximation error considerations",
+        "url": "https://www.alphaxiv.org/de/overview/2006.04768v1",
+        "title": "Linformer: Self-Attention with Linear Complexity"
+      },
+      {
+        "gap": "Low-rank attention approximations: Linformer, Nystr\u00f6mformer, SVD/factorization intuition, projection dimensions, and approximation error considerations",
+        "url": "https://www.emergentmind.com/topics/linformer-based-low-rank-attention-mechanism",
+        "title": "Linformer Low-Rank Attention Mechanism - Emergent Mind"
+      },
+      {
+        "gap": "Low-rank attention approximations: Linformer, Nystr\u00f6mformer, SVD/factorization intuition, projection dimensions, and approximation error considerations",
+        "url": "https://arxiv.org/abs/2006.04768",
+        "title": "[2006.04768] Linformer: Self-Attention with Linear Complexity - arXiv"
+      },
+      {
+        "gap": "Low-rank attention approximations: Linformer, Nystr\u00f6mformer, SVD/factorization intuition, projection dimensions, and approximation error considerations",
+        "url": "https://www.emergentmind.com/papers/2006.04768",
+        "title": "Linformer: Self-Attention with Linear Complexity - Emergent Mind"
+      },
+      {
+        "gap": "Linear attention mechanisms: rewriting attention to avoid n\u00d7n matrix, associativity tricks, normalization variants, and when linear attention works/fails",
+        "url": "https://www.emergentmind.com/topics/linear-attention-architectures",
+        "title": "Linear Attention Architectures - Emergent Mind"
+      },
+      {
+        "gap": "Linear attention mechanisms: rewriting attention to avoid n\u00d7n matrix, associativity tricks, normalization variants, and when linear attention works/fails",
+        "url": "https://openaccess.thecvf.com/content/CVPR2025/papers/Fan_Breaking_the_Low-Rank_Dilemma_of_Linear_Attention_CVPR_2025_paper.pdf",
+        "title": "[PDF] Breaking the Low-Rank Dilemma of Linear Attention"
+      },
+      {
+        "gap": "Linear attention mechanisms: rewriting attention to avoid n\u00d7n matrix, associativity tricks, normalization variants, and when linear attention works/fails",
+        "url": "https://arxiv.org/html/2411.07635v1",
+        "title": "Breaking the Low-Rank Dilemma of Linear Attention - arXiv"
+      },
+      {
+        "gap": "Linear attention mechanisms: rewriting attention to avoid n\u00d7n matrix, associativity tricks, normalization variants, and when linear attention works/fails",
+        "url": "https://arxiv.org/pdf/2506.21137.pdf",
+        "title": "Norm-Aware Linear Attention for Transformer Models"
+      },
+      {
+        "gap": "Linear attention mechanisms: rewriting attention to avoid n\u00d7n matrix, associativity tricks, normalization variants, and when linear attention works/fails",
+        "url": "https://huwan.org/blog/note-linear-attention/Linear_Attention.pdf",
+        "title": "[PDF] Linear Attention Notes | Huwan Peng"
+      },
+      {
+        "gap": "Kernelization for attention efficiency: softmax as a kernel, random feature maps (e.g., Performer/FAVOR+), kernel feature approximations, and numerical stability",
+        "url": "https://arxiv.org/abs/2009.14794",
+        "title": "[2009.14794] Rethinking Attention with Performers - arXiv"
+      },
+      {
+        "gap": "Kernelization for attention efficiency: softmax as a kernel, random feature maps (e.g., Performer/FAVOR+), kernel feature approximations, and numerical stability",
+        "url": "http://arxiv.org/pdf/2009.14794v2.pdf",
+        "title": "Published as a conference paper at ICLR 2021"
+      },
+      {
+        "gap": "Kernelization for attention efficiency: softmax as a kernel, random feature maps (e.g., Performer/FAVOR+), kernel feature approximations, and numerical stability",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-6-advanced-architectural-variants-analysis/kernel-based-attention-performers",
+        "title": "Kernel-Based Attention Approximation (Performers)"
+      },
+      {
+        "gap": "Kernelization for attention efficiency: softmax as a kernel, random feature maps (e.g., Performer/FAVOR+), kernel feature approximations, and numerical stability",
+        "url": "https://teddykoker.com/2020/11/performers/",
+        "title": "Performers: The Kernel Trick, Random Fourier Features, and Attention"
+      },
+      {
+        "gap": "Kernelization for attention efficiency: softmax as a kernel, random feature maps (e.g., Performer/FAVOR+), kernel feature approximations, and numerical stability",
+        "url": "https://www.repository.cam.ac.uk/items/a58c36ee-2aec-4208-a14e-964e73bc89ee",
+        "title": "Random Features for Efficient Attention Approximation"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-08T11:01:12",
+    "run_label": "pipeline-test:luong-multiplicative-attention-and-score-functions",
+    "sources": [
+      {
+        "gap": "Luong (2015) multiplicative attention: definition and full derivation of score functions (dot, general, concat) and how they plug into softmax weighting",
+        "url": "https://mbrenndoerfer.com/writing/luong-attention-mechanisms-dot-product-general-local",
+        "title": "Luong Attention: Dot Product, General & Local Attention Mechanisms"
+      },
+      {
+        "gap": "Luong (2015) multiplicative attention: definition and full derivation of score functions (dot, general, concat) and how they plug into softmax weighting",
+        "url": "https://machinelearningmastery.com/the-luong-attention-mechanism/",
+        "title": "The Luong Attention Mechanism - MachineLearningMastery.com"
+      },
+      {
+        "gap": "Luong (2015) multiplicative attention: definition and full derivation of score functions (dot, general, concat) and how they plug into softmax weighting",
+        "url": "https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1214/slides/cs224n-2021-lecture08-final-project.pdf",
+        "title": "Natural Language Processing"
+      },
+      {
+        "gap": "Luong (2015) multiplicative attention: definition and full derivation of score functions (dot, general, concat) and how they plug into softmax weighting",
+        "url": "https://www.khoury.northeastern.edu/home/vip/teach/MLcourse/7_adv_NN/notes/chatGPT_responses/attention_mechanisms_latest.pdf",
+        "title": "Class Notes: Attention Mechanisms in Neural Networks"
+      },
+      {
+        "gap": "Luong (2015) multiplicative attention: definition and full derivation of score functions (dot, general, concat) and how they plug into softmax weighting",
+        "url": "https://aman.ai/primers/ai/attention/",
+        "title": "Aman's AI Journal \u2022 Natural Language Processing \u2022 Attention"
+      },
+      {
+        "gap": "Explicit comparison to Bahdanau/additive attention: behavioral differences, parameterization, and when multiplicative is preferred",
+        "url": "https://blog.csdn.net/diankuaiyong2124/article/details/101216024",
+        "title": "\u81ea\u7136\u8bed\u8a00\u5904\u7406\u4e2d\u7684\u6ce8\u610f\u529b\u673a\u5236Summary of Attention Module in NLP_state of art method till 2019 (Updating)..."
+      },
+      {
+        "gap": "Explicit comparison to Bahdanau/additive attention: behavioral differences, parameterization, and when multiplicative is preferred",
+        "url": "https://gist.github.com/ritwikraha/2466b901cb22bbe65288e4bb499e0ebc",
+        "title": "why Bahdanau is Additive?"
+      },
+      {
+        "gap": "Explicit comparison to Bahdanau/additive attention: behavioral differences, parameterization, and when multiplicative is preferred",
+        "url": "https://www.scribd.com/document/854839826/16",
+        "title": "Bahdanau Attention Mechanism (Also Known As Additive ..."
+      },
+      {
+        "gap": "Explicit comparison to Bahdanau/additive attention: behavioral differences, parameterization, and when multiplicative is preferred",
+        "url": "https://www.ibm.com/think/topics/attention-mechanism",
+        "title": "What is an attention mechanism?"
+      },
+      {
+        "gap": "Computational cost comparison: dot vs general vs concat vs additive (matrix multiplies, parameter counts, runtime implications)",
+        "url": "https://www.cs.cornell.edu/courses/cs4787/2022fa/lectures/lecture14.pdf",
+        "title": "Lecture 14: Neural Networks and Matrix Multiply."
+      },
+      {
+        "gap": "Computational cost comparison: dot vs general vs concat vs additive (matrix multiplies, parameter counts, runtime implications)",
+        "url": "https://www.cs.utsa.edu/~atc/pub/J42.pdf",
+        "title": "[PDF] Copyright \u00a9 by SIAM. Unauthorized reproduction of this article is ..."
+      },
+      {
+        "gap": "Computational cost comparison: dot vs general vs concat vs additive (matrix multiplies, parameter counts, runtime implications)",
+        "url": "https://buomsoo-kim.github.io/attention/2020/03/19/Attention-mechanism-13.md/",
+        "title": "Attention Mechanism in Neural Networks - 13. Various ..."
+      },
+      {
+        "gap": "Computational cost comparison: dot vs general vs concat vs additive (matrix multiplies, parameter counts, runtime implications)",
+        "url": "http://www.cs.utsa.edu/faculty/atc/pub/J42.pdf",
+        "title": "Copyright \u00a9 by SIAM. Unauthorized reproduction of this article is prohibited."
+      },
+      {
+        "gap": "Computational cost comparison: dot vs general vs concat vs additive (matrix multiplies, parameter counts, runtime implications)",
+        "url": "https://www.emergentmind.com/open-problems/computational-cost-of-matrix-multiplication",
+        "title": "Computational cost of matrix multiplication"
+      },
+      {
+        "gap": "Scaled dot-product attention: why scaling by 1/sqrt(d_k) is used, relation to Luong dot-product attention, and numerical stability/gradient behavior",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-2-attention-mechanism-core-concepts/scaled-dot-product-attention",
+        "title": "Scaled Dot-Product Attention Explained - ApX Machine Learning"
+      },
+      {
+        "gap": "Scaled dot-product attention: why scaling by 1/sqrt(d_k) is used, relation to Luong dot-product attention, and numerical stability/gradient behavior",
+        "url": "https://pyml.substack.com/p/demystifying-scaled-dot-product-attention",
+        "title": "Demystifying Scaled Dot-Product Attention - PyML Studio"
+      },
+      {
+        "gap": "Scaled dot-product attention: why scaling by 1/sqrt(d_k) is used, relation to Luong dot-product attention, and numerical stability/gradient behavior",
+        "url": "https://www.abhik.ai/concepts/attention/scaled-dot-product",
+        "title": "Scaled Dot-Product Attention | Abhik Sarkar"
+      },
+      {
+        "gap": "Scaled dot-product attention: why scaling by 1/sqrt(d_k) is used, relation to Luong dot-product attention, and numerical stability/gradient behavior",
+        "url": "https://itobos.eu/images/iTOBOS/Articles_Blog/NTUA/scaled_dot_attention.pdf",
+        "title": "[PDF] Scaled Dot-Product Attention - iToBoS"
+      },
+      {
+        "gap": "Scaled dot-product attention: why scaling by 1/sqrt(d_k) is used, relation to Luong dot-product attention, and numerical stability/gradient behavior",
+        "url": "https://www.scribd.com/document/1009711781/Attention-Scaling-Documentation",
+        "title": "Attention Scaling Documentation | PDF"
+      },
+      {
+        "gap": "Worked numeric examples computing attention scores and weights for each scoring variant",
+        "url": "https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1214/slides/cs224n-2021-lecture08-final-project.pdf",
+        "title": "Natural Language Processing"
+      },
+      {
+        "gap": "Worked numeric examples computing attention scores and weights for each scoring variant",
+        "url": "https://arxiv.org/html/2406.04612v1",
+        "title": "Revisiting Attention Weights as Interpretations of Message- ..."
+      },
+      {
+        "gap": "Worked numeric examples computing attention scores and weights for each scoring variant",
+        "url": "https://www.mlwithramin.com/blog/attention",
+        "title": "Numerical Example"
+      },
+      {
+        "gap": "Worked numeric examples computing attention scores and weights for each scoring variant",
+        "url": "https://www.khoury.northeastern.edu/home/vip/teach/MLcourse/7_adv_NN/notes/chatGPT_responses/attention_mechanisms_latest.pdf",
+        "title": "Class Notes: Attention Mechanisms in Neural Networks"
+      },
+      {
+        "gap": "Worked numeric examples computing attention scores and weights for each scoring variant",
+        "url": "https://sebastianraschka.com/blog/2023/self-attention-from-scratch.html",
+        "title": "Defining the Weight Matrices"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-11T17:37:44",
+    "run_label": "ensure-coverage:sequence-to-sequence-basics-and-the-bottleneck-problem",
+    "sources": [
+      {
+        "gap": "Clear tutorial-style definition of sequence-to-sequence learning with examples (e.g., translation) and typical loss/objective",
+        "url": "https://www.geeksforgeeks.org/deep-learning/what-is-sequence-to-sequence-learning/",
+        "title": "What is Sequence-to-Sequence Learning?"
+      },
+      {
+        "gap": "Clear tutorial-style definition of sequence-to-sequence learning with examples (e.g., translation) and typical loss/objective",
+        "url": "http://www.cips-cl.org/static/CCL2017/slides/T1_part2.pdf",
+        "title": "[PDF] Sequence to Sequence Learning"
+      },
+      {
+        "gap": "Clear tutorial-style definition of sequence-to-sequence learning with examples (e.g., translation) and typical loss/objective",
+        "url": "https://arxiv.org/pdf/1409.3215.pdf",
+        "title": "Sequence to Sequence Learning with Neural Networks"
+      },
+      {
+        "gap": "Clear tutorial-style definition of sequence-to-sequence learning with examples (e.g., translation) and typical loss/objective",
+        "url": "https://static.googleusercontent.com/media/research.google.com/en/pubs/archive/43155.pdf",
+        "title": "[PDF] Sequence to Sequence Learning with Neural Networks - NIPS"
+      },
+      {
+        "gap": "Encoder-decoder mechanics: encoder hidden states, decoder autoregressive generation, start/end tokens, inference vs training",
+        "url": "https://www1.se.cuhk.edu.hk/~seem5680/lecture/Encoder-Decoder-Attention-2022spring.pdf",
+        "title": "[PDF] Encoder\u2010Decoder Models and Attention"
+      },
+      {
+        "gap": "Encoder-decoder mechanics: encoder hidden states, decoder autoregressive generation, start/end tokens, inference vs training",
+        "url": "https://www.cs.cornell.edu/courses/cs4740/2025sp/lectures/Lec12.pdf",
+        "title": "[PDF] Encoder-decoder RNN architecture - Cornell: Computer Science"
+      },
+      {
+        "gap": "Encoder-decoder mechanics: encoder hidden states, decoder autoregressive generation, start/end tokens, inference vs training",
+        "url": "https://web.stanford.edu/~jurafsky/slp3/old_oct19/10.pdf",
+        "title": "[PDF] Encoder-Decoder Models, At- tention, and Contextual Em- beddings"
+      },
+      {
+        "gap": "Context vector definition and computation in classic RNN/LSTM seq2seq (final hidden state or pooled state) and how decoder conditions on it",
+        "url": "https://www.geeksforgeeks.org/machine-learning/seq2seq-model-in-machine-learning/",
+        "title": "seq2seq Model"
+      },
+      {
+        "gap": "Context vector definition and computation in classic RNN/LSTM seq2seq (final hidden state or pooled state) and how decoder conditions on it",
+        "url": "https://bimsa.net/doc/notes/27196.pdf",
+        "title": "[PDF] Neural Machine Translation Model (Seq2seq Models With Attention)"
+      },
+      {
+        "gap": "Context vector definition and computation in classic RNN/LSTM seq2seq (final hidden state or pooled state) and how decoder conditions on it",
+        "url": "https://web.stanford.edu/class/cs224n/readings/cs224n-2019-notes06-NMT_seq2seq_attention.pdf",
+        "title": "Part VI Neural Machine Translation, Seq2seq and Attenti"
+      },
+      {
+        "gap": "Context vector definition and computation in classic RNN/LSTM seq2seq (final hidden state or pooled state) and how decoder conditions on it",
+        "url": "http://web.stanford.edu/class/cs224n/readings/cs224n-2019-notes06-NMT_seq2seq_attention.pdf",
+        "title": "CS224n: Natural Language Processing with Deep Learning   Lecture Notes: Part VI  Neural Machine Translation, Seq2seq and Attention"
+      },
+      {
+        "gap": "Information bottleneck in fixed-length context representations: why performance degrades with longer inputs; illustrative examples/intuition",
+        "url": "https://aclanthology.org/2020.emnlp-main.153.pdf",
+        "title": "[PDF] An Information Bottleneck Approach for Controlling Conciseness in ..."
+      },
+      {
+        "gap": "Information bottleneck in fixed-length context representations: why performance degrades with longer inputs; illustrative examples/intuition",
+        "url": "https://www.arxiv.org/pdf/2501.00999.pdf",
+        "title": "arXiv:2501.00999v2 [cs.CL] 6 Jan 2025"
+      },
+      {
+        "gap": "Information bottleneck in fixed-length context representations: why performance degrades with longer inputs; illustrative examples/intuition",
+        "url": "https://cs.stanford.edu/~nfliu/papers/lost-in-the-middle.arxiv2023.pdf",
+        "title": "[PDF] Lost in the Middle: How Language Models Use Long Contexts"
+      },
+      {
+        "gap": "Information bottleneck in fixed-length context representations: why performance degrades with longer inputs; illustrative examples/intuition",
+        "url": "https://yichaocai.com/posts/information-bottleneck.pdf",
+        "title": "[PDF] How Information Bottleneck Helps Representation Learning"
+      },
+      {
+        "gap": "Information bottleneck in fixed-length context representations: why performance degrades with longer inputs; illustrative examples/intuition",
+        "url": "https://papers.neurips.cc/paper_files/paper/2020/file/d8ea5f53c1b1eb087ac2e356253395d8-Paper.pdf",
+        "title": "[PDF] Learning Optimal Representations with the Decodable Information ..."
+      },
+      {
+        "gap": "Long-range dependencies: definition, why they are hard for RNNs/fixed vectors, and how attention alleviates them",
+        "url": "https://www.cs.toronto.edu/~rgrosse/courses/csc321_2018/readings/L16%20Learning%20Long%20Term%20Dependencies.pdf",
+        "title": "Lecture 16: Learning Long-Term Dependencies"
+      },
+      {
+        "gap": "Long-range dependencies: definition, why they are hard for RNNs/fixed vectors, and how attention alleviates them",
+        "url": "https://www.arxiv.org/pdf/1512.08756v1.pdf",
+        "title": "[PDF] Feed-Forward Networks with Attention Can Solve Some Long-Term ..."
+      },
+      {
+        "gap": "Long-range dependencies: definition, why they are hard for RNNs/fixed vectors, and how attention alleviates them",
+        "url": "https://arxiv.org/abs/2603.29069",
+        "title": "[2603.29069] On the Mirage of Long-Range Dependency, with an ..."
+      },
+      {
+        "gap": "Long-range dependencies: definition, why they are hard for RNNs/fixed vectors, and how attention alleviates them",
+        "url": "https://mbrenndoerfer.com/writing/vanishing-gradients-rnn-long-range-dependencies",
+        "title": "Vanishing Gradients in RNNs: Why Neural Networks Forget Long ..."
+      },
+      {
+        "gap": "Long-range dependencies: definition, why they are hard for RNNs/fixed vectors, and how attention alleviates them",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/39637825/",
+        "title": "Revisiting the problem of learning long-term dependencies ... - PubMed"
+      },
+      {
+        "gap": "Teacher forcing: definition, how it is applied in decoder training, exposure bias, and difference from inference-time decoding",
+        "url": "https://cedar.buffalo.edu/~srihari/CSE676/10.2.1%20TeacherForcing.pdf",
+        "title": "[PDF] RNNs: Teacher Forcing - CEDAR"
+      },
+      {
+        "gap": "Teacher forcing: definition, how it is applied in decoder training, exposure bias, and difference from inference-time decoding",
+        "url": "https://aclanthology.org/2020.coling-main.255.pdf",
+        "title": "Noise Isn't Always Negative: Countering Exposure Bias in ..."
+      },
+      {
+        "gap": "Teacher forcing: definition, how it is applied in decoder training, exposure bias, and difference from inference-time decoding",
+        "url": "https://mbrenndoerfer.com/writing/teacher-forcing-seq2seq-training-exposure-bias-scheduled-sampling",
+        "title": "Teacher Forcing: Training Seq2Seq Models with Ground Truth ..."
+      },
+      {
+        "gap": "Teacher forcing: definition, how it is applied in decoder training, exposure bias, and difference from inference-time decoding",
+        "url": "https://arxiv.org/pdf/1809.03132.pdf",
+        "title": "arXiv:1809.03132v1 [cs.CL] 10 Sep 2018"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-11T18:02:02",
+    "run_label": "ensure-coverage:sequence-to-sequence-basics-and-the-bottleneck-problem",
+    "sources": [
+      {
+        "gap": "A tutorial-level definition of sequence-to-sequence learning (inputs/outputs, sequence transduction tasks, likelihood objective)",
+        "url": "https://arxiv.org/pdf/1409.3215.pdf",
+        "title": "Sequence to Sequence Learning with Neural Networks"
+      },
+      {
+        "gap": "A tutorial-level definition of sequence-to-sequence learning (inputs/outputs, sequence transduction tasks, likelihood objective)",
+        "url": "https://static.googleusercontent.com/media/research.google.com/en/pubs/archive/43155.pdf",
+        "title": "[PDF] Sequence to Sequence Learning with Neural Networks - NIPS"
+      },
+      {
+        "gap": "A tutorial-level definition of sequence-to-sequence learning (inputs/outputs, sequence transduction tasks, likelihood objective)",
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2014/file/5a18e133cbf9f257297f410bb7eca942-Paper.pdf",
+        "title": "[PDF] Sequence to Sequence Learning with Neural Networks"
+      },
+      {
+        "gap": "A tutorial-level definition of sequence-to-sequence learning (inputs/outputs, sequence transduction tasks, likelihood objective)",
+        "url": "https://proceedings.mlr.press/v217/wang23a/wang23a.pdf",
+        "title": "Learning Transductions and Alignments with RNN Seq2seq ..."
+      },
+      {
+        "gap": "Encoder-decoder mechanics: encoder hidden states, decoder autoregressive generation, start/end tokens, inference vs training",
+        "url": "https://web.stanford.edu/~jurafsky/slp3/old_oct19/10.pdf",
+        "title": "[PDF] Encoder-Decoder Models, At- tention, and Contextual Em- beddings"
+      },
+      {
+        "gap": "Context vector: definition, how classic seq2seq uses a single fixed-size vector (e.g., final encoder state), and how it conditions the decoder",
+        "url": "https://www.geeksforgeeks.org/machine-learning/seq2seq-model-in-machine-learning/",
+        "title": "seq2seq Model"
+      },
+      {
+        "gap": "Context vector: definition, how classic seq2seq uses a single fixed-size vector (e.g., final encoder state), and how it conditions the decoder",
+        "url": "https://en.wikipedia.org/wiki/Seq2seq",
+        "title": "Seq2seq - Wikipedia"
+      },
+      {
+        "gap": "Context vector: definition, how classic seq2seq uses a single fixed-size vector (e.g., final encoder state), and how it conditions the decoder",
+        "url": "https://web.stanford.edu/class/cs224n/readings/cs224n-2019-notes06-NMT_seq2seq_attention.pdf",
+        "title": "Part VI Neural Machine Translation, Seq2seq and Attenti"
+      },
+      {
+        "gap": "Context vector: definition, how classic seq2seq uses a single fixed-size vector (e.g., final encoder state), and how it conditions the decoder",
+        "url": "https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1194/readings/cs224n-2019-notes06-NMT_seq2seq_attention.pdf",
+        "title": "CS224n: Natural Language Processing with Deep Learning   Lecture Notes: Part VI  Neural Machine Translation, Seq2seq and Attention"
+      },
+      {
+        "gap": "Context vector: definition, how classic seq2seq uses a single fixed-size vector (e.g., final encoder state), and how it conditions the decoder",
+        "url": "https://www.oreilly.com/library/view/hands-on-deep-learning/9781789344158/84352544-52f0-4bbe-ad68-773528eb8587.xhtml",
+        "title": "Hands-On Deep Learning Algorithms with Python"
+      },
+      {
+        "gap": "Information bottleneck in fixed-vector seq2seq: why performance degrades with longer sequences; concrete examples/intuition",
+        "url": "https://blog.sotaaz.com/post/context-vector-limitation-en",
+        "title": "5.3 Why Lstm Also Has..."
+      },
+      {
+        "gap": "Information bottleneck in fixed-vector seq2seq: why performance degrades with longer sequences; concrete examples/intuition",
+        "url": "https://en.wikipedia.org/wiki/Seq2seq",
+        "title": "Seq2seq - Wikipedia"
+      },
+      {
+        "gap": "Information bottleneck in fixed-vector seq2seq: why performance degrades with longer sequences; concrete examples/intuition",
+        "url": "https://arbisoft.com/blogs/step-by-step-with-transformers-from-seq2-seq-bottlenecks-to-cutting-edge-attention-mechanisms-in-nlp",
+        "title": "Step-by-Step with Transformers: From Seq2Seq Bottlenecks to ..."
+      },
+      {
+        "gap": "Information bottleneck in fixed-vector seq2seq: why performance degrades with longer sequences; concrete examples/intuition",
+        "url": "https://apxml.com/courses/introduction-to-transformer-models/chapter-1-sequence-modeling-attention-fundamentals/sequence-to-sequence-challenges",
+        "title": "Challenges in Sequence-to-Sequence Tasks"
+      },
+      {
+        "gap": "Long-range dependencies in RNN-based seq2seq: why distant tokens are hard to preserve; relationship to sentence length and translation quality",
+        "url": "https://cs224d.stanford.edu/papers/seq2seq.pdf",
+        "title": "Sequence to Sequence Learning with Neural Networks"
+      },
+      {
+        "gap": "Long-range dependencies in RNN-based seq2seq: why distant tokens are hard to preserve; relationship to sentence length and translation quality",
+        "url": "https://aclanthology.org/I17-1003.pdf",
+        "title": "Improving Sequence to Sequence Neural Machine ..."
+      },
+      {
+        "gap": "Long-range dependencies in RNN-based seq2seq: why distant tokens are hard to preserve; relationship to sentence length and translation quality",
+        "url": "https://phontron.com/class/mtandseq2seq2018/assets/slides/mt-fall2018.chapter6.pdf",
+        "title": "[PDF] Recurrent Neural Network Language Models"
+      },
+      {
+        "gap": "Long-range dependencies in RNN-based seq2seq: why distant tokens are hard to preserve; relationship to sentence length and translation quality",
+        "url": "https://deeprob.org/w25/assets/slides/deeprob_lecture_17_attention.pdf",
+        "title": "20250319_DeepRob_Lecture17"
+      },
+      {
+        "gap": "Long-range dependencies in RNN-based seq2seq: why distant tokens are hard to preserve; relationship to sentence length and translation quality",
+        "url": "https://web.stanford.edu/class/cs224n/readings/cs224n-2019-notes06-NMT_seq2seq_attention.pdf",
+        "title": "Part VI Neural Machine Translation, Seq2seq and Attenti"
+      },
+      {
+        "gap": "Teacher forcing: definition, how it is applied in decoder training, exposure bias, and contrast with free-running decoding",
+        "url": "https://mbrenndoerfer.com/writing/teacher-forcing-seq2seq-training-exposure-bias-scheduled-sampling",
+        "title": "Teacher Forcing: Training Seq2Seq Models with Ground Truth ..."
+      },
+      {
+        "gap": "Teacher forcing: definition, how it is applied in decoder training, exposure bias, and contrast with free-running decoding",
+        "url": "https://d-nb.info/1278246142/34",
+        "title": "Effective Teaching for Time Series Forecasting"
+      },
+      {
+        "gap": "Teacher forcing: definition, how it is applied in decoder training, exposure bias, and contrast with free-running decoding",
+        "url": "https://arxiv.org/pdf/1809.03132.pdf",
+        "title": "arXiv:1809.03132v1 [cs.CL] 10 Sep 2018"
+      },
+      {
+        "gap": "Teacher forcing: definition, how it is applied in decoder training, exposure bias, and contrast with free-running decoding",
+        "url": "https://www.arxiv.org/pdf/2012.07280v4.pdf",
+        "title": "[PDF] arXiv:2012.07280v4 [cs.CL] 22 Feb 2021"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-11T19:40:57",
+    "run_label": "ensure-coverage:sequence-to-sequence-basics-and-the-bottleneck-problem",
+    "sources": [
+      {
+        "gap": "Clear definition and worked explanation of sequence-to-sequence modeling (sequence transduction) with examples",
+        "url": "https://www.cs.toronto.edu/~graves/icml_2012.pdf",
+        "title": "Sequence Transduction with Recurrent Neural Networks"
+      },
+      {
+        "gap": "Clear definition and worked explanation of sequence-to-sequence modeling (sequence transduction) with examples",
+        "url": "http://www.cs.toronto.edu/~graves/icml_2012.pdf",
+        "title": "[PDF] Sequence Transduction with Recurrent Neural Networks"
+      },
+      {
+        "gap": "Clear definition and worked explanation of sequence-to-sequence modeling (sequence transduction) with examples",
+        "url": "https://arxiv.org/abs/1211.3711",
+        "title": "Sequence Transduction with Recurrent Neural Networks"
+      },
+      {
+        "gap": "Clear definition and worked explanation of sequence-to-sequence modeling (sequence transduction) with examples",
+        "url": "http://www.eitc.org/research-opportunities/new-media-and-new-digital-economy/ai-machine-learning-deep-learning-and-neural-networks/ml-research-and-applications/foundations-of-ml/sequence-transduction",
+        "title": "Sequence Transduction - EITC"
+      },
+      {
+        "gap": "Encoder-decoder mechanics: encoder states, decoder autoregressive generation, training objective, inference (greedy/beam) basics",
+        "url": "https://elearning.di.unipi.it/pluginfile.php/89869/mod_resource/content/1/AID-L19.pdf",
+        "title": "Encoder-Decoder"
+      },
+      {
+        "gap": "Encoder-decoder mechanics: encoder states, decoder autoregressive generation, training objective, inference (greedy/beam) basics",
+        "url": "https://opencourse.inf.ed.ac.uk/sites/default/files/https/opencourse.inf.ed.ac.uk/fnlp/2024/25slides4.pdf",
+        "title": "Text Generation and Encoder-Decoder Models"
+      },
+      {
+        "gap": "Explicit definition and computation of the context vector in classic RNN/LSTM seq2seq (e.g., final hidden state) and why fixed-size is limiting",
+        "url": "https://www.geeksforgeeks.org/machine-learning/seq2seq-model-in-machine-learning/",
+        "title": "seq2seq Model"
+      },
+      {
+        "gap": "Explicit definition and computation of the context vector in classic RNN/LSTM seq2seq (e.g., final hidden state) and why fixed-size is limiting",
+        "url": "https://bimsa.net/doc/notes/27196.pdf",
+        "title": "[PDF] Neural Machine Translation Model (Seq2seq Models With Attention)"
+      },
+      {
+        "gap": "Explicit definition and computation of the context vector in classic RNN/LSTM seq2seq (e.g., final hidden state) and why fixed-size is limiting",
+        "url": "https://web.stanford.edu/class/cs224n/readings/cs224n-2019-notes06-NMT_seq2seq_attention.pdf",
+        "title": "Part VI Neural Machine Translation, Seq2seq and Attenti"
+      },
+      {
+        "gap": "Explicit definition and computation of the context vector in classic RNN/LSTM seq2seq (e.g., final hidden state) and why fixed-size is limiting",
+        "url": "https://en.wikipedia.org/wiki/Seq2seq",
+        "title": "Seq2seq - Wikipedia"
+      },
+      {
+        "gap": "Long-range dependencies in sequence models and why fixed-length context vectors/RNNs struggle as input length grows",
+        "url": "https://arxiv.org/html/2506.00588",
+        "title": "References And Notes"
+      },
+      {
+        "gap": "Long-range dependencies in sequence models and why fixed-length context vectors/RNNs struggle as input length grows",
+        "url": "http://arxiv.org/pdf/2410.07145.pdf",
+        "title": "Under peer review"
+      },
+      {
+        "gap": "Long-range dependencies in sequence models and why fixed-length context vectors/RNNs struggle as input length grows",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/39637825/",
+        "title": "Revisiting the problem of learning long-term dependencies ... - PubMed"
+      },
+      {
+        "gap": "Long-range dependencies in sequence models and why fixed-length context vectors/RNNs struggle as input length grows",
+        "url": "https://codesignal.com/learn/courses/sequence-models-the-dawn-of-attention-1/lessons/revisiting-sequence-models-rnns-lstms-and-their-limits-1",
+        "title": "Revisiting Sequence Models: RNNs, LSTMs, and Their Limits"
+      },
+      {
+        "gap": "Long-range dependencies in sequence models and why fixed-length context vectors/RNNs struggle as input length grows",
+        "url": "https://www.scribd.com/document/967706616/NNDL-1",
+        "title": "RNN Performance: Sequence Length & Batch Size | PDF"
+      },
+      {
+        "gap": "Exposure bias: formal definition, why teacher forcing causes it, and common mitigations (scheduled sampling, professor forcing, etc.)",
+        "url": "https://mbrenndoerfer.com/writing/teacher-forcing-seq2seq-training-exposure-bias-scheduled-sampling",
+        "title": "Teacher Forcing: Training Seq2Seq Models with Ground Truth ..."
+      },
+      {
+        "gap": "Exposure bias: formal definition, why teacher forcing causes it, and common mitigations (scheduled sampling, professor forcing, etc.)",
+        "url": "https://www.emergentmind.com/topics/exposure-bias",
+        "title": "Exposure Bias in Machine Learning - Emergent Mind"
+      },
+      {
+        "gap": "Exposure bias: formal definition, why teacher forcing causes it, and common mitigations (scheduled sampling, professor forcing, etc.)",
+        "url": "http://arxiv.org/pdf/2410.14655.pdf",
+        "title": "Published in Transactions on Machine Learning Research (01/2025)"
+      },
+      {
+        "gap": "Exposure bias: formal definition, why teacher forcing causes it, and common mitigations (scheduled sampling, professor forcing, etc.)",
+        "url": "http://arxiv.org/pdf/2301.13753.pdf",
+        "title": "arXiv:2301.13753v1  [cs.CL]  31 Jan 2023"
+      },
+      {
+        "gap": "Exposure bias: formal definition, why teacher forcing causes it, and common mitigations (scheduled sampling, professor forcing, etc.)",
+        "url": "https://spotintelligence.com/2023/10/12/teacher-forcing-in-recurrent-neural-networks-rnns-an-advanced-concept-made-simple/",
+        "title": "Teacher Forcing In Recurrent Neural Networks (RNNs)"
+      }
+    ]
+  }
+]

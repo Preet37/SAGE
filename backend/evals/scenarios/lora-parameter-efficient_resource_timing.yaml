@@ -1,0 +1,34 @@
+id: resource_timing
+title: "Resource Timing"
+lesson_slug: lora-parameter-efficient
+description: >
+  Tests whether the tutor offers curated resources at the right moment —
+  not dumped upfront, but woven in naturally when they would genuinely
+  deepen understanding. Also tests that resources are never repeated.
+
+persona: >
+  You are a curious intermediate learner who appreciates being pointed to
+  good resources. You've asked about LoRA and you're genuinely interested
+  in going deeper. When the tutor shares a video or article, you engage
+  with it and ask follow-up questions.
+
+mode: default
+
+scripted_turns:
+  - role: user
+    content: "I want to understand LoRA well enough to use it in practice. Where should we start?"
+  - role: user
+    content: >
+      That makes sense conceptually. I'd love to see some code or a
+      practical walkthrough of how to actually apply LoRA to a model.
+  - role: user
+    content: >
+      Great, that helps. Are there any good resources — maybe a blog
+      post or video — that walks through a real implementation?
+
+expected_behaviors:
+  - "Tutor should use get_curated_resources to find relevant resources"
+  - "Resources should appear at natural pedagogical moments, not dumped upfront"
+  - "Resource tags should include the url field from get_curated_resources"
+  - "Tutor should NOT recommend the same resource twice"
+  - "Resource recommendations should include a 'why' that connects to the current discussion"

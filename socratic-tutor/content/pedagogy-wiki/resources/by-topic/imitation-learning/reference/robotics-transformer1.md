@@ -1,0 +1,93 @@
+# Source: https://robotics-transformer1.github.io
+# Title: RT-1: Robotics Transformer for Real-World Control at Scale (project page)
+# Fetched via: trafilatura
+# Date: 2026-04-09
+
+RT-1: Robotics Transformer for Real-World Control at Scale
+- Anthony Brohan
+- Noah Brown
+- Justice Carbajal
+- Yevgen Chebotar
+- Joseph Dabis
+- Chelsea Finn
+- Keerthana Gopalakrishnan
+- Karol Hausman
+- Alex Herzog
+- Jasmine Hsu
+- Julian Ibarz
+- Brian Ichter
+- Alex Irpan
+- Tomas Jackson
+- Sally Jesmonth
+- Nikhil Joshi
+- Ryan Julian
+- Dmitry Kalashnikov
+- Yuheng Kuang
+- Isabel Leal
+- Kuang-Huei Lee
+- Sergey Levine
+- Yao Lu
+- Utsav Malla
+- Deeksha Manjunath
+- Igor Mordatch
+- Ofir Nachum
+- Carolina Parada
+- Jodilyn Peralta
+- Emily Perez
+- Karl Pertsch
+- Jornell Quiambao
+- Kanishka Rao
+- Michael Ryoo
+- Grecia Salazar
+- Pannag Sanketi
+- Kevin Sayed
+- Jaspiar Singh
+- Sumedh Sontakke
+- Austin Stone
+- Clayton Tan
+- Huong Tran
+- Vincent Vanhoucke
+- Steve Vega
+- Quan Vuong
+- Fei Xia
+- Ted Xiao
+- Peng Xu
+- Sichun Xu
+- Tianhe Yu
+- Brianna Zitkovich
+Authors listed in alphabetical order (see paper appendix for contribution statement).
+Abstract
+By transferring knowledge from large, diverse, task-agnostic datasets, modern machine learning models can enable solving specific downstream tasks either zero-shot or with small task-specific datasets to a high level of performance. While this capability has been demonstrated in other fields such as computer vision, natural language processing or speech recognition, it remains to be shown in robotics, where the generalization and fine-tuning capabilities of the models are particularly critical due to the difficulty of collecting real-world robotic data. We argue that one of the keys to the success of such general robotic models lies with open-ended task-agnostic training, combined with high-capacity architectures that can absorb all of the diverse, robotic data. In this paper, we present a model class, dubbed Robotics Transformer, that exhibits promising scalable, pre-trained model properties. We verify our conclusions in a comprehensive study of different model classes and their ability to generalize as a function of the data size, model size, and data diversity based on a large-scale data collection on real robots performing real-world tasks.
+RT-1 shows better performance and generalization thanks to its ability to absorb a large amount of diverse data, including robot trajectories with multiple tasks, objects and environments. Baseline approaches exhibit limited ability to fully utilize large datasets.
+Video
+Approach
+In the past few years, we have seen powerful machine learning models that achieve significant generalization capabilities by absorbing large amounts of data. For example, large language models such as PaLM or GPT-3 can generalize to many tasks such as language understanding, code completion or arithmetic, especially as their number of parameters increase.
+Importantly, these large models have the ability to effectively absorb large amounts of diverse data. In the case of large language models that data being text, which allows them to discover patterns and generalize between the observed datapoints.
+Can we find similar data-absorbent models for robotics? Does such a model enjoy the benefits of scale seen in other domains? And does it exhibit effective zero-shot generalization to new tasks, environments, and objects?
+To investigate these questions, we present Robotics Transformer, RT-1, a Transformer-based model that we train a large dataset of multi-task demonstrations and showcase how it generalizes to new tasks, how it is robust to changes in the environment and how it allows to execute long-horizon instructions. We also demonstrate its capabilities to effectively absorb data from very different domains such as simulation or different robots.
+How does Robotics Transformer model work? RT-1 takes a short sequence of images and a task description in natural language as input and outputs an action for the robot to execute at each time step. To achieve this, our architecture leverages several elements: first, the images and text are processed via an ImageNet-pretrained convolutional neural network (EfficientNet) conditioned on a pretrained embedding of the instruction via FiLM layers to extract visual features that are relevant to the task at hand. This is then followed by a Token Learner module to compute a compact set of tokens, and finally a Transformer to attend over these tokens and produce discretized action tokens. The actions consist of seven dimensions for the arm movement (x, y, z, roll, pitch, yaw, opening of the gripper), three dimensions for base movement (x, y, yaw) and an extra discrete dimension to switch between three modes: controlling the arm, the base, or terminating the episode. RT-1 performs closed-loop control and commands actions at 3Hz until it either yields a terminate action or runs out of pre-set number of time steps.
+Data
+To test RT-1 in the real world, we collected a large dataset of real-world robotic experiences that consists of over 130k episodes, which contain over 700 tasks, and was collected with a fleet of 13 robots over 17 months.
+The current set of skills includes picking, placing, opening and closing drawers, getting items in and out drawers, placing elongated items up-right, knocking them over, pulling napkins and opening jars.
+The list of instructions was designed to show multiple skills with many objects to test aspects of RT-1 such as generalization to new instructions and ability to perform many skills.
+The entire process of adding tasks and data is described in detail in the paper.
+Since we do not make any assumptions about particular skills when adding new instructions, the system is easily extendable, and we can continuously provide more diverse data to improve its capabilities.
+Results
+We test generalization capabilities of our model on multiple axes such as previously unseen instructions, robustness to the number of distractor objects (first row in the image below), robustness to different backgrounds and environments such as new, previously unseen kitchens (second row), and realistic scenarios that combine all these elements.
+Across each category, we find that RT-1 outperforms the prior models significantly. On seen tasks, RT-1 is able to perform 97% of the more than 700 instructions successfully, which is 25% more than BC-Z and 32% more than Gato. On unseen tasks, RT-1 shows it is capable of generalizing to novel instructions, performing 76% of the never-before-seen instructions, 24% more than the next best baseline. On distractors and backgrounds, we find that RT-1 is quite robust, successfully executing 83% of the distractor robustness tasks and 59% of the background robustness tasks (36% and 18% higher than the next best alternative, respectively).
+Next, we test whether our method generalizes enough across all the different axes that we evaluated previously to be deployed in a real kitchen, which poses multiple distribution shifts all at once such as new tasks combinations, object distractors as well as a novel environment.
+The office kitchen involves a dramatic shift from the training environment and we categorize tasks across these scenarios with varying levels of generalization: L1 for generalization to the new counter-top layout and lighting conditions, L2 for additionally generalization to unseen distractor objects, L3 for additional generalization to drastically new task settings, new task objects or objects in unseen locations such as near a sink. The three levels that correspond to three tasks of restocking, preparing a snack and fetching a lost object in the real kitchen.
+Simiarly to the previous experiment, RT-1 generalizes better than the baselines. Gato generalizes fairly well at the first level but it performs significantly drops for the more difficult generalization scenarios. BC-Z and its XL equivalent perform fairly well at L2 level and better than Gato at L3 but they are still not at the generalization level of RT-1.
+Given these initial results, we try to push RT-1 further by incorporating data from different data sources such as simulation (green box below) or data collected by another robot (red box below).
+Our results indicate that RT-1’s absorption properties also include the ability to acquire new skills by observing other simulation or robots’ experiences without sacrificing the performance of the original tasks. In the left plot below, we see that by mixing real and sim data, the generalization capabilities of the robot improve significantly when evaluated on objects seen only in simulation (and they only drop by 2% on all other objects).
+Even more interestingly, we observe that mixing our original dataset with data from another robot (in this the Kuka IIWA robot) improves generalization as well: the 22% accuracy seen when training with our data alone jumps to 39% when RT-1 is trained on both bin-picking data from Kuka and the existing data. That’s almost a 2x improvement (17%) that shows an effective transfer from a different robot morphology and presents an exciting avenue for future work where we combine many more multi-robot datasets to enhance the robot capabilities.
+[(PaLM-)SayCan framework](https://say-can.github.io/). We implement two other baselines for comparison: (1) SayCan with Gato, and (2) SayCan with BC-Z. We evaluate all three policies in two real kitchens. Kitchen2 constitutes a much more challenging generalization scene than Kitchen1; the mock kitchen used to gather most of the training data was modeled after Kitchen1.
+We see that RT-1 achieves a 67% execution success rate in Kitchen1, and is better than other baselines. Due to the generalization difficulty presented by the new unseen kitchen, the performance of SayCan with Gato and SayCan with BCZ shapely falls, while RT-1 does not show a visible drop.
+Below, we show a few example videos showing how PaLM-SayCan-RT1 can be used to plan and execute ultra-long horizon tasks, with as many as 50 steps.
+The first task "Bring me the rice chips from the drawer" is executed in an office kitchen that the robot has never seen before.
+For the second task "Roses are red, violets are blue, bring me the rice chips from the drawer, and a napkin too." the execution and planning process are shown in the video below.
+In the next example, we show SayCan is able to plan and execute a very long-horizon task involving 50+ steps.
+Citation
+Acknowledgements
+The authors would like to acknowledge Aleksandra Faust, Andy Christiansen, Chuyuan Fu, Daniel Kappler, David Rendleman, Eric Jang, Jessica Gomez, Jessica Lin, Jie Tan, Josh Weaver, Justin Boyd, Krzysztof Choromanski, Matthew Bennice, Mengyuan Yan, Mrinal Kalakrishnan, Nik Stewart, Paul Wohlhart, Peter Pastor, Pierre Sermanet, Wenlong Lu, Zhen Yu Song, Zhuo Xu, and the greater teams at Robotics at Google and Everyday Robots for their feedback and contributions.
+The website template was borrowed from [Jon Barron](http://jonbarron.info/).

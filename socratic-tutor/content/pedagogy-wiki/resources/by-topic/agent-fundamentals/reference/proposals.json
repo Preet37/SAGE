@@ -1,0 +1,253 @@
+[
+  {
+    "timestamp": "2026-04-09T16:11:50",
+    "run_label": "reference-track:Agent Fundamentals",
+    "sources": [
+      {
+        "url": "https://react-lm.github.io",
+        "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://research.google/blog/react-synergizing-reasoning-and-acting-in-language-models/",
+        "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.semanticscholar.org/paper/ReAct:-Synergizing-Reasoning-and-Acting-in-Language-Yao-Zhao/99832586d55f540f603637e458a292406a0ed75d",
+        "title": "[PDF] ReAct: Synergizing Reasoning and Acting in Language Models | Semantic Scholar",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2210.03629.pdf",
+        "title": "[PDF] ReAct: Synergizing Reasoning and Acting in Language Models",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2303.17651",
+        "title": "Self-Refine: Iterative Refinement with Self-Feedback - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2303.17651.pdf",
+        "title": "[PDF] arXiv:2303.17651v2 [cs.CL] 25 May 2023",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://neurips.cc/virtual/2023/poster/71632",
+        "title": "NeurIPS Poster Self-Refine: Iterative Refinement with Self-Feedback",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.semanticscholar.org/paper/Self-Refine:-Iterative-Refinement-with-Madaan-Tandon/3aaf6a2cbad5850ad81ab5c163599cb3d523436f",
+        "title": "[PDF] Self-Refine: Iterative Refinement with Self-Feedback | Semantic Scholar",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2023/file/91edff07232fb1b55a505a9e9f6c0ff3-Paper-Conference.pdf",
+        "title": "[PDF] Iterative Refinement with Self-Feedback - OpenReview",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2403.14589v3",
+        "title": "3.1 Alfworld",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2505.15182v2",
+        "title": "ReflAct: World-Grounded Decision Making in LLM Agents ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2024/file/d032263772946dd5026e7f3cd22bce5b-Paper-Conference.pdf",
+        "title": "[PDF] Agent Planning with World Knowledge Model - NIPS",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/noahshinn/reflexion/issues/35",
+        "title": "Reproducing Alfworld Results \u00b7 Issue #35 \u00b7 noahshinn/reflexion",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://gist.github.com/m0o0scar/d54ea52a1875f82cf2221ec6ca253c07",
+        "title": "Reflexion: Language Agents with Verbal Reinforcement Learning. Continue this conversation at https://readfm.vercel.app?gist=d54ea52a1875f82cf2221ec6ca253c07",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2507.03254v1",
+        "title": "4 Ablation Study",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2504.16563v2",
+        "title": "Enhancing LLM-Based Agents via Global Planning and ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/anthology-files/anthology-files/pdf/naacl/2025.naacl-findings.205.pdf",
+        "title": "Findings of the Association for Computational Linguistics:",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2025.findings-naacl.205.pdf",
+        "title": "KnowAgent: Knowledge-Augmented Planning for LLM-Based Agents",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.alphaxiv.org/overview/2504.16563v1",
+        "title": "Enhancing LLM-Based Agents via Global Planning and Hierarchical ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://microsoft.github.io/autogen/0.2/docs/reference/agentchat/conversable_agent/",
+        "title": "agentchat.conversable_agent | AutoGen 0.2",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://microsoft.github.io/autogen/0.2/docs/reference/agentchat/user_proxy_agent/",
+        "title": "agentchat.user_proxy_agent | AutoGen 0.2",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://microsoft.github.io/autogen/0.2/docs/reference/agentchat/assistant_agent/",
+        "title": "agentchat.assistant_agent | AutoGen 0.2",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://microsoft.github.io/FLAML/docs/reference/autogen/agentchat/conversable_agent/",
+        "title": "autogen.agentchat.conversable_agent | FLAML",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://microsoft.github.io/autogen/dev/reference/index.html",
+        "title": "API Reference \u2014 AutoGen - Microsoft Open Source",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.crewai.com/en/concepts/memory",
+        "title": "Memory - CrewAI Documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.crewai.com/en/learn/hierarchical-process",
+        "title": "Hierarchical Process - CrewAI Documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.crewai.com/en/concepts/crews",
+        "title": "Crews - CrewAI Documentationdocs.crewai.com \u203a concepts \u203a crews",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.crewai.com/en/learn/sequential-process",
+        "title": "Sequential Processes",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.crewai.com/ko/concepts/tasks",
+        "title": "\uc791\uc5c5",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/2676",
+        "title": "How to handle multiple agents with Checkpoints? \u00b7 langchain-ai/langgraph \u00b7 Discussion #2676",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langchain/discussions/28611",
+        "title": "How to handle multiple agents with Checkpoints? \u00b7 langchain-ai langchain \u00b7 Discussion #28611",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/lloydchang/langchain-ai-langgraph",
+        "title": "GitHub - lloydchang/langchain-ai-langgraph: Build resilient language agents as graphs.",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/botextractai/ai-langgraph-multi-agent/blob/main/main.py",
+        "title": "ai-langgraph-multi-agent/main.py at main \u00b7 botextractai/ai-langgraph-multi-agent",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/blob/main/docs/docs/concepts/multi_agent.md",
+        "title": "langgraph/docs/docs/concepts/multi_agent.md at main \u00b7 langchain-ai/langgraph",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/microsoft/autogen/discussions/4488",
+        "title": "Can We Use Tools with GroupChat? \u00b7 microsoft autogen \u00b7 Discussion #4488",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/microsoft/autogen/blob/main/dotnet/src/AutoGen.Core/Agent/GroupChatManager.cs/",
+        "title": "autogen/dotnet/src/AutoGen.Core/Agent/GroupChatManager.cs at main \u00b7 microsoft/autogen",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/microsoft/autogen/discussions/2551",
+        "title": "In group chat, under each agent to chat_manager, there are multiple ...",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/microsoft/autogen/issues/2359",
+        "title": "[Feature Request]: Resumable GroupChat \u00b7 Issue #2359 \u00b7 microsoft/autogen",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/microsoft/autogen/issues/1440",
+        "title": "[Bug]: Function calling in groupchat does not work \u00b7 Issue #1440 \u00b7 microsoft/autogen",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.hockeystack.com/applied-ai/optimizing-latency-and-cost-in-multi-agent-systems",
+        "title": "Optimizing Latency and Cost in Multi-Agent Systems - HockeyStack",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/html/2603.22862v2",
+        "title": "The Evolution of Tool Use in LLM Agents",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2511.20975.pdf",
+        "title": "Just-in-Time Model Routing for Scalable Serving of Agentic ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://zylos.ai/research/2026-03-03-ai-agent-tool-use-optimization",
+        "title": "AI Agent Tool-Use Optimization: Efficiency, Selection, and ... - Zylos",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.parloa.com/knowledge-hub/agentic-ai-latency-cost/",
+        "title": "Why Bad Agentic AI Latency Costs You Customers and Revenue",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://developers.openai.com/resources/agents",
+        "title": "Agents",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf",
+        "title": "[PDF] A practical guide to building agents - OpenAI",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/",
+        "title": "Guardrails",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://cookbook.openai.com/examples/object_oriented_agentic_approach/secure_code_interpreter_tool_for_llm_agents",
+        "title": "Dynamic Tool Generation and Execution With o3-mini",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://community.openai.com/t/best-practices-for-multi-agent-tool-calling-workflows-slack-to-okta-integration/1248397",
+        "title": "Best Practices for Multi-Agent Tool Calling Workflows (Slack to Okta ...",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  }
+]

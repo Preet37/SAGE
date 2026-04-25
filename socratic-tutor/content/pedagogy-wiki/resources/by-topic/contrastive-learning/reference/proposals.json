@@ -1,0 +1,253 @@
+[
+  {
+    "timestamp": "2026-04-09T16:16:31",
+    "run_label": "reference-track:Contrastive Learning",
+    "sources": [
+      {
+        "url": "https://machinecurve.com/index.php/2023/12/22/clip-how-it-works-is-trained-and-used",
+        "title": "CLIP: how it works, how it's trained and how to use it",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://rinabuoy.com/clip",
+        "title": "Contrastive Language-Image Pretraining (CLIP) - Internals, Architecture ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.studocu.com/in/document/birla-institute-of-technology-and-science-pilani/deep-learning/clip-lecture-notes-for-course/87347082",
+        "title": "CLIP - Lecture notes for course - Alec Radford * 1 Jong Wook Kim * 1 Chris Hallacy 1 Aditya Ramesh 1 - Studocu",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2507.10638v1",
+        "title": "Temperature Tuning and Manifold Approximation via KL ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.rinabuoy.com/clip",
+        "title": "Contrastive Language\u2013Image Pretraining (CLIP) - Rina Buoy",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://github.com/huggingface/transformers/issues/13430",
+        "title": "Difference between `logit_scale` initialisation in Transformers CLIP and the original OpenAI implementation. \u00b7 Issue #13430 \u00b7 huggingface/transformers",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.rinabuoy.com/clip",
+        "title": "Contrastive Language\u2013Image Pretraining (CLIP) - Rina Buoy",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://rinabuoy.com/clip",
+        "title": "Contrastive Language-Image Pretraining (CLIP) - Internals, Architecture ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2404.04575v1",
+        "title": "To Cool or not to Cool? Temperature Network Meets Large ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://github.com/openai/CLIP/issues/48",
+        "title": "Two questions regarding model implementation: \u00b7 Issue #48 \u00b7 openai/CLIP",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2303.15343",
+        "title": "Sigmoid Loss for Language Image Pre-Training - arXiv.org",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/ICCV2023/papers/Zhai_Sigmoid_Loss_for_Language_Image_Pre-Training_ICCV_2023_paper.pdf",
+        "title": "Sigmoid Loss for Language Image Pre-Training",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2303.15343.pdf",
+        "title": "[PDF] Sigmoid Loss for Language Image Pre-Training - arXiv",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.emergentmind.com/papers/2303.15343",
+        "title": "Sigmoid Loss for Language Image Pre-Training (2303.15343v4)",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.alphaxiv.org/overview/2303.15343v1",
+        "title": "Sigmoid Loss for Language Image Pre-Training - alphaXiv",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2502.14786v1",
+        "title": "SigLIP 2: Multilingual Vision-Language Encoders with Improved ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2502.14786.pdf",
+        "title": "SigLIP 2: Multilingual Vision-Language Encoders with ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/siglip2-vision-encoder",
+        "title": "SigLIP2 Vision Encoder",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/siglip2-model",
+        "title": "SigLIP2: Dual-Tower Multilingual Vision-Language Encoders",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://hackmd.io/@OWHWq-NzTrGFJCoQGc_nhQ/SJ73k5R31l",
+        "title": "SigLIP\uff1aSigmoid Loss for Language Image Pre-Training",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/openai/CLIP/issues/24",
+        "title": "About the ImageNet zero-shot performance with ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2411.14789v1",
+        "title": "Simplifying CLIP: Unleashing the Power of Large-Scale ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2212.01758.pdf",
+        "title": "[PDF] arXiv:2212.01758v1 [cs.CV] 4 Dec 2022",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://internvl.readthedocs.io/en/latest/internvl1.0/clip_benchmark.html",
+        "title": "InternVL for Zero-Shot Image Classification & Image-Text Retrieval",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://papers.nips.cc/paper_files/paper/2023/file/2c6be9f09e08ca166cdc0aa26306c61f-Supplemental-Conference.pdf",
+        "title": "Supplementary for",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2303.15343v3.pdf",
+        "title": "[PDF] arXiv:2303.15343v3 [cs.CV] 4 May 2023 - OpenReview",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2410.13016v1",
+        "title": "Interpreting and Analyzing CLIP's Zero-Shot Image Classification via ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2024/file/45f7927942098d14e473fc5d000031e2-Paper-Conference.pdf",
+        "title": "[PDF] Interpreting and Analysing CLIP's Zero-Shot Image Classification via ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/ICCV2023/papers/Zhai_Sigmoid_Loss_for_Language_Image_Pre-Training_ICCV_2023_paper.pdf",
+        "title": "Sigmoid Loss for Language Image Pre-Training",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.scribd.com/document/993460710/Zhai-Sigmoid-Loss-for-Language-Image-Pre-Training-ICCV-2023-Paper",
+        "title": "Zhai Sigmoid Loss for Language Image Pre-Training ICCV 2023 ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/mlfoundations/open_clip/blob/main/src/open_clip/factory.py",
+        "title": "open_clip/src/open_clip/factory.py at main \u00b7 mlfoundations/open_clip",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/mlfoundations/open_clip/blob/main/README.md",
+        "title": "open_clip/README.md at main \u00b7 mlfoundations/open_clip",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/mlfoundations/open_clip/blob/main/src/open_clip/tokenizer.py",
+        "title": "open_clip/src/open_clip/tokenizer.py at main - GitHub",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/mlfoundations/open_clip?trk=cndc-detail",
+        "title": "GitHub - mlfoundations/open_clip: An open source implementation of CLIP.",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/mlfoundations/open_clip/discussions/812",
+        "title": "A beginner's guide to fine-tuning the CLIP model for your ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/clipmodel-finetuning/13388",
+        "title": "CLIPModel finetuning - Models",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/proper-way-to-handle-non-square-images-with-clip/32813",
+        "title": "Proper way to handle non-square images with CLIP? - Models",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/input-size-of-clipvisionmodel-reverts-back-to-default-while-using-pretrained-weights/32319",
+        "title": "Input size of CLIPVisionModel reverts back to default while ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/increasing-pretrained-clip-max-possible-text-sequence-length/29885",
+        "title": "Increasing pretrained CLIP max possible text sequence length",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/mlfoundations/open_clip/blob/main/README.md",
+        "title": "open_clip/README.md at main \u00b7 mlfoundations/open_clip",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/mlfoundations/open_clip",
+        "title": "GitHub - mlfoundations/open_clip: An open source implementation of CLIP.",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/openai/CLIP/issues/24",
+        "title": "About the ImageNet zero-shot performance with ...",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/mlfoundations/open_clip/discussions/412",
+        "title": "What is the result of sample running code? \u00b7 mlfoundations open_clip \u00b7 Discussion #412",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/openai/CLIP/issues/87",
+        "title": "Share prompts for other zeroshot eval datasets? \u00b7 Issue #87 \u00b7 openai/CLIP",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/merveenoyan/siglip",
+        "title": "merveenoyan/siglip: Projects based on ...",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://arxiv.org/html/2502.14786v1",
+        "title": "SigLIP 2: Multilingual Vision-Language Encoders with Improved ...",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://hugging-face.cn/docs/transformers/model_doc/siglip",
+        "title": "SigLIP - Hugging Face \u6587\u6863hugging-face.cn \u203a docs \u203a transformers \u203a model_doc \u203a siglip",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.isus.jp/wp-content/uploads/openvino/2024/docs/notebooks/siglip-zero-shot-image-classification-with-output.html",
+        "title": "SigLIP \u306b\u3088\u308b\u30bc\u30ed\u30b7\u30e7\u30c3\u30c8\u753b\u50cf\u5206\u985e - iSUS",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.isus.jp/wp-content/uploads/openvino/2024/docs/notebooks/282-siglip-zero-shot-image-classification-with-output.html",
+        "title": "SigLIP \u306b\u3088\u308b\u30bc\u30ed\u30b7\u30e7\u30c3\u30c8\u753b\u50cf\u5206\u985e\u00b6",
+        "need_type": "WORKING_EXAMPLE"
+      }
+    ]
+  }
+]

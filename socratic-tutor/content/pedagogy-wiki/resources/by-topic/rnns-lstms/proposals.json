@@ -1,0 +1,907 @@
+[
+  {
+    "timestamp": "2026-04-07T14:35:04",
+    "run_label": "pipeline-test:luong-attention-scoring-variants",
+    "sources": [
+      {
+        "gap": "Luong multiplicative attention mechanics and formulation",
+        "url": "https://machinelearningmastery.com/the-luong-attention-mechanism/",
+        "title": "The Luong Attention Mechanism - MachineLearningMastery.com"
+      },
+      {
+        "gap": "Luong multiplicative attention mechanics and formulation",
+        "url": "https://www.sotaaz.com/blog/attention-mechanism-implementation-en",
+        "title": "Which One Should You Actually Use? (Spoiler: Luong) | SOTAAZ Blog"
+      },
+      {
+        "gap": "Luong multiplicative attention mechanics and formulation",
+        "url": "https://arxiv.org/pdf/1508.04025v5.pdf",
+        "title": "arXiv:1508.04025v5  [cs.CL]  20 Sep 2015"
+      },
+      {
+        "gap": "Luong multiplicative attention mechanics and formulation",
+        "url": "https://www.sotaaz.com/post/attention-mechanism-implementation-en",
+        "title": "Bahdanau vs Luong Attention: Which One Should You Actually Use ..."
+      },
+      {
+        "gap": "Luong multiplicative attention mechanics and formulation",
+        "url": "https://www.khoury.northeastern.edu/home/vip/teach/MLcourse/7_adv_NN/notes/chatGPT_responses/attention_mechanisms_tikz.pdf",
+        "title": "[PDF] Class Notes: Attention Mechanisms in Neural Networks"
+      },
+      {
+        "gap": "Dot-product scoring function in Luong attention (score = h_t \u00b7 h_s)",
+        "url": "https://mbrenndoerfer.com/writing/luong-attention-mechanisms-dot-product-general-local",
+        "title": "Luong Attention: Dot Product, General & Local Attention Mechanisms"
+      },
+      {
+        "gap": "Dot-product scoring function in Luong attention (score = h_t \u00b7 h_s)",
+        "url": "https://arxiv.org/html/2406.06366v1",
+        "title": "Symmetric Dot-Product Attention for Efficient Training of ..."
+      },
+      {
+        "gap": "Dot-product scoring function in Luong attention (score = h_t \u00b7 h_s)",
+        "url": "https://aclanthology.org/2024.findings-acl.476.pdf",
+        "title": "[PDF] Symmetric Dot-Product Attention for Efficient Training of BERT ..."
+      },
+      {
+        "gap": "Dot-product scoring function in Luong attention (score = h_t \u00b7 h_s)",
+        "url": "https://slds-lmu.github.io/seminar_nlp_ss20/attention-and-self-attention-for-nlp.html",
+        "title": "Chapter 8 Attention and Self-Attention for NLP"
+      },
+      {
+        "gap": "Dot-product scoring function in Luong attention (score = h_t \u00b7 h_s)",
+        "url": "https://www.sotaaz.com/blog/attention-mechanism-implementation-en",
+        "title": "Which One Should You Actually Use? (Spoiler: Luong) | SOTAAZ Blog"
+      },
+      {
+        "gap": "General scoring function in Luong attention (score = h_t^T W_a h_s)",
+        "url": "https://slds-lmu.github.io/seminar_nlp_ss20/attention-and-self-attention-for-nlp.html",
+        "title": "Chapter 8 Attention and Self-Attention for NLP"
+      },
+      {
+        "gap": "General scoring function in Luong attention (score = h_t^T W_a h_s)",
+        "url": "https://www.baeldung.com/cs/attention-luong-vs-bahdanau",
+        "title": "4. Bahdanau Attention"
+      },
+      {
+        "gap": "General scoring function in Luong attention (score = h_t^T W_a h_s)",
+        "url": "https://www.sotaaz.com/blog/attention-mechanism-implementation",
+        "title": "Attention \uad6c\ud604\ud560 \ub54c Bahdanau vs Luong, \ubb58 \uc368\uc57c \ud558\ub098? (\uacb0\ub860"
+      },
+      {
+        "gap": "General scoring function in Luong attention (score = h_t^T W_a h_s)",
+        "url": "https://www.shadecoder.com/topics/luong-attention-a-comprehensive-guide-for-2025",
+        "title": "Luong Attention: A Comprehensive Guide for 2025 - Shadecoder"
+      },
+      {
+        "gap": "General scoring function in Luong attention (score = h_t^T W_a h_s)",
+        "url": "https://cdn.inst-fs-iad-prod.inscloudgate.net/c4b08458-0a26-4ad6-9955-7a32a1631683/2019_CS182_Section_7_Notes.pdf?content_type=application%2Fpdf&download=1&token=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImNkbiJ9.eyJyZXNvdXJjZSI6Ii9jNGIwODQ1OC0wYTI2LTRhZDYtOTk1NS03YTMyYTE2MzE2ODMvMjAxOV9DUzE4Ml9TZWN0aW9uXzdfTm90ZXMucGRmIiwidGVuYW50IjoiY2FudmFzIiwidXNlcl9pZCI6bnVsbCwiaWF0IjoxNzExNTU2NTQyLCJleHAiOjE3MTE2NDI5NDJ9.7-4CE41gtHyxSmho9Q2_WmqBoCTWP8fKyb9YNeB_9QDuqjch0sSupw2tWVmtrfc10gcw-1WHOXsgXAWf_9-fGw",
+        "title": "CS 182/282A: Designing, Visualizing and Understanding Deep Neural Networks"
+      },
+      {
+        "gap": "Concat scoring function and comparison with dot-product and general",
+        "url": "https://mbrenndoerfer.com/writing/luong-attention-mechanisms-dot-product-general-local",
+        "title": "Luong Attention: Dot Product, General & Local Attention Mechanisms"
+      },
+      {
+        "gap": "Concat scoring function and comparison with dot-product and general",
+        "url": "https://buomsoo-kim.github.io/attention/2020/03/19/Attention-mechanism-13.md/",
+        "title": "Attention Mechanism in Neural Networks - 13. Various ..."
+      },
+      {
+        "gap": "Concat scoring function and comparison with dot-product and general",
+        "url": "https://d2l.ai/chapter_attention-mechanisms-and-transformers/attention-scoring-functions.html",
+        "title": "11.3. Attention Scoring Functions - Dive into Deep Learning"
+      },
+      {
+        "gap": "Concat scoring function and comparison with dot-product and general",
+        "url": "https://arxiv.org/pdf/2005.09683.pdf",
+        "title": "Neural Collaborative Filtering vs."
+      },
+      {
+        "gap": "Concat scoring function and comparison with dot-product and general",
+        "url": "https://en.4paradigm.com/upload/file/20210427/20210427224408_98151.pdf",
+        "title": "[PDF] Searching Scoring Functions for Knowledge Graph Embedding"
+      },
+      {
+        "gap": "Scoring function comparison: computational cost vs. expressiveness",
+        "url": "https://arxiv.org/pdf/2104.10880v1.pdf",
+        "title": "Efficient Relation-aware Scoring Function Search"
+      },
+      {
+        "gap": "Scoring function comparison: computational cost vs. expressiveness",
+        "url": "https://arxiv.org/abs/2202.06823",
+        "title": "Development and Comparison of Scoring Functions in ..."
+      },
+      {
+        "gap": "Scoring function comparison: computational cost vs. expressiveness",
+        "url": "https://sdiaa.github.io/papers/ICDE21.pdf",
+        "title": "[PDF] Efficient Relation-aware Scoring Function Search for Knowledge ..."
+      },
+      {
+        "gap": "Scoring function comparison: computational cost vs. expressiveness",
+        "url": "https://pubs.acs.org/doi/abs/10.1021/ci500080q?src=recsys",
+        "title": "Comparative Assessment of Scoring Functions on an Updated Benchmark: 1. Compilation of the Test Set"
+      },
+      {
+        "gap": "Scoring function comparison: computational cost vs. expressiveness",
+        "url": "https://www.semanticscholar.org/paper/Comparative-Assessment-of-Scoring-Functions:-The-Su-Yang/77ed794ff2024ca212faa25db9ae2f7b3dee40c1",
+        "title": "[PDF] Comparative Assessment of Scoring Functions: The CASF-2016 Update | Semantic Scholar"
+      },
+      {
+        "gap": "Global attention mechanism in Luong et al. 2015 \u2014 full explanation",
+        "url": "https://nlp.stanford.edu/pubs/emnlp15_attn.pdf",
+        "title": "[PDF] Effective Approaches to Attention-based Neural Machine Translation"
+      },
+      {
+        "gap": "Global attention mechanism in Luong et al. 2015 \u2014 full explanation",
+        "url": "https://humanbrain.gitbook.io/notes/notes/natural-language-processing/luong_attention",
+        "title": "(2015. 8) Luong Attention | HumanBrain"
+      },
+      {
+        "gap": "Global attention mechanism in Luong et al. 2015 \u2014 full explanation",
+        "url": "https://machinelearningmastery.com/the-luong-attention-mechanism/",
+        "title": "The Luong Attention Mechanism - MachineLearningMastery.com"
+      },
+      {
+        "gap": "Global attention mechanism in Luong et al. 2015 \u2014 full explanation",
+        "url": "https://www.youtube.com/watch?v=Fbn2DWlHRt4",
+        "title": "Effective Approaches To Attention Based Neural Machine Translation - Paper Explained"
+      },
+      {
+        "gap": "Local attention mechanism in Luong et al. 2015 \u2014 window selection, predictive vs. monotonic",
+        "url": "https://nlp.stanford.edu/pubs/emnlp15_attn.pdf",
+        "title": "[PDF] Effective Approaches to Attention-based Neural Machine Translation"
+      },
+      {
+        "gap": "Local attention mechanism in Luong et al. 2015 \u2014 window selection, predictive vs. monotonic",
+        "url": "http://arxiv.org/pdf/1705.08091.pdf",
+        "title": "Local Monotonic Attention Mechanism"
+      },
+      {
+        "gap": "Local attention mechanism in Luong et al. 2015 \u2014 window selection, predictive vs. monotonic",
+        "url": "https://aclanthology.org/I17-1044.pdf",
+        "title": "Local Monotonic Attention Mechanism for End-to- ..."
+      },
+      {
+        "gap": "Local attention mechanism in Luong et al. 2015 \u2014 window selection, predictive vs. monotonic",
+        "url": "https://ahcweb01.naist.jp/papers/conference/2017/201712_ML4Audio_Tjandra_1/201712_ML4Audio_Tjandra_1.paper.pdf",
+        "title": "End-to-End Speech Recognition with Local Monotonic ..."
+      },
+      {
+        "gap": "Monotonic alignment (local-m) in Luong attention",
+        "url": "http://arxiv.org/pdf/1705.08091.pdf",
+        "title": "Local Monotonic Attention Mechanism"
+      },
+      {
+        "gap": "Monotonic alignment (local-m) in Luong attention",
+        "url": "https://buomsoo-kim.github.io/attention/2020/03/18/Attention-mechanism-12.md/",
+        "title": "Attention in Neural Networks - 12. Various attention mechanisms (1)"
+      },
+      {
+        "gap": "Monotonic alignment (local-m) in Luong attention",
+        "url": "https://ahcweb01.naist.jp/papers/conference/2017/201711_IJCNLP_Tjandra_1/201711_IJCNLP_Tjandra_1.paper.pdf",
+        "title": "Proceedings of the The 8th International Joint Conference on Natural Language Processing, pages 431\u2013440,"
+      },
+      {
+        "gap": "Monotonic alignment (local-m) in Luong attention",
+        "url": "https://www-nlp.stanford.edu/pubs/emnlp15_attn.pdf",
+        "title": "emnlp15.dvi"
+      },
+      {
+        "gap": "Monotonic alignment (local-m) in Luong attention",
+        "url": "https://gbdai.tistory.com/45",
+        "title": "[\ub17c\ubb38 \ub9ac\ubdf0] Effective Approaches to Attention-based Neural ..."
+      },
+      {
+        "gap": "Input-feeding approach in Luong et al. 2015",
+        "url": "https://nlp.stanford.edu/pubs/emnlp15_attn.pdf",
+        "title": "[PDF] Effective Approaches to Attention-based Neural Machine Translation"
+      },
+      {
+        "gap": "Input-feeding approach in Luong et al. 2015",
+        "url": "https://aclanthology.org/anthology-files/pdf/D/D15/D15-1166.pdf",
+        "title": "Effective Approaches to Attention-based Neural Machine ..."
+      },
+      {
+        "gap": "Input-feeding approach in Luong et al. 2015",
+        "url": "https://wandb.ai/authors/under-attention/reports/Effective-Approaches-to-Attention-based-Neural-Machine-Translation--Vmlldzo1MzQwMjA",
+        "title": "Effective Approaches to Attention-based Neural Machine Translation"
+      },
+      {
+        "gap": "Input-feeding approach in Luong et al. 2015",
+        "url": "https://ar5iv.labs.arxiv.org/html/1508.04025",
+        "title": "5 Analysis"
+      },
+      {
+        "gap": "Input-feeding approach in Luong et al. 2015",
+        "url": "https://courses.grainger.illinois.edu/cs546/sp2020/Slides/Lecture15.pdf",
+        "title": "Effective Approaches to Attention-based Neural"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-07T14:50:20",
+    "run_label": "pipeline-test:luong-multiplicative-attention",
+    "sources": [
+      {
+        "gap": "Luong et al. (2015) multiplicative attention: dot-product and general score function formulas and mechanics",
+        "url": "https://arxiv.org/pdf/1706.03762.pdf",
+        "title": "Provided proper attribution is provided, Google hereby grants permission to"
+      },
+      {
+        "gap": "Luong et al. (2015) multiplicative attention: dot-product and general score function formulas and mechanics",
+        "url": "https://www.baeldung.com/cs/attention-luong-vs-bahdanau",
+        "title": "4. Bahdanau Attention"
+      },
+      {
+        "gap": "Luong et al. (2015) multiplicative attention: dot-product and general score function formulas and mechanics",
+        "url": "https://arxiv.org/html/1706.03762v7",
+        "title": "Attention Is All You Need - arXiv"
+      },
+      {
+        "gap": "Luong general attention variant: weight matrix formulation and how it differs from dot-product",
+        "url": "https://slds-lmu.github.io/seminar_nlp_ss20/attention-and-self-attention-for-nlp.html",
+        "title": "Chapter 8 Attention and Self-Attention for NLP"
+      },
+      {
+        "gap": "Luong general attention variant: weight matrix formulation and how it differs from dot-product",
+        "url": "https://arxiv.org/html/1706.03762v7",
+        "title": "Attention Is All You Need - arXiv"
+      },
+      {
+        "gap": "Luong general attention variant: weight matrix formulation and how it differs from dot-product",
+        "url": "https://www.khoury.northeastern.edu/home/vip/teach/MLcourse/7_adv_NN/notes/chatGPT_responses/attention_mechanisms_latest.pdf",
+        "title": "Class Notes: Attention Mechanisms in Neural Networks"
+      },
+      {
+        "gap": "Luong general attention variant: weight matrix formulation and how it differs from dot-product",
+        "url": "https://arxiv.org/pdf/1706.03762.pdf",
+        "title": "Provided proper attribution is provided, Google hereby grants permission to"
+      },
+      {
+        "gap": "Concat/additive scoring (Bahdanau) formula and mechanics for comparison",
+        "url": "https://www.sotaaz.com/blog/attention-mechanism-implementation",
+        "title": "Attention \uad6c\ud604\ud560 \ub54c Bahdanau vs Luong, \ubb58 \uc368\uc57c \ud558\ub098? (\uacb0\ub860"
+      },
+      {
+        "gap": "Concat/additive scoring (Bahdanau) formula and mechanics for comparison",
+        "url": "https://buomsoo-kim.github.io/attention/2020/03/19/Attention-mechanism-13.md/",
+        "title": "Attention Mechanism in Neural Networks - 13. Various ..."
+      },
+      {
+        "gap": "Concat/additive scoring (Bahdanau) formula and mechanics for comparison",
+        "url": "https://www.sotaaz.com/post/attention-mechanism-implementation-en",
+        "title": "Bahdanau vs Luong Attention: Which One Should You Actually Use ..."
+      },
+      {
+        "gap": "Concat/additive scoring (Bahdanau) formula and mechanics for comparison",
+        "url": "https://www.khoury.northeastern.edu/home/vip/teach/MLcourse/7_adv_NN/notes/chatGPT_responses/attention_mechanisms_tikz.pdf",
+        "title": "[PDF] Class Notes: Attention Mechanisms in Neural Networks"
+      },
+      {
+        "gap": "Concat/additive scoring (Bahdanau) formula and mechanics for comparison",
+        "url": "https://mbrenndoerfer.com/writing/bahdanau-attention-neural-machine-translation",
+        "title": "Bahdanau Attention: Dynamic Context for Neural Machine Translation"
+      },
+      {
+        "gap": "Global vs local attention in Luong et al.: definitions, mechanics, and differences",
+        "url": "https://humanbrain.gitbook.io/notes/notes/natural-language-processing/luong_attention",
+        "title": "(2015. 8) Luong Attention | HumanBrain"
+      },
+      {
+        "gap": "Global vs local attention in Luong et al.: definitions, mechanics, and differences",
+        "url": "https://nlp.stanford.edu/pubs/emnlp15_attn.pdf",
+        "title": "[PDF] Effective Approaches to Attention-based Neural Machine Translation"
+      },
+      {
+        "gap": "Global vs local attention in Luong et al.: definitions, mechanics, and differences",
+        "url": "https://buomsoo-kim.github.io/attention/2020/03/18/Attention-mechanism-12.md/",
+        "title": "Attention in Neural Networks - 12. Various attention mechanisms (1)"
+      },
+      {
+        "gap": "Input-feeding approach in Luong et al.: what it is, how it works, and why it helps",
+        "url": "https://wandb.ai/authors/under-attention/reports/Effective-Approaches-to-Attention-based-Neural-Machine-Translation--Vmlldzo1MzQwMjA",
+        "title": "Effective Approaches to Attention-based Neural Machine Translation"
+      },
+      {
+        "gap": "Input-feeding approach in Luong et al.: what it is, how it works, and why it helps",
+        "url": "https://www.youtube.com/watch?v=eyXHpL4dlYU",
+        "title": "[MXDL-11-04] Attention Networks [4/7] - Seq2Seq-Attention model using input-feeding method"
+      },
+      {
+        "gap": "Input-feeding approach in Luong et al.: what it is, how it works, and why it helps",
+        "url": "https://courses.grainger.illinois.edu/cs546/sp2020/Slides/Lecture15.pdf",
+        "title": "Effective Approaches to Attention-based Neural"
+      },
+      {
+        "gap": "Input-feeding approach in Luong et al.: what it is, how it works, and why it helps",
+        "url": "https://agent-jay.github.io/paper_reviews/nlp/attention_luong/",
+        "title": "Effective Approaches to Attention-based Neural Machine Translation ..."
+      },
+      {
+        "gap": "Input-feeding approach in Luong et al.: what it is, how it works, and why it helps",
+        "url": "https://yam.gift/2020/04/14/Paper/2020-04-14-Luong-Attention/",
+        "title": "Luong Attention \u8bba\u6587+\u4ee3\u7801\u7b14\u8bb0"
+      },
+      {
+        "gap": "Computational complexity comparison of dot-product vs additive vs general attention",
+        "url": "https://www.arxiv.org/pdf/2601.03329.pdf",
+        "title": "Attention mechanisms in neural networks"
+      },
+      {
+        "gap": "Computational complexity comparison of dot-product vs additive vs general attention",
+        "url": "https://aman.ai/primers/ai/attention/",
+        "title": "Aman's AI Journal \u2022 Natural Language Processing \u2022 Attention"
+      },
+      {
+        "gap": "Computational complexity comparison of dot-product vs additive vs general attention",
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf",
+        "title": "[PDF] Attention is All you Need - NIPS"
+      },
+      {
+        "gap": "Computational complexity comparison of dot-product vs additive vs general attention",
+        "url": "https://blog.csdn.net/DELEnomore/article/details/146064922",
+        "title": "dot-product attention\u5bf9\u6bd4additive attention"
+      },
+      {
+        "gap": "Score function comparison: expressiveness, efficiency, and when to prefer each variant",
+        "url": "https://arxiv.org/abs/2202.06823",
+        "title": "Development and Comparison of Scoring Functions in ..."
+      },
+      {
+        "gap": "Score function comparison: expressiveness, efficiency, and when to prefer each variant",
+        "url": "https://arxiv.org/abs/2509.00336v1",
+        "title": "Are We Really Learning the Score Function? Reinterpreting ... - arXiv"
+      },
+      {
+        "gap": "Score function comparison: expressiveness, efficiency, and when to prefer each variant",
+        "url": "https://sdiaa.github.io/papers/ICDE21.pdf",
+        "title": "[PDF] Efficient Relation-aware Scoring Function Search for Knowledge ..."
+      },
+      {
+        "gap": "Score function comparison: expressiveness, efficiency, and when to prefer each variant",
+        "url": "http://www.gatsby.ucl.ac.uk/tea/tea_archive/attached_files/scoreFeatures.pdf",
+        "title": "Score Function Features for Discriminative Learning:"
+      },
+      {
+        "gap": "Score function comparison: expressiveness, efficiency, and when to prefer each variant",
+        "url": "https://papers.neurips.cc/paper_files/paper/2020/file/92c3b916311a5517d9290576e3ea37ad-Paper.pdf",
+        "title": "Improved Techniques for Training Score-Based Generative ..."
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-07T15:04:40",
+    "run_label": "pipeline-test:luong-attention-score-variants",
+    "sources": [
+      {
+        "gap": "Luong multiplicative attention mechanics and formula (h_t \u00b7 h_s)",
+        "url": "https://www.sotaaz.com/blog/attention-mechanism-implementation-en",
+        "title": "Which One Should You Actually Use? (Spoiler: Luong) | SOTAAZ Blog"
+      },
+      {
+        "gap": "Luong multiplicative attention mechanics and formula (h_t \u00b7 h_s)",
+        "url": "https://cs182sp21.github.io/static/discussions/dis7-sol.pdf",
+        "title": "[PDF] Discussion 7 - CS 182"
+      },
+      {
+        "gap": "Luong multiplicative attention mechanics and formula (h_t \u00b7 h_s)",
+        "url": "https://cs182sp21.github.io/static/discussions/dis7.pdf",
+        "title": "CS 182/282A"
+      },
+      {
+        "gap": "Luong multiplicative attention mechanics and formula (h_t \u00b7 h_s)",
+        "url": "https://andre-martins.github.io/docs/dsl2020/attention-mechanisms.pdf",
+        "title": "Attention Mechanisms"
+      },
+      {
+        "gap": "Dot-product scoring function definition and example in Luong et al. 2015",
+        "url": "https://arxiv.org/pdf/1508.04025v5.pdf",
+        "title": "arXiv:1508.04025v5  [cs.CL]  20 Sep 2015"
+      },
+      {
+        "gap": "Dot-product scoring function definition and example in Luong et al. 2015",
+        "url": "https://arxiv.org/pdf/1508.04025.pdf",
+        "title": "[PDF] arXiv:1508.04025v5 [cs.CL] 20 Sep 2015"
+      },
+      {
+        "gap": "Dot-product scoring function definition and example in Luong et al. 2015",
+        "url": "https://www.baeldung.com/cs/attention-luong-vs-bahdanau",
+        "title": "4. Bahdanau Attention"
+      },
+      {
+        "gap": "Dot-product scoring function definition and example in Luong et al. 2015",
+        "url": "https://yueqiusun.github.io/files/NLP_final_report.pdf",
+        "title": "[PDF] Implementation of Neural Machine Translation System - Yueqiu Sun"
+      },
+      {
+        "gap": "General scoring function (h_t^T W h_s) definition, parameters, and trade-offs",
+        "url": "https://danmackinlay.name/notebook/score_function.html",
+        "title": "The (Fisher) score function - Dan MacKinlay"
+      },
+      {
+        "gap": "General scoring function (h_t^T W h_s) definition, parameters, and trade-offs",
+        "url": "https://ericmjl.github.io/score-models/notebooks/01-score-function.html",
+        "title": "A Pedagogical Introduction to Score Models - 2 Score Functionsericmjl.github.io \u203a score-models \u203a notebooks \u203a 01-score-function"
+      },
+      {
+        "gap": "General scoring function (h_t^T W h_s) definition, parameters, and trade-offs",
+        "url": "https://afraenkel.github.io/fairness-book/content/07-score-functions.html",
+        "title": "7. Score Functions, Calibration, and Fairness - Aaron Fraenkel"
+      },
+      {
+        "gap": "General scoring function (h_t^T W h_s) definition, parameters, and trade-offs",
+        "url": "https://ar5iv.labs.arxiv.org/html/2107.00184",
+        "title": "Bilinear Scoring Function Search for Knowledge Graph Learning"
+      },
+      {
+        "gap": "General scoring function (h_t^T W h_s) definition, parameters, and trade-offs",
+        "url": "https://warwick.ac.uk/fac/sci/statistics/apts/students/resources/apts_4_likelihood_estimator.pdf",
+        "title": "Statistical inference Part 4 Likelihood, and related, estimators"
+      },
+      {
+        "gap": "Concat scoring function definition and comparison with dot and general",
+        "url": "https://buomsoo-kim.github.io/attention/2020/03/19/Attention-mechanism-13.md/",
+        "title": "Attention Mechanism in Neural Networks - 13. Various ..."
+      },
+      {
+        "gap": "Concat scoring function definition and comparison with dot and general",
+        "url": "https://en.4paradigm.com/upload/file/20210427/20210427224408_98151.pdf",
+        "title": "[PDF] Searching Scoring Functions for Knowledge Graph Embedding"
+      },
+      {
+        "gap": "Concat scoring function definition and comparison with dot and general",
+        "url": "https://angom.myweb.cs.uwindsor.ca/teaching/cs558/Lec558_02.pdf",
+        "title": "pair-wise sequence alignment algorithms"
+      },
+      {
+        "gap": "Concat scoring function definition and comparison with dot and general",
+        "url": "https://arxiv.org/abs/2202.06823",
+        "title": "Development and Comparison of Scoring Functions in ..."
+      },
+      {
+        "gap": "Concat scoring function definition and comparison with dot and general",
+        "url": "https://ar5iv.labs.arxiv.org/html/2107.00184",
+        "title": "Bilinear Scoring Function Search for Knowledge Graph Learning"
+      },
+      {
+        "gap": "Global vs local attention: detailed mechanics, differences, and use cases",
+        "url": "https://arxiv.org/pdf/2411.09604.pdf",
+        "title": "arXiv:2411.09604v1 [cs.CV] 14 Nov 2024"
+      },
+      {
+        "gap": "Global vs local attention: detailed mechanics, differences, and use cases",
+        "url": "https://arxiv.org/html/2411.09604v1",
+        "title": "Local-Global Attention: An Adaptive Mechanism for Multi-Scale ..."
+      },
+      {
+        "gap": "Global vs local attention: detailed mechanics, differences, and use cases",
+        "url": "https://slds-lmu.github.io/seminar_nlp_ss20/attention-and-self-attention-for-nlp.html",
+        "title": "Chapter 8 Attention and Self-Attention for NLP"
+      },
+      {
+        "gap": "Global vs local attention: detailed mechanics, differences, and use cases",
+        "url": "https://nlp.stanford.edu/pubs/emnlp15_attn.pdf",
+        "title": "[PDF] Effective Approaches to Attention-based Neural Machine Translation"
+      },
+      {
+        "gap": "Global vs local attention: detailed mechanics, differences, and use cases",
+        "url": "https://buomsoo-kim.github.io/attention/2020/03/18/Attention-mechanism-12.md/",
+        "title": "Attention in Neural Networks - 12. Various attention mechanisms (1)"
+      },
+      {
+        "gap": "Computational complexity comparison of dot, general, and concat scoring functions",
+        "url": "https://scholarworks.gsu.edu/cgi/viewcontent.cgi?article=1061&context=cs_diss",
+        "title": "Georgia State University"
+      },
+      {
+        "gap": "Computational complexity comparison of dot, general, and concat scoring functions",
+        "url": "https://arxiv.org/abs/2202.06823",
+        "title": "Development and Comparison of Scoring Functions in ..."
+      },
+      {
+        "gap": "Computational complexity comparison of dot, general, and concat scoring functions",
+        "url": "https://sdiaa.github.io/papers/ICDE21.pdf",
+        "title": "[PDF] Efficient Relation-aware Scoring Function Search for Knowledge ..."
+      },
+      {
+        "gap": "Computational complexity comparison of dot, general, and concat scoring functions",
+        "url": "https://www.moodle.is.ed.ac.uk/pluginfile.php/87442/mod_resource/content/1/Comparative%20Assessment%20of%20Scoring%20Functions%20on%20a%20Diverse%20Test%20Set-Cheng-Wang-2009.pdf",
+        "title": "[PDF] Comparative Assessment of Scoring Functions on a Diverse Test Set"
+      },
+      {
+        "gap": "Computational complexity comparison of dot, general, and concat scoring functions",
+        "url": "https://angom.myweb.cs.uwindsor.ca/teaching/cs558/Lec558_02.pdf",
+        "title": "pair-wise sequence alignment algorithms"
+      },
+      {
+        "gap": "Attention window in local attention: definition, size selection, and centered position",
+        "url": "https://machinelearning.apple.com/research/rattention",
+        "title": "RATTENTION: Towards the Minimal Sliding Window Size ..."
+      },
+      {
+        "gap": "Attention window in local attention: definition, size selection, and centered position",
+        "url": "https://oar.a-star.edu.sg/storage/8/8npqw5ygny/acl-20-cr-differentiable-window-for-dynamic-local-attention.pdf",
+        "title": "Differentiable Window for Dynamic Local Attention"
+      },
+      {
+        "gap": "Attention window in local attention: definition, size selection, and centered position",
+        "url": "https://arxiv.org/html/2501.01039v1",
+        "title": "MSWA: Refining Local Attention with Multi-Scale Window ..."
+      },
+      {
+        "gap": "Attention window in local attention: definition, size selection, and centered position",
+        "url": "https://aclanthology.org/D18-1475.pdf",
+        "title": "[PDF] Modeling Localness for Self-Attention Networks - ACL Anthology"
+      },
+      {
+        "gap": "Attention window in local attention: definition, size selection, and centered position",
+        "url": "https://arxiv.org/abs/2506.15545",
+        "title": "RATTENTION: Towards the Minimal Sliding Window Size ..."
+      },
+      {
+        "gap": "Score normalization via softmax in Luong attention context",
+        "url": "https://aclanthology.org/2025.emnlp-main.397.pdf",
+        "title": "[PDF] Self-Adjust Softmax - ACL Anthology"
+      },
+      {
+        "gap": "Score normalization via softmax in Luong attention context",
+        "url": "https://www.arxiv.org/pdf/2501.13428.pdf",
+        "title": "Softplus Attention with Re-weighting Boosts Length ..."
+      },
+      {
+        "gap": "Score normalization via softmax in Luong attention context",
+        "url": "https://arxiv.org/html/2410.09637v1",
+        "title": "ReLU's Revival: On the Entropic Overload in Normalization ..."
+      },
+      {
+        "gap": "Score normalization via softmax in Luong attention context",
+        "url": "https://axi.lims.ac.uk/paper/2501.19399",
+        "title": "Scalable-Softmax Is Superior for Attention"
+      },
+      {
+        "gap": "Score normalization via softmax in Luong attention context",
+        "url": "https://slds-lmu.github.io/seminar_nlp_ss20/attention-and-self-attention-for-nlp.html",
+        "title": "Chapter 8 Attention and Self-Attention for NLP"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-07T15:05:49",
+    "run_label": "pipeline-test:bottleneck-problem-seq2seq",
+    "sources": [
+      {
+        "gap": "Encoder-decoder RNN architecture mechanics: how encoder processes tokens into hidden states and decoder uses them",
+        "url": "https://arxiv.org/pdf/1406.1078v1.pdf",
+        "title": "[PDF] arXiv:1406.1078v1 [cs.CL] 3 Jun 2014"
+      },
+      {
+        "gap": "Encoder-decoder RNN architecture mechanics: how encoder processes tokens into hidden states and decoder uses them",
+        "url": "https://www1.se.cuhk.edu.hk/~seem5680/lecture/Encoder-Decoder-Attention-2022spring.pdf",
+        "title": "[PDF] Encoder\u2010Decoder Models and Attention"
+      },
+      {
+        "gap": "Encoder-decoder RNN architecture mechanics: how encoder processes tokens into hidden states and decoder uses them",
+        "url": "https://www.cs.cornell.edu/courses/cs4740/2025sp/lectures/Lec12.pdf",
+        "title": "[PDF] Encoder-decoder RNN architecture - Cornell: Computer Science"
+      },
+      {
+        "gap": "Encoder-decoder RNN architecture mechanics: how encoder processes tokens into hidden states and decoder uses them",
+        "url": "https://aclanthology.org/www.mt-archive.info/10/SSST-2014-Cho.pdf",
+        "title": "Proceedings of SSST-8, Eighth Workshop on Syntax, Semantics and Structure in Statistical Translation"
+      },
+      {
+        "gap": "Encoder-decoder RNN architecture mechanics: how encoder processes tokens into hidden states and decoder uses them",
+        "url": "https://arxiv.org/abs/1406.1078",
+        "title": "Learning Phrase Representations using RNN Encoder-Decoder for ..."
+      },
+      {
+        "gap": "Fixed-length context vector: construction, role in decoding, and why it limits performance",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-2-attention-mechanism-core-concepts/motivation-for-attention",
+        "title": "Motivation: Overcoming Fixed-Length Context Vectors"
+      },
+      {
+        "gap": "Fixed-length context vector: construction, role in decoding, and why it limits performance",
+        "url": "https://web.stanford.edu/~jurafsky/slp3/old_dec21/10.pdf",
+        "title": "[PDF] 10Machine Translation and Encoder-Decoder Models"
+      },
+      {
+        "gap": "Fixed-length context vector: construction, role in decoding, and why it limits performance",
+        "url": "http://arxiv.org/pdf/1409.0473.pdf",
+        "title": "Published as a conference paper at ICLR 2015"
+      },
+      {
+        "gap": "Fixed-length context vector: construction, role in decoding, and why it limits performance",
+        "url": "https://www1.se.cuhk.edu.hk/~seem5680/lecture/Encoder-Decoder-Attention-2022spring.pdf",
+        "title": "[PDF] Encoder\u2010Decoder Models and Attention"
+      },
+      {
+        "gap": "Fixed-length context vector: construction, role in decoding, and why it limits performance",
+        "url": "https://ajkdrag.in/2-Zettels/fixed-length-context-vector-bottleneck",
+        "title": "fixed-length context vector bottleneck"
+      },
+      {
+        "gap": "Information bottleneck in seq2seq: what information is lost when compressing variable-length sequences to fixed vectors",
+        "url": "https://blog.sotaaz.com/post/context-vector-limitation-en",
+        "title": "5.3 Why Lstm Also Has..."
+      },
+      {
+        "gap": "Information bottleneck in seq2seq: what information is lost when compressing variable-length sequences to fixed vectors",
+        "url": "https://research.vu.nl/ws/files/336540765/Sequential_Invariant_Information_Bottleneck.pdf",
+        "title": "[PDF] VU Research Portal - Vrije Universiteit Amsterdam"
+      },
+      {
+        "gap": "Information bottleneck in seq2seq: what information is lost when compressing variable-length sequences to fixed vectors",
+        "url": "http://arxiv.org/pdf/2209.05333.pdf",
+        "title": "1"
+      },
+      {
+        "gap": "Information bottleneck in seq2seq: what information is lost when compressing variable-length sequences to fixed vectors",
+        "url": "https://apxml.com/courses/introduction-to-transformer-models/chapter-1-sequence-modeling-attention-fundamentals/sequence-to-sequence-challenges",
+        "title": "Challenges in Sequence-to-Sequence Tasks"
+      },
+      {
+        "gap": "Information bottleneck in seq2seq: what information is lost when compressing variable-length sequences to fixed vectors",
+        "url": "https://research.vu.nl/ws/portalfiles/portal/336540765/Sequential_Invariant_Information_Bottleneck.pdf",
+        "title": "Sequential Invariant Information Bottleneck"
+      },
+      {
+        "gap": "Recurrent neural networks: hidden state updates, sequential processing, and vanishing gradient problem",
+        "url": "https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1204/slides/cs224n-2020-lecture07-fancy-rnn.pdf",
+        "title": "with Deep Learning CS224N/Ling284"
+      },
+      {
+        "gap": "Recurrent neural networks: hidden state updates, sequential processing, and vanishing gradient problem",
+        "url": "https://arxiv.org/pdf/1412.7753.pdf",
+        "title": "Accepted as a workshop contribution at ICLR 2015"
+      },
+      {
+        "gap": "Recurrent neural networks: hidden state updates, sequential processing, and vanishing gradient problem",
+        "url": "https://www.davidinouye.com/course/ece57000-fall-2025/lectures/10-recurrent-neural-networks.pdf",
+        "title": "[PDF] Recurrent Neural Networks (RNN) - David I. Inouye"
+      },
+      {
+        "gap": "Recurrent neural networks: hidden state updates, sequential processing, and vanishing gradient problem",
+        "url": "https://ar5iv.labs.arxiv.org/html/2405.21064",
+        "title": "Recurrent neural networks: vanishing and exploding gradients are not the end of the story"
+      },
+      {
+        "gap": "Recurrent neural networks: hidden state updates, sequential processing, and vanishing gradient problem",
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2024/file/fbb07254ef01868967dc891ea3fa6c13-Paper-Conference.pdf",
+        "title": "Recurrent neural networks: vanishing and exploding"
+      },
+      {
+        "gap": "Sequence-to-sequence learning framework: training objective, teacher forcing, and inference",
+        "url": "https://mbrenndoerfer.com/writing/teacher-forcing-seq2seq-training-exposure-bias-scheduled-sampling",
+        "title": "Teacher Forcing: Training Seq2Seq Models with Ground Truth ..."
+      },
+      {
+        "gap": "Sequence-to-sequence learning framework: training objective, teacher forcing, and inference",
+        "url": "https://www.arxiv.org/pdf/1909.12289v1.pdf",
+        "title": "[PDF] attention forcing for sequence-to-sequence model training - arXiv"
+      },
+      {
+        "gap": "Sequence-to-sequence learning framework: training objective, teacher forcing, and inference",
+        "url": "https://d2l.ai/chapter_recurrent-modern/seq2seq.html",
+        "title": "10.7. Sequence-to-Sequence Learning for Machine Translation"
+      },
+      {
+        "gap": "Sequence-to-sequence learning framework: training objective, teacher forcing, and inference",
+        "url": "https://ar5iv.labs.arxiv.org/html/1909.12289",
+        "title": "Attention Forcing for Sequence-to-sequence Model Training"
+      },
+      {
+        "gap": "Sequence-to-sequence learning framework: training objective, teacher forcing, and inference",
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2016/file/16026d60ff9b54410b3435b403afd226-Paper.pdf",
+        "title": "Professor Forcing: A New Algorithm for Training Recurrent ..."
+      },
+      {
+        "gap": "Hidden state compression in RNNs: how all input information must be encoded into a single vector",
+        "url": "https://arxiv.org/html/2407.04620v1",
+        "title": "Learning to (Learn at Test Time): RNNs with Expressive Hidden States"
+      },
+      {
+        "gap": "Hidden state compression in RNNs: how all input information must be encoded into a single vector",
+        "url": "https://d2l.ai/chapter_recurrent-modern/seq2seq.html",
+        "title": "10.7. Sequence-to-Sequence Learning for Machine Translation"
+      },
+      {
+        "gap": "Hidden state compression in RNNs: how all input information must be encoded into a single vector",
+        "url": "https://arxiv.org/pdf/2407.04620.pdf",
+        "title": "RNNs with Expressive Hidden States"
+      },
+      {
+        "gap": "Hidden state compression in RNNs: how all input information must be encoded into a single vector",
+        "url": "http://karpathy.github.io/2015/05/21/rnn-effectiveness/",
+        "title": "The Unreasonable Effectiveness of Recurrent Neural Networks"
+      },
+      {
+        "gap": "Hidden state compression in RNNs: how all input information must be encoded into a single vector",
+        "url": "http://d2l.ai/chapter_recurrent-neural-networks/rnn.html",
+        "title": "9.4. Recurrent Neural Networks"
+      },
+      {
+        "gap": "Long-range dependencies: why RNNs struggle to retain information from distant tokens in long sequences",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/39637825/",
+        "title": "Revisiting the problem of learning long-term dependencies ... - PubMed"
+      },
+      {
+        "gap": "Long-range dependencies: why RNNs struggle to retain information from distant tokens in long sequences",
+        "url": "https://arxiv.org/pdf/1803.00144.pdf",
+        "title": "Arxiv"
+      },
+      {
+        "gap": "Long-range dependencies: why RNNs struggle to retain information from distant tokens in long sequences",
+        "url": "https://proceedings.mlr.press/v80/trinh18a/trinh18a.pdf",
+        "title": "Learning Longer-term Dependencies in RNNs with Auxiliary ..."
+      },
+      {
+        "gap": "Long-range dependencies: why RNNs struggle to retain information from distant tokens in long sequences",
+        "url": "https://arxiv.org/pdf/1708.06742.pdf",
+        "title": "[PDF] arXiv:1708.06742v3 [cs.LG] 23 Feb 2018"
+      },
+      {
+        "gap": "Long-range dependencies: why RNNs struggle to retain information from distant tokens in long sequences",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-1-revisiting-sequence-modeling-limitations/long-range-dependency-challenges",
+        "title": "Challenges with Long-Range Dependencies - ApX Machine Learning"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-09T15:49:27",
+    "run_label": "pipeline-test:bahdanau-additive-attention-formulation-and-intuition",
+    "sources": [
+      {
+        "gap": "Bahdanau (additive) attention score function: e_{t,i} = v^T tanh(W_s s_{t-1} + W_h h_i) (or equivalent) and how it differs from dot-product attention",
+        "url": "https://gist.github.com/ritwikraha/2466b901cb22bbe65288e4bb499e0ebc",
+        "title": "why Bahdanau is Additive?"
+      },
+      {
+        "gap": "Bahdanau (additive) attention score function: e_{t,i} = v^T tanh(W_s s_{t-1} + W_h h_i) (or equivalent) and how it differs from dot-product attention",
+        "url": "https://d2l.ai/chapter_attention-mechanisms-and-transformers/bahdanau-attention.html",
+        "title": "11.4. The Bahdanau Attention Mechanism - Dive into Deep Learning"
+      },
+      {
+        "gap": "Bahdanau (additive) attention score function: e_{t,i} = v^T tanh(W_s s_{t-1} + W_h h_i) (or equivalent) and how it differs from dot-product attention",
+        "url": "https://apxml.com/courses/advanced-tensorflow/chapter-7-implementing-advanced-architectures/building-attention-mechanisms",
+        "title": "Building Attention Mechanisms from Scratch - ApX Machine Learning"
+      },
+      {
+        "gap": "Bahdanau (additive) attention score function: e_{t,i} = v^T tanh(W_s s_{t-1} + W_h h_i) (or equivalent) and how it differs from dot-product attention",
+        "url": "https://gds.techfak.uni-bielefeld.de/_media/teaching/2023summer/attention/lecture2-180423.pdf",
+        "title": "Attention Networks and Diffusion Models"
+      },
+      {
+        "gap": "Bahdanau (additive) attention score function: e_{t,i} = v^T tanh(W_s s_{t-1} + W_h h_i) (or equivalent) and how it differs from dot-product attention",
+        "url": "https://machinelearningmastery.com/the-bahdanau-attention-mechanism/",
+        "title": "The Bahdanau Attention Mechanism - MachineLearningMastery.com"
+      },
+      {
+        "gap": "Alignment model definition and training: computing e_{t,i}, applying softmax to get \u03b1_{t,i}, and learning parameters jointly with seq2seq",
+        "url": "https://arxiv.org/pdf/2307.01715.pdf",
+        "title": "arXiv:2307.01715v3 [cs.CL] 7 Mar 2024"
+      },
+      {
+        "gap": "Alignment model definition and training: computing e_{t,i}, applying softmax to get \u03b1_{t,i}, and learning parameters jointly with seq2seq",
+        "url": "https://chunpai.github.io/2020/06/15/Attention-Mechanism-1.html",
+        "title": "Attention Mechanism [1]: Seq2Seq Models - Chunpai Wang"
+      },
+      {
+        "gap": "Alignment model definition and training: computing e_{t,i}, applying softmax to get \u03b1_{t,i}, and learning parameters jointly with seq2seq",
+        "url": "https://proceedings.iclr.cc/paper_files/paper/2024/file/5aadf1e309cc03cab3ec35afb7c9d0c8-Paper-Conference.pdf",
+        "title": "ALIGN WITH PURPOSE: OPTIMIZE DESIRED PROPER"
+      },
+      {
+        "gap": "Alignment model definition and training: computing e_{t,i}, applying softmax to get \u03b1_{t,i}, and learning parameters jointly with seq2seq",
+        "url": "https://arxiv.org/pdf/2307.01715v3.pdf",
+        "title": "Published as a conference paper at ICLR 2024"
+      },
+      {
+        "gap": "Alignment model definition and training: computing e_{t,i}, applying softmax to get \u03b1_{t,i}, and learning parameters jointly with seq2seq",
+        "url": "https://buomsoo-kim.github.io/attention/2020/03/05/Attention-mechanism-8.md/",
+        "title": "Attention in Neural Networks - 8. Alignment Models (1) - Buomsoo Kim"
+      },
+      {
+        "gap": "Decoder hidden state as the attention query at each decoding step; timing (use of s_{t-1} vs s_t) and integration with output generation",
+        "url": "https://www.geeksforgeeks.org/artificial-intelligence/ml-attention-mechanism/",
+        "title": "Attention Mechanism in ML - GeeksforGeeks"
+      },
+      {
+        "gap": "Decoder hidden state as the attention query at each decoding step; timing (use of s_{t-1} vs s_t) and integration with output generation",
+        "url": "https://www1.se.cuhk.edu.hk/~seem5680/lecture/Encoder-Decoder-Attention-2022spring.pdf",
+        "title": "[PDF] Encoder\u2010Decoder Models and Attention"
+      },
+      {
+        "gap": "Decoder hidden state as the attention query at each decoding step; timing (use of s_{t-1} vs s_t) and integration with output generation",
+        "url": "https://machinelearningmastery.com/the-bahdanau-attention-mechanism/",
+        "title": "The Bahdanau Attention Mechanism - MachineLearningMastery.com"
+      },
+      {
+        "gap": "Decoder hidden state as the attention query at each decoding step; timing (use of s_{t-1} vs s_t) and integration with output generation",
+        "url": "https://www.davidsbatista.net/blog/2020/01/25/Attention-seq2seq/",
+        "title": "Sequence-To-Sequence Model..."
+      },
+      {
+        "gap": "Decoder hidden state as the attention query at each decoding step; timing (use of s_{t-1} vs s_t) and integration with output generation",
+        "url": "https://proceedings.neurips.cc/paper/2021/file/ba3c736667394d5082f86f28aef38107-Supplemental.pdf",
+        "title": "A"
+      },
+      {
+        "gap": "Encoder hidden states/annotations as keys/values (memory) for attention in RNN seq2seq",
+        "url": "https://arxiv.org/pdf/2506.17424.pdf",
+        "title": "Sequence-to-Sequence Models with Attention Mechanistically ..."
+      },
+      {
+        "gap": "Encoder hidden states/annotations as keys/values (memory) for attention in RNN seq2seq",
+        "url": "https://arxiv.org/html/2506.17424v1",
+        "title": "The Seq2seq Model Provides..."
+      },
+      {
+        "gap": "Encoder hidden states/annotations as keys/values (memory) for attention in RNN seq2seq",
+        "url": "https://pantelis.github.io/aiml-common/lectures/nlp/nmt/rnn-nmt-attention/",
+        "title": "Attention in RNN-based NMT"
+      },
+      {
+        "gap": "Encoder hidden states/annotations as keys/values (memory) for attention in RNN seq2seq",
+        "url": "https://idea.snu.ac.kr/wp-content/uploads/sites/6/2025/01/seq2seq-attention.pdf",
+        "title": "seq2seq & attention"
+      },
+      {
+        "gap": "Encoder hidden states/annotations as keys/values (memory) for attention in RNN seq2seq",
+        "url": "https://slazebni.cs.illinois.edu/spring24/lec18_attention.pdf",
+        "title": "[PDF] Sequence-to-sequence models with attention"
+      },
+      {
+        "gap": "Context vector computation: c_t = \u03a3_i \u03b1_{t,i} h_i and how it conditions the decoder/output layer",
+        "url": "https://web.stanford.edu/~jurafsky/slp3/old_oct19/10.pdf",
+        "title": "[PDF] Encoder-Decoder Models, At- tention, and Contextual Em- beddings"
+      },
+      {
+        "gap": "Context vector computation: c_t = \u03a3_i \u03b1_{t,i} h_i and how it conditions the decoder/output layer",
+        "url": "http://arxiv.org/pdf/1409.0473.pdf",
+        "title": "Published as a conference paper at ICLR 2015"
+      },
+      {
+        "gap": "Context vector computation: c_t = \u03a3_i \u03b1_{t,i} h_i and how it conditions the decoder/output layer",
+        "url": "http://elearn.psgcas.ac.in/nptel/courses/video/106106211/lec79.pdf",
+        "title": "Applied Natural Language Processing Prof. Ramaseshan ..."
+      },
+      {
+        "gap": "Context vector computation: c_t = \u03a3_i \u03b1_{t,i} h_i and how it conditions the decoder/output layer",
+        "url": "https://griesshaber.pages.mi.hdm-stuttgart.de/nlp/07neuralnetworks/attention.html",
+        "title": "Natural Language Processing Lecture"
+      },
+      {
+        "gap": "Context vector computation: c_t = \u03a3_i \u03b1_{t,i} h_i and how it conditions the decoder/output layer",
+        "url": "https://web.stanford.edu/class/cs224n/readings/cs224n-2019-notes06-NMT_seq2seq_attention.pdf",
+        "title": "Part VI Neural Machine Translation, Seq2seq and Attenti"
+      },
+      {
+        "gap": "Soft alignment intuition and interpretability: attention weights as alignment probabilities; qualitative alignment visualization and training dynamics vs fixed-length bottleneck",
+        "url": "https://arxiv.org/html/2505.20892v1",
+        "title": "One-Time Soft Alignment Enables Resilient Learning ..."
+      },
+      {
+        "gap": "Soft alignment intuition and interpretability: attention weights as alignment probabilities; qualitative alignment visualization and training dynamics vs fixed-length bottleneck",
+        "url": "https://eprints.whiterose.ac.uk/id/eprint/166668/1/MTJ_2020.pdf",
+        "title": "[PDF] Investigating alignment interpretability for low-resource NMT"
+      },
+      {
+        "gap": "Soft alignment intuition and interpretability: attention weights as alignment probabilities; qualitative alignment visualization and training dynamics vs fixed-length bottleneck",
+        "url": "https://arxiv.org/abs/2505.20892v1",
+        "title": "One-Time Soft Alignment Enables Resilient Learning without Weight Transport"
+      },
+      {
+        "gap": "Soft alignment intuition and interpretability: attention weights as alignment probabilities; qualitative alignment visualization and training dynamics vs fixed-length bottleneck",
+        "url": "https://papers.nips.cc/paper/2021/file/6fd6b030c6afec018415662d0db43f9d-Paper.pdf",
+        "title": "Alignment Attention by Matching"
+      },
+      {
+        "gap": "Soft alignment intuition and interpretability: attention weights as alignment probabilities; qualitative alignment visualization and training dynamics vs fixed-length bottleneck",
+        "url": "https://aclanthology.org/2023.acl-long.492.pdf",
+        "title": "[PDF] Soft Alignment Objectives for Robust Adaptation of Language ..."
+      }
+    ]
+  }
+]

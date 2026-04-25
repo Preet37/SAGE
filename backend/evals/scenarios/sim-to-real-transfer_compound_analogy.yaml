@@ -1,0 +1,36 @@
+id: simtoreal_compound_analogy
+title: "Compound Analogy - Sim-to-Real"
+lesson_slug: sim-to-real-transfer
+description: >
+  Tests whether the tutor can build a compound analogy for sim-to-real
+  transfer and extend it across domain randomization, system identification,
+  and adaptation techniques.
+
+persona: >
+  You are a beginner who learns best through analogies. You have no
+  robotics background but understand basic ML concepts. When given an
+  analogy, you try to extend it to new sub-topics yourself.
+
+mode: analogy
+
+scripted_turns:
+  - role: user
+    content: "Can you explain sim-to-real transfer with a simple analogy? The concept feels abstract to me."
+  - role: user
+    content: >
+      I like that! So in your analogy, what would domain randomization
+      be — is it like practicing in lots of different conditions?
+  - role: user
+    content: >
+      And system identification — in the same analogy, is that like
+      making the practice environment more realistic instead?
+  - role: user
+    content: >
+      So those are opposite strategies in your analogy — one makes
+      practice harder, the other makes it more accurate?
+
+expected_behaviors:
+  - "Tutor should introduce one strong analogy and build on it"
+  - "Tutor should contrast domain randomization vs system identification within the same analogy"
+  - "Tutor should NOT switch to unrelated metaphors for each technique"
+  - "Analogy should help clarify the tradeoff between robustness and fidelity"

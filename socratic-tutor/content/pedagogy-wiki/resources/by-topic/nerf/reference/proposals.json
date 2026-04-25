@@ -1,0 +1,253 @@
+[
+  {
+    "timestamp": "2026-04-09T16:25:23",
+    "run_label": "reference-track:Neural Radiance Fields",
+    "sources": [
+      {
+        "url": "https://gist.github.com/Mason-McGough/f96c2704562593c5af2d79cae320a2e2",
+        "title": "Hierarchical sampling for NeRF",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://docs.nerf.studio/nerfology/model_components/visualize_samplers.html",
+        "title": "Ray Samplers - nerfstudio",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.ecva.net/papers/eccv_2020/papers_ECCV/papers/123460392.pdf",
+        "title": "NeRF: Representing Scenes as",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://docs.nerf.studio/nerfology/methods/nerf.html",
+        "title": "NeRF - nerfstudio",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/WACV2023/papers/Dadon_DDNeRF_Depth_Distribution_Neural_Radiance_Fields_WACV_2023_paper.pdf",
+        "title": "DDNeRF: Depth Distribution Neural Radiance Fields",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://visionbook.mit.edu/nerf.html",
+        "title": "45 Radiance Fields - Foundations of Computer Vision - MIT",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2209.02417",
+        "title": "[2209.02417] Volume Rendering Digest (for NeRF)",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.witnessj.com/archives/volume-rendeirng",
+        "title": "NeRF and Beyond: A Deep Dive into Volume Rendering",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://theialab.ca/pubs/tagliasacchi2022volume.pdf",
+        "title": "Volume Rendering Digest (for NeRF)",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://frankwang95.github.io/2024/07/deriving-volumetric-rendering",
+        "title": "Deriving the Volumetric Rendering Function - Frank Wang",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/CVPR2024/supplemental/Mazzucchelli_IReNe_Instant_Recoloring_CVPR_2024_supplemental.pdf",
+        "title": "[PDF] IReNe: Supplemental Materials - CVF Open Access",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12552718/table/Tab3/",
+        "title": "Table 3.",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://nerfbaselines.github.io",
+        "title": "NerfBaselines",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2210.00379v6",
+        "title": "NeRF: Neural Radiance Field in 3D Vision: A Comprehensive Review",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://jkulhanek.com/nerfbaselines/blender",
+        "title": "Blender",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2206.05085.pdf",
+        "title": "[PDF] arXiv:2206.05085v4 [cs.GR] 2 Jul 2022",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.ecva.net/papers/eccv_2022/papers_ECCV/papers/136920332.pdf",
+        "title": "[PDF] TensoRF: Tensorial Radiance Fields - ECVA",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "http://www.txxb.com.cn/EN/abstract/abstract2220.shtml",
+        "title": "A review on neural radiance fields acceleration",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.cvlibs.net/publications/Chen2022ECCV.pdf",
+        "title": "[PDF] Tensorial Radiance Fields - TensoRF - Andreas Geiger",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/CVPR2022/papers/Wang_Fourier_PlenOctrees_for_Dynamic_Radiance_Field_Rendering_in_Real-Time_CVPR_2022_paper.pdf",
+        "title": "Fourier PlenOctrees for Dynamic Radiance Field Rendering in Real-time",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.ecva.net/papers/eccv_2020/papers_ECCV/papers/123460392.pdf",
+        "title": "NeRF: Representing Scenes as",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://ar5iv.labs.arxiv.org/html/2101.05204",
+        "title": "[2101.05204] Neural Volume Rendering: NeRF and Beyond - ar5iv",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2408.15524v1",
+        "title": "Ray-Distance Volume Rendering for Neural Scene ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://proceedings.nips.cc/paper_files/paper/2022/file/0ce8e3434c7b486bbddff9745b2a1722-Paper-Conference.pdf",
+        "title": "Page 13 of ",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2304.04351v2",
+        "title": "Evaluate Geometry of Radiance Fields with Low-frequency ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/02234.pdf",
+        "title": "[PDF] Ray-Distance Volume Rendering for Neural Scene Reconstruction",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.arxiv.org/abs/2512.16706",
+        "title": "SDFoam: Signed-Distance Foam for explicit surface reconstruction",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://era.ed.ac.uk/items/c5ff3157-2836-4813-b8d5-2a8ecc1797c9",
+        "title": "Novel applications of signed distance fields in 3D reconstruction of ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2021/file/25e2a30f44898b9f3e978b1786dcd85c-Paper.pdf",
+        "title": "Volume Rendering of Neural Implicit Surfaces",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://docs.nerf.studio/developer_guides/pipelines/models.html",
+        "title": "Models - nerfstudio",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.nerf.studio/reference/api/models.html",
+        "title": "Models",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.nerf.studio/_modules/nerfstudio/model_components/ray_samplers.html",
+        "title": "Source code for nerfstudio.model_components.ray_samplers",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.nerf.studio/reference/api/cameras.html",
+        "title": "Cameras - nerfstudio",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.nerf.studio/developer_guides/pipelines/datamanagers.html",
+        "title": "DataManagers - nerfstudio",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://nvlabs.github.io/instant-ngp/assets/mueller2022instant.pdf",
+        "title": "Instant Neural Graphics Primitives with a Multiresolution Hash Encoding",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://nvlabs.github.io/instant-ngp/",
+        "title": "Instant Neural Graphics Primitives with a Multiresolution Hash ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://nvlabs.github.io/sionna/made_with_sionna.html",
+        "title": "Made with Sionna - NVlabs",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://nvlabs.github.io/genvs/media/genvs.pdf",
+        "title": "Generative Novel View Synthesis with 3D-Aware Diffusion Models",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://nvlabs.github.io/sionna/_modules/sionna/ofdm/resource_grid.html",
+        "title": "Source code for sionna.ofdm.resource_grid",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/CVPR2022/papers/Deng_Depth-Supervised_NeRF_Fewer_Views_and_Faster_Training_for_Free_CVPR_2022_paper.pdf",
+        "title": "Depth-supervised NeRF: Fewer Views and Faster Training for Free",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2107.02791v3",
+        "title": "Depth-supervised NeRF: Fewer Views and Faster Training ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/CVPR2022/html/Deng_Depth-Supervised_NeRF_Fewer_Views_and_Faster_Training_for_Free_CVPR_2022_paper.html",
+        "title": "Depth-Supervised NeRF - CVPR 2022 Open Access Repository",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.cs.cmu.edu/~dsnerf/",
+        "title": "Depth-supervised NeRF: Fewer Views and Faster Training ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10974786/",
+        "title": "Enhancing View Synthesis with Depth-Guided Neural ... - PMC",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2406.08691v1",
+        "title": "1 Introduction",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.ijcai.org/proceedings/2024/0107.pdf",
+        "title": "[PDF] Bridging Stereo Geometry and BEV Representation with Reliable ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://labsun.org/pub/IROS2025_dense.pdf",
+        "title": "[PDF] Dense Semantic Bird-Eye-View Map Generation from Sparse LiDAR ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/HuaiyuanXu/3D-Occupancy-Perception",
+        "title": "We research 3D Occupancy Perception for Autonomous ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2407.04049.pdf",
+        "title": "Occupancy as Set of Points - arXiv.org",
+        "need_type": "CONCEPT_EXPLAINER"
+      }
+    ]
+  }
+]

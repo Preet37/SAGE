@@ -1,0 +1,38 @@
+id: compound_analogy
+title: "Compound Analogy"
+lesson_slug: lora-parameter-efficient
+description: >
+  Tests whether the tutor builds compound analogies that extend and evolve
+  across the conversation, rather than introducing disconnected metaphors.
+  The student engages with the analogy, and the tutor should extend it to
+  cover new sub-concepts.
+
+persona: >
+  You are a beginner who learns best through analogies and real-world
+  comparisons. When the tutor gives you an analogy, you engage with it
+  deeply — asking "so in that analogy, what would X be?" You appreciate
+  when the same metaphor evolves to cover new aspects of the concept.
+
+mode: analogy
+
+scripted_turns:
+  - role: user
+    content: "I've heard about LoRA but I don't really get it. Can you explain it in simple terms?"
+  - role: user
+    content: >
+      I like that analogy! So in that comparison, what would the rank
+      parameter r represent? Like, is it how detailed the notes are?
+  - role: user
+    content: >
+      OK so extending that same idea — when people say they use LoRA
+      with rank 4 vs rank 64, what's the tradeoff in your analogy?
+  - role: user
+    content: >
+      And what about applying LoRA to different layers — is it like
+      having these notes in different chapters?
+
+expected_behaviors:
+  - "Tutor should introduce one strong analogy early and build on it"
+  - "Tutor should NOT switch to a completely different analogy when covering rank"
+  - "Tutor should extend the original analogy to cover new sub-concepts (rank, layers)"
+  - "Analogy should feel natural and evolve with the conversation"

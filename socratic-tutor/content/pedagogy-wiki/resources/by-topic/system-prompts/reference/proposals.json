@@ -1,0 +1,233 @@
+[
+  {
+    "timestamp": "2026-04-09T16:36:06",
+    "run_label": "reference-track:System Prompts",
+    "sources": [
+      {
+        "url": "https://platform.openai.com/docs/guides/prompt-engineering/strategy-provide-reference-text",
+        "title": "Prompt engineering - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/responses/create?lang=python&adobe_mc=MCMID%3D04000287686061652664648767407832685880%7CMCORGID%3DA8833BC75245AF9E0A490D4D%2540AdobeOrg%7CTS%3D1726963200",
+        "title": "Responses | OpenAI API Reference",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/assistants/quickstart?context=without-streaming",
+        "title": "Assistants API quickstart - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/prompt-engineering/strategy-write-clear-instructions",
+        "title": "OpenAI Platform documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/text-generation",
+        "title": "Text Generation Guide - OpenAI Platform",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/responses/list?lang=python",
+        "title": "Responses | OpenAI API Reference",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/realtime-server-events/conversation/item/truncated",
+        "title": "API Reference - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/debugging-requests",
+        "title": "Debugging requests",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/completions",
+        "title": "OpenAI completions",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/responses-streaming/response/in_progress?lang=curl",
+        "title": "Streaming events | OpenAI API Reference",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.anthropic.com/research/collective-constitutional-ai-aligning-a-language-model-with-public-input",
+        "title": "Collective Constitutional AI: Aligning a Language Model with Public Inputwww.anthropic.com \u203a research \u203a collective-constitutional-ai-aligning-a-lan...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://toloka.ai/blog/constitutional-ai-explained/",
+        "title": "Constitutional AI explained - Toloka AI",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://legalblogs.wolterskluwer.com/arbitration-blog/what-is-constitutional-ai-and-why-does-it-matter-for-international-arbitration/",
+        "title": "What is Constitutional AI and Why Does it Matter for ... - Wolters Kluwer",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.lesswrong.com/posts/ivWPqkipkKywQbdDw/contextual-constitutional-ai",
+        "title": "Contextual Constitutional AI - LessWrong",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/abs/2212.08073",
+        "title": "Constitutional AI: Harmlessness from AI Feedback - arXiv",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/abs/2203.02155",
+        "title": "Training language models to follow instructions with human feedback",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2022/file/b1efde53be364a73914f58805a001731-Paper-Conference.pdf",
+        "title": "Training language models to follow instructions with human feedback",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://cdn.openai.com/papers/Training_language_models_to_follow_instructions_with_human_feedback.pdf",
+        "title": "[PDF] Training language models to follow instructions with human feedback",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.semanticscholar.org/paper/Training-language-models-to-follow-instructions-Ouyang-Wu/d766bffc357127e0dc86dd69561d5aeb520d6f4c",
+        "title": "[PDF] Training language models to follow instructions with human feedback | Semantic Scholar",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.cs.princeton.edu/courses/archive/fall22/cos597G/lectures/lec18.pdf",
+        "title": "[PDF] Training Language Models to Follow Instructions with Human ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://cs.stanford.edu/~nfliu/papers/lost-in-the-middle.arxiv2023.pdf",
+        "title": "[PDF] Lost in the Middle: How Language Models Use Long Contexts",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2024.tacl-1.9/",
+        "title": "Lost in the Middle: How Language Models Use Long Contexts",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/2307.03172",
+        "title": "Lost in the Middle: How Language Models Use Long Contexts - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://cs.stanford.edu/~nfliu/papers/lost-in-the-middle.tacl2023.pdf",
+        "title": "[PDF] Lost in the Middle: How Language Models Use Long Contexts",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=Kf3LeaUGwlg",
+        "title": "Lost in the Middle: How Language Models use Long Context - Explained!",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://mem0.ai/blog/llm-chat-history-summarization-guide-2025",
+        "title": "LLM Chat History Summarization: Best Practices and Techniques ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.arxiv.org/pdf/2601.00821v2.pdf",
+        "title": "Verbatim-Grounded Artifact Extraction for Long LLM Conversations",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.arxiv.org/pdf/2601.00821.pdf",
+        "title": "[PDF] Verbatim-Grounded Artifact Extraction for Long LLM Conversations",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://learn.microsoft.com/en-us/agent-framework/agents/conversations/compaction",
+        "title": "Compaction",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://fieldguidetoai.com/guides/context-management",
+        "title": "Context Management: Handling Long AI Conversations & Documents",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://apxml.com/courses/langchain-production-llm/chapter-3-advanced-memory-management/context-window-management",
+        "title": "Context Window Management Strategies",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://dev.to/qvfagundes/temperature-tokens-and-context-windows-the-three-pillars-of-llm-control-34jg",
+        "title": "Temperature, Tokens, and Context Windows: The Three Pillars of LLM ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2308.15022v3",
+        "title": "Recursively Summarizing Enables Long-Term Dialogue Memory in ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://genmind.ch/posts/Your-LLM-Has-Amnesia-A-Production-Guide-to-Memory-That-Actually-Works/",
+        "title": "Your LLM Has Amnesia: A Production Guide to Memory That ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://spectrum.library.concordia.ca/id/eprint/996148/",
+        "title": "SWin: A Sliding Window Summarization Approach for Coherent LLM ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2603.07670v1",
+        "title": "Memory for Autonomous LLM Agents: Mechanisms, Evaluation, and ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2603.02473v1",
+        "title": "Diagnosing Retrieval vs. Utilization Bottlenecks in LLM Agent Memory",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.alphaxiv.org/overview/2601.01885",
+        "title": "Agentic Memory: Learning Unified Long-Term and Short ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2024.acl-long.747.pdf",
+        "title": "[PDF] Evaluating Very Long-Term Conversational Memory of LLM Agents",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://i-genie.co.uk/how-this-agentic-memory-research-unifies-long-term-and-short-term-memory-for-llm-agents/",
+        "title": "How This Agentic Memory Research Unifies Long Term and ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://dev.to/gervaisamoah/latency-vs-accuracy-for-llm-apps-how-to-choose-and-how-a-memory-layer-lets-you-win-both-d6g",
+        "title": "Latency vs. Accuracy for LLM Apps \u2014 How to Choose and ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2502.03111.pdf",
+        "title": "arXiv:2502.03111v1 [cs.CL] 5 Feb 2025",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/html/2404.19007v1",
+        "title": "How did we get here? Summarizing conversation dynamics",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://jxnl.co/writing/2025/08/30/context-engineering-compaction/",
+        "title": "Two Experiments We Need to Run on AI Agent Compaction",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.themoonlight.io/en/review/incremental-summarization-for-customer-support-via-progressive-note-taking-and-agent-feedback",
+        "title": "[Literature Review] Incremental Summarization for Customer ...",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  }
+]

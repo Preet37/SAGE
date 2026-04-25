@@ -1,0 +1,20 @@
+# Source: https://apxml.com/courses/foundations-transformers-architecture/chapter-2-attention-mechanism-core-concepts/scaled-dot-product-attention
+# Author: APXML
+# Author Slug: apxml
+# Title: Scaled Dot-Product Attention Explained - ApX Machine Learning
+# Fetched via: trafilatura
+# Date: 2026-04-07
+
+Scaled Dot-Product Attention is an essential refinement for stable and effective training. It uses dot products between Query () and Key () vectors to measure alignment.
+The core dot-product attention mechanism computes . Let's examine the dimensions involved. If the query and key vectors have dimension , the dot product between a single query and a single key is . If we assume the components of and are independent random variables with zero mean and unit variance, the expected value of the dot product is 0, but its variance is .
+In practice, especially for large values of (e.g., 64, 128, or higher, common in Transformers), the magnitude of these dot products can become significantly large. Why is this problematic? These dot products are the inputs to the softmax function, which calculates the attention weights.
+The softmax function exhibits saturation behavior. If its inputs (the dot product scores) have large magnitudes (either large positive or large negative), the function enters regions where its gradient is extremely close to zero. Visualize the derivative of the softmax function; it approaches zero as the input values move away from zero.
+The gradient of the softmax function is largest near input values of zero and diminishes rapidly for large positive or negative inputs. Large dot products push the computation into these low-gradient regions.
+Small gradients drastically slow down or even halt the learning process during backpropagation, as weight updates become vanishingly small. This makes training deep models very difficult.
+To counteract this effect, the "Attention Is All You Need" paper introduced a scaling factor of . The complete formula for Scaled Dot-Product Attention is:
+Here, , , and are matrices representing the packed sets of queries, keys, and values, respectively. is the dimension of the key (and query) vectors.
+By dividing the dot products by , we effectively moderate their magnitude, keeping the inputs to the softmax function closer to a regime where gradients are more substantial. This scaling ensures that the variance of the inputs to the softmax remains approximately constant regardless of the choice of , contributing significantly to more stable training dynamics. It prevents the attention weights from becoming overly peaky (concentrated on a single input) or overly diffuse too early in training simply due to the dimensionality of the representations.
+This scaling is not just a minor implementation detail; it's an important component that enables the successful training of deep Transformer models by mitigating potential gradient issues stemming directly from the core attention calculation. It allows the model to learn effectively even when using high-dimensional vector representations for queries and keys.
+Was this section helpful?
+[Attention Is All You Need](https://arxiv.org/abs/1706.03762), Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, Illia Polosukhin, 2017 Advances in Neural Information Processing Systems, Vol. 30[DOI: 10.48550/arXiv.1706.03762](https://doi.org/10.48550/arXiv.1706.03762)- The original paper introducing the Transformer architecture and the Scaled Dot-Product Attention mechanism.[Speech and Language Processing (3rd ed. draft)](https://web.stanford.edu/~jurafsky/slp3/), Daniel Jurafsky and James H. Martin, 2025 (Pearson) - A comprehensive textbook with a dedicated chapter on attention and Transformers, explaining the scaling factor's importance.[Deep Learning](https://www.deeplearningbook.org/), Ian Goodfellow, Yoshua Bengio, and Aaron Courville, 2016 (MIT Press) - This book provides a background on activation functions like softmax and the phenomenon of vanishing gradients in deep learning.
+© 2026 ApX Machine Learning[AI Ethics & Transparency](/transparency)[•](/sustainability)

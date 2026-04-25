@@ -1,0 +1,238 @@
+[
+  {
+    "timestamp": "2026-04-09T18:38:13",
+    "run_label": "reference-track:Long Context Models",
+    "sources": [
+      {
+        "url": "https://arxiv.org/abs/2310.13017",
+        "title": "Position Interpolation Improves ALiBi Extrapolation",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2306.15595",
+        "title": "Extending Context Window of Large Language Models via Positional Interpolation",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://papers.cool/arxiv/2306.15595",
+        "title": "2306.15595",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.summarizepaper.com/en/arxiv-id/2306.15595v1/",
+        "title": "Results of the summarizing process for the arXiv paper: 2306.15595v1",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.x-mol.com/paper/1674268248096096256",
+        "title": "Extending Context Window of Large Language Models via Positional Interpolation,arXiv - CS - Artificial Intelligence",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/yarn-yet-another-rope-extension-method",
+        "title": "YaRN: Extending Transformer Context with RoPE - Emergent Mind",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2309.00071",
+        "title": "YaRN: Efficient Context Window Extension of Large Language Models",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://mbrenndoerfer.com/writing/yarn-rope-context-extension-llm",
+        "title": "YaRN: Extending Context Length with Selective Interpolation and ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.emergentmind.com/papers/2309.00071",
+        "title": "YaRN: Efficient LLM Context Extension",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.adrian.idv.hk/2023-11-09-pqfs23-yarn/",
+        "title": "Peng et al (2023) YaRN: Efficient Context Window Extension of Large L\u2026",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://cs.stanford.edu/~nfliu/papers/lost-in-the-middle.arxiv2023.pdf",
+        "title": "[PDF] Lost in the Middle: How Language Models Use Long Contexts",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/2307.03172",
+        "title": "Lost in the Middle: How Language Models Use Long Contexts - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2511.13900v1",
+        "title": "What Works for 'Lost-in-the-Middle' in LLMs? A Study on GM-Extract ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://cs.stanford.edu/~nfliu/papers/lost-in-the-middle.tacl2023.pdf",
+        "title": "[PDF] Lost in the Middle: How Language Models Use Long Contexts",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2024.tacl-1.9/",
+        "title": "Lost in the Middle: How Language Models Use Long Contexts",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/adobe-research/NoLiMa",
+        "title": "NoLiMa: Long-Context Evaluation Beyond Literal Matching",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2502.05167v2",
+        "title": "NoLiMa: Long-Context Evaluation Beyond Literal Matching",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/booydar/babilong",
+        "title": "BABILong: a long-context needle-in-a-haystack benchmark for LLMs",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/2406.11230",
+        "title": "Multimodal Needle in a Haystack: Benchmarking Long-Context Capability of Multimodal Large Language Models",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2025.naacl-long.166.pdf",
+        "title": "[PDF] Multimodal Needle in a Haystack: Benchmarking Long-Context ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://compute.hivenet.com/post/long-context-vs-rag",
+        "title": "When Rag Wins",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://redis.io/blog/rag-vs-large-context-window-ai-apps/",
+        "title": "RAG vs Large Context Window: Real Trade-offs for AI Apps - Redisredis.io \u203a blog \u203a rag-vs-large-context-window-ai-apps",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.elastic.co/search-labs/blog/rag-vs-long-context-model-llm",
+        "title": "RAG vs long context model LLM - Elasticsearch Labs",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.onsomble.ai/blog/rag-vs-long-context-decision-framework",
+        "title": "RAG vs Long-Context LLMs: A Practical Decision Framework for 2026",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.naonis.tech/insights/ai-long-context-vs-rag-tradeoffs-accuracy-cost-latency.html",
+        "title": "AI trade-offs: LCW vs. RAG for cost, speed, and accuracy",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v267/li25dv.html",
+        "title": "LaRA: Benchmarking Retrieval-Augmented Generation and Long ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/2502.09977",
+        "title": "LaRA: Benchmarking Retrieval-Augmented Generation and Long-Context LLMs -- No Silver Bullet for LC or RAG Routing",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2024.emnlp-industry.66.pdf",
+        "title": "[PDF] Retrieval Augmented Generation or Long-Context LLMs? A ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://icml.cc/virtual/2025/poster/46069",
+        "title": "ICML Poster LaRA: Benchmarking Retrieval-Augmented Generation ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2502.09977.pdf",
+        "title": "[PDF] LaRA: Benchmarking Retrieval-Augmented Generation and Long ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/rope-factor-issues-with-meta-llama-meta-llama-3-1-70b/104638",
+        "title": "Rope Factor issues with meta-llama/Meta-Llama-3.1-70B",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.vllm.ai/en/v0.6.1/models/engine_args.html",
+        "title": "Engine Arguments",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.vllm.ai/en/v0.9.0.1/api/vllm/v1/kv_cache_interface.html",
+        "title": "vllm.v1.kv_cache_interface",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm/discussions/13413",
+        "title": "[Misc]: RoPE vs Sliding Windows \u00b7 vllm-project vllm \u00b7 Discussion #13413",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2410.00161.pdf",
+        "title": "[PDF] arXiv:2410.00161v2 [cs.CL] 7 Oct 2024",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://binzhango.github.io/2025/10/vllm-throughput/",
+        "title": "Optimizing vLLM Token Throughput: KV-Cache Techniques",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/jquesnelle/yarn",
+        "title": "jquesnelle/yarn: YaRN: Efficient Context Window Extension ...",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://arxiv.org/html/2309.00071v3",
+        "title": "YaRN: Efficient Context Window Extension of Large Language Models",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/timLoewel/yarn_mistral",
+        "title": "GitHub - timLoewel/yarn_mistral: YaRN: Efficient Context Window Extension of Large Language Models",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://proceedings.iclr.cc/paper_files/paper/2024/file/874a4d89f2d04b4bcf9a2c19545cf040-Paper-Conference.pdf",
+        "title": "[PDF] YARN: EFFICIENT CONTEXT WINDOW EXTENSION OF LARGE ...",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/jquesnelle/yarn/blob/master/README.md",
+        "title": "yarn/README.md at master \u00b7 jquesnelle/yarn",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/huggingface/transformers/commit/3b9174f248a9c16e05a6701f1c5bdc28fc19f995",
+        "title": "interpolation added for TVP. (#30863) \u00b7 huggingface/transformers@3b9174f",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/shauryashaurya/huggingface-transformers/commit/3b9174f248a9c16e05a6701f1c5bdc28fc19f995",
+        "title": "interpolation added for TVP. (#30863) \u00b7 shauryashaurya/huggingface-transformers@3b9174f",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/huggingface/transformers/commit/8fc4a337557ae37c1ebac020779cece71ba8831b",
+        "title": "Reuse existing interpolation \u00b7 huggingface/transformers@8fc4a33",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/huggingface/transformers/issues/18935",
+        "title": "[ViT] Add note about interpolation of position encodings \u00b7 Issue #18935 \u00b7 huggingface/transformers",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://app.semanticdiff.com/gh/huggingface/transformers/pull/26029/overview",
+        "title": "PR #26029 IDEFICS: allow interpolation of vision's pos embeddings - SemanticDiff",
+        "need_type": "WORKING_EXAMPLE"
+      }
+    ]
+  }
+]

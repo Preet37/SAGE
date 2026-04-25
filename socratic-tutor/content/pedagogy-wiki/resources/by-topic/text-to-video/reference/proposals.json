@@ -1,0 +1,208 @@
+[
+  {
+    "timestamp": "2026-04-09T16:36:46",
+    "run_label": "reference-track:Text-to-Video Generation",
+    "sources": [
+      {
+        "url": "https://github.com/begeekmyfriend/tacotron2/blob/master/hparams.py",
+        "title": "tacotron2/hparams.py at master \u00b7 begeekmyfriend/tacotron2",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://github.com/NVIDIA/tacotron2/issues/439",
+        "title": "Problems in inference mel-spectrogram with tacotron ? \u00b7 Issue #439 \u00b7 NVIDIA/tacotron2",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://github.com/Rayhane-mamah/Tacotron-2/issues/315",
+        "title": "sound created by Tacotron-2 is much more longer \u00b7 Issue #315 \u00b7 Rayhane-mamah/Tacotron-2",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/audio/stable/generated/torchaudio.models.Tacotron2.html",
+        "title": "Tacotron2 \u2014 Torchaudio 2.9.0 documentation",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://work-in-progress.hatenablog.com/entry/2020/10/05/100000",
+        "title": "\u97f3\u58f0\u5408\u6210\u30e1\u30e2\uff08tacotron2\u305d\u306e3\uff09 - ichou1\u306e\u30d6\u30ed\u30b0",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "http://arxiv.org/pdf/2406.05370.pdf",
+        "title": "VALL-E 2: Neural Codec Language Models are",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "http://www.arxiv.org/pdf/2408.17175.pdf",
+        "title": "Codec Does Matter: Exploring the Semantic",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://adg.csdn.net/696f394c437a6b403369b2f7.html",
+        "title": "\u3010\u8bba\u6587\u7b14\u8bb0\u4e4bVALL-E\u3011Neural Codec Language Models are Zero-Shot ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://blog.csdn.net/wjrenxinlei/article/details/144873569",
+        "title": "\u3010\u8bba\u6587\u7b14\u8bb0\u4e4b VALL-E\u3011Neural Codec Language Models are Zero-Shot Text to Speech Synthesizers",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://learnius.com/slp/9+Speech+Synthesis/2+Advanced+Topics/4+Neural+Codec+Language+Modeling/VALL-E+Neural+Codec+Language+Model",
+        "title": "VALL-E Neural Codec Language Model - learnius",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://github.com/Vchitect/VBench",
+        "title": "[CVPR2024 Highlight] VBench - We Evaluate Video Generation",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://vchitect.github.io/VBench-project/",
+        "title": "VBench: Comprehensive Benchmark Suite for Video Generative ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/CVPR2024/papers/Huang_VBench_Comprehensive_Benchmark_Suite_for_Video_Generative_Models_CVPR_2024_paper.pdf",
+        "title": "VBench: Comprehensive Benchmark Suite for Video Generative Models",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2411.13503v1",
+        "title": "VBench++: Comprehensive and Versatile Benchmark Suite ... - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2411.13503",
+        "title": "VBench++: Comprehensive and Versatile Benchmark Suite for Video Generative Models",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2510.02226v1",
+        "title": "Temporal Attention Guidance for Text-to-Video Models",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2511.00107v1",
+        "title": "AI Powered High Quality Text to Video Generation ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/CVPR2024/papers/Jeong_VMC_Video_Motion_Customization_using_Temporal_Attention_Adaption_for_Text-to-Video_CVPR_2024_paper.pdf",
+        "title": "[PDF] Video Motion Customization using Temporal Attention Adaption for ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/ICCV2025/papers/Cai_EfficientMT_Efficient_Temporal_Adaptation_for_Motion_Transfer_in_Text-to-Video_Diffusion_ICCV_2025_paper.pdf",
+        "title": "[PDF] EfficientMT: Efficient Temporal Adaptation for Motion Transfer in Text ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://bohrium.dp.tech/paper/arxiv/2305.10874",
+        "title": "Swap Attention in Spatiotemporal Diffusions for Text-to-Video Generation",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/video-generation",
+        "title": "Video generation with Sora | OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/models",
+        "title": "Models - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/models/dall-e-3",
+        "title": "OpenAI - DALL-E 3 API Documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/advanced-usage",
+        "title": "Advanced usage | OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/advanced-usage",
+        "title": "Advanced usage - OpenAI APIplatform.openai.com \u203a docs \u203a advanced-usage",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/whisper/create",
+        "title": "OpenAI Platform",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/realtime-sessions",
+        "title": "Client Secrets | OpenAI API Reference",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/chat/object",
+        "title": "ChatCompletions",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/speech-to-text/supported-languages%5C",
+        "title": "Speech to text - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/completions/create",
+        "title": "Completions | OpenAI API Reference",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://imagen.research.google/video/paper.pdf",
+        "title": "IMAGEN VIDEO: HIGH DEFINITION VIDEO",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.ecva.net/papers/eccv_2020/papers_ECCV/papers/123520052.pdf",
+        "title": "[PDF] Temporal Super-Resolution using Deep Internal Learning - ECVA",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/CVPR2024/papers/Zhou_Upscale-A-Video_Temporal-Consistent_Diffusion_Model_for_Real-World_Video_Super-Resolution_CVPR_2024_paper.pdf",
+        "title": "Upscale-A-Video: Temporal-Consistent Diffusion Model for Real-World Video Super-Resolution",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://ar5iv.labs.arxiv.org/html/2003.08872",
+        "title": "Temporal Super-Resolution using Deep Internal Learning - ar5iv",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://imagen.research.google/video/",
+        "title": "Imagen Video - Google Research",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/abs/2204.03458",
+        "title": "Video Diffusion Models",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://papers.neurips.cc/paper_files/paper/2022/file/39235c56aef13fb05a6adc95eb9d8d66-Paper-Conference.pdf",
+        "title": "[PDF] Video Diffusion Models - NeurIPS",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/abs/2204.03458v1",
+        "title": "Title: Video Diffusion Models",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2022/file/39235c56aef13fb05a6adc95eb9d8d66-Paper-Conference.pdf",
+        "title": "Video Diffusion Models - NeurIPS",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://iclr.cc/virtual/2022/7861",
+        "title": "Video Diffusion Models",
+        "need_type": "CONCEPT_EXPLAINER"
+      }
+    ]
+  }
+]

@@ -1,0 +1,108 @@
+[
+  {
+    "timestamp": "2026-04-08T01:16:59",
+    "run_label": "pipeline-test:scaled-dot-product-attention-and-masking",
+    "sources": [
+      {
+        "gap": "Explicit definition of temperature scaling in softmax (softmax(logits/T)) and how changing T affects attention sharpness/entropy and gradients",
+        "url": "https://arxiv.org/html/2502.20604v1",
+        "title": "Exploring the Impact of Temperature Scaling in Softmax ..."
+      },
+      {
+        "gap": "Explicit definition of temperature scaling in softmax (softmax(logits/T)) and how changing T affects attention sharpness/entropy and gradients",
+        "url": "https://arxiv.org/html/2506.01562v1",
+        "title": "Unpacking Softmax: How Temperature Drives Representation ..."
+      },
+      {
+        "gap": "Explicit definition of temperature scaling in softmax (softmax(logits/T)) and how changing T affects attention sharpness/entropy and gradients",
+        "url": "https://nickcdryan.com/2024/08/02/introducing-a-learnable-temperature-value-into-the-self-attention-scores/",
+        "title": "Introducing a learnable temperature value into the softmax self ..."
+      },
+      {
+        "gap": "Explicit definition of temperature scaling in softmax (softmax(logits/T)) and how changing T affects attention sharpness/entropy and gradients",
+        "url": "https://www.emergentmind.com/topics/learnable-temperature-softmax",
+        "title": "Learnable-Temperature Softmax: Adaptive Scaling - Emergent Mind"
+      },
+      {
+        "gap": "Explicit definition of temperature scaling in softmax (softmax(logits/T)) and how changing T affects attention sharpness/entropy and gradients",
+        "url": "https://aclanthology.org/anthology-files/pdf/mtsummit/2021.mtsummit-research.10.pdf",
+        "title": "Investigating Softmax Tempering"
+      },
+      {
+        "gap": "Causal (look-ahead) masking in self-attention: mask matrix form, applying -inf to future positions before softmax, effect on attention weights in autoregressive decoding",
+        "url": "https://www.abhik.ai/concepts/attention/masked-attention",
+        "title": "The Causal Mask"
+      },
+      {
+        "gap": "Causal (look-ahead) masking in self-attention: mask matrix form, applying -inf to future positions before softmax, effect on attention weights in autoregressive decoding",
+        "url": "https://mbrenndoerfer.com/writing/decoder-architecture-causal-masking-autoregressive-transformers",
+        "title": "Decoder Architecture: Causal Masking & Autoregressive ..."
+      },
+      {
+        "gap": "Causal (look-ahead) masking in self-attention: mask matrix form, applying -inf to future positions before softmax, effect on attention weights in autoregressive decoding",
+        "url": "https://arxiv.org/html/2604.00965v1",
+        "title": "Understanding Transformers and Attention Mechanisms - arXiv"
+      },
+      {
+        "gap": "Causal (look-ahead) masking in self-attention: mask matrix form, applying -inf to future positions before softmax, effect on attention weights in autoregressive decoding",
+        "url": "https://www.youtube.com/watch?v=CJSYo2Mw8R0",
+        "title": "Understanding causal attention or masked self attention | Transformers for vision series"
+      },
+      {
+        "gap": "Causal (look-ahead) masking in self-attention: mask matrix form, applying -inf to future positions before softmax, effect on attention weights in autoregressive decoding",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-5-encoder-decoder-stacks/masked-self-attention",
+        "title": "Masked Self-Attention in Decoders"
+      },
+      {
+        "gap": "Padding masks: masking pad tokens in keys/values (and sometimes queries), interaction with variable-length batches, and effect on attention weights",
+        "url": "https://codesignal.com/learn/courses/sequence-models-the-dawn-of-attention-1/lessons/scaled-dot-product-attention-and-masking-in-transformers-1",
+        "title": "Scaled Dot-Product Attention and Masking in Transformers"
+      },
+      {
+        "gap": "Padding masks: masking pad tokens in keys/values (and sometimes queries), interaction with variable-length batches, and effect on attention weights",
+        "url": "https://arxiv.org/pdf/2510.01238.pdf",
+        "title": "[PDF] Silent Tokens, Loud Effects: Padding in LLMs - arXiv.org"
+      },
+      {
+        "gap": "Padding masks: masking pad tokens in keys/values (and sometimes queries), interaction with variable-length batches, and effect on attention weights",
+        "url": "https://www.arxiv.org/pdf/2510.01238.pdf",
+        "title": "[PDF] Silent Tokens, Loud Effects: Padding in LLMs - arXiv"
+      },
+      {
+        "gap": "Padding masks: masking pad tokens in keys/values (and sometimes queries), interaction with variable-length batches, and effect on attention weights",
+        "url": "https://machinelearningmastery.com/a-gentle-introduction-to-attention-masking-in-transformer-models/",
+        "title": "A Gentle Introduction to Attention Masking in Transformer Models"
+      },
+      {
+        "gap": "Padding masks: masking pad tokens in keys/values (and sometimes queries), interaction with variable-length batches, and effect on attention weights",
+        "url": "https://www.youtube.com/watch?v=fwI_tVHcg4Q",
+        "title": "Padding and Attention Masks in LLMs: Preparing Batches for Training"
+      },
+      {
+        "gap": "Numerical stability in attention/softmax: log-sum-exp trick, subtracting max logit, stable masking implementation, and handling -inf in practice",
+        "url": "https://www.marktechpost.com/2026/01/06/implementing-softmax-from-scratch-avoiding-the-numerical-stability-trap/",
+        "title": "Implementing Softmax From Scratch: Avoiding the Numerical ..."
+      },
+      {
+        "gap": "Numerical stability in attention/softmax: log-sum-exp trick, subtracting max logit, stable masking implementation, and handling -inf in practice",
+        "url": "https://academic.oup.com/imajna/article/41/4/2311/5893596",
+        "title": "Accurately computing the log-sum-exp and softmax functions"
+      },
+      {
+        "gap": "Numerical stability in attention/softmax: log-sum-exp trick, subtracting max logit, stable masking implementation, and handling -inf in practice",
+        "url": "https://jaykmody.com/blog/stable-softmax/",
+        "title": "Numerically Stable Softmax and Cross Entropy - Jay Mody"
+      },
+      {
+        "gap": "Numerical stability in attention/softmax: log-sum-exp trick, subtracting max logit, stable masking implementation, and handling -inf in practice",
+        "url": "https://academic.oup.com/imajna/article-pdf/41/4/2311/40758053/draa038.pdf",
+        "title": "IMA Journal of Numerical Analysis (2021) 41, 2311\u20132330"
+      },
+      {
+        "gap": "Numerical stability in attention/softmax: log-sum-exp trick, subtracting max logit, stable masking implementation, and handling -inf in practice",
+        "url": "https://mlkatas.com/kata/192",
+        "title": "Softmax's Numerical Stability: The Max Trick - ML Katas"
+      }
+    ]
+  }
+]

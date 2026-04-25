@@ -1,0 +1,272 @@
+{
+  "slug": "intro-to-llms",
+  "title": "Introduction to Large Language Models",
+  "description": "Understand how modern LLMs work from the inside out — from self-attention and Transformer architecture through training, alignment, prompting, RAG, and fine-tuning.",
+  "level": "intermediate",
+  "modules": [
+    {
+      "title": "Language Modeling Foundations",
+      "order_index": 0,
+      "lessons": [
+        {
+          "title": "How Language Models Work",
+          "slug": "how-language-models-work",
+          "order_index": 0,
+          "content": "# How Language Models Work\n\nA language model does one thing: given some text, predict what comes next. It's the autocomplete on your phone, scaled to billions of parameters and trained on trillions of words. Understanding this single idea — **next-token prediction** — is the key to understanding everything about LLMs.\n\n## What Is a Language Model?\n\nA language model assigns a probability to a sequence of tokens. Given \"The cat sat on the\", a good model assigns high probability to \"mat\" and low probability to \"uranium\":\n\n```\nP(\"mat\"    | \"The cat sat on the\") = 0.12\nP(\"rug\"    | \"The cat sat on the\") = 0.08\nP(\"floor\"  | \"The cat sat on the\") = 0.06\nP(\"uranium\"| \"The cat sat on the\") = 0.0001\n```\n\n**Autoregressive generation** works by repeatedly sampling the next token and appending it. Each prediction is conditioned on everything that came before. The model doesn't \"think ahead\" — it generates one token at a time, left to right.\n\n## From Statistical to Neural Language Models\n\nEarly language models were **n-gram** models: count how often word sequences appear in a corpus and estimate probabilities from frequencies. \"cat sat on\" appearing 50 times with \"the\" following 30 of those gives P(\"the\"|\"cat sat on\") = 0.6.\n\n**Limitations**: n-grams can only look at a small fixed window (3-5 words), can't generalize to unseen combinations, and require enormous storage for large vocabularies.\n\nNeural language models replaced these with learned representations. An embedding layer converts tokens to vectors, a neural network processes them, and a final layer outputs a probability distribution over the entire vocabulary.\n\n## Temperature and Sampling\n\nThe model produces raw scores (**logits**) for each vocabulary token, converted to probabilities via softmax. The **temperature** parameter controls creativity:\n\n- **Temperature → 0** (greedy): Always pick the highest-probability token. Deterministic but repetitive.\n- **Temperature = 1**: Sample from the learned distribution. Diverse but can be incoherent.\n- **Temperature > 1**: Flatter distribution, more random.\n\n**Top-k sampling** restricts choices to the k most likely tokens. **Top-p (nucleus) sampling** picks from the smallest set of tokens whose cumulative probability exceeds p (e.g., 0.9). Most production LLMs use top-p.\n\n## Perplexity: Measuring Model Quality\n\n**Perplexity** is the standard metric for language model quality — intuitively, it's the average number of tokens the model is \"choosing between\" at each step:\n\n```\nPerplexity = exp(average cross-entropy loss)\n```\n\nLower is better. A perplexity of 20 means the model is as uncertain as choosing uniformly among 20 options.\n\n## Why Next-Token Prediction Is Surprisingly Powerful\n\nIt seems almost too simple — just predict the next word. But consider what you need to know to predict well: grammar and syntax, world knowledge, reasoning ability, and common sense. Training on trillions of tokens forces the model to develop rich internal representations of language and knowledge — not because it was told to, but because those representations help predict the next token better.\n\n## Recommended Reading\n\n- [Intro to Large Language Models](https://www.youtube.com/watch?v=zjkBMFhNj_g) by Andrej Karpathy — a one-hour talk covering the big picture of what LLMs are, how they're trained, and where they're going.\n",
+          "summary": "Language models predict the next token in a sequence, and this deceptively simple objective forces them to develop rich representations of language, knowledge, and reasoning.",
+          "concepts": [
+            "language model",
+            "next-token prediction",
+            "autoregressive generation",
+            "temperature",
+            "top-p sampling",
+            "perplexity"
+          ],
+          "youtube_id": "zjkBMFhNj_g",
+          "video_title": "Intro to Large Language Models | Andrej Karpathy",
+          "vimeo_url": null,
+          "transcript": null
+        },
+        {
+          "title": "Tokenization & Vocabulary",
+          "slug": "tokenization-vocabulary",
+          "order_index": 1,
+          "content": "# Tokenization & Vocabulary\n\nBefore text reaches a language model, it must be broken into **tokens** — the atomic units the model reads and generates. Tokenization is one of the most underappreciated parts of the LLM stack, and getting it wrong has real consequences.\n\n## Why Not Just Use Words?\n\nWord-level tokenization seems natural but fails in practice:\n\n- **Vocabulary explosion**: English has ~170,000 words in active use, plus names, URLs, code, and multilingual text. A manageable vocabulary needs to be 32K-128K tokens.\n- **Out-of-vocabulary (OOV)**: Any word not in the vocabulary becomes an unknown token, losing all information.\n- **Morphology blindness**: \"run\", \"runs\", \"running\", \"runner\" are treated as completely unrelated tokens.\n\nCharacter-level tokenization solves OOV but creates very long sequences and loses word-level meaning.\n\n## Byte Pair Encoding (BPE)\n\n**BPE** (Sennrich et al., 2016) strikes the balance. Starting from individual characters, it iteratively merges the most frequent adjacent pair:\n\n```\nCorpus: \"low lower lowest\"\nStep 0: l o w   l o w e r   l o w e s t\nStep 1: lo w   lo w e r   lo w e s t     (merge l+o)\nStep 2: low    low e r    low e s t       (merge lo+w)\nStep 3: low    lowe r     lowe s t        (merge low+e)\n```\n\nAfter enough merges, common words become single tokens while rare words split into familiar subwords. \"tokenization\" might become [\"token\", \"ization\"] — both meaningful pieces.\n\n## Modern Tokenizers\n\n| Tokenizer | Used By | Approach |\n|-----------|---------|----------|\n| **BPE** | GPT-2/3/4, Llama | Merge frequent byte pairs |\n| **WordPiece** | BERT | Likelihood-based merging |\n| **SentencePiece** | T5, Llama | Treats text as raw bytes, language-agnostic |\n| **Unigram** | XLNet, ALBERT | Starts large, prunes by likelihood |\n\nGPT-4 uses ~100K BPE tokens. Llama 3 uses 128K. Larger vocabularies improve efficiency (fewer tokens per text) at the cost of a bigger embedding matrix.\n\n## Tokenization Quirks\n\nTokenization creates surprising LLM behaviors:\n\n**Math struggles**: \"123 + 456\" might tokenize as [\"123\", \" +\", \" 456\"] or [\"12\", \"3\", \" +\", \" 4\", \"56\"]. The model never sees individual digits consistently, making arithmetic unreliable.\n\n**Multilingual inequality**: Tokenizers trained primarily on English text are inefficient for other languages — the same sentence in Japanese might require 3× more tokens than in English, making inference more expensive.\n\n```python\nfrom transformers import AutoTokenizer\n\ntok = AutoTokenizer.from_pretrained(\"meta-llama/Llama-3-8B\")\ntokens = tok.encode(\"Hello, world!\")\nprint(tok.convert_ids_to_tokens(tokens))\n```\n\n## Special Tokens\n\nEvery tokenizer includes special tokens with reserved roles: `<s>` (beginning of sequence), `</s>` (end of sequence), `<pad>` (padding), and chat template delimiters like `<|im_start|>`. These tokens structure the input and control generation behavior.\n\n## Why Tokenization Matters\n\nUnderstanding tokenization explains many LLM quirks: context window limits are in tokens not words (~1.3 tokens per English word), pricing is per token, and edge cases in code, math, and multilingual tasks often trace back to how text was tokenized.\n\n## Recommended Reading\n\n- [Let's build the GPT Tokenizer](https://www.youtube.com/watch?v=zduSFxRajkE) by Andrej Karpathy — a hands-on deep dive into building a BPE tokenizer from scratch. You'll never look at tokens the same way.\n",
+          "summary": "Tokenization converts text into subword units using algorithms like BPE, and its design choices directly impact LLM capabilities, efficiency, and failure modes.",
+          "concepts": [
+            "tokenization",
+            "byte pair encoding",
+            "subword tokens",
+            "vocabulary size",
+            "special tokens"
+          ],
+          "youtube_id": "zduSFxRajkE",
+          "video_title": "Let's build the GPT Tokenizer | Andrej Karpathy",
+          "vimeo_url": null,
+          "transcript": null
+        }
+      ]
+    },
+    {
+      "title": "The Attention Mechanism",
+      "order_index": 1,
+      "lessons": [
+        {
+          "title": "Self-Attention from Scratch",
+          "slug": "self-attention",
+          "order_index": 0,
+          "content": "# Self-Attention from Scratch\n\nAttention is the core mechanism that makes Transformers — and by extension, all modern LLMs — work. This lesson builds self-attention from first principles.\n\n## The Intuition: Dynamic Routing\n\nIn a feed-forward network or RNN, information flows along fixed paths. **Attention** is different: it creates **input-dependent connections**. Each token dynamically decides which other tokens are relevant and pulls information from them.\n\nWhen processing \"The animal didn't cross the street because **it** was too tired\", the word \"it\" needs to attend to \"animal\" (not \"street\") to resolve the reference. Attention learns to make these connections.\n\n## Queries, Keys, and Values\n\nSelf-attention uses three projections of each input token:\n\n- **Query (Q)**: \"What am I looking for?\"\n- **Key (K)**: \"What do I contain?\"\n- **Value (V)**: \"What information do I provide?\"\n\nEach token's embedding is projected through three learned weight matrices:\n\n```python\nQ = x @ W_Q  # (seq_len, d_k)\nK = x @ W_K  # (seq_len, d_k)\nV = x @ W_V  # (seq_len, d_v)\n```\n\n## Computing Attention Scores\n\nThe attention score between two tokens is the **dot product** of one's query and the other's key. High score = high relevance:\n\n```python\nscores = Q @ K.T  # (seq_len, seq_len)\n```\n\nThis produces a square matrix where entry (i, j) measures how much token *i* should attend to token *j*.\n\n## Scaling and Softmax\n\nDot products can grow large in magnitude (proportional to √d_k), pushing softmax into regions with near-zero gradients. We scale down:\n\n```python\nscores = scores / math.sqrt(d_k)\nweights = F.softmax(scores, dim=-1)  # each row sums to 1\n```\n\nThe softmax converts raw scores into a probability distribution — each token distributes its \"attention budget\" across all other tokens.\n\n## The Weighted Sum\n\nEach token's output is a weighted sum of all value vectors:\n\n```python\noutput = weights @ V  # (seq_len, d_v)\n```\n\nA token that strongly attends to position 5 will have an output dominated by position 5's value vector.\n\n## Full Implementation\n\n```python\nimport torch\nimport torch.nn.functional as F\nimport math\n\ndef self_attention(x, W_Q, W_K, W_V):\n    Q = x @ W_Q\n    K = x @ W_K\n    V = x @ W_V\n    d_k = K.shape[-1]\n    scores = Q @ K.transpose(-2, -1) / math.sqrt(d_k)\n    weights = F.softmax(scores, dim=-1)\n    return weights @ V\n```\n\nIn ~10 lines, you have the mechanism powering GPT-4, Claude, and every modern LLM.\n\n## Causal Masking\n\nFor autoregressive language models (GPT-style), tokens must not attend to future tokens — that would leak the answer. A **causal mask** sets future positions to -∞ before softmax:\n\n```python\nmask = torch.triu(torch.ones(seq_len, seq_len), diagonal=1).bool()\nscores = scores.masked_fill(mask, float('-inf'))\n```\n\n## Why Self-Attention Beats RNNs\n\n| Property | RNN | Self-Attention |\n|----------|-----|----------------|\n| Long-range deps | Degrade over distance | Direct to any position |\n| Parallelization | Sequential (slow) | Fully parallel (fast) |\n| Computation | O(n) sequential steps | O(n²) parallel ops |\n| Gradient path | Through n timesteps | Direct (1 step) |\n\nThe O(n²) cost is attention's main weakness — but for sequences up to ~8K tokens, the parallelism advantage dominates.\n\n## Recommended Reading\n\n- [Attention in transformers, visually explained](https://www.youtube.com/watch?v=eMlx5fFNoYc) by 3Blue1Brown — a beautiful visual walkthrough of how queries, keys, and values work, with geometric intuitions that make the math click.\n- [Attention? Attention!](https://lilianweng.github.io/posts/2018-06-24-attention/) by Lilian Weng — a thorough survey of attention mechanisms from Bahdanau through Transformers, with clear math and diagrams.\n",
+          "summary": "Self-attention computes dynamic, input-dependent connections between all tokens using query-key-value projections and scaled dot-product scores.",
+          "concepts": [
+            "self-attention",
+            "queries keys values",
+            "scaled dot-product attention",
+            "causal masking",
+            "attention weights"
+          ],
+          "youtube_id": "eMlx5fFNoYc",
+          "video_title": "Attention in transformers, visually explained | 3Blue1Brown",
+          "vimeo_url": null,
+          "transcript": null
+        },
+        {
+          "title": "Multi-Head Attention & Positional Encoding",
+          "slug": "multi-head-attention",
+          "order_index": 1,
+          "content": "# Multi-Head Attention & Positional Encoding\n\nSingle-head attention computes one set of attention weights — one \"view\" of token relationships. Multi-head attention runs multiple attention operations in parallel, letting the model capture different types of relationships simultaneously.\n\n## Why Multiple Heads?\n\nA single attention head can only focus on one type of relationship. In \"The cat, which was black, sat on the mat\", different relationships matter:\n\n- **Syntactic**: \"cat\" → \"sat\" (subject-verb agreement)\n- **Adjectival**: \"cat\" → \"black\" (attribute binding)\n- **Positional**: \"sat\" → \"on\" → \"mat\" (spatial phrase)\n\nMultiple heads let the model attend to all of these simultaneously.\n\n## Multi-Head Attention\n\nSplit the model dimension into *h* smaller heads, each operating on d_model/h dimensions:\n\n```\nMultiHead(Q, K, V) = Concat(head₁, ..., headₕ) · W_O\nheadᵢ = Attention(Q·W_Qᵢ, K·W_Kᵢ, V·W_Vᵢ)\n```\n\n```python\nclass MultiHeadAttention(nn.Module):\n    def __init__(self, d_model, n_heads):\n        super().__init__()\n        self.n_heads = n_heads\n        self.d_head = d_model // n_heads\n        self.W_Q = nn.Linear(d_model, d_model)\n        self.W_K = nn.Linear(d_model, d_model)\n        self.W_V = nn.Linear(d_model, d_model)\n        self.W_O = nn.Linear(d_model, d_model)\n\n    def forward(self, x, mask=None):\n        B, L, D = x.shape\n        Q = self.W_Q(x).view(B, L, self.n_heads, self.d_head).transpose(1, 2)\n        K = self.W_K(x).view(B, L, self.n_heads, self.d_head).transpose(1, 2)\n        V = self.W_V(x).view(B, L, self.n_heads, self.d_head).transpose(1, 2)\n\n        scores = Q @ K.transpose(-2, -1) / math.sqrt(self.d_head)\n        if mask is not None:\n            scores = scores.masked_fill(mask, float('-inf'))\n        weights = F.softmax(scores, dim=-1)\n\n        out = (weights @ V).transpose(1, 2).contiguous().view(B, L, D)\n        return self.W_O(out)\n```\n\n## What Heads Learn\n\nResearch shows different heads specialize: **syntactic heads** track subject-verb agreement, **positional heads** attend to adjacent tokens, and **rare word heads** focus on infrequent but informative tokens. Not all heads are equally important — some can be pruned with minimal quality loss.\n\n## The Position Problem\n\nSelf-attention treats its input as a **set**, not a sequence. \"Dog bites man\" and \"man bites dog\" produce identical attention scores — the model has no notion of word order. We need to inject positional information.\n\n## Sinusoidal Positional Encoding (Original Transformer)\n\nThe original Transformer added fixed positional encodings using sine and cosine at different frequencies:\n\n```\nPE(pos, 2i)   = sin(pos / 10000^(2i/d_model))\nPE(pos, 2i+1) = cos(pos / 10000^(2i/d_model))\n```\n\nEach position gets a unique signature, and the sinusoidal pattern lets the model learn relative positions.\n\n## Rotary Position Embeddings (RoPE)\n\nMost modern LLMs use **RoPE** (Su et al., 2021), which encodes position directly into Q and K by rotating them in 2D subspaces. The dot product Q·K then naturally depends on the **relative** position between tokens, enabling better generalization to unseen sequence lengths through interpolation techniques (NTK-aware scaling, YaRN).\n\n## ALiBi: Attention with Linear Biases\n\n**ALiBi** (Press et al., 2022) takes the simplest approach: add a linear penalty to attention scores based on distance. No learned parameters — just a fixed bias. Each head uses a different slope, so some heads focus locally and others attend broadly.\n\n## Recommended Reading\n\n- [The Illustrated Transformer](https://jalammar.github.io/illustrated-transformer/) by Jay Alammar — the definitive visual guide to multi-head attention, positional encoding, and the full Transformer architecture. Bookmark this one.\n",
+          "summary": "Multi-head attention runs parallel attention operations to capture different relationship types, while positional encodings like RoPE give the model awareness of token order.",
+          "concepts": [
+            "multi-head attention",
+            "attention heads",
+            "positional encoding",
+            "RoPE",
+            "ALiBi",
+            "sinusoidal encoding"
+          ],
+          "youtube_id": null,
+          "video_title": null,
+          "vimeo_url": null,
+          "transcript": null
+        }
+      ]
+    },
+    {
+      "title": "Transformer Architecture",
+      "order_index": 2,
+      "lessons": [
+        {
+          "title": "The Transformer Block",
+          "slug": "transformer-block",
+          "order_index": 0,
+          "content": "# The Transformer Block\n\nThe Transformer block is the repeating unit stacked to build LLMs. GPT-3 stacks 96 of them. Llama 3 70B uses 80. Understanding this single block means understanding the architecture of every modern language model.\n\n## Anatomy of a Block\n\nEach block has two sub-layers, each wrapped with a **residual connection** and **layer normalization**:\n\n```\nInput x\n  → LayerNorm → Multi-Head Self-Attention → + x (residual)\n  → LayerNorm → Feed-Forward Network       → + x (residual)\nOutput\n```\n\n```python\nclass TransformerBlock(nn.Module):\n    def __init__(self, d_model, n_heads, d_ff):\n        super().__init__()\n        self.ln1 = nn.LayerNorm(d_model)\n        self.attn = MultiHeadAttention(d_model, n_heads)\n        self.ln2 = nn.LayerNorm(d_model)\n        self.ffn = FeedForward(d_model, d_ff)\n\n    def forward(self, x, mask=None):\n        x = x + self.attn(self.ln1(x), mask)\n        x = x + self.ffn(self.ln2(x))\n        return x\n```\n\n## Pre-Norm vs Post-Norm\n\nThe original Transformer placed LayerNorm **after** the residual connection (post-norm). Modern LLMs use **pre-norm** — normalizing before each sub-layer. Pre-norm is more stable during training for very deep networks.\n\nSome architectures use **RMSNorm** (Root Mean Square normalization), a simplified LayerNorm that skips mean-centering and is ~10-15% faster. Llama, Mistral, and Gemma all use RMSNorm.\n\n## The Feed-Forward Network\n\nThe FFN is a position-wise MLP applied independently to each token. The original Transformer used ReLU activation, but modern LLMs have moved to **SwiGLU** (Shazeer, 2020):\n\n```\nOriginal: FFN(x) = ReLU(x·W₁ + b₁)·W₂ + b₂\nSwiGLU:   FFN(x) = (Swish(x·W₁) ⊙ (x·V))·W₂\n```\n\nSwiGLU consistently outperforms ReLU and GELU. The intermediate dimension is typically **8/3 × d_model** (rounded to a multiple of 256 for GPU efficiency).\n\n## Encoder vs Decoder Architectures\n\n| Architecture | Attention | Models | Use Case |\n|-------------|-----------|--------|----------|\n| **Encoder-only** | Bidirectional | BERT, RoBERTa | Classification, embeddings |\n| **Decoder-only** | Causal | GPT, Llama, Mistral | Generation, chat |\n| **Encoder-Decoder** | Both | T5, BART | Translation, summarization |\n\nThe LLM world has overwhelmingly converged on **decoder-only** architectures with causal attention masks.\n\n## Stacking Blocks: From Block to Model\n\nA complete LLM: Token Embedding + Positional Encoding → Transformer Block × N → LayerNorm → Linear (vocab projection) → Softmax.\n\n| Model | Blocks | d_model | Heads | Parameters |\n|-------|--------|---------|-------|------------|\n| GPT-2 Small | 12 | 768 | 12 | 124M |\n| Llama 3 8B | 32 | 4096 | 32 | 8B |\n| Llama 3 70B | 80 | 8192 | 64 | 70B |\n\n## Recommended Reading\n\n- [But what is a GPT? Visual intro to Transformers](https://www.youtube.com/watch?v=wjZofJX0v4M) by 3Blue1Brown — an outstanding visual explanation of how Transformer blocks work together, from embeddings to output probabilities.\n- [Let's build GPT: from scratch, in code](https://www.youtube.com/watch?v=kCc8FmEb1nY) by Andrej Karpathy — a 2-hour code-along that builds a working GPT from an empty file. The best way to deeply internalize the architecture.\n",
+          "summary": "The Transformer block combines multi-head attention and feed-forward layers with residual connections and layer normalization — stack enough of these and you have a modern LLM.",
+          "concepts": [
+            "transformer block",
+            "residual connections",
+            "layer normalization",
+            "feed-forward network",
+            "SwiGLU",
+            "RMSNorm"
+          ],
+          "youtube_id": "wjZofJX0v4M",
+          "video_title": "But what is a GPT? Visual intro to Transformers | 3Blue1Brown",
+          "vimeo_url": null,
+          "transcript": null
+        },
+        {
+          "title": "Scaling Laws & Modern Architectures",
+          "slug": "scaling-modern-architectures",
+          "order_index": 1,
+          "content": "# Scaling Laws & Modern Architectures\n\nOnce the Transformer architecture was established, the key question became: **how do you make it better?** The answer, surprisingly, has often been *simply making it bigger* — but in precise, predictable ways.\n\n## Scaling Laws\n\nKaplan et al. (2020, OpenAI) discovered that model performance follows **power laws** with respect to three variables:\n\n```\nL(N) ∝ N^(-0.076)    # N = number of parameters\nL(D) ∝ D^(-0.095)    # D = dataset size (tokens)\nL(C) ∝ C^(-0.050)    # C = compute budget (FLOPs)\n```\n\nThese are smooth, predictable curves. This allowed labs to forecast the performance of billion-dollar training runs before starting them.\n\n## Chinchilla Optimal Training\n\nHoffmann et al. (2022, DeepMind) found that most models were **undertrained** — too many parameters for the amount of data they saw. The optimal ratio is roughly **20 tokens per parameter**.\n\n| Model | Params | Tokens | Tokens/Param | Verdict |\n|-------|--------|--------|--------------|----------|\n| GPT-3 | 175B | 300B | 1.7 | Undertrained |\n| Chinchilla | 70B | 1.4T | 20 | Optimal |\n| Llama 3 | 8B | 15T | 1875 | Massively over-trained |\n\nPost-Chinchilla, the trend shifted toward **smaller models trained on more data** — more practical for deployment while matching or exceeding larger undertrained models.\n\n## Grouped-Query Attention (GQA)\n\nDuring inference, the **KV cache** (stored key-value pairs for previous tokens) becomes a memory bottleneck. **GQA** groups multiple query heads to share K/V heads:\n\n```\nMulti-Head:    Q₁K₁V₁  Q₂K₂V₂  Q₃K₃V₃  Q₄K₄V₄  (4 KV heads)\nGrouped-Query: Q₁K₁V₁  Q₂K₁V₁  Q₃K₂V₂  Q₄K₂V₂  (2 KV heads)\nMulti-Query:   Q₁K₁V₁  Q₂K₁V₁  Q₃K₁V₁  Q₄K₁V₁  (1 KV head)\n```\n\nLlama 2 70B uses 8 KV heads shared across 64 query heads — an 8× reduction in KV cache memory with minimal quality loss.\n\n## Mixture of Experts (MoE)\n\n**MoE** replaces the single FFN with multiple \"expert\" FFNs and a **router** that selects which experts process each token. Only 2 of 8 (or 2 of 64) experts activate per token, so the model has far more total parameters than it uses per forward pass.\n\nMixtral 8x7B has 47B total parameters but only ~13B active per token — massive model capacity with manageable compute. The main challenge is training the router to distribute tokens evenly (load balancing).\n\n## Flash Attention\n\nStandard attention materializes the full n×n attention matrix. For a 100K context, that's 10 billion entries. **Flash Attention** (Dao et al., 2022) restructures the computation to work in tiles that fit in GPU SRAM. The output is mathematically identical, but memory drops from O(n²) to O(n), making long-context models practical.\n\n## The Modern LLM Landscape\n\n| Family | Key Innovations | Open/Closed |\n|--------|----------------|-------------|\n| **GPT-4/4o** | MoE, massive scale | Closed |\n| **Claude** | Constitutional AI, long context | Closed |\n| **Llama 3** | GQA, massive over-training | Open weights |\n| **Mistral/Mixtral** | Sliding window attention, MoE | Open weights |\n| **Gemma** | Knowledge distillation from Gemini | Open weights |\n\nArchitectural innovations make models more efficient, while scaling laws tell us how much performance to expect from a given compute budget.\n\n## Recommended Reading\n\n- [Large Language Models: A Survey](https://sebastianraschka.com/blog/2024/understanding-large-language-models.html) by Sebastian Raschka — a practical guide to modern LLM architectures, comparing design choices across model families.\n",
+          "summary": "Scaling laws predict LLM performance as a function of compute, data, and parameters, while innovations like GQA, MoE, and Flash Attention make modern architectures more efficient.",
+          "concepts": [
+            "scaling laws",
+            "Chinchilla",
+            "grouped-query attention",
+            "mixture of experts",
+            "Flash Attention",
+            "KV cache"
+          ],
+          "youtube_id": null,
+          "video_title": null,
+          "vimeo_url": null,
+          "transcript": null
+        }
+      ]
+    },
+    {
+      "title": "Training LLMs",
+      "order_index": 3,
+      "lessons": [
+        {
+          "title": "Pre-training at Scale",
+          "slug": "pretraining-at-scale",
+          "order_index": 0,
+          "content": "# Pre-training at Scale\n\nPre-training is where an LLM acquires its knowledge and abilities — billions of parameters learning from trillions of tokens. It's the most expensive, most critical, and least understood part of the LLM pipeline.\n\n## The Data\n\nAn LLM's capabilities are bounded by its training data. Modern datasets combine multiple sources:\n\n| Source | Examples | Role |\n|--------|----------|------|\n| **Web crawl** | Common Crawl, RefinedWeb | Broad knowledge, diverse language |\n| **Books** | Books3, Project Gutenberg | Long-form reasoning, narrative |\n| **Code** | GitHub, StackOverflow | Programming, logical reasoning |\n| **Scientific papers** | arXiv, PubMed | Technical knowledge |\n| **Wikipedia** | Full dumps | Factual knowledge |\n\n**Data curation** is critical: raw Common Crawl contains spam, duplicates, toxic content, and low-quality text. Teams invest months in deduplication, quality filtering, language identification, and PII removal.\n\nLlama 3 was trained on 15 trillion tokens. For comparison, all of English Wikipedia is ~4 billion tokens — a rounding error.\n\n## Distributed Training\n\nNo single GPU can train an LLM. Training is distributed across thousands of GPUs using three parallelism strategies:\n\n**Data Parallelism**: Each GPU gets the full model but different data batches. Gradients are averaged. Simple but requires the model to fit on one GPU.\n\n**Tensor Parallelism**: Individual layers are split across GPUs — a single matrix multiplication is divided among devices. Low latency but high communication overhead.\n\n**Pipeline Parallelism**: Different layers run on different GPUs. GPU 1 runs layers 0-19, GPU 2 runs layers 20-39. Micro-batching keeps all GPUs busy.\n\nLarge runs combine all three: Llama 3 405B trained on 16,384 H100 GPUs.\n\n## Mixed Precision Training\n\n**bf16** (brain float 16) is the standard for LLM training — same exponent range as fp32, avoiding overflow issues. Most operations run in bf16, with fp32 only for numerically sensitive parts like loss accumulation.\n\n## Training Dynamics\n\nA typical pre-training run:\n\n1. **Warmup** (~2000 steps): Learning rate ramps linearly from 0 to prevent early instability.\n2. **Main training**: Learning rate decays via cosine schedule. Loss decreases smoothly following scaling laws.\n3. **Loss spikes**: Occasional sudden increases, often caused by bad data batches. Usually recoverable by rolling back a few checkpoints.\n\n## The Cost of Pre-training\n\n| Model | GPUs | Training Time | Estimated Cost |\n|-------|------|---------------|----------------|\n| Llama 2 70B | 2,048 A100s | ~35 days | ~$2M |\n| Llama 3 405B | 16,384 H100s | ~54 days | ~$30M+ |\n\nThis enormous cost is why few organizations pre-train from scratch, and why open-weight models are so valuable — they amortize the training cost across the entire community.\n",
+          "summary": "Pre-training teaches LLMs language, knowledge, and reasoning from trillions of tokens using massive distributed computing across thousands of GPUs.",
+          "concepts": [
+            "pre-training",
+            "data curation",
+            "distributed training",
+            "data parallelism",
+            "tensor parallelism",
+            "mixed precision",
+            "bf16"
+          ],
+          "youtube_id": null,
+          "video_title": null,
+          "vimeo_url": null,
+          "transcript": null
+        },
+        {
+          "title": "Alignment & RLHF",
+          "slug": "alignment-rlhf",
+          "order_index": 1,
+          "content": "# Alignment & RLHF\n\nA pre-trained LLM is a powerful text predictor — but it's not a helpful assistant. It will happily complete toxic text, generate misinformation, or ignore your question to continue a Wikipedia article. **Alignment** is the process of steering a pre-trained model to be helpful, harmless, and honest.\n\n## The Alignment Problem\n\nPre-training optimizes for next-token prediction on internet text. The model learns to mimic *any* text pattern, including harmful ones. A raw pre-trained model doesn't distinguish helpful from harmful completions, will match the style of toxic prompts, and has no concept of refusing inappropriate requests.\n\n## Step 1: Supervised Fine-Tuning (SFT)\n\nFine-tune the pre-trained model on high-quality (instruction, response) pairs:\n\n```json\n{\"instruction\": \"Explain photosynthesis simply\",\n \"response\": \"Plants convert sunlight, water, and CO2 into sugar and oxygen...\"}\n```\n\nSFT datasets typically contain 10K-100K carefully curated examples. The model learns to follow instructions, provide structured responses, and adopt a helpful tone. After SFT, the model follows instructions but still can be confidently wrong and hasn't learned nuanced preferences about style and safety.\n\n## Step 2: RLHF (Reinforcement Learning from Human Feedback)\n\nRLHF was the technique that made ChatGPT feel qualitatively different from GPT-3. Three stages:\n\n**1. Collect comparisons**: Human annotators see two model responses to the same prompt and rank which is better. This captures nuanced preferences hard to specify in rules.\n\n**2. Train a reward model**: A separate model learns to predict human preferences — assigning higher scores to preferred responses.\n\n**3. Optimize with PPO**: Use the reward model as a signal to fine-tune the LLM via Proximal Policy Optimization, with a KL-divergence penalty to prevent drifting too far from the SFT baseline:\n\n```\nObjective = E[Reward(prompt, response)] - β · KL(π_RL || π_SFT)\n```\n\nThe KL penalty is crucial: without it, the model \"hacks\" the reward model with degenerate outputs that score high but are actually low quality.\n\n## DPO: Direct Preference Optimization\n\n**DPO** (Rafailov et al., 2023) simplifies RLHF by eliminating the separate reward model. It directly optimizes the language model on preference pairs using a clever reparameterization. DPO is simpler to implement, more stable to train, and has become the dominant alignment method for open-weight models.\n\n## Constitutional AI (CAI)\n\nAnthropic's approach: instead of collecting human comparisons for every case, define a set of **principles** (a \"constitution\") and use the AI itself to generate comparisons. The model critiques its own responses against principles like \"be helpful\", \"avoid harm\", \"be honest\", then revises them. This scales better than human annotation and makes alignment criteria explicit.\n\n## Why Alignment Is Hard\n\n- **Goodhart's Law**: Optimizing for a proxy (reward model) instead of the true goal (helpfulness) leads to reward hacking\n- **Sycophancy**: RLHF models learn to agree with users rather than correct them\n- **Specification gaming**: Models find unexpected ways to satisfy the objective without being genuinely helpful\n\nAlignment remains an active research area — the gap between \"follows instructions\" and \"genuinely beneficial\" is where much current work focuses.\n\n## Recommended Reading\n\n- [RLHF: Reinforcement Learning from Human Feedback](https://huyenchip.com/2023/05/02/rlhf.html) by Chip Huyen — a practical breakdown of the RLHF pipeline with clear diagrams and honest discussion of limitations.\n- [The Alignment Problem from a Deep Learning Perspective](https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/) by Lilian Weng — covers alignment techniques from SFT through DPO with detailed comparisons.\n",
+          "summary": "Alignment transforms raw pre-trained models into helpful assistants through supervised fine-tuning and reinforcement learning from human feedback (RLHF) or direct preference optimization (DPO).",
+          "concepts": [
+            "alignment",
+            "RLHF",
+            "supervised fine-tuning",
+            "reward model",
+            "DPO",
+            "constitutional AI"
+          ],
+          "youtube_id": null,
+          "video_title": null,
+          "vimeo_url": null,
+          "transcript": null
+        }
+      ]
+    },
+    {
+      "title": "Using LLMs Effectively",
+      "order_index": 4,
+      "lessons": [
+        {
+          "title": "Prompting Techniques",
+          "slug": "prompting-techniques",
+          "order_index": 0,
+          "content": "# Prompting Techniques\n\nPrompting is how you communicate with an LLM. The difference between a mediocre and excellent result often comes down to how you frame the request — not the model's capabilities. Effective prompting is a skill that compounds with practice.\n\n## Zero-Shot Prompting\n\nThe simplest approach — just ask:\n\n```\nClassify the sentiment of this review as positive, negative, or neutral:\n\"The food was great but the service was incredibly slow.\"\nSentiment:\n```\n\nModern LLMs handle zero-shot tasks well because instruction tuning taught them to follow diverse requests.\n\n## Few-Shot Prompting\n\nProvide examples of the desired input-output behavior before the actual task:\n\n```\nClassify the sentiment:\n\nReview: \"Absolutely loved it, will come back!\"\nSentiment: Positive\n\nReview: \"Terrible experience, food was cold.\"\nSentiment: Negative\n\nReview: \"The food was great but the service was incredibly slow.\"\nSentiment:\n```\n\nLLMs are strong **in-context learners** — they infer the pattern from examples and apply it. 3-5 examples usually suffice. Use diverse examples that cover edge cases, and put the most representative ones last (recency bias).\n\n## Chain-of-Thought (CoT)\n\nFor reasoning tasks, asking the model to **show its work** dramatically improves accuracy:\n\n```\nQ: A store has 3 shelves with 8 books each and 2 shelves with 5 books.\n   How many books total?\n\nA: Let me work through this step by step.\n- 3 shelves x 8 books = 24 books\n- 2 shelves x 5 books = 10 books\n- Total: 24 + 10 = 34 books\n```\n\nThe phrase **\"Let's think step by step\"** can trigger CoT reasoning even without examples (zero-shot CoT). This simple addition improved GSM8K math accuracy from ~18% to ~79% in the original paper.\n\n## System Prompts\n\nSystem prompts set the model's persona, constraints, and behavior:\n\n```\nSystem: You are a concise technical writer. Answer questions about\nPython in 2-3 sentences maximum. Include a code example when relevant.\nDo not add disclaimers or caveats.\n```\n\nEffective system prompts are **specific** about format, tone, length, and constraints. Vague instructions like \"be helpful\" add nothing.\n\n## Structured Output\n\nFor reliable integration with code, constrain the output format:\n\n```\nExtract these fields from the text as JSON:\n- name (string)\n- age (integer)\n- occupation (string)\n\nText: \"Dr. Sarah Chen, 42, is a neurosurgeon at Mass General.\"\n```\n\nMost API providers now support **JSON mode** or **function calling** that guarantees valid structured output.\n\n## Common Pitfalls\n\n- **Ambiguity**: \"Summarize this\" — how long? What focus? For what audience?\n- **Overloading**: Cramming multiple complex tasks into one prompt. Break them up.\n- **Negative instructions**: \"Don't mention X\" is less reliable than \"Focus on Y\".\n- **Missing context**: The model doesn't know what you know. Be explicit.\n\n## Prompting vs Fine-tuning\n\n| | Prompting | Fine-tuning |\n|--|-----------|-------------|\n| **Cost** | Free (just tokens) | GPU hours + data |\n| **Iteration speed** | Seconds | Hours/days |\n| **Customization** | Moderate | Deep |\n| **Best for** | General tasks, prototyping | Domain-specific, production |\n\nStart with prompting. If you can't get the quality you need after serious prompt engineering, that's when fine-tuning becomes worthwhile.\n",
+          "summary": "Prompting techniques like few-shot examples, chain-of-thought reasoning, and structured system prompts dramatically affect LLM output quality without any model changes.",
+          "concepts": [
+            "zero-shot prompting",
+            "few-shot prompting",
+            "chain-of-thought",
+            "system prompts",
+            "structured output",
+            "in-context learning"
+          ],
+          "youtube_id": null,
+          "video_title": null,
+          "vimeo_url": null,
+          "transcript": null
+        },
+        {
+          "title": "RAG & Retrieval-Augmented Generation",
+          "slug": "rag-retrieval",
+          "order_index": 1,
+          "content": "# RAG & Retrieval-Augmented Generation\n\nLLMs have impressive knowledge, but it's frozen at training time, can hallucinate confidently, and doesn't include your private data. **RAG** bridges this gap by giving the model access to external knowledge at inference time.\n\n## Why LLMs Hallucinate\n\nLLMs generate text based on statistical patterns — they don't \"know\" facts the way a database does. When uncertain, they produce plausible-sounding text rather than admitting ignorance. RAG reduces hallucination by grounding responses in retrieved source documents.\n\n## The RAG Pipeline\n\n```\nUser Query → Embed → Search Vector DB → Retrieve Top-K Chunks\n           → Augment Prompt with Context → LLM Generates Answer\n```\n\n### Step 1: Document Ingestion\n\nSplit documents into chunks and convert to embeddings:\n\n```python\nfrom langchain.text_splitter import RecursiveCharacterTextSplitter\n\nsplitter = RecursiveCharacterTextSplitter(\n    chunk_size=512, chunk_overlap=50\n)\nchunks = splitter.split_documents(documents)\n```\n\n### Step 2: Embedding & Indexing\n\nConvert chunks to vectors using an embedding model and store in a **vector database**:\n\n```python\nfrom langchain.embeddings import OpenAIEmbeddings\nfrom langchain.vectorstores import Chroma\n\nembeddings = OpenAIEmbeddings(model=\"text-embedding-3-small\")\nvectorstore = Chroma.from_documents(chunks, embeddings)\n```\n\n### Step 3: Retrieval\n\nEmbed the user's query and find the most similar chunks via **cosine similarity**. Semantically similar text ends up close in embedding space — \"cardiac arrest\" matches \"heart attack\" even without lexical overlap.\n\n```python\nresults = vectorstore.similarity_search(query, k=5)\n```\n\n### Step 4: Generation\n\nStuff retrieved chunks into the LLM's prompt as context:\n\n```\nContext:\n[Retrieved chunk 1]\n[Retrieved chunk 2]\n\nBased on the context above, answer: {user_question}\n```\n\n## Chunking Strategies\n\nHow you split documents matters enormously:\n\n| Strategy | Description | Best For |\n|----------|-------------|----------|\n| **Fixed size** | Split every N characters | Simple, fast |\n| **Recursive** | Split by paragraphs, then sentences | General purpose |\n| **Semantic** | Split at topic boundaries | Complex documents |\n| **Document structure** | Split by headers, sections | Markdown, HTML, PDFs |\n\n**Chunk size tradeoffs**: Too small (100 tokens) → fragments lose context. Too large (2000 tokens) → dilutes relevance. 300-800 tokens is the sweet spot.\n\n## RAG vs Fine-tuning\n\n| | RAG | Fine-tuning |\n|--|-----|-------------|\n| **Knowledge updates** | Instant (update docs) | Retrain required |\n| **Source attribution** | Easy (cite chunks) | Not possible |\n| **Hallucination** | Reduced (grounded) | Still possible |\n| **Private data** | Stays in your DB | Baked into weights |\n| **Reasoning depth** | Limited by context | Internalized |\n\nMany production systems combine both: fine-tune for domain style and reasoning, then use RAG for factual grounding.\n\n## Recommended Reading\n\n- [Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://arxiv.org/abs/2005.11401) (Lewis et al., 2020) — the original RAG paper that formalized the retrieve-then-generate approach.\n",
+          "summary": "RAG reduces LLM hallucination by retrieving relevant documents from a vector database and injecting them into the prompt as grounding context.",
+          "concepts": [
+            "retrieval-augmented generation",
+            "vector database",
+            "embeddings",
+            "chunking",
+            "cosine similarity",
+            "hallucination"
+          ],
+          "youtube_id": null,
+          "video_title": null,
+          "vimeo_url": null,
+          "transcript": null
+        }
+      ]
+    },
+    {
+      "title": "Fine-tuning & Evaluation",
+      "order_index": 5,
+      "lessons": [
+        {
+          "title": "LoRA & Parameter-Efficient Methods",
+          "slug": "lora-parameter-efficient",
+          "order_index": 0,
+          "content": "# LoRA & Parameter-Efficient Methods\n\nPre-trained LLMs are general-purpose, but many applications need specialized behavior — a medical assistant, a code reviewer, a customer support bot. Full fine-tuning adjusts all parameters, but for a 70B model that requires hundreds of gigabytes of GPU memory. **Parameter-efficient fine-tuning (PEFT)** achieves similar results by training less than 1% of parameters.\n\n## The Cost Problem\n\nFull fine-tuning of a 7B model requires storing model weights (~14 GB in fp16), gradients (~14 GB), and AdamW optimizer states (~56 GB) — totaling ~84 GB, requiring multiple high-end GPUs. For a 70B model, multiply by 10.\n\n## LoRA: Low-Rank Adaptation\n\n**LoRA** (Hu et al., 2021) is based on a key insight: weight changes during fine-tuning have **low intrinsic rank**. Instead of updating the full weight matrix W (d × k parameters), decompose the update into two small matrices:\n\n```\nW' = W + ΔW = W + B·A\n```\n\nwhere **A** (r × k) and **B** (d × r), with rank r << min(d, k). The original weights **W are frozen**; only A and B are trained.\n\nFor d=k=4096 and r=16: full fine-tuning trains 16.7M parameters per layer; LoRA trains 131K — a **128× reduction**. At inference, merge B·A back into W for **zero additional latency**.\n\n```python\nfrom peft import LoraConfig, get_peft_model\n\nconfig = LoraConfig(\n    r=16,\n    lora_alpha=32,\n    target_modules=[\"q_proj\", \"k_proj\", \"v_proj\", \"o_proj\"],\n    lora_dropout=0.05,\n)\nmodel = get_peft_model(model, config)\nmodel.print_trainable_parameters()\n# trainable: 0.1% of total parameters\n```\n\n## QLoRA: Fine-tuning 70B on a Single GPU\n\n**QLoRA** (Dettmers et al., 2023) combines LoRA with 4-bit quantization of the base model. Base model memory drops to ~3.5 GB for 7B, enabling fine-tuning on a single 24 GB consumer GPU.\n\n```python\nfrom transformers import BitsAndBytesConfig\n\nbnb_config = BitsAndBytesConfig(\n    load_in_4bit=True,\n    bnb_4bit_quant_type=\"nf4\",\n    bnb_4bit_compute_dtype=torch.bfloat16,\n    bnb_4bit_use_double_quant=True,\n)\n```\n\n## Which Layers to Adapt?\n\nResearch and practice have converged on adapting attention projections: **Q and V** as the minimum effective set, adding **K and O** for meaningful improvement. Higher rank r captures more signal — r=8-16 for most tasks, r=64 for complex domain shifts.\n\n## Other PEFT Methods\n\n| Method | How It Works | Trainable % | Inference Cost |\n|--------|-------------|-------------|----------------|\n| **LoRA** | Low-rank weight updates | ~0.1% | None (merged) |\n| **QLoRA** | LoRA + 4-bit quantization | ~0.1% | None (merged) |\n| **Adapters** | Small FFNs between layers | ~1-5% | Added latency |\n| **Prefix Tuning** | Trainable tokens in K/V | ~0.1% | Minor |\n| **Prompt Tuning** | Soft learned embeddings | <0.01% | Minor |\n\nLoRA/QLoRA have become the de facto standard due to the quality-efficiency tradeoff and zero inference overhead after merging.\n",
+          "summary": "LoRA enables fine-tuning large LLMs by training low-rank decompositions of weight updates, achieving near full fine-tuning quality with less than 1% of trainable parameters.",
+          "concepts": [
+            "LoRA",
+            "QLoRA",
+            "parameter-efficient fine-tuning",
+            "low-rank adaptation",
+            "quantization",
+            "adapter methods"
+          ],
+          "youtube_id": null,
+          "video_title": null,
+          "vimeo_url": null,
+          "transcript": null
+        },
+        {
+          "title": "Evaluation & Benchmarks",
+          "slug": "evaluation-benchmarks",
+          "order_index": 1,
+          "content": "# Evaluation & Benchmarks\n\nHow do you know if one LLM is better than another? For classification, metrics like accuracy or F1 are straightforward. For open-ended text generation, evaluation is one of the hardest unsolved problems in AI.\n\n## Why LLM Evaluation Is Hard\n\nTraditional ML evaluation compares predictions against ground truth. But for \"Write a poem about autumn\" or \"Explain quantum computing\", there's no single correct answer. Quality is subjective, multidimensional (accuracy, fluency, helpfulness, safety, creativity), and context-dependent.\n\n## Benchmark Suites\n\nStandardized benchmarks measure specific capabilities:\n\n| Benchmark | What It Tests | Format |\n|-----------|--------------|--------|\n| **MMLU** | Broad knowledge (57 subjects) | Multiple choice |\n| **HumanEval** | Code generation | Write Python functions |\n| **GSM8K** | Grade school math | Word problems |\n| **HellaSwag** | Common sense reasoning | Sentence completion |\n| **TruthfulQA** | Resistance to misconceptions | Open-ended + MC |\n| **MT-Bench** | Multi-turn conversation | LLM-as-judge scoring |\n| **MATH** | Competition-level math | Problem solving |\n\n**Aggregate leaderboards** like the Open LLM Leaderboard combine multiple benchmarks, but should be read critically — models can be optimized for benchmarks at the expense of real-world performance.\n\n## LLM-as-Judge\n\nUsing a strong LLM (like GPT-4) to evaluate another model's outputs has become standard practice. It scales well, correlates reasonably with human judgments, and can evaluate nuanced qualities. **Pairwise comparison** (\"which response is better?\") tends to be more reliable than absolute scoring.\n\nRisks: biased toward verbose responses, may share blind spots with the evaluated model.\n\n## Human Evaluation\n\nThe gold standard remains human evaluation:\n\n- **Chatbot Arena** (lmsys.org): Users chat with two anonymous models and vote for the better one. Produces **Elo ratings** — the most trusted LLM ranking. Over 1M human votes and counting.\n- **Domain expert evaluation**: For medical, legal, or code tasks, only domain experts can meaningfully assess quality.\n\n## Contamination & Benchmark Gaming\n\nModels may have **seen benchmark data** during pre-training. If GSM8K problems appear in Common Crawl, a model might \"memorize\" answers rather than demonstrate reasoning.\n\nMitigation: use held-out test sets, create dynamic benchmarks that refresh regularly, and check for suspiciously high scores on public vs private equivalents.\n\n## Red Teaming\n\n**Red teaming** probes failure modes — trying to elicit harmful, biased, or incorrect outputs:\n\n- **Jailbreaking**: Circumventing safety guardrails\n- **Bias detection**: Testing for demographic biases\n- **Factual probing**: Finding confident hallucination topics\n- **Adversarial inputs**: Edge cases causing unexpected behavior\n\n## Building Your Own Evaluation\n\nFor production systems, generic benchmarks aren't enough:\n\n1. Collect real user queries (or realistic synthetic ones)\n2. Define rubrics with clear criteria specific to your task\n3. Combine automated + human evaluation: LLM-as-judge for volume, human review for calibration\n4. Track regressions: re-run your eval suite when you update prompts, models, or RAG pipelines\n\nThe best evaluation is one you'll actually run consistently. Start simple, iterate.\n",
+          "summary": "LLM evaluation uses a combination of standardized benchmarks, LLM-as-judge scoring, human evaluation, and red teaming to assess model capabilities across multiple dimensions.",
+          "concepts": [
+            "benchmarks",
+            "MMLU",
+            "HumanEval",
+            "LLM-as-judge",
+            "Chatbot Arena",
+            "red teaming",
+            "contamination"
+          ],
+          "youtube_id": null,
+          "video_title": null,
+          "vimeo_url": null,
+          "transcript": null
+        }
+      ]
+    }
+  ]
+}

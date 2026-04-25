@@ -1,0 +1,83 @@
+[
+  {
+    "timestamp": "2026-04-10T18:54:24",
+    "run_label": "ensure-coverage:tool-use-function-calling-agents",
+    "sources": [
+      {
+        "gap": "Action space in tool-using agents: formal definition, how tools/functions constitute the action set, constraints and selection/routing policies",
+        "url": "https://www.emergentmind.com/topics/unified-tool-based-action-space",
+        "title": "Unified Tool-Based Action Space"
+      },
+      {
+        "gap": "Action space in tool-using agents: formal definition, how tools/functions constitute the action set, constraints and selection/routing policies",
+        "url": "https://arxiv.org/html/2506.00886v1",
+        "title": "Toward a Theory of Agents as Tool-Use Decision-Makers - arXiv"
+      },
+      {
+        "gap": "Action space in tool-using agents: formal definition, how tools/functions constitute the action set, constraints and selection/routing policies",
+        "url": "https://arxiv.org/pdf/2205.15953.pdf",
+        "title": "arXiv:2205.15953v4 [cs.LG] 4 Jun 2023"
+      },
+      {
+        "gap": "Action space in tool-using agents: formal definition, how tools/functions constitute the action set, constraints and selection/routing policies",
+        "url": "https://madoc.bib.uni-mannheim.de/67433/1/0762.pdf",
+        "title": "[PDF] Dynamically Restricted Action Spaces for Multi-Agent Reinforcement ..."
+      },
+      {
+        "gap": "Action space in tool-using agents: formal definition, how tools/functions constitute the action set, constraints and selection/routing policies",
+        "url": "https://sites.usm.edu/banerjee/papers/ActDisc_ALA2010.pdf",
+        "title": "./sample_complexity.eps"
+      },
+      {
+        "gap": "Robust tool result handling: output schemas, validation, error handling, retries/timeouts, idempotency, tool-output parsing/normalization, and how results are incorporated into the plan-act-observe loop",
+        "url": "https://arxiv.org/pdf/2602.18968.pdf",
+        "title": "Robust and Efficient Tool Orchestration via Layered Execution Structures with Reflective Correction"
+      },
+      {
+        "gap": "Robust tool result handling: output schemas, validation, error handling, retries/timeouts, idempotency, tool-output parsing/normalization, and how results are incorporated into the plan-act-observe loop",
+        "url": "https://www.buzhou.io/en/articles/implementing-tool-calling-loop-with-error-handling-and-retry-logic",
+        "title": "Implementing Tool Calling Loop with Error Handling and Retry Logic"
+      },
+      {
+        "gap": "Robust tool result handling: output schemas, validation, error handling, retries/timeouts, idempotency, tool-output parsing/normalization, and how results are incorporated into the plan-act-observe loop",
+        "url": "https://arxiv.org/html/2603.13404v1",
+        "title": "Schema First Tool APIs for LLM Agents: A Controlled Study of ... - arXiv"
+      },
+      {
+        "gap": "Robust tool result handling: output schemas, validation, error handling, retries/timeouts, idempotency, tool-output parsing/normalization, and how results are incorporated into the plan-act-observe loop",
+        "url": "https://www.agentengineering.io/topics/articles/tool-use-patterns",
+        "title": "Tool Use in LLM Agents: Patterns, Pitfalls, and Best Practices"
+      },
+      {
+        "gap": "Robust tool result handling: output schemas, validation, error handling, retries/timeouts, idempotency, tool-output parsing/normalization, and how results are incorporated into the plan-act-observe loop",
+        "url": "https://rajatpandit.com/agentic-ai/tool-correctness/",
+        "title": "Measuring Tool Use Correctness & Plan Adherence \u2014 AI ..."
+      },
+      {
+        "gap": "End-to-end plan \u2192 act \u2192 observe loop examples showing multiple tool calls and iterative reasoning grounded on returned observations",
+        "url": "https://blogs.oracle.com/developers/what-is-the-ai-agent-loop-the-core-architecture-behind-autonomous-ai-systems",
+        "title": "What Is the AI Agent Loop? The Core Architecture Behind ..."
+      },
+      {
+        "gap": "End-to-end plan \u2192 act \u2192 observe loop examples showing multiple tool calls and iterative reasoning grounded on returned observations",
+        "url": "https://arxiv.org/html/2505.09970v2",
+        "title": "Multi-Step Planning and Reasoning Improves Acting in LLM Agents"
+      },
+      {
+        "gap": "End-to-end plan \u2192 act \u2192 observe loop examples showing multiple tool calls and iterative reasoning grounded on returned observations",
+        "url": "https://www.rivista.ai/wp-content/uploads/2024/06/2404.11584v1.pdf",
+        "title": "[PDF] arXiv:2404.11584v1 [cs.AI] 17 Apr 2024 - Rivista AI"
+      },
+      {
+        "gap": "End-to-end plan \u2192 act \u2192 observe loop examples showing multiple tool calls and iterative reasoning grounded on returned observations",
+        "url": "https://www.manning.com/preview/ai-agents-in-action-second-edition/chapter-5",
+        "title": "AI Agents in Action, Second Edition - 5 Agent Reasoning and Planning"
+      },
+      {
+        "gap": "End-to-end plan \u2192 act \u2192 observe loop examples showing multiple tool calls and iterative reasoning grounded on returned observations",
+        "url": "https://www.youngju.dev/blog/ai-papers/2026-03-04-ai-papers-agentic-reasoning-implementation-guide-2026.en",
+        "title": "AI Paper Reading: Agentic Reasoning Implementation Guide 2026"
+      }
+    ]
+  }
+]

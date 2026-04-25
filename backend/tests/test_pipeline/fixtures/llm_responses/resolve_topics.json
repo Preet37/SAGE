@@ -1,0 +1,13 @@
+{
+  "mappings": {
+    "attention mechanism": ["attention-mechanism"],
+    "self-attention": ["self-attention"],
+    "multi-head attention": ["multi-head-attention"],
+    "transformer": ["transformer-architecture"],
+    "positional encoding": ["transformer-architecture"],
+    "cross-attention": ["attention-mechanism"],
+    "bahdanau attention": ["attention-mechanism"],
+    "sparse attention": []
+  },
+  "unmapped": ["sparse attention"]
+}

@@ -1,0 +1,45 @@
+{
+  "slug": "math-tutor",
+  "title": "AI Math Tutor",
+  "subtitle": "Photograph handwritten math homework and get Socratic step-by-step hints",
+  "course_slug": "intro-to-multimodal",
+  "status": "coming_soon",
+  "difficulty": "intermediate",
+  "hero_emoji": "📐",
+  "vision": "What if you could snap a photo of your math homework and get a patient, encouraging tutor who guides you to the answer — without just giving it away?\n\nThis project uses **multimodal vision** to read handwritten math problems from photos, then provides **Socratic step-by-step hints** that help learners understand *how* to solve problems rather than simply revealing answers.\n\nThe pipeline demonstrates practical multimodal AI:\n- **Claude Vision on NVIDIA NIM** analyzes photos of handwritten math, extracting problems and converting them to structured LaTeX representations\n- A **lightweight RAG system** matches identified math domains (algebra, geometry, calculus) to a curated concept library\n- A **Socratic hint engine** generates progressive hints: identify the problem type → suggest an approach → show partial work → reveal the full solution\n- **LaTeX rendering** displays math beautifully in the browser\n\nThe result is a personal math tutor that's always patient, always encouraging, and helps you build genuine understanding.",
+  "learning_outcomes": [
+    "Use multimodal LLM vision capabilities to extract structured data from images",
+    "Build lightweight RAG systems with curated domain-specific knowledge bases",
+    "Design Socratic tutoring prompts that guide rather than answer directly",
+    "Implement progressive hint systems with multiple difficulty levels",
+    "Work with LaTeX rendering for mathematical notation in web applications"
+  ],
+  "concepts": [
+    "multimodal understanding",
+    "vision-language models",
+    "OCR",
+    "prompt engineering",
+    "RAG",
+    "Socratic method",
+    "educational AI",
+    "LaTeX rendering"
+  ],
+  "architecture_mermaid": "flowchart TB\n    subgraph input [User Input]\n        Photo[\"Handwritten Math Photo\"]\n        Question[\"Optional question\"]\n    end\n    subgraph vision [Vision Understanding]\n        Extract[\"Claude Vision\\nExtract problems\\n→ LaTeX\"]\n    end\n    subgraph rag [Concept Grounding]\n        Identify[\"Identify math domain\"]\n        Lookup[\"Lookup reference\\nmaterial\"]\n    end\n    subgraph tutor [Socratic Tutoring]\n        Hints[\"Progressive hints\"]\n        Steps[\"Step-by-step guidance\"]\n    end\n    subgraph output [Output]\n        Display[\"Rendered math\\n+ hints + concepts\"]\n    end\n    Photo --> Extract\n    Question --> Extract\n    Extract --> Identify\n    Identify --> Lookup\n    Lookup --> Hints\n    Extract --> Hints\n    Hints --> Steps\n    Steps --> Display",
+  "demo_url": "",
+  "demo_embed": false,
+  "repo_url": "",
+  "setup_instructions": "```bash\n# Clone the repository\ngit clone <repo-url>\ncd math-tutor\n\n# Install dependencies\nuv sync\n\n# Set up environment variables\ncp .env.example .env\n# Edit .env with your LLM_API_KEY\n\n# Launch the web UI\nuv run python app.py\n```",
+  "challenges": [
+    "Add automatic grading — compare student work in the photo against correct solutions",
+    "Implement multi-step problem tracking across tutoring sessions",
+    "Build adaptive difficulty that adjusts hint granularity based on student performance",
+    "Add support for drawing/whiteboard input alongside camera photos",
+    "Create a problem set generator that creates practice problems similar to the ones photographed"
+  ],
+  "related_lesson_slugs": [
+    "vision-language-models",
+    "multimodal-rag",
+    "clip-contrastive-learning"
+  ],
+  "order_index": 1
+}

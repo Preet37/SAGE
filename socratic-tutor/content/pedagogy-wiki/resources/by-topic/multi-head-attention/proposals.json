@@ -1,0 +1,183 @@
+[
+  {
+    "timestamp": "2026-04-07T14:35:49",
+    "run_label": "pipeline-test:visualizing-interpreting-attention-weights",
+    "sources": [
+      {
+        "gap": "Attention heatmaps: how to extract and visualize attention weight matrices as 2D heatmaps in PyTorch and TensorFlow",
+        "url": "https://apxml.com/courses/how-to-build-a-large-language-model/chapter-23-analyzing-model-behavior/attention-map-visualization",
+        "title": "Attention Map Visualization"
+      },
+      {
+        "gap": "Attention heatmaps: how to extract and visualize attention weight matrices as 2D heatmaps in PyTorch and TensorFlow",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-7-implementation-details-optimization/practice-analyzing-attention-weights",
+        "title": "Practice: Analyzing Attention Weight Distributions"
+      },
+      {
+        "gap": "Attention heatmaps: how to extract and visualize attention weight matrices as 2D heatmaps in PyTorch and TensorFlow",
+        "url": "https://www.cs.cmu.edu/~sherryw/assets/pubs/2018-attention.pdf",
+        "title": "Visualizing Attention in Sequence-to- ..."
+      },
+      {
+        "gap": "Attention heatmaps: how to extract and visualize attention weight matrices as 2D heatmaps in PyTorch and TensorFlow",
+        "url": "https://haldenl.com/papers/2018-vast-attention.pdf",
+        "title": "Visualizing Attention in Sequence-to-Sequence Summarization Models"
+      },
+      {
+        "gap": "Attention heatmaps: how to extract and visualize attention weight matrices as 2D heatmaps in PyTorch and TensorFlow",
+        "url": "https://www.codegenes.net/blog/attention-visualization-pytorch/",
+        "title": "Attention Visualization in PyTorch: A Comprehensive Guide"
+      },
+      {
+        "gap": "Alignment visualization: techniques for visualizing source-target alignment from attention weights with concrete examples",
+        "url": "https://ufal.mff.cuni.cz/pbml/109/art-rikters-fishel-bojar.pdf",
+        "title": "Visualizing Neural Machine Translation Attention and ..."
+      },
+      {
+        "gap": "Alignment visualization: techniques for visualizing source-target alignment from attention weights with concrete examples",
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2021/file/6fd6b030c6afec018415662d0db43f9d-Paper.pdf",
+        "title": "Alignment Attention by Matching"
+      },
+      {
+        "gap": "Alignment visualization: techniques for visualizing source-target alignment from attention weights with concrete examples",
+        "url": "https://www.cs.utexas.edu/~gdurrett/courses/sp2024/sample-research.pdf",
+        "title": "Attention Analysis and Visualization on Multimodal Models"
+      },
+      {
+        "gap": "Alignment visualization: techniques for visualizing source-target alignment from attention weights with concrete examples",
+        "url": "https://www.cs.cmu.edu/~sherryw/assets/pubs/2018-attention.pdf",
+        "title": "Visualizing Attention in Sequence-to- ..."
+      },
+      {
+        "gap": "Alignment visualization: techniques for visualizing source-target alignment from attention weights with concrete examples",
+        "url": "https://findresearcher.sdu.dk/ws/portalfiles/portal/242362063/103_107.pdf",
+        "title": "University of Southern Denmark"
+      },
+      {
+        "gap": "Attention as explanation: the debate around whether attention weights explain model predictions (Jain & Wallace 2019, Wiegreffe & Pinter 2019)",
+        "url": "https://arxiv.org/abs/1908.04626",
+        "title": "[1908.04626] Attention is not not Explanation - arXiv"
+      },
+      {
+        "gap": "Attention as explanation: the debate around whether attention weights explain model predictions (Jain & Wallace 2019, Wiegreffe & Pinter 2019)",
+        "url": "https://arxiv.org/abs/1902.10186",
+        "title": "[1902.10186] Attention is not Explanation"
+      },
+      {
+        "gap": "Attention as explanation: the debate around whether attention weights explain model predictions (Jain & Wallace 2019, Wiegreffe & Pinter 2019)",
+        "url": "https://www.emergentmind.com/papers/1908.04626",
+        "title": "Attention is Not Not Explanation Analysis"
+      },
+      {
+        "gap": "Attention as explanation: the debate around whether attention weights explain model predictions (Jain & Wallace 2019, Wiegreffe & Pinter 2019)",
+        "url": "https://aclanthology.org/D19-1002/",
+        "title": "Attention is not not Explanation - ACL Anthology"
+      },
+      {
+        "gap": "Attention as explanation: the debate around whether attention weights explain model predictions (Jain & Wallace 2019, Wiegreffe & Pinter 2019)",
+        "url": "https://aclanthology.org/N19-1357.pdf",
+        "title": "[PDF] Attention is not Explanation - ACL Anthology"
+      },
+      {
+        "gap": "Attention rollout: the method of propagating attention across transformer layers to get global token influence scores (Abnar & Zuidema 2020)",
+        "url": "https://arxiv.org/abs/2005.00928",
+        "title": "[2005.00928] Quantifying Attention Flow in Transformers - arXiv"
+      },
+      {
+        "gap": "Attention rollout: the method of propagating attention across transformer layers to get global token influence scores (Abnar & Zuidema 2020)",
+        "url": "https://aclanthology.org/2020.acl-main.385/",
+        "title": "Quantifying Attention Flow in Transformers - ACL Anthology"
+      },
+      {
+        "gap": "Attention rollout: the method of propagating attention across transformer layers to get global token influence scores (Abnar & Zuidema 2020)",
+        "url": "https://arxiv.org/html/2409.19001v1",
+        "title": "Pay Attention to What Matters"
+      },
+      {
+        "gap": "Attention rollout: the method of propagating attention across transformer layers to get global token influence scores (Abnar & Zuidema 2020)",
+        "url": "https://aclanthology.org/2020.acl-main.385.pdf",
+        "title": "[PDF] Quantifying Attention Flow in Transformers - ACL Anthology"
+      },
+      {
+        "gap": "Attention rollout: the method of propagating attention across transformer layers to get global token influence scores (Abnar & Zuidema 2020)",
+        "url": "https://samiraabnar.github.io/articles/2020-04/attention_flow",
+        "title": "Quantifying Attention Flow in Transformers | Samira Abnar"
+      },
+      {
+        "gap": "Soft vs hard attention: detailed comparison of soft (differentiable, weighted sum) and hard (discrete, sampling-based) attention mechanisms",
+        "url": "https://eitca.org/artificial-intelligence/eitc-ai-adl-advanced-deep-learning/attention-and-memory/attention-and-memory-in-deep-learning/examination-review-attention-and-memory-in-deep-learning/what-are-the-main-differences-between-hard-attention-and-soft-attention-and-how-does-each-approach-influence-the-training-and-performance-of-neural-networks/",
+        "title": "What are the main differences between hard attention and soft ...eitca.org \u203a examination-review-attention-and-memory-in-deep-learning"
+      },
+      {
+        "gap": "Soft vs hard attention: detailed comparison of soft (differentiable, weighted sum) and hard (discrete, sampling-based) attention mechanisms",
+        "url": "https://arxiv.org/html/2412.09925v1",
+        "title": "Simulating Hard Attention Using Soft Attention - arXiv"
+      },
+      {
+        "gap": "Soft vs hard attention: detailed comparison of soft (differentiable, weighted sum) and hard (discrete, sampling-based) attention mechanisms",
+        "url": "https://arxiv.org/pdf/1904.00761.pdf",
+        "title": "Published as a conference paper at ICLR 2019"
+      },
+      {
+        "gap": "Soft vs hard attention: detailed comparison of soft (differentiable, weighted sum) and hard (discrete, sampling-based) attention mechanisms",
+        "url": "https://www.ijcai.org/proceedings/2018/0604.pdf",
+        "title": "[PDF] a Hybrid of Hard and Soft Attention for Sequence Modeling - IJCAI"
+      },
+      {
+        "gap": "Soft vs hard attention: detailed comparison of soft (differentiable, weighted sum) and hard (discrete, sampling-based) attention mechanisms",
+        "url": "https://aclanthology.org/D18-1065.pdf",
+        "title": "Surprisingly Easy Hard-Attention for Sequence to ..."
+      },
+      {
+        "gap": "Interpretability limitations of attention: why attention weights can be misleading, non-unique, or manipulable as explanations",
+        "url": "https://arxiv.org/abs/2006.05656",
+        "title": "[2006.05656] Why Attentions May Not Be Interpretable? - arXiv"
+      },
+      {
+        "gap": "Interpretability limitations of attention: why attention weights can be misleading, non-unique, or manipulable as explanations",
+        "url": "https://aclanthology.org/N19-1357.pdf",
+        "title": "[PDF] Attention is not Explanation - ACL Anthology"
+      },
+      {
+        "gap": "Interpretability limitations of attention: why attention weights can be misleading, non-unique, or manipulable as explanations",
+        "url": "https://aclanthology.org/P19-1282.pdf",
+        "title": "[PDF] Is Attention Interpretable? - ACL Anthology"
+      },
+      {
+        "gap": "Interpretability limitations of attention: why attention weights can be misleading, non-unique, or manipulable as explanations",
+        "url": "https://arxiv.org/abs/1902.10186",
+        "title": "[1902.10186] Attention is not Explanation"
+      },
+      {
+        "gap": "Interpretability limitations of attention: why attention weights can be misleading, non-unique, or manipulable as explanations",
+        "url": "https://bohrium.dp.tech/paper/arxiv/1906.03731",
+        "title": "Is Attention Interpretable?"
+      },
+      {
+        "gap": "Gradient-weighted attention: methods combining gradient signals with attention weights (e.g., GradCAM-style approaches for transformers)",
+        "url": "https://arxiv.org/html/2512.22473v1",
+        "title": "Gradient Dynamics of Attention: How Cross-Entropy Sculpts Bayesian Manifolds"
+      },
+      {
+        "gap": "Gradient-weighted attention: methods combining gradient signals with attention weights (e.g., GradCAM-style approaches for transformers)",
+        "url": "https://ar5iv.labs.arxiv.org/html/2112.02841",
+        "title": "GETAM: Gradient-Weighted Element-Wise Transformer Attention Map for Weakly Supervised Semantic segmentation"
+      },
+      {
+        "gap": "Gradient-weighted attention: methods combining gradient signals with attention weights (e.g., GradCAM-style approaches for transformers)",
+        "url": "https://www.emergentmind.com/papers/2512.22473",
+        "title": "Gradient Dynamics in Transformer Attention - Emergent Mind"
+      },
+      {
+        "gap": "Gradient-weighted attention: methods combining gradient signals with attention weights (e.g., GradCAM-style approaches for transformers)",
+        "url": "http://visal.cs.cityu.edu.hk/static/pubs/conf/icml24-gradeclip.pdf",
+        "title": "Gradient-based Visual Explanation for Transformer-based CLIP"
+      },
+      {
+        "gap": "Gradient-weighted attention: methods combining gradient signals with attention weights (e.g., GradCAM-style approaches for transformers)",
+        "url": "https://www.emergentmind.com/topics/gradient-driven-multi-head-attention-rollout-gmar",
+        "title": "GMAR: Gradient-Driven Multi-Head Attention Rollout - Emergent Mind"
+      }
+    ]
+  }
+]

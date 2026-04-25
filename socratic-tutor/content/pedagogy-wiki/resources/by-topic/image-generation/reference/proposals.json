@@ -1,0 +1,258 @@
+[
+  {
+    "timestamp": "2026-04-09T18:33:23",
+    "run_label": "reference-track:Image Generation and Editing",
+    "sources": [
+      {
+        "url": "https://www.youtube.com/watch?v=NTGRcTRlcE4",
+        "title": "DALL-E 3 is better at following Text Prompts! Here is why. \u2014 DALL-E 3 explained",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.scribd.com/document/808905711/dalle-1",
+        "title": "dalle 1",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.scribd.com/document/808905736/dalle-3",
+        "title": "Enhancing DALL-E 3 Prompt Following | PDF",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.studocu.com/es-mx/document/universidad-del-valle-de-mexico/introduccion-a-la-fisioterapia/dall-e-3-casos-clinicos/81203727",
+        "title": "DALL-E 3: Enhancing Image Generation via Improved Synthetic Captions",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://community.openai.com/t/collection-of-dall-e-3-prompting-bugs-issues-and-tips/889278/98",
+        "title": "Collection of Dall-E 3 prompting bugs, issues and tips - Prompting - OpenAI Developer Forum",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://papers.neurips.cc/paper_files/paper/2022/file/ec795aeadae0b7d230fa35cbaf04c041-Paper-Conference.pdf",
+        "title": "[PDF] Photorealistic Text-to-Image Diffusion Models with Deep Language ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://imagen.research.google/paper.pdf",
+        "title": "Photorealistic Text-to-Image Diffusion Models",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.crcv.ucf.edu/wp-content/uploads/2018/11/Imagen_-Photorealistic-Text-to-Image-Diffusion-Models-with-Deep-Language-Understanding-.pdf",
+        "title": "Imagen: Photorealistic Text-to-Image Diffusion Models with ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://blog.paperspace.com/dall-e-mini-and-hugging-face-revolutionizing-image-generation/",
+        "title": "Imagen: A text-to-image diffusion model",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2411.16713v2",
+        "title": "Conditional Text-to-Image Generation with Reference Guidance",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "http://arxiv.org/pdf/2308.06721.pdf",
+        "title": "IP-Adapter: Text Compatible Image Prompt Adapter for",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2504.13224v1",
+        "title": "ICAS: IP-Adapter and ControlNet-based Attention Structure ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.swiftscholar.net/paper/6953d0148c5983e9f07b96ac",
+        "title": "IP-Adapter: Text Compatible Image Prompt Adapter for Text-to ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://mlhonk.substack.com/p/30-ip-adapter",
+        "title": "30. IP-Adapter - by Massimiliano Viola - Machine Learning with a Honk",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://blog.csdn.net/vivi_cin/article/details/144572029",
+        "title": "\u8bba\u6587\u89e3\u8bfb IP-Adapter: Text Compatible Image Prompt Adapter for Text-to-Image Diffusion Models",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://sde-image-editing.github.io",
+        "title": "SDEdit: Image Synthesis and Editing with Stochastic Differential Equations",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2108.01073",
+        "title": "[2108.01073] SDEdit: Guided Image Synthesis and Editing ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=C_kDJhUQNnY",
+        "title": "SDEdit: Guided Image Synthesis and Editing with Stochastic Differential Equations Explained",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://paoloalfano.com/assets/updates/SDedit_presentation.pdf",
+        "title": "[PDF] SDEdit Guided image synthesis and editing with stochastic ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://github.com/AI-HUB-Deep-Learning-Fundamental/SDEdit-Image-Synthesis-and-Editing",
+        "title": "GitHub - AI-HUB-Deep-Learning-Fundamental/SDEdit-Image-Synthesis-and-Editing: PyTorch implementation for SDEdit: Image Synthesis and Editing with Stochastic Differential Equations",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://linzhiqiu.github.io/papers/genai_bench/",
+        "title": "GenAI-Bench: Evaluating and Improving Compositional Text-to ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "http://arxiv.org/pdf/2408.07009.pdf",
+        "title": "Figure 1 | Imagen 3 is our best diffusion model for text-to-image generation, capable of following",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2023/file/a3bf71c7c63f0c3bcb7ff67c67b1e7b1-Paper-Datasets_and_Benchmarks.pdf",
+        "title": "GENEVAL: An Object-Focused Framework for Evaluating ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://papers.nips.cc/paper_files/paper/2023/file/a3bf71c7c63f0c3bcb7ff67c67b1e7b1-Paper-Datasets_and_Benchmarks.pdf",
+        "title": "GENEVAL: An Object-Focused Framework for",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.proceedings.com/content/075/075280-2270open.pdf",
+        "title": "[PDF] GenEval: An object-focused framework for ... - Proceedings.com",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://ar5iv.labs.arxiv.org/html/2211.12112",
+        "title": "Human Evaluation of Text-to-Image Models on a Multi-Task Benchmark",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://papers.neurips.cc/paper_files/paper/2022/file/ec795aeadae0b7d230fa35cbaf04c041-Paper-Conference.pdf",
+        "title": "[PDF] Photorealistic Text-to-Image Diffusion Models with Deep Language ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2023/file/dd83eada2c3c74db3c7fe1c087513756-Paper-Datasets_and_Benchmarks.pdf",
+        "title": "Holistic Evaluation of Text-to-Image Models",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "http://arxiv.org/pdf/2408.07009.pdf",
+        "title": "Figure 1 | Imagen 3 is our best diffusion model for text-to-image generation, capable of following",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/CVPR2023/papers/Otani_Toward_Verifiable_and_Reproducible_Human_Evaluation_for_Text-to-Image_Generation_CVPR_2023_paper.pdf",
+        "title": "[PDF] Toward Verifiable and Reproducible Human Evaluation for Text-to ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/images/example-dall-e-3-generations",
+        "title": "OpenAI Platform",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/models/dall-e-3",
+        "title": "OpenAI - DALL-E 3 API Documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/image-generation",
+        "title": "Image generation - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/images?lang=node.js",
+        "title": "Images | OpenAI API Reference",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/image-generation?image-generation-model=dall-e-3",
+        "title": "Image generation - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.midjourney.com/hc/en-us/articles/32859204029709-Parameter-List",
+        "title": "Parameter List - Midjourney",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://midjourney.su/article/spisok-parametrov/",
+        "title": "\u0421\u043f\u0438\u0441\u043e\u043a \u043f\u0430\u0440\u0430\u043c\u0435\u0442\u0440\u043e\u0432 - \u0420\u0443\u0441\u0441\u043a\u0430\u044f \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u044f Midjourney",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.midjourney.com/hc/en-us/articles/32196176868109-Stylize",
+        "title": "Stylize",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.interact.eu/media/349/download/3.%20Arkam%20notes%20-%20Midjourney,%20Stable%20Diffusion,%20Dall-E%20wlogo.pdf?v=2",
+        "title": "[PDF] Midjourney /Commands /subscribe /info /ask /settings - Interact",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://mid-journey.ai/midjourney-parameters/",
+        "title": "Midjourney Parameters",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2304.05977v4",
+        "title": "ImageReward: Learning and Evaluating Human ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/2304.05977",
+        "title": "ImageReward: Learning and Evaluating Human Preferences for Text-to-Image Generation",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://neurips.cc/virtual/2023/poster/72054",
+        "title": "Learning and Evaluating Human Preferences for Text-to-Image ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://papers.nips.cc/paper_files/paper/2023/file/33646ef0ed554145eab65f6250fab0c9-Paper-Conference.pdf",
+        "title": "ImageReward: Learning and Evaluating Human",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://papers.nips.cc/paper_files/paper/2023/hash/33646ef0ed554145eab65f6250fab0c9-Abstract-Conference.html",
+        "title": "ImageReward: Learning and Evaluating Human Preferences for ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2305.01569",
+        "title": "Pick-a-Pic: An Open Dataset of User Preferences for Text- ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://papers.neurips.cc/paper_files/paper/2023/file/73aacd8b3b05b4b503d58310b523553c-Paper-Conference.pdf",
+        "title": "[PDF] Pick-a-Pic: An Open Dataset of User Preferences for Text-to-Image ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2023/file/73aacd8b3b05b4b503d58310b523553c-Paper-Conference.pdf",
+        "title": "Pick-a-Pic: An Open Dataset of User Preferences for",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/papers/2305.01569",
+        "title": "Pick-a-Pic: Open Dataset & PickScore",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://ar5iv.labs.arxiv.org/html/2305.01569",
+        "title": "Pick-a-Pic: An Open Dataset of User Preferences for Text-to-Image Generation",
+        "need_type": "COMPARISON_DATA"
+      }
+    ]
+  }
+]

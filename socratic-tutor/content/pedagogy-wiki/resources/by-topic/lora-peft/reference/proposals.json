@@ -1,0 +1,253 @@
+[
+  {
+    "timestamp": "2026-04-09T16:21:37",
+    "run_label": "reference-track:LoRA and Parameter-Efficient Fine-Tuning",
+    "sources": [
+      {
+        "url": "http://arxiv.org/pdf/2412.12674.pdf",
+        "title": "Train More Parameters But Mind Their Placement:",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2403.09113.pdf",
+        "title": "arXiv:2403.09113v2 [cs.CL] 17 Mar 2024",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://github.com/adapter-hub/website/blob/master/posts/2022/09/updates-in-adapter-transformers-v3-1.md",
+        "title": "website/posts/2022/09/updates-in-adapter-transformers-v3-1.md at master \u00b7 adapter-hub/website",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://mbrenndoerfer.com/writing/peft-comparison-lora-qlora-adapters-selection-guide",
+        "title": "PEFT Comparison: Choosing the Right Fine-Tuning Method",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://nlpr-web.ia.ac.cn/cip/ZongPublications/2023/2023-JinFeihu-EMNLPy.pdf",
+        "title": "Parameter-efficient Tuning for Large Language Model without Calculating",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2303.15647v2",
+        "title": "A Guide to Parameter-Efficient Fine-Tuning",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2405.05493",
+        "title": "Parameter-Efficient Fine-Tuning With Adapters - arXiv.org",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2504.14117v1",
+        "title": "PEFT A2Z: Parameter-Efficient Fine-Tuning Survey for Large ... - arXiv",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2504.14117",
+        "title": "PEFT A2Z: Parameter-Efficient Fine-Tuning Survey for Large Language and Vision Models",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2504.21099v1",
+        "title": "A Survey on Parameter-Efficient Fine-Tuning for ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://leeroopedia.com/index.php/Workflow:Haotian_liu_LLaVA_LoRA_Finetuning",
+        "title": "Workflow:Haotian liu LLaVA LoRA Finetuning - Leeroopedia",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2411.12787v1",
+        "title": "3.4 Dual Low Rank Adaptation",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://leeroopedia.com/index.php/Principle:Haotian_liu_LLaVA_LoRA_Configuration",
+        "title": "Principle:Haotian liu LLaVA LoRA Configuration - Leeroopedia",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2412.12359v2",
+        "title": "LLaVA Steering: Visual Instruction Tuning with 500x Fewer ... - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2025.acl-long.739.pdf",
+        "title": "[PDF] LLaVA Steering: Visual Instruction Tuning with 500x Fewer ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.iclr.cc/paper_files/paper/2024/file/50623630a2372839c078474efa6c0cb8-Paper-Conference.pdf",
+        "title": "[PDF] minigpt-4: enhancing vision-language understanding",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2312.16886.pdf",
+        "title": "arXiv:2312.16886v2 [cs.CV] 30 Dec 2023",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2023/file/1feb87871436031bdc0f2beaa62a049b-Paper-Conference.pdf",
+        "title": "[PDF] QLORA: Efficient Finetuning of Quantized LLMs",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/abhilash1910/qlora-xpu",
+        "title": "GitHub - abhilash1910/qlora-xpu: QLoRA: Efficient Finetuning of Quantized LLMs",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/bitsandbytes-foundation/bitsandbytes/blob/main/docs/source/reference/nn/linear4bit.mdx",
+        "title": "bitsandbytes/docs/source/reference/nn/linear4bit.mdx at main \u00b7 bitsandbytes-foundation/bitsandbytes",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/foundation-model-stack/blog/blob/main/4bit-transformers-bitsandbytes.md",
+        "title": "blog/4bit-transformers-bitsandbytes.md at main \u00b7 foundation-model-stack/blog",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/bitsandbytes-foundation/bitsandbytes/blob/main/docs/source/fsdp_qlora.md",
+        "title": "bitsandbytes/docs/source/fsdp_qlora.md at main \u00b7 bitsandbytes-foundation/bitsandbytes",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/bitsandbytes-foundation/bitsandbytes/pull/753",
+        "title": "Save and load in NF4 / FP4 formats by poedator \u00b7 Pull Request #753 \u00b7 bitsandbytes-foundation/bitsandbytes",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/huggingface/blog/blob/main/4bit-transformers-bitsandbytes.md",
+        "title": "blog/4bit-transformers-bitsandbytes.md at main \u00b7 huggingface/blog",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/bitsandbytes-foundation/bitsandbytes/issues/1731",
+        "title": "Using `bitsandbytes` 4-bit quantization requires the latest ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/bitsandbytes-foundation/bitsandbytes/issues/1515",
+        "title": "The confusion surrounding bnb_4bit_compute_dtype, torch_dtype, and prepare_model_for_kbit_training. \u00b7 Issue #1515 \u00b7 bitsandbytes-foundation/bitsandbytes",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://leeroopedia.com/index.php/Implementation:Bitsandbytes_foundation_Bitsandbytes_BitsAndBytesConfig_4bit",
+        "title": "Implementation:Bitsandbytes foundation Bitsandbytes ... - Leeroopedia",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://apxml.com/courses/practical-llm-quantization/chapter-5-quantization-formats-tooling/using-bitsandbytes",
+        "title": "Using bitsandbytes for 8-bit and 4-bit Quantization",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "http://docs.dbgpt.cn/docs/next/config-reference/llm/parameter_bitsandbytesquantization4bits_52b778/",
+        "title": "BitsandbytesQuantization4bits Configuration",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/heliossun/SQ-LLaVA/blob/main/train.py",
+        "title": "SQ-LLaVA/train.py at main \u00b7 heliossun/SQ-LLaVA",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/Victorwz/LLaVA-Llama-3/blob/main/llava/train/train.py",
+        "title": "LLaVA-Llama-3/llava/train/train.py at main \u00b7 Victorwz/LLaVA-Llama-3",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/2U1/Qwen-VL-Series-Finetune",
+        "title": "Fine-tuning Qwen2-VL Series",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/huggingface/transformers/blob/main/docs/source/en/model_doc/llava.md",
+        "title": "transformers/docs/source/en/model_doc/llava.md at main ...",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/haotian-liu/LLaVA/blob/main/scripts/finetune_qlora.sh",
+        "title": "LLaVA/scripts/finetune_qlora.sh at main \u00b7 haotian-liu/LLaVA",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/opendatalab/HA-DPO/blob/main/ha_dpo/models/instructblip/README.md",
+        "title": "HA-DPO/ha_dpo/models/instructblip/README.md at main \u00b7 opendatalab/HA-DPO",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/huggingface/transformers/blob/main/docs/source/en/model_doc/instructblip.md",
+        "title": "transformers/docs/source/en/model_doc/instructblip.md at main \u00b7 huggingface/transformers",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/NielsRogge/Transformers-Tutorials/blob/master/InstructBLIP/Inference_with_InstructBLIP.ipynb",
+        "title": "Transformers-Tutorials/InstructBLIP/Inference_with_InstructBLIP.ipynb at master \u00b7 NielsRogge/Transformers-Tutorials",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/AttentionX/InstructBLIP_PEFT",
+        "title": "GitHub - AttentionX/InstructBLIP_PEFT",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/huggingface/transformers/blob/main/src/transformers/models/instructblip/modeling_instructblip.py",
+        "title": "transformers/src/transformers/models/instructblip/modeling_instructblip.py at main \u00b7 huggingface/transformers",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://proceedings.mlsys.org/paper_files/paper/2024/file/906419cd502575b617cc489a1a696a67-Paper-Conference.pdf",
+        "title": "[PDF] Serving Thousands of Concurrent LoRA Adapters",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2311.03285.pdf",
+        "title": "S-LoRA: Serving Thousands of Concurrent LoRA Adapters",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.usenix.org/system/files/osdi24-wu-bingyang.pdf",
+        "title": "This paper is included in the Proceedings of the",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://lmsys.org/blog/2023-11-15-slora/",
+        "title": "Recipe for Serving Thousands of Concurrent LoRA Adapters",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.arxiv.org/pdf/2511.22880.pdf",
+        "title": "[PDF] Serving Heterogeneous LoRA Adapters in Distributed LLM ... - arXiv",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://discuss.vllm.ai/t/clarification-does-vllm-support-concurrent-decoding-with-multiple-lora-adapters-in-online-inference/1482",
+        "title": "Does vLLM support concurrent decoding with multiple LoRA ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://github.com/vllm-project/vllm/issues/12174",
+        "title": "[RFC]: Distribute LoRA adapters across deployment #12174",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://aws.amazon.com/blogs/machine-learning/efficiently-serve-dozens-of-fine-tuned-models-with-vllm-on-amazon-sagemaker-ai-and-amazon-bedrock/",
+        "title": "Efficiently serve dozens of fine-tuned models with vLLM on Amazon ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://docs.vllm.ai/en/stable/features/lora.html",
+        "title": "LoRA Adapters\u00b6",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://docs.anyscale.com/llm/serving/multi-lora",
+        "title": "Deploy multi-LoRA adapters on LLMs - Anyscale Docs",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  }
+]

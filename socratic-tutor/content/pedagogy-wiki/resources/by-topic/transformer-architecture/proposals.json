@@ -1,0 +1,239 @@
+[
+  {
+    "timestamp": "2026-04-08T01:26:30",
+    "run_label": "pipeline-test:positional-information-sinusoidal-and-learned-embeddings",
+    "sources": [
+      {
+        "gap": "Why self-attention is permutation-invariant without positional information; formal intuition/examples",
+        "url": "https://web.stanford.edu/~lexing/selfattention.pdf",
+        "title": "[PDF] Journal of Machine Learning Why Self-Attention is Natural for ..."
+      },
+      {
+        "gap": "Why self-attention is permutation-invariant without positional information; formal intuition/examples",
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2021/file/be3e9d3f7d70537357c67bb3f4086846-Supplemental.pdf",
+        "title": "A"
+      },
+      {
+        "gap": "Why self-attention is permutation-invariant without positional information; formal intuition/examples",
+        "url": "https://fleuret.org/dlc/materials/dlc-handout-13-2-attention-mechanisms.pdf",
+        "title": "[PDF] Deep learning 13.2. Attention Mechanisms - Fran\u00e7ois Fleuret"
+      },
+      {
+        "gap": "Why self-attention is permutation-invariant without positional information; formal intuition/examples",
+        "url": "https://mbrenndoerfer.com/writing/position-problem-self-attention-word-order",
+        "title": "Position Encoding Vs..."
+      },
+      {
+        "gap": "Why self-attention is permutation-invariant without positional information; formal intuition/examples",
+        "url": "https://arxiv.org/html/2602.21052v1",
+        "title": "Position-Aware Sequential Attention for Accurate Next Item ... - arXiv"
+      },
+      {
+        "gap": "Definition and mechanics of positional encoding in Transformers (how added/concatenated; where applied in encoder/decoder)",
+        "url": "https://www.ibm.com/think/topics/positional-encoding",
+        "title": "What is Positional Encoding? | IBMwww.ibm.com \u203a think \u203a topics \u203a positional-encoding"
+      },
+      {
+        "gap": "Definition and mechanics of positional encoding in Transformers (how added/concatenated; where applied in encoder/decoder)",
+        "url": "https://www.geeksforgeeks.org/nlp/positional-encoding-in-transformers/",
+        "title": "Positional Encoding in Transformers - GeeksforGeeks"
+      },
+      {
+        "gap": "Definition and mechanics of positional encoding in Transformers (how added/concatenated; where applied in encoder/decoder)",
+        "url": "https://arxiv.org/html/2502.12370v1",
+        "title": "Positional Encoding in Transformer-Based Time Series ..."
+      },
+      {
+        "gap": "Definition and mechanics of positional encoding in Transformers (how added/concatenated; where applied in encoder/decoder)",
+        "url": "https://erdem.pl/2021/05/understanding-positional-encoding-in-transformers/",
+        "title": "Function Periods"
+      },
+      {
+        "gap": "Definition and mechanics of positional encoding in Transformers (how added/concatenated; where applied in encoder/decoder)",
+        "url": "https://arxiv.org/html/2406.08272v4",
+        "title": "Learning interpretable positional encodings in transformers ... - arXiv"
+      },
+      {
+        "gap": "Sinusoidal positional embeddings: formula, frequency spectrum, dot-product properties, extrapolation to longer sequences",
+        "url": "https://learnopencv.com/sinusoidal-position-embeddings/",
+        "title": "Inside Sinusoidal Position Embeddings: A Sense of Order"
+      },
+      {
+        "gap": "Sinusoidal positional embeddings: formula, frequency spectrum, dot-product properties, extrapolation to longer sequences",
+        "url": "https://arxiv.org/pdf/2506.06398.pdf",
+        "title": "[PDF] Theoretical Analysis of Positional Encodings in Transformer Models"
+      },
+      {
+        "gap": "Sinusoidal positional embeddings: formula, frequency spectrum, dot-product properties, extrapolation to longer sequences",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-4-positional-encoding-embedding-layer/sinusoidal-encoding-formulation",
+        "title": "Sinusoidal Positional Encoding Formula"
+      },
+      {
+        "gap": "Sinusoidal positional embeddings: formula, frequency spectrum, dot-product properties, extrapolation to longer sequences",
+        "url": "https://arxiv.org/html/2506.06398v1",
+        "title": "Theoretical Analysis of Positional Encodings in ..."
+      },
+      {
+        "gap": "Sinusoidal positional embeddings: formula, frequency spectrum, dot-product properties, extrapolation to longer sequences",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-4-positional-encoding-embedding-layer/sinusoidal-encoding-properties",
+        "title": "Properties of Sinusoidal Positional Encodings"
+      },
+      {
+        "gap": "Learned positional embeddings: parameterization, training behavior, length limits, generalization tradeoffs vs sinusoidal",
+        "url": "https://mbrenndoerfer.com/writing/learned-position-embeddings",
+        "title": "Learned Position Embeddings: Training Transformers to Understand ..."
+      },
+      {
+        "gap": "Learned positional embeddings: parameterization, training behavior, length limits, generalization tradeoffs vs sinusoidal",
+        "url": "https://arxiv.org/html/2506.06398v1",
+        "title": "Theoretical Analysis of Positional Encodings in ..."
+      },
+      {
+        "gap": "Learned positional embeddings: parameterization, training behavior, length limits, generalization tradeoffs vs sinusoidal",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-4-positional-encoding-embedding-layer/comparing-positional-encodings",
+        "title": "Sinusoidal vs Learned Positional Embeddings"
+      },
+      {
+        "gap": "Learned positional embeddings: parameterization, training behavior, length limits, generalization tradeoffs vs sinusoidal",
+        "url": "https://arxiv.org/html/2506.06398",
+        "title": "Theoretical Analysis of Positional Encodings in Transformer Models: Impact on Expressiveness and Generalization"
+      },
+      {
+        "gap": "Learned positional embeddings: parameterization, training behavior, length limits, generalization tradeoffs vs sinusoidal",
+        "url": "https://mbrenndoerfer.com/writing/position-encoding-comparison-transformers",
+        "title": "Position Encoding Comparison: Sinusoidal, Learned, RoPE & ALiBi ..."
+      },
+      {
+        "gap": "Relative positional approaches (high-level): relative position embeddings, relative attention bias (e.g., Shaw et al.), RoPE/ALiBi; when they matter (long context, extrapolation, locality)",
+        "url": "https://mbrenndoerfer.com/writing/position-encoding-comparison-transformers",
+        "title": "Position Encoding Comparison: Sinusoidal, Learned, RoPE & ALiBi ..."
+      },
+      {
+        "gap": "Relative positional approaches (high-level): relative position embeddings, relative attention bias (e.g., Shaw et al.), RoPE/ALiBi; when they matter (long context, extrapolation, locality)",
+        "url": "https://arxiv.org/html/2501.18795v1",
+        "title": "2.2 Evaluation And Attention..."
+      },
+      {
+        "gap": "Relative positional approaches (high-level): relative position embeddings, relative attention bias (e.g., Shaw et al.), RoPE/ALiBi; when they matter (long context, extrapolation, locality)",
+        "url": "https://arxiv.org/pdf/2104.09864.pdf",
+        "title": "[PDF] RoFormer: Enhanced Transformer with Rotary Position Embedding"
+      },
+      {
+        "gap": "Relative positional approaches (high-level): relative position embeddings, relative attention bias (e.g., Shaw et al.), RoPE/ALiBi; when they matter (long context, extrapolation, locality)",
+        "url": "https://aclanthology.org/2021.emnlp-main.237.pdf",
+        "title": "[PDF] Explore Better Relative Position Embeddings from Encoding ..."
+      },
+      {
+        "gap": "Relative positional approaches (high-level): relative position embeddings, relative attention bias (e.g., Shaw et al.), RoPE/ALiBi; when they matter (long context, extrapolation, locality)",
+        "url": "https://papers.nips.cc/paper_files/paper/2024/file/61f425da6e0a201b8fe1454601abfba5-Paper-Conference.pdf",
+        "title": "What Rotary Position Embedding Can Tell Us:"
+      },
+      {
+        "gap": "Inductive bias introduced by different positional schemes (absolute vs relative; fixed vs learned) and practical implications",
+        "url": "https://arxiv.org/html/2410.20035v2",
+        "title": "Introducing Inductive Bias via Representational Alignment - arXiv"
+      },
+      {
+        "gap": "Inductive bias introduced by different positional schemes (absolute vs relative; fixed vs learned) and practical implications",
+        "url": "https://arxiv.org/pdf/2203.16634.pdf",
+        "title": "arXiv:2203.16634v1 [cs.CL] 30 Mar 2022"
+      },
+      {
+        "gap": "Inductive bias introduced by different positional schemes (absolute vs relative; fixed vs learned) and practical implications",
+        "url": "https://gershmanlab.com/pubs/PouncyGershman22.pdf",
+        "title": "[PDF] Inductive biases in theory-based reinforcement learning"
+      },
+      {
+        "gap": "Inductive bias introduced by different positional schemes (absolute vs relative; fixed vs learned) and practical implications",
+        "url": "https://philarchive.org/archive/ZHAFTR-3",
+        "title": "[PDF] From Tabula Rasa to Inductive Bias: Reframing Locke's Problem in ..."
+      },
+      {
+        "gap": "Inductive bias introduced by different positional schemes (absolute vs relative; fixed vs learned) and practical implications",
+        "url": "https://liner.com/review/deconstructing-positional-information-from-attention-logits-to-training-biases",
+        "title": "Deconstructing Positional Information: From Attention Logits to ..."
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-08T11:03:28",
+    "run_label": "pipeline-test:scaled-dot-product-self-attention-math-and-shapes",
+    "sources": [
+      {
+        "gap": "Explicit tensor shape walkthrough for scaled dot-product self-attention (Q, K, V, logits, attention weights, output) including batching and multi-head reshaping/transposes",
+        "url": "https://uvadlc-notebooks.readthedocs.io/en/latest/tutorial_notebooks/tutorial6/Transformers_and_MHAttention.html",
+        "title": "Tutorial 6: Transformers and Multi-Head Attention\u00b6"
+      },
+      {
+        "gap": "Explicit tensor shape walkthrough for scaled dot-product self-attention (Q, K, V, logits, attention weights, output) including batching and multi-head reshaping/transposes",
+        "url": "https://arxiv.org/html/2501.06425v3",
+        "title": "Tensor Product Attention Is All You Need"
+      },
+      {
+        "gap": "Explicit tensor shape walkthrough for scaled dot-product self-attention (Q, K, V, logits, attention weights, output) including batching and multi-head reshaping/transposes",
+        "url": "https://arxiv.org/html/1706.03762v7",
+        "title": "Attention Is All You Need"
+      },
+      {
+        "gap": "Explicit tensor shape walkthrough for scaled dot-product self-attention (Q, K, V, logits, attention weights, output) including batching and multi-head reshaping/transposes",
+        "url": "https://gist.github.com/ekreutz/160070126d5e2261a939c4ddf6afb642",
+        "title": "Dot-product and Multi-head attention implementation in Tensorflow 2"
+      },
+      {
+        "gap": "Explicit tensor shape walkthrough for scaled dot-product self-attention (Q, K, V, logits, attention weights, output) including batching and multi-head reshaping/transposes",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-2-attention-mechanism-core-concepts/practice-implementing-attention",
+        "title": "Practice: Implementing Scaled Dot-Product Attention"
+      },
+      {
+        "gap": "Attention matrix definition and interpretation with shapes (e.g., T\u00d7T per head) and how it multiplies V",
+        "url": "https://people.tamu.edu/~sji/classes/attn.pdf",
+        "title": "[PDF] A Mathematical View of Attention Models in Deep Learning"
+      },
+      {
+        "gap": "Attention matrix definition and interpretation with shapes (e.g., T\u00d7T per head) and how it multiplies V",
+        "url": "https://brandonrohrer.com/transformers.html",
+        "title": "Transformers from Scratch"
+      },
+      {
+        "gap": "Attention matrix definition and interpretation with shapes (e.g., T\u00d7T per head) and how it multiplies V",
+        "url": "https://storrs.io/attention/",
+        "title": "Explained: Multi-head Attention (Part 1) - Erik Storrs"
+      },
+      {
+        "gap": "Attention matrix definition and interpretation with shapes (e.g., T\u00d7T per head) and how it multiplies V",
+        "url": "https://en.wikipedia.org/wiki/Attention_(machine_learning)",
+        "title": "Attention (machine learning) - Wikipedia"
+      },
+      {
+        "gap": "Attention matrix definition and interpretation with shapes (e.g., T\u00d7T per head) and how it multiplies V",
+        "url": "https://blog.lambdaclass.com/efficient-attention-explained-the-math-behind-linear-time-transformers/",
+        "title": "Efficient attention explained: the math behind linear-time transformers"
+      },
+      {
+        "gap": "Softmax numerical stability in attention implementations (logit max-subtraction, masking strategy, handling -inf, fp16/bfloat16 stability)",
+        "url": "https://huggingface.co/papers/2309.14808",
+        "title": "Paper page - Revisiting Softmax Masking for Stability in Continual Learning"
+      },
+      {
+        "gap": "Softmax numerical stability in attention implementations (logit max-subtraction, masking strategy, handling -inf, fp16/bfloat16 stability)",
+        "url": "https://jarbus.net/blog/numerical-stability-in-flash-attention/",
+        "title": "Numerical Stability in Flash Attention - - jarbus"
+      },
+      {
+        "gap": "Softmax numerical stability in attention implementations (logit max-subtraction, masking strategy, handling -inf, fp16/bfloat16 stability)",
+        "url": "https://arxiv.org/html/2505.14201v1",
+        "title": "FLASH-D: FlashAttention with Hidden Softmax Division - arXiv"
+      },
+      {
+        "gap": "Softmax numerical stability in attention implementations (logit max-subtraction, masking strategy, handling -inf, fp16/bfloat16 stability)",
+        "url": "https://arxiv.org/html/2509.21936v1",
+        "title": "Statistical Advantage of Softmax Attention"
+      },
+      {
+        "gap": "Softmax numerical stability in attention implementations (logit max-subtraction, masking strategy, handling -inf, fp16/bfloat16 stability)",
+        "url": "https://haroldbenoit.com/notes/ml/llms/architecture/transformers/long-context-attention",
+        "title": "Long Context Attention - Harold Benoit"
+      }
+    ]
+  }
+]

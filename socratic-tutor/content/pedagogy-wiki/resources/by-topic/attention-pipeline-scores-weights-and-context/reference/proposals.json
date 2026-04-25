@@ -1,0 +1,258 @@
+[
+  {
+    "timestamp": "2026-04-11T19:20:21",
+    "run_label": "reference-track:Scaled Dot-Product Attention: Math and Implementation",
+    "sources": [
+      {
+        "url": "https://cseweb.ucsd.edu/~dasgupta/254-deep-ul/mehrab.pdf",
+        "title": "[PDF] Attention is all you need",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/1706.03762v7",
+        "title": "Attention Is All You Need - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://dev.to/samyak112/scaling-is-all-you-need-understanding-sqrtd-in-self-attention-29pk",
+        "title": "Scaling Is All You Need: Understanding sqrt(d\u2096) in Self-Attention",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Attention_Is_All_You_Need",
+        "title": "Attention Is All You Need - Wikipedia",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://outcomeschool.com/blog/scaling-dot-product-attention",
+        "title": "Math behind \u221ad\u2096 Scaling Factor in Attention",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/1706.03762v7",
+        "title": "Attention Is All You Need - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Attention_Is_All_You_Need",
+        "title": "Attention Is All You Need - Wikipedia",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-2-attention-mechanism-core-concepts/scaled-dot-product-attention",
+        "title": "Scaled Dot-Product Attention Explained - ApX Machine Learning",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://tensorgi.github.io/TPA/Tensor_Product_Attention.pdf",
+        "title": "[PDF] Tensor Product Attention Is All You Need - GitHub Pages",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://cseweb.ucsd.edu/~dasgupta/254-deep-ul/mehrab.pdf",
+        "title": "[PDF] Attention is all you need",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.scaled_dot_product_attention.html",
+        "title": "torch.nn.functional.scaled_dot_product_attention",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/tutorials/intermediate/scaled_dot_product_attention_tutorial.html",
+        "title": "(Beta) Implementing High-Performance Transformers with Scaled ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/2.9/generated/torch.nn.functional.scaled_dot_product_attention.html",
+        "title": "torch.nn.functional.scaled_dot_product_attention \u2014 PyTorch 2.9 ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.scaled_dot_product_attention",
+        "title": "torch.nn.functional.scaled_dot_product_attention \u2014 PyTorch 2. ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://pytorch.org/blog/out-of-the-box-acceleration/",
+        "title": "Out of the box acceleration and memory savings of decoder models ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.tensorflow.org/api_docs/python/tf/keras/layers/MultiHeadAttention",
+        "title": "Methods",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.tensorflow.org/versions/r2.13/api_docs/python/tf/keras/layers/MultiHeadAttention",
+        "title": "tf.keras.layers.MultiHeadAttention | TensorFlow v2.13.1",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.tensorflow.org/versions/r2.6/api_docs/python/tf/keras/layers/MultiHeadAttention",
+        "title": "tf.keras.layers.MultiHeadAttention | TensorFlow v2.6.0",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.tensorflow.org/versions/r2.5/api_docs/python/tf/keras/layers/MultiHeadAttention",
+        "title": "tf.keras.layers.MultiHeadAttention | TensorFlow v2.5.0",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.tensorflow.org/api_docs/python/tfm/nlp/layers/ReuseMultiHeadAttention",
+        "title": "Set_weights",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/pytorch/pytorch/issues/110144",
+        "title": "The masking matrix seems to be wrong in the \"torch.nn.functional.scaled_dot_product_attention\" function \u00b7 Issue #110144 \u00b7 pytorch/pytorch",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/pytorch/pytorch/issues/108108",
+        "title": "[BC BREAKING] Change default behavior of scaled_dot_product_attention's causal masking alignment \u00b7 Issue #108108 \u00b7 pytorch/pytorch",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/pytorch/pytorch/issues/104652",
+        "title": "F.scaled_dot_product_attention explanation code not working \u00b7 Issue #104652 \u00b7 pytorch/pytorch",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/pytorch/pytorch/commit/a3fafb75c4cb2f3627f487750966c64532aa48e1",
+        "title": "Add framework for addinng new attn_mask variants \u00b7 pytorch/pytorch@a3fafb7",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/pytorch/pytorch/issues/101531",
+        "title": "torch.nn.functional.scaled_dot_product_attention() : support both attn_mask and is_causal \u00b7 Issue #101531 \u00b7 pytorch/pytorch",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/Dao-AILab/flash-attention/issues/351",
+        "title": "Causal masking with past \u00b7 Issue #351 \u00b7 Dao-AILab/flash-attention",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://arxiv.org/html/2410.01359v1",
+        "title": "FlashMask: Efficient and Rich Mask Extension of FlashAttention - arXiv",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://courses.cs.washington.edu/courses/cse599m/23sp/notes/flashattn.pdf",
+        "title": "[PDF] From Online Softmax to FlashAttention",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2505.14201",
+        "title": "[2505.14201] FLASH-D: FlashAttention with Hidden Softmax Division",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/HazyResearch/flash-attention/issues/17",
+        "title": "Masking + biasing \u00b7 Issue #17 \u00b7 Dao-AILab/flash-attention",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://community.deeplearning.ai/t/purpose-of-sqrt-dim-k-in-scaled-dot-product-attention/62880",
+        "title": "Purpose of sqrt(dim(k)) in Scaled dot product attention",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-2-attention-mechanism-core-concepts/scaled-dot-product-attention",
+        "title": "Scaled Dot-Product Attention Explained - ApX Machine Learning",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://outcomeschool.com/blog/scaling-dot-product-attention",
+        "title": "Math behind \u221ad\u2096 Scaling Factor in Attention",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/1706.03762v7",
+        "title": "Attention Is All You Need - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/scaled-dot-product-attention",
+        "title": "Scaled Dot-Product Attention - Emergent Mind",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/2407.08608",
+        "title": "FlashAttention-3: Fast and Accurate Attention with Asynchrony and ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://crfm.stanford.edu/2023/07/17/flash2.html",
+        "title": "FlashAttention-2: Faster Attention with Better Parallelism and Work ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2024/file/7ede97c3e082c6df10a8d6103a2eebd2-Paper-Conference.pdf",
+        "title": "[PDF] FlashAttention-3: Fast and Accurate Attention with Asynchrony and ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2407.08608v1",
+        "title": "FlashAttention-3: Fast and Accurate Attention with Asynchrony and ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://tridao.me/publications/flash3/flash3.pdf",
+        "title": "[PDF] FlashAttention-3: Fast and Accurate Attention with Asynchrony and ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/self-attention-constraints-and-pseudo-mask-strategies",
+        "title": "Self-Attention Constraints & Pseudo-Mask Strategies - Emergent Mind",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.studocu.com/de/document/technische-universitat-munchen/multimodal-deep-learning/multimodal-deep-learning-exercise-sheet-3-week-3-4/135047594",
+        "title": "Multimodal Deep Learning Exercise Sheet 3 (Week 3-4)",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://apxml.com/courses/introduction-to-transformer-models/chapter-3-transformer-encoder-decoder-architecture/masked-multi-head-attention",
+        "title": "Masked Multi-Head Self-Attention - ApX Machine Learning",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.vizuaranewsletter.com/p/why-do-we-need-masking-in-attention",
+        "title": "Why do we need \"masking\" in attention? - Vizuara's AI Newsletter",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://github.com/huggingface/transformers/issues/13555",
+        "title": "Mismatch of implementations of attention mask in transformers and tokenizers \u00b7 Issue #13555 \u00b7 huggingface/transformers",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.isztld.com/posts/online-softmax.html",
+        "title": "Online Softmax Demystified: From PyTorch to FlashAttention in Triton",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/flash-attention-in-low-precision-settings",
+        "title": "Flash Attention in Low-Precision Settings",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2603.02170v1",
+        "title": "SageBwd: A Trainable Low-bit Attention - arXiv.org",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://towardsai.net/p/machine-learning/accelerating-ai-a-deep-dive-into-flash-attention-and-its-impacts",
+        "title": "Accelerating AI: A Deep Dive into Flash Attention and Its Impacts",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://huggingface.co/blog/atharv6f/flash-attention-online-softmax",
+        "title": "Artifact 2.2b: FlashAttention \u2014 Online Softmax - Hugging Face",
+        "need_type": "COMPARISON_DATA"
+      }
+    ]
+  }
+]

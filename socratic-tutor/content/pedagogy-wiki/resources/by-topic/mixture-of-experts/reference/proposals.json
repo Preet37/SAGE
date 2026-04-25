@@ -1,0 +1,258 @@
+[
+  {
+    "timestamp": "2026-04-09T18:35:15",
+    "run_label": "reference-track:Mixture of Experts",
+    "sources": [
+      {
+        "url": "https://arxiv.org/pdf/2006.16668.pdf",
+        "title": "[PDF] GShard: Scaling Giant Models with Conditional Computation ... - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://intuitionlabs.ai/articles/mixture-of-experts-moe-models",
+        "title": "Understanding Mixture of Experts (MoE) Neural Networks",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12558867/",
+        "title": "Adaptive-expert-weight-based load balance scheme for dynamic ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://apxml.com/courses/mixture-of-experts-advanced-implementation/chapter-1-foundations-of-moe-models/load-balancing-auxiliary-losses",
+        "title": "MoE Load Balancing and Auxiliary Losses",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.giete.ma/blog/mixture-of-experts",
+        "title": "Mixture-of-Experts",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.cs.toronto.edu/~hinton/absps/Outrageously.pdf",
+        "title": "THE SPARSELY-GATED MIXTURE-OF-EXPERTS LAYER",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/1701.06538",
+        "title": "The Sparsely-Gated Mixture-of-Experts Layer - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://alastairreid.github.io/RelatedWork/papers/shazeer:arxiv:2017/",
+        "title": "The sparsely-gated mixture-of-experts layer \u2013 Related Work",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "http://cslt.org/mediawiki/images/f/f0/OUTRAGEOUSLYLARGENEURALNETWORKSTHESPARSELY-GATEDMIXTURE-OF-EXPERTSLAYER.pdf",
+        "title": "[PDF] THE SPARSELY-GATED MIXTURE-OF-EXPERTS LAYER",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.semanticscholar.org/paper/Outrageously-Large-Neural-Networks:-The-Layer-Shazeer-Mirhoseini/510e26733aaff585d65701b9f1be7ca9d5afc586",
+        "title": "[PDF] Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer | Semantic Scholar",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.youngju.dev/blog/ai-papers/2026-03-03-mixture-of-experts-architecture.en",
+        "title": "5. Load Balancing",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://devtechtools.org/en/blog/fine-tuning-mixtral-moe-router-z-loss-expert-parallelism",
+        "title": "Fine-tuning Mixtral 8x7B: Router Z-Loss and Expert Parallelism ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/papers/2401.04088",
+        "title": "Mixtral 8x7B: Sparse Experts Model",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2602.11686v1",
+        "title": "5. Experiments",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://artificial-intelligence-wiki.com/generative-ai/large-language-models/mixtral-moe-guide/",
+        "title": "Mixtral MoE Guide: 8x7B & 8x22B Models Explained | AI Wiki",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2405.04434v5",
+        "title": "DeepSeek-V2: A Strong, Economical, and Efficient Mixture-of ... - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2405.04434v2",
+        "title": "DeepSeek-V2: A Strong, Economical, and Efficient Mixture-of-Experts Language Model",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://it.scribd.com/document/822754314/DeepSeek-V2-Technical-Report",
+        "title": "DeepSeek V2 - Technical Report | PDF",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.chipstrat.com/p/deepseek-moe-and-v2",
+        "title": "DeepSeek MoE and V2 - by Austin Lyons - Chipstrat",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://creativestrategies.com/deepseek-moe-v2/",
+        "title": "DeepSeek MoE & V2 - Creative Strategies",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://deepspeed.readthedocs.io/en/latest/moe.html",
+        "title": "Mixture of Experts (MoE)",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://deepspeed.readthedocs.io/en/stable/_modules/deepspeed/moe/layer.html",
+        "title": "Source code for deepspeed.moe.layer",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.deepspeed.org.cn/en/latest/moe.html",
+        "title": "\u4e13\u5bb6\u6df7\u5408(MoE) - DeepSpeed \u6587\u6863",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/microsoft/DeepSpeed/blob/master/deepspeed/moe/layer.py",
+        "title": "DeepSpeed/deepspeed/moe/layer.py at master \u00b7 deepspeedai/DeepSpeed",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/deepspeedai/DeepSpeedExamples/blob/master/training/cifar/cifar10_deepspeed.py",
+        "title": "DeepSpeedExamples/training/cifar/cifar10_deepspeed.py at master \u00b7 deepspeedai/DeepSpeedExamples",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.nvidia.com/megatron-core/developer-guide/0.15.0/api-guide/moe.html",
+        "title": "Mixture of Experts package \u2014 Megatron Core - NVIDIA Docs Hub",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.nvidia.com/nemo/megatron-bridge/latest/parallelisms.html",
+        "title": "Parallelisms Guide \u2014 Megatron Bridge - NVIDIA Documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/NVIDIA/Megatron-LM/blob/main/megatron/core/transformer/moe/moe_layer.py",
+        "title": "Megatron-LM/megatron/core/transformer/moe/moe_layer.py at main \u00b7 NVIDIA/Megatron-LM",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/thu-ml/ReMoE/blob/main/megatron/core/transformer/moe/README.md",
+        "title": "ReMoE/megatron/core/transformer/moe/README.md at main \u00b7 thu-ml/ReMoE",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/LAION-AI/Megatron-LM-Open-Sci/blob/main/megatron/core/transformer/moe/README.md",
+        "title": "Megatron-LM-Open-Sci/megatron/core/transformer/moe/README.md at main \u00b7 LAION-AI/Megatron-LM-Open-Sci",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/deepspeedai/DeepSpeedExamples/blob/master/training/cifar/cifar10_deepspeed.py",
+        "title": "DeepSpeedExamples/training/cifar/cifar10_deepspeed.py at master \u00b7 deepspeedai/DeepSpeedExamples",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.deepspeed.ai/tutorials/mixture-of-experts-inference/",
+        "title": "Getting Started with DeepSpeed-MoE for Inferencing Large-Scale ...",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.deepspeed.ai/tutorials/mixture-of-experts/",
+        "title": "Mixture of Experts - DeepSpeed",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/deepspeedai/Megatron-DeepSpeed/blob/main/examples_deepspeed/MoE/ds_pretrain_gpt_1.3B_MoE128.sh",
+        "title": "Megatron-DeepSpeed/examples_deepspeed/MoE/ds_pretrain_gpt_1.3B_MoE128.sh at main \u00b7 deepspeedai/Megatron-DeepSpeed",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://deepspeed.readthedocs.io/en/latest/moe.html",
+        "title": "Mixture of Experts (MoE)",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://docs.nvidia.com/nemo/automodel/latest/guides/llm/pretraining.html",
+        "title": "Pretraining Megatron Core Datasets with NeMo AutoModel",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://docs.nvidia.com/nemo-framework/user-guide/24.07/playbooks/singlenodepretrain.html",
+        "title": "NeMo Framework Single Node Pre-training - NVIDIA Documentation",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/NVIDIA/NeMo/blob/main/nemo/collections/nlp/models/language_modeling/megatron_gpt_model.py",
+        "title": "NeMo/nemo/collections/nlp/models/language_modeling/megatron_gpt_model.py at main \u00b7 NVIDIA/NeMo",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/NVIDIA/NeMo/blob/main/examples/nlp/language_modeling/megatron_gpt_pretraining.py",
+        "title": "NeMo/examples/nlp/language_modeling/megatron_gpt_pretraining.py at main \u00b7 NVIDIA/NeMo",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/feifeibear/MoE-Megatron-LM",
+        "title": "GitHub - feifeibear/MoE-Megatron-LM",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://arxiv.org/html/2508.17467v1",
+        "title": "MoE-Inference-Bench: Performance Evaluation of Mixture of Expert Large Language and Vision Models - arXiv",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.arxiv.org/pdf/2508.17467.pdf",
+        "title": "[PDF] MoE-Inference-Bench: Performance Evaluation of Mixture of Expert ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://i.cs.hku.hk/~cwu/papers/mfliu-infocom25.pdf",
+        "title": "Optimizing Distributed Deployment of Mixture-of-Experts ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.alphaxiv.org/overview/2504.02263v4",
+        "title": "MegaScale-Infer: Serving Mixture-of-Experts at Scale with ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://bohrium.dp.tech/paper/arxiv/2410.17043",
+        "title": "Optimizing Mixture-of-Experts Inference Time Combining Model Deployment and Communication Scheduling",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://developer.nvidia.com/blog/achieving-high-mixtral-8x7b-performance-with-nvidia-h100-tensor-core-gpus-and-tensorrt-llm/",
+        "title": "Achieving High Mixtral 8x7B Performance with NVIDIA H100 Tensor ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.baseten.co/blog/faster-mixtral-inference-with-tensorrt-llm-and-quantization/",
+        "title": "Faster Mixtral inference with TensorRT-LLM and quantization",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://forums.pantherai.app/threads/nvidia-h100-gpus-and-tensorrt-llm-achieve-breakthrough-performance-for-mixtral-8x7b.580/",
+        "title": "NVIDIA H100 GPUs and TensorRT-LLM Achieve ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.baseten.co/blog/high-performance-ml-inference-with-nvidia-tensorrt/",
+        "title": "High performance ML inference with NVIDIA TensorRT - Baseten",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://forums.developer.nvidia.com/t/tensorrt-llm-reporting-negative-value-for-throughput-and-no-zero-for-inter-token-latency/297267",
+        "title": "TensorRT-LLM reporting negative value for throughput and no zero for inter token latency",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  }
+]

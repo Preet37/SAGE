@@ -1,0 +1,134 @@
+[
+  {
+    "file": "huggingface-co-blog-gaussian-splatting_001.png",
+    "source_url": "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/blog/124_ml-for-games/gaussian/triangle.png",
+    "source_page": "https://huggingface.co/blog/gaussian-splatting",
+    "source_author": "",
+    "alt": "",
+    "description": "A single rasterized triangle on screen, illustrating the concept of triangle rasterization in traditional computer graphics as an analogy for Gaussian splatting.",
+    "teaching_value": "Anchors the new concept of Gaussian splatting to the familiar concept of triangle rasterization, helping students understand that both are rasterization techniques differing only in primitive type.",
+    "concepts": [
+      "rasterization",
+      "triangle primitives",
+      "computer graphics pipeline"
+    ],
+    "when_to_show": "Show before introducing Gaussian splatting, when establishing the analogy between triangle rasterization and Gaussian rasterization.",
+    "suggested_caption": "Triangle rasterization: the classical primitive analogous to Gaussian splatting. (Source: HuggingFace Blog)",
+    "width": 1280,
+    "height": 720,
+    "aspect_ratio": 1.78,
+    "display_hint": "standard",
+    "file_size_kb": 23.3
+  },
+  {
+    "file": "huggingface-co-blog-gaussian-splatting_002.png",
+    "source_url": "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/blog/124_ml-for-games/gaussian/single-gaussian.png",
+    "source_page": "https://huggingface.co/blog/gaussian-splatting",
+    "source_author": "",
+    "alt": "",
+    "description": "A single 2D Gaussian splat rendered on screen with a visible border outline, showing its elliptical shape and soft opacity falloff from center to edge.",
+    "teaching_value": "Gives students a concrete visual of what one Gaussian primitive looks like when rasterized, making abstract mathematical descriptions tangible and showing key properties like shape and opacity gradient.",
+    "concepts": [
+      "Gaussian primitive",
+      "rasterization",
+      "opacity",
+      "2D projection of 3D Gaussian"
+    ],
+    "when_to_show": "Show immediately when introducing the Gaussian as the rendering primitive, before discussing its parameters, to ground the parameter discussion in a visible example.",
+    "suggested_caption": "A single rasterized Gaussian with border \u2014 the core rendering primitive. (Source: HuggingFace Blog)",
+    "width": 1280,
+    "height": 720,
+    "aspect_ratio": 1.78,
+    "display_hint": "standard",
+    "file_size_kb": 118.7
+  },
+  {
+    "file": "huggingface-co-blog-gaussian-splatting_003.png",
+    "source_url": "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/blog/124_ml-for-games/gaussian/three-gaussians.png",
+    "source_page": "https://huggingface.co/blog/gaussian-splatting",
+    "source_author": "",
+    "alt": "",
+    "description": "Three overlapping 2D Gaussian splats rendered together on screen, demonstrating how multiple Gaussians composite to form a combined image.",
+    "teaching_value": "Shows students how individual Gaussians combine through alpha compositing, illustrating that the final scene is built by layering many such primitives \u2014 a key step toward understanding large-scale scenes.",
+    "concepts": [
+      "alpha compositing",
+      "Gaussian blending",
+      "multi-primitive rendering",
+      "rasterization"
+    ],
+    "when_to_show": "Show after the single Gaussian image, when scaling up from one primitive to many, to bridge the gap between a single splat and a full scene.",
+    "suggested_caption": "Three composited Gaussians \u2014 building blocks of a full 3DGS scene. (Source: HuggingFace Blog)",
+    "width": 1280,
+    "height": 720,
+    "aspect_ratio": 1.78,
+    "display_hint": "standard",
+    "file_size_kb": 276.8
+  },
+  {
+    "file": "huggingface-co-blog-gaussian-splatting_004.png",
+    "source_url": "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/blog/124_ml-for-games/gaussian/bicycle.png",
+    "source_page": "https://huggingface.co/blog/gaussian-splatting",
+    "source_author": "",
+    "alt": "",
+    "description": "A photorealistic rendered image of a bicycle scene reconstructed using approximately 7 million fully opaque Gaussian splats, showing fine detail and scene complexity.",
+    "teaching_value": "Demonstrates the practical visual quality achievable with 3D Gaussian Splatting at scale, motivating why the technique is powerful and showing the end goal of the training procedure.",
+    "concepts": [
+      "3D Gaussian Splatting",
+      "scene reconstruction",
+      "novel view synthesis",
+      "scalability"
+    ],
+    "when_to_show": "Show when motivating the technique's quality and scale, after explaining individual Gaussians, to illustrate what millions of Gaussians can reconstruct.",
+    "suggested_caption": "7 million fully opaque Gaussians reconstruct a photorealistic bicycle scene. (Source: HuggingFace Blog)",
+    "width": 1196,
+    "height": 793,
+    "aspect_ratio": 1.51,
+    "display_hint": "standard",
+    "file_size_kb": 1746.4
+  },
+  {
+    "file": "huggingface-co-blog-gaussian-splatting_005.png",
+    "source_url": "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/blog/124_ml-for-games/gaussian/ellipsoids.png",
+    "source_page": "https://huggingface.co/blog/gaussian-splatting",
+    "source_author": "",
+    "alt": "",
+    "description": "A 3D visualization of ellipsoids in space, representing 3D Gaussians before projection, showing their varying sizes, orientations, and positions in the scene.",
+    "teaching_value": "Helps students visualize the 3D nature of Gaussian primitives \u2014 their covariance-defined ellipsoidal shape in 3D space \u2014 before they are projected (splatted) onto the 2D image plane.",
+    "concepts": [
+      "3D Gaussian covariance",
+      "ellipsoid representation",
+      "3D scene representation",
+      "projection to 2D"
+    ],
+    "when_to_show": "Show when explaining the 3D-to-2D projection step, to clarify that Gaussians exist as 3D ellipsoids that are then splatted onto the screen.",
+    "suggested_caption": "3D Gaussian ellipsoids in space before projection onto the image plane. (Source: HuggingFace Blog)",
+    "width": 1196,
+    "height": 795,
+    "aspect_ratio": 1.5,
+    "display_hint": "standard",
+    "file_size_kb": 2298.4
+  },
+  {
+    "file": "huggingface-co-blog-gaussian-splatting_006.png",
+    "source_url": "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/blog/124_ml-for-games/gaussian/points.png",
+    "source_page": "https://huggingface.co/blog/gaussian-splatting",
+    "source_author": "",
+    "alt": "",
+    "description": "A sparse 3D point cloud of a scene, as produced by Structure from Motion (SfM) using COLMAP, showing scattered colored points representing estimated 3D positions.",
+    "teaching_value": "Illustrates the initialization step of 3DGS training \u2014 students can see that the process starts from a sparse, noisy SfM point cloud, and each point becomes the seed for a Gaussian, clarifying why training is needed to improve quality.",
+    "concepts": [
+      "Structure from Motion (SfM)",
+      "point cloud",
+      "COLMAP",
+      "3DGS initialization",
+      "3D reconstruction"
+    ],
+    "when_to_show": "Show at the start of the training pipeline explanation, when describing how SfM output is converted into initial Gaussians before optimization begins.",
+    "suggested_caption": "SfM point cloud from COLMAP \u2014 the initialization for 3D Gaussian Splatting training. (Source: HuggingFace Blog)",
+    "width": 1196,
+    "height": 792,
+    "aspect_ratio": 1.51,
+    "display_hint": "standard",
+    "file_size_kb": 284.6
+  }
+]

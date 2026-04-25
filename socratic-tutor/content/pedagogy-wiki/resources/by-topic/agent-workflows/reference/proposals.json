@@ -1,0 +1,946 @@
+[
+  {
+    "timestamp": "2026-04-09T18:39:37",
+    "run_label": "reference-track:Agent Workflows and Patterns",
+    "sources": [
+      {
+        "url": "https://docs.temporal.io/encyclopedia/detecting-activity-failures",
+        "title": "Detecting Activity failures | Temporal Platform Documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.temporal.io/encyclopedia/retry-policies",
+        "title": "What is a Temporal Retry Policy?",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.temporal.io/activity-operations",
+        "title": "Activity Operations | Temporal Platform Documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.temporal.io/develop/python/best-practices/error-handling",
+        "title": "Error handling - Python SDK | Temporal Platform Documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.temporal.io/develop/java/failure-detection",
+        "title": "Failure detection - Java SDK | Temporal Platform Documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.dagster.io/guides/operate/managing-concurrency/run-executor-limits",
+        "title": "Run executor limits - Dagster Docs",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.dagster.io/guides/build/ops/op-retries",
+        "title": "Op retries - Dagster Docs",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.dagster.io/deployment/dagster-plus/deploying-code/full-deployments/full-deployment-settings-reference",
+        "title": "Run retries",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.dagster.io/examples/best-practices/partition-backfill-strategies",
+        "title": "Solution 3: Single Run\u200b",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.dagster.io/guides/build/jobs/job-execution",
+        "title": "Executing jobs - Dagster Docs",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.temporal.io/encyclopedia/event-history/event-history-go",
+        "title": "Event History walkthrough with the Go SDK - Temporal Docs",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://community.temporal.io/t/determinism-daily-task-where-data-changes-daily-how-to-handle-resumption-of-a-workflow/4589",
+        "title": "Determinism: Daily task where data changes daily, how to ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.bitovi.com/blog/replay-testing-to-avoid-non-determinism-in-temporal-workflows",
+        "title": "Replay Testing To Avoid Non-Determinism in Temporal Workflows",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.mintlify.com/temporalio/temporal/architecture/event-sourcing",
+        "title": "Event Sourcing Implementation - Temporal Server - Mintlify",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=XephqQtwPEE",
+        "title": "The Inner Workings of Temporal SDKs | Replay 2024",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2602.23193v1",
+        "title": "ESAA: Event Sourcing for Autonomous Agents in LLM-Based ... - arXiv",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://tu-dresden.de/ing/informatik/ressourcen/dateien/postgraduales/archiv/b69208f9673132d299a79f487fd39a42.pdf?lang=en",
+        "title": "Minimizing Overhead for Fault Tolerance in",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://mdbond.github.io/roctet-tr.pdf",
+        "title": "[PDF] Efficient Deterministic Replay of Multithreaded Programs Based on ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www2.eecs.berkeley.edu/Pubs/TechRpts/2007/EECS-2007-133.pdf",
+        "title": "[PDF] Event Execution with Fault Tolerance - EECS at Berkeley",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "http://charm.cs.illinois.edu/newPapers/14-21/paper.pdf",
+        "title": "Scalable Replay with Partial-Order Dependencies for ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2507.21504v1",
+        "title": "Evaluation and Benchmarking of LLM Agents: A Survey",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2603.22651v1",
+        "title": "Benchmarking Multi-Agent LLM Architectures for Financial ... - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.catalyzex.com/paper/benchmarking-multi-agent-llm-architectures",
+        "title": "Benchmarking Multi-Agent LLM Architectures for Financial ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://guidesfor.dev/applied-agentic-ai-2026-guide/cost-latency-optimization/",
+        "title": "Chapter 11: Cost, Latency & Optimization for AI Solutions - AI VOID",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://softcery.com/lab/ai-agent-llm-selection",
+        "title": "Choosing LLMs for AI Agents: Cost, Latency, Intelligence Tradeoffs",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2511.20048v1",
+        "title": "Reducing Latency of LLM Search Agent via Speculation ... - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://nicsefc.ee.tsinghua.edu.cn/nics_file/pdf/66ef348c-c150-46d7-b2fc-c6f2afb217a5.pdf",
+        "title": "[PDF] Reducing Latency of LLM Search Agent via Speculation-based ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2510.04371v1",
+        "title": "Speculative Actions: A Lossless Framework for Faster Agentic Systems",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://hyper.ai/en/papers/2603.23483",
+        "title": "SpecEyes: Accelerating Agentic Multimodal LLMs via Speculative ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://developer.nvidia.com/blog/an-introduction-to-speculative-decoding-for-reducing-latency-in-ai-inference/",
+        "title": "An Introduction to Speculative Decoding for Reducing Latency in AI Inference",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://engineering.freeagent.com/2025/05/29/decoding-data-orchestration-tools-comparing-prefect-dagster-airflow-and-mage/",
+        "title": "Dagster",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.zenml.io/blog/temporal-vs-airflow",
+        "title": "Temporal vs Airflow: Which Orchestrator Fits Your Workflows? - ZenML",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.prefect.io/blog/orchestration-tools-choose-the-right-tool-for-the-job",
+        "title": "Orchestration Tools: Choose the Right Tool for the Job - Prefect",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://dagster.io/vs/dagster-vs-prefect",
+        "title": "Dagster vs Prefect: Compare Modern Orchestration Tools",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.windmill.dev/blog/airflow-alternatives",
+        "title": "8 Alternatives to Airflow - Use Cases - Windmill",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://wpemaillog.com/2026/03/25/6-backend-workflow-engines-comparable-to-temporal-for-distributed-job-execution/",
+        "title": "6 Backend Workflow Engines Comparable to Temporal for Distributed Job Execution",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.val.town/x/nbbaier/wrkflw/branch/main/version/74/code/workflow-engines-research-report.md",
+        "title": "Code-First Workflow Engines: Architectural Patterns and Design ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.val.town/x/nbbaier/wrkflw/branch/main/version/50/code/workflow-engines-research-report.md",
+        "title": "Code-First Workflow Engines: Architectural Patterns and ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.zenml.io/blog/temporal-vs-airflow",
+        "title": "Temporal vs Airflow: Which Orchestrator Fits Your Workflows? - ZenML",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://datavidhya.com/blog/airflow-vs-dagster-vs-prefect/",
+        "title": "Airflow vs Dagster vs Prefect \u2014 Which Orchestrator Should You Use ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=LrIPSfQ3qCo",
+        "title": "OpenTelemetry Tracing for LLM Apps: Find Latency Hotspots with Jaeger in Python",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://signoz.io/blog/langchain-observability-with-opentelemetry/",
+        "title": "LangChain Observability: How to Monitor LLM Apps with ... - SigNoz",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://uptrace.dev/blog/opentelemetry-ai-systems",
+        "title": "Metrics For Ai Workloads",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://newsletter.signoz.io/p/langchain-observability-how-to-monitor",
+        "title": "How to Monitor LLM Apps with OpenTelemetry (With Demo App)",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://dev.to/vola-trebla/opentelemetry-just-standardized-llm-tracing-heres-what-it-actually-looks-like-in-code-2e5f",
+        "title": "OpenTelemetry just standardized LLM tracing. Here's what it actually ...",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-10T19:16:38",
+    "run_label": "reference-track:Agent Planning: How Agents Decide What to Do Next",
+    "sources": [
+      {
+        "url": "https://web.stanford.edu/class/psych209/Readings/SuttonBartoIPRLBook2ndEd.pdf",
+        "title": "Reinforcement Learning: An Introduction",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.andrew.cmu.edu/course/10-703/textbook/BartoSutton.pdf",
+        "title": "Reinforcement",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://web.stanford.edu/class/psych209/Readings/SuttonBartoRL.pdf",
+        "title": "i",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://studylib.net/doc/28181066/sutton-and-barto---reinforcement-learning",
+        "title": "Reinforcement Learning: An Introduction - Sutton & Barto",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://dn790002.ca.archive.org/0/items/ReinforcementLearningAnIntroductionRichardS.SuttonAndAndrewG.Barto/Reinforcement%20Learning%20An%20Introduction,%20Richard%20S.%20Sutton%20and%20Andrew%20G.%20Barto_djvu.txt",
+        "title": "Reinforcement%20Learning%20An%20Introduction,%20Richard%20S.%20Sutton%20and%20Andrew%20G.%20Barto_djvu.txt",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://people.csail.mit.edu/lpk/papers/aij98-pomdp.pdf",
+        "title": "[PDF] Planning and acting in partially observable stochastic domains",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.st.ewi.tudelft.nl/mtjspaan/pub/Spaan12pomdp.pdf",
+        "title": "[PDF] Partially Observable Markov Decision Processes",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Partially_observable_Markov_decision_process",
+        "title": "Partially observable Markov decision process - Wikipedia",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://users.cecs.anu.edu.au/~daa/files/papers/pomdpreview.pdf",
+        "title": "A (Revised) Survey of Approximate Methods for Solving ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.cs.mcgill.ca/~jpineau/files/jpineau-tr-05-4.pdf",
+        "title": "Point-based approximations for fast POMDP solving",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://aclanthology.org/2025.emnlp-industry.149.pdf",
+        "title": "[PDF] VESTABENCH: An Embodied Benchmark for Safe Long-Horizon ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper/2021/file/cf708fc1decf0337aded484f8f4519ae-Supplemental.pdf",
+        "title": "[PDF] Supplementary Material for: Planning from Pixels in Environments ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2503.08084v1",
+        "title": "Instruction-Augmented Long-Horizon Planning",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://ar5iv.labs.arxiv.org/html/2010.03768",
+        "title": "ALFWorld: Aligning Text and Embodied Environments for Interactive Learning",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://axi.lims.ac.uk/paper/2010.03768",
+        "title": "ALFWorld: Aligning Text and Embodied Env...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2601.03550v1",
+        "title": "ReEfBench: Quantifying the Reasoning Efficiency of LLMs - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.wizwand.com/dataset/webshop",
+        "title": "SOTA benchmarks on Webshop and PapersWithCode | Wizwand",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/papers/2210.03629",
+        "title": "ReAct: Integrating Reasoning & Action in LLMs - Emergent Mind",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://ysymyth.github.io/papers/react_llm.pdf",
+        "title": "REACT: SYNERGIZING REASONING AND ACTING IN",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.wollenlabs.com/blog-posts/navigating-modern-llm-agent-architectures-multi-agents-plan-and-execute-rewoo-tree-of-thoughts-and-react",
+        "title": "Navigating Modern LLM Agent Architectures - Wollen Labs",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://dev.to/jamesli/react-vs-plan-and-execute-a-practical-comparison-of-llm-agent-patterns-4gh9",
+        "title": "ReAct vs Plan-and-Execute: A Practical Comparison of LLM Agent ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2504.16563v2",
+        "title": "Enhancing LLM-Based Agents via Global Planning and ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://14480429601130603695.googlegroups.com/attach/82148ddb6c5ee/Understanding%20the%20planning%20of%20LLM%20agents%20A%20survey.pdf?part=0.1&vt=ANaJVrFboAUNkdJ9J17tSWhDUU-unNcFt0bwpcAY-Yn-s_-RFtkBh7KZc29nAC8wu6_nxNtBiLgV65-ucqePbB32z8lQH8B9dQ0GJT1p_nPPwg6Kz-64MBk",
+        "title": "Understanding the planning of LLM agents: A survey",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/papers/2402.02716",
+        "title": "LLM Agent Planning Survey",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://github.com/xinzhel/LLM-Agent-Survey",
+        "title": "Survey on LLM Agents (Published on CoLing 2025) - GitHub",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2505.15182v2",
+        "title": "ReflAct: World-Grounded Decision Making in LLM Agents ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2025.emnlp-main.1697.pdf",
+        "title": "[PDF] ReflAct: World-Grounded Decision Making in LLM Agents via Goal ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://platform.openai.com/docs/assistants/whats-new",
+        "title": "What's new in Assistants API Beta - OpenAI Platform",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/function-calling?api-mode=chat",
+        "title": "Function Calling - OpenAI Platform",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/assistants/how-it-works",
+        "title": "Assistants migration guide - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/function-calling?lang=python",
+        "title": "Tool calling",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/structured-outputs?api-mode=chat",
+        "title": "Structured Outputs - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.anthropic.com/fr/docs/agents-and-tools/tool-use/fine-grained-tool-streaming",
+        "title": "Streaming d'outils \u00e0 granularit\u00e9 fine - Anthropic",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.anthropic.com/ru/docs/agents-and-tools/tool-use/fine-grained-tool-streaming",
+        "title": "\u0414\u0435\u0442\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u0430\u044f \u043f\u043e\u0442\u043e\u043a\u043e\u0432\u0430\u044f \u043f\u0435\u0440\u0435\u0434\u0430\u0447\u0430 \u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u043e\u0432 - Anthropic",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.anthropic.com/zh-CN/docs/agents-and-tools/tool-use/fine-grained-tool-streaming",
+        "title": "\u7ec6\u7c92\u5ea6\u5de5\u5177\u6d41\u5f0f\u4f20\u8f93 - Anthropic",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.anthropic.com/id/docs/agents-and-tools/tool-use/fine-grained-tool-streaming",
+        "title": "Streaming tool berbutir halus",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.anthropic.com/zh-CN/docs/tool-use",
+        "title": "\u5de5\u5177\u4f7f\u7528\uff08\u51fd\u6570\u8c03\u7528\uff09 - Anthropic",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.hockeystack.com/applied-ai/optimizing-latency-and-cost-in-multi-agent-systems",
+        "title": "Optimizing Latency and Cost in Multi-Agent Systems",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/html/2511.14136v1",
+        "title": "A Multi-Dimensional Framework for Evaluating Enterprise Agentic AI ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2601.02663v1",
+        "title": "When Do Tools and Planning Help LLMs Think? A Cost - arXiv",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.augmentcode.com/guides/ai-agent-loop-token-cost-context-constraints",
+        "title": "AI Agent Loop Token Costs: How to Constrain Context",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.testingxperts.com/blog/ai-agent-evaluation/",
+        "title": "Designing Ai Agents With...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://docs.langchain.com/oss/javascript/langgraph/durable-execution",
+        "title": "Durable execution - Docs by LangChain",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://aerospike.com/blog/langgraph-production-latency-replay-scale",
+        "title": "LangGraph in Production: Latency, Replay, and Scale | Aerospike",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://ubiai.tools/building-observable-and-reliable-ai-agents-using-langgraph-langsmith-and-ubiai/",
+        "title": "Building Observable and Reliable AI Agents Using LangGraph ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=BYVR54yuQL8",
+        "title": "Durable Execution with LangGraph Tasks - Part 1/3",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-10T19:28:00",
+    "run_label": "reference-track:Multi-Agent Architectures: Supervisors and Subgraphs",
+    "sources": [
+      {
+        "url": "http://incompleteideas.net/papers/SPS-98.pdf",
+        "title": "Between MDPs and Semi-MDPs: Learning, Planning, and ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://web.cs.umass.edu/publication/docs/1998/UM-CS-1998-074.pdf",
+        "title": "UM-CS-1998-074.pdf",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://all.cs.umass.edu/pubs/1999/sutton_ps_AI99.pdf",
+        "title": "PII: S0004-3702(99)00052-1",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://dsai.iitm.ac.in/~ravi/papers/sutton_spr_NIPS99.pdf",
+        "title": "In Advances in Neural Information Processing Systems 11 (Proceedings of NIPS\u201998), pp.",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.cs.swarthmore.edu/~meeden/DevelopmentalRobotics/suttonOptions.pdf",
+        "title": "Between MDPs and Semi-MDPs:",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v232/steccanella23a/steccanella23a.pdf",
+        "title": "hierarchical representation learning for markov decision ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v139/araki21a/araki21a.pdf",
+        "title": "The Logical Options Framework",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://danmackinlay.name/notebook/reinforcement_learning_hierarchical.html",
+        "title": "Hierarchical reinforcement learning - Dan MacKinlay",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1807.11150.pdf",
+        "title": "Learning to Interrupt: A Hierarchical Deep Reinforcement ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "http://arxiv.org/pdf/1807.11150.pdf",
+        "title": "Learning to Interrupt: A Hierarchical Deep Reinforcement Learning",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2601.10560v1",
+        "title": "Learning Latency-Aware Orchestration for Parallel Multi-Agent ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.aviso.com/blog/how-to-evaluate-ai-agents-latency-cost-safety-roi",
+        "title": "How to Evaluate AI Agents: Latency, Cost, Safety, ROI | Aviso Blog",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://research.aimultiple.com/agentic-orchestration/",
+        "title": "Agentic orchestration...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.onabout.ai/p/mastering-multi-agent-orchestration-architectures-patterns-roi-benchmarks-for-2025-2026",
+        "title": "Multi-Agent AI Orchestration: Enterprise Strategy for 2025-2026",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2601.10560.pdf",
+        "title": "[PDF] Learning Latency-Aware Orchestration for Parallel Multi-Agent ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.arxiv.org/pdf/2602.16873.pdf",
+        "title": "[PDF] Task-Adaptive Multi-Agent Orchestration in the Era of LLM ... - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2508.04903v3",
+        "title": "Efficient Role-Aware Context Routing for Multi-Agent LLM ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2025.acl-long.757.pdf",
+        "title": "[PDF] MasRouter: Learning to Route LLMs for Multi-Agent System",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://ceur-ws.org/Vol-4178/paper11.pdf",
+        "title": "[PDF] iCARE: Ontology-Guided Intent Routing for Multi-Agent LLM-Based ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://docs.langchain.com/oss/python/langchain/multi-agent/router",
+        "title": "Router - Docs by LangChain",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://openai.github.io/openai-agents-python/ref/handoffs/",
+        "title": "Handoffs - OpenAI Agents SDK",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://openai.github.io/openai-agents-python/ref/agent/",
+        "title": "OpenAI Agents SDK",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://openai.github.io/openai-agents-python/ref/models/openai_responses/",
+        "title": "OpenAI Responses model - OpenAI Agents SDK",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://openai.github.io/openai-agents-python/examples/",
+        "title": "Examples",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/issues/5639",
+        "title": "Confusing/unexpected checkpointing behaviour with subgraphs \u00b7 Issue #5639 \u00b7 langchain-ai/langgraph",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/issues/3206",
+        "title": "Subgraph checkpointer=True causes subgraph to be skipped",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/issues/3088",
+        "title": "Subgraph `checkpointer=True` does not work for async invoke \u00b7 Issue #3088 \u00b7 langchain-ai/langgraph",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/2759",
+        "title": "langgraph/how-tos/subgraph-persistence/ #2759",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/1728",
+        "title": "langgraph/how-tos/subgraphs-manage-state/ #1728",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://microsoft.github.io/autogen/dev/user-guide/core-user-guide/design-patterns/group-chat.html",
+        "title": "Group Chat Manager#",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://microsoft.github.io/autogen/stable/user-guide/core-user-guide/design-patterns/group-chat.html",
+        "title": "microsoft.github.io \u203a stable \u203a user-guide \u203a core-user-guide \u203a design-patterns",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://docs.ag2.ai/latest/docs/api-reference/autogen/GroupChat/",
+        "title": "GroupChat - AG2",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=oOqeOspJL0o",
+        "title": "Multi Agent AutoGen and Group Chat implementations step by step walkthrough",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://docs.ag2.ai/0.8.7/docs/api-reference/autogen/GroupChatManager/",
+        "title": "pop_context",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2601.10560",
+        "title": "Learning Latency-Aware Orchestration for Parallel Multi-Agent ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2508.01635.pdf",
+        "title": "[PDF] Learning Unified System Representations for Microservice Tail ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://jisem-journal.com/index.php/journal/article/download/13473/6334/22797",
+        "title": "[PDF] A Control-Theoretic Approach to P95/P99 Latency",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.php.cn/faq/1796821783.html",
+        "title": "From 10s to 2s: Complete p95 Latency Reduction Roadmap-AI-php.cn",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.agentpatterns.tech/en/anti-patterns/multi-agent-overkill",
+        "title": "Correct Approach",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://developer.nvidia.com/blog/how-to-scale-your-langgraph-agents-in-production-from-a-single-user-to-1000-coworkers/",
+        "title": "How to Scale Your LangGraph Agents in Production From A Single User to 1,000 Coworkers",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.advancinganalytics.co.uk/blog/tracing-and-evaluating-langgraph-ai-agents-with-mlflow",
+        "title": "Tracing and Evaluating LangGraph AI Agents with MLflow",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://langfuse.com/guides/cookbook/example_langgraph_agents",
+        "title": "Example - Trace and Evaluate LangGraph Agents - Langfuse",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://sparkco.ai/blog/enterprise-blueprint-for-langgraph-deployment",
+        "title": "Enterprise Blueprint for LangGraph Deployment - Sparkco",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://ubiai.tools/building-observable-and-reliable-ai-agents-using-langgraph-langsmith-and-ubiai/",
+        "title": "Building Observable and Reliable AI Agents Using LangGraph ...",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-10T19:40:45",
+    "run_label": "reference-track:Comparing Agentic Frameworks: LangGraph, AutoGen, CrewAI, and OpenAI Assistants",
+    "sources": [
+      {
+        "url": "https://platform.openai.com/docs/api-reference/responses-streaming",
+        "title": "Streaming events | OpenAI API Reference",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/responses/list?lang=python",
+        "title": "Responses | OpenAI API Reference",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/responses",
+        "title": "Responses | OpenAI API Reference",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/streaming",
+        "title": "Streaming support",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/assistants-streaming/events",
+        "title": "API Reference - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://openai.github.io/openai-agents-python/ref/run/",
+        "title": "RunConfig",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://openai.github.io/openai-agents-python/sessions/",
+        "title": "Built-in session implementations",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://openai.github.io/openai-agents-python/ref/memory/",
+        "title": "Memory - OpenAI Agents SDK",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://openai.github.io/openai-agents-python/ref/memory/session/",
+        "title": "Session - OpenAI Agents SDK",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://openai.github.io/openai-agents-python/ref/run_config/",
+        "title": "Run Config - OpenAI Agents SDK",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.truefoundry.com/blog/autogen-vs-langgraph",
+        "title": "AutoGen vs LangGraph: Comparing Multi-Agent AI Frameworks",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://hub.stabilarity.com/agent-orchestration-frameworks-langchain-autogen-crewai-compared/",
+        "title": "Agent Orchestration Frameworks \u2014 LangChain, AutoGen, CrewAI ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://agent-harness.ai/blog/agentic-ai-frameworks-2026-langgraph-vs-crewai-vs-autogen-vs-openai-symphony/",
+        "title": "Agentic AI Frameworks 2026: LangGraph vs CrewAI vs AutoGen vs ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://ijsart.com/public/storage/paper/pdf_2/IJSARTV11I11104303.pdf",
+        "title": "A Comparative Study of Cerwai, AutoGen, LangGraph, and ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://sparkco.ai/blog/langgraph-vs-crewai-vs-autogen-2025-production-showdown",
+        "title": "LangGraph vs CrewAI vs AutoGen: 2025 Production ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://docs.crewai.com/en/observability/patronus-evaluation",
+        "title": "Patronus AI Evaluation - CrewAI Documentation",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://community.crewai.com/t/issues-with-complex-crew-architexture-tool-calling-memory-running-in-air-gapped-environments/5657",
+        "title": "Issues with complex crew architexture, tool calling / memory ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aixplain.com/blog/math-solving-agent-aixplain-vs-crewai-vs-autogen/",
+        "title": "Math-Solving Agent: aiXplain vs. CrewAI vs. AutoGen",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.applied-ai.com/newsletter/issue-11-2025-11-13/",
+        "title": "Framework Shootout: What Actually Matters - Applied AI",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://theagenticleaderboard.com/agent/crewai/",
+        "title": "crewAI Benchmark Score & Performance - The Agentic Leaderboard",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.datacamp.com/tutorial/crewai-vs-langgraph-vs-autogen",
+        "title": "Langgraph Framework Deep...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://ideatomvp.ai/en/blog/crewai-vs-langgraph-vs-autogen-2026",
+        "title": "CrewAI vs LangGraph vs AutoGen: Which Multi-Agent Framework to ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.datacamp.com/de/tutorial/crewai-vs-langgraph-vs-autogen",
+        "title": "CrewAI vs LangGraph vs AutoGen: Choosing the Right Multi ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://localaimaster.com/blog/ai-agent-frameworks-comparison",
+        "title": "CrewAI vs LangGraph vs AutoGen: AI Agent Frameworks (2026)",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://lushbinary.com/blog/langgraph-vs-crewai-vs-autogen-ai-agent-framework-comparison/",
+        "title": "LangGraph vs CrewAI vs AutoGen: Agent Framework Comparison",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://dev.to/pockit_tools/langgraph-vs-crewai-vs-autogen-the-complete-multi-agent-ai-orchestration-guide-for-2026-2d63",
+        "title": "LangGraph vs CrewAI vs AutoGen: The Complete Multi-Agent AI Orchestration Guide for 2026",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://zylos.ai/research/2026-01-12-ai-agent-orchestration-frameworks",
+        "title": "AI Agent Orchestration Frameworks: LangGraph, CrewAI, AutoGen ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://iterathon.tech/blog/ai-agent-orchestration-frameworks-2026",
+        "title": "Agent Orchestration 2026: LangGraph, CrewAI & AutoGen Guide",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.turing.com/resources/ai-agent-frameworks",
+        "title": "AI Agent Frameworks: A Detailed Comparison",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://langfuse.com/blog/2025-03-19-ai-agent-comparison",
+        "title": "Comparing Open-Source AI Agent Frameworks - Langfuse",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/2290",
+        "title": "langgraph/concepts/human_in_the_loop/ #2290",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraphjs/issues/1308",
+        "title": "Human-in-the-loop Resume Not Working in LangGraph JS ... - GitHub",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/4730",
+        "title": "State Update After Interrupt Not Reaching Subgraph Node on Resume",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langchainjs/issues/8099",
+        "title": "Human-in-the-loop Resume Not Working in LangGraph JS with Checkpoint \u00b7 Issue #1308 \u00b7 langchain-ai/langgraphjs",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/blob/main/docs/docs/concepts/breakpoints.md",
+        "title": "langgraph/docs/docs/concepts/breakpoints.md at main \u00b7 langchain-ai/langgraph",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/microsoft/autogen/discussions/4488",
+        "title": "Can We Use Tools with GroupChat? \u00b7 microsoft autogen \u00b7 Discussion #4488",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/microsoft/autogen/issues/4112",
+        "title": "Tutorial Chapter for `SelectorGroupChat` \u00b7 Issue #4112",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/GURPREETKAURJETHRA/AI-Agents/blob/main/Autogen_groupchat_RAG.ipynb",
+        "title": "AI-Agents/Autogen_groupchat_RAG.ipynb at main \u00b7 GURPREETKAURJETHRA/AI-Agents",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/microsoft/autogen/blob/main/dotnet/src/AutoGen.Core/GroupChat/GroupChat.cs/",
+        "title": "autogen/dotnet/src/AutoGen.Core/GroupChat/GroupChat.cs at main \u00b7 microsoft/autogen",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/microsoft/promptflow/blob/main/examples/tutorials/tracing/autogen-groupchat/trace-autogen-groupchat.ipynb",
+        "title": "promptflow/examples/tutorials/tracing/autogen-groupchat/trace-autogen-groupchat.ipynb at main \u00b7 microsoft/promptflow",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.athousandnodes.com/posts/scaling-langgraph-production",
+        "title": "Scaling AI Workflows using LangGraph | A thousand nodes",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://sparkco.ai/blog/mastering-langgraph-checkpointing-best-practices-for-2025",
+        "title": "Mastering LangGraph Checkpointing: Best Practices for 2025",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://docs.langchain.com/oss/javascript/langgraph/persistence",
+        "title": "Persistence - Docs by LangChain",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://zalt.me/blog/2025/12/checkpoint-ledger-langgraph",
+        "title": "The Checkpoint Ledger Behind LangGraph | zalt.me",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.techbuddies.io/2026/04/09/case-study-building-production-ai-agents-with-langchain-vs-autogen-real-results-in-2026/",
+        "title": "Results",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://sparkco.ai/blog/ai-agent-frameworks-compared-langchain-autogen-crewai-and-openclaw-in-2026",
+        "title": "LangChain vs AutoGen vs CrewAI vs OpenClaw",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://f3fundit.com/multi-agent-orchestration-frameworks-compared-autogen-vs-crewai-vs-agentops-2026/",
+        "title": "AutoGen vs CrewAI vs AgentOps (2026) - F\u00b3 Fund It",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.leanware.co/insights/autogen-vs-langchain",
+        "title": "AutoGen vs LangChain: Key Differences, Features & Use Cases",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://aixplain.com/blog/math-solving-agent-aixplain-vs-crewai-vs-autogen/",
+        "title": "Math-Solving Agent: aiXplain vs. CrewAI vs. AutoGen",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  }
+]

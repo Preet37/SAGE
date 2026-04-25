@@ -1,0 +1,258 @@
+[
+  {
+    "timestamp": "2026-04-09T16:33:45",
+    "run_label": "reference-track:Robot Manipulation",
+    "sources": [
+      {
+        "url": "https://gaoyichao.com/Xiaotu/papers/2008%20-%20Rigid%20body%20dynamics%20algorithms.pdf",
+        "title": "[PDF] Rigid Body Dynamics Algorithms",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://foswiki.cs.rpi.edu/foswiki/pub/RoboticsWeb/LabPublications/BATjcnd09.pdf",
+        "title": "ASME_JournalTemplate.dvi",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2602.04522v1",
+        "title": "A Unified Complementarity-based Approach for Rigid-Body ... - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://github.com/create3000/titania/blob/master/Papers/%5B2008%20Featherstone%5D%20Rigid%20Body%20Dynamics%20Algorithms.pdf",
+        "title": "titania/Papers/[2008 Featherstone] Rigid Body Dynamics Algorithms.pdf at master \u00b7 create3000/titania",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://download.e-bookshelf.de/download/0000/0022/29/L-G-0000002229-0002340138.pdf",
+        "title": "Rigid Body Dynamics",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://sites.pitt.edu/~gdhart/AniMiHa03.pdf",
+        "title": "[PDF] DETC03/VIB**** - University of Pittsburgh",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.cse.lehigh.edu/~trink/Papers/STKPicra04.pdf",
+        "title": "Design of Part Feeding and Assembly Processes with ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=21f3f7cc0e15d14dfbf7087e775213206166435c",
+        "title": "Contact Handling for Articulated Rigid Bodies Using",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=b0fbafb7147dc5247807a97f2eda23b49f0ad3db",
+        "title": "Constraint Stabilization for Time-Stepping Approaches for Rigid Multibody Dynamics With Joints, Contact, and Friction",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://web.cels.anl.gov/~anitescu/Presentations/2003/mihaiICIAMJul03.pdf",
+        "title": "slidesiciam.dvi",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2412.13211v3",
+        "title": "ManiSkill-HAB: A Benchmark for Low-Level Manipulation in ... - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2412.13211v1",
+        "title": "ManiSkill-HAB: A Benchmark for Low-Level Manipulation ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://par.nsf.gov/servlets/purl/10347852",
+        "title": "[PDF] ManiSkill: Generalizable Manipulation Skill Benchmark with Large ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.iclr.cc/paper_files/paper/2025/file/27aa3a0e6d63db269977bb2df5607cb8-Paper-Conference.pdf",
+        "title": "[PDF] MANISKILL-HAB: A BENCHMARK FOR LOW-LEVEL ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/haosulab/ManiSkill/tree/main/docs/source/user_guide/additional_resources/benchmarking_results",
+        "title": "ManiSkill/docs/source/user_guide/additional_resources/benchmarking_results at main \u00b7 haosulab/ManiSkill",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/rlbench",
+        "title": "RLBench: Robot Learning Benchmark - Emergent Mind",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://diffusion-policy.cs.columbia.edu/diffusion_policy_ijrr.pdf",
+        "title": "[PDF] Visuomotor Policy Learning via Action Diffusion",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://diffusion-policy.cs.columbia.edu",
+        "title": "Diffusion Policy",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2505.09430v1",
+        "title": "Train a Multi-Task Diffusion Policy on RLBench-18 in One ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.iclr.cc/paper_files/paper/2025/file/5692c7dbc4abcaa50f9ce609819212e5-Paper-Conference.pdf",
+        "title": "[PDF] IN-CONTEXT IMITATION LEARNING VIA GRAPH DIFFUSION",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://moveit.ros.org/moveit%202/parallel%20planning/motion%20planning/2023/02/15/parallel-planning-with-MoveIt-2.html",
+        "title": "Parallel Planning with MoveIt 2",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://moveit.ros.org/documentation/concepts/",
+        "title": "Concepts",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://moveit.ros.org/industrial/moveit2/ur5/2020/06/09/moveit2-robotic-application.html",
+        "title": "MoveIt 2 Used on Collaborative Robotic Sanding Application",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://moveit.ros.org/moveit/ros/humble/2022/06/02/MoveIt-Humble-Release.html",
+        "title": "MoveIt 2 Humble Release",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://moveit.ros.org/events/rosworld-2021-workshop/ROSWorld%202021%20-%20Mobile%20Manipulation%20Workshop%20-%20MoveIt%20Task%20Constructor.pdf",
+        "title": "MoveIt Task Constructor",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://frankaemika.github.io/libfranka/0.14.1/dir_000001_000002.html",
+        "title": "libfranka: examples -> include Relation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://frankaemika.github.io/docs/franka_ros2.html?highlight=test",
+        "title": "franka_ros2",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://frankaemika.github.io/libfranka/examples__common_8h.html",
+        "title": "\u25c6 setDefaultBehavior()",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://frankaemika.github.io/libfranka/classfranka_1_1Robot.html",
+        "title": "\u25c6 Robot() [1/2]",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://frankaemika.github.io/docs/franka_ros.html?highlight=motion+generators",
+        "title": "franka_ros",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://berkeleyautomation.github.io/dex-net/scripts/examples.html",
+        "title": "Examples\u00b6",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "http://berkeleyautomation.github.io/dex-net/",
+        "title": "Dex-Net 3.0",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/BerkeleyAutomation/dex-net/blob/master/src/dexnet/grasping/grasp.py",
+        "title": "dex-net/src/dexnet/grasping/grasp.py at master \u00b7 BerkeleyAutomation/dex-net",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://goldberg.berkeley.edu/pubs/2020-ICRA-Zhang-Dex-Net-AR-2.pdf",
+        "title": "[PDF] Dex-Net AR: Distributed Deep Grasp Planning Using a Commodity ...",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://mjd3.github.io/files/2019-dexnet-4.pdf",
+        "title": "Science Journals \u2014 AAAS",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/atenpas/gpd",
+        "title": "atenpas/gpd: Detect 6-DOF grasp poses in point clouds",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/atenpas/gpd_ros/",
+        "title": "GitHub - atenpas/gpd_ros: ROS wrapper around GPD",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/atenpas/gpd/blob/master/README.md",
+        "title": "gpd/README.md at master \u00b7 atenpas/gpd",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/PickNikRobotics/deep_grasp_demo",
+        "title": "GitHub - PickNikRobotics/deep_grasp_demo: Deep learning for grasp detection within MoveIt.",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/bostoncleek/gpd_simulator",
+        "title": "GitHub - bostoncleek/gpd_simulator",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://pubsonline.informs.org/doi/10.1287/inte.2022.1143",
+        "title": "Algorithm for Robotic Picking in Amazon Fulfillment Centers Enables Humans and Robots to Work Together Effectively | INFORMS Journal on Applied Analytics",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.roboticsproceedings.org/rss12/p36.pdf",
+        "title": "[PDF] Lessons from the Amazon Picking Challenge: Four Aspects of ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://amdmachines.com/blog/amazon-robotics-introduces-ai-powered-bin-picking-solution/",
+        "title": "Amazon Robotics Introduces AI-Powered Bin Picking Solution",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/abs/1601.05484",
+        "title": "Analysis and Observations from the First Amazon Picking Challenge",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1604.03639.pdf",
+        "title": "A Summary of Team MIT\u2019s Approach to the Amazon Picking",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.theseus.fi/bitstream/handle/10024/857682/Savushkin_Nikolai.pdf",
+        "title": "[PDF] Warehouse automation in logistics: Case study of Amazon and Ocado.",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.ocadogroup.com/newsroom/stories/ocado-robotic-arms",
+        "title": "Ocado's AI-powered robotic arms: Levelling efficiency",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=BvPfrEsb89M",
+        "title": "How Ocado Technology trained an AI-first robotic picking system",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://ocadointelligentautomation.com/case-studies/act-fulfillment",
+        "title": "ACT Fulfillment - Case Study - Ocado Intelligent Automation",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://robotomated.com/case-studies/ocado-warehouse-automation",
+        "title": "Case Study: Ocado Warehouse Automation \u2014 3,000+ Robots",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  }
+]

@@ -1,0 +1,123 @@
+[
+  {
+    "timestamp": "2026-04-09T16:17:01",
+    "run_label": "reference-track:Diffusion Models",
+    "sources": [
+      {
+        "url": "https://arxiv.org/abs/2302.05543",
+        "title": "Adding Conditional Control to Text-to-Image Diffusion Models - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/ICCV2023/papers/Zhang_Adding_Conditional_Control_to_Text-to-Image_Diffusion_Models_ICCV_2023_paper.pdf",
+        "title": "Adding Conditional Control to Text-to-Image Diffusion Models",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2302.05543",
+        "title": "Adding Conditional Control to Text-to-Image Diffusion Models",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.semanticscholar.org/paper/Adding-Conditional-Control-to-Text-to-Image-Models-Zhang-Rao/efbe97d20c4ffe356e8826c01dc550bacc405add",
+        "title": "[PDF] Adding Conditional Control to Text-to-Image Diffusion Models | Semantic Scholar",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://lllyasviel.github.io/misc/202309/cnet_supp.pdf",
+        "title": "Adding Conditional Control to Text-to-Image",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/ICCV2023/papers/Zhang_Adding_Conditional_Control_to_Text-to-Image_Diffusion_Models_ICCV_2023_paper.pdf",
+        "title": "Adding Conditional Control to Text-to-Image Diffusion Models",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://lllyasviel.github.io/misc/202309/cnet_supp.pdf",
+        "title": "Adding Conditional Control to Text-to-Image",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://deepsense.ai/wp-content/uploads/2023/04/2302.05543.pdf",
+        "title": "Adding Conditional Control to Text-to-Image",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=pH41MKDuhqc",
+        "title": "EP051: ControlNet Solves Spatial Control With Zero Convolutions",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://dasfl.com/wp-content/uploads/2025/08/tfile.pdf",
+        "title": "[PDF] Adding Conditional Control to Text-to-Image Diffusion Models",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2112.10752",
+        "title": "High-Resolution Image Synthesis with Latent Diffusion ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/CVPR2022/papers/Rombach_High-Resolution_Image_Synthesis_With_Latent_Diffusion_Models_CVPR_2022_paper.pdf",
+        "title": "[PDF] High-Resolution Image Synthesis With Latent Diffusion Models",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.semanticscholar.org/paper/High-Resolution-Image-Synthesis-with-Latent-Models-Rombach-Blattmann/c10075b3746a9f3dd5811970e93c8ca3ad39b39d",
+        "title": "[PDF] High-Resolution Image Synthesis with Latent Diffusion Models | Semantic Scholar",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://ommer-lab.com/research/latent-diffusion-models/",
+        "title": "High-Resolution Image Synthesis with Latent Diffusion Models",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/CVPR2022/html/Rombach_High-Resolution_Image_Synthesis_With_Latent_Diffusion_Models_CVPR_2022_paper.html",
+        "title": "High-Resolution Image Synthesis With Latent Diffusion Models",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://docs.nvidia.com/nemo-framework/user-guide/24.09/nemotoolkit/multimodal/text2img/sd.html",
+        "title": "Stable Diffusion \u2014 NVIDIA NeMo Framework User Guide",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://docs.nvidia.com/dl-cuda-graph/latest/examples/stable-diffusion-v2.html",
+        "title": "3. Capturing Conditional...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=snUceAplmEI",
+        "title": "CODE Stable Diffusion: Step by Step (PyTorch, VAE, UNet, CLIP) #stablediffusion Generative AI",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Stable_Diffusion",
+        "title": "Stable Diffusion - Wikipedia",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://deeplizard.com/lesson/dia3zlaidr",
+        "title": "Text Encoder",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/what-does-0-18215-mean-in-blog-stable-diffusion-with-diffusers/24993",
+        "title": "What does \"0.18215\" mean in blog Stable Diffusion with Diffusers?",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/scheduler-parameter-ignored-when-creating-stablediffusionpipeline/49543",
+        "title": "Scheduler parameter ignored when creating StableDiffusionPipeline",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/what-is-dpmsolvermultistepscheduler-for/93548",
+        "title": "What is DPMSolverMultistepScheduler for? - Hugging Face Forums",
+        "need_type": "API_REFERENCE"
+      }
+    ]
+  }
+]

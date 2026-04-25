@@ -1,0 +1,36 @@
+id: rlhf_curious_beginner
+title: "RLHF: Curious Beginner"
+lesson_slug: alignment-rlhf
+description: >
+  A beginner exploring RLHF for the first time. Asks basic questions about
+  what it is, why it's needed, and how it works. Tests the tutor's ability
+  to explain complex alignment concepts accessibly.
+
+persona: >
+  You are a curious beginner who has heard about RLHF in the context of
+  ChatGPT but doesn't really understand what it does. You ask "why" a lot
+  and appreciate simple analogies. You get confused by math but like
+  intuitive explanations.
+
+mode: default
+
+scripted_turns:
+  - role: user
+    content: >
+      I keep hearing about RLHF when people talk about ChatGPT. What is it
+      and why is it important?
+  - role: user
+    content: >
+      So the model learns what humans prefer? But how does it know what
+      I want if it was trained on someone else's preferences?
+  - role: user
+    content: >
+      What happens if the human feedback is wrong or biased? Doesn't that
+      make the model biased too?
+
+expected_behaviors:
+  - "Explains RLHF at an accessible level appropriate for beginners"
+  - "Uses analogies or intuitive explanations over mathematical formulas"
+  - "Addresses the transfer learning aspect of preference models"
+  - "Honestly addresses limitations and potential bias issues"
+  - "Uses Socratic questions to check understanding"

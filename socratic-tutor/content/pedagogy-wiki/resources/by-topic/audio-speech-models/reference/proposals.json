@@ -1,0 +1,258 @@
+[
+  {
+    "timestamp": "2026-04-09T18:31:55",
+    "run_label": "reference-track:Audio and Speech Models",
+    "sources": [
+      {
+        "url": "https://cdn.openai.com/papers/whisper.pdf",
+        "title": "[PDF] Robust Speech Recognition via Large-Scale Weak Supervision",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/openai/whisper/discussions/2076",
+        "title": "Replicating WER on FLEURS \u00b7 openai whisper \u00b7 Discussion #2076",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://whisper-api.com/docs/transcription-options/",
+        "title": "Configuration options | Whisper API Docs",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2506.00338v1",
+        "title": "OWSM v4: Improving Open Whisper-Style Speech Models ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12988046/table/Tab2/",
+        "title": "Table 2.",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/openai/whisper/discussions/478",
+        "title": "Getting the top few transcription results \u00b7 openai whisper \u00b7 Discussion #478",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/openai/whisper/blob/main/whisper/transcribe.py",
+        "title": "whisper/whisper/transcribe.py at main \u00b7 openai/whisper",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/openai/whisper/discussions/654",
+        "title": "Whisper in Transformers \u00b7 openai whisper \u00b7 Discussion #654",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/ggml-org/whisper.cpp/issues/256",
+        "title": "Inferencing result different from original whisper with GPU even when using same model \u00b7 Issue #256 \u00b7 ggml-org/whisper.cpp",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/openai/whisper/discussions/549",
+        "title": "How does Temperature fallback with beam search work? \u00b7 openai whisper \u00b7 Discussion #549",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=Xt9S74BHsvc",
+        "title": "Residual Vector Quantization for Audio and Speech Embeddings",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.assemblyai.com/blog/what-is-residual-vector-quantization",
+        "title": "What is Residual Vector Quantization? - AssemblyAI",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2107.03312.pdf",
+        "title": "SoundStream: An End-to-End Neural Audio Codec",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://research.google/blog/soundstream-an-end-to-end-neural-audio-codec/",
+        "title": "SoundStream: An End-to-End Neural Audio Codec - Google Research",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2410.12359v2",
+        "title": "ERVQ: Enhanced Residual Vector Quantization with Intra-and-Inter ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.arxiv.org/pdf/2507.06040.pdf",
+        "title": "EdgeCodec: Onboard Lightweight High Fidelity Neural ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=Xt9S74BHsvc",
+        "title": "Residual Vector Quantization for Audio and Speech Embeddings",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2410.06016v2",
+        "title": "VRVQ: Variable Bitrate Residual Vector Quantization for ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://learnius.com/slp/9+Speech+Synthesis/2+Advanced+Topics/4+Neural+Codec+Language+Modeling/residual+vector+quantization+(RVQ)",
+        "title": "residual vector quantization (RVQ) - learnius",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/encodec-system",
+        "title": "EnCodec: High-Fidelity Neural Audio Codec",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2301.02111",
+        "title": "[2301.02111] Neural Codec Language Models are Zero-Shot Text to ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.microsoft.com/en-us/research/publication/vall-e-2-neural-codec-language-models-are-human-parity-zero-shot-text-to-speech-synthesizers/",
+        "title": "VALL-E 2: Neural Codec Language Models are Human ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2406.07855v1",
+        "title": "VALL-E R: Robust and Efficient Zero-Shot Text-to-Speech ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://notesbylex.com/neural-codec-language-models-are-zero-shot-text-to-speech-synthesizers",
+        "title": "Neural Codec Language Models are Zero-Shot Text-to-Speech ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.semanticscholar.org/paper/Neural-Codec-Language-Models-are-Zero-Shot-Text-to-Wang-Chen/c2f91f35df893714418cc29096083dce0b441229",
+        "title": "[PDF] Neural Codec Language Models are Zero-Shot Text to Speech Synthesizers | Semantic Scholar",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://knowledge.zhaoweiguo.com/build/html/x-learning/papers/llmaudio/2301.02111_vall-e",
+        "title": "2301.02111_Vall-E: Neural Codec Language Models are ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://web3.arxiv.org/pdf/2406.07855",
+        "title": "VALL-E R: Robust and Efficient Zero-Shot",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://ar5iv.labs.arxiv.org/html/2301.02111",
+        "title": "Neural Codec Language Models are Zero-Shot Text to Speech Synthesizers",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://learnius.com/slp/9+Speech+Synthesis/2+Advanced+Topics/4+Neural+Codec+Language+Modeling/VALL-E+Neural+Codec+Language+Model",
+        "title": "VALL-E Neural Codec Language Model - learnius",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/Plachtaa/VALL-E-X/issues/8",
+        "title": "A note on the implementation. \u00b7 Issue #8 \u00b7 Plachtaa/VALL-E-X",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/speech-synthesis-markup-voice",
+        "title": "Customize voice and sound with SSML",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://learn.microsoft.com/zh-cn/azure/ai-services/speech-service/speech-synthesis-markup-voice",
+        "title": "\u8bed\u97f3\u5408\u6210\u6807\u8bb0\u8bed\u8a00(SSML) \u7684\u8bed\u97f3\u548c\u58f0\u97f3- \u8bed\u97f3\u670d\u52a1- Azure AI services",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://learn.microsoft.com/pt-br/azure/ai-services/speech-service/speech-synthesis-markup-voice",
+        "title": "Personalizar a voz e o som com a SSML - Azure",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://learn.microsoft.com/it-it/azure/ai-services/speech-service/speech-synthesis-markup-voice",
+        "title": "Voce e suono con SSML (Speech Synthesis Markup Language) - Servizio Voce - Azure AI services",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://learn.microsoft.com/de-de/azure/ai-services/speech-service/speech-synthesis-markup-voice",
+        "title": "Anpassen von Stimme und Ton mit SSML - Microsoft Learn",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.cloud.google.com/speech-to-text/docs/reference/rpc/google.cloud.speech.v2",
+        "title": "PhraseSet",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://cloud.google.com/speech-to-text/docs/v1/speech-to-text-requests",
+        "title": "Speech-to-Text request construction",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.cloud.google.com/speech-to-text/docs/reference/rest/v1/RecognitionConfig",
+        "title": "InteractionType",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.cloud.google.com/speech-to-text/docs/reference/rest/v1p1beta1/RecognitionConfig",
+        "title": "RecognitionMetadata",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.cloud.google.com/dotnet/docs/reference/Google.Cloud.Speech.V2/latest/Google.Cloud.Speech.V2.StreamingRecognitionConfig",
+        "title": "Cloud Speech-to-Text v2 API - Class StreamingRecognitionConfig ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.ml6.eu/en/blog/whisper-deployment-decisions-part-i-evaluating-latency-costs-and-performance-metrics",
+        "title": "Whisper Deployment Decisions: Part I \u2014 Evaluating Latency, Costs ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://blog.ml6.eu/whisper-deployment-decisions-part-i-evaluating-latency-costs-and-performance-metrics-d07f6edc9ec0?gi=fda85d512794",
+        "title": "Whisper Deployment Decisions: Part I \u2014 Evaluating Latency, Costs, and Performance Metrics",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://openmetal.io/resources/blog/ai-use-case-hosting-openai-whisper-on-a-private-gpu-cloud/",
+        "title": "AI Use Case: Hosting OpenAI Whisper on a Private GPU Cloud",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.runpod.io/articles/guides/how-do-i-build-a-scalable-low-latency-speech-recognition-pipeline-on-runpod-using-whisper-and-gpus",
+        "title": "How do I build a scalable, low\u2011latency speech recognition pipeline ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://deepgram.com/learn/why-enterprises-are-moving-to-streaming-and-why-whisper-can-t-keep-up",
+        "title": "Why Enterprises Are Moving to Streaming \u2014 and Why Whisper Can't ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/html/2501.16641v1",
+        "title": "SCDiar: a streaming diarization system based on speaker ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://aclanthology.org/2023.acl-industry.26.pdf",
+        "title": "Building Accurate Low Latency ASR for Streaming Voice ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2501.16641.pdf",
+        "title": "SCDiar: a streaming diarization system based on speaker",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.ijrti.org/papers/IJRTI2509013.pdf",
+        "title": "Streaming End-to-End Target-Speaker Automatic Speech ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.isca-archive.org/interspeech_2024/rahou24_interspeech.pdf",
+        "title": "[PDF] Multi-latency look-ahead for streaming speaker segmentation",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  }
+]

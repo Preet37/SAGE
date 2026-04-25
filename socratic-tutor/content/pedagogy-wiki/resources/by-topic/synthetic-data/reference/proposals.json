@@ -1,0 +1,233 @@
+[
+  {
+    "timestamp": "2026-04-09T18:39:02",
+    "run_label": "reference-track:Synthetic Data and Self-Improvement",
+    "sources": [
+      {
+        "url": "https://arxiv.org/abs/2401.10020",
+        "title": "[2401.10020] Self-Rewarding Language Models - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.arxiv.org/pdf/2601.22513.pdf",
+        "title": "Why Self-Rewarding Works: Theoretical Guarantees for Iterative Alignment of Language Models",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://aclanthology.org/2025.findings-acl.930.pdf",
+        "title": "[PDF] Process-based Self-Rewarding Language Models - ACL Anthology",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.themoonlight.io/en/review/self-rewarding-language-models",
+        "title": "[Literature Review] Self-Rewarding Language Models - Moonlight",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/self-rewarding-language-models-srlms",
+        "title": "Self-Rewarding Language Models (SRLMs) - Emergent Mind",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2601.04411",
+        "title": "Reinforcement Learning with Verifiable Noisy Rewards - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2506.14245",
+        "title": "[2506.14245] Reinforcement Learning with Verifiable Rewards ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://github.com/opendilab/awesome-RLVR",
+        "title": "GitHub - opendilab/awesome-RLVR: A curated list of reinforcement learning with verifiable rewards (continually updated)",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.promptfoo.dev/blog/rlvr-explained/",
+        "title": "Reinforcement Learning with Verifiable Rewards Makes ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://subhadipmitra.com/blog/2026/rlvr-beyond-math-code/",
+        "title": "RLVR Beyond Math and Code: The Verifier Problem ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://aclanthology.org/anthology-files/anthology-files/pdf/emnlp/2024.emnlp-main.397.pdf",
+        "title": "Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing, pages 6998\u20137018",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2024.emnlp-main.397.pdf",
+        "title": "[PDF] Automatic Instruction Evolving for Large Language Models",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2409.05840v4/",
+        "title": "MMEvol: Empowering Multimodal Large Language Models with Evol-Instruct",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.scribd.com/document/889609714/2024-emnlp-main-397",
+        "title": "2024 Emnlp-Main 397 | PDF | Artificial Intelligence",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.iclr.cc/paper_files/paper/2025/file/7c04aea54c2a60a632a47bd451cd2849-Paper-Conference.pdf",
+        "title": "[PDF] WizardMath: EMPOWERING MATHEMATICAL REASON- Evol-Instruct",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/anthology-files/anthology-files/pdf/acl/2024.acl-long.769.pdf",
+        "title": "Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), pages 14255\u201314273",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2024.paclic-1.62.pdf",
+        "title": "CL-HumanEval: A Benchmark for Evaluating Cross-Lingual ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/2107.03374",
+        "title": "Evaluating Large Language Models Trained on Code - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2510.23208v1",
+        "title": "5 Experiments",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://engineersofai.com/docs/ai-engineering/synthetic-data/data-quality-and-filtering",
+        "title": "Data Quality and Filtering | EngineersOfAI",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://web.stanford.edu/class/cs246/slides/20-guest.pdf",
+        "title": "[PDF] Data Preparation for LLM Pretraining",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://kili-technology.com/blog/fineweb2-dataset-guide",
+        "title": "A Guide to the FineWeb2 Dataset: How It's Built, Filtered, and Used ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2506.20920v1",
+        "title": "FineWeb2: One Pipeline to Scale Them All \u2014 Adapting Pre-Training ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://milvus.io/blog/minhash-lsh-in-milvus-the-secret-weapon-for-fighting-duplicates-in-llm-training-data.md",
+        "title": "MinHash LSH in Milvus: The Secret Weapon for Fighting Duplicates ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://s-space.snu.ac.kr/bitstream/10371/209784/1/000000183077.pdf",
+        "title": "\uc800\uc791\uc790\ud45c\uc2dc-\ube44\uc601\ub9ac-\ubcc0\uacbd\uae08\uc9c0 2.0 \ub300\ud55c\ubbfc\uad6d",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/lcw99/evolve-instruct/blob/main/evolve.py",
+        "title": "evolve-instruct/evolve.py at main \u00b7 lcw99/evolve-instruct",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/Azure/synthetic-qa-generation/blob/main/evolve-instruct/evolve.py",
+        "title": "synthetic-qa-generation/evolve-instruct/evolve.py at main \u00b7 Azure/synthetic-qa-generation",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/Azure/synthetic-qa-generation/blob/main/evolve-instruct/README.md",
+        "title": "synthetic-qa-generation/evolve-instruct/README.md at main \u00b7 Azure/synthetic-qa-generation",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/nlpxucan/evol-instruct",
+        "title": "GitHub - nlpxucan/evol-instruct",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/alpayariyak/Evol-Instruct",
+        "title": "GitHub - alpayariyak/Evol-Instruct: My implementation of WizardLM's Evol-Instruct",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/mengdi-li/vanilla-RLAIF-pipeline",
+        "title": "GitHub - mengdi-li/vanilla-RLAIF-pipeline: An implementation of a vanilla RLAIF pipeline, utilizing GPT-2-Large for the summarization task with the TL;DR dataset.",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/JD-P/RetroInstruct",
+        "title": "GitHub - JD-P/RetroInstruct: Synthetic data derived by templating, few shot prompting, transformations on public domain corpora, and monte carlo tree search.",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/architsharma97/dpo-rlaif/blob/main/synthetic-rlaif.ipynb",
+        "title": "dpo-rlaif/synthetic-rlaif.ipynb at main \u00b7 architsharma97/dpo-rlaif",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/vicgalle/awesome-rlaif/blob/main/README.md",
+        "title": "This site can\u2019t be reached",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/mengdi-li/awesome-RLAIF",
+        "title": "mengdi-li/awesome-RLAIF",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://arxiv.org/html/2409.19759v2",
+        "title": "Balancing Cost and Effectiveness of Synthetic Data Generation Strategies for LLMs",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "http://arxiv.org/pdf/2409.19759.pdf",
+        "title": "Balancing Cost and Effectiveness of Synthetic Data",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://zenodo.org/records/18445584",
+        "title": "Scaling Model Training with LLM-Orchestrated Synthetic Data ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://thesciencebrigade.com/cndr/article/download/485/457/991",
+        "title": "Cybersecurity and Network Defense Research",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.ampcome.com/articles/does-synthetic-data-make-llm-development-more-efficient",
+        "title": "Does Synthetic Data Make LLM Development More Efficient?",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2024/file/639d992f819c2b40387d4d5170b8ffd7-Paper-Conference.pdf",
+        "title": "[PDF] Teaching Language Model Agents How to Self-Improve - NIPS papers",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://potapov.me/en/make/postmortem-culture-guide",
+        "title": "Blameless Postmortems: How to Turn Incidents into Team Growth ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.nngroup.com/articles/ux-postmortems/",
+        "title": "Project Postmortems for UX Teams: Learning from Success and ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://nira.com/postmortem-report/",
+        "title": "How to Write the Perfect Postmortem Report - Nira",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.benjamincharity.com/articles/post-mortem-implementation-playbook/",
+        "title": "Effective Post-Mortems: Implementation Playbook | Benjamin Charity",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  }
+]

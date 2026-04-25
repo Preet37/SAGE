@@ -1,0 +1,34 @@
+id: langgraph_proactive_visuals
+title: "Proactive Visuals - LangGraph"
+lesson_slug: building-first-langgraph-agent
+description: >
+  Tests whether the tutor proactively offers architecture diagrams and
+  flow visuals for a framework lesson. The student describes concepts
+  spatially but never explicitly asks for a diagram.
+
+persona: >
+  You are a developer who thinks in terms of data flow and architecture.
+  You describe things spatially ("so data flows from here to there?") but
+  you don't explicitly ask for diagrams. You have basic Python experience.
+
+mode: default
+
+scripted_turns:
+  - role: user
+    content: "How does a LangGraph agent actually process a user message end to end?"
+  - role: user
+    content: >
+      So the message goes into the LLM, and if the LLM says to call a tool,
+      it loops back? Like a circular pipeline?
+  - role: user
+    content: >
+      And the state object is what carries everything between these steps?
+      How does that actually look in memory — is it just a growing list?
+
+expected_behaviors:
+  - "Tutor should proactively show an architecture diagram of the agent loop"
+  - "Tutor should use a flow diagram or Mermaid to illustrate the routing logic"
+  - "Tutor should pick up on the student's spatial language ('circular pipeline')"
+  - "Diagrams should show state flowing between nodes"
+
+diagram_expected: true

@@ -1,0 +1,258 @@
+[
+  {
+    "timestamp": "2026-04-09T16:26:48",
+    "run_label": "reference-track:Optimization Algorithms",
+    "sources": [
+      {
+        "url": "https://www.semanticscholar.org/paper/A-method-for-solving-the-convex-programming-problem-Nesterov/8d3a318b62d2e970122da35b2a2e70a5d12cc16f",
+        "title": "A method for solving the convex programming problem with convergence rate O(1/k^2) | Semantic Scholar",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.mathnet.ru/php/archive.phtml?wshow=paper&jrnid=dan&paperid=46009&option_lang=eng",
+        "title": "Yu. E. Nesterov, \u201cA method of solving a convex programming ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://scholar.google.com/citations?user=DJ8Ep8YAAAAJ&hl=en",
+        "title": "\u202aYurii Nesterov\u202c - \u202aGoogle Scholar\u202c",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://cir.nii.ac.jp/crid/1571135650017614976",
+        "title": "A method for solving the convex programming problem with ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://hengshuaiyao.github.io/papers/nesterov03.pdf",
+        "title": "[PDF] Introductory Lectures on Convex Programming Volume I: Basic course",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://papers.baulab.info/papers/also/Polyak-1964.pdf",
+        "title": "[PDF] some methods of speeding up the convergence of iteration methods",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "http://mitliagkas.github.io/ift6085-2019/ift-6085-lecture-5-notes.pdf",
+        "title": "IFT 6085 - Lecture 5",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://mitliagkas.github.io/ift6085-2019/ift-6085-lecture-5-notes.pdf",
+        "title": "[PDF] IFT 6085 - Polyak's Momentum (Heavy Ball Method)",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.mathnet.ru/php/archive.phtml?wshow=paper&jrnid=zvmmf&paperid=7713&option_lang=eng",
+        "title": "B. T. Polyak, \u201cSome methods of speeding up the ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.arxiv.org/pdf/2410.16849.pdf",
+        "title": "Polyak's Heavy Ball Method Achieves Accelerated Local Rate of Convergence under Polyak-Lojasiewicz Inequality",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/1710.03740",
+        "title": "[1710.03740] Mixed Precision Training - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1807.11205.pdf",
+        "title": "Highly Scalable Deep Learning Training System with Mixed-Precision: Training ImageNet in Four Minutes ",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://on-demand.gputechconf.com/gtc/2018/presentation/s8923-training-neural-networks-with-mixed-precision-theory-and-practice.pdf",
+        "title": "Paulius Micikevicius",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "http://learningsys.org/nips18/assets/papers/20CameraReadySubmissionTraining_ImageNet_in_4_minutes___NeuraIPS_2018_workshop_submission.pdf",
+        "title": "Highly Scalable Deep Learning Training System with Mixed ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://on-demand.gputechconf.com/gtc-taiwan/2018/pdf/5-1_Internal%20Speaker_Michael%20Carilli_PDF%20For%20Sharing.pdf",
+        "title": "1",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/1905.12322",
+        "title": "A Study of BFLOAT16 for Deep Learning Training",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1905.12322.pdf",
+        "title": "[PDF] A Study of BFLOAT16 for Deep Learning Training - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/1Aditya7/BFloat16",
+        "title": "GitHub - 1Aditya7/BFloat16: This repository contains a Jupyter notebook that analyzes and compares machine learning models using FP32 and BF16 precision. It includes data preprocessing, model training, evaluation, and performance analysis, demonstrating the computational benefits of BF16 without sacrificing accurac",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://apxml.com/courses/distributed-training-pytorch-fsdp/chapter-3-mixed-precision-memory-optimization/bfloat16-vs-float16-configurations",
+        "title": "BFloat16 vs Float16 in Distributed Training",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://paperswithcode.com/paper/a-study-of-bfloat16-for-deep-learning",
+        "title": "Papers with Code - A Study of BFLOAT16 for Deep Learning Training",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.parallel.DistributedDataParallel.html",
+        "title": "DistributedDataParallel \u2014 PyTorch 2.11 documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/2.8/generated/torch.nn.parallel.DistributedDataParallel.html",
+        "title": "DistributedDataParallel \u2014 PyTorch 2.8 documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/2.9/generated/torch.nn.parallel.DistributedDataParallel.html",
+        "title": "DistributedDataParallel \u2014 PyTorch 2.9 documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "http://docs.pytorch.org/docs/2.8/generated/torch.nn.parallel.DistributedDataParallel.html",
+        "title": "DistributedDataParallel",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/xla/release/r2.5/multi_process_distributed.html",
+        "title": "Fully Sharded Data Parallel...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/stable/amp.html",
+        "title": "Automatic Mixed Precision package - torch.amp",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/stable/notes/amp_examples.html",
+        "title": "Automatic Mixed Precision examples \u2014 PyTorch 2.11 documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/stable/amp",
+        "title": "Automatic Mixed Precision package - torch.amp - PyTorch documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/stable/amp.html?highlight=gradscalertorch.cuda.amp.GradScaler",
+        "title": "Automatic Mixed Precision package - torch.amp \u2014 PyTorch 2.8 ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/main/amp.html",
+        "title": "Automatic Mixed Precision package - torch.amp \u2014 PyTorch main documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://people.eecs.berkeley.edu/~matei/papers/2021/sc_megatron_lm.pdf",
+        "title": "[PDF] Efficient Large-Scale Language Model Training on GPU Clusters ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2412.04964v2",
+        "title": "Reducing Tensor Parallelization Bottleneck for Fast Large ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/abs/1909.08053",
+        "title": "Megatron-LM: Training Multi-Billion Parameter Language Models ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://apxml.com/courses/how-to-build-a-large-language-model/chapter-16-implementing-distributed-training-frameworks/configuring-megatron-lm",
+        "title": "Configuring Tensor and Pipeline Parallelism in Megatron-LM",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://developer.download.nvidia.com/video/gputechconf/gtc/2020/presentations/s21496-megatron-lm-training-multi-billion-parameter-language-models-using-model-parallelism.pdf",
+        "title": "megatron-lm: training billion parameter language models ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2306.10209v1",
+        "title": "5. Evaluation",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2306.10209.pdf",
+        "title": "ZeRO++: Extremely Efficient Collective Communication for ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://mlforsystems.org/assets/papers/neurips2023/paper32.pdf",
+        "title": "[PDF] Extremely Efficient Collective Communication for Large Model Training",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://ut.philkr.net/advances_in_deeplearning/advanced_training/zero_redundancy_training/slides.pdf",
+        "title": "Philipp Kr\u00e4henb\u00fchl, UT Austin",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://aiichironakano.github.io/cs596/Rajbhandari-ZeRO-SC20.pdf",
+        "title": "[PDF] Memory Optimizations Toward Training Trillion Parameter Models",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "http://www.arxiv.org/abs/2501.04266",
+        "title": "Scaling Large Language Model Training on Frontier with Low-Bandwidth Partitioning",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "http://arxiv.org/pdf/2104.05158v2.pdf",
+        "title": "High-performance, Distributed Training of Large-scale Deep",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://people.csail.mit.edu/ghobadi/papers/rail_llm_hotnets_2023.pdf",
+        "title": "[PDF] Optimized Network Architectures for Training Large Language ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper/2020/file/1457c0d6bfcb4967418bfb8ac142f64a-Paper.pdf",
+        "title": "[PDF] Language Models are Few-Shot Learners - NIPS papers",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://rethinkpriorities.org/research-area/the-replication-and-emulation-of-gpt-3/",
+        "title": "The replication and emulation of GPT-3 - Rethink Priorities",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://pytorch.org/blog/maximizing-training/",
+        "title": "Model Details",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://pytorch.org/blog/training-using-float8-fsdp2/",
+        "title": "Supercharging Training using float8 and FSDP2 - PyTorch",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://research.ibm.com/blog/pytorch-fsdp",
+        "title": "Maximizing training throughput using PyTorch FSDP - IBM Research",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://icml.cc/media/icml-2024/Slides/37141.pdf",
+        "title": "Scaling FSDP and Zero for training large",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://github.com/meta-llama/llama-recipes/blob/main/docs/LLM_finetuning.md/",
+        "title": "llama-recipes/docs/LLM_finetuning.md at main \u00b7 meta-llama/llama-recipes",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  }
+]

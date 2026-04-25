@@ -1,0 +1,117 @@
+# Source: https://docs.dagster.io/deployment/dagster-plus/deploying-code/full-deployments/full-deployment-settings-reference
+# Title: Run retries - Dagster deployment settings reference
+# Fetched via: trafilatura
+# Date: 2026-04-09
+
+Full deployment settings
+This reference describes the settings that can be configured for full deployments in Dagster+.
+For more information about configuring full deployment settings in the Dagster+ interface or with the dg
+or dagster-cloud
+CLI, see [Managing full deployments](/deployment/dagster-plus/deploying-code/full-deployments/managing-full-deployments).
+Settings schema[](#settings-schema)
+Settings are formatted using YAML. For example:
+concurrency:
+pools:
+granularity: 'run'
+default_limit: 1
+runs:
+max_concurrent_runs: 10
+tag_concurrency_limits:
+- key: 'database'
+value: 'redshift'
+limit: 5
+run_monitoring:
+start_timeout_seconds: 1200
+cancel_timeout_seconds: 1200
+max_runtime_seconds: 7200
+run_retries:
+max_retries: 0
+sso_default_role: EDITOR
+Settings[](#settings)
+For each full deployment, you can configure settings for:
+Concurrency (concurrency)[](#concurrency-concurrency)
+The concurrency
+settings allow you to specify concurrency controls for runs and pools in the deployment. For more information about concurrency, see [Managing concurrency of Dagster assets, jobs, and Dagster instances](/guides/operate/managing-concurrency).
+concurrency:
+pools:
+granularity: 'run'
+default_limit: 1
+runs:
+max_concurrent_runs: 10
+tag_concurrency_limits:
+- key: 'database'
+value: 'redshift'
+limit: 5
+| Property | Description |
+|---|---|
+| concurrency.pools.default_limit | The default limit for pools that do not have an explicitly set limit. |
+| concurrency.pools.granularity | The granularity at which pool limits are applied. Can be one of op or run .- Defaults -
+op
+run , the pool limit caps the number of runs that can be in progress that contain an op marked with the given pool. If set to op , the pool limit caps the number of ops that can be in progress across all runs. |
+| concurrency.pools.op_granularity_run_buffer | The number of runs over the available pool limit that can be in progress when the pool granularity is set to op . Even though the pool granularity is set to op , runs are only dequeued if there is at least one op in the run that will not be blocked by a pool limit, to limit the number of active run workers. |
+| concurrency.runs.max_concurrent_runs | The maximum number of runs that are allowed to be in progress at once. Set to 0 to stop any runs from launching. Negative values aren't permitted. - Default -
+10 (20 minutes) - Maximum -
+500 ([Hybrid](/deployment/dagster-plus/hybrid)),50 ([Serverless](/deployment/dagster-plus/serverless))
+|
+| concurrency.runs.tag_concurrency_limits | A list of limits applied to runs with particular tags. - Defaults -
+[]
+key value - If defined, the
+limit is applied only to thekey-value pair. - If set to a dict with applyLimitPerUniqueValue: true, the
+limit is applied to the number of unique values for thekey . - If set to a dict with
+applyLimitPerUniqueValue: true , the limit is applied to the number of unique values for thekey . limit
+|
+Run monitoring (run_monitoring)[](#run-monitoring-run_monitoring)
+The run_monitoring
+settings allow you to define how long Dagster+ should wait for runs to start before making them as failed, or to terminate before marking them as canceled.
+run_monitoring:
+start_timeout_seconds: 1200
+cancel_timeout_seconds: 1200
+max_runtime_seconds: 7200
+| Property | Description |
+|---|---|
+| run_monitoring.start_timeout_seconds | The number of seconds that Dagster+ will wait after a run is launched for the process or container to start executing. After the timeout, the run will fail. This prevents runs from hanging in STARTING indefinitely when the process or container doesn't start. - Default -
+1200 (20 minutes)
+|
+| run_monitoring.cancel_timeout_seconds | The number of seconds that Dagster+ will wait after a run termination is initiated for the process or container to terminate. After the timeout, the run will move into a CANCELED state. This prevents runs from hanging in CANCELING indefinitely when the process or container doesn't terminate cleanly. - Default -
+1200 (20 minutes)
+|
+| run_monitoring.max_runtime_seconds | The number of seconds that Dagster+ will wait after a run is moved into a STARTED state for the run to complete. After the timeout, the run will be terminated and moved into a FAILURE state. This prevents runs from hanging in STARTED indefinitely if the process is hanging. - Default -
+No limit
+|
+Run retries (run_retries)[](#run-retries-run_retries)
+The run_retries
+settings allow you to define how Dagster+ handles retrying failed runs in the deployment.
+run_retries:
+max_retries: 0
+| Property | Description |
+|---|---|
+| run_retries.max_retries | The maximum number of times Dagster+ should attempt to retry a failed run. Dagster+ will use the default if this setting is undefined. - Default -
+0
+|
+| run_retries.retry_on_asset_or_op_failure | Whether to retry runs that failed due to assets or ops in the run failing. Set this to false if you only want to retry failures that occur due to the run worker crashing or unexpectedly terminating, and instead rely on op or asset-level retry policies to retry assert or op failures. Setting this field to false will only change retry behavior for runs on dagster version 1.6.7 or greater. - Default -
+0
+|
+SSO default role[](#sso-default-role)
+The sso_default_role
+setting lets you configure the default role in the deployment which is granted to new users that log in using [Single sign-on (SSO)](/deployment/dagster-plus/authentication-and-access-control/sso). For more information on available roles, see the [Dagster+ permissions reference](/deployment/dagster-plus/authentication-and-access-control/rbac/user-roles-permissions).
+The setting can also be configured to NO_ACCESS
+to prevent new user accounts being created automatically upon log in.
+sso_default_role: EDITOR
+| Property | Description |
+|---|---|
+| sso_default_role | If SAML SSO is enabled, this is the default role that will be assigned to Dagster+ users for this deployment. If SAML SSO is not enabled, this setting is ignored. - Default -
+Viewer
+|
+Non-isolated runs[](#non-isolated-runs)
+Configure [non-isolated runs](/deployment/dagster-plus/run-isolation) on your deployment.
+non_isolated_runs:
+enabled: True
+max_concurrent_non_isolated_runs: 1
+| Property | Description |
+|---|---|
+| enabled | If enabled, the Isolate run environment checkbox will appear in the Launchpad. - Default -
+true
+|
+| max_concurrent_non_isolated_runs | A limit for how many non-isolated runs to launch at once. Once this limit is reached, the checkbox will be greyed out and all runs will be isolated. This helps to avoid running out of RAM on the code location server. - Default -
+1
+|

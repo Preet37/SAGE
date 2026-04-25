@@ -1,0 +1,175 @@
+{
+  "slug": "ml-engineering-foundations",
+  "title": "ML Engineering Foundations",
+  "description": "Build a strong foundation in the core concepts behind modern AI — from neural networks and backpropagation through CNNs, RNNs, and the attention mechanism that started the deep learning revolution.",
+  "level": "intermediate",
+  "modules": [
+    {
+      "title": "Neural Networks Fundamentals",
+      "order_index": 0,
+      "lessons": [
+        {
+          "title": "Introduction to Neural Networks",
+          "slug": "intro-neural-networks",
+          "order_index": 0,
+          "content": "# Introduction to Neural Networks\n\n## What is a Neuron?\n\nA biological neuron receives electrical signals from many other neurons through its **dendrites**, processes them in the **cell body**, and fires an output signal through its **axon** when the accumulated input exceeds a threshold.\n\nAn artificial neuron mimics this: it takes a vector of inputs **x**, multiplies each by a learned weight **w**, sums them up, adds a bias term **b**, and passes the result through an **activation function** σ:\n\n```\noutput = σ(w₁x₁ + w₂x₂ + ... + wₙxₙ + b)\n       = σ(wᵀx + b)\n```\n\nThe weights encode *how important* each input is; the bias shifts the activation threshold.\n\n## Layers: Input, Hidden, Output\n\nNeural networks are organized into **layers**:\n\n- **Input layer**: Raw data features (pixel values, word embeddings, sensor readings). No computation happens here.\n- **Hidden layers**: Each neuron applies a linear transformation followed by a nonlinearity. These layers learn abstract representations.\n- **Output layer**: Produces the final prediction — a probability distribution for classification, or a real value for regression.\n\nA network with at least one hidden layer is called a **Multi-Layer Perceptron (MLP)**.\n\n```python\nimport torch\nimport torch.nn as nn\n\nclass SimpleMLP(nn.Module):\n    def __init__(self, input_dim, hidden_dim, output_dim):\n        super().__init__()\n        self.layer1 = nn.Linear(input_dim, hidden_dim)\n        self.layer2 = nn.Linear(hidden_dim, output_dim)\n        self.relu = nn.ReLU()\n\n    def forward(self, x):\n        x = self.relu(self.layer1(x))  # hidden layer with ReLU\n        return self.layer2(x)           # output layer (no activation for regression)\n```\n\n## Activation Functions\n\nWithout nonlinear activations, stacking layers would collapse into a single linear transformation — no matter how deep. Activations introduce the nonlinearity that lets networks approximate complex functions.\n\n| Function | Formula | Properties |\n|----------|---------|------------|\n| **Sigmoid** | σ(x) = 1/(1+e⁻ˣ) | Outputs (0,1), saturates → vanishing gradients |\n| **Tanh** | tanh(x) = (eˣ−e⁻ˣ)/(eˣ+e⁻ˣ) | Outputs (−1,1), zero-centered, still saturates |\n| **ReLU** | max(0, x) | Fast, no saturation for x>0, can \"die\" |\n| **GELU** | x·Φ(x) | Smooth ReLU, used in Transformers |\n\n**ReLU** is the default choice for hidden layers in practice because it's computationally cheap and avoids the vanishing gradient problem for positive activations.\n\n## The Forward Pass\n\nData flows **forward** through the network: input → hidden layers → output. Each layer computes:\n\n```\nhˡ = σ(Wˡ hˡ⁻¹ + bˡ)\n```\n\nwhere **hˡ** is the activation vector at layer *l*, **Wˡ** is the weight matrix, and **bˡ** is the bias vector.\n\n```python\n# Manual forward pass (pedagogical)\ndef forward_pass(x, layers):\n    h = x\n    for W, b, activation in layers:\n        z = W @ h + b    # linear transformation\n        h = activation(z) # nonlinearity\n    return h\n```\n\n## Universal Approximation Theorem\n\nA key theoretical result: a feedforward network with **one hidden layer** containing enough neurons can approximate **any continuous function** on a compact domain to arbitrary precision. This tells us that expressivity isn't the bottleneck — learning the right weights is.\n\nIn practice, **depth** (more layers) is far more efficient than width (more neurons per layer) for learning hierarchical features. A 10-layer network with 100 neurons per layer typically outperforms a 1-layer network with 10,000 neurons.\n\n## Key Takeaways\n\n- Neurons are weighted sums followed by a nonlinear activation\n- Layers stack transformations to build hierarchical representations\n- The forward pass computes predictions by propagating data through all layers\n- Depth enables efficient representation of complex, hierarchical patterns\n\n## Recommended Reading\n\n- [Gradient descent, how neural networks learn](https://www.youtube.com/watch?v=IHZwWFHWa-w) by 3Blue1Brown — the companion video to the one above, showing how gradient descent actually adjusts weights to minimize the loss function.\n",
+          "summary": "Neural networks are computational graphs of interconnected nodes that learn to map inputs to outputs through layered transformations.",
+          "concepts": [
+            "neurons",
+            "layers",
+            "activation functions",
+            "forward pass"
+          ],
+          "youtube_id": "aircAruvnKk",
+          "video_title": "But what is a neural network? | 3Blue1Brown",
+          "vimeo_url": null,
+          "transcript": null
+        },
+        {
+          "title": "Backpropagation & Gradient Descent",
+          "slug": "backpropagation",
+          "order_index": 1,
+          "content": "# Backpropagation & Gradient Descent\n\n## The Learning Problem\n\nA neural network's weights start random. Learning means adjusting them so the network's outputs match the true labels. We need a way to measure error and update every weight accordingly — even weights deep in the network that don't directly touch the output.\n\n**Backpropagation** solves this by efficiently computing gradients using the **chain rule** from calculus.\n\n## Loss Functions\n\nThe loss function quantifies how wrong our predictions are:\n\n- **Mean Squared Error (regression)**: L = (1/n) Σ (ŷᵢ − yᵢ)²\n- **Cross-Entropy (classification)**: L = −Σ yᵢ log(ŷᵢ)\n\nThe goal is to minimize L by adjusting weights W and biases b.\n\n## The Chain Rule\n\nIf L depends on z, and z depends on w, then:\n\n```\n∂L/∂w = (∂L/∂z) · (∂z/∂w)\n```\n\nFor a network with layers, the gradient of the loss with respect to weight **Wˡ** in layer *l* is computed by chaining gradients backward from the output:\n\n```\n∂L/∂Wˡ = δˡ · (hˡ⁻¹)ᵀ\n```\n\nwhere **δˡ** is the \"error signal\" at layer *l*, computed recursively:\n\n```\nδˡ = ((Wˡ⁺¹)ᵀ δˡ⁺¹) ⊙ σ'(zˡ)\n```\n\n## Forward Pass → Backward Pass\n\n**Forward pass** (storing intermediate values):\n```python\nz1 = W1 @ x + b1\nh1 = relu(z1)          # save z1 for backward\nz2 = W2 @ h1 + b2\noutput = softmax(z2)\nloss = cross_entropy(output, y)\n```\n\n**Backward pass** (propagating gradients):\n```python\n# Output layer gradient\ndL_dz2 = output - y_onehot\n\n# Hidden layer gradient (chain rule)\ndL_dh1 = W2.T @ dL_dz2\ndL_dz1 = dL_dh1 * relu_grad(z1)   # element-wise\n\n# Weight gradients\ndL_dW2 = dL_dz2 @ h1.T\ndL_dW1 = dL_dz1 @ x.T\n```\n\nPyTorch automates this with `loss.backward()`.\n\n## Gradient Descent\n\nOnce we have gradients, we update weights to reduce the loss:\n\n```\nW ← W − η · ∂L/∂W\n```\n\nwhere **η** (eta) is the **learning rate** — a hyperparameter controlling step size.\n\n### Variants\n\n| Variant | Update Rule | Notes |\n|---------|------------|-------|\n| **Batch GD** | Full dataset gradient | Stable but slow |\n| **Stochastic GD (SGD)** | One sample at a time | Noisy but fast |\n| **Mini-batch SGD** | Batch of 32-256 samples | Best of both worlds |\n\n```python\noptimizer = torch.optim.SGD(model.parameters(), lr=0.01)\noptimizer.zero_grad()   # clear old gradients\nloss.backward()         # compute new gradients\noptimizer.step()        # update weights\n```\n\n## The Vanishing Gradient Problem\n\nFor deep networks, gradients can **vanish** (shrink exponentially) as they propagate backward through many layers. With sigmoid activations, σ'(x) ≤ 0.25, so multiplying gradients across 10 layers gives (0.25)¹⁰ ≈ 0.000001 — essentially zero.\n\n**Solutions**:\n- Use **ReLU** activations (gradient = 1 for positive inputs)\n- **Residual connections** (skip connections) in ResNets\n- **Batch normalization** to stabilize gradient magnitudes\n- Careful weight initialization (Xavier, He)\n\n## Key Takeaways\n\n- Backprop applies the chain rule to efficiently compute all gradients in one backward pass\n- Gradient descent moves weights in the direction that reduces the loss\n- Learning rate is critical: too large → divergence; too small → slow convergence\n- Vanishing gradients are the main challenge for very deep networks\n",
+          "summary": "Backpropagation efficiently computes gradients of the loss with respect to all weights using the chain rule, enabling gradient descent optimization.",
+          "concepts": [
+            "backpropagation",
+            "gradient descent",
+            "chain rule",
+            "loss functions"
+          ],
+          "youtube_id": "Ilg3gGewQ5U",
+          "video_title": "Backpropagation calculus | 3Blue1Brown",
+          "vimeo_url": null,
+          "transcript": null
+        }
+      ]
+    },
+    {
+      "title": "Training Deep Networks",
+      "order_index": 1,
+      "lessons": [
+        {
+          "title": "Optimization Algorithms",
+          "slug": "optimization-algorithms",
+          "order_index": 0,
+          "content": "# Optimization Algorithms\n\n## Why Not Vanilla SGD?\n\nStandard SGD with a fixed learning rate has a fundamental problem: the optimal learning rate differs across parameters. Weights that receive sparse gradients (e.g., embeddings for rare words) need larger updates; weights with consistent large gradients need smaller steps to avoid overshooting.\n\nModern optimizers address this by **adapting the learning rate per parameter**.\n\n## SGD with Momentum\n\nMomentum accelerates SGD in the relevant direction and dampens oscillations:\n\n```\nv_t = β · v_{t-1} + (1 − β) · g_t\nW ← W − η · v_t\n```\n\nThe velocity **v** accumulates a moving average of gradients. With β=0.9, the optimizer \"remembers\" the last ~10 gradient directions, smoothing out noisy updates.\n\n```python\noptimizer = torch.optim.SGD(model.parameters(), lr=0.01, momentum=0.9)\n```\n\n## RMSProp\n\nRMSProp adapts learning rates by dividing by the root mean square of recent gradients:\n\n```\ns_t = β · s_{t-1} + (1 − β) · g_t²\nW ← W − (η / √(s_t + ε)) · g_t\n```\n\nParameters with large recent gradients get smaller effective learning rates. The ε (epsilon) term prevents division by zero.\n\n## Adam: Adaptive Moment Estimation\n\nAdam combines momentum (first moment) with RMSProp (second moment):\n\n```\nm_t = β₁ · m_{t-1} + (1 − β₁) · g_t          # first moment (mean)\nv_t = β₂ · v_{t-1} + (1 − β₂) · g_t²          # second moment (variance)\n\nm̂_t = m_t / (1 − β₁ᵗ)                          # bias-corrected\nv̂_t = v_t / (1 − β₂ᵗ)                          # bias-corrected\n\nW ← W − η · m̂_t / (√v̂_t + ε)\n```\n\nDefault hyperparameters: β₁=0.9, β₂=0.999, ε=1e-8, η=1e-3.\n\n```python\noptimizer = torch.optim.Adam(model.parameters(), lr=1e-3, betas=(0.9, 0.999))\n```\n\n## AdamW: Adam with Decoupled Weight Decay\n\nStandard Adam applies L2 regularization incorrectly (it gets absorbed into the adaptive learning rate). **AdamW** decouples weight decay from gradient updates:\n\n```\nW ← W · (1 − η · λ) − η · m̂_t / (√v̂_t + ε)\n```\n\nAdamW is the default optimizer for training Transformers/LLMs.\n\n```python\noptimizer = torch.optim.AdamW(model.parameters(), lr=1e-4, weight_decay=0.01)\n```\n\n## Learning Rate Schedules\n\nA fixed learning rate is suboptimal. Common schedules:\n\n**Cosine Annealing**: Smoothly decays lr following a cosine curve — high initially for fast progress, low near the end for fine refinement.\n\n```python\nscheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=100)\n```\n\n**Linear Warmup + Cosine Decay** (used in LLM training):\n```python\nfrom transformers import get_cosine_schedule_with_warmup\nscheduler = get_cosine_schedule_with_warmup(\n    optimizer, num_warmup_steps=500, num_training_steps=10000\n)\n```\n\nWarmup is crucial for Transformer training: starting with a large lr causes instability in the early layers.\n\n## Gradient Clipping\n\nExploding gradients (the opposite of vanishing) can crash training. Clip the global gradient norm:\n\n```python\ntorch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)\n```\n\nThis is standard practice when training RNNs and Transformers.\n\n## Practical Tips\n\n- **Default choice**: AdamW with lr=1e-4 for fine-tuning, 1e-3 for training from scratch\n- **Learning rate finder**: Train for one epoch while increasing lr exponentially; pick the rate just before loss explodes\n- **Batch size matters**: Larger batches → can use larger lr (linear scaling rule)\n- Always use gradient clipping with Transformers\n",
+          "summary": "Modern optimizers like Adam adaptively tune learning rates per parameter, dramatically accelerating training of deep networks.",
+          "concepts": [
+            "Adam",
+            "SGD",
+            "momentum",
+            "learning rate schedules",
+            "weight decay"
+          ],
+          "youtube_id": null,
+          "video_title": null,
+          "vimeo_url": null,
+          "transcript": null
+        },
+        {
+          "title": "Regularization & Normalization",
+          "slug": "regularization",
+          "order_index": 1,
+          "content": "# Regularization & Normalization\n\n## The Overfitting Problem\n\nA model with millions of parameters can perfectly memorize training data — outputting near-zero loss while failing catastrophically on new examples. This is **overfitting**: the model learns noise and spurious correlations instead of generalizable patterns.\n\nRegularization techniques constrain the model to learn simpler, more robust representations.\n\n## L1 and L2 Regularization\n\nAdd a penalty on weight magnitude to the loss function:\n\n- **L2 (Ridge)**: λ Σ wᵢ² — penalizes large weights, encourages small distributed weights\n- **L1 (Lasso)**: λ Σ |wᵢ| — encourages sparse weights (many exact zeros)\n\n```python\n# L2 via weight_decay in AdamW\noptimizer = torch.optim.AdamW(model.parameters(), lr=1e-4, weight_decay=1e-2)\n\n# Manual L2 loss\nl2_loss = sum(p.pow(2).sum() for p in model.parameters())\ntotal_loss = task_loss + lambda_ * l2_loss\n```\n\n## Dropout\n\nDropout randomly **zeroes out** neurons during training with probability *p*:\n\n```python\nself.dropout = nn.Dropout(p=0.1)\nx = self.dropout(x)  # training: zeros ~10% of activations\n                     # inference: scales by (1-p), no dropout\n```\n\n**Intuition**: By preventing neurons from co-adapting (relying on specific other neurons), dropout forces the network to learn redundant representations. It's equivalent to training an ensemble of 2ⁿ different networks simultaneously.\n\nTypical values: p=0.1–0.3 for Transformers, p=0.5 for fully-connected layers.\n\n## Batch Normalization\n\nBatch Norm (BN) normalizes activations across the batch dimension, then rescales with learned parameters γ and β:\n\n```\nμ_B = (1/m) Σ xᵢ              # batch mean\nσ²_B = (1/m) Σ (xᵢ − μ_B)²  # batch variance\nx̂ᵢ = (xᵢ − μ_B) / √(σ²_B + ε)  # normalize\nyᵢ = γ x̂ᵢ + β               # scale and shift\n```\n\n```python\nself.bn = nn.BatchNorm1d(hidden_dim)\nx = self.bn(self.linear(x))\n```\n\n**Why BN helps**:\n1. Reduces **internal covariate shift** — later layers see stable input distributions as earlier layers change\n2. Acts as a regularizer (noise from batch statistics)\n3. Allows higher learning rates\n4. Smooths the loss landscape\n\n**Limitation**: Doesn't work well with small batch sizes or in sequence models (batch statistics are ill-defined).\n\n## Layer Normalization\n\nLayer Norm normalizes across the **feature dimension** (not the batch dimension), making it batch-size independent:\n\n```\nμ = (1/H) Σ xᵢ    # mean over features\nσ = √((1/H) Σ (xᵢ − μ)²)\nx̂ = (x − μ) / (σ + ε)\ny = γ x̂ + β\n```\n\n```python\nself.ln = nn.LayerNorm(hidden_dim)\n```\n\nLayer Norm is the standard choice for **Transformers** because it works well for variable-length sequences and any batch size.\n\n## Data Augmentation\n\nArtificially expand the training set by applying label-preserving transformations:\n\n```python\nfrom torchvision import transforms\naugment = transforms.Compose([\n    transforms.RandomHorizontalFlip(),\n    transforms.RandomCrop(32, padding=4),\n    transforms.ColorJitter(brightness=0.2),\n])\n```\n\nFor NLP: random token deletion, synonym replacement, back-translation.\n\n## Practical Guidelines\n\n| Technique | When to Use |\n|-----------|-------------|\n| Weight decay (L2) | Almost always; set to 0.01–0.1 |\n| Dropout | FC layers, attention; skip for BN layers |\n| BatchNorm | CNNs, MLPs with large batches |\n| LayerNorm | Transformers, RNNs |\n| Data augmentation | Small datasets; always for vision |\n\nThe best regularization is often **more data** — augmentation is a cheap proxy for this.\n",
+          "summary": "Regularization techniques prevent overfitting by constraining model complexity, while normalization layers stabilize training dynamics.",
+          "concepts": [
+            "dropout",
+            "batch normalization",
+            "layer normalization",
+            "weight decay",
+            "data augmentation"
+          ],
+          "youtube_id": null,
+          "video_title": null,
+          "vimeo_url": null,
+          "transcript": null
+        }
+      ]
+    },
+    {
+      "title": "Architectures Before Transformers",
+      "order_index": 2,
+      "lessons": [
+        {
+          "title": "CNNs & Representation Learning",
+          "slug": "cnns-representation-learning",
+          "order_index": 0,
+          "content": "# CNNs & Representation Learning\n\n## From Pixels to Features\n\nFeeding raw pixel values into a fully-connected network is wasteful — an image is not a flat vector. A 256×256 RGB image has 196,608 inputs; a single hidden layer with 1,000 neurons means ~200 million weights. Convolutional Neural Networks (CNNs) exploit the spatial structure of images using three key ideas: **local connectivity**, **parameter sharing**, and **translation equivariance**.\n\n## The Convolution Operation\n\nA **convolutional layer** slides a small filter (kernel) across the input, computing dot products at each position to produce a **feature map**:\n\n```python\nimport torch.nn as nn\n\nconv = nn.Conv2d(\n    in_channels=3,    # RGB input\n    out_channels=64,  # 64 different filters\n    kernel_size=3,    # 3x3 filter\n    padding=1         # preserve spatial dimensions\n)\n```\n\nEach filter learns to detect a specific pattern — edges, textures, corners. Stacking convolutional layers builds a **hierarchy of representations**: edges → textures → parts → objects.\n\n## Pooling and Downsampling\n\n**Max pooling** reduces spatial dimensions by taking the maximum value in each local region, making features invariant to small translations:\n\n```python\npool = nn.MaxPool2d(kernel_size=2, stride=2)  # halves spatial dims\n```\n\nA typical CNN alternates convolution + ReLU → pooling, progressively reducing spatial size while increasing the number of feature channels.\n\n## The ImageNet Moment\n\nIn 2012, **AlexNet** won the ImageNet challenge by a dramatic margin — slashing the error rate from 26% to 16%. This was the moment deep learning went from academic curiosity to industry revolution.\n\n| Model | Year | Key Innovation |\n|-------|------|----------------|\n| **AlexNet** | 2012 | Deep CNN + GPU training, dropout |\n| **VGG** | 2014 | Deeper networks (16-19 layers), small 3×3 filters |\n| **GoogLeNet** | 2014 | Inception modules, multiple filter sizes in parallel |\n| **ResNet** | 2015 | Residual connections — enabling 100+ layer networks |\n\n## Residual Connections (Skip Connections)\n\nResNet's key insight: instead of learning a mapping H(x), learn the **residual** F(x) = H(x) − x:\n\n```\noutput = F(x) + x    # skip connection\n```\n\nThis lets gradients flow directly through the skip path, solving vanishing gradients for very deep networks. Residual connections are now used everywhere — including every Transformer.\n\n```python\nclass ResidualBlock(nn.Module):\n    def __init__(self, channels):\n        super().__init__()\n        self.conv1 = nn.Conv2d(channels, channels, 3, padding=1)\n        self.conv2 = nn.Conv2d(channels, channels, 3, padding=1)\n        self.bn1 = nn.BatchNorm2d(channels)\n        self.bn2 = nn.BatchNorm2d(channels)\n\n    def forward(self, x):\n        residual = x\n        out = F.relu(self.bn1(self.conv1(x)))\n        out = self.bn2(self.conv2(out))\n        return F.relu(out + residual)\n```\n\n## Why CNNs Matter for the ML Journey\n\nCNNs introduced ideas that pervade all modern architectures: **hierarchical feature learning**, **residual connections** (reused in Transformers), and **pre-training on large datasets** (ImageNet as the predecessor to LLM pre-training). While Vision Transformers (ViTs) have largely replaced CNNs at the frontier, their architectural innovations shaped everything that followed.\n\n## Recommended Reading\n\n- [Stanford CS231n: Convolutional Neural Networks for Visual Recognition](https://cs231n.github.io/convolutional-networks/) — the gold standard introduction to CNNs, with excellent visualizations.\n- [3Blue1Brown: But what is a convolution?](https://www.youtube.com/watch?v=KuXjwB4LzSA) — a visual exploration of the convolution operation and why it appears everywhere in deep learning.\n",
+          "summary": "CNNs exploit the spatial structure of images through convolutions, pooling, and residual connections — architectural ideas that shaped all modern deep learning.",
+          "concepts": [
+            "convolution",
+            "feature maps",
+            "pooling",
+            "residual connections",
+            "ImageNet"
+          ],
+          "youtube_id": null,
+          "video_title": null,
+          "vimeo_url": null,
+          "transcript": null
+        },
+        {
+          "title": "RNNs, LSTMs & Sequence Modeling",
+          "slug": "rnns-sequence-modeling",
+          "order_index": 1,
+          "content": "# RNNs, LSTMs & Sequence Modeling\n\n## The Problem with Sequences\n\nFeed-forward networks process fixed-size inputs — but language, music, and time series are **sequential**. The meaning of a word depends on what came before it. \"Bank\" means something different in \"river bank\" vs \"bank account\", and that context can be arbitrarily far back.\n\nRNNs handle this by maintaining a **hidden state** that acts as memory.\n\n## Recurrent Neural Networks\n\nAt each timestep *t*, an RNN takes the current input **xₜ** and the previous hidden state **hₜ₋₁**, producing a new hidden state:\n\n```\nhₜ = tanh(Wₕ hₜ₋₁ + Wₓ xₜ + b)\n```\n\nThe same weights **Wₕ** and **Wₓ** are shared across all timesteps — the network \"unrolls\" through time.\n\n```python\nrnn = nn.RNN(input_size=128, hidden_size=256, num_layers=1, batch_first=True)\noutput, h_n = rnn(x)  # output: all hidden states, h_n: final hidden state\n```\n\n## The Vanishing Gradient Strikes Again\n\nDuring backpropagation through time (BPTT), gradients are multiplied by **Wₕ** at each step. Over long sequences (50+ tokens), gradients either **vanish** (|Wₕ| < 1) or **explode** (|Wₕ| > 1). In practice, vanilla RNNs can only learn dependencies spanning about 10-20 timesteps.\n\n## LSTMs: Learning to Remember and Forget\n\n**Long Short-Term Memory** networks (Hochreiter & Schmidhuber, 1997) solve this with a **cell state** — a highway that information flows through unchanged, plus **gates** that control what to add or remove:\n\n- **Forget gate**: What to erase from cell state: fₜ = σ(Wf[hₜ₋₁, xₜ])\n- **Input gate**: What new information to store: iₜ = σ(Wi[hₜ₋₁, xₜ])\n- **Output gate**: What to output: oₜ = σ(Wo[hₜ₋₁, xₜ])\n\nThe cell state update:\n\n```\nC̃ₜ = tanh(Wc[hₜ₋₁, xₜ])     # candidate values\nCₜ = fₜ ⊙ Cₜ₋₁ + iₜ ⊙ C̃ₜ   # update cell state\nhₜ = oₜ ⊙ tanh(Cₜ)           # output hidden state\n```\n\nThe key insight: the cell state **Cₜ** can carry information across many timesteps with only element-wise operations — no matrix multiplication, so gradients don't vanish.\n\n```python\nlstm = nn.LSTM(input_size=128, hidden_size=256, num_layers=2, batch_first=True)\noutput, (h_n, c_n) = lstm(x)  # c_n is the cell state\n```\n\n## GRUs: A Simpler Alternative\n\n**Gated Recurrent Units** merge the forget and input gates into a single \"update gate\" and combine cell and hidden state. Fewer parameters, comparable performance in practice.\n\n## Sequence-to-Sequence & The Bottleneck\n\nFor tasks like translation, an **encoder** LSTM reads the source sentence and compresses it into a final hidden state, which a **decoder** LSTM uses to generate the output token by token.\n\nThe critical problem: the entire source sentence — regardless of length — must be compressed into a **single fixed-size vector**. For long sentences, this is catastrophically lossy. This fundamental limitation motivated the invention of **attention** — the subject of the next module.\n\n## Recommended Reading\n\n- [Understanding LSTM Networks](https://colah.github.io/posts/2015-08-Understanding-LSTMs/) by Chris Olah — the clearest explanation of LSTM gates, with beautiful diagrams. A must-read.\n",
+          "summary": "RNNs process sequential data by maintaining hidden state across timesteps, while LSTMs use gating mechanisms to learn long-range dependencies without vanishing gradients.",
+          "concepts": [
+            "recurrent neural networks",
+            "hidden state",
+            "LSTM",
+            "gating mechanisms",
+            "sequence-to-sequence",
+            "vanishing gradients"
+          ],
+          "youtube_id": null,
+          "video_title": null,
+          "vimeo_url": null,
+          "transcript": null
+        }
+      ]
+    },
+    {
+      "title": "The Road to Transformers",
+      "order_index": 3,
+      "lessons": [
+        {
+          "title": "Word Embeddings & Representation",
+          "slug": "word-embeddings",
+          "order_index": 0,
+          "content": "# Word Embeddings & Representation\n\n## The Representation Problem\n\nHow do you feed words into a neural network? The naive approach is **one-hot encoding**: each word is a vector with a 1 at its index and 0s everywhere else. For a vocabulary of 50,000 words, \"cat\" might be [0, 0, ..., 1, ..., 0] — a 50,000-dimensional vector.\n\nProblems: these vectors are **sparse** (mostly zeros, wasteful), **high-dimensional**, and worst of all, they encode no relationships — the distance between \"cat\" and \"kitten\" is the same as between \"cat\" and \"uranium\".\n\n## Word2Vec: Learning Meaning from Context\n\n**Word2Vec** (Mikolov et al., 2013) learns dense, low-dimensional vectors (typically 100-300 dimensions) from the distributional hypothesis: *words that appear in similar contexts have similar meanings*.\n\nTwo training approaches:\n\n- **Skip-gram**: Given a word, predict its surrounding context words. \"The [cat] sat on\" → predict \"the\", \"sat\", \"on\" from \"cat\".\n- **CBOW (Continuous Bag of Words)**: Given context words, predict the center word. \"The ___ sat on\" → predict \"cat\".\n\nThe magic: training on millions of sentences, the model learns that \"cat\" and \"kitten\" appear in similar contexts — so their vectors end up close together.\n\n## Embedding Arithmetic\n\nThe most striking property of Word2Vec embeddings is that they capture **semantic relationships as vector operations**:\n\n```\nking − man + woman ≈ queen\nParis − France + Italy ≈ Rome\nwalked − walking + swimming ≈ swam\n```\n\nThese aren't hand-coded rules — they emerge naturally from training on raw text.\n\n## GloVe: Global Vectors\n\n**GloVe** (Pennington et al., 2014) takes a different approach: instead of predicting context words, it factorizes the global **word co-occurrence matrix**. If \"ice\" and \"cold\" co-occur frequently, their vectors are trained to reflect that. GloVe captures similar relationships as Word2Vec but uses global statistics rather than local context windows.\n\n## Using Pre-trained Embeddings\n\nIn practice, you rarely train embeddings from scratch. Pre-trained embeddings are used as the first layer:\n\n```python\nimport torch.nn as nn\n\nembedding = nn.Embedding(vocab_size, embed_dim)\n\n# Load pre-trained weights\nembedding.weight = nn.Parameter(pretrained_vectors)\n\n# Optional: freeze embeddings\nembedding.weight.requires_grad = False\n```\n\n## The Limitation: Static Representations\n\nWord2Vec and GloVe assign **one vector per word** regardless of context. The word \"bank\" gets the same embedding whether it means a financial institution or a river bank.\n\nThis limitation drove the development of **contextual embeddings** — models like ELMo (2018) that produce different representations for the same word in different contexts by running it through a deep bidirectional LSTM.\n\nThe Transformer architecture would take this even further: every token's representation is fully context-dependent, computed through self-attention over the entire sequence.\n\n## Recommended Reading\n\n- [The Illustrated Word2Vec](https://jalammar.github.io/illustrated-word2vec/) by Jay Alammar — an excellent visual walkthrough of how word embeddings are trained, with intuitive diagrams that make the math click.\n",
+          "summary": "Word embeddings like Word2Vec and GloVe represent words as dense vectors that capture semantic meaning, enabling neural networks to work with language.",
+          "concepts": [
+            "word embeddings",
+            "Word2Vec",
+            "GloVe",
+            "distributional hypothesis",
+            "contextual embeddings"
+          ],
+          "youtube_id": null,
+          "video_title": null,
+          "vimeo_url": null,
+          "transcript": null
+        },
+        {
+          "title": "The Attention Breakthrough",
+          "slug": "attention-breakthrough",
+          "order_index": 1,
+          "content": "# The Attention Breakthrough\n\n## The Seq2Seq Bottleneck, Revisited\n\nRecall the encoder-decoder architecture: an encoder LSTM reads the source sentence and compresses it into a final hidden state **h**, which the decoder uses to generate the output:\n\n```\nSource: \"The cat sat on the mat\"  →  Encoder  →  h  →  Decoder  →  \"Le chat...\"\n```\n\nFor short sentences, this works. But as sequences grow longer, the fixed-size vector **h** cannot faithfully represent all the information — early tokens get \"overwritten\" by later ones. Translation quality degrades sharply for sentences longer than ~20 words.\n\n## Bahdanau Attention (2014)\n\nBahdanau, Cho, and Bengio proposed a simple but revolutionary idea: **let the decoder look at all encoder hidden states, not just the last one**.\n\nAt each decoder step *t*, the model computes an **alignment score** between the decoder's current state and each encoder hidden state:\n\n```\neₜᵢ = score(sₜ₋₁, hᵢ)          # how relevant is encoder position i?\nαₜᵢ = softmax(eₜ)               # normalize to get attention weights\ncₜ = Σ αₜᵢ · hᵢ                 # context vector: weighted sum\n```\n\nThe decoder then uses both its own state and the context vector **cₜ** to generate the next token.\n\nThe key insight: instead of one fixed summary, the model creates a **different summary for each output step**, focusing on the relevant parts of the input. When translating the French word for \"cat\", the attention weights peak on the English word \"cat\".\n\n## Visualizing Attention\n\nAttention weights produce an interpretable alignment matrix — you can literally see which source words the model \"looks at\" when generating each target word:\n\n```\n           The  cat  sat  on  the  mat\nLe         0.9  0.0  0.0  0.0 0.1  0.0\nchat       0.0  0.9  0.0  0.0 0.0  0.1\nétait      0.0  0.1  0.8  0.0 0.0  0.1\nassis      0.0  0.0  0.9  0.1 0.0  0.0\n```\n\n## Luong Attention Variants\n\nLuong et al. (2015) simplified attention and explored different scoring functions:\n\n| Scoring | Formula | Notes |\n|---------|---------|-------|\n| **Dot product** | sᵀh | Simplest, no extra parameters |\n| **General** | sᵀWh | Learned transformation |\n| **Concat** | vᵀ tanh(W[s;h]) | Bahdanau's original, most expressive |\n\nThe dot-product score would later become the foundation of the Transformer's attention mechanism.\n\n## Why Attention Changed Everything\n\nAttention did more than fix long-range dependencies — it introduced three paradigm-shifting ideas:\n\n1. **Dynamic computation**: The model decides what to focus on at each step, rather than processing everything uniformly.\n2. **Direct connections**: Any output position can directly access any input position — no information bottleneck.\n3. **Parallelism potential**: Unlike RNNs which must process sequentially, attention scores between all pairs can be computed simultaneously.\n\n## The Question That Led to Transformers\n\nAttention was initially used *alongside* RNNs — the encoder and decoder were still LSTMs, with attention as an add-on. But a provocative question emerged:\n\n*If attention is doing the heavy lifting, why do we need the recurrent layers at all?*\n\nIn 2017, Vaswani et al. answered this with the paper \"Attention Is All You Need\" — removing recurrence entirely and building a model based *solely* on attention. The **Transformer** was born, and it changed AI forever.\n\nThat architecture is where the **Introduction to LLMs** course begins.\n\n## Recommended Reading\n\n- [Attention Is All You Need](https://arxiv.org/abs/1706.03762) (Vaswani et al., 2017) — the paper that launched the Transformer era. The figures and architecture diagrams are worth studying even if you skim the math.\n",
+          "summary": "Bahdanau attention solved the seq2seq bottleneck by letting the decoder look at all encoder states, introducing the core mechanism that would become the foundation of Transformers.",
+          "concepts": [
+            "attention mechanism",
+            "alignment scores",
+            "encoder-decoder attention",
+            "seq2seq bottleneck",
+            "Bahdanau attention"
+          ],
+          "youtube_id": null,
+          "video_title": null,
+          "vimeo_url": null,
+          "transcript": null
+        }
+      ]
+    }
+  ]
+}

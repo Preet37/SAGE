@@ -1,0 +1,17 @@
+[
+  {
+    "need_type": "API_REFERENCE",
+    "description": "Exact defaults and parameter semantics for PPOTrainer/DPOTrainer (e.g., cliprange, vf_coef, target_kl/kl_coef behavior, reward scaling/whitening, reference-model handling, padding/tokenization conventions).",
+    "search_hint": "site:github.com huggingface/trl PPOConfig defaults cliprange vf_coef target_kl kl_coef reward_scaling DPOConfig beta reference_model pad_token_id"
+  },
+  {
+    "need_type": "DEPLOYMENT_CASE",
+    "description": "Real-world production RLHF deployment case studies: labeling ops, safety gates, monitoring, cost/latency metrics, preference win-rate over time, incident reduction.",
+    "search_hint": "RLHF production case study labeling operations safety evaluation gates monitoring preference win-rate cost latency 'data flywheel' 'incident reduction'"
+  },
+  {
+    "need_type": "EMPIRICAL_DATA",
+    "description": "Ablation tables directly comparing SFT vs PPO-RLHF vs DPO (and RLAIF/Constitutional AI), including sensitivity to KL coefficient, RM size, and preference dataset size.",
+    "search_hint": "SFT vs PPO RLHF vs DPO ablation table KL coefficient sensitivity reward model size preference dataset size RLAIF Constitutional AI win rate"
+  }
+]

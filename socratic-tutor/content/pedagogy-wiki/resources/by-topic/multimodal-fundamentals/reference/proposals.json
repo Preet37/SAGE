@@ -1,0 +1,243 @@
+[
+  {
+    "timestamp": "2026-04-09T16:24:22",
+    "run_label": "reference-track:Multimodal Learning Fundamentals",
+    "sources": [
+      {
+        "url": "https://arxiv.org/pdf/1908.02265.pdf",
+        "title": "ViLBERT: Pretraining Task-Agnostic Visiolinguistic ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "http://arxiv.org/pdf/1908.02265.pdf",
+        "title": "ViLBERT: Pretraining Task-Agnostic Visiolinguistic",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2019/file/c74d97b01eae257e44aa9d5bade97baf-Paper.pdf",
+        "title": "ViLBERT: Pretraining Task-Agnostic Visiolinguistic Representations for Vision-and-Language Tasks",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://fr.scribd.com/document/472977792/1908-02265v1",
+        "title": "1908.02265v1",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.themoonlight.io/en/review/an-efficient-multimodal-learning-framework-to-comprehend-consumer-preferences-using-bert-and-cross-attention",
+        "title": "[Literature Review] An Efficient Multimodal Learning Framework to ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://aclanthology.org/D19-1514.pdf",
+        "title": "[PDF] LXMERT: Learning Cross-Modality Encoder Representations from ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.arxiv.org/pdf/1908.07490.pdf",
+        "title": "LXMERT: Learning Cross-Modality Encoder Representations",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1908.07490.pdf",
+        "title": "[PDF] arXiv:1908.07490v3 [cs.CL] 3 Dec 2019",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://github.com/huggingface/transformers/blob/main/docs/source/en/model_doc/lxmert.md",
+        "title": "transformers/docs/source/en/model_doc/lxmert.md at main \u00b7 huggingface/transformers",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://discovery.researcher.life/article/lxmert-learning-cross-modality-encoder-representations-from-transformers/6769f87fdc6d373babe222b7cc540162",
+        "title": "LXMERT: Learning Cross-Modality Encoder Representations from ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://jacobfa.github.io/papers/bridging.pdf",
+        "title": "[PDF] Bridging Hidden States in Vision-Language Models",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.ijerm.com/download_data/IJERM1108004.pdf",
+        "title": "[PDF] Improving Attention and Multimodal Fusion for Visual ... - IJERM",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2023.findings-acl.316.pdf",
+        "title": "[PDF] Fusion or Defusion? Flexible Vision-and-Language Pre-Training",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0260784",
+        "title": "Pre-training Model Based on Parallel Cross-Modality Fusion Layer",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2512.15707v1",
+        "title": "Hierarchical Gated Cross-Modal Fusion for Active Speaker ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12970390/table/tab6/",
+        "title": "Table 6.",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12998865/table/pone.0320989.t005/",
+        "title": "Table 5. Ablation 1 \u2013 Self-attention fusion vs. concatenation.",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2411.17040v1",
+        "title": "Multimodal Alignment and Fusion: A Survey - arXiv.org",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10606612/",
+        "title": "4. Experiments And Results",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "http://arxiv.org/pdf/2212.01447.pdf",
+        "title": "Preprint",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "http://www.arxiv.org/pdf/2506.10953.pdf",
+        "title": "Build the web for agents, not agents for the web",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2401.13919v4",
+        "title": "Building an End-to-End Web Agent with Large Multimodal Models",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.themoonlight.io/en/review/webvoyager-building-an-end-to-end-web-agent-with-large-multimodal-models",
+        "title": "[Literature Review] WebVoyager: Building an End-to- ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://hub.theaibrains.com/blog-4fk477lj/post/ai-agents-with-browser-webarena-9B3EWcLrUIH5efB",
+        "title": "Understanding AI Agents in WebArena: A Deep Dive into Browser ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.alphaxiv.org/overview/2401.13919v4",
+        "title": "WebVoyager: Building an End-to-End Web Agent with Large ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2410.05243v3",
+        "title": "Universal Visual Grounding for GUI Agents",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2410.05243v2",
+        "title": "Navigating the Digital World as Humans Do: Universal Visual Grounding for GUI Agents",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/ICCV2025/papers/Luo_Visual_Test-time_Scaling_for_GUI_Agent_Grounding_ICCV_2025_paper.pdf",
+        "title": "[PDF] Visual Test-time Scaling for GUI Agent Grounding - CVF Open Access",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://osu-nlp-group.github.io/SeeAct/",
+        "title": "SeeAct - GitHub Pages",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://osu-nlp-group.github.io/UGround/",
+        "title": "Offline Experiments",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://platform.openai.com/docs/assistants/deep-dive/max-completion-and-max-prompt-tokens",
+        "title": "Assistants API deep dive - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/images-vision",
+        "title": "Images and vision - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/vision?lang=node",
+        "title": "Images and vision - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/vision",
+        "title": "OpenAI GPT-4 Vision API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/images-vision?api-mode=chat",
+        "title": "Images and Vision (docs)",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/proper-way-to-handle-non-square-images-with-clip/32813",
+        "title": "Proper way to handle non-square images with CLIP? - Models",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/input-size-of-clipvisionmodel-reverts-back-to-default-while-using-pretrained-weights/32319",
+        "title": "Input size of CLIPVisionModel reverts back to default while ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/luogen1996/LLaVA-HR/blob/main/Evaluation.md",
+        "title": "LLaVA-HR/Evaluation.md at main \u00b7 luogen1996/LLaVA-HR",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/haotian-liu/LLaVA/blob/main/llava/eval/model_vqa.py",
+        "title": "LLaVA/llava/eval/model_vqa.py at main \u00b7 haotian-liu/LLaVA",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/haotian-liu/LLaVA/issues/963",
+        "title": "[Question] Evaluation On Custom Data \u00b7 Issue #963 \u00b7 haotian-liu/LLaVA",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://tinyllava-factory.readthedocs.io/en/latest/Evaluation.html",
+        "title": "Evaluation",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/haotian-liu/LLaVA/issues/515",
+        "title": "[Question] Reproduction Inquiry on TextVQA using llava-v1.5-13b \u00b7 Issue #515 \u00b7 haotian-liu/LLaVA",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://arxiv.org/html/2501.14607v1",
+        "title": "ReferDINO: Referring Video Object Segmentation with Visual ... - arXiv",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/Xiaoyao-Li/GroundedSAM",
+        "title": "GitHub - Xiaoyao-Li/GroundedSAM: Marrying Grounding DINO with Segment Anything & Stable Diffusion & BLIP & Whisper & ChatBot - Automatically Detect , Segment and Generate Anything with Image, Text, and Speech Inputs",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/KhaledSharif/gdino",
+        "title": "GitHub - KhaledSharif/gdino: Grounding DINO + Segment Anything Model (SAM)",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/Stability-AI/Stable-Grounded-Segment-Anything",
+        "title": "GitHub - Stability-AI/Stable-Grounded-Segment-Anything: Grounded-SAM: Marrying Grounding DINO with Segment Anything & Stable Diffusion & Recognize Anything - Automatically Detect , Segment and Generate Anything",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/groundedsam",
+        "title": "Grounded SAM: Open-Vocab Vision Pipeline - Emergent Mind",
+        "need_type": "WORKING_EXAMPLE"
+      }
+    ]
+  }
+]

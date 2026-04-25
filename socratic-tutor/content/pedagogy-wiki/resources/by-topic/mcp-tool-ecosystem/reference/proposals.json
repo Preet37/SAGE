@@ -1,0 +1,494 @@
+[
+  {
+    "timestamp": "2026-04-09T18:30:54",
+    "run_label": "reference-track:Model Context Protocol",
+    "sources": [
+      {
+        "url": "https://modelcontextprotocol.io/specification/2025-06-18/server/prompts",
+        "title": "Prompts - Model Context Protocol",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://modelcontextprotocol.io/specification/2025-11-25",
+        "title": "Specification - Model Context Protocol",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://modelcontextprotocol.io/specification/2025-06-18/server/tools",
+        "title": "Tools - Model Context Protocol",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://modelcontextprotocol.io/docs/learn/architecture",
+        "title": "Architecture overview - Model Context Protocol",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://modelcontextprotocol.io/specification/2025-06-18/basic/lifecycle",
+        "title": "stdio",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "http://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/schema/2025-06-18/schema.ts",
+        "title": "modelcontextprotocol/schema/2025-06-18/schema.ts at main \u00b7 modelcontextprotocol/modelcontextprotocol",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://gist.github.com/lalunamel/21df1908008400d2e9d1d7243f77724a",
+        "title": "Model Context Protocol - Spec",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/schema/2025-03-26/schema.ts",
+        "title": "modelcontextprotocol/schema/2025-03-26/schema.ts at main \u00b7 modelcontextprotocol/modelcontextprotocol",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/modelcontextprotocol/python-sdk/issues/542",
+        "title": "MCP server with STDIO transport throws an 'Error: SSE connection not established' when attempting to connect via MCP Inspector \u00b7 Issue #542 \u00b7 modelcontextprotocol/python-sdk",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/supercorp-ai/supergateway/issues/68",
+        "title": "[sse -> stdio] not respecting protocol version from stdio client when initializing \u00b7 Issue #68 \u00b7 supercorp-ai/supergateway",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2512.08290v1",
+        "title": "Security and Safety in the Model Context Protocol Ecosystem - arXiv",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://modelcontextprotocol.io/docs/learn/architecture",
+        "title": "Architecture overview - Model Context Protocol",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2512.08290.pdf",
+        "title": "Systematization of Knowledge: Security and Safety in the Model Context Protocol Ecosystem",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://xinyi-hou.github.io/files/hou2025mcp_1.pdf",
+        "title": "[PDF] Model Context Protocol (MCP): Landscape, Security Threats, and ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://d197for5662m48.cloudfront.net/documents/publicationstatus/254518/preprint_pdf/df53cd226b4b6d22e8ca4ff30677752e.pdf",
+        "title": "[PDF] A Survey on Model Context Protocol",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.anthropic.com/news/model-context-protocol",
+        "title": "Introducing the Model Context Protocol - Anthropic",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.anthropic.com/news/donating-the-model-context-protocol-and-establishing-of-the-agentic-ai-foundation",
+        "title": "Donating the Model Context Protocol and establishing ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.anthropic.com/news/model-context-protocol?s=prompt+injection",
+        "title": "Introducing the Model Context Protocol",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.anthropic.com/news/model-context-protocol?_bhlid=2577406d0999f3b4b136d90f005e2810fc54b47b",
+        "title": "Introducing the Model Context Protocol \\ Anthropic",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.anthropic.com/news/model-context-protocol?3433df04_page=3",
+        "title": "Introducing the Model Context ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/cyanheads/model-context-protocol-resources/blob/main/guides/mcp-server-development-guide.md",
+        "title": "Model Context Protocol (MCP) Server Development Guide \u2026 - GitHub",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/modelcontextprotocol/python-sdk/tree/main",
+        "title": "GitHub - modelcontextprotocol/python-sdk: The official Python SDK for Model Context Protocol servers and clients",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/dickdavis/model-context-protocol-rb/blob/main/README.md",
+        "title": "model-context-protocol-rb/README.md at main \u00b7 dickdavis/model-context-protocol-rb",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/modelcontextprotocol/python-sdk/blob/main/examples/clients/simple-chatbot/mcp_simple_chatbot/main.py",
+        "title": "python-sdk/examples/clients/simple-chatbot/mcp_simple_chatbot/main.py at main \u00b7 modelcontextprotocol/python-sdk",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/ivo-toby/mcp-openapi-server/blob/main/mcp-examples.md",
+        "title": "mcp-openapi-server/mcp-examples.md at main \u00b7 ivo-toby/mcp-openapi-server",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://code.claude.com/docs/en/mcp",
+        "title": "Connect Claude Code to tools via MCPcode.claude.com \u203a docs \u203a mcp",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=y2ouRx1IZGA",
+        "title": "Using MCP with Claude Desktop (STDIO Walkthrough) \ud83e\udd16\ud83d\udd0c",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/rad-security/mcp-server/blob/main/claude_desktop_config.example.json",
+        "title": "mcp-server/claude_desktop_config.example.json at main \u00b7 rad-security/mcp-server",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://natoma.ai/blog/how-to-enabling-mcp-in-claude-desktop",
+        "title": "Claude Desktop MCP Setup (2026): Add Servers & Configure Tools",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://workos.com/blog/getting-started-with-claude-desktop-and-custom-mcp-servers-using-the-typescript-sdk",
+        "title": "Getting Started with Claude Desktop and custom MCP servers using ...",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://arxiv.org/html/2603.13417v1",
+        "title": "Design Patterns for Deploying AI Agents with Model ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://portkey.ai/blog/model-context-protocol-context-management-in-high-throughput/",
+        "title": "How MCP handles context management in high-throughput ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://model-context-protocol.com/blog/model-context-protocol-technical-foundation",
+        "title": "The Technical Foundation of Next-Generation AI Assistants",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://modelcontextprotocol.info/docs/faqs/",
+        "title": "MCP FAQ: Expert Answers to Real-World Questions",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.getmaxim.ai/articles/best-mcp-gateways-for-production-systems-in-2026/",
+        "title": "4. Ibm Contextforge",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices",
+        "title": "Security Best Practices - Model Context Protocol",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.mymcpshelf.com/blog/deploying-mcp-servers-production-security-guide/",
+        "title": "Deploying MCP Servers in Production: A Security-First Guide",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://decodethefuture.org/en/what-is-mcp-model-context-protocol/",
+        "title": "What Is MCP? Model Context Protocol Explained for 2026",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://genai.owasp.org/resource/a-practical-guide-for-secure-mcp-server-development/",
+        "title": "A Practical Guide for Secure MCP Server Development",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://workos.com/blog/everything-your-team-needs-to-know-about-mcp-in-2026",
+        "title": "Everything your team needs to know about MCP in 2026 - WorkOS",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.descope.com/blog/post/mcp-vs-function-calling",
+        "title": "MCP vs. Function Calling: How They Differ and Which to Use",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://tetrate.io/learn/ai/mcp/mcp-vs-openai-function-calling",
+        "title": "MCP vs OpenAI Function Calling: Which Should You Use? - Tetrate",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://blog.lum.tools/es/posts/mcp-vs-function-calling-es",
+        "title": "MCP vs Function Calling: \u00bfCu\u00e1l es la diferencia y cu\u00e1ndo usar cada ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.ikangai.com/model-context-protocol-comparison-mcp-vs-function-calling-plugins-apis/",
+        "title": "MCP vs Function Calling, Plugins, APIs - IKANGAI",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://blog.lum.tools/en/posts/mcp-vs-function-calling",
+        "title": "MCP vs Function Calling: What's the Difference and ... - lum.tools",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://docs.langchain.com/oss/python/langchain/mcp",
+        "title": "Model Context Protocol (MCP) - Docs by LangChain",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://tetrate.io/learn/ai/mcp/mcp-vs-alternatives",
+        "title": "MCP vs LangChain vs RAG: AI Context Management ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://docs.langchain.com/oss/javascript/langchain/mcp",
+        "title": "Model Context Protocol (MCP) - Docs by LangChain",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://docs.gostoa.dev/fr/blog/mcp-vs-openai-function-calling-vs-langchain",
+        "title": "MCP vs OpenAI Function Calling vs LangChain - STOA Docs",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.ikangai.com/model-context-protocol-comparison-mcp-vs-function-calling-plugins-apis/",
+        "title": "MCP vs Function Calling, Plugins, APIs - IKANGAI",
+        "need_type": "COMPARISON_DATA"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-10T19:15:05",
+    "run_label": "reference-track:Tool Use and Function Calling in Agents",
+    "sources": [
+      {
+        "url": "https://platform.openai.com/docs/guides/json-mode",
+        "title": "Structured Outputs - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/structured-outputs/json-mode",
+        "title": "Structured model outputs - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/function-calling?lang=python",
+        "title": "Tool calling",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/text-generation/json-mode",
+        "title": "Structured model outputs | OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/function-calling?api-mode=responses",
+        "title": "Function calling - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/function-calling",
+        "title": "Function calling | OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/responses-streaming/response/function_call_arguments",
+        "title": "API Reference - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/streaming-responses?api-mode=responses",
+        "title": "Streaming API responses - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/streaming",
+        "title": "Streaming support",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/responses/list?lang=python",
+        "title": "Responses | OpenAI API Reference",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/toolbench",
+        "title": "ToolBench: LLM Tool-Use Benchmark - Emergent Mind",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/sambanova/toolbench",
+        "title": "ToolBench, an evaluation suite for LLM tool manipulation ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2411.13547v2",
+        "title": "8.1 Ablation Study",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2024.findings-acl.664.pdf",
+        "title": "[PDF] Towards Stable Large-Scale Benchmarking on Tool Learning of ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://leaderboard.steel.dev/registry/benchmarks/toolbench",
+        "title": "ToolBench benchmark | Tool use agent evaluation | Steel.dev",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://gorilla.cs.berkeley.edu/leaderboard.html",
+        "title": "Berkeley Function Calling Leaderboard (BFCL) V4 - Gorilla LLM",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://gorilla.cs.berkeley.edu/blogs/8_berkeley_function_calling_leaderboard.html",
+        "title": "Berkeley Function Calling Leaderboard - Gorilla",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v267/patil25a.html",
+        "title": "The Berkeley Function Calling Leaderboard (BFCL): From Tool Use ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://ukgovernmentbeis.github.io/inspect_evals/evals/assistants/bfcl/",
+        "title": "BFCL: Berkeley Function-Calling Leaderboard - GitHub Pages",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/berkeley-function-calling-leaderboard-v4-bfclv4",
+        "title": "Berkeley Function Calling Leaderboard v4",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.scitepress.org/Papers/2024/130059/130059.pdf",
+        "title": "REACT: Revealing Evolutionary Action Consequence Trajectories for",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2404.03359.pdf",
+        "title": "REACT: Revealing Evolutionary Action Consequence Trajectories",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2404.03359v1",
+        "title": "REACT: Revealing Evolutionary Action Consequence Trajectories for Interpretable Reinforcement Learning",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://studylib.net/doc/27814734/2210.03629v3",
+        "title": "ReAct: Reasoning and Acting in Language Models - studylib.net",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://par.nsf.gov/servlets/purl/10451467",
+        "title": "arXiv:2210.03629v3 [cs.CL] 10 Mar 2023",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2024/file/e4c61f578ff07830f5c37378dd3ecb0d-Paper-Conference.pdf",
+        "title": "[PDF] Gorilla: Large Language Model Connected with Massive APIs",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://shishirpatil.github.io/publications/gorilla-2023.pdf",
+        "title": "[PDF] Gorilla: Large Language Model Connected with Massive APIs",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://courses.cs.washington.edu/courses/cse599k/24au/content/gorilla.pdf",
+        "title": "[PDF] Teaching LLMs to Use Tools at Scale: Function Calling to Agents",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://github.com/snorkel-ai/gorilla",
+        "title": "GitHub - snorkel-ai/gorilla: Gorilla: Training and Evaluating LLMs for Function Calls (Tool Calls)",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://papers.neurips.cc/paper_files/paper/2024/file/e4c61f578ff07830f5c37378dd3ecb0d-Paper-Conference.pdf",
+        "title": "Gorilla: Large Language Model Connected with",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://github.com/openai/openai-cookbook/blob/main/examples/How_to_call_functions_for_knowledge_retrieval.ipynb?short_path=b7554c9",
+        "title": "openai-cookbook/examples/How_to_call_functions_for_knowledge_retrieval.ipynb at main \u00b7 openai/openai-cookbook",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/dyabel/AnyTool/blob/public/openai_utils.py",
+        "title": "AnyTool/openai_utils.py at public \u00b7 dyabel/AnyTool",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/openai/openai-cookbook/blob/main/examples/Function_calling_with_an_OpenAPI_spec.ipynb",
+        "title": "openai-cookbook/examples/Function_calling_with_an_OpenAPI_spec.ipynb at main \u00b7 openai/openai-cookbook",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/openai/openai-cookbook/blob/main/examples/How_to_call_functions_with_chat_models.ipynb?short_path=963bcd7",
+        "title": "openai-cookbook/examples/How_to_call_functions_with_chat_models.ipynb at main \u00b7 openai/openai-cookbook",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/phdowling/functioncalming",
+        "title": "GitHub - phdowling/functioncalming: Calm down OpenAI's function calling",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://dev.to/aiengineering/a-beginners-guide-to-handling-errors-in-langgraph-with-retry-policies-h22",
+        "title": "A Beginner's Guide to Handling Errors in LangGraph with Retry ...",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=m3edGzRlR5Y",
+        "title": "Handling Errors in LangGraph with Retry Policies",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://langchain-ai.github.io/langgraph/tutorials/extraction/retries/",
+        "title": "Complex data extraction with function calling - GitHub Pages",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://docs.langchain.com/oss/python/langgraph/thinking-in-langgraph",
+        "title": "Handle errors appropriately",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/blob/main/docs/docs/how-tos/tool-calling-errors.ipynb",
+        "title": "langgraph/docs/docs/how-tos/tool-calling-errors.ipynb at main \u00b7 langchain-ai/langgraph",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://iterathon.tech/blog/advanced-function-calling-tool-composition-production-agents-2026",
+        "title": "Advanced Function Calling Tool Composition Production ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.chronoinnovation.com/resources/ai-agent-observability-monitoring/",
+        "title": "AI Agent Observability: Monitoring Agents in Production | Chrono",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://latitude.so/blog/how-to-monitor-ai-agents-in-production-guide",
+        "title": "How to Monitor AI Agents in Production: A Complete Guide ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://dev.to/chunxiaoxx/building-production-ai-agents-in-2026-custom-tools-native-function-calling-and-observability-5gib",
+        "title": "Building Production AI Agents in 2026: Custom Tools ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://latitude.so/blog/ai-agent-observability-tools-developer-comparison-guide-2026-devto",
+        "title": "AI Agent Observability Tools: A Developer's Comparison Guide (2026)",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://shopify.engineering/building-production-ready-agentic-systems",
+        "title": "\u0909\u0924\u094d\u092a\u093e\u0926\u0928 \u0915\u0947 \u0932\u093f\u090f \u0924\u0948\u092f\u093e\u0930 \u090f\u091c\u0947\u0902\u091f\u093f\u0915 \u0938\u093f\u0938\u094d\u091f\u092e \u092c\u0928\u093e\u0928\u093e: \u0936\u0949\u092a\u093f\u092b\u093e\u0908 \u0938\u093e\u0907\u0921\u0915\u093f\u0915 ...",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  }
+]

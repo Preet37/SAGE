@@ -1,0 +1,258 @@
+[
+  {
+    "timestamp": "2026-04-09T16:30:08",
+    "run_label": "reference-track:Chain-of-Thought and Advanced Reasoning",
+    "sources": [
+      {
+        "url": "https://arxiv.org/abs/2305.10601",
+        "title": "Tree of Thoughts: Deliberate Problem Solving with Large Language ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2305.10601.pdf",
+        "title": "[PDF] Tree of Thoughts: Deliberate Problem Solving with Large Language ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2023/file/271db9922b8d1f4dd7aaef84ed5ac703-Paper-Conference.pdf",
+        "title": "Tree of Thoughts: Deliberate Problem Solving with Large Language Models",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://storage.prod.researchhub.com/uploads/papers/2023/05/20/2305.10601.pdf",
+        "title": "Tree of Thoughts: Deliberate Problem Solving",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://3dvar.com/Yao2023Tree.pdf",
+        "title": "[PDF] arXiv:2305.10601v2 [cs.CL] 3 Dec 2023",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2023/file/271db9922b8d1f4dd7aaef84ed5ac703-Paper-Conference.pdf",
+        "title": "Tree of Thoughts: Deliberate Problem Solving with Large Language Models",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/abs/2305.10601",
+        "title": "Tree of Thoughts: Deliberate Problem Solving with Large Language ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2305.10601v1.pdf",
+        "title": "(PDF) Tree of Thoughts: Deliberate Problem Solving with ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://storage.prod.researchhub.com/uploads/papers/2023/05/20/2305.10601.pdf",
+        "title": "Tree of Thoughts: Deliberate Problem Solving",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.scribd.com/document/717167465/Tree-of-Thoughts-Deliberate-Problem-Solving",
+        "title": "Tree of Thoughts Deliberate Problem Solving",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/abs/2203.11171",
+        "title": "Self-Consistency Improves Chain of Thought Reasoning in Language ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "http://arxiv.org/pdf/2203.11171v4.pdf",
+        "title": "Published as a conference paper at ICLR 2023",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2024.findings-emnlp.349.pdf",
+        "title": "[PDF] Self-Consistency Boosts Calibration for Math Reasoning",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://deepai.org/publication/self-consistency-improves-chain-of-thought-reasoning-in-language-models",
+        "title": "Self-Consistency Improves Chain of Thought Reasoning in ... - DeepAI",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/papers/2203.11171",
+        "title": "Self-Consistency for CoT Reasoning",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2402.02563v2.pdf",
+        "title": "[PDF] arXiv:2402.02563v2 [cs.CL] 23 May 2024 - OpenReview",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2404.11041.pdf",
+        "title": "[PDF] arXiv:2404.11041v2 [cs.AI] 18 Jun 2024",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://fi.ee.tsinghua.edu.cn/public/publications/94037930-f04a-11f0-b382-2aaffa21d846.pdf",
+        "title": "arXiv:2402.02563v4 [cs.CL] 24 Aug 2024",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2023/file/271db9922b8d1f4dd7aaef84ed5ac703-Paper-Conference.pdf",
+        "title": "Tree of Thoughts: Deliberate Problem Solving with Large Language Models",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/anthology-files/anthology-files/pdf/findings/2024.findings-emnlp.164.pdf",
+        "title": "Findings of the Association for Computational Linguistics: EMNLP 2024, pages 2897\u20132936",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "http://webdocs.cs.ualberta.ca/~dale/papers/iclr23b.pdf",
+        "title": "Published as a conference paper at ICLR 2023",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://iclr.cc/media/iclr-2023/Slides/11718.pdf",
+        "title": "[PDF] Self-Consistency Improves Chain of Thought Reasoning in ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.cs.toronto.edu/~cmaddis/courses/csc2541_w25/presentations/self-consistency.pdf",
+        "title": "[PDF] Self-Consistency Improves Chain of Thought Reasoning in ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2203.11171",
+        "title": "Self-Consistency Improves Chain of Thought Reasoning in Language ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://hackmd.io/@VitasLu/r182VIUY6",
+        "title": "Self-Consistency Improves Chain Of Thought Reasoning In ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2305.10601.pdf",
+        "title": "[PDF] Tree of Thoughts: Deliberate Problem Solving with Large Language ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/program-of-thoughts-pot",
+        "title": "Tree-of-Thoughts (ToT) Framework - Emergent Mind",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2023/file/271db9922b8d1f4dd7aaef84ed5ac703-Paper-Conference.pdf",
+        "title": "Tree of Thoughts: Deliberate Problem Solving with Large Language Models",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://3dvar.com/Yao2023Tree.pdf",
+        "title": "[PDF] arXiv:2305.10601v2 [cs.CL] 3 Dec 2023",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.agentic-patterns.com/patterns/tree-of-thought-reasoning/",
+        "title": "Tree-of-Thought Reasoning - Agentic Patterns",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://github.com/mazewoods/tree-of-thought-ui",
+        "title": "mazewoods/tree-of-thought-ui",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/kyegomez/tree-of-thoughts",
+        "title": "kyegomez/tree-of-thoughts: Plug in and Play ...",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/katamb/tree-of-thought-llm-ca",
+        "title": "GitHub - katamb/tree-of-thought-llm-ca: [NeurIPS 2023] Tree of Thoughts: Deliberate Problem Solving with Large Language Models",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/arpg/tree-of-thought-llm",
+        "title": "GitHub - arpg/tree-of-thought-llm: [NeurIPS 2023] Tree of Thoughts: Deliberate Problem Solving with Large Language Models",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/princeton-nlp/tree-of-thought-llm/blob/master/README.md",
+        "title": "tree-of-thought-llm/README.md at master \u00b7 princeton-nlp/tree-of-thought-llm",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/instructor-ai/instructor/blob/main/docs/prompting/ensembling/self_consistency.md",
+        "title": "instructor/docs/prompting/ensembling/self_consistency.md at main \u00b7 instructor-ai/instructor",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://agentwiki.org/self_consistency",
+        "title": "Self-Consistency - AgentWiki [AI Agent Knowledge Base]",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://campus.datacamp.com/courses/prompt-engineering-with-the-openai-api/advanced-prompt-engineering-strategies?ex=9",
+        "title": "Chain-of-thought and self-consistency prompting | OpenAI",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://opencompass.readthedocs.io/en/latest/prompt/chain_of_thought.html",
+        "title": "Chain of Thought\u00b6",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://leeroopedia.com/index.php/Principle:Openai_Evals_Self_Consistency_Prompting",
+        "title": "Theoretical Basis",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/chat/create",
+        "title": "Chat Completions | OpenAI API Reference",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/completions/create",
+        "title": "Completions | OpenAI API Reference",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/advanced-usage",
+        "title": "Advanced usage - OpenAI APIplatform.openai.com \u203a docs \u203a advanced-usage",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/text-generation/parameter-details",
+        "title": "Advanced usage - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/messages",
+        "title": "API Reference - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/images-vision?api-mode=chat",
+        "title": "Images and Vision (docs)",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/vision-fine-tuning",
+        "title": "Vision fine-tuning",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/vision",
+        "title": "OpenAI GPT-4 Vision API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/assistants/deep-dive/creating-image-input-content",
+        "title": "Assistants API deep dive - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/images-vision",
+        "title": "Images and vision - OpenAI API",
+        "need_type": "API_REFERENCE"
+      }
+    ]
+  }
+]

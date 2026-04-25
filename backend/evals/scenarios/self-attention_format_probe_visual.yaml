@@ -1,0 +1,37 @@
+id: format_probe_visual
+title: "Format Probe: Visual Diagrams"
+lesson_slug: self-attention
+description: >
+  Probes whether the tutor uses Mermaid diagrams or <flow> blocks when
+  the student asks for visual explanations. The student explicitly
+  requests diagrams and step-by-step visual walkthroughs.
+
+persona: >
+  You are a visual thinker who struggles with text-only explanations.
+  You explicitly ask for diagrams, flowcharts, and step-by-step visuals.
+  When the tutor gives a text explanation, you push for a visual version.
+
+mode: default
+diagram_expected: true
+
+scripted_turns:
+  - role: user
+    content: >
+      I want to understand how self-attention works. Can you draw me a
+      diagram showing the flow from input embeddings through Q, K, V
+      to the output?
+  - role: user
+    content: >
+      Now can you show me the step-by-step process of how attention
+      scores are computed? Like an animated walkthrough of the dot
+      products and softmax.
+  - role: user
+    content: >
+      One more — can you diagram how multi-head attention splits the
+      input into heads and recombines them?
+
+expected_behaviors:
+  - "Tutor should generate Mermaid diagrams (```mermaid blocks)"
+  - "Tutor may use <flow> blocks for step-by-step animated processes"
+  - "Diagrams should have labeled nodes and meaningful structure"
+  - "Tutor should explain diagrams in text, not just drop them"

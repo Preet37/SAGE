@@ -1,0 +1,370 @@
+[
+  {
+    "timestamp": "2026-04-10T18:56:04",
+    "run_label": "ensure-coverage:what-are-ai-agents-core-concepts-architecture",
+    "sources": [
+      {
+        "gap": "A clear, general agent control loop description (observe/perceive \u2192 plan/reason \u2192 act/tool call \u2192 update memory/state \u2192 repeat until goal/stop condition), with an explicit contrast to a single LLM call",
+        "url": "https://www.scribd.com/document/844194360/11",
+        "title": "11"
+      },
+      {
+        "gap": "A clear, general agent control loop description (observe/perceive \u2192 plan/reason \u2192 act/tool call \u2192 update memory/state \u2192 repeat until goal/stop condition), with an explicit contrast to a single LLM call",
+        "url": "https://kangwooklee.com/talks/2026_03_BLISS/bliss_seminar_monograph.html",
+        "title": "Toward More Efficient and Useful LLM Agents"
+      },
+      {
+        "gap": "A clear, general agent control loop description (observe/perceive \u2192 plan/reason \u2192 act/tool call \u2192 update memory/state \u2192 repeat until goal/stop condition), with an explicit contrast to a single LLM call",
+        "url": "https://apxml.com/courses/intro-llm-agents/chapter-2-llm-agent-building-blocks/the-agents-operational-loop",
+        "title": "Observation and Action Cycles in LLM Agents - ApX Machine Learning"
+      },
+      {
+        "gap": "A clear, general agent control loop description (observe/perceive \u2192 plan/reason \u2192 act/tool call \u2192 update memory/state \u2192 repeat until goal/stop condition), with an explicit contrast to a single LLM call",
+        "url": "https://blogs.oracle.com/developers/what-is-the-ai-agent-loop-the-core-architecture-behind-autonomous-ai-systems",
+        "title": "What Is the AI Agent Loop? The Core Architecture Behind ..."
+      },
+      {
+        "gap": "A clear, general agent control loop description (observe/perceive \u2192 plan/reason \u2192 act/tool call \u2192 update memory/state \u2192 repeat until goal/stop condition), with an explicit contrast to a single LLM call",
+        "url": "https://dev.to/dhanashree_mohite_e87853d/deep-dive-into-agent-architectures-self-reflection-and-tool-call-loops-2ld9",
+        "title": "Deep Dive into Agent Architectures, Self-Reflection, and ..."
+      },
+      {
+        "gap": "Perception/observation vs action interfaces in agent design (what counts as observations, environment/tool outputs, and how actions are selected/executed)",
+        "url": "https://cse-robotics.engr.tamu.edu/dshell/cs625/ch2.pdf",
+        "title": "[PDF] 2 INTELLIGENT AGENTS"
+      },
+      {
+        "gap": "Perception/observation vs action interfaces in agent design (what counts as observations, environment/tool outputs, and how actions are selected/executed)",
+        "url": "https://publications.aston.ac.uk/id/eprint/40894/1/Perceptions_or_actions.pdf",
+        "title": "Perceptions or actions? Grounding how agents interact within ..."
+      },
+      {
+        "gap": "Perception/observation vs action interfaces in agent design (what counts as observations, environment/tool outputs, and how actions are selected/executed)",
+        "url": "https://www.ijcai.org/Proceedings/95-1/Papers/061.pdf",
+        "title": "Action and Perception in Man-Made Environments*"
+      },
+      {
+        "gap": "Perception/observation vs action interfaces in agent design (what counts as observations, environment/tool outputs, and how actions are selected/executed)",
+        "url": "http://disi.unitn.it/rseba/DIDATTICA/fai_2022/SLIDES/HANDOUTS-02-intelligent-agents.pdf",
+        "title": "Fundamentals of Artificial Intelligence Chapter 02"
+      },
+      {
+        "gap": "Perception/observation vs action interfaces in agent design (what counts as observations, environment/tool outputs, and how actions are selected/executed)",
+        "url": "https://cs.brynmawr.edu/Courses/cs372/spring2012/slides/02_IntelligentAgents.pdf",
+        "title": "Russell & Norvig Chapter 2"
+      },
+      {
+        "gap": "Autonomous decision-making in agents: how agents decide next steps, when to call tools, when to stop, and how this differs from predetermined workflows (include concrete examples)",
+        "url": "https://arxiv.org/pdf/2506.00886.pdf",
+        "title": "Toward a Theory of Agents as Tool-Use Decision-Makers"
+      },
+      {
+        "gap": "Autonomous decision-making in agents: how agents decide next steps, when to call tools, when to stop, and how this differs from predetermined workflows (include concrete examples)",
+        "url": "https://arxiv.org/html/2506.00886v1",
+        "title": "Toward a Theory of Agents as Tool-Use Decision-Makers - arXiv"
+      },
+      {
+        "gap": "Autonomous decision-making in agents: how agents decide next steps, when to call tools, when to stop, and how this differs from predetermined workflows (include concrete examples)",
+        "url": "https://www.ibm.com/think/topics/ai-agents",
+        "title": "How AI agents work"
+      },
+      {
+        "gap": "Autonomous decision-making in agents: how agents decide next steps, when to call tools, when to stop, and how this differs from predetermined workflows (include concrete examples)",
+        "url": "https://dev.to/nebulagg/agents-vs-workflows-a-decision-framework-for-2026-19ab",
+        "title": "The Hybrid Pattern In..."
+      },
+      {
+        "gap": "Autonomous decision-making in agents: how agents decide next steps, when to call tools, when to stop, and how this differs from predetermined workflows (include concrete examples)",
+        "url": "http://cs.uns.edu.ar/~gis/publications/Parsons-Simari-WICC2004.pdf",
+        "title": "Rational Decision Making in Autonomous Agents"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-10T18:57:58",
+    "run_label": "ensure-coverage:agent-memory-short-term-long-term",
+    "sources": [
+      {
+        "gap": "In-context memory mechanics: how in-context state is constructed (system/developer/user messages, tool outputs), managed, and truncated/summarized within context windows",
+        "url": "https://www.scribd.com/document/947756966/Context-Engineering-Sessions-Memory",
+        "title": "Context Engineering- Sessions & Memory | PDF - Scribd"
+      },
+      {
+        "gap": "In-context memory mechanics: how in-context state is constructed (system/developer/user messages, tool outputs), managed, and truncated/summarized within context windows",
+        "url": "https://www.letta.com/blog/guide-to-context-engineering",
+        "title": "Anatomy of a Context Window: A Guide to Context Engineering - Letta"
+      },
+      {
+        "gap": "In-context memory mechanics: how in-context state is constructed (system/developer/user messages, tool outputs), managed, and truncated/summarized within context windows",
+        "url": "https://smallake.kr/wp-content/uploads/2025/12/Context-Engineering_-Sessions-Memory.pdf",
+        "title": "[PDF] Context Engineering: Sessions, Memory"
+      },
+      {
+        "gap": "In-context memory mechanics: how in-context state is constructed (system/developer/user messages, tool outputs), managed, and truncated/summarized within context windows",
+        "url": "https://cookbook.openai.com/examples/agents_sdk/session_memory",
+        "title": "Context Summarization"
+      },
+      {
+        "gap": "In-context memory mechanics: how in-context state is constructed (system/developer/user messages, tool outputs), managed, and truncated/summarized within context windows",
+        "url": "https://aclanthology.org/2025.findings-acl.595.pdf",
+        "title": "[PDF] Breaking the Limit of Context Window Size via Long Short-term ..."
+      },
+      {
+        "gap": "Examples/patterns for keeping prompts small while maintaining coherence (e.g., summarization buffers, sliding windows, selective message retention)",
+        "url": "https://apxml.com/courses/prompt-engineering-llm-application-development/chapter-3-prompt-design-iteration-evaluation/managing-prompt-length-context",
+        "title": "Managing Prompt Length and Context Windows"
+      },
+      {
+        "gap": "Examples/patterns for keeping prompts small while maintaining coherence (e.g., summarization buffers, sliding windows, selective message retention)",
+        "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents",
+        "title": "Effective context engineering for AI agents"
+      },
+      {
+        "gap": "Examples/patterns for keeping prompts small while maintaining coherence (e.g., summarization buffers, sliding windows, selective message retention)",
+        "url": "https://arxiv.org/html/2503.19114v2",
+        "title": "Understanding and Improving Information Preservation in Prompt ..."
+      },
+      {
+        "gap": "Examples/patterns for keeping prompts small while maintaining coherence (e.g., summarization buffers, sliding windows, selective message retention)",
+        "url": "https://spectrum.library.concordia.ca/id/eprint/996148/",
+        "title": "SWin: A Sliding Window Summarization Approach for Coherent LLM ..."
+      },
+      {
+        "gap": "Examples/patterns for keeping prompts small while maintaining coherence (e.g., summarization buffers, sliding windows, selective message retention)",
+        "url": "https://arxiv.org/html/2407.08892v1",
+        "title": "Characterizing Prompt Compression Methods for Long Context ..."
+      },
+      {
+        "gap": "Clear distinction between 'in-context memory' vs 'short-term memory' terminology and how it maps to agent frameworks (thread/session state vs model context)",
+        "url": "https://www.cdut.edu.cn/__local/2/CC/D2/C44B0CC9F8978C5BFA029413538_450FAE19_730DBA.pdf",
+        "title": "[PDF] Context Engineering: Sessions, Memory"
+      },
+      {
+        "gap": "Clear distinction between 'in-context memory' vs 'short-term memory' terminology and how it maps to agent frameworks (thread/session state vs model context)",
+        "url": "https://www.leoniemonigatti.com/blog/memory-in-ai-agents.html",
+        "title": "Making Sense of Memory in AI Agents - Leonie Monigatti"
+      },
+      {
+        "gap": "Clear distinction between 'in-context memory' vs 'short-term memory' terminology and how it maps to agent frameworks (thread/session state vs model context)",
+        "url": "https://docs.agentscope.io/basic-concepts/context-and-memory",
+        "title": "Context and Memory - AgentScope"
+      },
+      {
+        "gap": "Clear distinction between 'in-context memory' vs 'short-term memory' terminology and how it maps to agent frameworks (thread/session state vs model context)",
+        "url": "https://artificial-intelligence-wiki.com/agentic-ai/agent-architectures-and-components/agent-short-term-memory/",
+        "title": "Agent Short-Term Memory: Working Memory Guide | AI Wiki"
+      },
+      {
+        "gap": "Clear distinction between 'in-context memory' vs 'short-term memory' terminology and how it maps to agent frameworks (thread/session state vs model context)",
+        "url": "https://bt5153msba.github.io/slides/w10.pdf",
+        "title": "[PDF] L10_Memory + Context Engineering"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-10T19:00:14",
+    "run_label": "ensure-coverage:building-first-langgraph-agent",
+    "sources": [
+      {
+        "gap": "LangGraph state fundamentals: state schema, how nodes read/write state, reducers/merge behavior, and how state evolves across steps",
+        "url": "https://dev.to/sreeni5018/the-architecture-of-agent-memory-how-langgraph-really-works-59ne",
+        "title": "The Architecture of Agent Memory: How LangGraph Really Works"
+      },
+      {
+        "gap": "LangGraph state fundamentals: state schema, how nodes read/write state, reducers/merge behavior, and how state evolves across steps",
+        "url": "https://docs.langchain.com/oss/python/langgraph/graph-api",
+        "title": "Graph API overview - Docs by LangChain"
+      },
+      {
+        "gap": "LangGraph state fundamentals: state schema, how nodes read/write state, reducers/merge behavior, and how state evolves across steps",
+        "url": "https://www.youtube.com/watch?v=qMO49-pZfDg",
+        "title": "Understanding LangGraph State Schemas, MessagesState, and Reducers (Step-by-Step Tutorial)"
+      },
+      {
+        "gap": "LangGraph state fundamentals: state schema, how nodes read/write state, reducers/merge behavior, and how state evolves across steps",
+        "url": "https://leeroopedia.com/index.php/Principle:Langchain_ai_Langgraph_State_Schema_Definition",
+        "title": "Principle:Langchain ai Langgraph State Schema Definition"
+      },
+      {
+        "gap": "LangGraph state fundamentals: state schema, how nodes read/write state, reducers/merge behavior, and how state evolves across steps",
+        "url": "https://dev.to/aiengineering/a-beginners-guide-to-getting-started-in-agent-state-in-langgraph-3bkj",
+        "title": "A Beginner's Guide to Getting Started in Agent State in LangGraph"
+      },
+      {
+        "gap": "MessagesState deep dive: structure, message types, how messages are appended/merged, and best practices for message-based agent state",
+        "url": "https://deepwiki.com/langchain-ai/langchain-academy/3.1-stategraph-and-messagesstate",
+        "title": "StateGraph and MessagesState | langchain-ai/langchain"
+      },
+      {
+        "gap": "MessagesState deep dive: structure, message types, how messages are appended/merged, and best practices for message-based agent state",
+        "url": "https://deepwiki.com/jun-sajima/langgraph-study/5.1-state-management",
+        "title": "State Management | jun-sajima/langgraph-study | DeepWiki"
+      },
+      {
+        "gap": "MessagesState deep dive: structure, message types, how messages are appended/merged, and best practices for message-based agent state",
+        "url": "https://leeroopedia.com/index.php/Principle:Langchain_ai_Langgraph_Agent_State_Schema",
+        "title": "Principle:Langchain ai Langgraph Agent State Schema - Leeroopedia"
+      },
+      {
+        "gap": "MessagesState deep dive: structure, message types, how messages are appended/merged, and best practices for message-based agent state",
+        "url": "https://www.mintlify.com/balaji1233/DEEP_RESEARCH_AGENT/architecture/state-management",
+        "title": "State management - Deep Research Agent"
+      },
+      {
+        "gap": "MessagesState deep dive: structure, message types, how messages are appended/merged, and best practices for message-based agent state",
+        "url": "https://docs.haystack.deepset.ai/docs/2.21/state",
+        "title": "State"
+      },
+      {
+        "gap": "Tool calling in LangGraph/LangChain: defining tools, tool schemas, binding tools to chat models, and interpreting tool-call outputs",
+        "url": "https://docs.langchain.com/oss/python/langgraph/call-tools",
+        "title": "Call tools - Docs by LangChain"
+      },
+      {
+        "gap": "Tool calling in LangGraph/LangChain: defining tools, tool schemas, binding tools to chat models, and interpreting tool-call outputs",
+        "url": "https://docs.langchain.com/oss/python/langchain/tools",
+        "title": "Tools - Docs by LangChain"
+      },
+      {
+        "gap": "Tool calling in LangGraph/LangChain: defining tools, tool schemas, binding tools to chat models, and interpreting tool-call outputs",
+        "url": "https://langchain-ai.github.io/langgraph/concepts/tools/",
+        "title": "Tool calling - GitHub Pages"
+      },
+      {
+        "gap": "Tool calling in LangGraph/LangChain: defining tools, tool schemas, binding tools to chat models, and interpreting tool-call outputs",
+        "url": "https://langchain-ai.github.io/langgraph/how-tos/tool-calling/",
+        "title": "Call tools - GitHub Pages"
+      },
+      {
+        "gap": "Tool calling in LangGraph/LangChain: defining tools, tool schemas, binding tools to chat models, and interpreting tool-call outputs",
+        "url": "https://www.abstractalgorithms.dev/langgraph-tool-calling-toolnode-and-custom-tools",
+        "title": "LangGraph Tool Calling: ToolNode, Parallel Tools, and Custom Tools"
+      },
+      {
+        "gap": "LangGraph ToolNode: purpose, required state keys, how it executes tools, and how tool results are written back to state/messages",
+        "url": "https://docs.langchain.com/oss/python/langgraph/quickstart",
+        "title": "Quickstart - Docs by LangChain"
+      },
+      {
+        "gap": "LangGraph ToolNode: purpose, required state keys, how it executes tools, and how tool results are written back to state/messages",
+        "url": "https://deepwiki.com/lalitnayyar/The-Complete-Agentic-AI-Engineering-Course-2025-/6.3-tool-integration-with-toolnode",
+        "title": "Tool Integration with ToolNode | lalitnayyar/The-Complete-Agentic-AI-Engineering-Course-2025- | DeepWiki"
+      },
+      {
+        "gap": "LangGraph ToolNode: purpose, required state keys, how it executes tools, and how tool results are written back to state/messages",
+        "url": "https://aiproduct.engineer/tutorials/langgraph-tutorial-building-a-tool-enabled-conversational-agent-unit-21-exercise-5",
+        "title": "LangGraph Tutorial: Building a Tool-Enabled Conversational ..."
+      },
+      {
+        "gap": "LangGraph ToolNode: purpose, required state keys, how it executes tools, and how tool results are written back to state/messages",
+        "url": "https://www.abstractalgorithms.dev/langgraph-tool-calling-toolnode-and-custom-tools",
+        "title": "LangGraph Tool Calling: ToolNode, Parallel Tools, and Custom Tools"
+      },
+      {
+        "gap": "LangGraph ToolNode: purpose, required state keys, how it executes tools, and how tool results are written back to state/messages",
+        "url": "https://qiita.com/shimajiroxyz/items/5353503e2e6fd5c38136",
+        "title": "\u3010langgraph\u3011ToolNode\u306e\u5165\u51fa\u529b\u3092\u7406\u89e3\u3059\u308b - Qiita"
+      },
+      {
+        "gap": "Conditional routing in LangGraph: add_conditional_edges/router functions, branching patterns for tool-use vs final answer, and termination conditions",
+        "url": "https://dev.to/jamesli/advanced-langgraph-implementing-conditional-edges-and-tool-calling-agents-3pdn",
+        "title": "Advanced LangGraph: Implementing Conditional Edges and Tool ..."
+      },
+      {
+        "gap": "Conditional routing in LangGraph: add_conditional_edges/router functions, branching patterns for tool-use vs final answer, and termination conditions",
+        "url": "https://reference.langchain.com/javascript/langchain-langgraph/index/ConditionalEdgeRouter",
+        "title": "ConditionalEdgeRouter | @langchain/langgraph"
+      },
+      {
+        "gap": "Conditional routing in LangGraph: add_conditional_edges/router functions, branching patterns for tool-use vs final answer, and termination conditions",
+        "url": "https://www.youtube.com/watch?v=t_VdrabMjGM",
+        "title": "LangGraph Router | Conditional Edges, Tool Routing & ToolNode Explained | LangGraph Course | Gen AI"
+      },
+      {
+        "gap": "Conditional routing in LangGraph: add_conditional_edges/router functions, branching patterns for tool-use vs final answer, and termination conditions",
+        "url": "https://dev.to/aiengineering/a-beginners-guide-to-getting-started-on-edges-in-langgraph-59be",
+        "title": "A Beginner's Guide to Getting Started on Edges in LangGraph"
+      },
+      {
+        "gap": "Conditional routing in LangGraph: add_conditional_edges/router functions, branching patterns for tool-use vs final answer, and termination conditions",
+        "url": "https://docs.langchain.com/oss/python/langgraph/graph-api",
+        "title": "Graph API overview - Docs by LangChain"
+      },
+      {
+        "gap": "Graph compilation/execution: graph.compile(), what it returns, validation, runtime behavior, streaming, and invocation API",
+        "url": "https://leeroopedia.com/index.php/Implementation:Langchain_ai_Langgraph_StateGraph_Compile",
+        "title": "Implementation:Langchain ai Langgraph StateGraph Compile"
+      },
+      {
+        "gap": "Graph compilation/execution: graph.compile(), what it returns, validation, runtime behavior, streaming, and invocation API",
+        "url": "https://leeroopedia.com/index.php/Principle:Langchain_ai_Langgraph_Graph_Compilation",
+        "title": "Principle:Langchain ai Langgraph Graph Compilation - Leeroopedia"
+      },
+      {
+        "gap": "Graph compilation/execution: graph.compile(), what it returns, validation, runtime behavior, streaming, and invocation API",
+        "url": "https://deepwiki.com/bsorrentino/langgraph4j/2.2-compiledgraph-and-execution",
+        "title": "CompiledGraph and Execution | bsorrentino/langgraph4j | DeepWiki"
+      },
+      {
+        "gap": "Graph compilation/execution: graph.compile(), what it returns, validation, runtime behavior, streaming, and invocation API",
+        "url": "https://docs.langchain.com/oss/python/langgraph/graph-api.md",
+        "title": "graph-api.md"
+      },
+      {
+        "gap": "Graph compilation/execution: graph.compile(), what it returns, validation, runtime behavior, streaming, and invocation API",
+        "url": "https://blimto.com/concepts/langchain/langchain-graph-execution-and-streaming",
+        "title": "LangGraph Execution and Streaming | LangChain"
+      },
+      {
+        "gap": "Implementing an agent loop in LangGraph: explicit control flow pattern (LLM node -> tool node -> LLM node), stopping criteria, and handling repeated tool calls",
+        "url": "https://www.youtube.com/watch?v=3cn4Jsft2oY",
+        "title": "Building a Tool Calling Agent with Langgraph Stategraph - Part 6/7"
+      },
+      {
+        "gap": "Implementing an agent loop in LangGraph: explicit control flow pattern (LLM node -> tool node -> LLM node), stopping criteria, and handling repeated tool calls",
+        "url": "https://www.freecodecamp.org/news/how-to-develop-ai-agents-using-langgraph-a-practical-guide/",
+        "title": "How to Develop AI Agents Using LangGraph: A Practical Guide"
+      },
+      {
+        "gap": "Implementing an agent loop in LangGraph: explicit control flow pattern (LLM node -> tool node -> LLM node), stopping criteria, and handling repeated tool calls",
+        "url": "https://dev.to/irubtsov/three-langgraph-agent-patterns-that-replaced-hundreds-of-lines-of-glue-code-3a21",
+        "title": "Three LangGraph Agent Patterns That Replaced Hundreds of Lines ..."
+      },
+      {
+        "gap": "Implementing an agent loop in LangGraph: explicit control flow pattern (LLM node -> tool node -> LLM node), stopping criteria, and handling repeated tool calls",
+        "url": "https://docs.langchain.com/oss/python/langgraph/quickstart",
+        "title": "Quickstart - Docs by LangChain"
+      },
+      {
+        "gap": "Implementing an agent loop in LangGraph: explicit control flow pattern (LLM node -> tool node -> LLM node), stopping criteria, and handling repeated tool calls",
+        "url": "https://blog.premai.io/langgraph-deep-dive-state-machines-tools-and-human-in-the-loop/",
+        "title": "LangGraph Deep Dive: State Machines, Tools, and Human ..."
+      },
+      {
+        "gap": "LangChain integration end-to-end: using LangChain chat models and tools inside LangGraph nodes, including tool binding and message interoperability",
+        "url": "https://docs.langchain.com/oss/python/langgraph/agentic-rag",
+        "title": "Build a custom RAG agent with LangGraph - Docs by LangChain"
+      },
+      {
+        "gap": "LangChain integration end-to-end: using LangChain chat models and tools inside LangGraph nodes, including tool binding and message interoperability",
+        "url": "https://docs.langchain.com/oss/python/langgraph/workflows-agents",
+        "title": "Workflows and agents - Docs by LangChain"
+      },
+      {
+        "gap": "LangChain integration end-to-end: using LangChain chat models and tools inside LangGraph nodes, including tool binding and message interoperability",
+        "url": "https://www.youtube.com/watch?v=p3Q24wXkTXw",
+        "title": "LangGraph Tool Integration: Connect Tools & Build Smart Agents"
+      },
+      {
+        "gap": "LangChain integration end-to-end: using LangChain chat models and tools inside LangGraph nodes, including tool binding and message interoperability",
+        "url": "https://langchain-ai.github.io/langgraph/agents/tools/",
+        "title": "Tools\u00b6"
+      },
+      {
+        "gap": "LangChain integration end-to-end: using LangChain chat models and tools inside LangGraph nodes, including tool binding and message interoperability",
+        "url": "https://github.com/langchain-ai/langgraph/blob/main/libs/prebuilt/langgraph/prebuilt/tool_node.py",
+        "title": "langgraph/libs/prebuilt/langgraph/prebuilt/tool_node.py at main \u00b7 langchain-ai/langgraph"
+      }
+    ]
+  }
+]

@@ -1,0 +1,35 @@
+id: analogy_mode
+title: "Analogy Mode: Conceptual Understanding"
+lesson_slug: lora-parameter-efficient
+description: >
+  Tests the tutor's ability to build understanding through rich analogies
+  that connect LoRA concepts to familiar real-world scenarios. The tutor
+  should develop analogies that compound and build on each other.
+
+persona: >
+  You are a visual thinker who understands abstract concepts best through
+  analogies and metaphors. You want the tutor to connect LoRA to things
+  you already understand. You like when analogies build on each other
+  and create a coherent mental model.
+
+mode: analogy
+
+scripted_turns:
+  - role: user
+    content: >
+      Can you explain LoRA using a real-world analogy? Something that helps
+      me visualize what's happening.
+  - role: user
+    content: >
+      That's helpful. Can you extend that analogy to explain why low-rank
+      works? Like, why don't we need the full thing?
+  - role: user
+    content: >
+      And how does the 'rank' parameter fit into this analogy?
+
+expected_behaviors:
+  - "Uses rich, well-developed analogies (not surface-level)"
+  - "Analogies compound — later turns build on earlier analogies"
+  - "Connects abstract concepts (rank, decomposition) to concrete things"
+  - "Validates the learner's mental model as they build it"
+  - "May include visual elements (diagrams) to support analogies"

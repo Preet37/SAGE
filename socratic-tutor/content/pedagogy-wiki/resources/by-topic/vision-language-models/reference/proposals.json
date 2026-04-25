@@ -1,0 +1,258 @@
+[
+  {
+    "timestamp": "2026-04-09T16:39:14",
+    "run_label": "reference-track:Vision-Language Models",
+    "sources": [
+      {
+        "url": "https://www.cs.toronto.edu/~cmaddis/courses/csc2541_w25/presentations/zhao_lee_flamingo.pdf",
+        "title": "[PDF] Flamingo: a Visual Language Model for Few-Shot Learning",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2022/file/960a172bc7fbf0177ccccbb411a7d800-Paper-Conference.pdf",
+        "title": "\ud83e\udda9Flamingo: a Visual Language Model",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://papers.neurips.cc/paper_files/paper/2022/file/960a172bc7fbf0177ccccbb411a7d800-Paper-Conference.pdf",
+        "title": "\ud83e\udda9Flamingo: a Visual Language Model",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://storage.googleapis.com/deepmind-media/DeepMind.com/Blog/tackling-multiple-tasks-with-a-single-visual-language-model/flamingo.pdf",
+        "title": "[PDF] Flamingo: a Visual Language Model for Few-Shot Learning",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.scribd.com/document/662341904/2022-Alayrac",
+        "title": "2022 Alayrac",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2301.12597",
+        "title": "BLIP-2: Bootstrapping Language-Image Pre-training with Frozen Image Encoders and Large Language Models",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v202/li23q/li23q.pdf",
+        "title": "[PDF] BLIP-2: Bootstrapping Language-Image Pre-training with Frozen ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2312.16886.pdf",
+        "title": "arXiv:2312.16886v2 [cs.CV] 30 Dec 2023",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.nematilab.info/bmijc/assets/081823_paper.pdf",
+        "title": "[PDF] BLIP-2: Bootstrapping Language-Image Pre-training with Frozen ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://blog.csdn.net/2503_92010587/article/details/151225952",
+        "title": "\u3010\u591a\u6a21\u6001\u5fc5\u8bfb\u3011\u5168\u7ad9\u6700\u8be6\u7ec62023 ICML BLIP-2\uff1aQ-Former\u3010\u89c6\u89c9+\u6587\u672c\u3011\u8de8\u6a21\u6001\u4ea4\u4e92",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2507.00505v2",
+        "title": "LLaVA-SP: Enhancing Visual Representation with ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2506.07138v1",
+        "title": "4.3 Ablation Study",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/CVPR2024/supplemental/Liu_Improved_Baselines_with_CVPR_2024_supplemental.pdf",
+        "title": "A. Implementation Details",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/01393-supp.pdf",
+        "title": "Supplementary Material of \u201cSQ-LLaVA:",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/CVPR2025/supplemental/Huang_HiRes-LLaVA_Restoring_Fragmentation_CVPR_2025_supplemental.pdf",
+        "title": "[PDF] Appendix of HiRes-LLaVA: Restoring ... - CVF Open Access",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://storage.googleapis.com/deepmind-media/DeepMind.com/Blog/tackling-multiple-tasks-with-a-single-visual-language-model/flamingo.pdf",
+        "title": "[PDF] Flamingo: a Visual Language Model for Few-Shot Learning",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://llmsystem.github.io/llmsystem2024spring/assets/files/Group-Flamingo-98ae9c68fca94cd437716229a2cf42c1.pdf",
+        "title": "Flamingo: a visual language model for few-shot learning",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://ar5iv.labs.arxiv.org/html/2204.14198",
+        "title": "Flamingo: a Visual Language Model for Few-Shot Learning - ar5iv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2022/file/960a172bc7fbf0177ccccbb411a7d800-Supplemental-Conference.pdf",
+        "title": "\ud83e\udda9Flamingo: a Visual Language Model",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://disco.ethz.ch/courses/fs23/seminar/talks/18_04_flamingo.pdf",
+        "title": "[PDF] Flamingo: A Visual Language Model for Few-Shot Learning - DISCO",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://ai.google.dev/gemini-api/docs/image-understanding",
+        "title": "Image understanding | Gemini API - Google AI for Developers",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://ai.google.dev/gemini-api/docs/tokens",
+        "title": "Understand and count tokens | Gemini API - Google AI for Developersai.google.dev \u203a gemini-api \u203a docs \u203a tokens",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://ai.google.dev/gemini-api/docs/rate-limits",
+        "title": "Rate limits | Gemini API - Google AI for Developers",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.ai.google.dev/t/gemini-vision-pricing/41540",
+        "title": "Gemini vision pricing - Google AI Developers Forum",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://ai.google.dev/gemini-api/docs/vision?lang=node",
+        "title": "Explore vision capabilities with the Gemini API | Google AI for Developers",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/images-vision",
+        "title": "Images and vision - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/vision/faq",
+        "title": "OpenAI Platform",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/vision-fine-tuning",
+        "title": "Vision fine-tuning",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/vision",
+        "title": "OpenAI GPT-4 Vision API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/api-reference/images",
+        "title": "Open AI API Reference (Images)",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/haotian-liu/LLaVA/blob/main/scripts/finetune.sh",
+        "title": "LLaVA/scripts/finetune.sh at main \u00b7 haotian-liu/LLaVA",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/haotian-liu/LLaVA/blob/main/scripts/v1_5/finetune.sh",
+        "title": "LLaVA/scripts/v1_5/finetune.sh at main \u00b7 haotian-liu/LLaVA",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/haotian-liu/LLaVA/blob/main/scripts/finetune_full_schedule.sh",
+        "title": "LLaVA/scripts/finetune_full_schedule.sh at main \u00b7 haotian-liu/LLaVA",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/haotian-liu/LLaVA/blob/main/scripts/finetune_sqa.sh",
+        "title": "LLaVA/scripts/finetune_sqa.sh at main \u00b7 haotian-liu/LLaVA",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/haotian-liu/LLaVA/issues/943",
+        "title": "[Question] Finetune with chinese-clip \u00b7 Issue #943 \u00b7 haotian-liu/LLaVA",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v202/li23q/li23q.pdf",
+        "title": "[PDF] BLIP-2: Bootstrapping Language-Image Pre-training with Frozen ...",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/huggingface/transformers/blob/960807f62e53676723ab8281019219864ef3db4d/src/transformers/models/blip_2/modeling_blip_2.py",
+        "title": "transformers/src/transformers/models/blip_2/modeling_blip_2.py at 960807f62e53676723ab8281019219864ef3db4d \u00b7 huggingface/transformers",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/salesforce/LAVIS/blob/main/lavis/models/blip2_models/blip2_opt.py",
+        "title": "LAVIS/lavis/models/blip2_models/blip2_opt.py at main \u00b7 salesforce/LAVIS",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/salesforce/LAVIS/tree/main/projects/blip2",
+        "title": "LAVIS/projects/blip2 at main \u00b7 salesforce/LAVIS",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.salesforce.com/blog/blip-2/?bc=OTH",
+        "title": "BLIP-2: Scalable Multimodal Pre-training Method - Salesforce",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://arxiv.org/html/2410.14072v1",
+        "title": "Efficient Vision-Language Models by Summarizing Visual ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2305.19924.pdf",
+        "title": "arXiv:2305.19924v2 [cs.CV] 1 Jun 2023",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/WACV2023/papers/Tang_Perceiver-VL_Efficient_Vision-and-Language_Modeling_With_Iterative_Latent_Attention_WACV_2023_paper.pdf",
+        "title": "Perceiver-VL: Efficient Vision-and-Language Modeling ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Vision-language_model",
+        "title": "Vision-language model - Wikipedia",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://blog.csdn.net/sinat_37574187/article/details/148875288",
+        "title": "\u8be6\u7ec6\u89e3\u91caPerceiver Resampler\u6a21\u5757\u539f\u521b - CSDN\u535a\u5ba2",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2509.13067v1",
+        "title": "HERO: Rethinking Visual Token Early Dropping in High-Resolution ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://machinelearning.apple.com/research/fast-vision-language-models",
+        "title": "Pareto-Optimal Curve By...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/high-resolution-vision-language-modeling",
+        "title": "High-Res Vision-Language Modeling",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2410.14072v1",
+        "title": "Efficient Vision-Language Models by Summarizing Visual ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/native-dynamic-resolution-vision-transformer-vit",
+        "title": "Native Dynamic-Resolution ViT",
+        "need_type": "COMPARISON_DATA"
+      }
+    ]
+  }
+]

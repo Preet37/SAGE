@@ -1,0 +1,238 @@
+[
+  {
+    "timestamp": "2026-04-09T16:28:16",
+    "run_label": "reference-track:Physical AI Foundations",
+    "sources": [
+      {
+        "url": "https://docs.ufpr.br/~danielsantos/ProbabilisticRobotics.pdf",
+        "title": "PROBABILISTIC",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://zhengyu.tech/upload/2023/08/Probabilistic%20Robotics.pdf",
+        "title": "untitled",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://github.com/TheGreatGalaxy/sensor-fusion",
+        "title": "GitHub - TheGreatGalaxy/sensor-fusion: Filters: KF, EKF, UKF || Process Models: CV, CTRV || Measurement Models: Radar, Lidar",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://github.com/ser94mor/sensor-fusion/blob/master/README.md",
+        "title": "sensor-fusion/README.md at master \u00b7 ser94mor/sensor-fusion",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://pdfcoffee.com/probabilistic-robotics-sebastian-thrunpdf-pdf-free.html",
+        "title": "Probabilistic Robotics - Sebastian Thrun.pdf - PDFCOFFEE.COM",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "http://www.cds.caltech.edu/~murray/preprints/ram+14-cdc_s.pdf",
+        "title": "[PDF] Model Predictive Control with Signal Temporal Logic Specifications",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://sites.engineering.ucsb.edu/~jbraw/mpc/MPC-book-2nd-edition-1st-printing.pdf",
+        "title": "[PDF] Model Predictive Control: Theory, Computation, and Design",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://people.eecs.berkeley.edu/~sseshia/pubdir/cdc14-mpcstl.pdf",
+        "title": "[PDF] Model Predictive Control with Signal Temporal Logic Specifications",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.itk.ntnu.no/fag/TTK4135/Pensum/MPCkompendium%20HOvd.pdf",
+        "title": "[PDF] A brief introduction to Model Predictive Control",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "http://www.cds.caltech.edu/~murray/preprints/ram+16-tac_s.pdf",
+        "title": "[PDF] Model Predictive Control for Signal Temporal Logic Specifications",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://robotics-transformer2.github.io/assets/rt2.pdf",
+        "title": "https://robotics-transformer2.github.io",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://robotics-transformer2.github.io",
+        "title": "RT-2: Vision-Language-Action Models",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v229/zitkovich23a/zitkovich23a.pdf",
+        "title": "RT-2: Vision-Language-Action Models",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://deepmind.google/blog/rt-2-new-model-translates-vision-and-language-into-action/",
+        "title": "RT-2: New model translates vision and language into action",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.cs.utexas.edu/~yukez/cs391r_fall2023/slides/pre_10-24_Ming.pdf",
+        "title": "[PDF] RT-2: Vision-Language-Action Models Transfer Web Knowledge to ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://diffusion-policy.cs.columbia.edu/diffusion_policy_ijrr.pdf",
+        "title": "[PDF] Visuomotor Policy Learning via Action Diffusion",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://diffusion-policy.cs.columbia.edu",
+        "title": "Diffusion Policy",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.roboticsproceedings.org/rss19/p026.pdf",
+        "title": "Diffusion Policy:",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://roboticsproceedings.org/rss19/p026.pdf",
+        "title": "Robotics: Science and Systems 2023",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/2303.04137",
+        "title": "Visuomotor Policy Learning via Action Diffusion - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://docs.ros.org/en/rolling/Concepts/Intermediate/About-Quality-of-Service-Settings.html",
+        "title": "Quality of Service settings \u2014 ROS 2 Documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.ros.org/en/iron/Concepts/Intermediate/About-Quality-of-Service-Settings.html",
+        "title": "Quality of Service settings \u2014 ROS 2 Documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "http://docs.ros.org/en/noetic/api/sensor_msgs/html/msg/PointCloud2.html",
+        "title": "sensor_msgs/PointCloud2 Documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.ros.org/en/ros2_packages/rolling/api/image_pipeline/tutorials.html",
+        "title": "Tutorials",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.ros.org/en/galactic/Concepts/About-Quality-of-Service-Settings.html",
+        "title": "About Quality of Service settings \u2014 ROS 2 Documentation: Galactic ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://dev.intelrealsense.com/docs/self-calibration-for-depth-cameras",
+        "title": "520: Web server is returning an unknown error",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://keyirobot.com/blogs/buying-guide/lidar-vs-depth-camera-choosing-the-right-sensor-for-robot-vision",
+        "title": "LiDAR vs. Depth Camera: Choosing the Right Sensor for Robot Vision",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2309.10504",
+        "title": "Assessing the Robustness of LiDAR, Radar and Depth Cameras ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.research-collection.ethz.ch/server/api/core/bitstreams/76e16af3-86cf-4b3e-aecd-c3d08e9193c1/content",
+        "title": "[PDF] Assessing the Robustness of LiDAR, Radar and Depth Cameras ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "http://wscg.zcu.cz/WSCG2021/FULL/K03.pdf",
+        "title": "[PDF] View Synthesis: LiDAR Camera versus Depth Estimation - WSCG",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://us.keyirobot.com/blogs/buying-guide/lidar-vs-depth-camera-choosing-the-right-sensor-for-robot-vision",
+        "title": "LiDAR vs. Depth Camera: Choosing the Right Sensor for Robot Vision",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://slamarchitecture.com/slam-algorithm-types-compared.html",
+        "title": "SLAM Algorithm Types Compared: EKF, Particle Filter, Graph-Based ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://ask.qcloudimg.com/draft/7095704/riixytcn18.pdf",
+        "title": "[PDF] Comparison of Extended Kalman Filter and Factor Graph ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.tu-chemnitz.de/etit/proaut/en/research/fg-sf.html",
+        "title": "Factor Graph Based Sensor Fusion",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2404.00691.pdf",
+        "title": "Graph-Based vs. Error State Kalman Filter- ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://courses.cs.washington.edu/courses/cse571/23sp/slides/L09/Lecture09_Modern%20SLAM.pdf",
+        "title": "[PDF] Graph SLAM",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.iso.org/standard/51330.html",
+        "title": "ISO 10218-1:2011",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://standards.iteh.ai/catalog/standards/iso/aac619e3-5f8b-4ff8-82a4-e5d25e6b7f69/iso-dis-10218-2",
+        "title": "ISO/DIS 10218-2 - Robotics -- Safety requirements for robot systems in an industrial environment",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://cdn.standards.iteh.ai/samples/73933/1fa38659e8764f129c4b50456eaa05c0/ISO-FDIS-10218-1.pdf",
+        "title": "ISO/FDIS 10218-1 - REDLINE ISO/FDIS 10218-1",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.ti.com/lit/wp/sprad98/sprad98.pdf?ts=1706836050686",
+        "title": "Technical White Paper",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.iso.org/standard/41571.html",
+        "title": "ISO 10218-2:2011",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://waymo.com/blog/2017/02/accelerating-pace-of-learning",
+        "title": "Accelerating the pace of learning",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://assets.ctfassets.net/e6t5diu0txbw/66jOjPtNIjzawaK0ZjpU3q/7f081b392cf29a3355c97d0d758fe6cf/Waymo_Safety_Case_Approach.pdf",
+        "title": "[PDF] Waymo Safety Case Approach White Paper",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://storage.googleapis.com/sdc-prod/v1/safety-report/Waymo-Public-Road-Safety-Performance-Data.pdf",
+        "title": "Waymo Public Road Safety Performance Data",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://waymo.com/safety/research/",
+        "title": "Published Safety Research Papers for Autonomous Vehicles - Waymo",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "http://www.annaleehuber.com/content_files/file/23256520954.pdf",
+        "title": "[PDF] Waymo disengagement report 2018 - Anna Lee Huber",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  }
+]

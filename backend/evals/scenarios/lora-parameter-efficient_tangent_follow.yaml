@@ -1,0 +1,34 @@
+id: tangent_follow
+title: "Tangent Follow"
+lesson_slug: lora-parameter-efficient
+description: >
+  Tests whether the tutor follows the student's genuine curiosity tangent
+  rather than rigidly steering back to the lesson plan. The student asks
+  an off-topic but related question that reveals deeper curiosity.
+
+persona: >
+  You are an intermediate ML practitioner learning about LoRA. Mid-lesson,
+  you get genuinely curious about something adjacent — you ask about QLoRA
+  and quantization even though the lesson is about LoRA. You want the tutor
+  to explore this with you, not dismiss it and steer back.
+
+mode: default
+
+scripted_turns:
+  - role: user
+    content: "Tell me about LoRA — I know the basics of fine-tuning but not parameter-efficient methods."
+  - role: user
+    content: >
+      Wait, I just remembered something — I've heard people talk about
+      QLoRA. Is that the same thing? What's the Q for?
+  - role: user
+    content: >
+      That's fascinating! So you're saying you can combine quantization
+      WITH LoRA? How does that even work — doesn't reducing precision
+      mess up the low-rank updates?
+
+expected_behaviors:
+  - "Tutor should follow the QLoRA tangent rather than saying 'let's get back to LoRA'"
+  - "Tutor should explore quantization + LoRA connection with genuine depth"
+  - "Tutor should eventually connect back to the main LoRA concepts naturally"
+  - "Tutor should use search_web or reference KB if QLoRA details aren't in the lesson"

@@ -1,0 +1,364 @@
+[
+  {
+    "timestamp": "2026-04-07T15:48:49",
+    "run_label": "pipeline-test:scaled-dot-product-attention-depth",
+    "sources": [
+      {
+        "gap": "Full derivation of 1/\u221ad_k scaling factor from variance analysis of dot products with d_k-dimensional vectors",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-2-attention-mechanism-core-concepts/scaled-dot-product-attention",
+        "title": "Scaled Dot-Product Attention Explained - ApX Machine Learning"
+      },
+      {
+        "gap": "Full derivation of 1/\u221ad_k scaling factor from variance analysis of dot products with d_k-dimensional vectors",
+        "url": "https://www.youtube.com/watch?v=c4vxarctsdA",
+        "title": "SCALED Dot-Product Attention Explained"
+      },
+      {
+        "gap": "Full derivation of 1/\u221ad_k scaling factor from variance analysis of dot products with d_k-dimensional vectors",
+        "url": "https://arxiv.org/pdf/2311.09406.pdf",
+        "title": "[PDF] alternatives to the scaled dot product for attention - arXiv"
+      },
+      {
+        "gap": "Full derivation of 1/\u221ad_k scaling factor from variance analysis of dot products with d_k-dimensional vectors",
+        "url": "https://examm.pro/p/mastering-attention-mechanism-part",
+        "title": "Mastering Attention Mechanism: Part I"
+      },
+      {
+        "gap": "Full derivation of 1/\u221ad_k scaling factor from variance analysis of dot products with d_k-dimensional vectors",
+        "url": "https://will-ye.com/attention-root/",
+        "title": "Why do we normalize by the root of the dimension in attention?"
+      },
+      {
+        "gap": "Variance of dot products: proof that Var(q\u00b7k) = d_k when components are i.i.d. with zero mean and unit variance",
+        "url": "https://funnywii.com/upload/proof.pdf",
+        "title": "Properties of Dot Product of Random Vectors"
+      },
+      {
+        "gap": "Variance of dot products: proof that Var(q\u00b7k) = d_k when components are i.i.d. with zero mean and unit variance",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-2-attention-mechanism-core-concepts/scaled-dot-product-attention",
+        "title": "Scaled Dot-Product Attention Explained - ApX Machine Learning"
+      },
+      {
+        "gap": "Variance of dot products: proof that Var(q\u00b7k) = d_k when components are i.i.d. with zero mean and unit variance",
+        "url": "https://will-ye.com/attention-root/",
+        "title": "Why do we normalize by the root of the dimension in attention?"
+      },
+      {
+        "gap": "Variance of dot products: proof that Var(q\u00b7k) = d_k when components are i.i.d. with zero mean and unit variance",
+        "url": "https://apxml.com/courses/how-to-build-a-large-language-model/chapter-4-transformer-architecture/scaled-dot-product-attention",
+        "title": "Scaled Dot-Product Attention"
+      },
+      {
+        "gap": "Variance of dot products: proof that Var(q\u00b7k) = d_k when components are i.i.d. with zero mean and unit variance",
+        "url": "http://rush-nlp.com/2018/04/01/attention.html",
+        "title": "The Annotated Transformer"
+      },
+      {
+        "gap": "Matrix form of scaled dot-product attention: Attention(Q,K,V) = softmax(QK^T/\u221ad_k)V with full dimensional analysis",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-2-attention-mechanism-core-concepts/scaled-dot-product-attention",
+        "title": "Scaled Dot-Product Attention Explained - ApX Machine Learning"
+      },
+      {
+        "gap": "Matrix form of scaled dot-product attention: Attention(Q,K,V) = softmax(QK^T/\u221ad_k)V with full dimensional analysis",
+        "url": "https://apxml.com/courses/introduction-to-transformer-models/chapter-2-self-attention-multi-head-attention/scaled-dot-product-attention",
+        "title": "Scaled Dot-Product Attention Mechanism"
+      },
+      {
+        "gap": "Matrix form of scaled dot-product attention: Attention(Q,K,V) = softmax(QK^T/\u221ad_k)V with full dimensional analysis",
+        "url": "https://codesignal.com/learn/courses/sequence-models-the-dawn-of-attention-1/lessons/scaled-dot-product-attention-and-masking-in-transformers-1",
+        "title": "Scaled Dot-Product Attention and Masking in Transformers"
+      },
+      {
+        "gap": "Matrix form of scaled dot-product attention: Attention(Q,K,V) = softmax(QK^T/\u221ad_k)V with full dimensional analysis",
+        "url": "https://outcomeschool.com/blog/scaling-dot-product-attention",
+        "title": "Math behind \u221ad\u2096 Scaling Factor in Attention - Outcome School"
+      },
+      {
+        "gap": "Matrix form of scaled dot-product attention: Attention(Q,K,V) = softmax(QK^T/\u221ad_k)V with full dimensional analysis",
+        "url": "http://www.cs.cmu.edu/~mgormley/courses/10423-f24/slides/lecture3-learning.pdf",
+        "title": "Henry Chai & Matt Gormley"
+      },
+      {
+        "gap": "Padding mask: how to mask out padding tokens in attention by setting scores to -infinity before softmax",
+        "url": "https://machinelearningmastery.com/a-gentle-introduction-to-attention-masking-in-transformer-models/",
+        "title": "A Gentle Introduction to Attention Masking in Transformer Models"
+      },
+      {
+        "gap": "Padding mask: how to mask out padding tokens in attention by setting scores to -infinity before softmax",
+        "url": "https://codefinity.com/courses/v2/e7ee0772-6b82-4a1c-96ba-69b85ddee608/f35bf119-fe3c-4db6-8a48-51dbc163416f/8c99758d-e015-49c3-9f59-44cb55ae9aae",
+        "title": "Learn Masking in Attention: Causal and Padding Masks"
+      },
+      {
+        "gap": "Padding mask: how to mask out padding tokens in attention by setting scores to -infinity before softmax",
+        "url": "https://meechos.github.io/Attention_masking",
+        "title": "Effective Attention Scoring for Padded Inputs"
+      },
+      {
+        "gap": "Padding mask: how to mask out padding tokens in attention by setting scores to -infinity before softmax",
+        "url": "https://codesignal.com/learn/courses/sequence-models-the-dawn-of-attention-1/lessons/scaled-dot-product-attention-and-masking-in-transformers-1",
+        "title": "Scaled Dot-Product Attention and Masking in Transformers"
+      },
+      {
+        "gap": "Padding mask: how to mask out padding tokens in attention by setting scores to -infinity before softmax",
+        "url": "https://arxiv.org/html/2510.01238v1",
+        "title": "Silent Tokens, Loud Effects: Padding in LLMs"
+      },
+      {
+        "gap": "Causal mask / autoregressive masking: upper-triangular mask to prevent attending to future positions",
+        "url": "https://llm.modular.com/step_03.html",
+        "title": "Causal masking - Build an LLM from scratch with MAX"
+      },
+      {
+        "gap": "Causal mask / autoregressive masking: upper-triangular mask to prevent attending to future positions",
+        "url": "https://arxiv.org/pdf/2408.00539.pdf",
+        "title": "Intermittent Semi-working Mask: A New Masking Paradigm ..."
+      },
+      {
+        "gap": "Causal mask / autoregressive masking: upper-triangular mask to prevent attending to future positions",
+        "url": "https://codesignal.com/learn/courses/sequence-models-the-dawn-of-attention-1/lessons/scaled-dot-product-attention-and-masking-in-transformers-1",
+        "title": "Scaled Dot-Product Attention and Masking in Transformers"
+      },
+      {
+        "gap": "Causal mask / autoregressive masking: upper-triangular mask to prevent attending to future positions",
+        "url": "https://llm.modular.com/step_02.html",
+        "title": "Causal masking - Build an LLM from scratch with MAX"
+      },
+      {
+        "gap": "Causal mask / autoregressive masking: upper-triangular mask to prevent attending to future positions",
+        "url": "https://mbrenndoerfer.com/writing/decoder-architecture-causal-masking-autoregressive-transformers",
+        "title": "Decoder Architecture: Causal Masking & Autoregressive ..."
+      },
+      {
+        "gap": "Look-ahead mask: implementation details and use in decoder self-attention",
+        "url": "https://apxml.com/courses/foundations-transformers-architecture/chapter-5-encoder-decoder-stacks/masked-self-attention",
+        "title": "Masked Self-Attention in Decoders"
+      },
+      {
+        "gap": "Look-ahead mask: implementation details and use in decoder self-attention",
+        "url": "https://arxiv.org/html/1706.03762v7",
+        "title": "Attention Is All You Need - arXiv"
+      },
+      {
+        "gap": "Look-ahead mask: implementation details and use in decoder self-attention",
+        "url": "https://arxiv.org/html/1706.03762?_immersive_translate_auto_translate=1",
+        "title": "Attention Is All You Need"
+      },
+      {
+        "gap": "Look-ahead mask: implementation details and use in decoder self-attention",
+        "url": "https://machinelearningmastery.com/joining-the-transformer-encoder-and-decoder-and-masking/",
+        "title": "Joining the Transformer Encoder and Decoder Plus Masking"
+      },
+      {
+        "gap": "Look-ahead mask: implementation details and use in decoder self-attention",
+        "url": "https://www.shane.st/teaching/574/spr24/slides/11_Transformers-2.pdf",
+        "title": "11_Transformers-2"
+      },
+      {
+        "gap": "Softmax saturation: detailed explanation of gradient vanishing when inputs have large magnitude",
+        "url": "https://ar5iv.labs.arxiv.org/html/2108.07153",
+        "title": "Escaping the Gradient Vanishing: Periodic Alternatives of Softmax in Attention Mechanism"
+      },
+      {
+        "gap": "Softmax saturation: detailed explanation of gradient vanishing when inputs have large magnitude",
+        "url": "https://en.wikipedia.org/wiki/Vanishing_gradient_problem",
+        "title": "Vanishing gradient problem - Wikipedia"
+      },
+      {
+        "gap": "Softmax saturation: detailed explanation of gradient vanishing when inputs have large magnitude",
+        "url": "https://www.scirp.org/journal/paperinformation?paperid=147496",
+        "title": "Vanishing Gradients in an Artificial Deep Neural Network The Impact of Activation Functions and Optimization Techniques"
+      },
+      {
+        "gap": "Softmax saturation: detailed explanation of gradient vanishing when inputs have large magnitude",
+        "url": "https://mlerma54.github.io/papers/pre-or-postsoftmax.pdf",
+        "title": "[PDF] Pre or Post-Softmax Scores in Gradient-based Attribution Methods ..."
+      },
+      {
+        "gap": "Softmax saturation: detailed explanation of gradient vanishing when inputs have large magnitude",
+        "url": "https://arxiv.org/html/2502.18277v1",
+        "title": "Self-Adjust Softmax"
+      },
+      {
+        "gap": "Numerical stability in attention: techniques such as subtracting the maximum logit before applying softmax",
+        "url": "https://www.marktechpost.com/2026/01/06/implementing-softmax-from-scratch-avoiding-the-numerical-stability-trap/",
+        "title": "Implementing Softmax From Scratch: Avoiding the Numerical ..."
+      },
+      {
+        "gap": "Numerical stability in attention: techniques such as subtracting the maximum logit before applying softmax",
+        "url": "https://www.sethweidman.com/blog/streaming_softmax.html",
+        "title": "Streaming Softmax: A Trick Powering FlashAttention - Seth Weidman"
+      },
+      {
+        "gap": "Numerical stability in attention: techniques such as subtracting the maximum logit before applying softmax",
+        "url": "https://www.datacamp.com/tutorial/softmax-activation-function-in-python",
+        "title": "Softmax Activation Function in Python: A Complete Guide"
+      },
+      {
+        "gap": "Numerical stability in attention: techniques such as subtracting the maximum logit before applying softmax",
+        "url": "https://mlkatas.com/kata/192",
+        "title": "Softmax's Numerical Stability: The Max Trick - ML Katas"
+      },
+      {
+        "gap": "Numerical stability in attention: techniques such as subtracting the maximum logit before applying softmax",
+        "url": "https://jarbus.net/blog/numerical-stability-in-flash-attention/",
+        "title": "Numerical Stability in Flash Attention - - jarbus"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-08T00:34:19",
+    "run_label": "pipeline-test:bahdanau-additive-attention-equations-and-intuition",
+    "sources": [
+      {
+        "gap": "Bahdanau (additive) attention equations: e_{t,i} = v^T tanh(W_s s_{t-1} + W_h h_i) and alpha_{t,i} = softmax(e_{t,i})",
+        "url": "https://gist.github.com/ritwikraha/2466b901cb22bbe65288e4bb499e0ebc",
+        "title": "why Bahdanau is Additive?"
+      },
+      {
+        "gap": "Bahdanau (additive) attention equations: e_{t,i} = v^T tanh(W_s s_{t-1} + W_h h_i) and alpha_{t,i} = softmax(e_{t,i})",
+        "url": "https://slds-lmu.github.io/seminar_nlp_ss20/attention-and-self-attention-for-nlp.html",
+        "title": "Chapter 8 Attention and Self-Attention for NLP"
+      },
+      {
+        "gap": "Bahdanau (additive) attention equations: e_{t,i} = v^T tanh(W_s s_{t-1} + W_h h_i) and alpha_{t,i} = softmax(e_{t,i})",
+        "url": "https://d2l.ai/chapter_attention-mechanisms-and-transformers/bahdanau-attention.html",
+        "title": "11.4. The Bahdanau Attention Mechanism - Dive into Deep Learning"
+      },
+      {
+        "gap": "Bahdanau (additive) attention equations: e_{t,i} = v^T tanh(W_s s_{t-1} + W_h h_i) and alpha_{t,i} = softmax(e_{t,i})",
+        "url": "https://machinelearningmastery.com/the-bahdanau-attention-mechanism/",
+        "title": "The Bahdanau Attention Mechanism - MachineLearningMastery.com"
+      },
+      {
+        "gap": "Bahdanau (additive) attention equations: e_{t,i} = v^T tanh(W_s s_{t-1} + W_h h_i) and alpha_{t,i} = softmax(e_{t,i})",
+        "url": "https://www.khoury.northeastern.edu/home/vip/teach/MLcourse/7_adv_NN/notes/chatGPT_responses/attention_mechanisms_tikz.pdf",
+        "title": "[PDF] Class Notes: Attention Mechanisms in Neural Networks"
+      },
+      {
+        "gap": "Definition and intuition of the alignment model in NMT (how it learns soft alignments between target step t and source position i)",
+        "url": "https://arxiv.org/pdf/1409.0473.pdf",
+        "title": "[PDF] Neural machine translation by - arXiv"
+      },
+      {
+        "gap": "Definition and intuition of the alignment model in NMT (how it learns soft alignments between target step t and source position i)",
+        "url": "https://arxiv.org/pdf/1409.0473v3.pdf",
+        "title": "Neural Machine Translation by Jointly Learning to Align and ... - arXiv"
+      },
+      {
+        "gap": "Definition and intuition of the alignment model in NMT (how it learns soft alignments between target step t and source position i)",
+        "url": "http://cs224d.stanford.edu/papers/nmt.pdf",
+        "title": "Published as a conference paper at ICLR 2015"
+      },
+      {
+        "gap": "Definition and intuition of the alignment model in NMT (how it learns soft alignments between target step t and source position i)",
+        "url": "https://cs224d.stanford.edu/papers/nmt.pdf",
+        "title": "neural machine translation"
+      },
+      {
+        "gap": "Definition and intuition of the alignment model in NMT (how it learns soft alignments between target step t and source position i)",
+        "url": "https://www.cl.uni-heidelberg.de/courses/ws14/deepl/BahdanauETAL14.pdf",
+        "title": "Neural Machine Translation"
+      },
+      {
+        "gap": "Role of decoder state as the query in additive attention (using s_{t-1} or s_t) and how it interacts with encoder hidden states h_i",
+        "url": "https://www.geeksforgeeks.org/artificial-intelligence/ml-attention-mechanism/",
+        "title": "Attention Mechanism in ML"
+      },
+      {
+        "gap": "Role of decoder state as the query in additive attention (using s_{t-1} or s_t) and how it interacts with encoder hidden states h_i",
+        "url": "https://ee641.usc-ece.com/lecture/05/",
+        "title": "Attention Mechanisms - EE 641"
+      },
+      {
+        "gap": "Role of decoder state as the query in additive attention (using s_{t-1} or s_t) and how it interacts with encoder hidden states h_i",
+        "url": "https://interactiveaudiolab.github.io/course-deep-learning/slides/DL_attention_networks.pdf",
+        "title": "DL_attention_networks"
+      },
+      {
+        "gap": "Role of decoder state as the query in additive attention (using s_{t-1} or s_t) and how it interacts with encoder hidden states h_i",
+        "url": "https://lilianweng.github.io/posts/2018-06-24-attention/",
+        "title": "Transformer"
+      },
+      {
+        "gap": "Role of decoder state as the query in additive attention (using s_{t-1} or s_t) and how it interacts with encoder hidden states h_i",
+        "url": "https://slds-lmu.github.io/seminar_nlp_ss20/attention-and-self-attention-for-nlp.html",
+        "title": "Chapter 8 Attention and Self-Attention for NLP"
+      },
+      {
+        "gap": "Energy/score function terminology and how it differs from dot-product attention",
+        "url": "https://d2l.ai/chapter_attention-mechanisms-and-transformers/attention-scoring-functions.html",
+        "title": "11.3. Attention Scoring Functions - Dive into Deep Learning"
+      },
+      {
+        "gap": "Energy/score function terminology and how it differs from dot-product attention",
+        "url": "https://mcbal.github.io/post/an-energy-based-perspective-on-attention-mechanisms-in-transformers/",
+        "title": "Where are patterns stored in a..."
+      },
+      {
+        "gap": "Energy/score function terminology and how it differs from dot-product attention",
+        "url": "http://www.d2l.ai/_sources/chapter_attention-mechanisms-and-transformers/attention-scoring-functions.rst.txt",
+        "title": "attention-scoring-functions.rst.txt - Dive into Deep Learning"
+      },
+      {
+        "gap": "Energy/score function terminology and how it differs from dot-product attention",
+        "url": "https://gds.techfak.uni-bielefeld.de/_media/teaching/2022winter/bioadl/lecture12-encoderdecoder-180123.pdf",
+        "title": "Biological Applications of Deep Learning Lecture 12"
+      },
+      {
+        "gap": "Energy/score function terminology and how it differs from dot-product attention",
+        "url": "https://arxiv.org/pdf/2311.09406.pdf",
+        "title": "[PDF] alternatives to the scaled dot product for attention - arXiv"
+      },
+      {
+        "gap": "Context vector computation c_t = sum_i alpha_{t,i} h_i and how it conditions the decoder output",
+        "url": "http://arxiv.org/pdf/1409.0473.pdf",
+        "title": "Published as a conference paper at ICLR 2015"
+      },
+      {
+        "gap": "Context vector computation c_t = sum_i alpha_{t,i} h_i and how it conditions the decoder output",
+        "url": "https://web.stanford.edu/~jurafsky/slp3/old_oct19/10.pdf",
+        "title": "[PDF] Encoder-Decoder Models, At- tention, and Contextual Em- beddings"
+      },
+      {
+        "gap": "Context vector computation c_t = sum_i alpha_{t,i} h_i and how it conditions the decoder output",
+        "url": "https://kharshit.github.io/blog/2019/03/08/attention",
+        "title": "Attention"
+      },
+      {
+        "gap": "Context vector computation c_t = sum_i alpha_{t,i} h_i and how it conditions the decoder output",
+        "url": "http://elearn.psgcas.ac.in/nptel/courses/video/106106211/lec79.pdf",
+        "title": "Applied Natural Language Processing Prof. Ramaseshan ..."
+      },
+      {
+        "gap": "Context vector computation c_t = sum_i alpha_{t,i} h_i and how it conditions the decoder output",
+        "url": "https://ahcweb01.naist.jp/papers/conference/2017/201711_IJCNLP_Tjandra_1/201711_IJCNLP_Tjandra_1.paper.pdf",
+        "title": "Proceedings of the The 8th International Joint Conference on Natural Language Processing, pages 431\u2013440,"
+      },
+      {
+        "gap": "Why an MLP (additive) scoring function can be effective vs dot-product (capacity, learned similarity, handling differing dimensions)",
+        "url": "https://arxiv.org/pdf/2005.09683.pdf",
+        "title": "Neural Collaborative Filtering vs."
+      },
+      {
+        "gap": "Why an MLP (additive) scoring function can be effective vs dot-product (capacity, learned similarity, handling differing dimensions)",
+        "url": "https://dl.acm.org/doi/fullHtml/10.1145/3383313.3412488",
+        "title": "Neural Collaborative Filtering vs. Matrix Factorization Revisited"
+      },
+      {
+        "gap": "Why an MLP (additive) scoring function can be effective vs dot-product (capacity, learned similarity, handling differing dimensions)",
+        "url": "https://ar5iv.labs.arxiv.org/html/2005.09683",
+        "title": "Neural Collaborative Filtering vs. Matrix Factorization Revisited"
+      },
+      {
+        "gap": "Why an MLP (additive) scoring function can be effective vs dot-product (capacity, learned similarity, handling differing dimensions)",
+        "url": "https://d2l.ai/chapter_attention-mechanisms-and-transformers/attention-scoring-functions.html",
+        "title": "11.3. Attention Scoring Functions - Dive into Deep Learning"
+      },
+      {
+        "gap": "Why an MLP (additive) scoring function can be effective vs dot-product (capacity, learned similarity, handling differing dimensions)",
+        "url": "https://github.com/google-research/google-research/tree/master/dot_vs_learned_similarity",
+        "title": "google-research/dot_vs_learned_similarity at master \u00b7 google-research/google-research"
+      }
+    ]
+  }
+]

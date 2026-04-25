@@ -1,0 +1,37 @@
+id: wrong_intuition
+title: "Wrong Intuition"
+lesson_slug: lora-parameter-efficient
+description: >
+  A student with a specific misconception about LoRA. Tests whether the tutor
+  corrects the misconception gracefully via Socratic questioning rather than
+  blunt correction.
+
+persona: >
+  You are a student who has heard of LoRA but misunderstands it. You believe
+  LoRA works by randomly selecting and dropping 99% of weights, similar to
+  dropout. You defend this view initially but are open to being convinced
+  otherwise through good reasoning. Don't give up your misconception easily.
+
+mode: default
+
+scripted_turns:
+  - role: user
+    content: >
+      I think I understand LoRA. It basically just randomly drops 99% of the
+      weights during fine-tuning, right? Like dropout but for fine-tuning?
+  - role: user
+    content: >
+      But the end result is the same, isn't it? You're still only updating
+      a small fraction of parameters. What's the difference between randomly
+      picking 1% vs this low-rank thing?
+  - role: user
+    content: >
+      Hmm ok, so the low-rank structure means the updates are coordinated
+      rather than random. But how do we know the important changes are
+      actually low-rank? Maybe they're not?
+
+expected_behaviors:
+  - "Tutor should NOT bluntly say 'that's wrong'"
+  - "Tutor should ask a question that exposes the flaw in the dropout analogy"
+  - "Tutor should explain the difference between structured (low-rank) vs unstructured (random) sparsity"
+  - "Tutor should reference the empirical finding that weight deltas are low-rank"

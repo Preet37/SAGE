@@ -1,0 +1,233 @@
+[
+  {
+    "timestamp": "2026-04-09T16:31:33",
+    "run_label": "reference-track:RAG and Retrieval",
+    "sources": [
+      {
+        "url": "https://dl.acm.org/doi/abs/10.1561/1500000019",
+        "title": "The Probabilistic Relevance Framework: BM25 and Beyond",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.staff.city.ac.uk/~sbrp622/papers/foundations_bm25_review.pdf",
+        "title": "[PDF] The Probabilistic Relevance Framework: BM25 and Beyond Contents",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.gbv.de/dms/tib-ub-hannover/632343664.pdf",
+        "title": "[PDF] The Probabilistic Relevance Framework : BM25 and beyond - Gbv.de",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://web.stanford.edu/class/cs276/handouts/lecture12-bm25etc.pdf",
+        "title": "Introduction to Information Retrieval",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.site.uottawa.ca/~diana/csi4107/BM25.pdf",
+        "title": "1",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://aclanthology.org/2020.emnlp-main.550.pdf",
+        "title": "[PDF] Dense Passage Retrieval for Open-Domain Question Answering",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://github.com/ant-louis/awesome-dense-text-retrieval/blob/main/summaries/karpukhin2020dense.md",
+        "title": "awesome-dense-text-retrieval/summaries/karpukhin2020dense.md at main \u00b7 ant-louis/awesome-dense-text-retrieval",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://staff.fnwi.uva.nl/m.derijke/wp-content/papercite-data/pdf/rajapakse-2024-study.pdf",
+        "title": "Negative Sampling Techniques for Dense Passage ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://aclanthology.org/anthology-files/pdf/repl4nlp/2021.repl4nlp-1.17.pdf",
+        "title": "In-Batch Negatives for Knowledge Distillation with Tightly-Coupled Teachers for Dense Retrieval",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2508.09534",
+        "title": "Improving Dense Passage Retrieval with Multiple Positive ... - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://aclanthology.org/anthology-files/anthology-files/pdf/findings/2025.findings-naacl.295.pdf",
+        "title": "Findings of the Association for Computational Linguistics:",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2503.19120v1",
+        "title": "Where is this coming from? Making groundedness count ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/WACV2021/papers/Mathew_DocVQA_A_Dataset_for_VQA_on_Document_Images_WACV_2021_paper.pdf",
+        "title": "DocVQA: A Dataset for VQA on Document Images",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "http://arxiv.org/pdf/2111.05547.pdf",
+        "title": "ICDAR 2021 Competition on Document Visual",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.docvqa.org",
+        "title": "DocVQA",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.ecva.net/papers/eccv_2022/papers_ECCV/papers/136880493.pdf",
+        "title": "[PDF] OCR-free Document Understanding Transformer",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/2111.15664",
+        "title": "OCR-free Document Understanding Transformer",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://sangdooyun.github.io/data/kim2021donut.pdf",
+        "title": "[PDF] Donut : Document Understanding Transformer without OCR",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://ar5iv.labs.arxiv.org/html/2111.15664",
+        "title": "OCR-free Document Understanding Transformer - ar5iv - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/ThanhPham1987/donut-ocr",
+        "title": "GitHub - ThanhPham1987/donut-ocr: Official Implementation of OCR-free Document Understanding Transformer (Donut) and Synthetic Document Generator (SynthDoG), ECCV 2022",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/facebookresearch/faiss/wiki/Faiss-indexes",
+        "title": "Faiss indexes \u00b7 facebookresearch/faiss Wiki",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.pinecone.io/learn/series/faiss/composite-indexes/",
+        "title": "Facebook AI and the Index Factory | Pinecone",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/facebookresearch/faiss/wiki/Guidelines-to-choose-an-index",
+        "title": "Guidelines to choose an index \u00b7 facebookresearch/faiss Wiki - GitHub",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/facebookresearch/faiss/wiki/Faster-search",
+        "title": "Faster search \u00b7 facebookresearch/faiss Wiki - GitHub",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://faiss.ai/cpp_api/struct/structfaiss_1_1IndexIVFPQR.html",
+        "title": "Struct faiss::IndexIVFPQR - Faiss documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://milvus.io/docs/hnsw.md",
+        "title": "HNSW | Milvus Documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://milvus.io/ai-quick-reference/what-are-the-key-configuration-parameters-for-an-hnsw-index-such-as-m-and-efconstructionefsearch-and-how-does-each-influence-the-tradeoff-between-index-size-build-time-query-speed-and-recall",
+        "title": "What are the key configuration parameters for an HNSW index ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://milvus.io/docs/v2.5.x/hnsw.md",
+        "title": "HNSW Milvus v2.5.x \u30c9\u30ad\u30e5\u30e1\u30f3\u30c6\u30fc\u30b7\u30e7\u30f3",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://milvus.io/docs/de/hnsw.md",
+        "title": "HNSW | Milvus Dokumentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://milvus.io/docs/ru/hnsw.md",
+        "title": "HNSW | \u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u044f Milvus",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://people.eecs.berkeley.edu/~matei/papers/2020/sigir_colbert.pdf",
+        "title": "ColBERT: Efficient and Effective Passage Search via ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/abs/2004.12832",
+        "title": "ColBERT: Efficient and Effective Passage Search via Contextualized ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://aclanthology.org/2022.naacl-main.272/",
+        "title": "Effective and Efficient Retrieval via Lightweight Late Interaction",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://aclanthology.org/2022.naacl-main.272.pdf",
+        "title": "ColBERTv2: Effective and Efficient Retrieval via ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/abs/2112.01488",
+        "title": "Effective and Efficient Retrieval via Lightweight Late Interaction - arXiv",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/abs/2407.01449",
+        "title": "ColPali: Efficient Document Retrieval with Vision Language Models",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2407.01449v4",
+        "title": "ColPali: Efficient Document Retrieval with Vision Language ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.emergentmind.com/papers/2407.01449",
+        "title": "Broad Applicability And...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://axi.lims.ac.uk/paper/2407.01449",
+        "title": "ColPali: Efficient Document Retrieval wi...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://learnopencv.com/multimodal-rag-with-colpali/",
+        "title": "How does ColPali Work?",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://engineering.atspotify.com/2022/3/introducing-natural-language-search-for-podcast-episodes",
+        "title": "Introducing Natural Language Search for Podcast Episodes | Spotify Engineering",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://engineering.atspotify.com/2022/03/introducing-natural-language-search-for-podcast-episodes",
+        "title": "Introducing Natural Language Search for Podcast Episodes",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://engineering.atspotify.com/2023/10/introducing-voyager-spotifys-new-nearest-neighbor-search-library",
+        "title": "Introducing Voyager: Spotify\u2019s New Nearest-Neighbor Search ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://engineering.atspotify.com/2022/9/lessons-learned-from-algorithmic-impact-assessments-in-practice",
+        "title": "Lessons Learned from Algorithmic Impact Assessments in Practice | Spotify Engineering",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://engineering.atspotify.com/2021/11/the-rise-and-lessons-learned-of-ml-models-to-personalize-content-on-home-part-i",
+        "title": "The Rise (and Lessons Learned) of ML Models to Personalize ...",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  }
+]

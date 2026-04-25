@@ -1,0 +1,35 @@
+id: demands_answer
+title: "Demands Direct Answer"
+lesson_slug: lora-parameter-efficient
+description: >
+  An impatient student who wants direct answers, not Socratic questions.
+  Tests whether the tutor can adapt its style while still maintaining
+  some pedagogical structure.
+
+persona: >
+  You are a busy ML engineer who wants efficient, direct explanations.
+  You get frustrated when the tutor asks too many questions instead of
+  just explaining. You want concise, practical answers. However, you will
+  engage if the tutor adjusts its style.
+
+mode: default
+
+scripted_turns:
+  - role: user
+    content: >
+      Just tell me what LoRA is. I don't want a back-and-forth discussion,
+      I want a clear explanation.
+  - role: user
+    content: >
+      Ok that's better. Now what rank should I use and which layers
+      should I apply it to? Give me the practical answer.
+  - role: user
+    content: >
+      How does LoRA compare to full fine-tuning in terms of quality?
+      Just give me the bottom line.
+
+expected_behaviors:
+  - "Tutor should acknowledge the student's preference for directness"
+  - "Tutor should adapt to be more concise and direct"
+  - "Tutor should still include SOME guiding structure (not pure lecture)"
+  - "Tutor should provide practical recommendations when asked"

@@ -1,0 +1,951 @@
+[
+  {
+    "timestamp": "2026-04-09T16:15:03",
+    "run_label": "reference-track:Attention Mechanism",
+    "sources": [
+      {
+        "url": "https://arxiv.org/abs/2205.14135",
+        "title": "Fast and Memory-Efficient Exact Attention with IO-Awareness",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://ar5iv.labs.arxiv.org/html/2205.14135",
+        "title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2022/file/67d57c32e20fd0a7a302cb81d36e40d5-Supplemental-Conference.pdf",
+        "title": "[PDF] Fast and Memory-Efficient Exact Attention with IO-Awareness",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.cs.toronto.edu/~cmaddis/courses/csc2541_w25/presentations/sharma_hocevar_flashattention.pdf",
+        "title": "[PDF] FlashAttention: Fast and Memory-Efficient Exact Attention ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.semanticscholar.org/paper/FlashAttention:-Fast-and-Memory-Efficient-Exact-Dao-Fu/87c5b281fa43e6f27191b20a8dd694eda1126336",
+        "title": "[PDF] FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness | Semantic Scholar",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://tridao.me/publications/flash2/flash2.pdf",
+        "title": "[PDF] FlashAttention-2: Faster Attention with Better Parallelism and Work ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://tridao.me/publications/flash3/flash3.pdf",
+        "title": "[PDF] FlashAttention-3: Fast and Accurate Attention with Asynchrony and ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://llmsystem.github.io/llmsystem2025spring/assets/files/llmsys-20-FlashAttention_tridao-cac5b634b4ad77cb027451422b07ae75.pdf",
+        "title": "Tri Dao",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://indico.cern.ch/event/1321933/contributions/5563426/attachments/2711590/4718848/flash_attn_cern.pdf",
+        "title": "Tri Dao - FlashAttention",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://courses.cs.washington.edu/courses/cse599m/23sp/notes/flashattn.pdf",
+        "title": "[PDF] From Online Softmax to FlashAttention",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://lambda.ai/blog/flashattention-2-lambda-cloud-h100-vs-a100",
+        "title": "How FlashAttention-2 Accelerates LLMs on NVIDIA H100 and A100 ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://tridao.me/publications/flash3/flash3.pdf",
+        "title": "[PDF] FlashAttention-3: Fast and Accurate Attention with Asynchrony and ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://docs.jarvislabs.ai/blog/h100vsa100",
+        "title": "NVIDIA H100 vs A100: Detailed GPU Comparison for 2026",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aman.ai/primers/ai/flashattention/",
+        "title": "Primers \u2022 FlashAttention - Aman's AI Journal",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2407.08608v1",
+        "title": "FlashAttention-3: Fast and Accurate Attention with Asynchrony and ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://tridao.me/publications/flash2/flash2.pdf",
+        "title": "[PDF] FlashAttention-2: Faster Attention with Better Parallelism and Work ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/2307.08691",
+        "title": "FlashAttention-2: Faster Attention with Better Parallelism and Work ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/Oneflow-Inc/flash-attention-v2",
+        "title": "GitHub - Oneflow-Inc/flash-attention-v2: Fast and memory-efficient exact attention",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://crfm.stanford.edu/2023/07/17/flash2.html",
+        "title": "FlashAttention-2: Faster Attention with Better Parallelism and Work ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.cse.iitd.ac.in/~rijurekha/col851/sarthak_typed.pdf",
+        "title": "FLASHATTENTION-2",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.ibm.com/think/topics/grouped-query-attention",
+        "title": "What is grouped query attention (GQA)?",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/abs/2305.13245",
+        "title": "[2305.13245] GQA: Training Generalized Multi-Query ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://aclanthology.org/2023.emnlp-main.298/",
+        "title": "GQA: Training Generalized Multi-Query Transformer ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2408.08454v1",
+        "title": "Beyond Uniform Query Distribution: Key-Driven Grouped ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://proceedings.mlsys.org/paper_files/paper/2025/file/dbf02b21d77409a2db30e56866a8ab3a-Supplemental-Conference.pdf",
+        "title": "[PDF] A HEAD GROUP FUSION FOR GROUPED-QUERY ATTENTION ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/abs/1911.02150",
+        "title": "Fast Transformer Decoding: One Write-Head is All You Need - arXiv",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://sushant-kumar.com/blog/multi-query-attention",
+        "title": "Multi Query Attention - Sushant Kumar",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.scribd.com/document/840052816/Multi-Query-Attention",
+        "title": "Multi-Query Attention",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.adrian.idv.hk/2025-01-31-s19-mqa/",
+        "title": "Shazeer (2019) Fast Transformer Decoding. One Write-Head is All ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2406.09297.pdf",
+        "title": "arXiv:2406.09297v3 [cs.LG] 15 Oct 2024",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.scaled_dot_product_attention.html",
+        "title": "torch.nn.functional.scaled_dot_product_attention",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.pytorch.org/t/scaled-dot-product-attention-not-useful-for-inference/220828",
+        "title": "Scaled_dot_product_attention not useful for inference",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.scaled_dot_product_attention",
+        "title": "torch.nn.functional.scaled_dot_product_attention \u2014 PyTorch 2. ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/tutorials/_sources/intermediate/scaled_dot_product_attention_tutorial.rst.txt",
+        "title": "scaled_dot_product_attention_tu... - PyTorch documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/2.9/generated/torch.nn.functional.scaled_dot_product_attention.html",
+        "title": "torch.nn.functional.scaled_dot_product_attention \u2014 PyTorch 2.9 ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/kv-caching-problem-with-gemma-3/173571",
+        "title": "KV Caching problem with gemma 3 - Hugging Face Forums",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/storing-and-loading-kv-cache/99033",
+        "title": "Storing and loading KV cache - Transformers - Hugging Face Forums",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/why-i-cant-use-or-cant-pass-past-key-values-dynamiccache-into-llama-3-model/106842",
+        "title": "Why i can't use or can't pass past_key_values = DynamicCache ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/outputs-change-if-re-using-kvcache-past-key-values-for-model-forward-and-generation/136556",
+        "title": "Outputs change if re-using KVCache (past_key_values) for model ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.huggingface.co/t/how-to-cache-common-instruction-prompt/101419",
+        "title": "How to cache common instruction prompt - Hugging Face Forums",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.vllm.ai/en/v0.9.0/design/automatic_prefix_caching.html",
+        "title": "Automatic Prefix Caching",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.vllm.ai/en/latest/api/vllm/attention/ops/paged_attn.html",
+        "title": "vllm.attention.ops.paged_attn",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.vllm.ai/en/v0.10.0/api/vllm/attention/ops/rocm_aiter_paged_attn.html",
+        "title": "vllm.attention.ops.rocm_aiter_paged_attn",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.vllm.ai/en/latest/api/vllm/vllm.attention.ops.paged_attn.html",
+        "title": "vLLM",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.vllm.ai/en/stable/api/vllm/attention/backends/ipex_attn.html",
+        "title": "vllm.attention.backends.ipex_attn",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2309.06180",
+        "title": "Efficient Memory Management for Large Language Model Serving ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://datasciencedojo.com/blog/understanding-paged-attention/",
+        "title": "How Paged Attention Powers the vLLM Inference Engine Part 2 ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.microsoft.com/en-us/research/wp-content/uploads/2024/05/vattention_arxiv24.pdf",
+        "title": "vAttention: Dynamic Memory Management for Serving ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2405.04437.pdf",
+        "title": "[PDF] vAttention: Dynamic Memory Management for Serving LLMs without ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.micahlerner.com/2024/01/11/efficient-memory-management-for-large-language-model-serving-with-pagedattention.html",
+        "title": "Efficient Memory Management for Large Language Model Serving ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://developer.nvidia.com/blog/introducing-new-kv-cache-reuse-optimizations-in-nvidia-tensorrt-llm/",
+        "title": "Introducing New KV Cache Reuse Optimizations in NVIDIA ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://nvidia.github.io/TensorRT-LLM/advanced/gpt-attention.html",
+        "title": "Multi-Head, Multi-Query, and Group-Query Attention \u2014 TensorRT-LLM",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://nvidia.github.io/TensorRT-LLM/",
+        "title": "Welcome to TensorRT LLM's Documentation!",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/html/2405.04437v1",
+        "title": "Dynamic Memory Management for Serving LLMs without ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2309.06180",
+        "title": "Efficient Memory Management for Large Language Model Serving ...",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-11T17:38:40",
+    "run_label": "reference-track:Sequence-to-Sequence Basics and the Bottleneck Problem",
+    "sources": [
+      {
+        "url": "https://www.geeksforgeeks.org/machine-learning/seq2seq-model-in-machine-learning/",
+        "title": "seq2seq Model",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://kh-kim.github.io/nlp_with_deep_learning_blog/docs/4-03-sequence_to_sequence/10-teacher_forcing/",
+        "title": "Teacher Forcing",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/teacher-forcing-strategy",
+        "title": "Teacher-forcing in Sequential Modeling - Emergent Mind",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://cedar.buffalo.edu/~srihari/CSE676/10.2.1%20TeacherForcing.pdf",
+        "title": "[PDF] RNNs: Teacher Forcing - CEDAR",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/1406.1078",
+        "title": "Learning Phrase Representations using RNN Encoder-Decoder for ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://aclanthology.org/D14-1179.pdf",
+        "title": "Learning Phrase Representations using RNN Encoder",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://aclanthology.org/D14-1179/",
+        "title": "Learning Phrase Representations using RNN Encoder\u2013Decoder for ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1406.1078v2.pdf",
+        "title": "Learning Phrase Representations using RNN Encoder\u2013Decoder",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.semanticscholar.org/paper/Learning-Phrase-Representations-using-RNN-for-Cho-Merrienboer/0b544dfe355a5070b60986319a3f51fb45d1348e",
+        "title": "[PDF] Learning Phrase Representations using RNN Encoder\u2013Decoder for Statistical Machine Translation | Semantic Scholar",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1409.0473.pdf",
+        "title": "[PDF] Neural machine translation by - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://iclr.cc/archive/www/lib/exe/fetch.php%3Fmedia=iclr2015:bahdanau-iclr2015.pdf",
+        "title": "[PDF] Neural Machine Translation by Jointly Learning to Align and Translate",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2021.emnlp-main.1.pdf",
+        "title": "AligNART: Non-autoregressive Neural Machine Translation by Jointly Learning to Estimate Alignment and Translate",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/abhshkdz/papers/blob/master/reviews/neural-machine-translation-by-jointly-learning-to-align-and-translate.md",
+        "title": "papers/reviews/neural-machine-translation-by-jointly-learning-to-align-and-translate.md at master \u00b7 abhshkdz/papers",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://nlp.stanford.edu/pubs/emnlp15_attn.pdf",
+        "title": "Effective Approaches to Attention-based Neural Machine ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/D15-1166/",
+        "title": "Effective Approaches to Attention-based Neural Machine Translation",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/anthology-files/pdf/D/D15/D15-1166.pdf",
+        "title": "Effective Approaches to Attention-based Neural Machine ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://courses.grainger.illinois.edu/cs546/sp2020/Slides/Lecture15.pdf",
+        "title": "Effective Approaches to Attention-based Neural",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://cse.hkust.edu.hk/~dekai/ssst8/slides/PougetabadieBahdanauVanmerrienboerChoBengio_Ssst2014_slides.pdf",
+        "title": "Demo: Neural Machine Translation",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1409.1259.pdf",
+        "title": "[PDF] arXiv:1409.1259v2 [cs.CL] 7 Oct 2014",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1409.0473.pdf",
+        "title": "[PDF] Neural machine translation by - arXiv",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://courses.grainger.illinois.edu/cs546/sp2018/Slides/Mar15_Bahdanau.pdf",
+        "title": "[PDF] Neural Machine Translation By Jointly Learning To Align And ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://cs224d.stanford.edu/papers/nmt.pdf",
+        "title": "neural machine translation",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://aclanthology.org/2015.mtsummit-papers.23.pdf",
+        "title": "Improved Beam Search with Constrained Softmax for NMT",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://aclanthology.org/W14-4012.pdf",
+        "title": "On the Properties of Neural Machine Translation: Encoder",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://aclanthology.org/W17-5716.pdf",
+        "title": "Tokyo Metropolitan University Neural Machine Translation ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://aclanthology.org/P16-2049.pdf",
+        "title": "[PDF] Syntactically Guided Neural Machine Translation - ACL Anthology",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://aclanthology.org/D19-6502.pdf",
+        "title": "Context-Aware Neural Machine Translation Decoding",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.GRU.html",
+        "title": "GRU \u2014 PyTorch 2.11 documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/stable/generated/torch.ao.nn.quantized.dynamic.GRU.html",
+        "title": "GRU \u2014 PyTorch 2.11 documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.pytorch.org/t/last-hidden-state-in-bidirectional-stacked-gru/57971",
+        "title": "Last hidden state in bidirectional stacked GRU - nlp - PyTorch Forums",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/stable/generated/torch.ao.nn.quantized.dynamic.modules.rnn.GRU.html",
+        "title": "GRU \u2014 PyTorch 2.11 documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "http://docs.pytorch.org/docs/stable/generated/torch.nn.GRU.html",
+        "title": "GRU",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Transformer.html",
+        "title": "Transformer \u2014 PyTorch 2.11 documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.TransformerEncoderLayer.html",
+        "title": "TransformerEncoderLayer \u2014 PyTorch 2.11 documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "http://docs.pytorch.org/docs/stable/generated/torch.nn.modules.transformer.Transformer.html",
+        "title": "Transformer",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/1.10/generated/torch.nn.Transformer.html",
+        "title": "Transformer\u00b6",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/2.9/generated/torch.nn.Transformer.html",
+        "title": "Transformer \u2014 PyTorch 2.9 documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1609.08144.pdf",
+        "title": "[PDF] Google's neural machine translation system - arXiv",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/1609.08144",
+        "title": "Google's Neural Machine Translation System: Bridging the Gap ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://smerity.com/articles/2016/google_nmt_arch.html",
+        "title": "Peeking into the neural network architecture used for ... - Smerity.com",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.sciencestack.ai/paper/1609.08144v2",
+        "title": "Google's Neural Machine Translation System - ScienceStack",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/papers/1609.08144",
+        "title": "Google's Neural Machine Translation System",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://nlp.stanford.edu/pubs/emnlp15_attn.pdf",
+        "title": "Effective Approaches to Attention-based Neural Machine ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1606.04199.pdf",
+        "title": "[PDF] arXiv:1606.04199v3 [cs.CL] 23 Jul 2016",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.arxiv.org/pdf/2410.22335.pdf",
+        "title": "Efficient Machine Translation with a BiLSTM-Attention Approach",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/D17-1151.pdf",
+        "title": "Massive Exploration of Neural Machine Translation ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "http://www.cs.columbia.edu/~kathy/NLP/2019/ClassSlides/Class17NMT/NMT.pdf",
+        "title": "1",
+        "need_type": "COMPARISON_DATA"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-11T18:03:21",
+    "run_label": "reference-track:Sequence-to-Sequence Basics and the Bottleneck Problem",
+    "sources": [
+      {
+        "url": "https://arxiv.org/pdf/1409.3215v3.pdf",
+        "title": "arXiv:1409.3215v3  [cs.CL]  14 Dec 2014",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://researchr.org/publication/SutskeverVL14",
+        "title": "Sequence to Sequence Learning with Neural Networks",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2014/file/5a18e133cbf9f257297f410bb7eca942-Paper.pdf",
+        "title": "[PDF] Sequence to Sequence Learning with Neural Networks",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://github.com/abhshkdz/papers/blob/master/reviews/sequence-to-sequence-learning-with-neural-networks.md",
+        "title": "papers/reviews/sequence-to-sequence-learning-with-neural-networks.md at master \u00b7 abhshkdz/papers",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/1406.1078",
+        "title": "Learning Phrase Representations using RNN Encoder-Decoder for ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://aclanthology.org/D14-1179/",
+        "title": "Learning Phrase Representations using RNN Encoder\u2013Decoder for ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.semanticscholar.org/paper/Learning-Phrase-Representations-using-RNN-for-Cho-Merrienboer/0b544dfe355a5070b60986319a3f51fb45d1348e",
+        "title": "[PDF] Learning Phrase Representations using RNN Encoder\u2013Decoder for Statistical Machine Translation | Semantic Scholar",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://aclanthology.org/D14-1179.pdf",
+        "title": "Learning Phrase Representations using RNN Encoder",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.arxiv.org/abs/1406.1078",
+        "title": "Learning Phrase Representations using RNN Encoder-Decoder for Statistical Machine Translation",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://ar5iv.labs.arxiv.org/html/1409.0473",
+        "title": "[1409.0473] Neural Machine Translation by Jointly Learning to Align ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/abhshkdz/papers/blob/master/reviews/neural-machine-translation-by-jointly-learning-to-align-and-translate.md",
+        "title": "papers/reviews/neural-machine-translation-by-jointly-learning-to-align-and-translate.md at master \u00b7 abhshkdz/papers",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://courses.grainger.illinois.edu/cs546/sp2018/Slides/Mar15_Bahdanau.pdf",
+        "title": "[PDF] Neural Machine Translation By Jointly Learning To Align And ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://cseweb.ucsd.edu/~dasgupta/254-deep-ul/kamran.pdf",
+        "title": "[PDF] Neural Machine Translation by Jointly Learning to Align and ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://nlp.stanford.edu/pubs/emnlp15_attn.pdf",
+        "title": "Effective Approaches to Attention-based Neural Machine ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/D15-1166/",
+        "title": "Effective Approaches to Attention-based Neural Machine Translation",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/1508.04025v5",
+        "title": "[1508.04025v5] Effective Approaches to Attention-based Neural Machine Translation",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://iclr.cc/archive/www/lib/exe/fetch.php%3Fmedia=iclr2015:bahdanau-iclr2015.pdf",
+        "title": "[PDF] Neural Machine Translation by Jointly Learning to Align and Translate",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper/2015/file/e995f98d56967d946471af29d7bf99f1-Paper.pdf",
+        "title": "[PDF] Scheduled Sampling for Sequence Prediction with Recurrent Neural ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/scheduled-sampling",
+        "title": "4. Algorithmic And...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2016/file/16026d60ff9b54410b3435b403afd226-Paper.pdf",
+        "title": "Professor Forcing: A New Algorithm for Training Recurrent ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1906.07651.pdf",
+        "title": "arXiv:1906.07651v1 [cs.CL] 18 Jun 2019",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1409.0473.pdf",
+        "title": "[PDF] Neural machine translation by - arXiv",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1409.1259.pdf",
+        "title": "[PDF] arXiv:1409.1259v2 [cs.CL] 7 Oct 2014",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1609.08144.pdf",
+        "title": "[PDF] Google's neural machine translation system - arXiv",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2302.14357v2",
+        "title": "A Token-Wise Beam Search Algorithm for RNN-T - arXiv.org",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "http://arxiv.org/pdf/2002.03577.pdf",
+        "title": "> REPLACE THIS LINE WITH YOUR PAPER IDENTIFICATION NUMBER (DOUBLE-CLICK HERE TO EDIT) < 1",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.LSTM.html",
+        "title": "LSTM \u2014 PyTorch 2.11 documentationdocs.pytorch.org \u203a docs \u203a stable \u203a generated \u203a torch.nn.LSTM.html",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.pytorch.org/t/dropout-in-lstm/7784",
+        "title": "Dropout in LSTM",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/2.8/generated/torch.nn.LSTM.html",
+        "title": "LSTM \u2014 PyTorch 2.8 documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.modules.rnn.LSTM.html",
+        "title": "LSTM \u2014 PyTorch 2.11 documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/2.9/generated/torch.nn.LSTM.html",
+        "title": "LSTM \u2014 PyTorch 2.9 documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.tensorflow.org/versions/r1.15/api_docs/python/tf/keras/layers/LSTM",
+        "title": "tf.keras.layers.LSTM | TensorFlow v1.15.0",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.tensorflow.org/api_docs/python/tf/keras/layers/LSTM",
+        "title": "tf.keras.layers.LSTM | TensorFlow v2.16.1",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.tensorflow.org/versions/r2.6/api_docs/python/tf/keras/layers/LSTM",
+        "title": "tf.keras.layers.LSTM | TensorFlow v2.6.0",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.tensorflow.org/versions/r2.15/api_docs/python/tf/keras/layers/LSTM",
+        "title": "tf.keras.layers.LSTM | TensorFlow v2.15.0.post1",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.tensorflow.org/versions/r2.6/api_docs/python/tf/keras/layers/RNN",
+        "title": "tf.keras.layers.RNN | TensorFlow v2.6.0",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://nlp.stanford.edu/pubs/emnlp15_attn.pdf",
+        "title": "Effective Approaches to Attention-based Neural Machine ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://blog.paperspace.com/introduction-to-neural-machine-translation-with-bahdanaus-attention/",
+        "title": "Intuitive Introduction to Neural Machine Translation with Bahdanau ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1508.04025.pdf",
+        "title": "[PDF] arXiv:1508.04025v5 [cs.CL] 20 Sep 2015",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1508.04025v5.pdf",
+        "title": "arXiv:1508.04025v5  [cs.CL]  20 Sep 2015",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/anthology-files/pdf/D/D15/D15-1166.pdf",
+        "title": "Effective Approaches to Attention-based Neural Machine ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/1609.08144",
+        "title": "Google's Neural Machine Translation System: Bridging the Gap ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Google_Neural_Machine_Translation",
+        "title": "Google Neural Machine Translation - Wikipedia",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1609.08144v2.pdf",
+        "title": "Google\u2019s Neural Machine Translation System: Bridging the Gap",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5320672",
+        "title": "A Study on Google's Neural-Based Translation Model",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/papers/1609.08144",
+        "title": "Google's Neural Machine Translation System",
+        "need_type": "COMPARISON_DATA"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-11T19:41:48",
+    "run_label": "reference-track:Sequence-to-Sequence Basics and the Bottleneck Problem",
+    "sources": [
+      {
+        "url": "https://michaelauli.github.io/papers/iclr2016_mixer.pdf",
+        "title": "[PDF] SEQUENCE LEVEL TRAINING WITH RECURRENT NEURAL ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.emergentmind.com/papers/1511.06732",
+        "title": "Sequence Level Training with RNNs",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://github.com/kweonwooj/papers/issues/89",
+        "title": "Sequence Level Training with Recurrent Neural Networks \u00b7 Issue #89 \u00b7 kweonwooj/papers",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.cl.cam.ac.uk/teaching/2223/L101/student_presentations/L101_Slides_Caiqi.pdf",
+        "title": "[PDF] Sequence Level Training with Recurrent Neural Networks",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://aclanthology.org/2025.findings-naacl.233.pdf",
+        "title": "[PDF] Sequence-level Large Language Model Training with Contrastive ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://nonlinearfunction.org/notes/dagger/",
+        "title": "DAgger - Nonlinear Function",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://aclanthology.org/2020.emnlp-main.494.pdf",
+        "title": "[PDF] Autoregressive Knowledge Distillation through Imitation Learning",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://imitation.readthedocs.io/en/latest/algorithms/dagger.html",
+        "title": "DAgger#",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2512.12080v1",
+        "title": "3 Method",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2406.09393.pdf",
+        "title": "[PDF] arXiv:2406.09393v1 [cs.CL] 13 Jun 2024",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://aclanthology.org/2021.emnlp-main.1.pdf",
+        "title": "AligNART: Non-autoregressive Neural Machine Translation by Jointly Learning to Estimate Alignment and Translate",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://iclr.cc/archive/www/lib/exe/fetch.php%3Fmedia=iclr2015:bahdanau-iclr2015.pdf",
+        "title": "[PDF] Neural Machine Translation by Jointly Learning to Align and Translate",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/abhshkdz/papers/blob/master/reviews/neural-machine-translation-by-jointly-learning-to-align-and-translate.md",
+        "title": "papers/reviews/neural-machine-translation-by-jointly-learning-to-align-and-translate.md at master \u00b7 abhshkdz/papers",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.arxiv.org/pdf/1409.0473v2.pdf",
+        "title": "Neural Machine Translation by Jointly Learning to Align ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://nlp.stanford.edu/pubs/emnlp15_attn.pdf",
+        "title": "Effective Approaches to Attention-based Neural Machine ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/anthology-files/pdf/D/D15/D15-1166.pdf",
+        "title": "Effective Approaches to Attention-based Neural Machine ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/D15-1166/",
+        "title": "Effective Approaches to Attention-based Neural Machine Translation",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/1508.04025v5",
+        "title": "[1508.04025v5] Effective Approaches to Attention-based Neural Machine Translation",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://nlp.stanford.edu/pubs/emnlp15_attn.pdf",
+        "title": "Effective Approaches to Attention-based Neural Machine ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/D15-1166/",
+        "title": "Effective Approaches to Attention-based Neural Machine Translation",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "http://arxiv.org/pdf/1508.04025v5.pdf",
+        "title": "arXiv:1508.04025v5  [cs.CL]  20 Sep 2015",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=Fbn2DWlHRt4",
+        "title": "Effective Approaches To Attention Based Neural Machine Translation - Paper Explained",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.baeldung.com/cs/attention-luong-vs-bahdanau",
+        "title": "4. Bahdanau Attention",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://mbrenndoerfer.com/writing/luong-attention-mechanisms-dot-product-general-local",
+        "title": "Luong Attention: Dot Product, General & Local Attention Mechanisms",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://mull-overthing.com/what-is-the-difference-between-additive-attention-and-dot-product-attention/",
+        "title": "What is the difference between additive attention and dot ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://aman.ai/primers/ai/attention/",
+        "title": "Aman's AI Journal \u2022 Natural Language Processing \u2022 Attention",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.ibm.com/think/topics/attention-mechanism",
+        "title": "What is an attention mechanism?",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://docs.pytorch.org/rl/main/reference/generated/torchrl.modules.llm.TransformersWrapper.html",
+        "title": "TransformersWrapper \u2014 torchrl main documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/rl/stable/reference/generated/torchrl.modules.llm.TransformersWrapper.html",
+        "title": "TransformersWrapper \u2014 torchrl 0.0 documentation - PyTorch",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/main/generated/torch.nn.Transformer.html",
+        "title": "Transformer",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/audio/master/generated/torchaudio.models.RNNTBeamSearch.html",
+        "title": "RNNTBeamSearch",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/audio/main/generated/torchaudio.models.RNNTBeamSearch.html",
+        "title": "RNNTBeamSearch \u2014 Torchaudio 2.8.0 documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://huggingface.co/docs/transformers/main_classes/text_generation",
+        "title": "Generation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://huggingface.co/docs/transformers/main/main_classes/text_generation",
+        "title": "Transformers documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://huggingface.co/docs/transformers/v4.36.0/en/main_classes/text_generation",
+        "title": "Generation - Hugging Face",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://huggingface.co/docs/transformers/v4.38.0/main_classes/text_generation",
+        "title": "Generation - Hugging Face",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://huggingface.co/docs/transformers/v4.26.1/main_classes/text_generation",
+        "title": "Transformers.",
+        "need_type": "API_REFERENCE"
+      }
+    ]
+  }
+]

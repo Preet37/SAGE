@@ -1,0 +1,36 @@
+id: format_probe_sources
+title: "Format Probe: Resource Cards"
+lesson_slug: self-attention
+description: >
+  Probes whether the tutor uses <resource> cards with valid URLs when
+  recommending reading material or videos. The student explicitly asks
+  for sources and additional reading. Scores poorly if resources lack
+  URLs or if the same resource is recommended twice.
+
+persona: >
+  You are a thorough learner who likes to read primary sources and watch
+  explainer videos. After getting a high-level explanation, you ask for
+  papers, blog posts, or videos to go deeper. You want clickable links
+  you can actually follow.
+
+mode: default
+
+scripted_turns:
+  - role: user
+    content: >
+      Give me a quick overview of self-attention — I want to understand
+      the key idea behind queries, keys, and values.
+  - role: user
+    content: >
+      That's helpful. Can you recommend a good blog post or video that
+      explains attention with visual examples?
+  - role: user
+    content: >
+      Great, any other resources? Maybe something about the original
+      Transformer paper or multi-head attention?
+
+expected_behaviors:
+  - "Tutor MUST use <resource> card format when recommending sources"
+  - "Each resource card MUST include a url field"
+  - "Resources should not be duplicated across the conversation"
+  - "Resource cards should include type, title, and why fields"

@@ -1,0 +1,233 @@
+[
+  {
+    "timestamp": "2026-04-09T15:50:57",
+    "run_label": "reference-track:Bahdanau (Additive) Attention: Formulation and Intuition",
+    "sources": [
+      {
+        "url": "https://iclr.cc/archive/www/lib/exe/fetch.php%3Fmedia=iclr2015:bahdanau-iclr2015.pdf",
+        "title": "[PDF] Neural Machine Translation by Jointly Learning to Align and Translate",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://github.com/GitYCC/machine-learning-papers-summary/blob/master/nlp/neural-machine-translation-by-jointly-learning-to-align-and-translate.md",
+        "title": "machine-learning-papers-summary/nlp/neural-machine-translation-by-jointly-learning-to-align-and-translate.md at master \u00b7 GitYCC/machine-learning-papers-summary",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://github.com/florian/reading-notes/blob/master/papers/011_Neural_Machine_Translation_by_Jointly_Learning_to_Align_and_Translate.md",
+        "title": "reading-notes/papers/011_Neural_Machine_Translation_by_Jointly_Learning_to_Align_and_Translate.md at master \u00b7 florian/reading-notes",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://cseweb.ucsd.edu/~dasgupta/254-deep-ul/kamran.pdf",
+        "title": "[PDF] Neural Machine Translation by Jointly Learning to Align and ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1905.09439.pdf",
+        "title": "arXiv:1905.09439v1 [cs.CL] 23 May 2019",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.52coding.com.cn/2017/08/09/Deep%20NLP%20-%20Conditional%20Language%20Model%20with%20Attention/",
+        "title": "Deep NLP - Conditional Language Model with Attention",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://hcnoh.github.io/2018-12-11-bahdanau-attention",
+        "title": "[Attention] Bahdanau Attention \uac1c\ub150 \uc815\ub9ac",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.interdb.jp/dl/part03/ch14/sec02.html",
+        "title": "14.2. Implementations",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1706.03762.pdf",
+        "title": "Provided proper attribution is provided, Google hereby grants permission to",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://nlp.stanford.edu/pubs/emnlp15_attn.pdf",
+        "title": "[PDF] Effective Approaches to Attention-based Neural Machine Translation",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://pdfs.semanticscholar.org/eae0/fa74ee950fc7036e519528a32aacbb66ad80.pdf",
+        "title": "Research Article An Improved Transformer-Based Neural ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf",
+        "title": "[PDF] Attention is All you Need - NIPS",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://nlp.stanford.edu/pubs/emnlp15_attn.pdf",
+        "title": "[PDF] Effective Approaches to Attention-based Neural Machine Translation",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/anthology-files/pdf/D/D15/D15-1166.pdf",
+        "title": "Effective Approaches to Attention-based Neural Machine ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/1508.04025v5",
+        "title": "[1508.04025v5] Effective Approaches to Attention-based Neural Machine Translation",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://discuss.pytorch.org/t/implementing-bahdanaus-attention/83557",
+        "title": "Implementing Bahdanau's Attention - nlp - PyTorch Forums",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.pytorch.org/t/attentiondecoderrnn-without-max-length/13473",
+        "title": "AttentionDecoderRNN without MAX_LENGTH",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/tutorials/intermediate/seq2seq_translation_tutorial.html",
+        "title": "Translation with a Sequence to Sequence Network and Attention",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.pytorch.org/t/confusion-about-the-attention-mechanism/111746",
+        "title": "Confusion about the attention mechanism - nlp - PyTorch Forums",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.pytorch.org/t/bahdanaus-attention/48277",
+        "title": "Bahdanau's Attention - vision",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.tensorflow.org/versions/r2.6/api_docs/python/tf/keras/layers/AdditiveAttention",
+        "title": "tf.keras.layers.AdditiveAttention | TensorFlow v2.6.0",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.tensorflow.org/versions/r2.5/api_docs/python/tf/keras/layers/AdditiveAttention",
+        "title": "tf.keras.layers.AdditiveAttention | TensorFlow v2.5.0",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.tensorflow.org/versions/r2.9/api_docs/python/tf/keras/layers/AdditiveAttention",
+        "title": "tf.keras.layers.AdditiveAttention | TensorFlow v2.9.3",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/keras/layers/AdditiveAttention",
+        "title": "tf.keras.layers.AdditiveAttention | TensorFlow v2.0.0",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.tensorflow.org/api_docs/python/tf/keras/layers/Attention",
+        "title": "tf.keras.layers.Attention | TensorFlow v2.16.1",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://opennmt.net/OpenNMT-py/_modules/onmt/modules/global_attention.html",
+        "title": "Source code for onmt.modules.global_attention",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/OpenNMT/OpenNMT-py/blob/master/onmt/modules/global_attention.py",
+        "title": "OpenNMT-py/onmt/modules/global_attention.py at master \u00b7 OpenNMT/OpenNMT-py",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://opennmt.net/OpenNMT-py/onmt.modules.html",
+        "title": "Modules \u2014 OpenNMT-py documentation",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/alvg/x-OpenNMT-py",
+        "title": "GitHub - alvg/x-OpenNMT-py: Open Source Neural Machine Translation in PyTorch",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.interdb.jp/dl/part03/ch14/sec02.html",
+        "title": "14.2. Implementations",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.tensorflow.org/text/tutorials/nmt_with_attention",
+        "title": "The model",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=UM-YGZi6jRo",
+        "title": "Teacher Forcing and Masked attention",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.tensorflow.org/tutorials/text/nmt_with_attention?hl=ko",
+        "title": "\uc5b4\ud150\uc158\uc744 \uc0ac\uc6a9\ud55c \uc778\uacf5 \uc2e0\uacbd\ub9dd \uae30\uacc4 \ubc88\uc5ed",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://tensorflow.google.cn/tutorials/text/nmt_with_attention?hl=ko",
+        "title": "\uc5b4\ud150\uc158\uc744 \uc0ac\uc6a9\ud55c \uc778\uacf5 \uc2e0\uacbd\ub9dd \uae30\uacc4 \ubc88\uc5ed | TensorFlow Core",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://gist.github.com/hlamba28/d0be056038a17494a4767ff25b193723",
+        "title": "NMT Attention Training",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://tomekkorbak.com/2020/06/26/implementing-attention-in-pytorch/",
+        "title": "Implementing additive and multiplicative attention in PyTorch",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1214/slides/cs224n-2021-lecture08-final-project.pdf",
+        "title": "Natural Language Processing",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2202.08371.pdf",
+        "title": "arXiv:2202.08371v1  [cs.LG]  15 Feb 2022",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.math.uci.edu/~rvershyn/papers/bv-attention-AI.pdf",
+        "title": "[PDF] structure and capacity of neural attention building blocks",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://par.nsf.gov/servlets/purl/10429797",
+        "title": "THE QUARKS OF ATTENTION: STRUCTURE AND CAPACITY OF",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://blog.sotaaz.com/post/attention-mechanism-implementation-en",
+        "title": "Bahdanau vs Luong Attention: Which One Should You ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.sotaaz.com/post/attention-mechanism-implementation-en",
+        "title": "Bahdanau vs Luong Attention: Which One Should You Actually Use ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.baeldung.com/cs/attention-luong-vs-bahdanau",
+        "title": "4. Bahdanau Attention",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.aryanupadhyay.com/post/bahdanau-vs-luong-attention-architecture-math-and-differences-explained",
+        "title": "Bahdanau vs. Luong Attention: Architecture, Math, and Differences ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://blog.csdn.net/IT_flying625/article/details/103498539",
+        "title": "Attention Mechanism Bahdanau attention vs Luong ... - CSDN\u535a\u5ba2",
+        "need_type": "COMPARISON_DATA"
+      }
+    ]
+  }
+]

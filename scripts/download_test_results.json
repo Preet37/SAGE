@@ -1,0 +1,134 @@
+[
+  {
+    "url": "https://arxiv.org/abs/2404.10719",
+    "title": "Is DPO Superior to PPO for LLM Alignment? A Comprehensive Study",
+    "category": "arxiv-abs",
+    "cascade": {
+      "success": true,
+      "via": "trafilatura",
+      "error": "",
+      "word_count": 9927,
+      "elapsed_s": 0.5,
+      "quality": {
+        "words": 9927,
+        "lines": 735,
+        "boilerplate_hits": 0,
+        "has_equations": true,
+        "has_numbers": true,
+        "has_tables": true,
+        "quality": "good"
+      },
+      "preview": "Is DPO Superior to PPO for LLM Alignment? A Comprehensive Study Abstract Reinforcement Learning from Human Feedback (RLHF) is currently the most widely used method to align large language models (LLMs..."
+    }
+  },
+  {
+    "url": "https://arxiv.org/pdf/2212.08073.pdf",
+    "title": "Constitutional AI: Harmlessness from AI Feedback",
+    "category": "arxiv-pdf",
+    "cascade": {
+      "success": true,
+      "via": "jina",
+      "error": "",
+      "word_count": 19312,
+      "elapsed_s": 9.5,
+      "quality": {
+        "words": 19312,
+        "lines": 653,
+        "boilerplate_hits": 0,
+        "has_equations": true,
+        "has_numbers": true,
+        "has_tables": true,
+        "quality": "good"
+      },
+      "preview": "Title: 2212.08073v1.pdf  URL Source: https://arxiv.org/pdf/2212.08073.pdf  Published Time: Mon, 23 Jan 2023 18:04:59 GMT  Number of Pages: 34  Markdown Content: # Constitutional AI: Harmlessness from ..."
+    }
+  },
+  {
+    "url": "https://cdn.openai.com/papers/Training_language_models_to_follow_instructions_with_human_feedback.pdf",
+    "title": "Training language models to follow instructions with human feedback",
+    "category": "cdn-pdf",
+    "cascade": {
+      "success": true,
+      "via": "jina",
+      "error": "",
+      "word_count": 29859,
+      "elapsed_s": 3.8,
+      "quality": {
+        "words": 29859,
+        "lines": 1510,
+        "boilerplate_hits": 0,
+        "has_equations": true,
+        "has_numbers": true,
+        "has_tables": true,
+        "quality": "good"
+      },
+      "preview": "Title: Training_language_models_to_follow_instructions_with_human_feedback.pdf  URL Source: https://cdn.openai.com/papers/Training_language_models_to_follow_instructions_with_human_feedback.pdf  Publi..."
+    }
+  },
+  {
+    "url": "https://proceedings.neurips.cc/paper_files/paper/2024/file/404df2480b6eef0486a1679e371894b0-Paper-Conference.pdf",
+    "title": "Unpacking DPO and PPO: Disentangling Best Practices for Learning from Preferences",
+    "category": "conference-pdf",
+    "cascade": {
+      "success": true,
+      "via": "jina",
+      "error": "",
+      "word_count": 17733,
+      "elapsed_s": 2.7,
+      "quality": {
+        "words": 17733,
+        "lines": 624,
+        "boilerplate_hits": 0,
+        "has_equations": true,
+        "has_numbers": true,
+        "has_tables": true,
+        "quality": "good"
+      },
+      "preview": "Title: 404df2480b6eef0486a1679e371894b0-Paper-Conference.pdf  URL Source: https://proceedings.neurips.cc/paper_files/paper/2024/file/404df2480b6eef0486a1679e371894b0-Paper-Conference.pdf  Number of Pa..."
+    }
+  },
+  {
+    "url": "https://huggingface.co/blog/rlhf",
+    "title": "Illustrating Reinforcement Learning from Human Feedback (RLHF)",
+    "category": "html-blog",
+    "cascade": {
+      "success": true,
+      "via": "trafilatura",
+      "error": "",
+      "word_count": 3437,
+      "elapsed_s": 0.3,
+      "quality": {
+        "words": 3437,
+        "lines": 91,
+        "boilerplate_hits": 0,
+        "has_equations": true,
+        "has_numbers": true,
+        "has_tables": false,
+        "quality": "good"
+      },
+      "preview": "[ ](#illustrating-reinforcement-learning-from-human-feedback-rlhf) Illustrating Reinforcement Learning from Human Feedback (RLHF) [Update on GitHub](https://github.com/huggingface/blog/blob/main/rlhf...."
+    }
+  },
+  {
+    "url": "https://huggingface.co/docs/trl/main/en/dpo_trainer",
+    "title": "TRL DPO Trainer Documentation",
+    "category": "html-docs",
+    "cascade": {
+      "success": true,
+      "via": "trafilatura",
+      "error": "",
+      "word_count": 4649,
+      "elapsed_s": 0.2,
+      "quality": {
+        "words": 4649,
+        "lines": 435,
+        "boilerplate_hits": 0,
+        "has_equations": true,
+        "has_numbers": true,
+        "has_tables": true,
+        "quality": "good"
+      },
+      "preview": "TRL documentation DPO Trainer [installation from source](/docs/trl/installation#source). If you'd like regular pip install, checkout the latest stable version ( [v1.0.0](/docs/trl/v1.0.0/dpo_trainer))..."
+    }
+  }
+]

@@ -1,0 +1,916 @@
+[
+  {
+    "timestamp": "2026-04-09T16:23:54",
+    "run_label": "reference-track:Multi-Agent Systems",
+    "sources": [
+      {
+        "url": "https://stacks.stanford.edu/file/druid:mq853nj9727/mq853nj9727.pdf",
+        "title": "Expert Systems With Applications, Vol. 7, pp.",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://stacks.stanford.edu/file/druid:nh044zx3884/nh044zx3884.pdf",
+        "title": "Blackboard Architectures",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://johnljerz.com/superduper/tlxdownloadsiteWEBSITEII/id269.html",
+        "title": "Blackboard Systems (Nii, 1986)",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.scribd.com/document/740576157/APznzaazuNf0sn2io4UFSgvnvOJ4KYkU4dpQ2DblYCJXrJRGFgQ6AGJe60jkQVr-UKz68aXRykMD-Fq-9-xSSYU8A-U365wbGbHRcE5julkjHbHUHs4-yq3pRvjNryNiT4-6UUm6n7kjEeST1AN2",
+        "title": "'' . -1. (link) Methods...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.qrg.northwestern.edu/Resources/aigames.org/2001/mcavazza01.pdf",
+        "title": "[PDF] A Blackboard System for Interpreting Agent Messages",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.reidgsmith.com/The_Contract_Net_Protocol_Dec-1980.pdf",
+        "title": "[PDF] The Contract Net Protocol: High-Level Communication and Control ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Contract_Net_Protocol",
+        "title": "Contract Net Protocol - Wikipedia",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://reidgsmith.com/The_Contract_Net_Protocol_Dec-1980.pdf",
+        "title": " The Contract Net Protocol: High-Level Communication and Control in a Distributed Problem Solver",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://web.eecs.utk.edu/~leparker/Courses/CS594-spring03/Lectures/Mar25.pdf",
+        "title": "No Slide Title",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.eecs.ucf.edu/~lboloni/Teaching/EEL6788_2008/papers/The_Contract_Net_Protocol_Dec-1980.pdf",
+        "title": "The Contract Net Protocol: High-Level Communication and ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Decentralized_partially_observable_Markov_decision_process",
+        "title": "Decentralized partially observable Markov decision process - Wikipedia",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.fransoliehoek.net/docs/Oliehoek12RLBook.pdf",
+        "title": "Decentralized POMDPs - Frans A. Oliehoek",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://cs.brown.edu/people/gdk/pubs/macdecpomdps_jair.pdf",
+        "title": "Modeling and Planning with Macro-Actions in Decentralized ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://projects.iq.harvard.edu/files/teamcore/files/2010_18_teamcore_pomdp_10aaaiws.pdf",
+        "title": "Teamwork and Coordination under Model Uncertainty in DEC-POMDPs",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/html/2508.21595v1",
+        "title": "Scalable Solution Methods for Dec-POMDPs with ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://courses.cs.duke.edu/spring07/cps296.3/littman94markov.pdf",
+        "title": "Markov games as a framework for multi-agent reinforcement learning",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://courses.cs.duke.edu/cps296.3/spring07/littman94markov.pdf",
+        "title": "Markov games as a framework for multi-agent ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.cs.cmu.edu/~./15281-f19/lectures/15281_Fa19_Lecture_26_MARL.pdf",
+        "title": "PowerPoint Presentation",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.ijmo.org/vol9/699-RM2-024.pdf",
+        "title": "Abstract\u2014Markov",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.arxiv.org/pdf/2407.04240.pdf",
+        "title": "1",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2308.03688",
+        "title": "[2308.03688] AgentBench: Evaluating LLMs as Agents - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://web3.arxiv.org/pdf/2601.11044",
+        "title": "AgencyBench: Benchmarking the Frontiers of Autonomous Agents in 1M-Token Real-World Contexts",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://agentic-design.ai/patterns/evaluation-monitoring/agentbench",
+        "title": "AgentBench (AgentBench) - Agentic Design Patterns",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2025.acl-long.421.pdf",
+        "title": "Evaluating the Collaboration and Competition of LLM agents",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=OvVGe62QMC8",
+        "title": "Measuring Agentic Success: 10 Benchmarks Every Architect Needs (Q191\u2013Q200)",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2512.17419v1",
+        "title": "SWE-Bench++: A Framework for the Scalable Generation of ... - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.verdent.ai/blog/swe-bench-verified-technical-report",
+        "title": "SWE-bench Verified Technical Report - Verdent AI",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2512.18470v1",
+        "title": "SWE-EVO: Benchmarking Coding Agents in Long-Horizon Software ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://swe-agent.com/paper.pdf",
+        "title": "Preprint",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.swebench.com",
+        "title": "SWE-bench Leaderboards",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://microsoft.github.io/autogen/0.2/docs/reference/agentchat/groupchat/",
+        "title": "Last_speaker\u200b",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://microsoft.github.io/autogen/0.2/docs/notebooks/agentchat_groupchat/",
+        "title": "Group Chat | AutoGen 0.2",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://microsoft.github.io/autogen/stable/reference/python/autogen_agentchat.teams.html",
+        "title": "autogen_agentchat.teams \u2014 AutoGen - Microsoft Open Source",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://microsoft.github.io/autogen/0.2/docs/tutorial/conversation-patterns/",
+        "title": "Nested Chats\u200b",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://microsoft.github.io/autogen/0.2/blog/2024/02/11/FSM-GroupChat/",
+        "title": "FSM Group Chat -- User-specified agent transitions",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.hockeystack.com/applied-ai/optimizing-latency-and-cost-in-multi-agent-systems",
+        "title": "Optimizing Latency and Cost in Multi-Agent Systems - HockeyStack",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/html/2603.07444v1",
+        "title": "HLER: Human-in-the-Loop Economic Research via Multi-Agent ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2603.22651.pdf",
+        "title": "Benchmarking Multi-Agent LLM Architectures for",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=H_DnQEuEjwk",
+        "title": "Architecting Resilient and Cost-Efficient Multi-Agent LLM Systems | Uplatz",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.zenml.io/llmops-database/production-deployment-challenges-and-infrastructure-gaps-for-multi-agent-ai-systems",
+        "title": "GetOnStack: Production Deployment Challenges and Infrastructure ...",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-10T19:23:30",
+    "run_label": "reference-track:LangGraph Core Concepts: State, Nodes, and Edges",
+    "sources": [
+      {
+        "url": "https://reference.langchain.com/python/langgraph/graph/state/StateGraph/compile",
+        "title": "compile | langgraph - LangChain Reference Docs",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://reference.langchain.com/javascript/langchain-langgraph/index/CompiledStateGraph",
+        "title": "CompiledStateGraph | @langchain/langgraph",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://reference.langchain.com/javascript/classes/_langchain_langgraph.index.CompiledStateGraph.html",
+        "title": "CompiledStateGraph",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://reference.langchain.com/javascript/langchain-langgraph/index/CompiledStateGraph/streamMode",
+        "title": "streamMode | @langchain/langgraph",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/3459",
+        "title": "Reducers for other state members apart from messages #3459",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/3459&rut=af1f8413b9f53eeb2d82e83a09a36e85fd7280a1a606b0ef3c2e3a6c278aad83",
+        "title": "Reducers for other state members apart from messages \u00b7 langchain-ai/langgraph \u00b7 Discussion #3459",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/issues/1568",
+        "title": "Problem with add_messages, message didn't get merged",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/3914",
+        "title": "Cannot get messages merged after two parallel nodes \u00b7 langchain-ai langgraph \u00b7 Discussion #3914",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/3810",
+        "title": "Replace message history atomically \u00b7 langchain-ai langgraph",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/938",
+        "title": "langgraph/how-tos/human_in_the_loop/edit-graph-state",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/3346",
+        "title": "Dynamic Workflow Mode Implementation for Conditional ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/pull/3345",
+        "title": "feature:Dynamic Workflow Mode Implementation for Conditional Edges by WenPulse \u00b7 Pull Request #3345 \u00b7 langchain-ai/langgraph",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/issues/4305",
+        "title": "Inconsistent reducer behavior for Optional, nullable and regular data type \u00b7 Issue #4305 \u00b7 langchain-ai/langgraph",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/issues/1394",
+        "title": "Visualized graph has wrong conditional edges \u00b7 Issue #1394 \u00b7 langchain-ai/langgraph",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://reference.langchain.com/python/langgraph/graphs/",
+        "title": "Graphs | LangChain Reference",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://reference.langchain.com/python/langgraph/graph/state/StateGraph/compile",
+        "title": "compile | langgraph - LangChain Reference Docs",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.langgraphcn.org/reference/graphs/",
+        "title": "\u56fe\u5b9a\u4e49\u00b6",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://langgraph.agentdevhub.com/concepts/low_level/",
+        "title": "LangGraph Glossary\u00b6",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://langgraph.theforage.cn/concepts/low_level/",
+        "title": "Low Level Conceptual Guide\u00b6",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/blob/main/libs/langgraph/langgraph/graph/message.py",
+        "title": "langgraph/libs/langgraph/langgraph/graph/message.py at main \u00b7 langchain-ai/langgraph",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/issues/4227",
+        "title": "CompiledStateGraph.steam demo returns with None \u00b7 Issue #4227 \u00b7 langchain-ai/langgraph",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/4786",
+        "title": "langbgraph - streaming \"messages\" with custom output ...",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/4829",
+        "title": "How to stream specific nodes\uff1f \u00b7 langchain-ai langgraph \u00b7 Discussion #4829",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/517",
+        "title": "langgraph/reference/prebuilt/ #517",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://reference.langchain.com/javascript/langchain-langgraph/index/StateGraph",
+        "title": "StateGraph | @langchain/langgraph",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://langchain-ai.github.io/langgraph/reference/graphs/",
+        "title": "Graphs - GitHub Pages",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://langchain-ai.github.io/langgraphjs/reference/classes/langgraph.StateGraph.html",
+        "title": "StateGraph | LangGraph.js API Reference - GitHub Pages",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.langgraphcn.org/reference/graphs/",
+        "title": "\u56fe\u5b9a\u4e49\u00b6",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://aerospike.com/blog/langgraph-production-latency-replay-scale",
+        "title": "LangGraph in Production: Latency, Replay, and Scale | Aerospike",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://mcp-server-langgraph.mintlify.app/comparisons/benchmarks",
+        "title": "Performance Benchmarks - MCP Server with LangGraph",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://dev.to/young_gao/building-production-ai-agents-with-langgraph-beyond-the-toy-examples-2idm",
+        "title": "Langgraph Vs. Crewai Vs...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/2895",
+        "title": "Persistence to MongoDB slows quite alot #2895",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://blog.langchain.dev/making-it-easier-to-build-human-in-the-loop-agents-with-interrupt/",
+        "title": "Making it easier to build human-in-the-loop agents with interrupt",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://blog.langchain.dev/introducing-the-langgraph-functional-api/",
+        "title": "Introducing the LangGraph Functional API",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://blog.langchain.dev/human-in-the-loop-with-opengpts-and-langgraph/",
+        "title": "Human-in-the-loop with OpenGPTs and LangGraph",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://blog.langchain.dev/langgraph-cloud/",
+        "title": "Announcing LangGraph v0.1 & LangGraph Cloud: Running agents at scale, reliably",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://blog.langchain.dev/why-langgraph-platform/",
+        "title": "Why do I need LangGraph Platform for agent deployment?",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.zenml.io/blog/langgraph-vs-autogen",
+        "title": "LangGraph vs AutoGen: How are These LLM Workflow ... - ZenML",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.truefoundry.com/blog/autogen-vs-langgraph",
+        "title": "AutoGen vs LangGraph: Comparing Multi-Agent AI Frameworks",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.leanware.co/insights/auto-gen-vs-langgraph-comparison",
+        "title": "LangGraph vs AutoGen: Multi-Agent AI Framework Comparison",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.openxcell.com/blog/autogen-vs-langgraph/",
+        "title": "Autogen vs LangGraph: Comparing Multi-Agent Workflow Solutions - Openxcell",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://galileo.ai/blog/mastering-agents-langgraph-vs-autogen-vs-crew",
+        "title": "Mastering Agents: LangGraph Vs Autogen Vs Crew AI - Galileo AI",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.leanware.co/insights/langgraph-vs-semantic-kernel",
+        "title": "LangGraph vs Semantic Kernel Comparison 2025 - Leanware",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://kanerika.com/blogs/semantic-kernel-vs-langchain/",
+        "title": "Semantic Kernel vs LangChain: Which Fits Your Stack in 2026?",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.zenml.io/blog/semantic-kernel-alternatives",
+        "title": "We Tried and Tested 8 Best Semantic Kernel Alternatives to Build AI ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://dev.to/theprodsde/langgraph-vs-semantic-kernel-python-ai-agents-in-2026-1p4g",
+        "title": "LangGraph vs Semantic Kernel: Python AI Agents in 2026",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.turing.com/resources/ai-agent-frameworks",
+        "title": "AI Agent Frameworks: A Detailed Comparison",
+        "need_type": "COMPARISON_DATA"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-10T19:26:56",
+    "run_label": "reference-track:Why LangGraph? Graphs as Agent Control Flow",
+    "sources": [
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/4730",
+        "title": "State Update After Interrupt Not Reaching Subgraph Node on Resume",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/blob/main/docs/docs/concepts/persistence.md",
+        "title": "langgraph/docs/docs/concepts/persistence.md at main \u00b7 langchain-ai/langgraph",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/2156",
+        "title": "langgraph/concepts/persistence/ #2156",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/blob/main/docs/docs/concepts/functional_api.md",
+        "title": "langgraph/docs/docs/concepts/functional_api.md at main \u00b7 langchain-ai/langgraph",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/3061",
+        "title": "Weird interrupt related issue \u00b7 langchain-ai langgraph",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://reference.langchain.com/python/langgraph/types/interrupt",
+        "title": "interrupt | langgraph",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://reference.langchain.com/python/langgraph/types/",
+        "title": "Types | LangChain Reference",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://reference.langchain.com/python/langgraph/checkpoints/",
+        "title": "Checkpointing | LangChain Referencereference.langchain.com \u203a python \u203a langgraph \u203a checkpoints",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://reference.langchain.com/python/langgraph/graph/state/StateGraph/compile",
+        "title": "compile | langgraph - LangChain Reference Docs",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://reference.langchain.com/python/langgraph/func/entrypoint",
+        "title": "entrypoint | langgraph",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=m3edGzRlR5Y",
+        "title": "Handling Errors in LangGraph with Retry Policies",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://reference.langchain.com/python/langgraph/graphs/",
+        "title": "Graphs | LangChain Reference",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://reference.langchain.com/javascript/interfaces/_langchain_langgraph.index.CompiledGraph.html",
+        "title": "getGraph",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://dev.to/aiengineering/a-beginners-guide-to-handling-errors-in-langgraph-with-retry-policies-h22",
+        "title": "A Beginner's Guide to Handling Errors in LangGraph with Retry ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://langchain-ai.github.io/langgraphjs/reference/classes/langgraph.CompiledGraph.html",
+        "title": "Class CompiledGraph<N, State, Update, ContextType, InputType, OutputType, NodeReturnType, CommandType, StreamCustomType>",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://aerospike.com/blog/langgraph-production-latency-replay-scale",
+        "title": "LangGraph in Production: Latency, Replay, and Scale | Aerospike",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12920282/table/Tab4/",
+        "title": "Table 4.",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://docs.langchain.com/oss/javascript/langgraph/persistence",
+        "title": "Persistence - Docs by LangChain",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://mcp-server-langgraph.mintlify.app/comparisons/benchmarks",
+        "title": "Performance Benchmarks - MCP Server with LangGraph",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://galileo.ai/blog/autogen-vs-crewai-vs-langgraph-vs-openai-agents-framework",
+        "title": "AutoGen vs. CrewAI vs. LangGraph vs. OpenAI AI Agents Framework",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://agent-harness.ai/blog/agentic-ai-frameworks-2026-langgraph-vs-crewai-vs-autogen-vs-openai-symphony/",
+        "title": "Agentic AI Frameworks 2026: LangGraph vs CrewAI vs AutoGen vs ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.leanware.co/insights/auto-gen-vs-langgraph-comparison",
+        "title": "LangGraph vs AutoGen: Multi-Agent AI Framework Comparison",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://f3fundit.com/multi-agent-orchestration-frameworks-compared-autogen-vs-crewai-vs-agentops-2026/",
+        "title": "AutoGen vs CrewAI vs AgentOps (2026) - F\u00b3 Fund It",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.zenml.io/blog/langgraph-vs-autogen",
+        "title": "LangGraph vs AutoGen: How are These LLM Workflow ... - ZenML",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.zenml.io/blog/langgraph-vs-autogen",
+        "title": "LangGraph vs AutoGen: How are These LLM Workflow ... - ZenML",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.zenml.io/blog/semantic-kernel-alternatives",
+        "title": "We Tried and Tested 8 Best Semantic Kernel Alternatives to Build AI ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.turing.com/resources/ai-agent-frameworks",
+        "title": "AI Agent Frameworks: A Detailed Comparison",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://margabagus.com/agentops-2025-langgraph-autogen/",
+        "title": "AgentOps in 2025: LangGraph vs AutoGen for Production-Grade ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://myengineeringpath.dev/tools/autogen-vs-langgraph/",
+        "title": "Autogen Implementation",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://temporal.io/blog/durable-execution-meets-ai-why-temporal-is-the-perfect-foundation-for-ai",
+        "title": "Durable Execution meets AI: Why Temporal is ideal for AI agents ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://aiworkflowlab.dev/article/ai-workflow-orchestration-in-production-building-durable-agent-pipelines-with-langgraph-and-temporal",
+        "title": "AI Workflow Orchestration in Production: Durable Agent Pipelines ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://intuitionlabs.ai/articles/agentic-ai-temporal-orchestration",
+        "title": "Agentic AI Workflows: Why Orchestration with Temporal is Key",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://fredk8.dev/blog/durable-ai-agents-orchestrating-the-future-with-fred-and-temporal/",
+        "title": "Durable AI Agents: Orchestrating the Future with Fred and Temporal",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://temporal.io/blog/the-fallacy-of-the-graph-why-your-next-workflow-should-be-code-not-a-diagram",
+        "title": "The fallacy of the graph: Why your next agentic workflow should be ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://blog.langchain.dev/is-langgraph-used-in-production/",
+        "title": "Is LangGraph Used In Production?",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://blog.langchain.dev/customers-athena-intelligence/",
+        "title": "How Athena Intelligence optimized research reports with LangSmith, LangChain, and LangGraph",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://blog.langchain.dev/beyond-rag-implementing-agent-search-with-langgraph-for-smarter-knowledge-retrieval/",
+        "title": "Beyond RAG: Implementing Agent Search with LangGraph for Smarter Knowledge Retrieval",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://blog.langchain.dev/customers-infor/",
+        "title": "How Infor is Transforming Enterprise AI using LangGraph and LangSmith",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://blog.langchain.dev/how-build-inc-used-langgraph-to-launch-a-multi-agent-architecture-for-automating-critical-cre-workflows-for-data-center-development/",
+        "title": "How Build.inc used LangGraph to launch a Multi-Agent Architecture for automating critical CRE workflows for Data Center Development.",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://sparkco.ai/blog/mastering-langgraph-checkpointing-best-practices-for-2025",
+        "title": "Mastering LangGraph Checkpointing: Best Practices for 2025",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://blog.langchain.com/introducing-the-langgraph-functional-api/",
+        "title": "Introducing the LangGraph Functional API - LangChain Blog",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://blog.langchain.com/langgraph-v0-2/",
+        "title": "LangGraph v0.2: Increased customization with new checkpointer ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://aws.amazon.com/blogs/database/build-durable-ai-agents-with-langgraph-and-amazon-dynamodb/",
+        "title": "Getting Started",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://deepwiki.com/langchain-ai/langgraph/4.1-checkpointing-architecture",
+        "title": "Checkpointing Architecture | langchain-ai/langgraph | DeepWiki",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-10T19:32:20",
+    "run_label": "reference-track:Persistence, Checkpointing, and Human-in-the-Loop",
+    "sources": [
+      {
+        "url": "https://reference.langchain.com/python/langgraph/checkpoints/",
+        "title": "Checkpointing | LangChain Referencereference.langchain.com \u203a python \u203a langgraph \u203a checkpoints",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://reference.langchain.com/javascript/classes/_langchain_langgraph-checkpoint.BaseCheckpointSaver.html",
+        "title": "getNextVersion",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://reference.langchain.com/python/langgraph/types/Checkpointer",
+        "title": "Checkpointer | langgraph - LangChain Reference Docs",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://reference.langchain.com/javascript/langchain-langgraph/index/CompiledStateGraph/checkpointer",
+        "title": "checkpointer | @langchain/langgraph",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://reference.langchain.com/javascript/langchain-langgraph-checkpoint/BaseCheckpointSaver/list",
+        "title": "list | @langchain/langgraph-checkpoint",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/blob/main/docs/docs/concepts/persistence.md",
+        "title": "langgraph/docs/docs/concepts/persistence.md at main \u00b7 langchain-ai/langgraph",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/3707",
+        "title": "from langgraph.checkpoint.sqlite import SqliteSaver was ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/4375",
+        "title": "Issue with Checkpoint Persistence in LangGraph Docker ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraphjs/issues/545",
+        "title": "Custom Checkpointer / MemorySaver - is there a ... - GitHub",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/1123",
+        "title": "langgraph/how-tos/persistence_redis/ #1123 - GitHub",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/blob/main/libs/langgraph/langgraph/types.py",
+        "title": "langgraph/libs/langgraph/langgraph/types.py at main \u00b7 langchain-ai/langgraph",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/3895",
+        "title": "Feature: handling concurrent interrupts #3895",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/issues/5741",
+        "title": "langchain-ai/langgraph",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/blob/main/docs/docs/concepts/functional_api.md",
+        "title": "langgraph/docs/docs/concepts/functional_api.md at main \u00b7 langchain-ai/langgraph",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/3061",
+        "title": "Weird interrupt related issue \u00b7 langchain-ai langgraph",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://docs.langchain.com/oss/javascript/langgraph/durable-execution",
+        "title": "Durable execution - Docs by LangChain",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://aerospike.com/blog/langgraph-production-latency-replay-scale",
+        "title": "LangGraph in Production: Latency, Replay, and Scale | Aerospike",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=4nmYiy6mOl0",
+        "title": "Durable Execution with LangGraph Tasks - Part 2/3",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://runcycles.io/blog/langgraph-budget-control-durable-execution-retries-fan-out",
+        "title": "LangGraph Budget Control for Durable Execution, Retries, and Fan ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.digitalapplied.com/blog/ai-workflow-orchestration-platforms-comparison",
+        "title": "AI Workflow Orchestration Platforms: 2026 Comparison",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://aiworkflowlab.dev/article/ai-workflow-orchestration-in-production-building-durable-agent-pipelines-with-langgraph-and-temporal",
+        "title": "AI Workflow Orchestration in Production: Durable Agent Pipelines ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.speakeasy.com/blog/ai-agent-framework-comparison",
+        "title": "Choosing an agent framework: LangChain vs LangGraph vs CrewAI ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://temporal.io/blog/prototype-to-prod-ready-agentic-ai-grid-dynamics",
+        "title": "From prototype to production-ready agentic AI solution: A use case ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://docs.temporal.io/ai-cookbook/human-in-the-loop-python",
+        "title": "Architecture",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://learn.temporal.io/tutorials/ai/building-durable-ai-applications/human-in-the-loop/",
+        "title": "Part 2: Adding Durable Human-in-the-Loop to Our Research ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://debugg.ai/resources/queue-is-not-a-workflow-engine-durable-execution-temporal-step-functions-2025",
+        "title": "3) Timeouts And Durable...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=mEUH9XeR3I4",
+        "title": "Virtual Temporal Meetup: Putting Humans In Your Workflow",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://danielfridljand.de/post/temporal-human-in-the-loop",
+        "title": "Temporal for Human-in-the-Loop: When You Don't Know How Long ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/2290",
+        "title": "langgraph/concepts/human_in_the_loop/ #2290",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraphjs/issues/1308",
+        "title": "Human-in-the-loop Resume Not Working in LangGraph JS ... - GitHub",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/gotohuman/gotohuman-langgraph-lead-example",
+        "title": "GitHub - gotohuman/gotohuman-langgraph-lead-example",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/2911",
+        "title": "Human in Loop and FastAPI Integration #2911",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/issues/2732",
+        "title": "human in the loop \u00b7 Issue #2732 \u00b7 langchain-ai/langgraph",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://forum.langchain.com/t/how-to-time-travel-to-before-interrupt-and-resume-with-a-different-value/2434",
+        "title": "How to time travel to before interrupt and resume with a different ...",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=aoyjaZQezao",
+        "title": "LangGraph Interrupt and Resume Workflow - Part 8/22",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=GD4dcRSC9vI",
+        "title": "LangGraph Interrupt and Resume Workflow - Part 22/22",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=PYH7Mn4pXUc",
+        "title": "LangGraph Interrupt and Resume Workflow - Part 4/22",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://dev.to/sreeni5018/beyond-input-building-production-ready-human-in-the-loop-ai-with-langgraph-2en9",
+        "title": "Beyond input(): Building Production-Ready Human-in-the-Loop AI ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.marktechpost.com/2026/02/16/how-to-build-human-in-the-loop-plan-and-execute-ai-agents-with-explicit-user-approval-using-langgraph-and-streamlit/",
+        "title": "How to Build Human-in-the-Loop Plan-and-Execute AI Agents with ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://dev.to/arunagri82/adding-human-in-the-loop-hitl-to-your-ai-agent-with-langgraph-515o",
+        "title": "Adding Human-in-the-Loop (HITL) to Your AI Agent with LangGraph",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.elastic.co/search-labs/blog/human-in-the-loop-hitllanggraph-elasticsearch",
+        "title": "Human in the loop (HITL) AI Agents with LangGraph & Elastic",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://ably.com/docs/ai-transport/guides/langgraph/langgraph-human-in-the-loop.md",
+        "title": "View this page as Markdown",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://learn.temporal.io/tutorials/ai/building-durable-ai-applications/human-in-the-loop/",
+        "title": "Part 2: Adding Durable Human-in-the-Loop to Our Research ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://docs.temporal.io/ai-cookbook/human-in-the-loop-python",
+        "title": "Architecture",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=dNVmRfWsNkM",
+        "title": "Temporal Live Coding Demo: Handling Failures & Human Interaction",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://danielfridljand.de/post/temporal-human-in-the-loop",
+        "title": "Temporal for Human-in-the-Loop: When You Don't Know How Long ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=LMdWhK2FEGM",
+        "title": "Interactive Business Process with Temporal | Replay 2023",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  }
+]

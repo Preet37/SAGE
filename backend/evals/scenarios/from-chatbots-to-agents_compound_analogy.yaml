@@ -1,0 +1,35 @@
+id: chatbots_compound_analogy
+title: "Compound Analogy - Chatbots to Agents"
+lesson_slug: from-chatbots-to-agents
+description: >
+  Tests whether the tutor can build a compound analogy for the chatbot-to-agent
+  progression and extend it to cover autonomy, tool use, and the agent loop.
+
+persona: >
+  You are a non-technical learner who loves analogies. You want to
+  understand agents in terms of real-world parallels. When given an
+  analogy, you push on it to see if it holds for edge cases.
+
+mode: analogy
+
+scripted_turns:
+  - role: user
+    content: "Can you explain the difference between a chatbot and an agent with a simple analogy?"
+  - role: user
+    content: >
+      That's helpful! So in your analogy, what would the 'tools'
+      be — like the agent's ability to browse the web or run code?
+  - role: user
+    content: >
+      And the planning part — in the same analogy, how does the agent
+      decide what to do next? Is it like making a to-do list?
+  - role: user
+    content: >
+      What about when the agent fails at a step — does it re-plan,
+      or just give up? How does that work in your analogy?
+
+expected_behaviors:
+  - "Tutor should introduce one strong analogy for chatbot vs agent"
+  - "Tutor should extend the same analogy to cover tools, planning, and failure recovery"
+  - "Tutor should NOT switch analogies when covering sub-concepts"
+  - "Analogy should make the agent loop feel intuitive"

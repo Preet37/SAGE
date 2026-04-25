@@ -1,0 +1,258 @@
+[
+  {
+    "timestamp": "2026-04-09T18:33:14",
+    "run_label": "reference-track:Document Understanding",
+    "sources": [
+      {
+        "url": "https://www.ecva.net/papers/eccv_2022/papers_ECCV/papers/136880493.pdf",
+        "title": "[PDF] OCR-free Document Understanding Transformer",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/abs/2111.15664",
+        "title": "OCR-free Document Understanding Transformer",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://sangdooyun.github.io/data/kim2021donut.pdf",
+        "title": "[PDF] Donut : Document Understanding Transformer without OCR",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=aSuWvEVLGzE",
+        "title": "Donut \ud83c\udf69 : OCR-free Document Understanding Transformer (Research Paper Walkthrough)",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://ar5iv.labs.arxiv.org/html/2111.15664",
+        "title": "OCR-free Document Understanding Transformer - ar5iv - arXiv",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/abs/2111.15664",
+        "title": "OCR-free Document Understanding Transformer",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.ecva.net/papers/eccv_2022/papers_ECCV/papers/136880493.pdf",
+        "title": "[PDF] OCR-free Document Understanding Transformer",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://sangdooyun.github.io/data/kim2021donut.pdf",
+        "title": "[PDF] Donut : Document Understanding Transformer without OCR",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://ar5iv.labs.arxiv.org/html/2111.15664",
+        "title": "OCR-free Document Understanding Transformer - ar5iv - arXiv",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.semanticscholar.org/paper/Donut:-Document-Understanding-Transformer-without-Kim-Hong/30daa51cae78df53563f436a5f1cd2107655df43",
+        "title": "[PDF] Donut: Document Understanding Transformer without OCR | Semantic Scholar",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://sangdooyun.github.io/data/kim2021donut.pdf",
+        "title": "[PDF] Donut : Document Understanding Transformer without OCR",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2511.18192v1",
+        "title": "ARIAL: An Agentic Framework for Document VQA with ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.ecva.net/papers/eccv_2022/papers_ECCV/papers/136880493.pdf",
+        "title": "[PDF] OCR-free Document Understanding Transformer",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://ar5iv.labs.arxiv.org/html/2111.15664",
+        "title": "OCR-free Document Understanding Transformer - ar5iv - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/huggingface/blog/blob/main/document-ai.md",
+        "title": "blog/document-ai.md at main \u00b7 huggingface/blog",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2304.14936.pdf",
+        "title": "arXiv:2304.14936v1 [cs.CL] 28 Apr 2023",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2506.16407.pdf",
+        "title": "[PDF] Robustness Evaluation of OCR-based Visual Document ... - arXiv.org",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2024.emnlp-industry.79.pdf",
+        "title": "Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing: Industry Track, pages 1056\u20131067",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/WACV2023/supplemental/Shi_Multi-Scale_Cell-Based_Layout_WACV_2023_supplemental.pdf",
+        "title": "000",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/ICCV2023W/RCV/papers/Zhang_Extending_TrOCR_for_Text_Localization-Free_OCR_of_Full-Page_Scanned_Receipt_ICCVW_2023_paper.pdf",
+        "title": "Extending TrOCR for Text Localization-Free OCR of Full-Page ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2204.08387.pdf",
+        "title": "LayoutLMv3: Pre-training for Document AI with Unified Text ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2204.08387v3.pdf",
+        "title": "LayoutLMv3: Pre-training for Document AI with Unified Text and Image ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://aclanthology.org/2023.findings-emnlp.521.pdf",
+        "title": "Layout Attention with Gaussian Biases for Structured ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.microsoft.com/en-us/research/wp-content/uploads/2021/01/layoutlmv2.pdf",
+        "title": "[PDF] layoutlmv2: multi-modal pre-training for visually-rich document ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.microsoft.com/en-us/research/uploads/prod/2020/02/layoutlm.pdf",
+        "title": "layoutlm.pdf",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://openaccess.thecvf.com/content/ICCV2021/papers/Appalaraju_DocFormer_End-to-End_Transformer_for_Document_Understanding_ICCV_2021_paper.pdf",
+        "title": "DocFormer: End-to-End Transformer for Document ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://aclanthology.org/2026.eacl-long.181.pdf",
+        "title": "[PDF] A Pre-trained Model for Document Understanding with Relative ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://github.com/shabie/docformer",
+        "title": "shabie/docformer",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2106.11539",
+        "title": "DocFormer: End-to-End Transformer for Document Understanding",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://github.com/shabie/docformer/blob/master/README.md",
+        "title": "docformer/README.md at master \u00b7 shabie/docformer",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://mindee.github.io/doctr/latest/using_doctr/using_models.html",
+        "title": "Choosing the right model - docTR documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://mindee.github.io/doctr/latest/modules/models.html",
+        "title": "doctr.models - docTR documentation - GitHub Pages",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://mindee.github.io/doctr/using_doctr/custom_models_training.html",
+        "title": "Train your own model - docTR documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://mindee.github.io/doctr/v0.4.1/using_models.html",
+        "title": "Choosing the right model\u00b6",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://mindee.github.io/doctr/v0.3.0/models.html",
+        "title": "doctr.models\u00b6",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "http://www.paddleocr.ai/main/en/version2.x/legacy/python_infer.html",
+        "title": "Python Inference for PP-OCR Model Zoo",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://paddlepaddle.github.io/PaddleOCR/en/ppocr/infer_deploy/python_infer.html",
+        "title": "Python Inference for PP-OCR Model Zoo\u00b6",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/heyudage/PaddleOCR-DBnetClf/blob/master/doc/doc_en/inference_ppocr_en.md",
+        "title": "PaddleOCR-DBnetClf/doc/doc_en/inference_ppocr_en.md at master \u00b7 heyudage/PaddleOCR-DBnetClf",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/PaddlePaddle/PaddleOCR/discussions/10467",
+        "title": "Prediction accuracy using PaddleOCR library #10467",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/catalyst-cooperative/PaddleOCR-headless/blob/release/2.6/doc/doc_en/inference_ppocr_en.md",
+        "title": "PaddleOCR-headless/doc/doc_en/inference_ppocr_en.md at release/2.6 \u00b7 catalyst-cooperative/PaddleOCR-headless",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2407.01449",
+        "title": "ColPali: Efficient Document Retrieval with Vision Language Models",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.scribd.com/document/799833818/ColPali-paper",
+        "title": "ColPali paper",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2407.01449v2",
+        "title": "ColPali: Efficient Document Retrieval with Vision Language Models",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/papers/2407.01449",
+        "title": "Broad Applicability And...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.lancedb.com/blog/late-interaction-efficient-multi-modal-retrievers-need-more-than-just-a-vector-index",
+        "title": "Late Interaction & Efficient Multi-modal Retrievers Need More Than ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2510.01149v1",
+        "title": "ModernVBERT: Towards Smaller Visual Document Retrievers - arXiv",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2022.naacl-main.272.pdf",
+        "title": "ColBERTv2: Effective and Efficient Retrieval via ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2408.16672v4",
+        "title": "8 Ablation Studies",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://people.eecs.berkeley.edu/~matei/papers/2022/naacl_colbert_v2.pdf",
+        "title": "[PDF] ColBERTv2: Effective and Efficient Retrieval via Lightweight Late ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/colmodernvbert",
+        "title": "6. Comparative Overview",
+        "need_type": "COMPARISON_DATA"
+      }
+    ]
+  }
+]

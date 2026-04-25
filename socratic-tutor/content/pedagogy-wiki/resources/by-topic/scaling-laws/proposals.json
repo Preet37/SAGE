@@ -1,0 +1,108 @@
+[
+  {
+    "timestamp": "2026-04-08T01:18:45",
+    "run_label": "pipeline-test:luong-multiplicative-attention-and-variants",
+    "sources": [
+      {
+        "gap": "Luong (multiplicative) attention scoring functions: dot (q^T k), general (q^T W k), concat (v^T tanh(W[q;k]))\u2014definitions, when used, dimensionality constraints, and worked examples",
+        "url": "https://mbrenndoerfer.com/writing/luong-attention-mechanisms-dot-product-general-local",
+        "title": "Luong Attention: Dot Product, General & Local Attention Mechanisms"
+      },
+      {
+        "gap": "Luong (multiplicative) attention scoring functions: dot (q^T k), general (q^T W k), concat (v^T tanh(W[q;k]))\u2014definitions, when used, dimensionality constraints, and worked examples",
+        "url": "https://arxiv.org/html/1706.03762v7",
+        "title": "Attention Is All You Need"
+      },
+      {
+        "gap": "Luong (multiplicative) attention scoring functions: dot (q^T k), general (q^T W k), concat (v^T tanh(W[q;k]))\u2014definitions, when used, dimensionality constraints, and worked examples",
+        "url": "https://www.sotaaz.com/blog/attention-mechanism-implementation-en",
+        "title": "Which One Should You Actually Use? (Spoiler: Luong) | SOTAAZ Blog"
+      },
+      {
+        "gap": "Luong (multiplicative) attention scoring functions: dot (q^T k), general (q^T W k), concat (v^T tanh(W[q;k]))\u2014definitions, when used, dimensionality constraints, and worked examples",
+        "url": "https://www.sotaaz.com/post/attention-mechanism-implementation-en",
+        "title": "Bahdanau vs Luong Attention: Which One Should You Actually Use ..."
+      },
+      {
+        "gap": "Luong (multiplicative) attention scoring functions: dot (q^T k), general (q^T W k), concat (v^T tanh(W[q;k]))\u2014definitions, when used, dimensionality constraints, and worked examples",
+        "url": "https://gist.github.com/edumunozsala/faa33c7abe2358b7944708f6cb31ec0f",
+        "title": "Define the luong attention mechanism"
+      },
+      {
+        "gap": "Comparison of multiplicative (Luong) vs additive (Bahdanau) attention: parameterization, expressiveness, and typical speed/memory tradeoffs (matrix multiplies vs MLP), including scaling with hidden size",
+        "url": "https://blog.sotaaz.com/post/attention-mechanism-implementation-en",
+        "title": "Bahdanau vs Luong Attention: Which One Should You ..."
+      },
+      {
+        "gap": "Comparison of multiplicative (Luong) vs additive (Bahdanau) attention: parameterization, expressiveness, and typical speed/memory tradeoffs (matrix multiplies vs MLP), including scaling with hidden size",
+        "url": "https://www.sotaaz.com/blog/attention-mechanism-implementation-en",
+        "title": "Which One Should You Actually Use? (Spoiler: Luong) | SOTAAZ Blog"
+      },
+      {
+        "gap": "Comparison of multiplicative (Luong) vs additive (Bahdanau) attention: parameterization, expressiveness, and typical speed/memory tradeoffs (matrix multiplies vs MLP), including scaling with hidden size",
+        "url": "https://arxiv.org/html/2507.20096v1",
+        "title": "Ecotransformer: Attention without Multiplication - arXiv"
+      },
+      {
+        "gap": "Comparison of multiplicative (Luong) vs additive (Bahdanau) attention: parameterization, expressiveness, and typical speed/memory tradeoffs (matrix multiplies vs MLP), including scaling with hidden size",
+        "url": "https://www.khoury.northeastern.edu/home/vip/teach/MLcourse/7_adv_NN/notes/chatGPT_responses/attention_mechanisms_tikz.pdf",
+        "title": "[PDF] Class Notes: Attention Mechanisms in Neural Networks"
+      },
+      {
+        "gap": "Comparison of multiplicative (Luong) vs additive (Bahdanau) attention: parameterization, expressiveness, and typical speed/memory tradeoffs (matrix multiplies vs MLP), including scaling with hidden size",
+        "url": "https://www.khoury.northeastern.edu/home/vip/teach/MLcourse/7_adv_NN/notes/chatGPT_responses/attention_mechanisms_latest.pdf",
+        "title": "Class Notes: Attention Mechanisms in Neural Networks"
+      },
+      {
+        "gap": "Luong global vs local attention: formal definitions, alignment computation, local window selection (predictive position p_t), and practical implications for long sequences",
+        "url": "https://arxiv.org/pdf/1508.04025.pdf",
+        "title": "[PDF] arXiv:1508.04025v5 [cs.CL] 20 Sep 2015"
+      },
+      {
+        "gap": "Luong global vs local attention: formal definitions, alignment computation, local window selection (predictive position p_t), and practical implications for long sequences",
+        "url": "https://slds-lmu.github.io/seminar_nlp_ss20/attention-and-self-attention-for-nlp.html",
+        "title": "Chapter 8 Attention and Self-Attention for NLP"
+      },
+      {
+        "gap": "Luong global vs local attention: formal definitions, alignment computation, local window selection (predictive position p_t), and practical implications for long sequences",
+        "url": "https://mkai.org/ai-global-news/the-luong-attention-mechanism/",
+        "title": "The Luong Attention Mechanism | MKAI"
+      },
+      {
+        "gap": "Luong global vs local attention: formal definitions, alignment computation, local window selection (predictive position p_t), and practical implications for long sequences",
+        "url": "https://buomsoo-kim.github.io/attention/2020/03/18/Attention-mechanism-12.md/",
+        "title": "Attention in Neural Networks - 12. Various attention mechanisms (1)"
+      },
+      {
+        "gap": "Luong global vs local attention: formal definitions, alignment computation, local window selection (predictive position p_t), and practical implications for long sequences",
+        "url": "https://arxiv.org/pdf/1508.04025v5.pdf",
+        "title": "arXiv:1508.04025v5  [cs.CL]  20 Sep 2015"
+      },
+      {
+        "gap": "Complexity analysis: per decoding step cost for global attention vs local/windowed attention; impact on training/inference latency and memory",
+        "url": "https://arxiv.org/pdf/2312.08618.pdf",
+        "title": "[PDF] arXiv:2312.08618v1 [cs.CL] 14 Dec 2023"
+      },
+      {
+        "gap": "Complexity analysis: per decoding step cost for global attention vs local/windowed attention; impact on training/inference latency and memory",
+        "url": "https://www.emergentmind.com/papers/2512.22562",
+        "title": "All-or-Here Attention in Transformers"
+      },
+      {
+        "gap": "Complexity analysis: per decoding step cost for global attention vs local/windowed attention; impact on training/inference latency and memory",
+        "url": "https://mbrenndoerfer.com/writing/attention-complexity-quadratic-scaling-memory-efficient-transformers",
+        "title": "Attention Complexity: Quadratic Scaling, Memory Limits & Efficient ..."
+      },
+      {
+        "gap": "Complexity analysis: per decoding step cost for global attention vs local/windowed attention; impact on training/inference latency and memory",
+        "url": "https://www.arxiv.org/pdf/2512.22562.pdf",
+        "title": "[PDF] Learning When Not to Attend Globally - arXiv"
+      },
+      {
+        "gap": "Complexity analysis: per decoding step cost for global attention vs local/windowed attention; impact on training/inference latency and memory",
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2024/file/579b5b84311e122584dedab1d3b7613f-Paper-Conference.pdf",
+        "title": "Block Transformer: Global-to-Local Language Modeling for ..."
+      }
+    ]
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "file": "jalammar-illustrated-transformer_001.png",
+    "source_url": "https://jalammar.github.io/images/t/transformer_self-attention_visualization.png",
+    "source_page": "https://jalammar.github.io/illustrated-transformer/",
+    "source_author": "Jay Alammar",
+    "alt": "Self-attention visualization",
+    "description": "A self-attention diagram showing a sequence of tokens where each token connects to every other token with weighted links, visualizing how attention scores distribute across the input for each word.",
+    "teaching_value": "Helps students see that attention is a learned, dense weighting over all tokens (not a single alignment), clarifying how a model can emphasize relevant context words differently for each query word.",
+    "concepts": [
+      "self-attention",
+      "attention weights",
+      "token-to-token interactions",
+      "contextual representations",
+      "soft alignment"
+    ],
+    "when_to_show": "Use when introducing attention to explain that each word computes weights over all words; revisit when students confuse attention with hard selection or one-to-one alignment.",
+    "suggested_caption": "Self-attention: each token weights all others (Jay Alammar).",
+    "width": 437,
+    "height": 413,
+    "aspect_ratio": 1.06,
+    "display_hint": "standard",
+    "file_size_kb": 48.9
+  }
+]

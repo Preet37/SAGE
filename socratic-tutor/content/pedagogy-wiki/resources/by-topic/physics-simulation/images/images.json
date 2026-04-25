@@ -1,0 +1,163 @@
+[
+  {
+    "file": "lilianweng-posts-2019-05-05-domain-randomization_001.png",
+    "source_url": "https://lilianweng.github.io/posts/2019-05-05-domain-randomization/sim2real-transfer.png",
+    "source_page": "https://lilianweng.github.io/posts/2019-05-05-domain-randomization/",
+    "source_author": "Lilian Weng",
+    "alt": "",
+    "description": "A conceptual diagram showing three parallel approaches to sim2real transfer: system identification, domain randomization, and domain adaptation, each illustrated as a pathway from simulator to real world.",
+    "teaching_value": "Gives students an immediate visual taxonomy of the three main strategies for closing the sim2real gap, allowing them to mentally organize the rest of the article's content before diving into details.",
+    "concepts": [
+      "sim2real transfer",
+      "domain randomization",
+      "system identification",
+      "domain adaptation",
+      "reality gap"
+    ],
+    "when_to_show": "Show at the very start of a lesson on sim2real transfer to orient students to the landscape of approaches before explaining any single method in depth.",
+    "suggested_caption": "Three approaches to sim2real transfer: system ID, domain randomization, and domain adaptation.",
+    "width": 1999,
+    "height": 784,
+    "aspect_ratio": 2.55,
+    "display_hint": "full_width",
+    "file_size_kb": 201.1
+  },
+  {
+    "file": "lilianweng-posts-2019-05-05-domain-randomization_002.png",
+    "source_url": "https://lilianweng.github.io/posts/2019-05-05-domain-randomization/DR.png",
+    "source_page": "https://lilianweng.github.io/posts/2019-05-05-domain-randomization/",
+    "source_author": "Lilian Weng",
+    "alt": "",
+    "description": "A grid of rendered images showing the same robotic manipulation scene with varied visual properties \u2014 different textures, lighting, colors, and backgrounds \u2014 demonstrating uniform domain randomization applied to training environments.",
+    "teaching_value": "Makes the abstract concept of visual domain randomization concrete by showing students exactly what randomized training data looks like, illustrating how diversity in simulation is meant to cover the real-world distribution.",
+    "concepts": [
+      "uniform domain randomization",
+      "visual randomization",
+      "sim2real transfer",
+      "training data diversity",
+      "distribution coverage"
+    ],
+    "when_to_show": "Show when introducing uniform domain randomization, especially when explaining why randomizing visual parameters helps policies generalize to unseen real-world appearances.",
+    "suggested_caption": "Randomized training images from Tobin et al. (2017) illustrating visual domain randomization.",
+    "width": 936,
+    "height": 808,
+    "aspect_ratio": 1.16,
+    "display_hint": "standard",
+    "file_size_kb": 472.2
+  },
+  {
+    "file": "lilianweng-posts-2019-05-05-domain-randomization_003.png",
+    "source_url": "https://lilianweng.github.io/posts/2019-05-05-domain-randomization/learning-to-simulate.png",
+    "source_page": "https://lilianweng.github.io/posts/2019-05-05-domain-randomization/",
+    "source_author": "Lilian Weng",
+    "alt": "",
+    "description": "A flowchart-style overview of the 'Learning to Simulate' framework, showing how a simulator parameterized by \u03c6 generates training data, a policy is trained on it, the policy is evaluated on a target task, and feedback is used to optimize the simulation parameters.",
+    "teaching_value": "Illustrates the closed-loop optimization process where task performance in the target domain guides simulator parameter tuning, helping students understand how RL-based meta-optimization of randomization differs from naive uniform sampling.",
+    "concepts": [
+      "learning to simulate",
+      "task-performance-guided domain randomization",
+      "meta-optimization",
+      "randomization parameter optimization",
+      "neural architecture search analogy"
+    ],
+    "when_to_show": "Show when transitioning from uniform DR to optimization-based DR, to help students see how feedback from the target domain can replace hand-tuned randomization ranges.",
+    "suggested_caption": "Learning to Simulate: task feedback optimizes simulator parameters \u03c6. (Ruiz, 2019)",
+    "width": 1999,
+    "height": 366,
+    "aspect_ratio": 5.46,
+    "display_hint": "full_width",
+    "file_size_kb": 86.0
+  },
+  {
+    "file": "lilianweng-posts-2019-05-05-domain-randomization_004.png",
+    "source_url": "https://lilianweng.github.io/posts/2019-05-05-domain-randomization/simopt.png",
+    "source_page": "https://lilianweng.github.io/posts/2019-05-05-domain-randomization/",
+    "source_author": "Lilian Weng",
+    "alt": "",
+    "description": "A diagram of the SimOpt framework showing an iterative loop: initial randomization distribution \u2192 policy training in sim \u2192 deployment on both sim and real robot \u2192 trajectory comparison \u2192 optimization of randomization distribution parameters.",
+    "teaching_value": "Clearly shows the iterative real-data-guided optimization loop of SimOpt, helping students understand how real robot trajectories are used as a signal to align the simulator's state distribution with reality.",
+    "concepts": [
+      "SimOpt",
+      "real-data-guided domain randomization",
+      "trajectory discrepancy minimization",
+      "system identification",
+      "sim-to-real distribution matching"
+    ],
+    "when_to_show": "Show when explaining methods that use real-world data to guide DR, contrasting it with purely simulation-based approaches like uniform DR or Learning to Simulate.",
+    "suggested_caption": "SimOpt iteratively aligns simulator and real-world trajectory distributions. (Chebotar et al., 2019)",
+    "width": 2516,
+    "height": 911,
+    "aspect_ratio": 2.76,
+    "display_hint": "full_width",
+    "file_size_kb": 772.8
+  },
+  {
+    "file": "lilianweng-posts-2019-05-05-domain-randomization_005.png",
+    "source_url": "https://lilianweng.github.io/posts/2019-05-05-domain-randomization/RCAN.png",
+    "source_page": "https://lilianweng.github.io/posts/2019-05-05-domain-randomization/",
+    "source_author": "Lilian Weng",
+    "alt": "",
+    "description": "A diagram showing RCAN's image-conditional GAN architecture: it takes a domain-randomized or real image as input and outputs a canonical non-randomized simulator image, which is then used for policy training.",
+    "teaching_value": "Demonstrates how image translation can be used as an alternative to direct policy transfer, showing students that the sim2real gap can be bridged by normalizing visual inputs to a canonical domain rather than randomizing them.",
+    "concepts": [
+      "RCAN",
+      "image-conditional GAN",
+      "domain adaptation",
+      "canonical domain translation",
+      "vision-based robot control"
+    ],
+    "when_to_show": "Show when discussing image-based domain adaptation methods, particularly to contrast the 'translate to canonical sim' strategy with the 'randomize sim to cover real' strategy of DR.",
+    "suggested_caption": "RCAN translates randomized or real images to canonical simulator views. (James et al., 2019)",
+    "width": 1056,
+    "height": 702,
+    "aspect_ratio": 1.5,
+    "display_hint": "standard",
+    "file_size_kb": 453.8
+  },
+  {
+    "file": "lilianweng-posts-2019-05-05-domain-randomization_006.png",
+    "source_url": "https://lilianweng.github.io/posts/2019-05-05-domain-randomization/deception-net.png",
+    "source_page": "https://lilianweng.github.io/posts/2019-05-05-domain-randomization/",
+    "source_author": "Lilian Weng",
+    "alt": "",
+    "description": "A diagram of the DeceptionNet architecture showing deception modules (encoder-decoder networks) that transform input images with various randomizations, feeding into a downstream recognition/classification network whose loss signal trains the deception modules adversarially.",
+    "teaching_value": "Illustrates how adversarial feedback from a downstream task can guide which randomizations are most useful, helping students understand the difference between task-performance-maximizing and task-difficulty-maximizing DR strategies.",
+    "concepts": [
+      "DeceptionNet",
+      "network-driven domain randomization",
+      "adversarial training",
+      "encoder-decoder architecture",
+      "task-guided randomization"
+    ],
+    "when_to_show": "Show when contrasting different objectives for guided DR \u2014 specifically to highlight the 'maximize difficulty' objective versus the 'maximize task performance' objective used in other methods.",
+    "suggested_caption": "DeceptionNet uses adversarial deception modules to generate harder training images. (Zakharov et al., 2019)",
+    "width": 1778,
+    "height": 626,
+    "aspect_ratio": 2.84,
+    "display_hint": "full_width",
+    "file_size_kb": 402.4
+  },
+  {
+    "file": "lilianweng-posts-2019-05-05-domain-randomization_007.png",
+    "source_url": "https://lilianweng.github.io/posts/2019-05-05-domain-randomization/ADR.png",
+    "source_page": "https://lilianweng.github.io/posts/2019-05-05-domain-randomization/",
+    "source_author": "Lilian Weng",
+    "alt": "",
+    "description": "A flowchart of Active Domain Randomization (ADR) showing how a discriminator compares sim and real trajectories to measure environment similarity, which drives adaptive expansion or contraction of randomization parameter bounds during training.",
+    "teaching_value": "Shows students how trajectory-based similarity signals can automate the curriculum of randomization difficulty, making the concept of active/adaptive DR concrete and distinguishing it from static uniform randomization.",
+    "concepts": [
+      "active domain randomization",
+      "ADR",
+      "adaptive randomization curriculum",
+      "trajectory similarity",
+      "discriminator-guided DR"
+    ],
+    "when_to_show": "Show when explaining adaptive or curriculum-based domain randomization, to illustrate how the range of randomization parameters can be dynamically adjusted based on policy performance signals.",
+    "suggested_caption": "ADR adaptively expands randomization bounds using trajectory similarity feedback. (Mehta et al., 2019)",
+    "width": 1840,
+    "height": 1084,
+    "aspect_ratio": 1.7,
+    "display_hint": "standard",
+    "file_size_kb": 203.2
+  }
+]

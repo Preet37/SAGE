@@ -1,0 +1,163 @@
+[
+  {
+    "file": "lilianweng-posts-2023-03-15-prompt-engineering_001.png",
+    "source_url": "https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/SelfAsk-search.png",
+    "source_page": "https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/",
+    "source_author": "Lilian Weng",
+    "alt": "",
+    "description": "A step-by-step dialogue showing the Self-Ask prompting method, where the LLM decomposes a complex question into follow-up sub-questions, issues external search queries for each, retrieves answers, and synthesizes a final answer.",
+    "teaching_value": "Concretely illustrates how Self-Ask breaks multi-hop reasoning into explicit intermediate steps with external search, helping students understand how LLMs can be guided to decompose problems rather than answer in one shot.",
+    "concepts": [
+      "Self-Ask prompting",
+      "chain-of-thought reasoning",
+      "multi-hop question answering",
+      "external retrieval augmentation",
+      "prompt decomposition"
+    ],
+    "when_to_show": "Show when introducing retrieval-augmented or decomposition-based prompting strategies, especially to contrast with standard single-pass prompting.",
+    "suggested_caption": "Self-Ask: LLM decomposes questions and queries external search. (Press et al. 2022)",
+    "width": 1104,
+    "height": 1596,
+    "aspect_ratio": 0.69,
+    "display_hint": "standard",
+    "file_size_kb": 258.9
+  },
+  {
+    "file": "lilianweng-posts-2023-03-15-prompt-engineering_002.png",
+    "source_url": "https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/tree-of-thoughts.png",
+    "source_page": "https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/",
+    "source_author": "Lilian Weng",
+    "alt": "",
+    "description": "A diagram comparing four reasoning strategies side by side: Input\u2192Output (standard), Chain-of-Thought, Self-Consistency with CoT, and Tree of Thoughts \u2014 showing how ToT explores a branching tree of intermediate reasoning steps with evaluation and backtracking.",
+    "teaching_value": "Visually contrasts the progression from simple prompting to tree-structured search over reasoning paths, helping students understand why ToT outperforms linear CoT by allowing exploration and pruning of thought branches.",
+    "concepts": [
+      "Tree of Thoughts (ToT)",
+      "chain-of-thought prompting",
+      "self-consistency",
+      "reasoning search space",
+      "deliberate problem solving"
+    ],
+    "when_to_show": "Show when teaching advanced reasoning prompting methods, particularly after covering CoT and self-consistency, to illustrate the conceptual leap to tree-based exploration.",
+    "suggested_caption": "Tree of Thoughts explores branching reasoning paths vs. linear CoT. (Yao et al. 2022)",
+    "width": 680,
+    "height": 860,
+    "aspect_ratio": 0.79,
+    "display_hint": "standard",
+    "file_size_kb": 67.1
+  },
+  {
+    "file": "lilianweng-posts-2023-03-15-prompt-engineering_003.png",
+    "source_url": "https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/PoT.png",
+    "source_page": "https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/",
+    "source_author": "Lilian Weng",
+    "alt": "",
+    "description": "A side-by-side comparison of Chain-of-Thought (CoT) and Program of Thoughts (PoT) prompting on a math word problem, showing CoT producing natural language reasoning steps while PoT generates Python code that is executed by an interpreter to compute the answer.",
+    "teaching_value": "Clearly demonstrates the key difference between verbal reasoning (CoT) and code-based reasoning (PoT), helping students understand how offloading computation to a Python interpreter improves accuracy on arithmetic-heavy tasks.",
+    "concepts": [
+      "Program of Thoughts (PoT)",
+      "chain-of-thought prompting",
+      "program-aided language models",
+      "code generation for reasoning",
+      "computation offloading"
+    ],
+    "when_to_show": "Show when introducing programming-language-based prompting methods (PAL/PoT), especially to contrast with CoT and motivate why symbolic execution is more reliable for math.",
+    "suggested_caption": "PoT generates executable code instead of verbal reasoning steps. (Chen et al. 2022)",
+    "width": 2528,
+    "height": 832,
+    "aspect_ratio": 3.04,
+    "display_hint": "full_width",
+    "file_size_kb": 1047.7
+  },
+  {
+    "file": "lilianweng-posts-2023-03-15-prompt-engineering_004.png",
+    "source_url": "https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/TALM.png",
+    "source_page": "https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/",
+    "source_author": "Lilian Weng",
+    "alt": "",
+    "description": "A formatted text example showing the TALM API call structure, with special tokens |tool-call, tool input, |result, and |output demarcating where the LLM generates a tool request, where the external API result is inserted, and where the final answer is produced.",
+    "teaching_value": "Makes the abstract concept of tool-augmented LMs concrete by showing the exact token-level format used to interleave LLM generation with external API calls, helping students understand how tool use is implemented mechanically.",
+    "concepts": [
+      "Tool Augmented Language Models (TALM)",
+      "API call formatting",
+      "special token delimiters",
+      "tool-augmented generation",
+      "text-to-text API integration"
+    ],
+    "when_to_show": "Show when explaining how LLMs interface with external tools at the token level, before or alongside Toolformer to compare approaches.",
+    "suggested_caption": "TALM uses special tokens to structure tool calls and results. (Parisi et al. 2022)",
+    "width": 1066,
+    "height": 504,
+    "aspect_ratio": 2.12,
+    "display_hint": "standard",
+    "file_size_kb": 117.4
+  },
+  {
+    "file": "lilianweng-posts-2023-03-15-prompt-engineering_005.png",
+    "source_url": "https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/TALM-iteration.png",
+    "source_page": "https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/",
+    "source_author": "Lilian Weng",
+    "alt": "",
+    "description": "A performance graph showing model accuracy across multiple self-play iterations in TALM, demonstrating that iterative bootstrapping of tool-use training examples progressively improves the model's performance on downstream tasks.",
+    "teaching_value": "Provides empirical evidence that the self-play iteration strategy in TALM is effective, helping students connect the theoretical mechanism of iterative dataset expansion to measurable performance gains.",
+    "concepts": [
+      "self-play training",
+      "iterative bootstrapping",
+      "tool-augmented language models",
+      "fine-tuning with tool use",
+      "model performance evaluation"
+    ],
+    "when_to_show": "Show after explaining the TALM self-play mechanism to provide quantitative justification for why iterative tool-use training works.",
+    "suggested_caption": "TALM self-play iterations progressively improve model performance. (Parisi et al. 2022)",
+    "width": 1374,
+    "height": 760,
+    "aspect_ratio": 1.81,
+    "display_hint": "standard",
+    "file_size_kb": 200.8
+  },
+  {
+    "file": "lilianweng-posts-2023-03-15-prompt-engineering_006.png",
+    "source_url": "https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/toolformer.png",
+    "source_page": "https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/",
+    "source_author": "Lilian Weng",
+    "alt": "",
+    "description": "A pipeline diagram of Toolformer's training process: starting from raw text, generating candidate API call annotations via in-context learning, executing the API calls, filtering annotations by whether they reduce loss on future tokens, and fine-tuning the LM on the filtered dataset.",
+    "teaching_value": "Illustrates the full self-supervised pipeline for teaching an LLM to use tools without human-labeled data, helping students understand how Toolformer bootstraps tool-use capability from a few demonstrations.",
+    "concepts": [
+      "Toolformer",
+      "self-supervised tool learning",
+      "API call annotation",
+      "loss-based filtering",
+      "in-context learning for data generation"
+    ],
+    "when_to_show": "Show when teaching Toolformer as a case study in self-supervised tool augmentation, after introducing TALM to highlight the shared self-play philosophy and differences in implementation.",
+    "suggested_caption": "Toolformer pipeline: annotate, execute, filter, and fine-tune on API calls. (Schick et al. 2023)",
+    "width": 2094,
+    "height": 438,
+    "aspect_ratio": 4.78,
+    "display_hint": "full_width",
+    "file_size_kb": 158.3
+  },
+  {
+    "file": "lilianweng-posts-2023-03-15-prompt-engineering_007.png",
+    "source_url": "https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/toolformer-annotation.png",
+    "source_page": "https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/",
+    "source_author": "Lilian Weng",
+    "alt": "",
+    "description": "A concrete text example showing how Toolformer annotates a sentence with API calls \u2014 embedding calculator, Wikipedia search, and calendar tool calls inline within natural text, with results inserted, demonstrating the annotation format used to create training data.",
+    "teaching_value": "Shows students exactly how multiple tool types (calculator, search, calendar) are embedded in natural text as annotations, making the abstract data-creation process tangible and clarifying how diverse tools are unified under one format.",
+    "concepts": [
+      "Toolformer",
+      "API call annotation format",
+      "multi-tool integration",
+      "self-supervised dataset construction",
+      "inline tool invocation"
+    ],
+    "when_to_show": "Show alongside the Toolformer pipeline diagram to ground the abstract training steps in a concrete annotated example, especially when discussing how different tool types are handled uniformly.",
+    "suggested_caption": "Toolformer annotates text with inline API calls for calculator, search, and calendar. (Schick et al. 2023)",
+    "width": 944,
+    "height": 970,
+    "aspect_ratio": 0.97,
+    "display_hint": "standard",
+    "file_size_kb": 172.8
+  }
+]

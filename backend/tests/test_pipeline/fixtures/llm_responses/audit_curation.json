@@ -1,0 +1,13 @@
+{
+  "verdict": "good",
+  "summary": "Curator selections are well-targeted. One near-miss promoted to fill alignment gap.",
+  "promotions": [
+    {
+      "url": "https://example.com/alignment-models",
+      "title": "Understanding Alignment Models",
+      "role": "deep_dive",
+      "why": "Fills the uncovered alignment models gap",
+      "gaps_covered": ["alignment models in seq2seq"]
+    }
+  ]
+}

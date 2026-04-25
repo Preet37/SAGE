@@ -1,0 +1,740 @@
+[
+  {
+    "timestamp": "2026-04-09T16:20:09",
+    "run_label": "reference-track:Function Calling and Tool Use",
+    "sources": [
+      {
+        "url": "https://platform.openai.com/docs/guides/structured-outputs/json-mode",
+        "title": "Structured model outputs - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/structured-outputs/json-mode?context=without_parse",
+        "title": "Structured Outputs - OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/text-generation/json-mode",
+        "title": "Structured model outputs | OpenAI API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/structured-outputs/supported-schemas?context=ex2",
+        "title": "OpenAI Platform",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.openai.com/docs/guides/structured-outputs?api-mode=responses",
+        "title": "Structured Outputs",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.claude.com/docs/en/build-with-claude/structured-outputs",
+        "title": "Structured outputs - Claude API Docs",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://andyjakubowski.com/engineering/handling-invalid-json-in-anthropic-fine-grained-tool-streaming",
+        "title": "Handling invalid JSON in Anthropic's fine-grained tool streaming",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/anthropics/claude-code/issues/9058",
+        "title": "Guaranteed JSON Schema Compliance for Claude Code ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.anthropic.com/fr/docs/agents-and-tools/tool-use/fine-grained-tool-streaming",
+        "title": "Streaming d'outils \u00e0 granularit\u00e9 fine - Anthropic",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://platform.claude.com/docs/it/agents-and-tools/tool-use/fine-grained-tool-streaming",
+        "title": "Fine-grained tool streaming",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://modelcontextprotocol.io/specification/2025-06-18/basic/transports",
+        "title": "Transports - Model Context Protocolmodelcontextprotocol.io \u203a specification \u203a basic \u203a transports",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://modelcontextprotocol.io/specification/2025-03-26/basic/transports",
+        "title": "Transports - Model Context Protocol",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://modelcontextprotocol.info/specification/draft/basic/transports/",
+        "title": "Transports \u2013 Model Context Protocol \uff08MCP\uff09",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://modelcontextprotocol.info/specification/draft/basic/",
+        "title": "Base Protocol",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://gist.github.com/lalunamel/21df1908008400d2e9d1d7243f77724a",
+        "title": "Model Context Protocol - Spec",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/modelcontextprotocol/specification/releases",
+        "title": "Releases \u00b7 modelcontextprotocol/specification",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/modelcontextprotocol/specification/blob/main/README.md",
+        "title": "specification/README.md at main \u00b7 modelcontextprotocol/specification",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/ModelContextProtocol-Security/modelcontextprotocol-security.io",
+        "title": "Model Context Protocol Security",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/README.md",
+        "title": "modelcontextprotocol/README.md at main \u00b7 modelcontextprotocol/modelcontextprotocol",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://github.com/modelcontextprotocol/specification/blob/main/schema/2024-11-05/schema.json",
+        "title": "modelcontextprotocol/schema/2024-11-05/schema.json at main \u00b7 modelcontextprotocol/modelcontextprotocol",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2411.14054v1",
+        "title": "FunctionChat-Bench: Comprehensive Evaluation of ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://modelcontextstandard.io/Specification/LLM_Prompt_Patterns/Tool_Call_Benchmark",
+        "title": "Tool Call Benchmark | Model Context Standard",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.databricks.com/blog/unpacking-function-calling-eval",
+        "title": "Beyond the Leaderboard: Unpacking Function Calling Evaluation",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/berkeley-function-calling-benchmark-bfcl",
+        "title": "5. Model Architectures...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://icml.cc/virtual/2025/poster/46593",
+        "title": "ICML Poster The Berkeley Function Calling Leaderboard (BFCL)",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2501.12432v1",
+        "title": "An Efficient Tool Learning Method via Parallel Tool Invocation - arXiv",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://airbyte.com/agentic-data/parallel-tool-calls-llm",
+        "title": "What Are Parallel Tool Calls in LLMs? - Airbyte",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://parallel.ai/benchmarks",
+        "title": "Parallel Quality Benchmarks | Infrastructure for intelligence on the web",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.codeant.ai/blogs/parallel-tool-calling",
+        "title": "Why Parallel Tool Calling Matters for LLM Agents - CodeAnt AI",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aaia.app/research/parallel-execution-benchmarks",
+        "title": "Token Efficiency in Sequential vs. Parallel Agent Workflows",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/egozverev/Should-It-Be-Executed-Or-Processed/blob/main/openai_utils.py",
+        "title": "Should-It-Be-Executed-Or-Processed/openai_utils.py at main \u00b7 egozverev/Should-It-Be-Executed-Or-Processed",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/phdowling/functioncalming",
+        "title": "GitHub - phdowling/functioncalming: Calm down OpenAI's function calling",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/instructor-ai/instructor/discussions/506",
+        "title": "Streaming with PARALLEL_TOOLS \u00b7 instructor-ai instructor \u00b7 Discussion #506",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/pydantic/pydantic-ai/issues/2311",
+        "title": "Max tool retry is inconsistent when used with parallel tool calling \u00b7 Issue #2311 \u00b7 pydantic/pydantic-ai",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/openai/openai-dotnet/blob/main/examples/Assistants/Example02b_FunctionCallingStreaming.cs",
+        "title": "openai-dotnet/examples/Assistants/Example02b_FunctionCallingStreaming.cs at main \u00b7 openai/openai-dotnet",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://langchain-ai.github.io/langgraph/tutorials/extraction/retries/",
+        "title": "Complex data extraction with function calling - GitHub Pages",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://reference.langchain.com/javascript/langchain-langgraph-sdk/client/RunsClient/streamWithRetry",
+        "title": "streamWithRetry | @langchain/langgraph-sdk",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://reference.langchain.com/javascript/langchain-langgraph-sdk/index/UseAgentStream/toolCalls",
+        "title": "toolCalls | @langchain/langgraph-sdk",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/issues/3071",
+        "title": "Getting error when trying to stream events from prebuit ReAct agent \u00b7 Issue #3071 \u00b7 langchain-ai/langgraph",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/issues/45",
+        "title": "Parallel Tool Calling and LLM Token Streaming Issue \u00b7 Issue #45 \u00b7 langchain-ai/langgraph",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://gerl.dev/blog/e2b-deploying-ai-agents",
+        "title": "Sandboxed Execution for AI Agents: Why Isolation Is the Real Problem",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://memo.d.foundation/breakdown/e2b",
+        "title": "E2b breakdown - Dwarves Memo",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://jimmysong.io/blog/e2b-browserbase-report/",
+        "title": "The New Era of Cloud Agent Infrastructure: In-Depth Analysis \u2026",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.zenml.io/blog/e2b-vs-daytona",
+        "title": "E2B vs Daytona: Sandbox Comparison for Platform Engineers",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://ramnode.com/guides/e2b",
+        "title": "Deploy E2B AI Code Sandboxes on RamNode",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/code-interpreter-security",
+        "title": "Code Interpreter Security Architecture in Microsoft 365 Copilot",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://sonraisecurity.com/blog/sandboxed-to-compromised-new-research-exposes-credential-exfiltration-paths-in-aws-code-interpreters/",
+        "title": "AWS AgentCore Sandboxed Code Interpreters Credential ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://ryan.govost.es/2025/openai-code-interpreter/",
+        "title": "Traffic Analysis",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/code-interpreter-security",
+        "title": "Code Interpreter Security Architecture in Microsoft 365 Copilot",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.trendmicro.com/vinfo/us/security/news/cybercrime-and-digital-threats/unveiling-ai-agent-vulnerabilities-code-execution",
+        "title": "Unveiling AI Agent Vulnerabilities Part II: Code Execution",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-10T19:19:27",
+    "run_label": "reference-track:The ReAct Pattern: Synergizing Reasoning and Acting",
+    "sources": [
+      {
+        "url": "https://par.nsf.gov/servlets/purl/10451467",
+        "title": "arXiv:2210.03629v3 [cs.CL] 10 Mar 2023",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://research.google/blog/react-synergizing-reasoning-and-acting-in-language-models/",
+        "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.kdjingpai.com/en/react/",
+        "title": "ReAct: Reasoning and Action Working Together in Large ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://deepwiki.com/ysymyth/ReAct/6-datasets-and-evaluation",
+        "title": "Datasets and Evaluation | ysymyth/ReAct | DeepWiki",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://ysymyth.github.io/papers/react_llm.pdf",
+        "title": "REACT: SYNERGIZING REASONING AND ACTING IN",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://research.google/blog/react-synergizing-reasoning-and-acting-in-language-models/",
+        "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://par.nsf.gov/servlets/purl/10451467",
+        "title": "arXiv:2210.03629v3 [cs.CL] 10 Mar 2023",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2411.00927v1",
+        "title": "ReSpAct: Harmonizing Reasoning, Speaking, and Acting ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2403.14589v3",
+        "title": "3.1 Alfworld",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/react-framework",
+        "title": "ReAct Framework: Synergizing Reasoning & Action - Emergent Mind",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://dev.to/jamesli/react-vs-plan-and-execute-a-practical-comparison-of-llm-agent-patterns-4gh9",
+        "title": "ReAct vs Plan-and-Execute: A Practical Comparison of LLM Agent ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=Y-VCZ_KTuzo",
+        "title": "How AI Agents Actually Work: ReAct vs Plan-and-Execute",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://agixtech.com/react-vs-plan-and-execute-which-reasoning-loop-is-better-for-your-agentic-ai/",
+        "title": "ReAct vs Plan-Execute: Choosing AI Reasoning Loop | Agix",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://apxml.com/courses/langchain-production-llm/chapter-2-sophisticated-agents-tools/agent-architectures",
+        "title": "Agent Architectures: ReAct, Self-Ask, Plan-and-Execute",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=rQc6ZtQxyTs",
+        "title": "Mastering AI Agents: ReAct vs. Plan-and-Execute Frameworks Explained",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://dl-pkw.tistory.com/entry/6-2-ReAct-MRKL-Reflexion-Planner-Executor-%EB%B9%84%EA%B5%90",
+        "title": "6-2. ReAct / MRKL / Reflexion / Planner-Executor \ube44\uad50 - \ub525\ubc15\uc2a4",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2512.20845v1",
+        "title": "MAR: Multi-Agent Reflexion Improves Reasoning Abilities in LLMs",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2509.20562v1",
+        "title": "SaMuLe: Self-Learning Agents Enhanced by Multi-level Reflection",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://yumeng5.github.io/teaching/2024-spring-cs6501/agent.pdf",
+        "title": "[PDF] ReAct: Synergizing Reasoning and Acting in Language Models",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2024/file/fa54b0edce5eef0bb07654e8ee800cb4-Paper-Conference.pdf",
+        "title": "[PDF] Reflective Multi-Agent Collaboration based on Large Language ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://ai.google.dev/gemini-api/docs/function-calling",
+        "title": "Compositional function calling",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://ai.google.dev/gemini-api/docs/function-calling.md.txt",
+        "title": "function-calling.md.txt - Google AI for Developers",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://ai.google.dev/gemini-api/docs/function-calling?lang=node",
+        "title": "Function Calling with the Gemini API | Google AI for Developers",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://ai.google.dev/gemini-api/docs/tool-combination",
+        "title": "Combine built-in tools and function calling | Gemini API",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://ai.google.dev/gemini-api/docs/function-calling?hl=en",
+        "title": "Intro to function calling with the Gemini API | Google AI for Developers",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.anthropic.com/fr/docs/tool-use",
+        "title": "Utilisation d'outils (appel de fonctions) - Anthropic",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.anthropic.com/ja/docs/tool-use",
+        "title": "\u30c4\u30fc\u30eb\u306e\u4f7f\u7528\uff08\u95a2\u6570\u306e\u547c\u3073\u51fa\u3057\uff09 - Anthropic",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.anthropic.com/zh-CN/docs/tool-use",
+        "title": "\u5de5\u5177\u4f7f\u7528\uff08\u51fd\u6570\u8c03\u7528\uff09 - Anthropic",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.anthropic.com/zh-TW/docs/tool-use",
+        "title": "\u5de5\u5177\u4f7f\u7528\uff08\u51fd\u6578\u8abf\u7528\uff09 - Anthropic",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.anthropic.com/en/docs/build-with-claude/tool-use?debug_url=1&debug=true",
+        "title": "Tool use (function calling) - Anthropic",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/kyopark2014/llm-agent/blob/main/ReAct.md",
+        "title": "llm-agent/ReAct.md at main \u00b7 kyopark2014/llm-agent",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/huggingface/agents-course/commit/b145dcef3cc41094c4f658fa81c062161b39a003",
+        "title": "Merge pull request #563 from nrnavaneet/fix/unit1-cot-react-doc \u00b7 huggingface/agents-course@b145dce",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/run-llama/llama_index/blob/main/llama-index-core/tests/agent/react/test_react_agent.py",
+        "title": "llama_index/llama-index-core/tests/agent/react/test_react_agent.py at main \u00b7 run-llama/llama_index",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/williamcotton/empirical-philosophy/blob/main/articles/how-react-prompting-works.md",
+        "title": "empirical-philosophy/articles/how-react-prompting-works.md at main \u00b7 williamcotton/empirical-philosophy",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/aws-samples/bedrock-chat/blob/v2/docs/AGENT.md",
+        "title": "bedrock-chat/docs/AGENT.md at v2 \u00b7 aws-samples/bedrock-chat",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/issues/531",
+        "title": "Using CheckPointer makes the tool call break. \u00b7 Issue #531 - GitHub",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://dev.to/aiengineering/a-beginners-guide-to-handling-errors-in-langgraph-with-retry-policies-h22",
+        "title": "A Beginner's Guide to Handling Errors in LangGraph with Retry ...",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://langchain-ai.github.io/langgraph/tutorials/extraction/retries/",
+        "title": "Complex data extraction with function calling - GitHub Pages",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://deepwiki.com/langchain-ai/langgraph/3.8-error-handling-and-retry-policies",
+        "title": "Error Handling and Retry Policies | langchain-ai/langgraph ...",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=m3edGzRlR5Y",
+        "title": "Handling Errors in LangGraph with Retry Policies",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://arxiv.org/html/2601.22037v2",
+        "title": "Optimizing Agentic Workflows using Meta-tools - arXiv",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://genmind.ch/posts/Building-ReAct-Agents-with-Microsoft-Agent-Framework-From-Theory-to-Production/",
+        "title": "Building ReAct Agents with Microsoft Agent Framework",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/html/2506.04301v1",
+        "title": "Iv-C Ai Agent Serving...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://blog.langchain.com/react-agent-benchmarking/",
+        "title": "Results",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://docs.nvidia.com/nemo/agent-toolkit/1.3/workflows/about/react-agent.html",
+        "title": "ReAct Agent \u2014 NVIDIA NeMo Agent Toolkit (1.3)",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.braintrust.dev/articles/agent-observability-tracing-tool-calls-memory",
+        "title": "What is agent observability? Tracing tool calls, memory, and multi ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.langchain.com/articles/agent-observability",
+        "title": "AI Agent Observability: Tracing, Testing, and Improving Agents",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.agentixlabs.com/blog/general/agent-observability-for-production-trace-tools-cost-and-safety-signals/",
+        "title": "Agent observability for production: trace tools, cost, and safety signals.",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.groundcover.com/learn/observability/ai-agent-observability",
+        "title": "AI Agent Observability Guide: Telemetry, Traces, Metrics, and Evals",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.getmaxim.ai/articles/observability-and-evaluation-strategies-for-tool-calling-ai-agents-a-complete-guide/",
+        "title": "Observability and Evaluation Strategies for Tool-Calling AI Agents",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-10T19:30:49",
+    "run_label": "reference-track:Implementing a ReAct Agent with LangGraph",
+    "sources": [
+      {
+        "url": "https://reference.langchain.com/python/langgraph/errors/GraphRecursionError",
+        "title": "GraphRecursionError | langgraph",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://reference.langchain.com/python/langgraph/checkpoints/",
+        "title": "Checkpointing | LangChain Referencereference.langchain.com \u203a python \u203a langgraph \u203a checkpoints",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://reference.langchain.com/python/langgraph/graph/state/StateGraph/compile",
+        "title": "compile | langgraph - LangChain Reference Docs",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://reference.langchain.com/python/langgraph/graphs/",
+        "title": "Graphs | LangChain Reference",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://reference.langchain.com/javascript/classes/_langchain_langgraph.index.CompiledStateGraph.html",
+        "title": "CompiledStateGraph",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/5113",
+        "title": "How to route to a specific node based on tool return in ...",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/issues/5692",
+        "title": "Refactor create_react_agent to use an internal helper #5692",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/2498",
+        "title": "conditional edges to every node in graph when using ...",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://gist.github.com/razhangwei/631a799e6bd69b26ce9c118c624cd80d",
+        "title": "LangGraph cheatsheet",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/langgraph/discussions/3303",
+        "title": "Predetermined message when ll call fails \u00b7 langchain-ai langgraph \u00b7 Discussion #3303",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://langchain-ai.github.io/langgraph/how-tos/react-agent-from-scratch/",
+        "title": "How to create a ReAct agent from scratch",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/langchain-ai/react-agent",
+        "title": "LangGraph template for a simple ReAct agent",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://forum.langchain.com/t/tool-chaining-inside-create-react-agent-in-langgraph/762",
+        "title": "Tool Chaining Inside create_react_agent in LangGraph",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://forum.langchain.com/t/react-agent-into-langgraph-workflow/1685",
+        "title": "React agent into langgraph workflow - LangSmith Product Help",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/toolbench-evaluation",
+        "title": "ToolBench Evaluation: LLM Tool-Use Insights - Emergent Mind",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/toolbench",
+        "title": "ToolBench: LLM Tool-Use Benchmark - Emergent Mind",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2410.03439v1",
+        "title": "ToolGen: Unified Tool Retrieval and Calling via Generation",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/sambanova/toolbench",
+        "title": "ToolBench, an evaluation suite for LLM tool manipulation ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2509.10769v1",
+        "title": "A Comprehensive Benchmark to Evaluate Agent Architectures in ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2506.11266.pdf",
+        "title": "[PDF] Invocable APIs derived from NL2SQL datasets for LLM Tool-Calling ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/anthology-files/pdf/emnlp/2023.emnlp-main.187.pdf",
+        "title": "[PDF] API-Bank: A Comprehensive Benchmark for Tool-Augmented LLMs",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/2304.08244",
+        "title": "API-Bank: A Comprehensive Benchmark for Tool-Augmented LLMs",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/api-bank-benchmark",
+        "title": "4. Systems, Baselines, And...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/api-bank",
+        "title": "API-Bank: LLM Benchmark & Financial APIs",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.turing.com/resources/ai-agent-frameworks",
+        "title": "AI Agent Frameworks: A Detailed Comparison",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.zenml.io/blog/semantic-kernel-alternatives",
+        "title": "We Tried and Tested 8 Best Semantic Kernel Alternatives to Build AI ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://langfuse.com/blog/2025-03-19-ai-agent-comparison",
+        "title": "Comparing Open-Source AI Agent Frameworks - Langfuse",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://blogs.penify.dev/docs/comparative-anlaysis-of-langchain-semantic-kernel-autogen.html",
+        "title": "A Comparative Overview of LangChain, Semantic Kernel, AutoGen",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://blog.promptlayer.com/langgraph-vs-autogen/",
+        "title": "LangGraph vs. AutoGen: una visi\u00f3n general comparativa",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.langchain.com/langgraph",
+        "title": "LangGraph: Agent Orchestration Framework for Reliable AI ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.leanware.co/insights/langgraph-vs-semantic-kernel",
+        "title": "LangGraph vs Semantic Kernel Comparison 2025 - Leanware",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.turing.com/resources/ai-agent-frameworks",
+        "title": "AI Agent Frameworks: A Detailed Comparison",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://cordum.io/blog/ai-agent-frameworks-comparison",
+        "title": "AI Agent Frameworks Compared: What Breaks in Production - Cordum",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://agent-harness.ai/blog/agentic-ai-frameworks-2026-langgraph-vs-crewai-vs-autogen-vs-openai-symphony/",
+        "title": "Agentic AI Frameworks 2026: LangGraph vs CrewAI vs AutoGen vs ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://blog.langchain.dev/customers-appfolio/",
+        "title": "How AppFolio transformed property management workflows with Realm-X, built using LangGraph and LangSmith",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://blog.langchain.dev/why-langgraph-platform/",
+        "title": "Why do I need LangGraph Platform for agent deployment?",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://blog.langchain.dev/is-langgraph-used-in-production/",
+        "title": "Is LangGraph Used In Production?",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://blog.langchain.dev/customers-athena-intelligence/",
+        "title": "How Athena Intelligence optimized research reports with LangSmith, LangChain, and LangGraph",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://blog.langchain.dev/javascript-langgraph-v02-cloud-studio/",
+        "title": "Build reliable agents in JavaScript with LangGraph.js v0.2: Now supporting Cloud and Studio",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://docs.langchain.com/oss/python/langgraph/observability",
+        "title": "LangSmith Observability - Docs by LangChain",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://langfuse.com/guides/cookbook/integration_langgraph",
+        "title": "Open Source Observability for LangGraph - Langfuse",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://dev.to/kuldeep_paul/how-to-implement-observability-for-ai-agents-with-langgraph-openai-agents-and-crew-ai-5e7k",
+        "title": "How to Implement Observability for AI Agents with LangGraph ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://last9.io/blog/langchain-langgraph-the-frameworks-powering-production-ai-agents/",
+        "title": "LangChain & LangGraph: The Frameworks Powering Production AI ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.tryvex.dev/learn/agent-observability/langgraph",
+        "title": "AI Agent Observability in LangGraph Agents - Vex",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  }
+]

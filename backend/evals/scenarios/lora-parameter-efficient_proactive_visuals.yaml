@@ -1,0 +1,36 @@
+id: proactive_visuals
+title: "Proactive Visuals"
+lesson_slug: lora-parameter-efficient
+description: >
+  Tests whether the tutor proactively offers images and diagrams without
+  being asked. The student never explicitly requests a visual — the tutor
+  should recognize when a diagram or curated image would anchor intuition.
+
+persona: >
+  You are a visual learner who understands concepts better when you see
+  diagrams and pictures. However, you do NOT explicitly ask for visuals —
+  you just describe concepts in spatial/visual terms ("so it's like two
+  streams merging?") and the tutor should pick up on this and offer images.
+  You have basic ML knowledge.
+
+mode: default
+
+scripted_turns:
+  - role: user
+    content: "Can you walk me through how LoRA works inside a transformer layer?"
+  - role: user
+    content: >
+      So the original weight matrix stays frozen and we add a bypass path
+      through it? Like two streams merging at the output?
+  - role: user
+    content: >
+      That's interesting. I'm trying to picture how the rank reduction
+      works — like, what does the bottleneck look like dimensionally?
+
+expected_behaviors:
+  - "Tutor should proactively show a diagram or image of the LoRA architecture"
+  - "Tutor should use at least one curated image or mermaid diagram without being asked"
+  - "Tutor should pick up on the student's visual language ('bypass path', 'two streams')"
+  - "Images should be framed with 'what to look for' text before the tag"
+
+diagram_expected: true

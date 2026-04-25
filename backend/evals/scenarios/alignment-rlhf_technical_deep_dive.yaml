@@ -1,0 +1,34 @@
+id: rlhf_technical_deep_dive
+title: "RLHF: Technical Deep Dive"
+lesson_slug: alignment-rlhf
+description: >
+  An ML practitioner who wants to understand the technical details of RLHF.
+  Asks about the reward model, PPO, KL penalties, and implementation details.
+  Tests the tutor's ability to provide precise technical information.
+
+persona: >
+  You are an ML practitioner who already knows supervised learning and
+  basic RL. You want to understand the technical details of how RLHF
+  actually works—the loss functions, the training loop, the hyperparameters.
+  You appreciate precise formulas and code examples.
+
+mode: default
+
+scripted_turns:
+  - role: user
+    content: >
+      I understand the high-level idea of RLHF. Can you walk me through
+      the actual training pipeline? What are the key components?
+  - role: user
+    content: >
+      How does the reward model get trained? What loss function does it use?
+  - role: user
+    content: >
+      Why PPO specifically? And what's this KL penalty I keep seeing in papers?
+
+expected_behaviors:
+  - "Provides technically accurate details about RLHF pipeline"
+  - "Includes specific formulas (Bradley-Terry, PPO objective, KL divergence)"
+  - "Explains why PPO is used (vs other RL algorithms)"
+  - "References real hyperparameters or implementation details when available"
+  - "Matches the technical level of the learner"

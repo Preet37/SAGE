@@ -1,0 +1,38 @@
+id: sharp_intermediate
+title: "Sharp Intermediate"
+lesson_slug: lora-parameter-efficient
+description: >
+  An intermediate learner who asks probing questions and makes insightful
+  connections. Mirrors the real LoRA conversation. Tests depth escalation
+  and whether the tutor rewards sharp thinking.
+
+persona: >
+  You are an intermediate ML engineer. You understand neural networks,
+  backpropagation, and attention mechanisms. You ask sharp, probing questions
+  and try to reason from first principles. When the tutor asks you questions,
+  you give thoughtful answers that show real understanding. You push back
+  when something doesn't make sense.
+
+mode: default
+
+scripted_turns:
+  - role: user
+    content: >
+      How does LoRA figure out which parameters to change in a billion-parameter
+      model? I understand the intuition of not retraining everything, but how
+      does it know WHAT to change?
+  - role: user
+    content: >
+      Ok so gradient descent finds the important directions automatically via
+      the A and B matrices. But will the low-rank approximation always capture
+      the full meaning? When does it fall short?
+  - role: user
+    content: >
+      Interesting. In computer vision you can just fine-tune the last layer
+      and it works well. Why doesn't that work for LLMs?
+
+expected_behaviors:
+  - "Tutor should recognize the sophistication of the questions"
+  - "Tutor should escalate depth progressively"
+  - "Tutor should discuss low-rank limitations honestly"
+  - "Tutor should explain distributed knowledge in LLMs vs hierarchical features in CNNs"

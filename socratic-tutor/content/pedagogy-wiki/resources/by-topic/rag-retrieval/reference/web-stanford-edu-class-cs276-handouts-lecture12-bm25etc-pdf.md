@@ -1,0 +1,1034 @@
+# Source: https://web.stanford.edu/class/cs276/handouts/lecture12-bm25etc.pdf
+# Title: The Probabilistic Relevance Framework: BM25 and Beyond (CS276 handout)
+# Fetched via: jina
+# Date: 2026-04-09
+
+Title: lecture12-bm25etc
+
+
+
+Number of Pages: 49
+
+> Introduction to Information Retrieval
+
+Introduction to 
+
+# Information Retrieval 
+
+BM25, BM25F, and User Behavior 
+
+Chris Manning and Pandu Nayak Introduction to Information Retrieval Introduction to Information Retrieval 
+
+## Summary – BIM [Robertson & Spärck -Jones 1976] 
+
+§ Boils down to 
+
+where 
+
+§ With constant pi = 0.5 , simplifies to IDF weighting: 
+
+RSV = log N
+
+nixi =qi =1
+
+## ∑
+
+RSV BIM = ci 
+
+> BIM
+
+;  
+
+> xi=qi=1
+
+## ∑ ci 
+
+> BIM
+
+= log pi (1− ri )
+
+(1− pi )ri
+
+document relevant (R=1) not relevant (R=0) 
+
+term present xi = 1 pi ri
+
+term absent xi = 0 (1 – pi) (1 – ri)
+
+Log odds 
+
+ratio Introduction to Information Retrieval 
+
+## Graphical model for BIM – Bernoulli NB 
+
+i ∈ q
+
+Binary 
+
+variables 
+
+xi = (tfi ≠ 0)Introduction to Information Retrieval 
+
+## A key limitation of the BIM 
+
+§ BIM – like much of original IR – was designed for 
+
+titles or abstracts, and not for modern full text 
+
+search 
+
+§ We want to pay attention to term frequency and 
+
+document lengths, just like in other models we 
+
+discuss 
+
+§ Want 
+
+§ Want some model of how often terms occur in docs 
+
+## ci = log ptf r0
+
+## p0rtfIntroduction to Information Retrieval 
+
+## 1. Okapi BM25 [Robertson et al. 1994, TREC City U.] 
+
+§ BM25 “Best Match 25” (they had a bunch of tries!) 
+
+§ Developed in the context of the Okapi system 
+
+§ Started to be increasingly adopted by other teams during 
+
+the TREC competitions 
+
+§ It works well 
+
+§ Goal: be sensitive to term frequency and document 
+
+length while not adding too many parameters 
+
+§ (Robertson and Zaragoza 2009; Spärck Jones et al. 2000) Introduction to Information Retrieval 
+
+§ Words are drawn independently from the vocabulary 
+
+using a multinomial distribution 
+
+## Generative model for documents 
+
+... the draft is that each team is given a position in the draft …
+
+basic 
+
+team each 
+
+that 
+
+of 
+
+is 
+
+the draft 
+
+design 
+
+nfl 
+
+football 
+
+given 
+
+> …
+
+annual draft 
+
+football 
+
+team 
+
+nfl Introduction to Information Retrieval 
+
+§ Distribution of term frequencies ( tf ) follows a 
+
+binomial distribution – approximated by a Poisson 
+
+## Generative model for documents 
+
+... the draft is that each team is given a position in the draft …
+
+draft 
+
+> …
+> …Introduction to Information Retrieval
+
+## Poisson distribution 
+
+§ The Poisson distribution models the probability of k, 
+
+the number of events occurring in a fixed interval of 
+
+time/space, with known average rate λ ( = cf /T), 
+
+independent of the last event 
+
+§ Examples 
+
+§ Number of cars arriving at the toll booth per minute 
+
+§ Number of typos on a page 
+
+p(k) =
+
+λk
+
+k! e−
+
+> λ
+
+Introduction to Information Retrieval 
+
+## Poisson distribution 
+
+§ If T is large and p is small, we can approximate a 
+
+binomial distribution with a Poisson where λ = Tp 
+
+§ Mean = Variance = λ = Tp. 
+
+§ Example p = 0.08, T = 20. Chance of 1 occurrence is: 
+
+§ Binomial 
+
+§ Poisson … already close 
+
+p(k) =
+
+λk
+
+k! e−
+
+λ             
+
+> P(1)=[(20)(.08)]1
+> 1!e−(20)(.08)=1.6
+> 1e−1.6=0.3230
+> P(1)=20
+> 1
+> !
+> "
+> #$
+> %
+> &(.08)1(.92)19=.3282Introduction to Information Retrieval
+
+## Poisson model 
+
+§ Assume that term frequencies in a document ( tf i)
+
+follow a Poisson distribution 
+
+§ “Fixed interval” implies fixed document length … 
+
+think roughly constant -sized document abstracts 
+
+§ … will fix later Introduction to Information Retrieval 
+
+## Poisson distributions Introduction to Information Retrieval 
+
+## (One) Poisson Model 
+
+§ Is a reasonable fit for “general” words 
+
+§ Is a poor fit for topic -specific words 
+
+§ get higher p(k) than predicted too often 
+
+Documents containing k occurrences of word ( λ = 53/650) 
+
+Freq Word 0 1 2 3 4 5 6 7 8 9 10 11 12 
+
+53 expected 599 49 2
+
+52 based 600 48 2
+
+53 conditions 604 39 7
+
+55 cathexis 619 22 3 2 1 2 0 1
+
+51 comic 642 3 0 1 0 0 0 0 0 0 1 1 2
+
+Harter, “A Probabilistic Approach to Automatic Keyword Indexing”, JASIST, 1975 Introduction to Information Retrieval 
+
+## Eliteness (“ aboutness ”) 
+
+§ Model term frequencies using eliteness 
+
+§ What is eliteness ?
+
+§ Hidden variable for each document -term pair, 
+
+denoted as Ei for term i
+
+§ Represents aboutness : a term is elite in a 
+
+document if, in some sense, the document is 
+
+about the concept denoted by the term 
+
+§ Eliteness is binary 
+
+§ Term occurrences depend only on eliteness… 
+
+§ … but eliteness depends on relevance Introduction to Information Retrieval 
+
+## Elite terms 
+
+Text from the Wikipedia page on the NFL draft showing 
+
+elite terms 
+
+The National Football League Draft 
+
+is an annual event in which the 
+
+National Football League (NFL )
+
+teams select eligible college 
+
+football players . It serves as the 
+
+league’s most common source of 
+
+player recruitment . The basic design 
+
+of the draft is that each team is given 
+
+a position in the draft order in 
+
+reverse order relative to its record …Introduction to Information Retrieval 
+
+## Graphical model with eliteness 
+
+i ∈ q
+
+Frequencies 
+
+(not binary) 
+
+Binary 
+
+variables Introduction to Information Retrieval 
+
+## Retrieval Status Value 
+
+§ Similar to the BIM derivation, we have 
+
+where 
+
+and using eliteness, we have: 
+
+RSV elite = ci 
+
+> elite
+> i∈q,tfi>0
+
+## ∑ (tfi );
+
+p(TFi = tfi R) = p(TFi = tfi Ei = elite)p(Ei = elite R)
+
++ p(TFi = tfi Ei = elite)(1− p(Ei = elite R))
+
+ci 
+
+> elite
+
+(tfi ) = log p(TFi = tfi R = 1)p(TFi = 0 R = 0)
+
+p(TFi = 0 R = 1)p(TFi = tfi R = 0)Introduction to Information Retrieval 
+
+## 2-Poisson model 
+
+§ The problems with the 1 -Poisson model suggests 
+
+fitting two Poisson distributions 
+
+§ In the “2 -Poisson model”, the distribution is different 
+
+depending on whether the term is elite or not 
+
+§ where π is probability that document is elite for term 
+
+§ but, unfortunately, we don’t know π, λ, μ 
+
+## p(TFi = ki R) =Introduction to Information Retrieval 
+
+Let’s get an idea: Graphing for 
+
+different parameter values of the 2 -Poisson 
+
+## ci
+
+elite (tfi )Introduction to Information Retrieval 
+
+## Qualitative properties 
+
+§
+
+§ increases monotonically with tf i
+
+§ … but asymptotically approaches a maximum value 
+
+as [not true for simple scaling of tf ]
+
+§ … with the asymptotic limit being 
+
+ci 
+
+> elite
+
+(0) = 0
+
+ci 
+
+> elite
+
+(tfi )
+
+ci
+
+> BIM
+
+Weight of 
+
+eliteness 
+
+feature 
+
+tfi → ∞Introduction to Information Retrieval 
+
+## Approximating the saturation function 
+
+§ Estimating parameters for the 2 -Poisson model is not 
+
+easy 
+
+§ … So approximate it with a simple parametric curve 
+
+that has the same qualitative properties 
+
+## tf
+
+## k1 + tfIntroduction to Information Retrieval 
+
+## Saturation function 
+
+§ For high values of k1, increments in tf i continue to 
+
+contribute significantly to the score 
+
+§ Contributions tail off quickly for low values of k1Introduction to Information Retrieval 
+
+## “Early” versions of BM25 
+
+§ Version 1: using the saturation function 
+
+§ Version 2: BIM simplification to IDF 
+
+§ (k1+1) factor doesn’t change ranking, but makes 
+
+term score 1 when tf i = 1
+
+§ Similar to tf -idf , but term scores are bounded 
+
+ci 
+
+> BM25v1
+
+(tfi ) = ci 
+
+> BIM
+
+tfi
+
+k1 + tfi
+
+ci  
+
+> BM25v2
+
+(tfi ) = log N
+
+dfi
+
+× (k1 +1)tfi
+
+k1 + tfiIntroduction to Information Retrieval 
+
+## Document length normalization 
+
+§ Longer documents are likely to have larger tf i values 
+
+§ Why might documents be longer? 
+
+§ Verbosity: suggests observed tf i too high 
+
+§ Larger scope: suggests observed tf i may be right 
+
+§ A real document collection probably has both effects 
+
+§ … so should apply some kind of partial normalization Introduction to Information Retrieval 
+
+## Document length normalization 
+
+§ Document length: 
+
+§ avdl : Average document length over collection 
+
+§ Length normalization component 
+
+§ b = 1 full document length normalization 
+
+§ b = 0 no document length normalization 
+
+dl = tfi
+
+> i∈V
+
+## ∑
+
+B = (1− b) + b dl
+
+avdl
+
+"
+
+#
+
+$ %
+
+&
+
+', 0 ≤ b ≤ 1Introduction to Information Retrieval 
+
+## Document length normalization Introduction to Information Retrieval 
+
+## Okapi BM25 
+
+§ Normalize tf using document length 
+
+§ BM25 ranking function 
+
+t !fi = tfi
+
+B
+
+ci  
+
+> BM25
+
+(tfi ) = log N
+
+dfi
+
+× (k1 +1)t "fi
+
+k1 + t "fi
+
+= log N
+
+dfi
+
+× (k1 +1)tfi
+
+k1((1− b) + b dl
+
+avdl ) + tfi
+
+RSV BM 25 = ci 
+
+> BM25
+> i∈q
+
+## ∑ (tfi );Introduction to Information Retrieval 
+
+## Okapi BM25 
+
+§ k1 controls term frequency scaling 
+
+§ k1 = 0 is binary model; k1 large is raw term frequency 
+
+§ b controls document length normalization 
+
+§ b = 0 is no length normalization; b = 1 is relative 
+
+frequency (fully scale by document length) 
+
+§ Typically, k1 is set around 1.2 –2 and b around 0.75 
+
+§ IIR sec. 11.4.3 discusses incorporating query term 
+
+weighting and (pseudo) relevance feedback 
+
+RSV BM 25 = log N
+
+dfii∈q
+
+## ∑ ⋅ (k1 +1)tfi
+
+k1((1− b) + b dl
+
+avdl ) + tfiIntroduction to Information Retrieval 
+
+## Why is BM25 better than VSM tf -idf? 
+
+§ Suppose your query is [machine learning] 
+
+§ Suppose you have 2 documents with term counts: 
+
+§ doc1: learning 1024; machine 1 
+
+§ doc2: learning 16; machine 8 
+
+§ tf -idf: log 2 tf * log 2 (N/ df )
+
+§ doc1: 11 * 7 + 1 * 10 = 87 
+
+§ doc2: 5 * 7 + 4 * 10 = 75 
+
+§ BM25: k1 = 2 
+
+§ doc1: 7 * 3 + 10 * 1 = 31 
+
+§ doc2: 7 * 2.67 + 10 * 2.4 = 42.7 Introduction to Information Retrieval 
+
+## 2. Ranking with features 
+
+§ Textual features 
+
+§ Zones: Title, author, abstract, body, anchors, … 
+
+§ Proximity 
+
+§ …
+
+§ Non -textual features 
+
+§ File type 
+
+§ File age 
+
+§ Page rank 
+
+§ …Introduction to Information Retrieval 
+
+## Ranking with zones 
+
+§ Straightforward idea: 
+
+§ Apply your favorite ranking function (BM25) to 
+
+each zone separately 
+
+§ Combine zone scores using a weighted linear 
+
+combination 
+
+§ But that seems to imply that the eliteness properties 
+
+of different zones are different and independent of 
+
+each other 
+
+§ …which seems unreasonable Introduction to Information Retrieval 
+
+## Ranking with zones 
+
+§ Alternate idea 
+
+§ Assume eliteness is a term/document property 
+
+shared across zones 
+
+§ … but the relationship between eliteness and term 
+
+frequencies are zone -dependent  
+
+> §e.g., denser use of elite topic words in title
+
+§ Consequence 
+
+§ First combine evidence across zones for each term 
+
+§ Then combine evidence across terms Introduction to Information Retrieval 
+
+## BM25F with zones 
+
+§ Calculate a weighted variant of total term frequency 
+
+§ … and a weighted variant of document length 
+
+where 
+
+vz is zone weight 
+
+tf zi is term frequency in zone z
+
+len z is length of zone z
+
+Z is the number of zones 
+
+tfi = vztfzi
+
+> z=1
+> Z
+
+## ∑ dl = vzlenz
+
+> z=1
+> Z
+
+## ∑ avdl = Average 
+
+across all 
+
+documents 
+
+dlIntroduction to Information Retrieval 
+
+## Simple BM25F with zones 
+
+§ Simple interpretation: zone z is “replicated” vz times 
+
+§ But we may want zone -specific parameters ( k1, b, 
+
+IDF) 
+
+RSV SimpleBM 25F = log N
+
+dfii∈q
+
+## ∑ ⋅ (k1 +1)tfi
+
+k1((1− b) + b dl
+
+avdl ) + tfiIntroduction to Information Retrieval 
+
+## BM25F 
+
+§ Empirically, zone -specific length normalization (i.e., 
+
+zone -specific b) has been found to be useful 
+
+tfi = vz
+
+tfzi
+
+Bzz=1
+
+> Z
+
+## ∑
+
+Bz = (1− bz ) + bz
+
+lenz
+
+avlenz
+
+"
+
+#
+
+$ %
+
+&
+
+', 0 ≤ bz ≤ 1
+
+RSV BM 25F = log N
+
+dfii∈q
+
+## ∑ ⋅ (k1 +1)tfi
+
+k1 + tfi
+
+See Robertson and Zaragoza (2009: 364) Introduction to Information Retrieval 
+
+## Ranking with non -textual features 
+
+§ Assumptions 
+
+§ Usual independence assumption 
+
+§ Independent of each other and of the textual features 
+
+§ Allows us to factor out in BIM -style 
+
+derivation 
+
+§ Relevance information is query independent 
+
+§ Usually true for features like page rank, age, type, … 
+
+§ Allows us to keep all non -textual features in the BIM -
+
+style derivation where we drop non -query terms 
+
+p(Fj = fj R = 1)
+
+p(Fj = fj R = 0)Introduction to Information Retrieval 
+
+## Ranking with non -textual features 
+
+where 
+
+and is an artificially added free parameter to account 
+
+for rescalings in the approximations 
+
+§ Care must be taken in selecting Vj depending on Fj. E.g. 
+
+§ Explains why works well 
+
+RSV = ci
+
+> i∈q
+
+## ∑ (tfi ) +
+
+λjVj ( fj )
+
+> j=1
+> F
+
+## ∑
+
+Vj ( fj ) = log p(Fj = fj R = 1)
+
+p(Fj = fj R = 0)
+
+λj
+
+log( !
+
+λj + fj ) fj
+
+!
+
+λj + fj
+
+1
+
+!
+
+λj + exp(− fj !!
+
+λj )
+
+RSV BM 25 + log( pagerank)Introduction to Information Retrieval 
+
+## User Behavior 
+
+§ Search Results for “CIKM” (in 2010!) 
+
+> 38
+
+# of clicks received 
+
+Taken with slight adaptation from Fan Guo and 
+
+Chao Liu’s 2009/2010 CIKM tutorial: Statistical 
+
+Models for Web Search: Click Log Analysis Introduction to Information Retrieval 
+
+## User Behavior 
+
+§ Adapt ranking to user clicks? 
+
+> 39
+
+# of clicks received Introduction to Information Retrieval 
+
+## User Behavior 
+
+§ Tools needed for non -trivial cases 
+
+> 40
+
+# of clicks received Introduction to Information Retrieval 
+
+## Web search click log 
+
+An 
+
+example 
+
+> 41 Introduction to Information Retrieval
+
+## Web Search Click Log 
+
+§ How large is the click log? 
+
+§ search logs: 10+ TB/day 
+
+§ In existing publications :
+
+§ [Silverstein+99]: 285M sessions 
+
+§ [Craswell+08]: 108k sessions 
+
+§ [Dupret+08] : 4.5M sessions (21 subsets * 216k sessions) 
+
+§ [Guo +09a] : 8.8M sessions from 110k unique queries 
+
+§ [Guo+09b]: 8.8M sessions from 110k unique queries 
+
+§ [Chapelle+09]: 58M sessions from 682k unique queries 
+
+§ [Liu+09a]: 0.26PB data from 103M unique queries 
+
+> 42 Introduction to Information Retrieval
+
+## Interpret Clicks: an Example 
+
+§ Clicks are good… 
+
+§ Are these two clicks 
+
+equally “good ”?
+
+§ Non -clicks may have 
+
+excuses: 
+
+§ Not relevant 
+
+§ Not examined 
+
+> 43
+
+Introduction to Information Retrieval 
+
+## Eye -tracking User Study 
+
+> 44 Introduction to Information Retrieval
+
+§ Higher positions receive 
+
+more user attention (eye 
+
+fixation) and clicks than 
+
+lower positions. 
+
+§ This is true even in the 
+
+extreme setting where 
+
+the order of positions is 
+
+reversed .
+
+§ “Clicks are informative 
+
+but biased”. 
+
+> 45
+
+[Joachims+07] 
+
+## Click Position -bias 
+
+> Normal Position
+> Percentage
+> Reversed Impression
+> Percentage Introduction to Information Retrieval
+
+## User behavior 
+
+§ User behavior is an intriguing source of relevance data 
+
+§ Users make (somewhat) informed choices when 
+
+they interact with search engines 
+
+§ Potentially a lot of data available in search logs 
+
+§ But there are significant caveats 
+
+§ User behavior data can be very noisy 
+
+§ Interpreting user behavior can be tricky 
+
+§ Spam can be a significant problem 
+
+§ Not all queries will have user behavior Introduction to Information Retrieval 
+
+## Features based on user behavior 
+
+From [ Agichtein , Brill, Dumais 2006; Joachims 2002] 
+
+§ Click -through features 
+
+§ Click frequency, click probability, click deviation 
+
+§ Click on next result? previous result? above? below>? 
+
+§ Browsing features 
+
+§ Cumulative and average time on page, on domain, on URL 
+
+prefix; deviation from average times 
+
+§ Browse path features 
+
+§ Query -text features 
+
+§ Query overlap with title, snippet, URL, domain, next query 
+
+§ Query length Introduction to Information Retrieval 
+
+## Incorporating user behavior into 
+
+## ranking algorithm 
+
+§ Incorporate user behavior features into a ranking 
+
+function like BM25F 
+
+§ But requires an understanding of user behavior 
+
+features so that appropriate Vj functions are used 
+
+§ Incorporate user behavior features into learned 
+
+ranking function 
+
+§ Either of these ways of incorporating user behavior 
+
+signals improve ranking Introduction to Information Retrieval 
+
+## Resources 
+
+§ S. E. Robertson and H. Zaragoza. 2009. The Probabilistic 
+
+Relevance Framework: BM25 and Beyond. Foundations and 
+
+Trends in Information Retrieval 3(4): 333 -389. 
+
+§ K. Spärck Jones, S. Walker, and S. E. Robertson . 2000. A 
+
+probabilistic model of information retrieval: Development and 
+
+comparative experiments. Part 1. Information Processing and 
+
+Management 779 –808. 
+
+§ T. Joachims . Optimizing Search Engines using Clickthrough 
+
+Data. 2002. SIGKDD .
+
+§ E. Agichtein , E. Brill, S. Dumais . 2006. Improving Web Search 
+
+Ranking By Incorporating User Behavior Information. 2006. 
+
+SIGIR .

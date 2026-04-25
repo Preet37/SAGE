@@ -1,0 +1,36 @@
+id: simtoreal_proactive_visuals
+title: "Proactive Visuals - Sim-to-Real"
+lesson_slug: sim-to-real-transfer
+description: >
+  Tests whether the tutor proactively offers diagrams and images for
+  a physical AI topic where visuals are essential — simulation environments,
+  domain randomization examples, sim-vs-real comparisons.
+
+persona: >
+  You are a visual learner interested in robotics. You describe things
+  in spatial terms but don't explicitly ask for images. You want to
+  understand the pipeline from simulation to real-world deployment.
+
+mode: default
+
+scripted_turns:
+  - role: user
+    content: "Walk me through the whole pipeline of getting a robot policy from simulation to real hardware."
+  - role: user
+    content: >
+      So the simulated environment looks different from the real one —
+      how different are we talking? Like completely different textures
+      and lighting?
+  - role: user
+    content: >
+      And system identification is about making the simulator match
+      reality better? That sounds like calibration — is there a
+      systematic way to do it?
+
+expected_behaviors:
+  - "Tutor should proactively show sim-vs-real comparison images"
+  - "Tutor should use a flow diagram showing the sim-to-real pipeline"
+  - "Tutor should pick up on the student's visual curiosity about differences"
+  - "Images of domain randomization examples would be ideal here"
+
+diagram_expected: true

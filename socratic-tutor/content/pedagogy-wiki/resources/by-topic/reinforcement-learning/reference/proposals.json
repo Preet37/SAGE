@@ -1,0 +1,208 @@
+[
+  {
+    "timestamp": "2026-04-09T16:33:38",
+    "run_label": "reference-track:Reinforcement Learning",
+    "sources": [
+      {
+        "url": "https://proceedings.mlr.press/v80/haarnoja18b/haarnoja18b.pdf",
+        "title": "[PDF] Soft Actor-Critic: - Proceedings of Machine Learning Research",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/soft-actor-critic-algorithm-cdb411d2-9587-4a47-a4d2-3bfe0bae97bf",
+        "title": "Soft Actor Critic Algorithm - Emergent Mind",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.emergentmind.com/topics/soft-actor-critic-algorithm",
+        "title": "Soft Actor-Critic Algorithm - Emergent Mind",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://ics.uci.edu/~dechter/courses/ics-295/winter-2018/papers/nips/soft-actor-critic-nips-2017.pdf",
+        "title": "Soft Actor-Critic:",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/1812.05905",
+        "title": "[1812.05905] Soft Actor-Critic Algorithms and Applications - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.automl.org/wp-content/uploads/2020/07/AutoML_2020_paper_47.pdf",
+        "title": "[PDF] Meta-SAC: Auto-tune the Entropy Temperature of Soft Actor-Critic ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/1812.05905",
+        "title": "[1812.05905] Soft Actor-Critic Algorithms and Applications - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://mattlanders.net/sac.html",
+        "title": "Soft Actor-Critic (SAC) - Matthew Landers",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/2007.01932",
+        "title": "Meta-SAC: Auto-tune the Entropy Temperature of Soft Actor ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v80/haarnoja18b/haarnoja18b.pdf",
+        "title": "[PDF] Soft Actor-Critic: - Proceedings of Machine Learning Research",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://github.com/ChenDRAG/mujoco-benchmark",
+        "title": "GitHub - ChenDRAG/mujoco-benchmark: Provide full reinforcement learning benchmark on mujoco environments, including ddpg, sac, td3, pg, a2c, ppo, library",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://spinningup.openai.com/en/latest/spinningup/bench.html",
+        "title": "Benchmarks for Spinning Up Implementations",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "http://proceedings.mlr.press/v139/furuta21a/furuta21a-supp.pdf",
+        "title": "Policy Information Capacity",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2506.10167v1",
+        "title": "Wasserstein Barycenter Soft Actor-Critic",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/chainer/chainerrl/blob/master/examples/mujoco/reproduction/ppo/README.md",
+        "title": "chainerrl/examples/mujoco/reproduction/ppo/README.md at master \u00b7 chainer/chainerrl",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/1709.06560",
+        "title": "[1709.06560] Deep Reinforcement Learning that Matters",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://ar5iv.labs.arxiv.org/html/1709.06560",
+        "title": "Deep Reinforcement Learning that Matters",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.emergentmind.com/papers/1709.06560",
+        "title": "Deep Reinforcement Learning that Matters (1709.06560v3)",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://livrepository.liverpool.ac.uk/3176825/1/Evaluating%20and%20Selecting%20Deep%20Reinforcement%20Learning%20Models%20for%20Optimal%20Dynamic%20Pricing%20A%20Systematic%20Comparison%20of%20PPO,%20DDPG,%20and%20SAC__Camera%20Ready.pdf",
+        "title": "[PDF] Evaluating and Selecting Deep Reinforcement Learning Models for ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.ias.informatik.tu-darmstadt.de/uploads/Team/DavideTateo/felix_thesis.pdf",
+        "title": "[PDF] Benchmarking Deep Reinforcement Learning Algorithms",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "http://proceedings.mlr.press/v100/chen20a/chen20a.pdf",
+        "title": "[PDF] Learning by Cheating",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/abs/1912.12294",
+        "title": "[1912.12294] Learning by Cheating",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://ar5iv.labs.arxiv.org/html/1912.12294",
+        "title": "Learning by cheating",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.alphaxiv.org/overview/1912.12294v1",
+        "title": "Learning by Cheating | alphaXiv",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://paperswithcode.com/paper/learning-by-cheating",
+        "title": "Papers with Code - Learning by Cheating",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/abs/2509.08221",
+        "title": "A Comprehensive Review of Reinforcement Learning for ... - arXiv",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2509.08221v1",
+        "title": "A Comprehensive Review of Reinforcement Learning for ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://learn-to-race.org/workshop-ai4ad-ijcai2022/assets/papers/paper_18.pdf",
+        "title": "Safe Reinforcement Learning with Probabilistic Control Barrier ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.themoonlight.io/en/review/a-comprehensive-review-of-reinforcement-learning-for-autonomous-driving-in-the-carla-simulator",
+        "title": "[Literature Review] A Comprehensive Review of ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.themoonlight.io/fr/review/a-comprehensive-review-of-reinforcement-learning-for-autonomous-driving-in-the-carla-simulator",
+        "title": "[Revue de papier] A Comprehensive Review of Reinforcement ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://openai.com/index/learning-dexterity/",
+        "title": "Learning dexterity | OpenAI",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://journals.sagepub.com/doi/10.1177/0278364919887447",
+        "title": "Learning dexterous in-hand manipulation - OpenAI: Marcin Andrychowicz, Bowen Baker, Maciek Chociej, Rafal J\u00f3zefowicz, Bob McGrew, Jakub Pachocki, Arthur Petron, Matthias Plappert, Glenn Powell, Alex Ray, Jonas Schneider, Szymon Sidor, Josh Tobin, Peter Welinder, Lilian Weng, Wojciech Zaremba, 2020",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/abs/1808.00177",
+        "title": "[1808.00177] Learning Dexterous In-Hand Manipulation",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://journals.sagepub.com/doi/full/10.1177/0278364919887447",
+        "title": "Learning dexterous in-hand manipulation - OpenAI: Marcin Andrychowicz, Bowen Baker, Maciek Chociej, Rafal J\u00f3zefowicz, Bob McGrew, Jakub Pachocki, Arthur Petron, Matthias Plappert, Glenn Powell, Alex Ray, Jonas Schneider, Szymon Sidor, Josh Tobin, Peter Welinder, Lilian Weng, Wojciech Zaremba, 2020",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://lilianweng.github.io/lil-log/assets/papers/learning-dexterity.pdf",
+        "title": "[PDF] Learning Dexterous In-Hand Manipulation - Lilian Weng",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/33137755/",
+        "title": "Learning agile and dynamic motor skills for legged robots - PubMed",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.science.org/doi/10.1126/scirobotics.aau5872",
+        "title": "Learning agile and dynamic motor skills for legged robots",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/abs/1901.08652",
+        "title": "Learning agile and dynamic motor skills for legged robots",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1901.08652.pdf",
+        "title": "Research Article",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://me336.ancorasir.com/wp-content/uploads/2023/03/Team9-1stPaperReview-Paper-2019LearningAgileAndDynamic.pdf",
+        "title": "[PDF] Learning agile and dynamic motor skills for legged robots",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  }
+]

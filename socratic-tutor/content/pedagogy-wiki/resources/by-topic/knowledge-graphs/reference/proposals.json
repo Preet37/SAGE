@@ -1,0 +1,258 @@
+[
+  {
+    "timestamp": "2026-04-09T18:41:09",
+    "run_label": "reference-track:Knowledge Graphs and Structured Knowledge",
+    "sources": [
+      {
+        "url": "https://kclpure.kcl.ac.uk/ws/portalfiles/portal/181423293/KG_in_NLP_survey_AACL.pdf",
+        "title": "[PDF] King's Research Portal - King's College London Research Portal",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://ceur-ws.org/Vol-4041/paper1.pdf",
+        "title": "[PDF] OSKGC: A benchmark for Ontology Schema-based Knowledge ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2302.11509",
+        "title": "Construction of Knowledge Graphs: State and Challenges - arXiv",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://chenjiaoyan.github.io/files/SH_Jiaotong_19052023.pdf",
+        "title": "[PDF] Knowledge Graph Construction, Curation and Its Machine Learning ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2302.05019.pdf",
+        "title": "66",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2405.16929",
+        "title": "Uncertainty Management in the Construction of Knowledge Graphs: a Survey",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2405.16929v2",
+        "title": "Uncertainty Management in the Construction of Knowledge Graphs",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://dbs.uni-leipzig.de/files/research/publications/2024-8/pdf/information-15-00509-with-cover.pdf",
+        "title": "Construction of Knowledge Graphs: Current State and ...",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://drops.dagstuhl.de/storage/08tgdk/tgdk-vol003/tgdk-vol003-issue001/TGDK.3.1.3/TGDK.3.1.3.pdf",
+        "title": "[PDF] Uncertainty Management in the Construction of Knowledge Graphs",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.themoonlight.io/fr/review/uncertainty-management-in-the-construction-of-knowledge-graphs-a-survey",
+        "title": "[Revue de papier] Uncertainty Management in the Construction of Knowledge Graphs: a Survey",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://cs.mcgill.ca/~wlh/comp766/files/nishant_mishra.pdf",
+        "title": "Translating Embeddings for Modeling Multi-relational Data",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://everest.hds.utc.fr/lib/exe/fetch.php?media=en%3Atranse_nips13_poster.pdf",
+        "title": "[PDF] Translating Embeddings for Modeling Multi-relational Data - Everest",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1907.05336.pdf",
+        "title": "Adaptive Margin Ranking Loss for Knowledge Graph ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.ijcai.org/proceedings/2018/0596.pdf",
+        "title": "[PDF] Translating Embeddings for Knowledge Graph Completion with ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://everest.hds.utc.fr/doku.php?id=en%3Atranse",
+        "title": "Translating Embeddings for Modeling Multi-relational Data - Everest",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "http://proceedings.mlr.press/v48/trouillon16.pdf",
+        "title": "[PDF] Complex Embeddings for Simple Link Prediction",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/1606.06357",
+        "title": "[1606.06357] Complex Embeddings for Simple Link Prediction - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1606.06357.pdf",
+        "title": "Complex Embeddings for Simple Link Prediction",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://github.com/ttrouill/complex",
+        "title": "GitHub - ttrouill/complex: Source code for experiments in the papers \"Complex Embeddings for Simple Link Prediction\" (ICML 2016) and \"Knowledge Graph Completion via Complex Tensor Factorization\" (JMLR 2017).",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v48/trouillon16.html",
+        "title": "Complex Embeddings for Simple Link Prediction",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://cs.ulb.ac.be/conferences/ebiss2023/posters/bdma/8.pdf",
+        "title": "PowerPoint Presentation",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.neurips.cc/paper_files/paper/2019/file/d961e9f236177d65d21100592edb0769-AuthorFeedback.pdf",
+        "title": "[PDF] Thanks to all reviewers for your constructive suggestions ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "http://arxiv.org/pdf/1811.04441v2.pdf",
+        "title": "2019 Formatting Instructions for Authors Using LaTeX",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/DeepGraphLearning/KnowledgeGraphEmbedding/blob/master/README.md",
+        "title": "KnowledgeGraphEmbedding/README.md at master \u00b7 DeepGraphLearning/KnowledgeGraphEmbedding",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/awslabs/dgl-ke/blob/master/examples/README.md",
+        "title": "dgl-ke/examples/README.md at master \u00b7 awslabs/dgl-ke",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://vldb.org/pvldb/vol13/p2326-sun.pdf",
+        "title": "[PDF] A Benchmarking Study of Embedding-based Entity Alignment for ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://aclanthology.org/2025.coling-main.393v1.pdf",
+        "title": "DAEA: Enhancing Entity Alignment in Real-World ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://opencodepapers-b7572d.gitlab.io/benchmarks/entity-alignment-on-dbp15k-zh-en.html",
+        "title": "entity-alignment-on-dbp15k-zh-en - OpenCodePapers",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://github.com/nju-websoft/BootEA",
+        "title": "GitHub - nju-websoft/BootEA: Bootstrapping Entity Alignment with Knowledge Graph Embedding, IJCAI 2018",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://par.nsf.gov/servlets/purl/10302370",
+        "title": "A Benchmarking Study of Embedding-based Entity ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.graphacademy.neo4j.com/courses/cypher-indexes-constraints/4-full-text/02-create-full-text-index/",
+        "title": "Creating and Using Full-text Indexes",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://community.neo4j.com/t/using-cypher-to-generate-cypher-statements-to-recreate-indexes-and-constraints/327",
+        "title": "Using Cypher to generate Cypher statements to recreate indexes and constraints",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://graphacademy.neo4j.com/courses/importing-relational-to-graph/2-modelling/5-planning-validation/",
+        "title": "Planning Constraints and Indexes - Neo4j GraphAcademy",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.graphacademy.neo4j.com/courses/cypher-indexes-constraints/3-indexes/02-create-index/",
+        "title": "Creating Single Property Indexes",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://graphacademy.neo4j.com/courses/cypher-indexes-constraints/5-index-usage/01-control-usage/",
+        "title": "Controlling Index Usage",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.aws.amazon.com/neptune/latest/userguide/best-practices-sparql.html",
+        "title": "Neptune Best Practices Using SPARQL",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.aws.amazon.com/neptune/latest/userguide/best-practices-gremlin.html",
+        "title": "General Best Practices for Using Gremlin with Neptune",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-traversal-tuning.html",
+        "title": "Tuning Gremlin queries using explain and profile - Amazon Neptune",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.aws.amazon.com/neptune/latest/userguide/full-text-search-non-string-indexing-mapping.html",
+        "title": "Mapping of SPARQL and Gremlin datatypes to OpenSearch",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-explain-background-indexing-examples.html",
+        "title": "How Neptune processes Gremlin queries using statement ...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://github.com/microsoft/graphrag",
+        "title": "microsoft/graphrag: A modular graph-based Retrieval ...",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/microsoft/graphrag/tree/main",
+        "title": "GitHub - microsoft/graphrag: A modular graph-based Retrieval-Augmented Generation (RAG) system",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/NirDiamant/RAG_Techniques/blob/main/all_rag_techniques/Microsoft_GraphRag.ipynb",
+        "title": "RAG_Techniques/all_rag_techniques/Microsoft_GraphRag.ipynb at main \u00b7 NirDiamant/RAG_Techniques",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/0xZee/Graph-RAG",
+        "title": "GitHub - 0xZee/Graph-RAG: Microsoft Graph-RAG Indexing and Quering",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://github.com/markmbain/microsoft-graphrag",
+        "title": "GitHub - markmbain/microsoft-graphrag: A modular graph-based Retrieval-Augmented Generation (RAG) system",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=AVG7AEOrNOs",
+        "title": "GraphRAG Pipeline Tutorial: Extract Entities & Build Knowledge Graphs",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://graphrag.com/concepts/intro-to-graphrag/",
+        "title": "Intro to GraphRAG",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://graphrag.com/reference/knowledge-graph/lexical-graph-extracted-entities/",
+        "title": "Lexical Graph with Extracted Entities - GraphRAG",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://microsoft.github.io/graphrag/index/methods/",
+        "title": "Methods - GraphRAG - Microsoft Open Source",
+        "need_type": "WORKING_EXAMPLE"
+      },
+      {
+        "url": "https://igor-polyakov.com/2025/11/17/building-a-graphrag-system-core-infrastructure-document-ingestion/",
+        "title": "Building a GraphRAG System \u2013 Core Infrastructure & Document ...",
+        "need_type": "WORKING_EXAMPLE"
+      }
+    ]
+  }
+]

@@ -1,0 +1,183 @@
+[
+  {
+    "timestamp": "2026-04-09T16:25:38",
+    "run_label": "reference-track:Neural Networks",
+    "sources": [
+      {
+        "url": "https://proceedings.mlr.press/v37/ioffe15.html",
+        "title": "Batch Normalization: Accelerating Deep Network Training by ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/1502.03167",
+        "title": "Batch Normalization: Accelerating Deep Network Training by ... - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://ar5iv.labs.arxiv.org/html/1502.03167",
+        "title": "Batch Normalization: Accelerating Deep Network Training by ... - ar5iv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://dl.acm.org/doi/10.5555/3045118.3045167",
+        "title": "Batch normalization | Proceedings of the 32nd International Conference on International Conference on Machine Learning - Volume 37",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://davidstutz.de/batch-normalization-accelerating-deep-network-training-reducing-internal-covariate-shift-ioffe-szegedy/",
+        "title": "\"Batch Normalization: Accelerating Deep Network Training by ...",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://arxiv.org/abs/1607.06450",
+        "title": "[1607.06450] Layer Normalization - arXiv",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://www.cs.utoronto.ca/~hinton/absps/LayerNormalization.pdf",
+        "title": "[PDF] Layer Normalization",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://gist.github.com/tkf/d74dc4efbaf6dc541838418741b05a2b",
+        "title": "An implementation of Layer Normalization (Ba, Kiros & Hinton, 2016)",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://hugocisneros.com/notes/layernorm/",
+        "title": "LayerNorm - Hugo Cisneros",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://search.r-project.org/CRAN/refmans/keras3/html/layer_layer_normalization.html",
+        "title": "Layer normalization layer (Ba et al., 2016).",
+        "need_type": "FORMULA_SOURCE"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf",
+        "title": "[PDF] Understanding the difficulty of training deep feedforward neural ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://proceedings.mlr.press/v9/glorot10a.html",
+        "title": "Understanding the difficulty of training deep feedforward neural ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.semanticscholar.org/paper/Understanding-the-difficulty-of-training-deep-Glorot-Bengio/ea9d2a2b4ce11aaf85136840c65f3bc9c03ab649",
+        "title": "[PDF] Understanding the difficulty of training deep feedforward neural networks | Semantic Scholar",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.adrian.idv.hk/2021-10-15-gb10-gradient/",
+        "title": "Glorot & Bengio (2010) Understanding the difficulty of training deep ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://dblp.org/rec/journals/jmlr/GlorotB10.html",
+        "title": "Understanding the difficulty of training deep feedforward ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.cv-foundation.org/openaccess/content_iccv_2015/papers/He_Delving_Deep_into_ICCV_2015_paper.pdf",
+        "title": "[PDF] Delving Deep into Rectifiers: Surpassing Human-Level Performance ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/1502.01852",
+        "title": "Delving Deep into Rectifiers: Surpassing Human-Level Performance ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/abs/1502.01852v1",
+        "title": "Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.semanticscholar.org/paper/Delving-Deep-into-Rectifiers:-Surpassing-on-He-Zhang/d6f2f611da110b5b5061731be3fc4c7f45d8ee23",
+        "title": "[PDF] Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification | Semantic Scholar",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://dl.acm.org/doi/10.1109/ICCV.2015.123",
+        "title": "Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.BatchNorm2d.html",
+        "title": "BatchNorm2d \u2014 PyTorch 2.11 documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://discuss.pytorch.org/t/how-does-one-use-the-mean-and-std-from-training-in-batch-norm/136029",
+        "title": "How does one use the mean and std from training in Batch Norm?",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/2.11/generated/torch.nn.BatchNorm2d.html",
+        "title": "BatchNorm2d",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/2.9/generated/torch.nn.BatchNorm2d.html",
+        "title": "BatchNorm2d \u2014 PyTorch 2.9 documentation",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.pytorch.org/docs/1.13/generated/torch.nn.BatchNorm2d.html",
+        "title": "BatchNorm2d\u00b6",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.tensorflow.org/api_docs/python/tf/keras/optimizers/AdamW",
+        "title": "tf.keras.optimizers.AdamW | TensorFlow v2.16.1",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.tensorflow.org/addons/api_docs/python/tfa/optimizers/AdamW",
+        "title": "Methods",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.tensorflow.org/api_docs/python/tf/keras/optimizers/Adam",
+        "title": "tf.keras.optimizers.Adam | TensorFlow v2.16.1",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.tensorflow.org/versions/r2.9/api_docs/python/tf/keras/optimizers/experimental/AdamW",
+        "title": "tf.keras.optimizers.experimental.AdamW | TensorFlow v2.9.3",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/keras/optimizers/Adam",
+        "title": "tf.keras.optimizers.Adam | TensorFlow v2.0.0",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://engineering.fb.com/2024/07/10/production-engineering/tail-utilization-ads-inference-meta/",
+        "title": "Taming the tail utilization of ads inference at Meta scale",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://engineering.fb.com/2024/06/19/data-infrastructure/parameter-vulnerability-factor-pvf-ai-silent-data-corruption/",
+        "title": "PVF: A novel metric for understanding AI systems\u2019 vulnerability against SDCs in model parameters",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://engineering.fb.com/2024/08/14/production-engineering/how-meta-animates-ai-generated-images-at-scale/",
+        "title": "How Meta animates AI-generated images at scale",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://engineering.fb.com/2009/12/16/core-infra/real-world-web-application-benchmarking/",
+        "title": "Real-World Web Application Benchmarking",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://engineering.fb.com/2025/10/17/ai-research/scaling-llm-inference-innovations-tensor-parallelism-context-parallelism-expert-parallelism/",
+        "title": "Scaling LLM Inference: Innovations in Tensor Parallelism, Context ...",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  }
+]

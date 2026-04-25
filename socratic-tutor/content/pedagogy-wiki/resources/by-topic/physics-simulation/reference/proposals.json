@@ -1,0 +1,258 @@
+[
+  {
+    "timestamp": "2026-04-09T16:28:11",
+    "run_label": "reference-track:Physics Simulation",
+    "sources": [
+      {
+        "url": "https://www.roboticsproceedings.org/rss20/p090.pdf",
+        "title": "[PDF] Octo: An Open-Source Generalist Robot Policy",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://octo-models.github.io/paper.pdf",
+        "title": "[PDF] An Open-Source Generalist Robot Policy - Octo",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2405.12213v2",
+        "title": "Octo: An Open-Source Generalist Robot Policy",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/abs/2405.12213",
+        "title": "[2405.12213] Octo: An Open-Source Generalist Robot Policy - arXiv",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://octo-models.github.io",
+        "title": "Octo: An Open-Source Generalist Robot Policy",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/abs/2310.08864",
+        "title": "Robotic Learning Datasets and RT-X Models",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://autolab.berkeley.edu/assets/publications/media/Open_X_Embodiment__Robotic_Learning_Datasets_and_RT_X_Models%20(1).pdf",
+        "title": "[PDF] Open X-Embodiment: Robotic Learning Datasets and RT-X Models",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/html/2406.18043v2",
+        "title": "1 Tasks",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://www.robot-learning.ml/2023/files/paper18.pdf",
+        "title": "Open X-Embodiment: Robotic Learning Datasets and",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://ucsdarclab.com/autopublication/open-x-embodiment-robotic-learning-datasets-and-rt-x-models/",
+        "title": "Open x-embodiment: Robotic learning datasets and rt-x models - UCSD ARCLAB",
+        "need_type": "CONCEPT_EXPLAINER"
+      },
+      {
+        "url": "https://arxiv.org/pdf/2307.15320.pdf",
+        "title": "Robust visual sim-to-real transfer for robotic manipulation",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/pdf/1703.06907.pdf",
+        "title": "Domain Randomization for Transferring Deep Neural ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://www.infocommunications.hu/documents/169298/4797540/InfocomJournal_2023_1_4_EarlyAccess.pdf",
+        "title": "[PDF] Enhancing Visual Domain Randomization with Real Images for Sim ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://real.mtak.hu/165177/1/InfocomJournal_2023_1_3.pdf",
+        "title": "Enhancing Visual Domain Randomization with Real ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://darshanhegde.github.io/blog/2020/sim2real-for-robotic-manipulation/",
+        "title": "Darshan Hegde",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://docs.isaacsim.omniverse.nvidia.com/4.5.0/reference_material/benchmarks.html",
+        "title": "Isaac Sim Benchmarks - NVIDIA",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://isaac-sim.github.io/IsaacLab/main/source/overview/reinforcement-learning/performance_benchmarks.html",
+        "title": "Performance Benchmarks \u2014 Isaac Lab Documentation",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://docs.isaacsim.omniverse.nvidia.com/5.0.0/reference_material/benchmarks.html",
+        "title": "Isaac Sim Benchmarks",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2507.00236v3",
+        "title": "Sim2Real Diffusion: Leveraging Foundation Vision ...",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2507.00236",
+        "title": "Iii-A Ablation Studies",
+        "need_type": "EMPIRICAL_DATA"
+      },
+      {
+        "url": "https://docs.omniverse.nvidia.com/isaacsim/latest/simulation_fundamentals.html?highlight=Deformable%2520Body",
+        "title": "Physics Simulation Fundamentals",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.omniverse.nvidia.com/kit/docs/omni_physics/107.3/dev_guide/deformables_beta/physx_deformable_schema.html",
+        "title": "Physxautodeformablemeshsimpl...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.omniverse.nvidia.com/kit/docs/omni_physics/106.5/dev_guide/guides/physics-performance.html",
+        "title": "Simulation Performance Guide#",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.omniverse.nvidia.com/py/isaacsim/genindex.html",
+        "title": "Index",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.omniverse.nvidia.com/kit/docs/omni_physics/107.0/dev_guide/guides/physics-performance.html",
+        "title": "Simulation Performance Guide \u2014 Omni Physics",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.omniverse.nvidia.com/py/isaacsim/source/extensions/omni.isaac.sensor/docs/index.html",
+        "title": "Isaac Sensor Extension [omni.isaac.sensor]",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.omniverse.nvidia.com/isaacsim/latest/features/sensors_simulation/ext_omni_isaac_sensor.html",
+        "title": "Isaac Sensor Extension",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.omniverse.nvidia.com/materials-and-rendering/latest/rtx-renderer_pt.html",
+        "title": "RTX \u2013 Interactive (Path Tracing) mode - NVIDIA Omniverse",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.omniverse.nvidia.com/guide_rtx-best-practices/latest/project-settings.html",
+        "title": "Project \u2014 RTX Best Practices for Real-Time Configurators",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://docs.omniverse.nvidia.com/kit/docs/omni.sensors.nv.camera/latest/camera_extension.html",
+        "title": "Camera Simulation In...",
+        "need_type": "API_REFERENCE"
+      },
+      {
+        "url": "https://leggedrobotics.github.io/SimBenchmark/",
+        "title": "SimBenchmark | Physics engine benchmark for robotics applications",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://microcosm.ai/wp-content/uploads/2024/11/2407.08590v2.pdf",
+        "title": "[PDF] A Review of Nine Physics Engines for Reinforcement Learning ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "http://graphics.cs.cmu.edu/nsp/papers/ChungCAVW2016.pdf",
+        "title": "[PDF] Predictable behavior during contact simulation: a comparison of ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://pure.tue.nl/ws/portalfiles/portal/355282956/1739255-BEP_Surface_contact_algorithms.pdf",
+        "title": "Eindhoven University of Technology",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://arxiv.org/html/2407.08590v1",
+        "title": "A Review of Nine Physics Engines for Reinforcement Learning ...",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://dingxuda.com/publication/Physics_Engines_Test.pdf",
+        "title": "Performance Comparison of Typical Physics Engines Using Robot Mod\u2026",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://leggedrobotics.github.io/SimBenchmark/",
+        "title": "SimBenchmark | Physics engine benchmark for robotics applications",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://github.com/google-deepmind/mujoco/issues/986",
+        "title": "Asking for advice on improving the simulation performance \u00b7 Issue #986 \u00b7 google-deepmind/mujoco",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://github.com/leggedrobotics/SimBenchmark/blob/master/README.md",
+        "title": "SimBenchmark/README.md at master \u00b7 leggedrobotics/SimBenchmark",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://www.roboticsproceedings.org/rss20/p108.pdf",
+        "title": "Robotics: Science and Systems 2024",
+        "need_type": "COMPARISON_DATA"
+      },
+      {
+        "url": "https://datasets-benchmarks-proceedings.neurips.cc/paper/2021/file/28dd2c7955ce926456240b2ff0100bde-Paper-round2.pdf",
+        "title": "Isaac Gym: High Performance GPU Based Physics",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.emergentmind.com/papers/2108.10470",
+        "title": "Isaac Gym: GPU-Based Physics for Robot Learning",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://imrclab.github.io/workshop-uav-sims-icra2023/papers/RS4UAVs_paper_12.pdf",
+        "title": "Isaac Gym Simulator for Aerial Robots",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=VrTVUpDM7K8",
+        "title": "Isaac Gym Part 3B: Academic Labs - IMLab",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://isaac-sim.github.io/IsaacLab/main/source/migration/migrating_from_omniisaacgymenvs.html",
+        "title": "From OmniIsaacGymEnvs \u2014 Isaac Lab Documentation",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://arxiv.org/html/2410.00425v2",
+        "title": "Demonstrating GPU Parallelized Robot Simulation and ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.emergentmind.com/papers/2109.11978",
+        "title": "Rapid Robotic Locomotion Using Parallel DRL",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://research.tudelft.nl/en/publications/rex-gpu-accelerated-sim2real-framework-with-delay-and-dynamics-es/",
+        "title": "REX: GPU-Accelerated Sim2Real Framework with Delay ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://developer.nvidia.com/blog/closing-the-sim-to-real-gap-training-spot-quadruped-locomotion-with-nvidia-isaac-lab/",
+        "title": "Closing the Sim-to-Real Gap: Training Spot Quadruped Locomotion ...",
+        "need_type": "DEPLOYMENT_CASE"
+      },
+      {
+        "url": "https://www.pair.toronto.edu/blog/2021/remote-sim2real-trifinger/",
+        "title": "PAIR Lab",
+        "need_type": "DEPLOYMENT_CASE"
+      }
+    ]
+  }
+]
