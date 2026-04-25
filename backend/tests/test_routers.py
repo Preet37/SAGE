@@ -1,278 +1,218 @@
-"""Integration tests for the FastAPI router surface.
-
-Tests run against an in-memory-style sqlite (the seeded `sage.db` is reused
-between tests). Each test is isolated by registering a fresh user.
-"""
+"""Integration tests for the current FastAPI router surface."""
 
 from __future__ import annotations
 
+import asyncio
 import os
 import secrets
+from pathlib import Path
 
-import pytest
 from fastapi.testclient import TestClient
 
-# Ensure tests use a dedicated DB so they don't clobber developer state.
 os.environ.setdefault("DATABASE_URL", "sqlite:///./sage_test.db")
+os.environ.setdefault("RATE_LIMIT_DISABLED", "1")
+Path("sage_test.db").unlink(missing_ok=True)
 
+from app.database import AsyncSessionLocal, create_tables  # noqa: E402
 from app.main import app  # noqa: E402
+from app.models.concept import ConceptEdge, ConceptNode  # noqa: E402
+from app.models.lesson import Course, Lesson, LessonChunk  # noqa: E402
 
 
-@pytest.fixture(scope="module")
-def client() -> TestClient:
-    return TestClient(app)
+def _run(coro):
+    return asyncio.run(coro)
 
 
-@pytest.fixture
-def auth(client: TestClient) -> tuple[str, dict[str, str]]:
-    """Register a unique user and return (email, headers)."""
+async def _seed_course(title: str = "Biology") -> dict[str, int | str]:
+    await create_tables()
+    slug = f"course-{secrets.token_hex(4)}"
+    lesson_slug = f"lesson-{secrets.token_hex(4)}"
+    async with AsyncSessionLocal() as db:
+        course = Course(
+            slug=slug,
+            title=title,
+            description="Seeded test course",
+            level="beginner",
+            tags=["test"],
+        )
+        db.add(course)
+        await db.flush()
+        lesson = Lesson(
+            course_id=course.id,
+            slug=lesson_slug,
+            title="Photosynthesis",
+            order=1,
+            summary="How plants convert light.",
+            content_md="Photosynthesis converts light energy into chemical energy. Chlorophyll absorbs light.",
+            key_concepts=["Photosynthesis", "Chlorophyll"],
+            estimated_minutes=15,
+        )
+        db.add(lesson)
+        await db.flush()
+        db.add(LessonChunk(lesson_id=lesson.id, chunk_index=0, text=lesson.content_md))
+        n1 = ConceptNode(course_id=course.id, lesson_id=lesson.id, label="Photosynthesis")
+        n2 = ConceptNode(course_id=course.id, lesson_id=lesson.id, label="Chlorophyll")
+        db.add_all([n1, n2])
+        await db.flush()
+        db.add(ConceptEdge(source_id=n1.id, target_id=n2.id, edge_type="relates", weight=1.0))
+        await db.commit()
+        return {
+            "course_id": course.id,
+            "course_slug": slug,
+            "lesson_id": lesson.id,
+            "lesson_slug": lesson_slug,
+            "concept_id": n1.id,
+        }
+
+
+def _register(client: TestClient) -> tuple[str, dict[str, str]]:
     email = f"u-{secrets.token_hex(4)}@sage.example.com"
     password = "test-password-123"
-    r = client.post("/auth/register", json={"email": email, "name": "Tester", "password": password})
-    assert r.status_code == 201, r.text
-    r = client.post("/auth/login", data={"username": email, "password": password})
+    r = client.post(
+        "/auth/register",
+        json={
+            "email": email,
+            "username": email.split("@")[0],
+            "display_name": "Tester",
+            "password": password,
+        },
+    )
+    assert r.status_code == 200, r.text
+    r = client.post("/auth/token", data={"username": email, "password": password})
     assert r.status_code == 200, r.text
     return email, {"Authorization": f"Bearer {r.json()['access_token']}"}
 
 
-# ----- Health / root ------------------------------------------------------
+def test_health_root_and_request_id() -> None:
+    with TestClient(app) as client:
+        assert client.get("/health").json()["status"] == "ok"
+        root = client.get("/").json()
+        assert root["service"] == "sage"
+        assert "tutor-streaming" in root["features"]
+        r = client.get("/health", headers={"X-Request-Id": "abc-123"})
+        assert r.headers["X-Request-Id"] == "abc-123"
+        r = client.get("/health", headers={"X-Request-Id": "bad\nid"})
+        assert "\n" not in r.headers["X-Request-Id"]
 
 
-def test_health_ok(client: TestClient) -> None:
-    r = client.get("/health")
-    assert r.status_code == 200
-    assert r.json()["status"] == "ok"
+def test_auth_register_login_me_and_mode() -> None:
+    with TestClient(app) as client:
+        email, headers = _register(client)
+        me = client.get("/auth/me", headers=headers)
+        assert me.status_code == 200
+        assert me.json()["email"] == email
+        mode = client.patch("/auth/me/mode", headers=headers, json={"mode": "eli5"})
+        assert mode.status_code == 200
+        assert mode.json()["teaching_mode"] == "eli5"
+        assert client.patch("/auth/me/mode", headers=headers, json={"mode": "bad"}).status_code == 422
 
 
-def test_root_describes_features(client: TestClient) -> None:
-    r = client.get("/")
-    assert r.status_code == 200
-    body = r.json()
-    assert body["service"] == "sage"
-    assert "tutor-streaming" in body["features"]
+def test_courses_lessons_and_concept_map() -> None:
+    seeded = _run(_seed_course())
+    with TestClient(app) as client:
+        _, headers = _register(client)
+        courses = client.get("/courses/").json()
+        assert any(c["id"] == seeded["course_id"] for c in courses)
+        lesson = client.get(
+            f"/courses/{seeded['course_slug']}/lessons/{seeded['lesson_slug']}"
+        ).json()
+        assert lesson["course_id"] == seeded["course_id"]
+        assert "Photosynthesis converts" in lesson["content_md"]
+        concept_map = client.get(f"/concept-map/{seeded['course_id']}", headers=headers).json()
+        assert len(concept_map["nodes"]) >= 2
+        mastery = client.post(
+            "/concept-map/mastery",
+            headers=headers,
+            json={"concept_id": seeded["concept_id"], "score": 1.5},
+        ).json()
+        assert mastery["score"] == 1.0
+        next_concepts = client.get(f"/concept-map/next/{seeded['course_id']}", headers=headers).json()
+        assert isinstance(next_concepts, list)
 
 
-def test_request_id_header_round_trips(client: TestClient) -> None:
-    r = client.get("/health", headers={"X-Request-Id": "abc-123"})
-    assert r.headers.get("X-Request-Id") == "abc-123"
+def test_tutor_stream_persists_replay(monkeypatch) -> None:
+    seeded = _run(_seed_course())
+
+    async def fake_stream(system_prompt, messages):
+        yield "Photosynthesis converts light energy. "
+        yield "Chlorophyll absorbs light in plants."
+
+    monkeypatch.setattr("app.routers.tutor._stream_anthropic", fake_stream)
+    monkeypatch.setattr("app.routers.tutor._stream_openai", fake_stream)
+
+    with TestClient(app) as client:
+        _, headers = _register(client)
+        s = client.post(
+            "/tutor/session",
+            headers=headers,
+            json={"lesson_id": seeded["lesson_id"], "teaching_mode": "default"},
+        )
+        assert s.status_code == 200, s.text
+        session_id = s.json()["session_id"]
+        r = client.post(
+            "/tutor/chat",
+            headers=headers,
+            json={
+                "lesson_id": seeded["lesson_id"],
+                "session_id": session_id,
+                "message": "Why is chlorophyll useful?",
+                "history": [],
+            },
+        )
+        assert r.status_code == 200
+        events = {line.split(":", 1)[1].strip() for line in r.text.splitlines() if line.startswith("event:")}
+        assert {"agent_event", "token", "verification", "done"} <= events
+        replay = client.get(f"/replay/sessions/{session_id}", headers=headers).json()
+        assert len(replay["turns"]) == 2
+        assert replay["turns"][1]["agent_trace"]["events"]
 
 
-# ----- Auth ---------------------------------------------------------------
+def test_network_dashboard_accessibility_and_notes(monkeypatch) -> None:
+    seeded = _run(_seed_course("Network"))
 
+    async def fake_complete(prompt: str, system: str = "", max_tokens: int = 512) -> str:
+        if "Return ONLY this JSON" in prompt:
+            return '{"revised":"Improved notes","gaps_identified":[],"concept_connections":[],"misconceptions":[],"strength_score":0.8,"suggestions":["Add examples"]}'
+        return "# Study plan\n\nUse chlorophyll examples."
 
-def test_me_requires_auth(client: TestClient) -> None:
-    assert client.get("/auth/me").status_code == 401
+    monkeypatch.setattr("app.agents.base.asi1_complete", fake_complete)
 
+    with TestClient(app) as client:
+        _, h1 = _register(client)
+        _, h2 = _register(client)
+        wait = client.post(
+            "/network/peer-match",
+            headers=h1,
+            json={"concept_id": seeded["concept_id"], "lesson_id": seeded["lesson_id"]},
+        ).json()
+        match = client.post(
+            "/network/peer-match",
+            headers=h2,
+            json={"concept_id": seeded["concept_id"], "lesson_id": seeded["lesson_id"]},
+        ).json()
+        assert wait["waiting"] is True
+        assert match["matched"] is True
 
-def test_register_login_me(client: TestClient, auth: tuple[str, dict[str, str]]) -> None:
-    email, headers = auth
-    r = client.get("/auth/me", headers=headers)
-    assert r.status_code == 200
-    assert r.json()["email"] == email
-    assert r.json()["teaching_mode"] == "default"
+        overview = client.get("/dashboard/overview", headers=h1)
+        assert overview.status_code == 200
+        course = client.get(f"/dashboard/course/{seeded['course_id']}", headers=h1)
+        assert course.status_code == 200
 
+        saved = client.post(
+            "/accessibility/me",
+            headers=h1,
+            json={"disabilities": ["adhd"], "strengths": ["visual_learner"], "custom_note": "brief"},
+        )
+        assert saved.status_code == 200
 
-def test_update_teaching_mode(client: TestClient, auth: tuple[str, dict[str, str]]) -> None:
-    _, headers = auth
-    r = client.patch("/auth/me/mode", headers=headers, json={"mode": "eli5"})
-    assert r.status_code == 200, r.text
-    assert r.json()["teaching_mode"] == "eli5"
+        revised = client.post(
+            "/notes/revise",
+            headers=h1,
+            json={"lesson_id": seeded["lesson_id"], "content": "chlorophyll notes"},
+        )
+        assert revised.status_code == 200
+        assert revised.json()["revised"] == "Improved notes"
 
-
-def test_update_teaching_mode_rejects_unknown(
-    client: TestClient, auth: tuple[str, dict[str, str]]
-) -> None:
-    _, headers = auth
-    r = client.patch("/auth/me/mode", headers=headers, json={"mode": "rubber-duck"})
-    assert r.status_code == 422
-
-
-# ----- Courses ------------------------------------------------------------
-
-
-def test_courses_create_list_get_delete(
-    client: TestClient, auth: tuple[str, dict[str, str]]
-) -> None:
-    _, headers = auth
-    r = client.post(
-        "/courses",
-        headers=headers,
-        json={"title": "Test Lesson", "subject": "CS", "objective": "x"},
-    )
-    assert r.status_code == 201, r.text
-    cid = r.json()["id"]
-
-    listing = client.get("/courses", headers=headers).json()
-    assert any(c["id"] == cid for c in listing)
-
-    detail = client.get(f"/courses/{cid}", headers=headers).json()
-    assert detail["title"] == "Test Lesson"
-
-    assert client.delete(f"/courses/{cid}", headers=headers).status_code == 204
-
-
-# ----- Tutor + replay end-to-end -----------------------------------------
-
-
-def test_chat_persists_messages_and_concepts(
-    client: TestClient, auth: tuple[str, dict[str, str]]
-) -> None:
-    _, headers = auth
-    course = client.post(
-        "/courses",
-        headers=headers,
-        json={
-            "title": "Chlorophyll",
-            "subject": "Biology",
-            "objective": "Chlorophyll absorbs light during photosynthesis.",
-        },
-    ).json()
-    sid = client.post(
-        "/tutor/sessions", headers=headers, json={"lesson_id": course["id"]}
-    ).json()["id"]
-
-    r = client.get(
-        f"/tutor/chat?session_id={sid}&message=Why+is+chlorophyll+green",
-        headers=headers,
-    )
-    assert r.status_code == 200
-    events = {l.split(":", 1)[1].strip() for l in r.text.split("\n") if l.startswith("event:")}
-    assert {"agent_event", "token", "verification", "done"} <= events
-
-    replay = client.get(f"/replay/{sid}", headers=headers).json()
-    assert len(replay["messages"]) >= 2
-    assistant = [m for m in replay["messages"] if m["role"] == "assistant"][0]
-    assert "agent_trace" in assistant
-    assert "plan" in assistant["agent_trace"]
-
-
-def test_session_for_unknown_lesson_404(
-    client: TestClient, auth: tuple[str, dict[str, str]]
-) -> None:
-    _, headers = auth
-    r = client.post("/tutor/sessions", headers=headers, json={"lesson_id": 99_999})
-    assert r.status_code == 404
-
-
-# ----- Concept map --------------------------------------------------------
-
-
-def test_concept_mastery_bump_clamps(client: TestClient, auth: tuple[str, dict[str, str]]) -> None:
-    _, headers = auth
-    course = client.post(
-        "/courses", headers=headers, json={"title": "M", "subject": "x", "objective": "x"}
-    ).json()
-    sid = client.post(
-        "/tutor/sessions", headers=headers, json={"lesson_id": course["id"]}
-    ).json()["id"]
-    client.get(
-        f"/tutor/chat?session_id={sid}&message=Tell+me+about+vectors",
-        headers=headers,
-    )
-    cm = client.get(f"/concept-map/{sid}", headers=headers).json()
-    if not cm:
-        pytest.skip("concept extractor produced nothing for stub answer")
-    cid = cm[0]["id"]
-    r = client.patch(
-        f"/concept-map/{sid}/concepts/{cid}/mastery",
-        headers=headers,
-        json={"delta": 5.0},
-    )
-    # delta is clamped at the schema layer
-    assert r.status_code == 422
-
-
-# ----- Notes --------------------------------------------------------------
-
-
-def test_study_plan_returns_markdown(client: TestClient, auth: tuple[str, dict[str, str]]) -> None:
-    _, headers = auth
-    sid = client.post("/tutor/sessions", headers=headers, json={"lesson_id": None}).json()["id"]
-    r = client.post(f"/notes/{sid}/study-plan", headers=headers)
-    assert r.status_code == 200
-    body = r.json()
-    assert body["filename"].endswith(".md")
-    assert "Study plan" in body["markdown"]
-
-
-# ----- Network ------------------------------------------------------------
-
-
-def test_peer_match_waiting_then_matched(
-    client: TestClient, auth: tuple[str, dict[str, str]]
-) -> None:
-    _, h1 = auth
-    # Second user
-    email2 = f"u-{secrets.token_hex(4)}@sage.example.com"
-    client.post(
-        "/auth/register", json={"email": email2, "name": "Two", "password": "test-password-123"}
-    )
-    tok2 = client.post(
-        "/auth/login", data={"username": email2, "password": "test-password-123"}
-    ).json()["access_token"]
-    h2 = {"Authorization": f"Bearer {tok2}"}
-
-    r1 = client.post("/network/peer-match", headers=h1, json={"concept": "X-test"}).json()
-    assert r1["state"] == "waiting"
-    r2 = client.post("/network/peer-match", headers=h2, json={"concept": "X-test"}).json()
-    assert r2["state"] == "matched"
-    assert r2["room_token"] == r1["room_token"]
-
-
-# ----- Dashboard ----------------------------------------------------------
-
-
-def test_course_dashboard(client: TestClient, auth: tuple[str, dict[str, str]]) -> None:
-    _, headers = auth
-    course = client.post(
-        "/courses", headers=headers, json={"title": "D", "subject": "x", "objective": "x"}
-    ).json()
-    r = client.get(f"/dashboard/course/{course['id']}", headers=headers)
-    assert r.status_code == 200
-    assert r.json()["course"]["id"] == course["id"]
-
-
-def test_dashboard_separates_my_courses_from_catalog(
-    client: TestClient, auth: tuple[str, dict[str, str]]
-) -> None:
-    _, headers = auth
-    client.post(
-        "/courses", headers=headers, json={"title": "Mine", "subject": "x", "objective": "x"}
-    )
-    body = client.get("/dashboard", headers=headers).json()
-    assert body["my_courses"] >= 1
-    assert body["catalog_size"] >= body["my_courses"]
-
-
-# ----- Hardening ---------------------------------------------------------
-
-
-def test_request_id_with_control_chars_is_replaced(client: TestClient) -> None:
-    """Newlines/tabs in X-Request-Id must not be echoed back (log injection)."""
-    r = client.get("/health", headers={"X-Request-Id": "bad\nid\twith\rcontrol"})
-    rid = r.headers.get("X-Request-Id", "")
-    assert "\n" not in rid and "\t" not in rid and "\r" not in rid
-    assert rid != "bad\nid\twith\rcontrol"
-
-
-def test_peer_match_dedupes_repeat_requests(
-    client: TestClient, auth: tuple[str, dict[str, str]]
-) -> None:
-    _, headers = auth
-    r1 = client.post("/network/peer-match", headers=headers, json={"concept": "Dedupe"}).json()
-    assert r1["state"] == "waiting"
-    waiting_after_first = client.get("/network/status", headers=headers).json()["waiting"]
-    # Second call from same user should NOT add a duplicate waiter.
-    client.post("/network/peer-match", headers=headers, json={"concept": "Dedupe"})
-    waiting_after_second = client.get("/network/status", headers=headers).json()["waiting"]
-    assert waiting_after_second == waiting_after_first
-
-
-def test_replay_pagination(client: TestClient, auth: tuple[str, dict[str, str]]) -> None:
-    _, headers = auth
-    sid = client.post("/tutor/sessions", headers=headers, json={"lesson_id": None}).json()["id"]
-    # Pagination is accepted even with zero messages.
-    r = client.get(f"/replay/{sid}?limit=10&offset=0", headers=headers)
-    assert r.status_code == 200
-    # Out-of-range limit is rejected.
-    assert client.get(f"/replay/{sid}?limit=2000", headers=headers).status_code == 422
+        plan = client.post(f"/notes/generate-plan?lesson_id={seeded['lesson_id']}", headers=h1)
+        assert plan.status_code == 200
+        assert plan.json()["download_filename"].endswith(".md")

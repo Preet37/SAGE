@@ -88,7 +88,7 @@ def build_system_prompt(
     mastery: list[ConceptMastery],
     sources: list[str] | None = None,
     objective: str | None = None,
-    expert_teacher_mode: bool = True,
+    expert_teacher_mode: bool = False,
 ) -> str:
     parts: list[str] = [EXPERT_TEACHER_CORE if expert_teacher_mode else SOCRATIC_CORE]
 

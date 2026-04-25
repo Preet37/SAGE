@@ -4,18 +4,42 @@ import { useState, useRef, useCallback } from 'react';
 interface Props { onTranscript: (text: string) => void }
 
 type VoiceState = 'idle' | 'listening' | 'processing';
+type SpeechResultEvent = {
+  resultIndex: number;
+  results: {
+    length: number;
+    [index: number]: { isFinal: boolean; [index: number]: { transcript: string } };
+  };
+};
+type SpeechRecognitionLike = {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  onstart: (() => void) | null;
+  onresult: ((event: SpeechResultEvent) => void) | null;
+  onend: (() => void) | null;
+  onerror: (() => void) | null;
+  start: () => void;
+  stop: () => void;
+};
+type SpeechRecognitionConstructor = new () => SpeechRecognitionLike;
+type SpeechWindow = Window & {
+  SpeechRecognition?: SpeechRecognitionConstructor;
+  webkitSpeechRecognition?: SpeechRecognitionConstructor;
+};
 
 export default function VoiceAgent({ onTranscript }: Props) {
   const [state, setState] = useState<VoiceState>('idle');
   const [transcript, setTranscript] = useState('');
-  const [supported] = useState(() => typeof window !== 'undefined' && 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const recogRef = useRef<any>(null);
+  const [supported] = useState(() => (
+    typeof window !== 'undefined' &&
+    ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)
+  ));
+  const recogRef = useRef<SpeechRecognitionLike | null>(null);
 
   const startListening = useCallback(() => {
     if (!supported) return;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const w = window as any;
+    const w = window as SpeechWindow;
     const SpeechRec = w.SpeechRecognition || w.webkitSpeechRecognition;
     if (!SpeechRec) return;
 
@@ -26,8 +50,7 @@ export default function VoiceAgent({ onTranscript }: Props) {
     recogRef.current = rec;
 
     rec.onstart = () => setState('listening');
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    rec.onresult = (e: any) => {
+    rec.onresult = (e: SpeechResultEvent) => {
       let interim = '';
       let final = '';
       for (let i = e.resultIndex; i < e.results.length; i++) {

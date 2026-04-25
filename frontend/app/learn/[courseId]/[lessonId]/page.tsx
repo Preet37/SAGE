@@ -2,13 +2,14 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useAuthStore, useTutorStore } from '@/lib/store';
-import { getLesson, createSession, streamChat, getConceptMap } from '@/lib/api';
+import { getLesson, createSession, streamChat, getConceptMap, updateTeachingMode } from '@/lib/api';
 import TutorChat from '@/components/tutor/TutorChat';
 import ConceptMap from '@/components/concept-map/ConceptMap';
 import AgentPanel from '@/components/agents/AgentPanel';
 import VoiceAgent from '@/components/voice/VoiceAgent';
 import NetworkPanel from '@/components/network/NetworkPanel';
 import NotesPanel from '@/components/notes/NotesPanel';
+import ReplayPanel from '@/components/replay/ReplayPanel';
 import ModelDownloadBanner from '@/components/offline/ModelDownloadBanner';
 import OfflineBadge from '@/components/offline/OfflineBadge';
 import AccessibilityModal from '@/components/accessibility/AccessibilityModal';
@@ -19,7 +20,7 @@ import { lessonCache, sessionStore } from '@/lib/offline/store';
 import { splitIntoChunks } from '@/lib/offline/retriever';
 
 interface Lesson {
-  id: number; slug: string; title: string; summary: string;
+  id: number; course_id: number; slug: string; title: string; summary: string;
   key_concepts: string[]; estimated_minutes: number; content_md: string;
 }
 
@@ -38,7 +39,7 @@ export default function LessonPage() {
 
   const { token } = useAuthStore();
   const router = useRouter();
-  const { setSessionId, setTeachingMode, teachingMode, clearMessages, addAgentEvent, addMessage, appendToLast, setStreaming, updateLastVerification } = useTutorStore();
+  const { sessionId: activeSessionId, setSessionId, setTeachingMode, teachingMode, clearMessages, addAgentEvent, addMessage, appendToLast, setStreaming, updateLastVerification } = useTutorStore();
 
   const { isOnline } = useConnectivity();
   const wasOnlineRef = useRef(true);
@@ -49,6 +50,7 @@ export default function LessonPage() {
   const [activePanel, setActivePanel] = useState<'chat' | 'map' | 'network' | 'notes' | 'replay'>('chat');
   const [showAccessibility, setShowAccessibility] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [uiHints, setUiHints] = useState<string[]>([]);
 
   useEffect(() => {
     if (!token) { router.push('/login'); return; }
@@ -66,13 +68,7 @@ export default function LessonPage() {
 
   async function init() {
     try {
-      const [l, _session] = await Promise.all([
-        getLesson(courseId, lessonId),
-        (async () => {
-          const s = await createSession(token!, 0, teachingMode);
-          return s;
-        })(),
-      ]);
+      const l = await getLesson(courseId, lessonId);
       setLesson(l);
 
       // pre-cache lesson content for offline RAG
@@ -96,13 +92,34 @@ export default function LessonPage() {
 
       // load concept map
       try {
-        const map = await getConceptMap(token!, 1); // course id 1 for demo
+        const map = await getConceptMap(token!, l.course_id);
         setConceptMap(map);
+      } catch {}
+
+      // fetch accessibility profile and apply ui_hints
+      try {
+        const BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+        const accRes = await fetch(`${BASE}/accessibility/me`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (accRes.ok) {
+          const accData = await accRes.json();
+          setUiHints(accData.ui_hints || []);
+        }
       } catch {}
     } catch (e) {
       console.error(e);
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function handleModeChange(mode: string) {
+    setTeachingMode(mode);
+    if (token) {
+      try {
+        await updateTeachingMode(token, mode);
+      } catch {}
     }
   }
 
@@ -170,8 +187,19 @@ export default function LessonPage() {
 
   if (!lesson) return <div className="min-h-screen flex items-center justify-center text-t2">Lesson not found</div>;
 
+  const accessibilityClass = [
+    uiHints.includes('large_font') ? 'text-base' : '',
+    uiHints.includes('high_contrast') ? 'contrast-more' : '',
+    uiHints.includes('focus_mode') ? 'sage-focus-mode' : '',
+  ].filter(Boolean).join(' ');
+
+  const wrapperStyle = uiHints.includes('large_font') ? { fontSize: '110%' } : undefined;
+
   return (
-    <div className="h-screen flex flex-col overflow-hidden bg-bg">
+    <div
+      className={`h-screen flex flex-col overflow-hidden bg-bg${accessibilityClass ? ` ${accessibilityClass}` : ''}`}
+      style={wrapperStyle}
+    >
       {/* Topbar */}
       <header className="flex-shrink-0 h-12 border-b border-white/5 bg-bg/90 backdrop-blur-md flex items-center gap-3 px-4 z-20">
         <Link href="/learn" className="text-t2 hover:text-t0 transition-colors text-sm">← Courses</Link>
@@ -187,7 +215,7 @@ export default function LessonPage() {
           {MODES.map(m => (
             <button
               key={m.id}
-              onClick={() => setTeachingMode(m.id)}
+              onClick={() => handleModeChange(m.id)}
               title={m.tip}
               className={`text-[11px] font-semibold px-2.5 py-1 rounded-lg transition-all ${
                 teachingMode === m.id
@@ -215,9 +243,15 @@ export default function LessonPage() {
       </header>
 
       {/* Main 3-column layout */}
-      <div className="flex-1 flex overflow-hidden">
+      <div
+        className="flex-1 flex overflow-hidden"
+        aria-live={uiHints.includes('screen_reader') ? 'polite' : undefined}
+      >
         {/* LEFT: Agent panel */}
-        <div className="w-64 flex-shrink-0 border-r border-white/5 overflow-y-auto bg-bg1">
+        <div
+          className="w-64 flex-shrink-0 border-r border-white/5 overflow-y-auto bg-bg1"
+          style={uiHints.includes('focus_mode') ? { display: 'none' } : undefined}
+        >
           <AgentPanel />
         </div>
 
@@ -248,18 +282,16 @@ export default function LessonPage() {
 
           <div className="flex-1 overflow-hidden">
             {activePanel === 'chat' && <TutorChat onSend={handleSend} lesson={lesson} />}
-            {activePanel === 'map' && <ConceptMap data={conceptMap} courseId={1} />}
+            {activePanel === 'map' && <ConceptMap data={conceptMap} courseId={lesson.course_id} />}
             {activePanel === 'network' && <NetworkPanel lessonId={lesson.id} />}
             {activePanel === 'notes' && <NotesPanel lessonId={lesson.id} />}
-            {activePanel === 'replay' && (
-              <div className="p-6 text-t2 text-sm">Session replay available after completing the session.</div>
-            )}
+            {activePanel === 'replay' && <ReplayPanel activeSessionId={activeSessionId} />}
           </div>
         </div>
 
         {/* RIGHT: Key concepts + voice + ZETIC */}
         <div className="w-72 flex-shrink-0 border-l border-white/5 bg-bg1 flex flex-col overflow-hidden">
-          <VoiceAgent onTranscript={handleSend} />
+          {!uiHints.includes('no_voice_ui') && <VoiceAgent onTranscript={handleSend} />}
           <div className="border-t border-white/5 p-4 flex-1 overflow-y-auto space-y-5">
             <div>
               <div className="text-[10px] font-bold uppercase tracking-widest text-t3 mb-3">Key Concepts</div>

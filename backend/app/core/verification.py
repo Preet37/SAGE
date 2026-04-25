@@ -16,8 +16,80 @@ class VerificationResult:
     score: float = 1.0
 
 
+@dataclass
+class ClaimReport:
+    claim: str
+    score: float
+    grounded: bool
+    source_index: Optional[int]
+
+
+@dataclass
+class VerificationReport:
+    score: float
+    grounded: bool
+    claims: list[ClaimReport]
+
+    def to_payload(self) -> dict:
+        return {
+            "score": self.score,
+            "grounded": self.grounded,
+            "claims": [
+                {
+                    "claim": c.claim,
+                    "score": c.score,
+                    "grounded": c.grounded,
+                    "source_index": c.source_index,
+                }
+                for c in self.claims
+            ],
+        }
+
+
 URL_PATTERN = re.compile(r"https?://\S+")
 QUIZ_PATTERN = re.compile(r"<quiz>(.*?)</quiz>", re.DOTALL)
+
+
+def split_claims(text: str) -> list[str]:
+    text = text.strip()
+    if not text:
+        return []
+    return [m.group(0).strip() for m in re.finditer(r"[^.!?]+[.!?]", text) if m.group(0).strip()]
+
+
+def _keywords(text: str) -> set[str]:
+    return set(re.findall(r"\b\w{4,}\b", text.lower()))
+
+
+def claim_support(claim: str, sources: list[str], threshold: float = 0.4) -> tuple[float, Optional[int]]:
+    claim_words = _keywords(claim)
+    if not claim_words or not sources:
+        return (1.0 if not claim_words else 0.0), None
+    best_score = 0.0
+    best_idx: Optional[int] = None
+    for idx, source in enumerate(sources):
+        source_words = _keywords(source)
+        score = len(claim_words & source_words) / len(claim_words)
+        if score > best_score:
+            best_score = score
+            best_idx = idx
+    return best_score, best_idx if best_score >= threshold else None
+
+
+def verify(answer: str, sources: list[str], threshold: float = 0.4) -> VerificationReport:
+    claims = split_claims(answer)
+    if not claims:
+        return VerificationReport(score=1.0, grounded=True, claims=[])
+    reports = []
+    for claim in claims:
+        score, idx = claim_support(claim, sources, threshold=threshold)
+        reports.append(ClaimReport(claim=claim, score=score, grounded=idx is not None, source_index=idx))
+    avg_score = sum(r.score for r in reports) / len(reports)
+    return VerificationReport(
+        score=avg_score,
+        grounded=all(r.grounded for r in reports),
+        claims=reports,
+    )
 
 
 def verify_response(

@@ -4,11 +4,77 @@ Embeds student questions and finds the most relevant KB chunks
 instead of dumping the entire lesson into context.
 """
 import json
+import hashlib
+import math
+import re
 import numpy as np
+from dataclasses import dataclass
 from typing import Optional
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from app.models.lesson import LessonChunk, Lesson
+
+
+@dataclass(frozen=True)
+class Document:
+    id: str
+    text: str
+
+
+@dataclass(frozen=True)
+class SearchHit:
+    doc: Document
+    score: float
+
+
+def tokenize(text: str) -> list[str]:
+    return re.findall(r"[a-z0-9']+", text.lower())
+
+
+def hashing_embedder(dim: int = 512):
+    def embed(text: str) -> list[float]:
+        vector = [0.0] * dim
+        for token in tokenize(text):
+            digest = hashlib.sha256(token.encode("utf-8")).digest()
+            idx = int.from_bytes(digest[:8], "big") % dim
+            vector[idx] += 1.0
+        return vector
+
+    return embed
+
+
+def cosine(a: list[float], b: list[float]) -> float:
+    if len(a) != len(b):
+        raise ValueError("vectors must have same dimension")
+    denom = math.sqrt(sum(x * x for x in a)) * math.sqrt(sum(y * y for y in b))
+    if denom == 0:
+        return 0.0
+    return sum(x * y for x, y in zip(a, b)) / denom
+
+
+class CosineRetriever:
+    def __init__(self, embedder=None):
+        self.embedder = embedder or hashing_embedder()
+        self._docs: list[tuple[Document, list[float]]] = []
+
+    def add(self, docs) -> None:
+        for doc in docs:
+            self._docs.append((doc, self.embedder(doc.text)))
+
+    def search(self, query: str, k: int = 4, min_score: float = 0.0) -> list[SearchHit]:
+        if not self._docs:
+            return []
+        q = self.embedder(query)
+        hits = [
+            SearchHit(doc=doc, score=cosine(q, vector))
+            for doc, vector in self._docs
+        ]
+        hits = [hit for hit in hits if hit.score >= min_score]
+        hits.sort(key=lambda hit: hit.score, reverse=True)
+        return hits[:k]
+
+    def __len__(self) -> int:
+        return len(self._docs)
 
 
 async def get_relevant_chunks(

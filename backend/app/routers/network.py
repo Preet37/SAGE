@@ -2,10 +2,9 @@
 Student network API — Arista track.
 Routes students to peers based on current concept, enables peer sessions.
 """
+import logging
 import secrets
-import asyncio
-from datetime import datetime
-from typing import Optional
+import time
 from fastapi import APIRouter, Depends, HTTPException, WebSocket, WebSocketDisconnect
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, and_
@@ -22,11 +21,26 @@ log = logging.getLogger("sage.network")
 WAIT_TIMEOUT_SECONDS = 300  # 5 minutes
 MAX_HOT_CONCEPTS = 256
 
-# In-memory: active_concept_id -> list of waiting user_ids
-_waiting_room: dict[int, list[int]] = {}
+# In-memory: concept_id -> list of (user_id, entered_at_timestamp)
+_waiting_room: dict[int, list[tuple[int, float]]] = {}
 
 # WebSocket connections: room_token -> list[WebSocket]
 _peer_connections: dict[str, list[WebSocket]] = {}
+
+
+def _cleanup_waiting_room() -> None:
+    """Remove waiters who have exceeded WAIT_TIMEOUT_SECONDS."""
+    now = time.monotonic()
+    expired_concepts = []
+    for concept_id, waiters in _waiting_room.items():
+        _waiting_room[concept_id] = [
+            (uid, ts) for uid, ts in waiters
+            if now - ts < WAIT_TIMEOUT_SECONDS
+        ]
+        if not _waiting_room[concept_id]:
+            expired_concepts.append(concept_id)
+    for concept_id in expired_concepts:
+        del _waiting_room[concept_id]
 
 
 class PeerMatchRequest(BaseModel):
@@ -50,6 +64,8 @@ async def request_peer_match(
     Arista-style routing: find a peer who has mastered this concept
     or is currently studying the same one. Returns a room token.
     """
+    _cleanup_waiting_room()
+
     node_result = await db.execute(
         select(ConceptNode).where(ConceptNode.id == req.concept_id)
     )
@@ -70,8 +86,8 @@ async def request_peer_match(
 
     waiting = _waiting_room.get(req.concept_id, [])
 
-    if waiting and waiting[0] != user.id:
-        partner_id = waiting.pop(0)
+    if waiting and waiting[0][0] != user.id:
+        partner_id, _ = waiting.pop(0)
         if not waiting:
             _waiting_room.pop(req.concept_id, None)
 
@@ -95,8 +111,8 @@ async def request_peer_match(
 
     if req.concept_id not in _waiting_room:
         _waiting_room[req.concept_id] = []
-    if user.id not in _waiting_room[req.concept_id]:
-        _waiting_room[req.concept_id].append(user.id)
+    if user.id not in [uid for uid, _ in _waiting_room[req.concept_id]]:
+        _waiting_room[req.concept_id].append((user.id, time.monotonic()))
 
     room_token = secrets.token_urlsafe(16)
     session = PeerSession(

@@ -1,5 +1,9 @@
 const BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
+function websocketBase() {
+  return BASE.replace(/^http:/, 'ws:').replace(/^https:/, 'wss:');
+}
+
 // ── Auth ──────────────────────────────────────────────────────────
 export async function login(email: string, password: string) {
   const form = new URLSearchParams({ username: email, password });
@@ -25,6 +29,16 @@ export async function register(email: string, username: string, password: string
 export async function getMe(token: string) {
   const res = await fetch(`${BASE}/auth/me`, { headers: { Authorization: `Bearer ${token}` } });
   if (!res.ok) throw new Error('Unauthorized');
+  return res.json();
+}
+
+export async function updateTeachingMode(token: string, mode: string) {
+  const res = await fetch(`${BASE}/auth/me/mode`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ mode }),
+  });
+  if (!res.ok) throw new Error('Teaching mode update failed');
   return res.json();
 }
 
@@ -82,6 +96,14 @@ export function streamChat(
         body: JSON.stringify(payload),
         signal: controller.signal,
       });
+      if (!res.ok || !res.body) {
+        let message = `Tutor request failed (${res.status})`;
+        try {
+          message = ((await res.json()).detail as string) || message;
+        } catch {}
+        onEvent('error', { message });
+        return;
+      }
 
       const reader = res.body!.getReader();
       const decoder = new TextDecoder();
@@ -150,6 +172,10 @@ export async function requestPeerMatch(token: string, conceptId: number, lessonI
 export async function getNetworkStatus() {
   const res = await fetch(`${BASE}/network/status`);
   return res.json();
+}
+
+export function getPeerSocketUrl(roomToken: string) {
+  return `${websocketBase()}/network/peer-session/${encodeURIComponent(roomToken)}`;
 }
 
 // ── Replay ────────────────────────────────────────────────────────

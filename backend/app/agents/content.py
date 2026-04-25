@@ -13,6 +13,8 @@ class ContentAgent(Agent):
         a11y = A11yProfile(**{k: v for k, v in ctx.a11y.items() if k in A11yProfile.__dataclass_fields__})
         mastery = [ConceptMastery(label=m["label"], mastery=m.get("mastery", 0.0)) for m in ctx.mastery]
         expert_mode = ctx.plan.get("expert_teacher_mode", True)
+        strategy = ctx.plan.get("strategy", "socratic")
+        teaching_mode = ctx.a11y.get("teaching_mode", "default")
         system = build_system_prompt(a11y=a11y, mastery=mastery, sources=ctx.sources, expert_teacher_mode=expert_mode)
 
         if expert_mode:

@@ -224,14 +224,28 @@ Quantize the base model to 4-bit, run LoRA adapters in 16-bit:
             db.add(lesson)
             await db.flush()
 
-            # chunk and store the lesson content
-            from app.core.retrieval import chunk_text
+            # chunk and store the lesson content with embeddings
+            from app.core.retrieval import chunk_text, embed_texts
             chunks = chunk_text(ld["content_md"], chunk_size=200, overlap=40)
-            for idx, chunk_text_val in enumerate(chunks):
+
+            # Generate embeddings in batch
+            try:
+                embeddings = embed_texts(chunks)
+                # embed_texts returns [] per item if sentence-transformers not installed
+                embeddings_ok = all(len(e) > 0 for e in embeddings)
+                if not embeddings_ok:
+                    print("  [WARN] sentence-transformers not installed — chunks stored without embeddings")
+            except Exception as e:
+                print(f"  [WARN] Embedding generation failed: {e}")
+                embeddings = [[] for _ in chunks]
+                embeddings_ok = False
+
+            for idx, (chunk_text_val, emb) in enumerate(zip(chunks, embeddings)):
                 chunk = LessonChunk(
                     lesson_id=lesson.id,
                     chunk_index=idx,
                     text=chunk_text_val,
+                    embedding=json.dumps(emb) if emb else None,
                 )
                 db.add(chunk)
 
@@ -351,6 +365,24 @@ Fetch.ai enables autonomous agents to discover each other on a decentralized net
 """,
         )
         db.add(lesson2)
+        await db.flush()
+
+        # chunk and store the agentic AI lesson content with embeddings
+        from app.core.retrieval import chunk_text, embed_texts
+        chunks2 = chunk_text(lesson2.content_md, chunk_size=200, overlap=40)
+        try:
+            embeddings2 = embed_texts(chunks2)
+        except Exception:
+            embeddings2 = [[] for _ in chunks2]
+        for idx2, (ct2, emb2) in enumerate(zip(chunks2, embeddings2)):
+            chunk2 = LessonChunk(
+                lesson_id=lesson2.id,
+                chunk_index=idx2,
+                text=ct2,
+                embedding=json.dumps(emb2) if emb2 else None,
+            )
+            db.add(chunk2)
+
         await db.commit()
         print("  [OK] Agentic AI course seeded")
 

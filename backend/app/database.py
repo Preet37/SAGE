@@ -4,10 +4,21 @@ from app.config import get_settings
 
 settings = get_settings()
 
+
+def _async_database_url(url: str) -> str:
+    if url.startswith("sqlite:///"):
+        return url.replace("sqlite:///", "sqlite+aiosqlite:///", 1)
+    if url.startswith("postgresql://"):
+        return url.replace("postgresql://", "postgresql+asyncpg://", 1)
+    return url
+
+
+database_url = _async_database_url(settings.database_url)
+
 engine = create_async_engine(
-    settings.database_url,
+    database_url,
     echo=False,
-    connect_args={"check_same_thread": False},
+    connect_args={"check_same_thread": False} if database_url.startswith("sqlite") else {},
 )
 
 AsyncSessionLocal = async_sessionmaker(

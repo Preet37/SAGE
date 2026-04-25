@@ -6,8 +6,21 @@ Results are streamed to the frontend as agent_event SSE events.
 import asyncio
 import json
 from datetime import datetime
-from typing import AsyncGenerator
-from app.agents.base import asi1_complete
+import logging
+import uuid
+from typing import AsyncGenerator, AsyncIterator
+
+from app.agents.assessment import AssessmentAgent
+from app.agents.base import Agent, AgentContext, AgentMessage, LLM, asi1_complete
+from app.agents.concept_map import ConceptMapAgent
+from app.agents.content import ContentAgent
+from app.agents.memory import AgentMemory
+from app.agents.peer_match import PeerMatchAgent
+from app.agents.pedagogy import PedagogyAgent
+from app.agents.progress import ProgressAgent
+from app.core.verification import verify
+
+log = logging.getLogger("sage.orchestrator")
 
 
 class AgentOrchestrator:
@@ -177,3 +190,60 @@ Respond with JSON:
             return json.loads(result)
         except Exception:
             return {"progress_signal": "progressing", "encouragement": result}
+
+
+class Orchestrator:
+    def __init__(self, llm: LLM | None = None, memory: AgentMemory | None = None):
+        shared = llm or LLM.from_env()
+        self.pedagogy = PedagogyAgent(shared)
+        self.content = ContentAgent(shared)
+        self.concept_map = ConceptMapAgent(shared)
+        self.assessment = AssessmentAgent(shared)
+        self.peer_match = PeerMatchAgent(shared)
+        self.progress = ProgressAgent(shared)
+        self.memory = memory or AgentMemory()
+
+    async def _run_agent(self, agent: Agent, ctx: AgentContext) -> AgentContext:
+        ctx.trace.append(AgentMessage("orchestrator", agent.name, "request", {}))
+        try:
+            return await agent.run(ctx)
+        except Exception as e:
+            log.exception("agent %s failed", agent.name)
+            ctx.trace.append(AgentMessage("orchestrator", agent.name, "error", {"error": str(e)}))
+            return ctx
+
+    async def run_turn(self, ctx: AgentContext) -> AgentContext:
+        ctx = await self._run_agent(self.pedagogy, ctx)
+        ctx = await self._run_agent(self.content, ctx)
+        ctx.trace.append(AgentMessage("orchestrator", self.pedagogy.name, "socratize", {}))
+        try:
+            ctx = await self.pedagogy.socratize(ctx)
+        except Exception as e:
+            log.exception("socratize failed")
+            ctx.trace.append(AgentMessage("orchestrator", "pedagogy", "error", {"error": str(e)}))
+        ctx.verification = verify(ctx.answer, ctx.sources).to_payload()
+        ctx = await self._run_agent(self.concept_map, ctx)
+        await asyncio.gather(
+            self._run_agent(self.assessment, ctx),
+            self._run_agent(self.peer_match, ctx),
+            self._run_agent(self.progress, ctx),
+        )
+        self.memory.record_turn(ctx)
+        return ctx
+
+    async def stream_turn(self, ctx: AgentContext) -> AsyncIterator[tuple[str, dict]]:
+        trace_id = str(uuid.uuid4())
+        yield "agent_event", {"agent": "orchestrator", "phase": "start", "trace_id": trace_id}
+        ctx = await self.run_turn(ctx)
+        yield "agent_event", {"agent": "pedagogy", "phase": "done", "plan": ctx.plan}
+        yield "agent_event", {"agent": "content", "phase": "done", "chars": len(ctx.answer)}
+        yield "verification", ctx.verification
+        yield "agent_event", {"agent": "concept_map", "phase": "done", "delta": ctx.concept_map_delta}
+        yield "agent_event", {"agent": "assessment", "phase": "done", "data": ctx.assessment}
+        yield "agent_event", {"agent": "peer_match", "phase": "done", "peers": ctx.peers}
+        yield "agent_event", {"agent": "progress", "phase": "done", "delta": ctx.progress_delta}
+        yield "done", {
+            "session_id": ctx.session_id,
+            "ok": True,
+            "grounded": ctx.verification.get("grounded", False),
+        }

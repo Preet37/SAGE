@@ -32,10 +32,12 @@ class CourseOut(BaseModel):
 
 class LessonOut(BaseModel):
     id: int
+    course_id: int
     slug: str
     title: str
     order: int
     summary: str
+    content_md: str
     key_concepts: list
     estimated_minutes: int
     video_url: Optional[str]

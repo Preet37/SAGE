@@ -1,7 +1,9 @@
 from functools import lru_cache
+import os
 from pathlib import Path
-from typing import Optional
 import yaml
+from dotenv import load_dotenv
+from pydantic import AliasChoices, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # Populate os.environ from .env so direct os.getenv(...) calls in agent code
@@ -11,7 +13,15 @@ load_dotenv()
 
 class Settings(BaseSettings):
     # LLM
-    llm_api_key: str = ""
+    llm_api_key: str = Field(
+        default="",
+        validation_alias=AliasChoices(
+            "LLM_API_KEY",
+            "ANTHROPIC_API_KEY",
+            "OPENAI_API_KEY",
+            "GROQ_API_KEY",
+        ),
+    )
     llm_provider: str = "anthropic"
 
     # Fetch.ai
@@ -34,6 +44,7 @@ class Settings(BaseSettings):
 
     # Server
     frontend_url: str = "http://localhost:3000"
+    cors_extra_origins: str = ""
     backend_port: int = 8000
     content_dir: str = "./content"
 
@@ -53,7 +64,15 @@ class Settings(BaseSettings):
 
 @lru_cache
 def get_settings() -> Settings:
-    return Settings()
+    s = Settings()
+    if not os.getenv("LLM_PROVIDER"):
+        if os.getenv("ASI1_API_KEY") and not s.llm_api_key:
+            s.llm_provider = "asi1"
+        elif os.getenv("GROQ_API_KEY"):
+            s.llm_provider = "groq"
+        elif os.getenv("OPENAI_API_KEY") and not os.getenv("ANTHROPIC_API_KEY"):
+            s.llm_provider = "openai"
+    return s
 
 
 def load_yaml_config() -> dict:

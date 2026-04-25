@@ -4,9 +4,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import create_tables
 from app.config import get_settings
+from app.logging_setup import RequestIdMiddleware, configure_logging
+from app.rate_limit import RateLimitMiddleware
 from app.routers import auth, courses, tutor, concept_map, network, replay, accessibility, dashboard, notes, visual
 
 settings = get_settings()
+configure_logging(settings.log_level)
 
 
 @asynccontextmanager
@@ -22,14 +25,25 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+origins = [o.strip() for o in settings.frontend_url.split(",") if o.strip()]
+if settings.cors_extra_origins:
+    origins.extend(o.strip() for o in settings.cors_extra_origins.split(",") if o.strip())
+if not settings.is_production:
+    for port in ["3000", "3001", "3002"]:
+        origin = f"http://localhost:{port}"
+        if origin not in origins:
+            origins.append(origin)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[settings.frontend_url, "http://localhost:3000", "http://localhost:3001", "http://localhost:3002"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
     expose_headers=["X-Request-Id"],
 )
+app.add_middleware(RateLimitMiddleware)
+app.add_middleware(RequestIdMiddleware)
 
 app.include_router(auth.router)
 app.include_router(courses.router)
@@ -41,23 +55,6 @@ app.include_router(accessibility.router)
 app.include_router(dashboard.router)
 app.include_router(notes.router)
 app.include_router(visual.router)
-
-
-@app.get("/")
-async def root():
-    return {
-        "name": "SAGE",
-        "version": "2.0.0",
-        "status": "online",
-        "agents": ["pedagogy", "content", "concept_map", "assessment", "peer_match", "progress"],
-        "tracks": ["Fetch.ai", "Cognition", "Arista", "ZETIC", "Light the Way"],
-        "features": [
-            "socratic_tutoring", "live_concept_map", "voice_agent",
-            "peer_matching", "session_replay", "accessibility_profiles",
-            "note_revision", "course_dashboard", "offline_lesson_plans",
-            "on_device_ai_zetic",
-        ],
-    }
 
 
 @app.get("/")
@@ -85,3 +82,20 @@ def root():
 @app.get("/health")
 async def health():
     return {"status": "ok"}
+
+
+@app.get("/metrics")
+async def metrics():
+    from datetime import datetime, timezone
+    from app.routers.network import _waiting_room, _peer_connections
+    waiting = sum(len(v) for v in _waiting_room.values())
+    return {
+        "status": "ok",
+        "environment": settings.environment,
+        "version": "1.0.0",
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "peer": {
+            "waiting_room_size": waiting,
+            "active_connections": len(_peer_connections),
+        },
+    }

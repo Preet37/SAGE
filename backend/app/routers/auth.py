@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from typing import Optional
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
@@ -120,14 +120,22 @@ async def me(user: User = Depends(get_current_user)):
 
 @router.patch("/me/mode")
 async def update_mode(
-    mode: str,
+    request: Request,
+    mode: Optional[str] = None,
     user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ):
+    if mode is None:
+        try:
+            body = await request.json()
+            mode = body.get("mode")
+        except Exception:
+            mode = None
     valid_modes = {"default", "eli5", "analogy", "code", "deep_dive"}
     if mode not in valid_modes:
-        raise HTTPException(status_code=400, detail=f"Invalid mode. Choose from {valid_modes}")
+        raise HTTPException(status_code=422, detail=f"Invalid mode. Choose from {valid_modes}")
     user.teaching_mode = mode
     db.add(user)
     await db.commit()
-    return {"mode": mode}
+    await db.refresh(user)
+    return UserOut.model_validate(user)

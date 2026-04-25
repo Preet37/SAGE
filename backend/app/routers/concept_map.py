@@ -95,6 +95,7 @@ async def update_mastery(
     user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ):
+    update.score = max(0.0, min(1.0, update.score))
     result = await db.execute(
         select(StudentMastery).where(
             and_(
@@ -136,11 +137,13 @@ async def get_next_concepts(
     nodes = {n.id: n for n in nodes_result.scalars().all()}
 
     mastery_result = await db.execute(
-        select(StudentMastery).where(
-            and_(StudentMastery.user_id == user.id, StudentMastery.is_mastered == False)
-        )
+        select(StudentMastery).where(StudentMastery.user_id == user.id)
     )
-    not_mastered_ids = {m.concept_id for m in mastery_result.scalars().all()}
-    unvisited = [n for n in nodes.values() if n.id in not_mastered_ids or True]
+    mastery = {m.concept_id: m for m in mastery_result.scalars().all()}
+    unvisited = [
+        n for n in nodes.values()
+        if n.id not in mastery or not mastery[n.id].is_mastered
+    ]
+    unvisited.sort(key=lambda n: (mastery.get(n.id).score if n.id in mastery else 0.0, n.id))
 
     return [{"id": n.id, "label": n.label, "description": n.description} for n in unvisited[:3]]

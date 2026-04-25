@@ -23,6 +23,7 @@ from app.core.verification import verify_response
 from app.core.voice import synthesize_speech
 from app.config import get_settings, load_yaml_config
 from app.routers.accessibility import get_user_accessibility_modifier
+from app.agents.orchestrator import AgentOrchestrator
 import httpx
 
 router = APIRouter(prefix="/tutor", tags=["tutor"])
@@ -91,6 +92,10 @@ async def create_session(
     user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ):
+    lesson_result = await db.execute(select(Lesson).where(Lesson.id == req.lesson_id))
+    if not lesson_result.scalar_one_or_none():
+        raise HTTPException(status_code=404, detail="Lesson not found")
+
     session = TutorSession(
         user_id=user.id,
         lesson_id=req.lesson_id,
@@ -138,9 +143,6 @@ async def chat(
         if accessibility_modifier
         else ""
     )
-    # Make the user's mode visible to the content agent.
-    ctx.a11y["teaching_mode"] = user.teaching_mode
-
     system_prompt = SYSTEM_PROMPT_TEMPLATE.format(
         mode_instruction=mode_instruction,
         accessibility_section=accessibility_section,
@@ -159,6 +161,7 @@ async def chat(
         "pedagogy": teaching_mode,
         "retrieved_chunks": len(kb_chunks),
         "mastered_concepts": len(mastered),
+        "events": [],
         "timestamp": datetime.utcnow().isoformat(),
     }
 
@@ -194,8 +197,85 @@ async def _stream_response(
     search_was_called = False
 
     try:
-        yield _sse("agent_event", {"type": "content_retrieved", "chunks": len(kb_chunks)})
-        yield _sse("agent_event", {"type": "pedagogy_applied", "mode": agent_trace["pedagogy"]})
+        try:
+            orchestrator_result = await asyncio.wait_for(
+                AgentOrchestrator(
+                    user_id=user.id,
+                    lesson_id=lesson.id,
+                    question=messages[-1]["content"],
+                    history=messages[:-1],
+                ).run(),
+                timeout=8.0,
+            )
+            pedagogy = orchestrator_result.get("pedagogy", {})
+            content = orchestrator_result.get("content", {})
+            concept_map = orchestrator_result.get("concept_map", {})
+            assessment = orchestrator_result.get("assessment", {})
+            peer_match = orchestrator_result.get("peer_match", {})
+            progress = orchestrator_result.get("progress", {})
+            agent_events = [
+                {
+                    "type": "pedagogy_applied",
+                    "mode": pedagogy.get("recommended_mode", agent_trace["pedagogy"]),
+                    "engagement": pedagogy.get("engagement_level"),
+                    "misconception": pedagogy.get("misconception_detected"),
+                },
+                {
+                    "type": "content_retrieved",
+                    "chunks": len(kb_chunks),
+                    "key_terms": content.get("key_terms", []),
+                    "focus": content.get("content_focus"),
+                },
+                {
+                    "type": "concept_map_updated",
+                    "lesson_id": lesson.id,
+                    "concepts_touched": concept_map.get("concepts_touched", []),
+                    "mastery_delta": concept_map.get("suggested_mastery_update", 0.0),
+                },
+                {
+                    "type": "assessment_check",
+                    "should_quiz": assessment.get("should_quiz", False),
+                    "difficulty": assessment.get("difficulty"),
+                    "concept": assessment.get("concept_to_test"),
+                },
+                {
+                    "type": "peer_match_check",
+                    "recommended": peer_match.get("peer_match_recommended", False),
+                    "reasoning": peer_match.get("reasoning"),
+                },
+                {
+                    "type": "progress_updated",
+                    "signal": progress.get("progress_signal"),
+                    "mastered_concepts": agent_trace.get("mastered_concepts", 0),
+                    "encouragement": progress.get("encouragement"),
+                },
+            ]
+        except Exception as _orch_err:
+            import logging
+            logging.getLogger(__name__).warning(
+                "AgentOrchestrator failed, using static fallback: %s", _orch_err
+            )
+            agent_events = [
+                {"type": "content_retrieved", "chunks": len(kb_chunks)},
+                {"type": "pedagogy_applied", "mode": agent_trace["pedagogy"]},
+                {
+                    "type": "concept_map_updated",
+                    "lesson_id": lesson.id,
+                    "concepts": lesson.key_concepts[:6],
+                },
+                {
+                    "type": "assessment_check",
+                    "quiz": "eligible" if len(messages) >= 3 else "not_yet",
+                },
+                {"type": "peer_match_check", "recommended": len(kb_chunks) == 0},
+                {
+                    "type": "progress_updated",
+                    "mastered_concepts": agent_trace.get("mastered_concepts", 0),
+                },
+            ]
+        agent_trace["events"] = agent_events
+        for event in agent_events:
+            yield _sse("agent_event", event)
 
         if settings.llm_provider == "anthropic":
             async for chunk in _stream_anthropic(system_prompt, messages):
@@ -226,6 +306,12 @@ async def _stream_response(
                 yield _sse("audio", {"data": base64.b64encode(audio_bytes).decode()})
 
         if session_id:
+            session = await db.get(TutorSession, session_id)
+            if session and session.user_id == user.id:
+                decisions = list(session.agent_decisions or [])
+                decisions.append(agent_trace)
+                session.agent_decisions = decisions
+                db.add(session)
             msg = TutorMessage(
                 session_id=session_id,
                 role="user",
@@ -255,7 +341,7 @@ async def _stream_response(
 
 async def _stream_anthropic(system_prompt: str, messages: list[dict]) -> AsyncGenerator[str, None]:
     import anthropic as anth
-    client = anth.AsyncAnthropic(api_key=settings.llm_api_key)
+    client = anth.AsyncAnthropic(api_key=settings.llm_api_key, timeout=30.0, max_retries=2)
     model = yaml_cfg.get("models", {}).get("tutor", {}).get("anthropic", "claude-sonnet-4-5")
 
     async with client.messages.stream(
@@ -284,7 +370,7 @@ async def _stream_openai(system_prompt: str, messages: list[dict]) -> AsyncGener
         api_key = settings.llm_api_key
         model = yaml_cfg.get("models", {}).get("tutor", {}).get("openai", "gpt-4o")
 
-    client = AsyncOpenAI(base_url=base_url, api_key=api_key)
+    client = AsyncOpenAI(base_url=base_url, api_key=api_key, timeout=30.0, max_retries=2)
     all_messages = [{"role": "system", "content": system_prompt}] + messages
 
     stream = await client.chat.completions.create(
