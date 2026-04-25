@@ -1,100 +1,260 @@
-"""Fetch.ai uAgents runner for SAGE Agentverse deployment.
-
-Wraps the local `Orchestrator` as a uAgent so it can be discovered and called
-via the Agentverse network. Each protocol message corresponds to one tutoring
-turn. ASI1-Mini is wired in as the fallback LLM via `LLM.from_env()`.
-
-Run locally:
-    AGENT_SEED="<your-seed>" ASI1_API_KEY="<key>" \
-        python -m app.agents.uagents_runner
 """
+Fetch.ai uAgents — all 6 agents registered on Agentverse.
+Run this file separately: python -m app.agents.uagents_runner
+Each agent registers with Agentverse and implements the Chat Protocol.
 
-from __future__ import annotations
-
+![tag:innovationlab](https://img.shields.io/badge/innovationlab-3D8BD3)
+"""
+import asyncio
+import json
 import os
-from typing import Any
+from app.config import get_settings
+
+settings = get_settings()
 
 try:
-    from uagents import Agent as UAgent
-    from uagents import Context, Model, Protocol
-except Exception:  # pragma: no cover - optional dep
-    UAgent = None  # type: ignore[assignment]
-    Context = Model = Protocol = None  # type: ignore[assignment]
-
-from app.agents.base import AgentContext, LLM
-from app.agents.orchestrator import Orchestrator
+    from uagents import Agent, Context, Model
+    from uagents.setup import fund_agent_if_low
+    UAGENTS_AVAILABLE = True
+except ImportError:
+    UAGENTS_AVAILABLE = False
+    print("uagents not installed. Install with: pip install uagents")
 
 
-if Model is not None:
-
+# ─── Message Models ───────────────────────────────────────────────
+if UAGENTS_AVAILABLE:
     class TutorRequest(Model):
-        session_id: int
         user_id: int
-        message: str
-        a11y: dict[str, Any] = {}
-        mastery: list[dict[str, Any]] = []
-        sources: list[str] = []
+        lesson_id: int
+        question: str
+        session_history: str  # JSON-encoded list
 
     class TutorResponse(Model):
-        session_id: int
-        answer: str
-        verification: dict[str, Any]
-        plan: dict[str, Any]
-        concept_map_delta: list[dict[str, Any]]
-        assessment: dict[str, Any]
-        peers: list[dict[str, Any]]
-        progress_delta: dict[str, Any]
-        provider: str
+        agent_name: str
+        result: str  # JSON-encoded dict
+        timestamp: str
+
+    class ChatRequest(Model):
+        content: str
+
+    class ChatResponse(Model):
+        content: str
 
 
-def build_agent() -> Any:
-    if UAgent is None:
-        raise RuntimeError("uagents is not installed. `pip install uagents`")
+# ─── Agent Definitions ────────────────────────────────────────────
+AGENT_SEED_PREFIX = "sage_agent_seed_"
 
-    seed = os.getenv("AGENT_SEED", "sage-orchestrator-dev-seed")
-    port = int(os.getenv("AGENT_PORT", "8001"))
-    endpoint = os.getenv("AGENT_ENDPOINT", f"http://127.0.0.1:{port}/submit")
 
-    agent = UAgent(name="sage-orchestrator", seed=seed, port=port, endpoint=[endpoint])
-    proto = Protocol(name="sage-tutor", version="0.1.0")
-    llm = LLM.from_env()
-    orchestrator = Orchestrator(llm=llm)
+def create_pedagogy_agent():
+    if not UAGENTS_AVAILABLE:
+        return None
 
-    @proto.on_message(model=TutorRequest, replies=TutorResponse)
-    async def handle_turn(ctx: Context, sender: str, msg: TutorRequest) -> None:
-        ac = AgentContext(
-            session_id=msg.session_id,
-            user_id=msg.user_id,
-            user_message=msg.message,
-            a11y=msg.a11y,
-            mastery=msg.mastery,
-            sources=msg.sources,
+    agent = Agent(
+        name="sage_pedagogy_agent",
+        seed=AGENT_SEED_PREFIX + "pedagogy",
+        port=8001,
+        endpoint=["http://localhost:8001/submit"],
+        agentverse=settings.agentverse_api_key,
+    )
+
+    @agent.on_message(model=TutorRequest)
+    async def handle_pedagogy(ctx: Context, sender: str, msg: TutorRequest):
+        from app.agents.orchestrator import AgentOrchestrator
+        from datetime import datetime
+        history = json.loads(msg.session_history or "[]")
+        orch = AgentOrchestrator(msg.user_id, msg.lesson_id, msg.question, history)
+        result = await orch._run_pedagogy_agent()
+        await ctx.send(sender, TutorResponse(
+            agent_name="pedagogy",
+            result=json.dumps(result),
+            timestamp=datetime.utcnow().isoformat(),
+        ))
+
+    @agent.on_message(model=ChatRequest)
+    async def handle_chat_pedagogy(ctx: Context, sender: str, msg: ChatRequest):
+        """ASI:One Chat Protocol handler."""
+        from app.agents.base import asi1_complete
+        response = await asi1_complete(
+            f"As the SAGE Pedagogy Agent, respond to: {msg.content}",
+            system="You are the Pedagogy Agent for SAGE, a Socratic AI tutor. Help determine optimal teaching strategies.",
         )
-        ac = await orchestrator.run_turn(ac)
-        await ctx.send(
-            sender,
-            TutorResponse(
-                session_id=ac.session_id,
-                answer=ac.answer,
-                verification=ac.verification,
-                plan=ac.plan,
-                concept_map_delta=ac.concept_map_delta,
-                assessment=ac.assessment,
-                peers=ac.peers,
-                progress_delta=ac.progress_delta,
-                provider=llm.primary.name,
-            ),
-        )
+        await ctx.send(sender, ChatResponse(content=response))
 
-    agent.include(proto, publish_manifest=True)
     return agent
 
 
-def main() -> None:
-    agent = build_agent()
-    print(f"[sage] uAgent address: {agent.address}")
-    agent.run()
+def create_content_agent():
+    if not UAGENTS_AVAILABLE:
+        return None
+
+    agent = Agent(
+        name="sage_content_agent",
+        seed=AGENT_SEED_PREFIX + "content",
+        port=8002,
+        endpoint=["http://localhost:8002/submit"],
+        agentverse=settings.agentverse_api_key,
+    )
+
+    @agent.on_message(model=TutorRequest)
+    async def handle_content(ctx: Context, sender: str, msg: TutorRequest):
+        from app.agents.orchestrator import AgentOrchestrator
+        from datetime import datetime
+        history = json.loads(msg.session_history or "[]")
+        orch = AgentOrchestrator(msg.user_id, msg.lesson_id, msg.question, history)
+        result = await orch._run_content_agent()
+        await ctx.send(sender, TutorResponse(
+            agent_name="content",
+            result=json.dumps(result),
+            timestamp=datetime.utcnow().isoformat(),
+        ))
+
+    @agent.on_message(model=ChatRequest)
+    async def handle_chat_content(ctx: Context, sender: str, msg: ChatRequest):
+        from app.agents.base import asi1_complete
+        response = await asi1_complete(
+            msg.content,
+            system="You are the Content Agent for SAGE. You retrieve and analyze educational content for Socratic tutoring sessions.",
+        )
+        await ctx.send(sender, ChatResponse(content=response))
+
+    return agent
+
+
+def create_concept_map_agent():
+    if not UAGENTS_AVAILABLE:
+        return None
+
+    agent = Agent(
+        name="sage_concept_map_agent",
+        seed=AGENT_SEED_PREFIX + "concept_map",
+        port=8003,
+        endpoint=["http://localhost:8003/submit"],
+        agentverse=settings.agentverse_api_key,
+    )
+
+    @agent.on_message(model=TutorRequest)
+    async def handle_concept_map(ctx: Context, sender: str, msg: TutorRequest):
+        from app.agents.orchestrator import AgentOrchestrator
+        from datetime import datetime
+        history = json.loads(msg.session_history or "[]")
+        orch = AgentOrchestrator(msg.user_id, msg.lesson_id, msg.question, history)
+        result = await orch._run_concept_map_agent()
+        await ctx.send(sender, TutorResponse(
+            agent_name="concept_map",
+            result=json.dumps(result),
+            timestamp=datetime.utcnow().isoformat(),
+        ))
+
+    @agent.on_message(model=ChatRequest)
+    async def handle_chat_concept(ctx: Context, sender: str, msg: ChatRequest):
+        from app.agents.base import asi1_complete
+        response = await asi1_complete(
+            msg.content,
+            system="You are the Concept Map Agent for SAGE. You build and update knowledge graphs of student understanding.",
+        )
+        await ctx.send(sender, ChatResponse(content=response))
+
+    return agent
+
+
+def create_assessment_agent():
+    if not UAGENTS_AVAILABLE:
+        return None
+
+    agent = Agent(
+        name="sage_assessment_agent",
+        seed=AGENT_SEED_PREFIX + "assessment",
+        port=8004,
+        endpoint=["http://localhost:8004/submit"],
+        agentverse=settings.agentverse_api_key,
+    )
+
+    @agent.on_message(model=ChatRequest)
+    async def handle_chat_assessment(ctx: Context, sender: str, msg: ChatRequest):
+        from app.agents.base import asi1_complete
+        response = await asi1_complete(
+            msg.content,
+            system="You are the Assessment Agent for SAGE. You generate quizzes and evaluate student understanding.",
+        )
+        await ctx.send(sender, ChatResponse(content=response))
+
+    return agent
+
+
+def create_peer_match_agent():
+    if not UAGENTS_AVAILABLE:
+        return None
+
+    agent = Agent(
+        name="sage_peer_match_agent",
+        seed=AGENT_SEED_PREFIX + "peer_match",
+        port=8005,
+        endpoint=["http://localhost:8005/submit"],
+        agentverse=settings.agentverse_api_key,
+    )
+
+    @agent.on_message(model=ChatRequest)
+    async def handle_chat_peer(ctx: Context, sender: str, msg: ChatRequest):
+        from app.agents.base import asi1_complete
+        response = await asi1_complete(
+            msg.content,
+            system="You are the Peer Match Agent for SAGE. You connect students for collaborative learning using Arista-inspired network routing.",
+        )
+        await ctx.send(sender, ChatResponse(content=response))
+
+    return agent
+
+
+def create_progress_agent():
+    if not UAGENTS_AVAILABLE:
+        return None
+
+    agent = Agent(
+        name="sage_progress_agent",
+        seed=AGENT_SEED_PREFIX + "progress",
+        port=8006,
+        endpoint=["http://localhost:8006/submit"],
+        agentverse=settings.agentverse_api_key,
+    )
+
+    @agent.on_message(model=ChatRequest)
+    async def handle_chat_progress(ctx: Context, sender: str, msg: ChatRequest):
+        from app.agents.base import asi1_complete
+        response = await asi1_complete(
+            msg.content,
+            system="You are the Progress Agent for SAGE. You track student mastery and recommend personalized learning paths.",
+        )
+        await ctx.send(sender, ChatResponse(content=response))
+
+    return agent
+
+
+def run_all_agents():
+    """Run all 6 agents. Call from main agent runner script."""
+    if not UAGENTS_AVAILABLE:
+        print("Cannot run agents: uagents package not installed")
+        return
+
+    agents = [
+        create_pedagogy_agent(),
+        create_content_agent(),
+        create_concept_map_agent(),
+        create_assessment_agent(),
+        create_peer_match_agent(),
+        create_progress_agent(),
+    ]
+    agents = [a for a in agents if a is not None]
+
+    print(f"Starting {len(agents)} SAGE agents on Agentverse...")
+    for agent in agents:
+        print(f"  → {agent.name}: {agent.address}")
+
+    from uagents import Bureau
+    bureau = Bureau()
+    for agent in agents:
+        bureau.add(agent)
+    bureau.run()
 
 
 if __name__ == "__main__":
-    main()
+    run_all_agents()

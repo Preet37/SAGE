@@ -1,170 +1,301 @@
-import asyncio
+"""
+Main Socratic tutor endpoint with SSE streaming.
+Integrates: semantic retrieval (Cognition), output verification (Cognition),
+agent orchestration (Fetch.ai), voice synthesis, session replay.
+"""
 import json
-from typing import AsyncIterator
-
+import asyncio
+from datetime import datetime
+from typing import AsyncGenerator, Optional
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session as OrmSession
-from sse_starlette.sse import EventSourceResponse
-
-from app.core.prompt_builder import A11yProfile, ConceptMastery, build_system_prompt
-from app.core.retrieval import CosineRetriever, Document
-from app.core.verification import verify
-from app.db import get_db
-from app.models import Concept, Lesson
-from app.models import Session as TutorSession
-from app.models import User
-from app.routers.accessibility import _PREFS as A11Y_STORE
-from app.agents.base import AgentContext
-from app.agents.orchestrator import Orchestrator
-from app.schemas import SessionCreate, SessionOut, TutorReply, TutorTurn
-from app.security import get_current_user
+from fastapi.responses import StreamingResponse
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
+from pydantic import BaseModel
+from app.database import get_db
+from app.models.user import User
+from app.models.lesson import Lesson, Course
+from app.models.session import TutorSession, TutorMessage
+from app.models.concept import ConceptNode, StudentMastery
+from app.routers.auth import get_current_user
+from app.core.retrieval import get_relevant_chunks
+from app.core.verification import verify_response
+from app.core.voice import synthesize_speech
+from app.config import get_settings, load_yaml_config
+from app.routers.accessibility import get_user_accessibility_modifier
+import httpx
 
 router = APIRouter(prefix="/tutor", tags=["tutor"])
+settings = get_settings()
+yaml_cfg = load_yaml_config()
+
+TEACHING_MODE_PROMPTS = {
+    "default": "Use the Socratic method: ask guiding questions, build on the student's reasoning. Never just give the answer.",
+    "eli5": "Explain everything using simple everyday language and concrete examples a 10-year-old would understand.",
+    "analogy": "Always use real-world analogies and comparisons to build intuition before technical details.",
+    "code": "Prioritize code examples. Show working code first, then explain the concepts.",
+    "deep_dive": "Go deep into mathematical foundations, formal notation, and edge cases. Assume strong technical background.",
+}
+
+SYSTEM_PROMPT_TEMPLATE = """You are SAGE, an expert Socratic AI tutor for technical subjects.
+
+## Your Teaching Approach
+{mode_instruction}
+
+{accessibility_section}
+
+## Current Lesson
+**Course:** {course_title}
+**Lesson:** {lesson_title}
+**Key Concepts:** {key_concepts}
+
+## Reference Knowledge Base (use this as your primary source)
+{kb_context}
+
+## Rules
+1. NEVER fabricate URLs or citations. Only include links if a search tool returned them.
+2. Build on what the student already knows — ask before you tell.
+3. When generating a quiz, use this exact format: <quiz>{{"question": "...", "options": ["A", "B", "C", "D"], "answer": "A", "explanation": "..."}}</quiz>
+4. Keep responses focused — 150-300 words unless the student asks for depth.
+5. If you don't know something from the KB, say so clearly.
+6. Celebrate progress genuinely, but don't be sycophantic.
+
+## Student Progress
+Concepts mastered: {mastered_concepts}
+Current teaching mode: {teaching_mode}
+"""
 
 
-@router.post("/sessions", response_model=SessionOut, status_code=201)
-def start_session(
-    payload: SessionCreate,
-    db: OrmSession = Depends(get_db),
+class ChatMessage(BaseModel):
+    role: str
+    content: str
+
+
+class TutorRequest(BaseModel):
+    lesson_id: int
+    message: str
+    history: list[ChatMessage] = []
+    session_id: Optional[int] = None
+    teaching_mode: Optional[str] = None
+    voice_enabled: bool = False
+
+
+class SessionCreateRequest(BaseModel):
+    lesson_id: int
+    teaching_mode: str = "default"
+
+
+@router.post("/session")
+async def create_session(
+    req: SessionCreateRequest,
     user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
 ):
-    s = TutorSession(user_id=user.id, lesson_id=payload.lesson_id)
-    db.add(s)
-    db.commit()
-    db.refresh(s)
-    return s
-
-
-@router.get("/sessions", response_model=list[SessionOut])
-def list_sessions(db: OrmSession = Depends(get_db), user: User = Depends(get_current_user)):
-    return db.query(TutorSession).filter(TutorSession.user_id == user.id).all()
-
-
-@router.post("/turn", response_model=TutorReply)
-def take_turn(
-    turn: TutorTurn,
-    db: OrmSession = Depends(get_db),
-    user: User = Depends(get_current_user),
-):
-    s = db.query(TutorSession).filter(
-        TutorSession.id == turn.session_id, TutorSession.user_id == user.id
-    ).first()
-    if not s:
-        raise HTTPException(status_code=404, detail="Session not found")
-    s.transcript = (s.transcript or "") + f"\nUSER: {turn.message}"
-    db.commit()
-    return TutorReply(agent="socratic", reply="(stub) What do you already know about this?")
-
-
-def _load_a11y(user_id: int) -> A11yProfile:
-    p = A11Y_STORE.get(user_id)
-    if not p:
-        return A11yProfile()
-    return A11yProfile(
-        dyslexia_font=p.dyslexia_font,
-        high_contrast=p.high_contrast,
-        reduce_motion=p.reduce_motion,
-        tts_voice=p.tts_voice,
-    )
-
-
-def _load_mastery(db: OrmSession, session_id: int) -> list[ConceptMastery]:
-    rows = db.query(Concept).filter(Concept.session_id == session_id).all()
-    return [ConceptMastery(label=c.label, mastery=c.mastery) for c in rows]
-
-
-def _load_sources(db: OrmSession, lesson_id: int | None) -> list[str]:
-    if not lesson_id:
-        return []
-    lesson = db.query(Lesson).filter(Lesson.id == lesson_id).first()
-    if not lesson:
-        return []
-    return [s.strip() for s in (lesson.objective or "").split("\n\n") if s.strip()]
-
-
-async def _stream_tokens(text: str, delay: float = 0.02) -> AsyncIterator[str]:
-    for tok in text.split(" "):
-        await asyncio.sleep(delay)
-        yield tok + " "
-
-
-def _sse(event: str, data: dict) -> dict:
-    return {"event": event, "data": json.dumps(data)}
-
-
-@router.get("/chat")
-async def chat(
-    session_id: int,
-    message: str,
-    db: OrmSession = Depends(get_db),
-    user: User = Depends(get_current_user),
-):
-    """SSE pipeline. Emits: agent_event, token, verification, done."""
-    s = db.query(TutorSession).filter(TutorSession.id == session_id).first()
-    if not s:
-        # Auto-create session for frictionless demo
-        s = TutorSession(id=session_id, user_id=user.id)
-        db.add(s)
-        db.commit()
-        db.refresh(s)
-
-    a11y = _load_a11y(user.id)
-    mastery = _load_mastery(db, session_id)
-    raw_sources = _load_sources(db, s.lesson_id)
-
-    retriever = CosineRetriever()
-    if raw_sources:
-        retriever.add(Document(id=f"src-{i}", text=t) for i, t in enumerate(raw_sources))
-    hits = retriever.search(message, k=4)
-    sources = [h.doc.text for h in hits]
-
-    lesson = db.query(Lesson).filter(Lesson.id == s.lesson_id).first() if s.lesson_id else None
-    system_prompt = build_system_prompt(
-        a11y=a11y,
-        mastery=mastery,
-        sources=sources,
-        objective=lesson.objective if lesson else None,
-    )
-
-    # Build initial context
-    ctx = AgentContext(
-        session_id=session_id,
+    session = TutorSession(
         user_id=user.id,
-        user_message=message,
-        a11y=a11y.__dict__,
-        mastery=[{"label": m.label, "mastery": m.mastery} for m in mastery],
-        sources=sources,
-        plan={
-            "strategy": "socratic",
-            "depth": 1,
-            "ask_one_question": True,
-            "weak_concepts": [],
-            "expert_teacher_mode": True,
-        }
+        lesson_id=req.lesson_id,
+        teaching_mode=req.teaching_mode,
+    )
+    db.add(session)
+    await db.commit()
+    await db.refresh(session)
+    return {"session_id": session.id}
+
+
+@router.post("/chat")
+async def chat(
+    req: TutorRequest,
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """Main Socratic chat endpoint. Returns SSE stream."""
+    lesson_result = await db.execute(select(Lesson).where(Lesson.id == req.lesson_id))
+    lesson = lesson_result.scalar_one_or_none()
+    if not lesson:
+        raise HTTPException(status_code=404, detail="Lesson not found")
+
+    course_result = await db.execute(select(Course).where(Course.id == lesson.course_id))
+    course = course_result.scalar_one_or_none()
+
+    teaching_mode = req.teaching_mode or user.teaching_mode or "default"
+    mode_instruction = TEACHING_MODE_PROMPTS.get(teaching_mode, TEACHING_MODE_PROMPTS["default"])
+
+    kb_chunks = await get_relevant_chunks(req.message, req.lesson_id, db, top_k=4)
+    kb_context = "\n\n---\n\n".join(kb_chunks) if kb_chunks else lesson.content_md[:2000]
+
+    mastery_result = await db.execute(
+        select(ConceptNode, StudentMastery)
+        .join(StudentMastery, ConceptNode.id == StudentMastery.concept_id, isouter=True)
+        .where(ConceptNode.course_id == lesson.course_id)
+        .where(StudentMastery.user_id == user.id)
+        .where(StudentMastery.is_mastered == True)
+    )
+    mastered = [row[0].label for row in mastery_result.all()]
+
+    accessibility_modifier = get_user_accessibility_modifier(user)
+    accessibility_section = (
+        f"## Accessibility Requirements\n{accessibility_modifier}"
+        if accessibility_modifier
+        else ""
     )
 
-    # Use Orchestrator to stream the turn
-    orchestrator = Orchestrator()
+    system_prompt = SYSTEM_PROMPT_TEMPLATE.format(
+        mode_instruction=mode_instruction,
+        accessibility_section=accessibility_section,
+        course_title=course.title if course else "",
+        lesson_title=lesson.title,
+        key_concepts=", ".join(lesson.key_concepts),
+        kb_context=kb_context[:3000],
+        mastered_concepts=", ".join(mastered) if mastered else "None yet",
+        teaching_mode=teaching_mode,
+    )
 
-    async def gen():
-        buf = ""
-        # 1. Stream the background agent events
-        async for event, payload in orchestrator.stream_turn(ctx):
-            if event == "done":
-                # Final save to DB
-                s.transcript = (s.transcript or "") + f"\nUSER: {message}\nSAGE: {ctx.answer.strip()}"
-                db.commit()
-                yield _sse("done", payload)
-            elif event == "token":
-                # This should not happen yet as Orchestrator.stream_turn doesn't stream tokens yet
-                # Wait, orchestrator.stream_turn doesn't yield 'token' events.
-                # I should probably update stream_turn to stream tokens from the content agent.
-                pass
-            else:
-                yield _sse(event, payload)
-        
-        # 2. Stream the final answer
-        async for tok in _stream_tokens(ctx.answer):
-            yield _sse("token", {"agent": "socratic", "text": tok})
-            
-    return EventSourceResponse(gen())
+    messages = [{"role": m.role, "content": m.content} for m in req.history]
+    messages.append({"role": "user", "content": req.message})
+
+    agent_trace = {
+        "pedagogy": teaching_mode,
+        "retrieved_chunks": len(kb_chunks),
+        "mastered_concepts": len(mastered),
+        "timestamp": datetime.utcnow().isoformat(),
+    }
+
+    return StreamingResponse(
+        _stream_response(
+            system_prompt=system_prompt,
+            messages=messages,
+            user=user,
+            lesson=lesson,
+            session_id=req.session_id,
+            kb_chunks=kb_chunks,
+            agent_trace=agent_trace,
+            voice_enabled=req.voice_enabled,
+            db=db,
+        ),
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+    )
+
+
+async def _stream_response(
+    system_prompt: str,
+    messages: list[dict],
+    user: User,
+    lesson: Lesson,
+    session_id: Optional[int],
+    kb_chunks: list[str],
+    agent_trace: dict,
+    voice_enabled: bool,
+    db: AsyncSession,
+) -> AsyncGenerator[str, None]:
+    full_response = ""
+    search_was_called = False
+
+    try:
+        yield _sse("agent_event", {"type": "content_retrieved", "chunks": len(kb_chunks)})
+        yield _sse("agent_event", {"type": "pedagogy_applied", "mode": agent_trace["pedagogy"]})
+
+        if settings.llm_provider == "anthropic":
+            async for chunk in _stream_anthropic(system_prompt, messages):
+                full_response += chunk
+                yield _sse("token", {"content": chunk})
+        else:
+            async for chunk in _stream_openai(system_prompt, messages):
+                full_response += chunk
+                yield _sse("token", {"content": chunk})
+
+        verification = verify_response(full_response, kb_chunks, search_was_called)
+        agent_trace["verification"] = {
+            "passed": verification.passed,
+            "flags": verification.flags,
+            "score": verification.score,
+        }
+
+        yield _sse("verification", {
+            "passed": verification.passed,
+            "flags": verification.flags,
+            "score": verification.score,
+        })
+
+        if voice_enabled and settings.elevenlabs_api_key:
+            audio_bytes = await synthesize_speech(full_response)
+            if audio_bytes:
+                import base64
+                yield _sse("audio", {"data": base64.b64encode(audio_bytes).decode()})
+
+        if session_id:
+            msg = TutorMessage(
+                session_id=session_id,
+                role="user",
+                content=messages[-1]["content"],
+                retrieved_chunks=[c[:200] for c in kb_chunks],
+                verification_passed=verification.passed,
+                verification_flags=verification.flags,
+                agent_trace=agent_trace,
+            )
+            db.add(msg)
+            reply_msg = TutorMessage(
+                session_id=session_id,
+                role="assistant",
+                content=full_response,
+                verification_passed=verification.passed,
+                verification_flags=verification.flags,
+                agent_trace=agent_trace,
+            )
+            db.add(reply_msg)
+            await db.commit()
+
+        yield _sse("done", {"response": full_response, "agent_trace": agent_trace})
+
+    except Exception as e:
+        yield _sse("error", {"message": str(e)})
+
+
+async def _stream_anthropic(system_prompt: str, messages: list[dict]) -> AsyncGenerator[str, None]:
+    import anthropic as anth
+    client = anth.AsyncAnthropic(api_key=settings.llm_api_key)
+    model = yaml_cfg.get("models", {}).get("tutor", {}).get("anthropic", "claude-sonnet-4-5")
+
+    async with client.messages.stream(
+        model=model,
+        max_tokens=1024,
+        system=system_prompt,
+        messages=messages,
+    ) as stream:
+        async for text in stream.text_stream:
+            yield text
+
+
+async def _stream_openai(system_prompt: str, messages: list[dict]) -> AsyncGenerator[str, None]:
+    from openai import AsyncOpenAI
+    provider = settings.llm_provider
+    if provider == "asi1":
+        base_url = yaml_cfg["llm"]["asi1_base"]
+        api_key = settings.asi1_api_key
+        model = yaml_cfg.get("models", {}).get("tutor", {}).get("asi1", "asi1-mini")
+    elif provider == "groq":
+        base_url = yaml_cfg["llm"]["groq_base"]
+        api_key = settings.llm_api_key
+        model = yaml_cfg.get("models", {}).get("tutor", {}).get("groq", "llama-3.3-70b-versatile")
+    else:
+        base_url = yaml_cfg["llm"]["openai_base"]
+        api_key = settings.llm_api_key
+        model = yaml_cfg.get("models", {}).get("tutor", {}).get("openai", "gpt-4o")
+
+    client = AsyncOpenAI(base_url=base_url, api_key=api_key)
+    all_messages = [{"role": "system", "content": system_prompt}] + messages
+
+    stream = await client.chat.completions.create(
+        model=model,
+        messages=all_messages,
+        max_tokens=1024,
+        stream=True,
+    )
+    async for chunk in stream:
+        delta = chunk.choices[0].delta.content
+        if delta:
+            yield delta
+
+
+def _sse(event: str, data: dict) -> str:
+    return f"event: {event}\ndata: {json.dumps(data)}\n\n"

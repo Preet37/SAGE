@@ -1,105 +1,108 @@
-"""Hallucination / groundedness checking.
-
-A claim is considered grounded if it has substantial token-overlap with at least
-one retrieved source. This is intentionally lightweight (no external model call)
-so it is safe to run on every streamed sentence.
-
-`verify(answer, sources)` returns a `VerificationReport` with per-claim verdicts
-plus an aggregate score in [0, 1].
 """
-
-from __future__ import annotations
-
+Output verification layer — Cognition track.
+Checks LLM responses for hallucinations, fabricated URLs,
+quiz format validity, and sourcing before the student sees them.
+"""
 import re
+import json
 from dataclasses import dataclass, field
-
-from app.core.retrieval import tokenize
-
-_SENT_SPLIT = re.compile(r"(?<=[.!?])\s+(?=[A-Z(])")
-_STOP = {
-    "the", "a", "an", "of", "to", "in", "is", "it", "and", "or", "for", "on",
-    "with", "as", "by", "that", "this", "are", "be", "was", "were", "at",
-    "from", "but", "if", "then", "so", "we", "you", "i", "he", "she", "they",
-}
-
-
-def split_claims(text: str) -> list[str]:
-    text = text.strip()
-    if not text:
-        return []
-    return [c.strip() for c in _SENT_SPLIT.split(text) if c.strip()]
-
-
-def _content_tokens(s: str) -> set[str]:
-    return {t for t in tokenize(s) if t not in _STOP and len(t) > 1}
-
-
-def claim_support(claim: str, sources: list[str], threshold: float = 0.4) -> tuple[float, int | None]:
-    claim_toks = _content_tokens(claim)
-    if not claim_toks:
-        return 1.0, None
-    best = 0.0
-    best_idx: int | None = None
-    for i, src in enumerate(sources):
-        src_toks = _content_tokens(src)
-        if not src_toks:
-            continue
-        overlap = len(claim_toks & src_toks) / len(claim_toks)
-        if overlap > best:
-            best = overlap
-            best_idx = i
-    return best, (best_idx if best >= threshold else None)
+from typing import Optional
 
 
 @dataclass
-class ClaimVerdict:
-    claim: str
-    score: float
-    grounded: bool
-    source_index: int | None
-
-
-@dataclass
-class VerificationReport:
-    claims: list[ClaimVerdict] = field(default_factory=list)
+class VerificationResult:
+    passed: bool
+    flags: list[str] = field(default_factory=list)
     score: float = 1.0
-    grounded: bool = True
-
-    def to_payload(self) -> dict:
-        return {
-            "score": round(self.score, 3),
-            "grounded": self.grounded,
-            "claims": [
-                {
-                    "claim": c.claim,
-                    "score": round(c.score, 3),
-                    "grounded": c.grounded,
-                    "source_index": c.source_index,
-                }
-                for c in self.claims
-            ],
-        }
 
 
-def verify(answer: str, sources: list[str], threshold: float = 0.4) -> VerificationReport:
-    claims = split_claims(answer)
-    if not claims:
-        return VerificationReport(claims=[], score=1.0, grounded=True)
+URL_PATTERN = re.compile(r"https?://\S+")
+QUIZ_PATTERN = re.compile(r"<quiz>(.*?)</quiz>", re.DOTALL)
 
-    verdicts: list[ClaimVerdict] = []
-    for claim in claims:
-        score, src_idx = claim_support(claim, sources, threshold)
-        verdicts.append(
-            ClaimVerdict(
-                claim=claim,
-                score=score,
-                grounded=src_idx is not None,
-                source_index=src_idx,
-            )
-        )
-    agg = sum(v.score for v in verdicts) / len(verdicts)
-    return VerificationReport(
-        claims=verdicts,
-        score=agg,
-        grounded=all(v.grounded for v in verdicts),
-    )
+
+def verify_response(
+    response: str,
+    context_chunks: list[str],
+    search_was_called: bool = False,
+) -> VerificationResult:
+    """
+    Run all verification checks on a tutor response.
+    Returns VerificationResult with pass/fail and any flags.
+    """
+    flags = []
+
+    # 1. URL fabrication check
+    urls_in_response = URL_PATTERN.findall(response)
+    if urls_in_response and not search_was_called:
+        flags.append(f"URL_FABRICATION: Found {len(urls_in_response)} URL(s) without search tool call")
+
+    # 2. Quiz format validation
+    quiz_matches = QUIZ_PATTERN.findall(response)
+    for quiz_json in quiz_matches:
+        try:
+            quiz = json.loads(quiz_json.strip())
+            if not isinstance(quiz, dict):
+                flags.append("QUIZ_FORMAT: Quiz is not a JSON object")
+            elif "question" not in quiz or "options" not in quiz:
+                flags.append("QUIZ_FORMAT: Quiz missing required fields (question, options)")
+        except json.JSONDecodeError:
+            flags.append("QUIZ_FORMAT: Invalid JSON in <quiz> block")
+
+    # 3. Grounding check — key claims should appear in context
+    if context_chunks:
+        grounding_score = _check_grounding(response, context_chunks)
+        if grounding_score < 0.15:
+            flags.append(f"LOW_GROUNDING: Response may not be grounded in KB (score: {grounding_score:.2f})")
+    else:
+        grounding_score = 1.0
+
+    # 4. Length sanity
+    if len(response) > 8000:
+        flags.append("RESPONSE_TOO_LONG: Response exceeds 8000 characters")
+
+    # 5. Markdown math consistency
+    if "$$" in response:
+        open_count = response.count("$$")
+        if open_count % 2 != 0:
+            flags.append("MATH_NOTATION: Unmatched $$ delimiters")
+
+    passed = len([f for f in flags if "FABRICATION" in f or "QUIZ_FORMAT" in f]) == 0
+    score = max(0.0, 1.0 - (len(flags) * 0.15))
+
+    return VerificationResult(passed=passed, flags=flags, score=score)
+
+
+def _check_grounding(response: str, chunks: list[str]) -> float:
+    """
+    Simple keyword overlap grounding check.
+    Returns a score 0-1 indicating how grounded the response is.
+    """
+    if not chunks:
+        return 1.0
+
+    response_words = set(re.findall(r"\b\w{4,}\b", response.lower()))
+    context_words = set()
+    for chunk in chunks:
+        context_words.update(re.findall(r"\b\w{4,}\b", chunk.lower()))
+
+    if not response_words:
+        return 0.0
+
+    overlap = response_words.intersection(context_words)
+    return len(overlap) / len(response_words)
+
+
+def extract_quiz_from_response(response: str) -> Optional[dict]:
+    """Extract and parse a quiz block from a tutor response."""
+    match = QUIZ_PATTERN.search(response)
+    if match:
+        try:
+            return json.loads(match.group(1).strip())
+        except json.JSONDecodeError:
+            return None
+    return None
+
+
+def strip_quiz_from_response(response: str) -> str:
+    """Remove <quiz>...</quiz> blocks for display purposes."""
+    return QUIZ_PATTERN.sub("", response).strip()
