@@ -20,6 +20,25 @@ router = APIRouter(prefix="/visual", tags=["visual"])
 
 # Supported viz types and what params they expect
 VIZ_SCHEMA = {
+    "mechanical": {
+        "description": "High-quality 3D mechanical/physics object with real geometry — wind turbine, pendulum, atom, orbital mechanics, spring-mass, gear system",
+        "params": {
+            "subtype": "wind_turbine | pendulum | atom | orbital | spring | gears",
+            "animated": "bool — animate the system",
+            "rpm": "(wind_turbine) float — rotor RPM",
+            "length": "(pendulum) float — arm length",
+            "angle": "(pendulum) float — initial angle degrees",
+            "protons": "(atom) int — proton count",
+            "electrons": "(atom) int — electron count",
+            "shells": "(atom) array of ints — electrons per shell e.g. [2,8,6]",
+            "element": "(atom) string — element name",
+            "bodies": "(orbital) int — number of planets",
+            "springConstant": "(spring) float — k value N/m",
+            "mass": "(spring) float — mass kg",
+            "amplitude": "(spring) float — displacement m",
+            "gears": "(gears) int — number of gears",
+        }
+    },
     "neural_network": {
         "description": "3D neural network with layers, nodes, animated forward pass",
         "params": {
@@ -134,7 +153,7 @@ async def generate_visual(
     if req.force_type and req.force_type in VIZ_SCHEMA:
         force_hint = f'\nYou MUST use vizType: "{req.force_type}"'
 
-    prompt = f"""You are the SAGE Visualization Agent. Your job is to generate a VIZCONFIG JSON that will be rendered as a real-time interactive 3D visualization in a Three.js scene.
+    prompt = f"""You are the SAGE Visualization Agent. Your job is to generate a VIZCONFIG JSON rendered as a real-time interactive 3D Three.js scene.
 
 The student asked for a visual explanation of: {req.concept}
 {lesson_context}
@@ -144,17 +163,29 @@ Additional context: {req.context[:500] if req.context else "none"}
 Available visualization types and their params:
 {schema_str}
 
-Rules:
-1. Pick the BEST vizType for this concept. Neural network concepts → neural_network. Loss/optimization → gradient_descent. Transformers/attention → attention. Pipelines → data_flow. CNNs → convolution. Word vectors → embedding_space. Classification → decision_tree. Everything else → custom_geometry.
-2. Fill ALL params with real, accurate values for this concept. Not placeholders.
-3. For neural_network: layers should reflect the actual architecture being taught.
-4. For attention: tokens should be real example words related to the concept.
-5. For embedding_space: points should be real concept words clustered meaningfully.
-6. For gradient_descent: lossType should match the optimization problem.
-7. Make it EDUCATIONAL — the visualization should make the concept intuitive.
-8. title and description must be concise and clear.
+ROUTING RULES — pick the MOST specific type available:
+- Wind turbines, pendulums, atoms, orbits, springs, gears → mechanical (with correct subtype)
+- Neural networks, MLPs, backprop, perceptrons → neural_network
+- Loss landscape, gradient descent, optimization → gradient_descent
+- Attention, transformers, Q/K/V, BERT, GPT attention heads → attention
+- Data pipelines, preprocessing flows, ETL → data_flow
+- CNNs, filters, feature maps, convolution → convolution
+- Word2Vec, embeddings, latent space, vectors → embedding_space
+- Anything physics/mechanical/science that has a mechanical subtype → mechanical
+- LAST RESORT ONLY: custom_geometry for abstract concepts with NO mechanical subtype
 
-Return ONLY a valid JSON object. No markdown. No explanation. Just the JSON:
+For custom_geometry — use RICH params:
+- type options: box | sphere | cylinder | cone | torus | octahedron | lathe
+- For lathe: include "radiusPoints": [[radius, height], ...] for tapered/cylindrical shapes
+- Include metalness (0-1) and roughness (0-1) per object for PBR realism
+- Include "animate": {{"type":"rotate","axis":"y","speed":0.015}} for moving parts
+- Use "connections" with tube-based bezier paths between objects
+- Colors should be varied and meaningful, not all the same
+
+Fill ALL params with real, accurate, concept-specific values. Not placeholders.
+Make it EDUCATIONAL — the visualization should make the concept visually intuitive.
+
+Return ONLY a valid JSON object:
 
 {{
   "vizType": "...",
@@ -165,15 +196,41 @@ Return ONLY a valid JSON object. No markdown. No explanation. Just the JSON:
 
     raw = await asi1_complete(prompt, max_tokens=1024)
 
-    # Extract JSON
+    # Extract JSON — try progressively more aggressive extraction strategies
+    vizconfig = None
     match = re.search(r'\{[\s\S]*\}', raw)
-    if not match:
-        raise HTTPException(status_code=422, detail="Could not generate valid VIZCONFIG")
+    if match:
+        raw_json = match.group(0)
+        # Strategy 1: parse as-is
+        try:
+            vizconfig = json.loads(raw_json)
+        except json.JSONDecodeError:
+            # Strategy 2: strip trailing commas before } or ]
+            cleaned = re.sub(r',\s*([}\]])', r'\1', raw_json)
+            # Strategy 3: strip // comments
+            cleaned = re.sub(r'//[^\n]*', '', cleaned)
+            # Strategy 4: strip /* */ comments
+            cleaned = re.sub(r'/\*[\s\S]*?\*/', '', cleaned)
+            try:
+                vizconfig = json.loads(cleaned)
+            except json.JSONDecodeError:
+                # Strategy 5: try to find the outermost complete JSON object
+                depth = 0
+                start = raw_json.find('{')
+                end = start
+                for i, c in enumerate(raw_json[start:], start):
+                    if c == '{': depth += 1
+                    elif c == '}':
+                        depth -= 1
+                        if depth == 0:
+                            end = i; break
+                try:
+                    vizconfig = json.loads(raw_json[start:end + 1])
+                except Exception:
+                    pass
 
-    try:
-        vizconfig = json.loads(match.group(0))
-    except json.JSONDecodeError as e:
-        raise HTTPException(status_code=422, detail=f"Invalid JSON from LLM: {e}")
+    if not vizconfig:
+        raise HTTPException(status_code=422, detail="Could not generate valid VIZCONFIG")
 
     if "vizType" not in vizconfig or vizconfig["vizType"] not in VIZ_SCHEMA:
         # Fall back to custom_geometry rather than erroring
