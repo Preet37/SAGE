@@ -1,6 +1,6 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useRef, useEffect, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { getToken } from "@/lib/auth";
 import { api, ExplorationSessionResponse } from "@/lib/api";
 import { useExploreStream, Message } from "@/lib/useExploreStream";
@@ -28,7 +28,17 @@ import { ConceptDeepDive } from "@/components/explore/ConceptDeepDive";
 import { cn } from "@/lib/utils";
 
 export default function ExplorePage() {
+  return (
+    <Suspense>
+      <ExplorePageInner />
+    </Suspense>
+  );
+}
+
+function ExplorePageInner() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const initialQ = searchParams.get("q") || "";
   const {
     messages,
     toolResults,
@@ -42,7 +52,7 @@ export default function ExplorePage() {
 
   const [input, setInput] = useState("");
   const [mode, setMode] = useState("default");
-  const [exploreMode, setExploreMode] = useState<"chat" | "deepdive">("chat");
+  const [exploreMode, setExploreMode] = useState<"chat" | "deepdive">(initialQ ? "deepdive" : "chat");
   const [showHistory, setShowHistory] = useState(false);
   const [sessions, setSessions] = useState<ExplorationSessionResponse[]>([]);
   const [sessionsLoading, setSessionsLoading] = useState(false);
@@ -278,7 +288,7 @@ export default function ExplorePage() {
       )}
 
       {exploreMode === "deepdive" ? (
-        <ConceptDeepDive />
+        <ConceptDeepDive initialQuery={initialQ} />
       ) : (
         <>
           {messages.length === 0 ? (

@@ -16,7 +16,8 @@ import { parseFlowDiagram } from "@/lib/schemas/flow";
 import { parseArchitectureDiagram } from "@/lib/schemas/architecture";
 import { api } from "@/lib/api";
 import { getToken } from "@/lib/auth";
-import { Loader2, Play, ExternalLink, BookOpen, ImageIcon, ZoomIn, X, BarChart2 } from "lucide-react";
+import { Loader2, Play, ExternalLink, BookOpen, ImageIcon, ZoomIn, X, BarChart2, Microscope } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface MessageBubbleProps {
   role: "user" | "assistant";
@@ -249,6 +250,7 @@ function ImageCard({
 }
 
 function MessageBubbleInner({ role, content, isStreaming, onSendMessage, lessonTitle }: MessageBubbleProps) {
+  const router = useRouter();
   const [plotHtml, setPlotHtml] = useState<string | null>(null);
   const [plotTopic, setPlotTopic] = useState<string>("");
   const [plotLoading, setPlotLoading] = useState(false);
@@ -419,7 +421,7 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, lessonT
         })}
       </div>
 
-      {/* Visualize button — only for non-streaming assistant messages */}
+      {/* Action buttons — only for non-streaming assistant messages */}
       {!isStreaming && content.length > 80 && (
         <div className="mt-3 flex items-center gap-2 flex-wrap">
           {plotHtml ? (
@@ -442,6 +444,15 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, lessonT
               )}
             </button>
           )}
+          <button
+            onClick={() => {
+              const topic = lessonTitle || content.slice(0, 60).replace(/\n/g, " ").trim();
+              router.push(`/explore?q=${encodeURIComponent(topic)}`);
+            }}
+            className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+          >
+            <Microscope className="h-3 w-3" /> Deep Dive
+          </button>
         </div>
       )}
 

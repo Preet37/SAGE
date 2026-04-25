@@ -44,9 +44,9 @@ function RevealSection({ index, children }: { index: number; children: React.Rea
   );
 }
 
-export function ConceptDeepDive() {
+export function ConceptDeepDive({ initialQuery = "" }: { initialQuery?: string }) {
   const router = useRouter();
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(initialQuery);
   const [concept, setConcept] = useState<ConceptPageResponse | null>(null);
   const [suggestions, setSuggestions] = useState<ConceptSuggestion[]>([]);
   const [loading, setLoading] = useState(false);
@@ -64,6 +64,14 @@ export function ConceptDeepDive() {
       .catch(() => {})
       .finally(() => setSuggestionsLoading(false));
   }, [router]);
+
+  // Auto-search if an initial query was provided
+  useEffect(() => {
+    if (initialQuery) {
+      handleSearch(initialQuery);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const filteredSuggestions = query.trim().length > 0
     ? suggestions.filter((s) => s.label.toLowerCase().includes(query.toLowerCase().trim()))
