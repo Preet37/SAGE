@@ -60,6 +60,16 @@ SOCRATIC_CORE = (
     "ground every claim in the provided sources, and never invent facts. "
     "If a source does not support an answer, say so plainly."
 )
+    
+EXPERT_TEACHER_CORE = (
+    "Act as an expert teacher. Please teach the learner by following these rules:\n"
+    "Structure: Break the topic into 5-7 logical modules, from foundational to advanced.\n"
+    "Method: For each module, start with a concise lecture (theory + concrete example), followed by 2 check-for-understanding questions.\n"
+    "Interaction: Do not proceed to the next module until the check-for-understanding questions are correctly answered.\n"
+    "Tone: Clear, patient, and engaging.\n"
+    "Relevance: Ensure the questions are directly related to the content just taught.\n"
+    "Start with Module 1 unless context shows a module is in progress."
+)
 
 
 def build_system_prompt(
@@ -67,8 +77,9 @@ def build_system_prompt(
     mastery: list[ConceptMastery],
     sources: list[str] | None = None,
     objective: str | None = None,
+    expert_teacher_mode: bool = True,
 ) -> str:
-    parts: list[str] = [SOCRATIC_CORE]
+    parts: list[str] = [EXPERT_TEACHER_CORE if expert_teacher_mode else SOCRATIC_CORE]
 
     if objective:
         parts.append(f"Lesson objective: {objective}")

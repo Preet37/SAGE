@@ -5,9 +5,11 @@ import Link from "next/link";
 interface AppHeaderProps {
   courseId?: string;
   lessonId?: string;
+  onToggleGraph?: () => void;
+  isGraphOpen?: boolean;
 }
 
-export default function AppHeader({ courseId, lessonId }: AppHeaderProps) {
+export default function AppHeader({ courseId, lessonId, onToggleGraph, isGraphOpen }: AppHeaderProps) {
   return (
     <header
       className="flex items-center justify-between rounded-3xl px-5 py-3"
@@ -49,6 +51,21 @@ export default function AppHeader({ courseId, lessonId }: AppHeaderProps) {
         >
           Socratic mode
         </span>
+        {onToggleGraph && (
+          <button
+            onClick={onToggleGraph}
+            className="grid h-9 w-9 place-items-center rounded-full text-lg transition-all"
+            style={{
+              background: isGraphOpen ? "var(--color-primary)" : "var(--color-muted)",
+              color: isGraphOpen ? "var(--color-on-primary)" : "var(--color-foreground)",
+              cursor: "pointer",
+              border: "1px solid var(--color-border)",
+            }}
+            title="View the Brain"
+          >
+            🧠
+          </button>
+        )}
         <button
           aria-label="Profile"
           className="grid h-9 w-9 place-items-center rounded-full text-sm font-bold"

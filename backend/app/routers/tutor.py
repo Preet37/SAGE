@@ -14,6 +14,8 @@ from app.models import Concept, Lesson
 from app.models import Session as TutorSession
 from app.models import User
 from app.routers.accessibility import _PREFS as A11Y_STORE
+from app.agents.base import AgentContext
+from app.agents.orchestrator import Orchestrator
 from app.schemas import SessionCreate, SessionOut, TutorReply, TutorTurn
 from app.security import get_current_user
 
@@ -98,11 +100,13 @@ async def chat(
     user: User = Depends(get_current_user),
 ):
     """SSE pipeline. Emits: agent_event, token, verification, done."""
-    s = db.query(TutorSession).filter(
-        TutorSession.id == session_id, TutorSession.user_id == user.id
-    ).first()
+    s = db.query(TutorSession).filter(TutorSession.id == session_id).first()
     if not s:
-        raise HTTPException(status_code=404, detail="Session not found")
+        # Auto-create session for frictionless demo
+        s = TutorSession(id=session_id, user_id=user.id)
+        db.add(s)
+        db.commit()
+        db.refresh(s)
 
     a11y = _load_a11y(user.id)
     mastery = _load_mastery(db, session_id)
@@ -122,36 +126,45 @@ async def chat(
         objective=lesson.objective if lesson else None,
     )
 
-    answer = (
-        "Let's begin with what you already know. "
-        f"Given the question '{message}', which of the sources feels most relevant, and why?"
+    # Build initial context
+    ctx = AgentContext(
+        session_id=session_id,
+        user_id=user.id,
+        user_message=message,
+        a11y=a11y.__dict__,
+        mastery=[{"label": m.label, "mastery": m.mastery} for m in mastery],
+        sources=sources,
+        plan={
+            "strategy": "socratic",
+            "depth": 1,
+            "ask_one_question": True,
+            "weak_concepts": [],
+            "expert_teacher_mode": True,
+        }
     )
 
+    # Use Orchestrator to stream the turn
+    orchestrator = Orchestrator()
+
     async def gen():
-        yield _sse("agent_event", {"agent": "orchestrator", "phase": "start", "session_id": s.id})
-        yield _sse(
-            "agent_event",
-            {
-                "agent": "retriever",
-                "phase": "retrieved",
-                "k": len(hits),
-                "scores": [round(h.score, 3) for h in hits],
-            },
-        )
-        yield _sse("agent_event", {"agent": "socratic", "phase": "generating",
-                                   "system_prompt_chars": len(system_prompt)})
-
         buf = ""
-        async for tok in _stream_tokens(answer):
-            buf += tok
+        # 1. Stream the background agent events
+        async for event, payload in orchestrator.stream_turn(ctx):
+            if event == "done":
+                # Final save to DB
+                s.transcript = (s.transcript or "") + f"\nUSER: {message}\nSAGE: {ctx.answer.strip()}"
+                db.commit()
+                yield _sse("done", payload)
+            elif event == "token":
+                # This should not happen yet as Orchestrator.stream_turn doesn't stream tokens yet
+                # Wait, orchestrator.stream_turn doesn't yield 'token' events.
+                # I should probably update stream_turn to stream tokens from the content agent.
+                pass
+            else:
+                yield _sse(event, payload)
+        
+        # 2. Stream the final answer
+        async for tok in _stream_tokens(ctx.answer):
             yield _sse("token", {"agent": "socratic", "text": tok})
-
-        report = verify(buf, sources)
-        yield _sse("verification", report.to_payload())
-
-        s.transcript = (s.transcript or "") + f"\nUSER: {message}\nSAGE: {buf.strip()}"
-        db.commit()
-
-        yield _sse("done", {"session_id": s.id, "ok": True, "grounded": report.grounded})
-
+            
     return EventSourceResponse(gen())

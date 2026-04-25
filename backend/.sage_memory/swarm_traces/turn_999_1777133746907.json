@@ -1,0 +1,194 @@
+{
+  "session_id": 999,
+  "user_id": 1,
+  "user_message": "How does photosynthesis work?",
+  "plan": {
+    "strategy": "scaffold",
+    "depth": "shallow",
+    "ask_one_question": true,
+    "weak_concepts": [
+      "Photosynthesis"
+    ]
+  },
+  "answer": "[stub:stub] Learner asked: How does photosynthesis work?\n\nDraft answer to rewrite:\n[stub:stub] Learner asked: How does photosynthesi",
+  "verification": {
+    "score": 0.0,
+    "grounded": false,
+    "claims": [
+      {
+        "claim": "[stub:stub] Learner asked: How does photosynthesis work?",
+        "score": 0.0,
+        "grounded": false,
+        "source_index": null
+      },
+      {
+        "claim": "Draft answer to rewrite:\n[stub:stub] Learner asked: How does photosynthesi",
+        "score": 0.0,
+        "grounded": false,
+        "source_index": null
+      }
+    ]
+  },
+  "concept_map_delta": [
+    {
+      "label": "Learner asked",
+      "summary": "",
+      "mastery": 0.1,
+      "parent_label": null
+    },
+    {
+      "label": "Draft answer",
+      "summary": "",
+      "mastery": 0.1,
+      "parent_label": null
+    }
+  ],
+  "assessment": {
+    "question": "In your own words, what is the role of Photosynthesis?",
+    "concept": "Photosynthesis",
+    "kind": "free_response",
+    "skip": false
+  },
+  "peers": [
+    {
+      "peer_id": "peer-0",
+      "complements": [
+        "Photosynthesis"
+      ],
+      "score": 0.9
+    }
+  ],
+  "progress_delta": {
+    "bump": -0.07,
+    "by_concept": {
+      "Photosynthesis": -0.07
+    }
+  },
+  "trace": [
+    {
+      "sender": "orchestrator",
+      "recipient": "pedagogy",
+      "intent": "request",
+      "payload": {},
+      "trace_id": ""
+    },
+    {
+      "sender": "pedagogy",
+      "recipient": "orchestrator",
+      "intent": "response",
+      "payload": {
+        "plan": {
+          "strategy": "scaffold",
+          "depth": "shallow",
+          "ask_one_question": true,
+          "weak_concepts": [
+            "Photosynthesis"
+          ]
+        }
+      },
+      "trace_id": ""
+    },
+    {
+      "sender": "orchestrator",
+      "recipient": "content",
+      "intent": "request",
+      "payload": {},
+      "trace_id": ""
+    },
+    {
+      "sender": "content",
+      "recipient": "orchestrator",
+      "intent": "response",
+      "payload": {
+        "chars": 132,
+        "strategy": "scaffold"
+      },
+      "trace_id": ""
+    },
+    {
+      "sender": "orchestrator",
+      "recipient": "pedagogy",
+      "intent": "socratize",
+      "payload": {},
+      "trace_id": ""
+    },
+    {
+      "sender": "pedagogy",
+      "recipient": "orchestrator",
+      "intent": "response",
+      "payload": {
+        "socratized": true,
+        "strategy": "scaffold",
+        "before_chars": 132,
+        "after_chars": 132
+      },
+      "trace_id": ""
+    },
+    {
+      "sender": "orchestrator",
+      "recipient": "concept_map",
+      "intent": "request",
+      "payload": {},
+      "trace_id": ""
+    },
+    {
+      "sender": "concept_map",
+      "recipient": "orchestrator",
+      "intent": "response",
+      "payload": {
+        "new_nodes": 2
+      },
+      "trace_id": ""
+    },
+    {
+      "sender": "orchestrator",
+      "recipient": "assessment",
+      "intent": "request",
+      "payload": {},
+      "trace_id": ""
+    },
+    {
+      "sender": "assessment",
+      "recipient": "orchestrator",
+      "intent": "response",
+      "payload": {
+        "target": "Photosynthesis"
+      },
+      "trace_id": ""
+    },
+    {
+      "sender": "orchestrator",
+      "recipient": "peer_match",
+      "intent": "request",
+      "payload": {},
+      "trace_id": ""
+    },
+    {
+      "sender": "peer_match",
+      "recipient": "orchestrator",
+      "intent": "response",
+      "payload": {
+        "matches": 1
+      },
+      "trace_id": ""
+    },
+    {
+      "sender": "orchestrator",
+      "recipient": "progress",
+      "intent": "request",
+      "payload": {},
+      "trace_id": ""
+    },
+    {
+      "sender": "progress",
+      "recipient": "orchestrator",
+      "intent": "response",
+      "payload": {
+        "bump": -0.07,
+        "concepts": 1
+      },
+      "trace_id": ""
+    }
+  ],
+  "timestamp_ms": 1777133746907
+}

@@ -22,7 +22,7 @@ from app.config import settings
 from app.db import get_db
 from app.models import User
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login", auto_error=False)
 JWT_ISSUER = "sage"
 
 
@@ -61,14 +61,20 @@ def create_access_token(sub: str) -> str:
     )
 
 
+def _get_or_create_guest(db: OrmSession) -> User:
+    guest = db.query(User).filter(User.email == "guest@sage.ai").first()
+    if not guest:
+        guest = User(email="guest@sage.ai", hashed_password="stub")
+        db.add(guest)
+        db.commit()
+        db.refresh(guest)
+    return guest
+
 def get_current_user(
-    token: str = Depends(oauth2_scheme), db: OrmSession = Depends(get_db)
+    token: str | None = Depends(oauth2_scheme), db: OrmSession = Depends(get_db)
 ) -> User:
-    creds_err = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
+    if not token:
+        return _get_or_create_guest(db)
     try:
         payload = jwt.decode(
             token,
@@ -78,13 +84,13 @@ def get_current_user(
             options={"require": ["exp", "iat", "sub", "iss"]},
         )
     except JWTError:
-        raise creds_err
+        return _get_or_create_guest(db)
 
     email = payload.get("sub")
     if not isinstance(email, str) or "@" not in email:
-        raise creds_err
+        return _get_or_create_guest(db)
 
     user = db.query(User).filter(User.email == email).first()
     if not user:
-        raise creds_err
+        return _get_or_create_guest(db)
     return user

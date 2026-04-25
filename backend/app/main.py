@@ -15,6 +15,7 @@ from app.routers import (
     concept_map,
     courses,
     dashboard,
+    lesson,
     network,
     notes,
     replay,
@@ -64,5 +65,6 @@ for r in (
     accessibility.router,
     dashboard.router,
     notes.router,
+    lesson.router,
 ):
     app.include_router(r)

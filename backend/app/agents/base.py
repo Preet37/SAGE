@@ -15,7 +15,9 @@ from dataclasses import dataclass, field
 from typing import Any, Protocol
 
 import httpx
+from google import genai
 
+from app.config import settings
 log = logging.getLogger("sage.agents")
 
 
@@ -114,6 +116,30 @@ class ASI1MiniProvider:
             return data["choices"][0]["message"]["content"]
 
 
+class GeminiProvider:
+    """Google Gemini provider."""
+
+    name = "gemini"
+
+    def __init__(self, api_key: str, model: str = "gemini-1.5-flash"):
+        self.client = genai.Client(api_key=api_key)
+        self.model = model
+
+    async def complete(self, system: str, user: str, **kw: Any) -> str:
+        # Use sync-to-async wrapper if genai doesn't have native async, 
+        # or just call it directly if it's fast enough. 
+        # Actually, genai.Client().models.generate_content is usually synchronous in this SDK.
+        # We'll use asyncio.to_thread to avoid blocking.
+        import asyncio
+        response = await asyncio.to_thread(
+            self.client.models.generate_content,
+            model=self.model,
+            config={"system_instruction": system},
+            contents=user
+        )
+        return response.text
+
+
 class StubProvider:
     """Offline default — used when no API keys are configured."""
 
@@ -133,16 +159,20 @@ class LLM:
     @classmethod
     def from_env(cls) -> "LLM":
         primary: LLMProvider
-        if k := os.getenv("ANTHROPIC_API_KEY"):
-            primary = AnthropicProvider(k)
-        elif k := os.getenv("ASI1_API_KEY"):
-            primary = ASI1MiniProvider(k)
+        if settings.asi1_api_key:
+            primary = ASI1MiniProvider(settings.asi1_api_key)
+        elif settings.anthropic_api_key:
+            primary = AnthropicProvider(settings.anthropic_api_key)
+        elif settings.gemini_api_key:
+            primary = GeminiProvider(settings.gemini_api_key)
         else:
             primary = StubProvider()
 
         fallback: LLMProvider | None = None
-        if (k := os.getenv("ASI1_API_KEY")) and primary.name != "asi1-mini":
-            fallback = ASI1MiniProvider(k)
+        if settings.gemini_api_key and primary.name != "gemini":
+            fallback = GeminiProvider(settings.gemini_api_key)
+        elif settings.asi1_api_key and primary.name != "asi1-mini":
+            fallback = ASI1MiniProvider(settings.asi1_api_key)
         return cls(primary, fallback)
 
     async def complete(self, system: str, user: str, **kw: Any) -> str:

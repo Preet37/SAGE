@@ -19,6 +19,7 @@ from app.agents.assessment import AssessmentAgent
 from app.agents.base import Agent, AgentContext, AgentMessage, LLM
 from app.agents.concept_map import ConceptMapAgent
 from app.agents.content import ContentAgent
+from app.agents.memory import AgentMemory
 from app.agents.peer_match import PeerMatchAgent
 from app.agents.pedagogy import PedagogyAgent
 from app.agents.progress import ProgressAgent
@@ -28,7 +29,7 @@ log = logging.getLogger("sage.orchestrator")
 
 
 class Orchestrator:
-    def __init__(self, llm: LLM | None = None):
+    def __init__(self, llm: LLM | None = None, memory: AgentMemory | None = None):
         shared = llm or LLM.from_env()
         self.pedagogy = PedagogyAgent(shared)
         self.content = ContentAgent(shared)
@@ -36,6 +37,7 @@ class Orchestrator:
         self.assessment = AssessmentAgent(shared)
         self.peer_match = PeerMatchAgent(shared)
         self.progress = ProgressAgent(shared)
+        self.memory = memory or AgentMemory()
 
     async def _run_agent(self, agent: Agent, ctx: AgentContext) -> AgentContext:
         ctx.trace.append(AgentMessage("orchestrator", agent.name, "request", {}))
@@ -54,16 +56,25 @@ class Orchestrator:
         ctx = await self._run_agent(self.pedagogy, ctx)
         # 2. Generate
         ctx = await self._run_agent(self.content, ctx)
-        # 3. Verify (deterministic, not an agent)
+        # 3. Socratic enforcement: rewrite answer as guided question
+        ctx.trace.append(AgentMessage("orchestrator", self.pedagogy.name, "socratize", {}))
+        try:
+            ctx = await self.pedagogy.socratize(ctx)
+        except Exception as e:
+            log.exception("socratize failed")
+            ctx.trace.append(AgentMessage("orchestrator", "pedagogy", "error", {"error": str(e)}))
+        # 4. Verify (deterministic, not an agent)
         ctx.verification = verify(ctx.answer, ctx.sources).to_payload()
-        # 4. Concept extraction (depends on answer)
+        # 5. Concept extraction (depends on answer)
         ctx = await self._run_agent(self.concept_map, ctx)
-        # 5. Parallel: assessment, peer match, progress
+        # 6. Parallel: assessment, peer match, progress
         await asyncio.gather(
             self._run_agent(self.assessment, ctx),
             self._run_agent(self.peer_match, ctx),
             self._run_agent(self.progress, ctx),
         )
+        # 7. Persist swarm trace for debugging
+        self.memory.record_turn(ctx)
         return ctx
 
     async def stream_turn(self, ctx: AgentContext) -> AsyncIterator[tuple[str, dict]]:
@@ -79,6 +90,14 @@ class Orchestrator:
 
         ctx = await self._run_agent(self.content, ctx)
         yield "agent_event", {"agent": "content", "phase": "done", "chars": len(ctx.answer)}
+
+        try:
+            ctx = await self.pedagogy.socratize(ctx)
+        except Exception as e:
+            log.exception("socratize failed")
+            ctx.trace.append(AgentMessage("orchestrator", "pedagogy", "error", {"error": str(e)}))
+        yield "agent_event", {"agent": "pedagogy", "phase": "socratized",
+                              "strategy": ctx.plan.get("strategy"), "chars": len(ctx.answer)}
 
         ctx.verification = verify(ctx.answer, ctx.sources).to_payload()
         yield "verification", ctx.verification
@@ -96,5 +115,6 @@ class Orchestrator:
         yield "agent_event", {"agent": "peer_match",  "phase": "done", "peers": ctx.peers}
         yield "agent_event", {"agent": "progress",    "phase": "done",
                               "delta": ctx.progress_delta}
+        self.memory.record_turn(ctx)
         yield "done", {"session_id": ctx.session_id, "ok": True,
                        "grounded": ctx.verification.get("grounded", False)}

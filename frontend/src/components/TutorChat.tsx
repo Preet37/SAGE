@@ -12,22 +12,33 @@ import {
   streamTutorChat,
 } from "@/lib/api";
 
-export default function TutorChat({
-  sessionId,
-  token,
-}: {
+const TOPIC_INTENT = /^(?:teach me(?: about)?|learn(?: about)?|i want to learn(?: about)?|explain|help me with|study|lesson on)\s+(.+?)[\s.!?]*$/i;
+
+export function detectTopic(message: string): string | null {
+  const m = message.trim().match(TOPIC_INTENT);
+  if (!m) return null;
+  const topic = m[1].trim().replace(/^["'`]|["'`]$/g, "");
+  return topic.length >= 2 && topic.length <= 80 ? topic : null;
+}
+
+interface TutorChatProps {
   sessionId: number;
   token: string;
-}) {
+  onTopicRequest?: (topic: string) => void;
+}
+
+export default function TutorChat({ sessionId, token, onTopicRequest }: TutorChatProps) {
   const [turns, setTurns] = useState<Message[]>([]);
   const [draft, setDraft] = useState("");
   const [streaming, setStreaming] = useState(false);
   const [activeAgent, setActiveAgent] = useState<string | null>(null);
   const abortRef = useRef<(() => void) | null>(null);
 
-  const send = useCallback(() => {
-    const message = draft.trim();
+  const sendMessage = useCallback((message: string) => {
     if (!message || streaming) return;
+
+    // Direct all messages to the backend chat endpoint
+    // to allow the AI to handle the lesson plan generation.
 
     setTurns((t) => [...t, { role: "user", text: message }, { role: "sage", text: "" }]);
     setDraft("");
@@ -60,7 +71,11 @@ export default function TutorChat({
         setActiveAgent(null);
       },
     });
-  }, [draft, sessionId, streaming, token]);
+  }, [onTopicRequest, sessionId, streaming, token]);
+
+  const send = useCallback(() => {
+    sendMessage(draft.trim());
+  }, [draft, sendMessage]);
 
   return (
     <div className="card flex h-full flex-col p-5">
@@ -75,7 +90,7 @@ export default function TutorChat({
         {turns.map((t, i) => (
           <MessageBubble key={i} msg={t} />
         ))}
-        {turns.length === 0 && <EmptyState />}
+        {turns.length === 0 && <EmptyState onPick={(p) => sendMessage(p)} />}
       </div>
 
       <div className="mt-4 flex gap-2">
@@ -83,7 +98,7 @@ export default function TutorChat({
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && send()}
-          placeholder="Type your question…"
+          placeholder="Try: 'teach me capacitors'"
           disabled={streaming}
           className="flex-1 rounded-2xl border px-4 py-3 outline-none focus:ring-2"
           style={{
@@ -101,19 +116,19 @@ export default function TutorChat({
   );
 }
 
-function EmptyState() {
+function EmptyState({ onPick }: { onPick: (prompt: string) => void }) {
   const prompts = [
-    "Explain photosynthesis in one paragraph",
-    "Quiz me on the concepts I'm weakest at",
-    "What should I review before the exam?",
+    "Teach me capacitors",
+    "Learn about photosynthesis",
+    "Explain the Krebs cycle",
+    "I want to learn about neural networks",
   ];
   return (
     <div className="flex h-full flex-col items-center justify-center gap-4 text-center">
       <div
         className="grid h-14 w-14 place-items-center rounded-2xl"
         style={{
-          background:
-            "linear-gradient(135deg, var(--color-primary), var(--color-accent))",
+          background: "linear-gradient(135deg, var(--color-primary), var(--color-accent))",
           color: "white",
           fontFamily: "var(--font-heading)",
           fontSize: 22,
@@ -129,25 +144,29 @@ function EmptyState() {
           Ask SAGE anything
         </p>
         <p className="mt-1 text-sm" style={{ color: "var(--color-foreground)", opacity: 0.6 }}>
-          I&apos;ll guide you Socratically and cite sources.
+          Tell me a topic to learn — I&apos;ll build a quick lesson + quiz.
         </p>
       </div>
       <ul className="flex flex-col gap-1.5 text-sm">
         {prompts.map((p) => (
-          <li
-            key={p}
-            className="rounded-full px-3 py-1.5"
-            style={{
-              background: "var(--color-muted)",
-              color: "var(--color-primary)",
-              border: "1px solid var(--color-border)",
-            }}
-          >
-            {p}
+          <li key={p}>
+            <button
+              type="button"
+              onClick={() => onPick(p)}
+              className="rounded-full px-3 py-1.5 transition-colors hover:opacity-100"
+              style={{
+                background: "var(--color-muted)",
+                color: "var(--color-primary)",
+                border: "1px solid var(--color-border)",
+                cursor: "pointer",
+                opacity: 0.85,
+              }}
+            >
+              {p}
+            </button>
           </li>
         ))}
       </ul>
     </div>
   );
 }
-
