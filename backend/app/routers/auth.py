@@ -67,7 +67,8 @@ async def get_current_user(
     )
     try:
         payload = jwt.decode(token, settings.jwt_secret, algorithms=[settings.jwt_algorithm])
-        user_id: int = payload.get("sub")
+        user_id_raw = payload.get("sub")
+        user_id: int = int(user_id_raw) if user_id_raw is not None else None  # type: ignore
         if user_id is None:
             raise credentials_exception
     except JWTError:
@@ -96,7 +97,7 @@ async def register(data: UserCreate, db: AsyncSession = Depends(get_db)):
     await db.commit()
     await db.refresh(user)
 
-    token = create_access_token({"sub": user.id})
+    token = create_access_token({"sub": str(user.id)})
     return Token(access_token=token, token_type="bearer", user=UserOut.from_orm(user))
 
 
@@ -108,7 +109,7 @@ async def login(form: OAuth2PasswordRequestForm = Depends(), db: AsyncSession = 
     if not user or not verify_password(form.password, user.hashed_password):
         raise HTTPException(status_code=400, detail="Invalid credentials")
 
-    token = create_access_token({"sub": user.id})
+    token = create_access_token({"sub": str(user.id)})
     return Token(access_token=token, token_type="bearer", user=UserOut.from_orm(user))
 
 
