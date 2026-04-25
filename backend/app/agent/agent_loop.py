@@ -6,7 +6,6 @@ from .context import TutorContext
 from .tool_handlers import execute_tool
 from .system_prompt_v2 import build_system_prompt_v2 as build_system_prompt
 from .system_prompt_explore import build_exploration_prompt
-from .tools import TUTOR_TOOLS
 from ..config import get_settings
 
 logger = logging.getLogger(__name__)
@@ -43,11 +42,13 @@ async def run_tutor_agent_loop(
         steps += 1
 
         try:
-            tools = TUTOR_TOOLS if settings.search_enabled else [t for t in TUTOR_TOOLS if t["function"]["name"] != "search_web"]
+            # Groq's llama models produce malformed tool-call names when given a
+            # tools list, causing stream validation errors. Since the lesson content
+            # is already injected into the system prompt, the model can answer
+            # directly without tool calls.
             stream = await client.chat.completions.create(
                 model=settings.llm_model,
                 messages=api_messages,
-                tools=tools,
                 max_tokens=settings.llm_max_tokens,
                 temperature=settings.llm_temperature,
                 stream=True,

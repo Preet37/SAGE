@@ -48,6 +48,13 @@ async def _search_web(query: str) -> dict:
     Adapts the enricher's response format (content + citations) into the
     result-list format the tutor agent expects.
     """
+    from ..config import get_settings
+    if not get_settings().search_enabled:
+        return {
+            "query": query,
+            "content": "Web search is not configured. Please answer from your knowledge and the lesson content.",
+            "results": [],
+        }
     try:
         from ..services.course_enricher import _search, _classify_source_url
 
