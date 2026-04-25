@@ -10,9 +10,21 @@ class ContentAgent(Agent):
     name = "content"
 
     async def run(self, ctx: AgentContext) -> AgentContext:
-        a11y = A11yProfile(**{k: v for k, v in ctx.a11y.items() if k in A11yProfile.__dataclass_fields__})
-        mastery = [ConceptMastery(label=m["label"], mastery=m.get("mastery", 0.0)) for m in ctx.mastery]
-        system = build_system_prompt(a11y=a11y, mastery=mastery, sources=ctx.sources)
+        a11y_kwargs = {
+            k: v for k, v in ctx.a11y.items() if k in A11yProfile.__dataclass_fields__
+        }
+        a11y = A11yProfile(**a11y_kwargs)
+        mastery = [
+            ConceptMastery(label=m["label"], mastery=m.get("mastery", 0.0))
+            for m in ctx.mastery
+        ]
+        teaching_mode = ctx.a11y.get("teaching_mode", "default")
+        system = build_system_prompt(
+            a11y=a11y,
+            mastery=mastery,
+            sources=ctx.sources,
+            teaching_mode=teaching_mode,
+        )
 
         strategy = ctx.plan.get("strategy", "socratic")
         nudge = {
@@ -23,5 +35,5 @@ class ContentAgent(Agent):
 
         user = f"Learner asked: {ctx.user_message}\n\nTeaching directive: {nudge}"
         ctx.answer = await self.llm.complete(system, user)
-        self._emit(ctx, "response", {"chars": len(ctx.answer), "strategy": strategy})
+        self._emit(ctx, "response", {"chars": len(ctx.answer), "strategy": strategy, "mode": teaching_mode})
         return ctx

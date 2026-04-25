@@ -1,7 +1,7 @@
 """System prompt builder.
 
-Pulls from the user's accessibility profile and concept mastery to shape tone,
-reading level, and which concepts to emphasize / scaffold.
+Pulls from the user's accessibility profile, concept mastery, and chosen
+teaching mode to shape tone, reading level, and emphasis.
 """
 
 from __future__ import annotations
@@ -22,6 +22,15 @@ class A11yProfile:
 class ConceptMastery:
     label: str
     mastery: float  # 0.0–1.0
+
+
+_MODE_DIRECTIVES: dict[str, str] = {
+    "default": "Use a clear, balanced Socratic style.",
+    "eli5": "Explain like the learner is five. Use everyday objects and simple words.",
+    "analogy": "Lead with a vivid analogy from everyday life before any technical detail.",
+    "code": "Prefer short code examples; show the smallest snippet that captures the idea.",
+    "deep_dive": "Go several levels deep; assume curiosity and tolerance for complexity.",
+}
 
 
 def _a11y_directives(p: A11yProfile) -> list[str]:
@@ -51,7 +60,9 @@ def _mastery_directives(concepts: list[ConceptMastery]) -> list[str]:
         out.append(f"The learner is still developing: {labels}. Scaffold these explicitly.")
     if strong:
         labels = ", ".join(c.label for c in strong)
-        out.append(f"The learner has mastered: {labels}. You may build on these without re-teaching.")
+        out.append(
+            f"The learner has mastered: {labels}. You may build on these without re-teaching."
+        )
     return out
 
 
@@ -67,8 +78,10 @@ def build_system_prompt(
     mastery: list[ConceptMastery],
     sources: list[str] | None = None,
     objective: str | None = None,
+    teaching_mode: str = "default",
 ) -> str:
     parts: list[str] = [SOCRATIC_CORE]
+    parts.append(f"Teaching mode: {_MODE_DIRECTIVES.get(teaching_mode, _MODE_DIRECTIVES['default'])}")
 
     if objective:
         parts.append(f"Lesson objective: {objective}")

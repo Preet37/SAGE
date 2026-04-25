@@ -1,22 +1,34 @@
 """Agent base classes + LLM provider abstraction.
 
-Primary provider: Anthropic Claude (when `ANTHROPIC_API_KEY` is set).
-Fallback provider: ASI1-Mini via Fetch.ai (`ASI1_API_KEY`), used when Anthropic
-is unavailable or returns an error. Both are wrapped behind `LLM.complete()`
-so individual agents never know which model answered.
+Provider chain (selected by `LLM.from_env()`):
+
+    ANTHROPIC_API_KEY  -> Anthropic Claude
+    OPENAI_API_KEY     -> OpenAI gpt-4o-mini
+    GROQ_API_KEY       -> Groq llama-3.3-70b-versatile
+    ASI1_API_KEY       -> Fetch.ai ASI1-Mini
+    (none)             -> StubProvider
+
+Whichever provider is primary, ASI1-Mini (when available) is wired as
+fallback so a transient outage does not break the tutor stream. Each call
+applies a bounded retry with exponential backoff and a per-attempt timeout.
 """
 
 from __future__ import annotations
 
 import abc
+import asyncio
 import logging
 import os
+import random
 from dataclasses import dataclass, field
-from typing import Any, Protocol
+from typing import Any, Awaitable, Callable, Protocol
 
 import httpx
 
 log = logging.getLogger("sage.agents")
+
+
+# ----- Trace / context ----------------------------------------------------
 
 
 @dataclass
@@ -49,6 +61,38 @@ class AgentContext:
     trace: list[AgentMessage] = field(default_factory=list)
 
 
+# ----- Retry helper -------------------------------------------------------
+
+
+async def with_retry(
+    fn: Callable[[], Awaitable[str]],
+    *,
+    attempts: int = 3,
+    base_delay: float = 0.5,
+    max_delay: float = 4.0,
+) -> str:
+    """Call `fn` up to `attempts` times with jittered exponential backoff."""
+    last: Exception | None = None
+    for i in range(attempts):
+        try:
+            return await fn()
+        except (httpx.HTTPStatusError, httpx.HTTPError) as exc:
+            last = exc
+            if i == attempts - 1:
+                break
+            sleep = min(base_delay * (2**i), max_delay) + random.uniform(0, 0.25)
+            log.warning("LLM attempt %d failed: %s — retrying in %.2fs", i + 1, exc, sleep)
+            await asyncio.sleep(sleep)
+        except Exception as exc:
+            # Non-retryable
+            raise exc
+    assert last is not None
+    raise last
+
+
+# ----- Providers ----------------------------------------------------------
+
+
 class LLMProvider(Protocol):
     name: str
 
@@ -58,60 +102,95 @@ class LLMProvider(Protocol):
 class AnthropicProvider:
     name = "anthropic"
 
-    def __init__(self, api_key: str, model: str = "claude-opus-4-7"):
+    def __init__(self, api_key: str, model: str = "claude-opus-4-7", timeout: float = 30.0):
         self.api_key = api_key
         self.model = model
+        self.timeout = timeout
 
     async def complete(self, system: str, user: str, **kw: Any) -> str:
-        async with httpx.AsyncClient(timeout=30.0) as c:
-            r = await c.post(
-                "https://api.anthropic.com/v1/messages",
-                headers={
-                    "x-api-key": self.api_key,
-                    "anthropic-version": "2023-06-01",
-                    "content-type": "application/json",
-                },
-                json={
-                    "model": self.model,
-                    "max_tokens": kw.get("max_tokens", 1024),
-                    "system": system,
-                    "messages": [{"role": "user", "content": user}],
-                },
-            )
-            r.raise_for_status()
-            data = r.json()
-            return "".join(b.get("text", "") for b in data.get("content", []))
+        async def _call() -> str:
+            async with httpx.AsyncClient(timeout=self.timeout) as c:
+                r = await c.post(
+                    "https://api.anthropic.com/v1/messages",
+                    headers={
+                        "x-api-key": self.api_key,
+                        "anthropic-version": "2023-06-01",
+                        "content-type": "application/json",
+                    },
+                    json={
+                        "model": self.model,
+                        "max_tokens": kw.get("max_tokens", 1024),
+                        "system": system,
+                        "messages": [{"role": "user", "content": user}],
+                    },
+                )
+                r.raise_for_status()
+                data = r.json()
+                return "".join(b.get("text", "") for b in data.get("content", []))
+
+        return await with_retry(_call)
 
 
-class ASI1MiniProvider:
-    """Fetch.ai ASI1-Mini fallback."""
+class _OpenAICompatProvider:
+    """Shared base for OpenAI-protocol providers (OpenAI, Groq, ASI1)."""
 
+    name = "openai-compat"
+    base_url = ""
+
+    def __init__(self, api_key: str, model: str, timeout: float = 30.0):
+        self.api_key = api_key
+        self.model = model
+        self.timeout = timeout
+
+    async def complete(self, system: str, user: str, **kw: Any) -> str:
+        async def _call() -> str:
+            async with httpx.AsyncClient(timeout=self.timeout) as c:
+                r = await c.post(
+                    f"{self.base_url}/chat/completions",
+                    headers={
+                        "Authorization": f"Bearer {self.api_key}",
+                        "content-type": "application/json",
+                    },
+                    json={
+                        "model": self.model,
+                        "max_tokens": kw.get("max_tokens", 1024),
+                        "messages": [
+                            {"role": "system", "content": system},
+                            {"role": "user", "content": user},
+                        ],
+                    },
+                )
+                r.raise_for_status()
+                data = r.json()
+                return data["choices"][0]["message"]["content"]
+
+        return await with_retry(_call)
+
+
+class OpenAIProvider(_OpenAICompatProvider):
+    name = "openai"
+    base_url = "https://api.openai.com/v1"
+
+    def __init__(self, api_key: str, model: str = "gpt-4o-mini", timeout: float = 30.0):
+        super().__init__(api_key, model, timeout)
+
+
+class GroqProvider(_OpenAICompatProvider):
+    name = "groq"
+    base_url = "https://api.groq.com/openai/v1"
+
+    def __init__(
+        self, api_key: str, model: str = "llama-3.3-70b-versatile", timeout: float = 30.0
+    ):
+        super().__init__(api_key, model, timeout)
+
+
+class ASI1MiniProvider(_OpenAICompatProvider):
     name = "asi1-mini"
+    base_url = "https://api.asi1.ai/v1"
 
-    def __init__(self, api_key: str, model: str = "asi1-mini"):
-        self.api_key = api_key
-        self.model = model
-
-    async def complete(self, system: str, user: str, **kw: Any) -> str:
-        async with httpx.AsyncClient(timeout=30.0) as c:
-            r = await c.post(
-                "https://api.asi1.ai/v1/chat/completions",
-                headers={
-                    "Authorization": f"Bearer {self.api_key}",
-                    "content-type": "application/json",
-                },
-                json={
-                    "model": self.model,
-                    "max_tokens": kw.get("max_tokens", 1024),
-                    "messages": [
-                        {"role": "system", "content": system},
-                        {"role": "user", "content": user},
-                    ],
-                },
-            )
-            r.raise_for_status()
-            data = r.json()
-            return data["choices"][0]["message"]["content"]
+    def __init__(self, api_key: str, model: str = "asi1-mini", timeout: float = 30.0):
+        super().__init__(api_key, model, timeout)
 
 
 class StubProvider:
@@ -119,8 +198,11 @@ class StubProvider:
 
     name = "stub"
 
-    async def complete(self, system: str, user: str, **kw: Any) -> str:
+    async def complete(self, system: str, user: str, **kw: Any) -> str:  # noqa: ARG002
         return f"[stub:{self.name}] {user[:120]}"
+
+
+# ----- LLM facade ---------------------------------------------------------
 
 
 class LLM:
@@ -135,6 +217,10 @@ class LLM:
         primary: LLMProvider
         if k := os.getenv("ANTHROPIC_API_KEY"):
             primary = AnthropicProvider(k)
+        elif k := os.getenv("OPENAI_API_KEY"):
+            primary = OpenAIProvider(k)
+        elif k := os.getenv("GROQ_API_KEY"):
+            primary = GroqProvider(k)
         elif k := os.getenv("ASI1_API_KEY"):
             primary = ASI1MiniProvider(k)
         else:
@@ -153,6 +239,9 @@ class LLM:
             if self.fallback:
                 return await self.fallback.complete(system, user, **kw)
             raise
+
+
+# ----- Agent base ---------------------------------------------------------
 
 
 class Agent(abc.ABC):

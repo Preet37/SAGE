@@ -115,3 +115,42 @@ h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 600; }
   * { transition: none !important; animation: none !important; }
   .bg-blobs::before, .bg-blobs::after { animation: none; }
 }
+
+/* ---------- User-controlled accessibility classes (applied to <body>) ---------- */
+
+/* Dyslexia-friendly: larger leading, simpler font, wider tracking */
+body.a11y-dyslexia {
+  font-family: "Atkinson Hyperlegible", "Comic Neue", system-ui, sans-serif;
+  letter-spacing: 0.01em;
+  line-height: 1.65;
+}
+body.a11y-dyslexia h1,
+body.a11y-dyslexia h2,
+body.a11y-dyslexia h3,
+body.a11y-dyslexia h4 {
+  letter-spacing: 0.005em;
+}
+
+/* High contrast: darker text + sharper borders so AA contrast is exceeded */
+body.a11y-high-contrast {
+  --color-foreground: #000000;
+  --color-border: #1f2937;
+  --color-muted: #ffffff;
+  --color-primary: #0b5cd1;
+  --color-accent: #b91c8a;
+}
+body.a11y-high-contrast .card {
+  border-width: 2px;
+}
+
+/* Reduce motion: kill all transitions and animations regardless of OS pref */
+body.a11y-reduce-motion *,
+body.a11y-reduce-motion *::before,
+body.a11y-reduce-motion *::after {
+  transition: none !important;
+  animation: none !important;
+}
+body.a11y-reduce-motion .bg-blobs::before,
+body.a11y-reduce-motion .bg-blobs::after {
+  animation: none !important;
+}

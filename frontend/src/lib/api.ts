@@ -10,10 +10,26 @@ export const API_BASE = "/api";
 
 // ----- Domain types -------------------------------------------------------
 
+export type TeachingMode =
+  | "default"
+  | "eli5"
+  | "analogy"
+  | "code"
+  | "deep_dive";
+
+export const TEACHING_MODES: { id: TeachingMode; label: string; description: string }[] = [
+  { id: "default", label: "Socratic", description: "Balanced guiding questions." },
+  { id: "eli5", label: "ELI5", description: "Explain like I'm five." },
+  { id: "analogy", label: "Analogy", description: "Lead with everyday analogies." },
+  { id: "code", label: "Code", description: "Show small code snippets." },
+  { id: "deep_dive", label: "Deep dive", description: "Go several levels deep." },
+];
+
 export interface User {
   id: number;
   email: string;
   name: string;
+  teaching_mode: TeachingMode;
   created_at: string;
 }
 
@@ -49,6 +65,28 @@ export interface Concept {
   parent_id: number | null;
 }
 
+export interface AgentTrace {
+  plan?: Record<string, unknown>;
+  concept_map_delta?: { label: string; summary?: string; mastery?: number }[];
+  assessment?: { question?: string | null; concept?: string; skip?: boolean };
+  peers?: { peer_id: string; complements: string[]; score: number }[];
+  progress_delta?: { bump?: number; by_concept?: Record<string, number> };
+  teaching_mode?: TeachingMode;
+}
+
+export interface TutorMessageRow {
+  id: number;
+  session_id: number;
+  role: "user" | "assistant";
+  content: string;
+  verification_passed: boolean;
+  verification_score: number;
+  verification_flags: string[];
+  agent_trace: AgentTrace;
+  retrieved_chunks: { id: string; score: number }[];
+  created_at: string;
+}
+
 export interface ReplaySession {
   session_id: number;
   lesson_id: number | null;
@@ -57,6 +95,7 @@ export interface ReplaySession {
   ended_at: string | null;
   transcript: string;
   concepts: Concept[];
+  messages: TutorMessageRow[];
 }
 
 export interface Notes {
@@ -150,10 +189,16 @@ export interface DoneEvent {
   grounded: boolean;
 }
 
+export interface AudioEvent {
+  mime: string;
+  base64: string;
+}
+
 export interface SSEHandlers {
   onAgent?: (e: AgentEvent) => void;
   onToken?: (e: TokenEvent) => void;
   onVerification?: (e: VerificationEvent) => void;
+  onAudio?: (e: AudioEvent) => void;
   onDone?: (e: DoneEvent) => void;
   onError?: (err: unknown) => void;
 }
@@ -221,6 +266,16 @@ export async function login(
 
 export const getMe = (token: string): Promise<User> =>
   request<User>("/auth/me", {}, token);
+
+export const updateTeachingMode = (
+  mode: TeachingMode,
+  token: string,
+): Promise<User> =>
+  request<User>(
+    "/auth/me/mode",
+    { method: "PATCH", body: JSON.stringify({ mode }) },
+    token,
+  );
 
 // ----- Courses / Lessons --------------------------------------------------
 
@@ -292,6 +347,22 @@ export const getReplay = (
 export const getDashboard = (token: string): Promise<Dashboard> =>
   request<Dashboard>("/dashboard", {}, token);
 
+export interface CourseDashboard {
+  course: Lesson;
+  sessions: number;
+  messages: number;
+  concepts_total: number;
+  concepts_mastered: number;
+  weakest: Concept[];
+  next_concepts: Concept[];
+}
+
+export const getCourseDashboard = (
+  courseId: number,
+  token: string,
+): Promise<CourseDashboard> =>
+  request<CourseDashboard>(`/dashboard/course/${courseId}`, {}, token);
+
 // ----- Notes --------------------------------------------------------------
 
 export const getNotes = (sessionId: number, token: string): Promise<Notes> =>
@@ -305,6 +376,22 @@ export const reviseNotes = (
   request<Notes>(
     `/notes/${sessionId}/revise`,
     { method: "POST", body: JSON.stringify({ text }) },
+    token,
+  );
+
+export interface StudyPlan {
+  session_id: number;
+  filename: string;
+  markdown: string;
+}
+
+export const generateStudyPlan = (
+  sessionId: number,
+  token: string,
+): Promise<StudyPlan> =>
+  request<StudyPlan>(
+    `/notes/${sessionId}/study-plan`,
+    { method: "POST" },
     token,
   );
 
@@ -349,16 +436,22 @@ export const saveAccessibility = (
 
 // ----- Tutor SSE stream ---------------------------------------------------
 
+export interface StreamOptions {
+  voice?: boolean;
+}
+
 export function streamTutorChat(
   sessionId: number,
   message: string,
   token: string,
   handlers: SSEHandlers,
+  options: StreamOptions = {},
 ): () => void {
   const ctl = new AbortController();
+  const voiceParam = options.voice ? "&voice=true" : "";
   const url =
     `${API_BASE}/tutor/chat?session_id=${sessionId}` +
-    `&message=${encodeURIComponent(message)}`;
+    `&message=${encodeURIComponent(message)}${voiceParam}`;
 
   (async () => {
     try {
@@ -428,6 +521,9 @@ function dispatchSSEBlock(block: string, h: SSEHandlers): void {
       break;
     case "verification":
       h.onVerification?.(data as VerificationEvent);
+      break;
+    case "audio":
+      h.onAudio?.(data as AudioEvent);
       break;
     case "done":
       h.onDone?.(data as DoneEvent);

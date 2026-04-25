@@ -1,11 +1,13 @@
 """Notes synthesis from session transcript and learner-provided notes.
 
-Build a study summary deterministically from the session transcript so the
-notes panel works without any LLM key. When learner provides their own notes,
-detect concept gaps by comparing tokens against the lesson sources.
+`/notes/{id}`             - auto-summary view (markdown)
+`/notes/{id}/revise`      - learner provides notes, gaps + suggestions returned
+`/notes/{id}/study-plan`  - structured multi-section study plan markdown
 """
 
 from __future__ import annotations
+
+from datetime import datetime, timezone
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session as OrmSession
@@ -15,7 +17,7 @@ from app.db import get_db
 from app.models import Concept, Lesson
 from app.models import Session as TutorSession
 from app.models import User
-from app.schemas import NotesIn, NotesOut
+from app.schemas import NotesIn, NotesOut, StudyPlanOut
 from app.security import get_current_user
 
 router = APIRouter(prefix="/notes", tags=["notes"])
@@ -32,21 +34,22 @@ def _content_tokens(text: str) -> set[str]:
     return {t for t in tokenize(text) if t not in _STOP and len(t) > 2}
 
 
-def _summarize_transcript(transcript: str) -> tuple[str, list[str]]:
-    """Return a markdown summary and bullet list extracted from the transcript."""
+def _summarize_transcript(transcript: str) -> str:
     user_lines = [l[6:].strip() for l in (transcript or "").splitlines() if l.startswith("USER:")]
     sage_lines = [l[6:].strip() for l in (transcript or "").splitlines() if l.startswith("SAGE:")]
-    bullets = [f"- **You asked:** {q}\n  - **SAGE replied:** {a[:240]}{'…' if len(a) > 240 else ''}"
-               for q, a in zip(user_lines, sage_lines)]
-    md = "\n".join(bullets) if bullets else "_No turns yet — start the conversation to populate notes._"
-    return md, bullets
+    if not user_lines:
+        return "_No turns yet — start the conversation to populate notes._"
+    bullets = [
+        f"- **You asked:** {q}\n  - **SAGE replied:** {a[:240]}{'…' if len(a) > 240 else ''}"
+        for q, a in zip(user_lines, sage_lines)
+    ]
+    return "\n".join(bullets)
 
 
 def _gaps(student_text: str, lesson_text: str) -> list[str]:
     src_toks = _content_tokens(lesson_text)
     own_toks = _content_tokens(student_text)
-    missing = sorted(src_toks - own_toks)
-    return missing[:10]
+    return sorted(src_toks - own_toks)[:10]
 
 
 def _own_session(db: OrmSession, session_id: int, user: User) -> TutorSession:
@@ -67,7 +70,7 @@ def get_notes(
     user: User = Depends(get_current_user),
 ):
     s = _own_session(db, session_id, user)
-    md, _ = _summarize_transcript(s.transcript or "")
+    md = _summarize_transcript(s.transcript or "")
     concepts = db.query(Concept).filter(Concept.session_id == s.id).all()
     weak = [c.label for c in concepts if (c.mastery or 0.0) < 0.5][:5]
     suggestions = (
@@ -78,7 +81,10 @@ def get_notes(
     return NotesOut(
         session_id=s.id,
         markdown=md,
-        summary=f"{len(concepts)} concept(s) tracked, {sum(1 for c in concepts if (c.mastery or 0.0) >= 0.8)} mastered.",
+        summary=(
+            f"{len(concepts)} concept(s) tracked, "
+            f"{sum(1 for c in concepts if (c.mastery or 0.0) >= 0.8)} mastered."
+        ),
         gaps=[],
         suggestions=suggestions,
     )
@@ -119,3 +125,66 @@ def revise_notes(
         gaps=gaps,
         suggestions=suggestions,
     )
+
+
+@router.post("/{session_id}/study-plan", response_model=StudyPlanOut)
+def generate_study_plan(
+    session_id: int,
+    db: OrmSession = Depends(get_db),
+    user: User = Depends(get_current_user),
+):
+    s = _own_session(db, session_id, user)
+    lesson = db.query(Lesson).filter(Lesson.id == s.lesson_id).first() if s.lesson_id else None
+    concepts = db.query(Concept).filter(Concept.session_id == s.id).all()
+
+    weak = [c for c in concepts if (c.mastery or 0.0) < 0.5]
+    medium = [c for c in concepts if 0.5 <= (c.mastery or 0.0) < 0.8]
+    strong = [c for c in concepts if (c.mastery or 0.0) >= 0.8]
+
+    lesson_title = lesson.title if lesson else f"Session {s.id}"
+    when = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+
+    weak_lines = [_concept_line(c) for c in weak] or ["_None right now — pick a stretch goal below._"]
+    medium_lines = [_concept_line(c) for c in medium] or ["_Keep going._"]
+    strong_lines = [_concept_line(c) for c in strong] or ["_Build mastery on the focus list first._"]
+
+    md = "\n".join(
+        [
+            f"# Study plan — {lesson_title}",
+            f"_Generated {when} · session {s.id}_",
+            "",
+            "## Goals",
+            "- Bring all weak concepts to at least 50% mastery.",
+            "- Move at least one medium concept to mastered.",
+            "- Connect strong concepts into a synthesis explanation.",
+            "",
+            "## Focus this week (weak)",
+            *weak_lines,
+            "",
+            "## Reinforce (medium)",
+            *medium_lines,
+            "",
+            "## Stretch (strong)",
+            *strong_lines,
+            "",
+            "## Suggested order",
+            "1. Re-read the lesson objective and extract the 3 most surprising claims.",
+            "2. For each weak concept, ask SAGE to scaffold from first principles.",
+            "3. Take a short quiz (ask SAGE: \"quiz me on the concepts I'm weakest at\").",
+            "4. Write a 5-sentence summary in the Notes panel and run \"Review with SAGE\".",
+            "",
+            "## Lesson recap",
+            (lesson.objective if lesson else "_No lesson attached._"),
+        ]
+    )
+
+    return StudyPlanOut(
+        session_id=s.id,
+        filename=f"sage-study-plan-session-{s.id}.md",
+        markdown=md,
+    )
+
+
+def _concept_line(c: Concept) -> str:
+    pct = round((c.mastery or 0.0) * 100)
+    return f"- **{c.label}** ({pct}%) — {c.summary or 'open this concept and go deeper.'}"

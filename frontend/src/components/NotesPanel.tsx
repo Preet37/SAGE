@@ -2,7 +2,12 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-import { getNotes, reviseNotes, type Notes } from "@/lib/api";
+import {
+  generateStudyPlan,
+  getNotes,
+  reviseNotes,
+  type Notes,
+} from "@/lib/api";
 
 interface NotesPanelProps {
   sessionId: number;
@@ -49,16 +54,22 @@ export default function NotesPanel({ sessionId, token }: NotesPanelProps) {
 
   const onDownload = useCallback(() => {
     if (!notes) return;
-    const blob = new Blob([notes.markdown], { type: "text/markdown;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `sage-session-${sessionId}.md`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
+    downloadMarkdown(notes.markdown, `sage-session-${sessionId}.md`);
   }, [notes, sessionId]);
+
+  const onStudyPlan = useCallback(async () => {
+    if (!token) return;
+    setBusy(true);
+    setError(null);
+    try {
+      const plan = await generateStudyPlan(sessionId, token);
+      downloadMarkdown(plan.markdown, plan.filename);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to generate plan");
+    } finally {
+      setBusy(false);
+    }
+  }, [sessionId, token]);
 
   return (
     <div className="card flex h-full flex-col p-5">
@@ -106,21 +117,37 @@ export default function NotesPanel({ sessionId, token }: NotesPanelProps) {
         )}
       </div>
 
-      <footer className="mt-3 flex justify-between gap-2">
-        <button
-          type="button"
-          onClick={onDownload}
-          disabled={!notes}
-          className="rounded-full px-3 py-1.5 text-xs font-semibold disabled:opacity-50"
-          style={{
-            background: "var(--color-muted)",
-            color: "var(--color-primary)",
-            border: "1px solid var(--color-border)",
-            cursor: "pointer",
-          }}
-        >
-          Download .md
-        </button>
+      <footer className="mt-3 flex flex-wrap justify-between gap-2">
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={onDownload}
+            disabled={!notes}
+            className="rounded-full px-3 py-1.5 text-xs font-semibold disabled:opacity-50"
+            style={{
+              background: "var(--color-muted)",
+              color: "var(--color-primary)",
+              border: "1px solid var(--color-border)",
+              cursor: "pointer",
+            }}
+          >
+            Download notes
+          </button>
+          <button
+            type="button"
+            onClick={onStudyPlan}
+            disabled={busy}
+            className="rounded-full px-3 py-1.5 text-xs font-semibold disabled:opacity-50"
+            style={{
+              background: "var(--color-muted)",
+              color: "var(--color-primary)",
+              border: "1px solid var(--color-border)",
+              cursor: "pointer",
+            }}
+          >
+            Study plan
+          </button>
+        </div>
         {tab === "write" && (
           <button
             type="button"
@@ -134,6 +161,18 @@ export default function NotesPanel({ sessionId, token }: NotesPanelProps) {
       </footer>
     </div>
   );
+}
+
+function downloadMarkdown(markdown: string, filename: string): void {
+  const blob = new Blob([markdown], { type: "text/markdown;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
 }
 
 function SummaryView({ notes }: { notes: Notes | null }) {

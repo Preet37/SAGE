@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 
+import { applyPrefsToDom, cachePrefs } from "@/lib/a11y";
 import {
   getAccessibility,
   saveAccessibility,
@@ -40,6 +41,8 @@ export default function AccessibilityModal({
     setBusy(true);
     try {
       const saved = await saveAccessibility(prefs, token);
+      cachePrefs(saved);
+      applyPrefsToDom(saved);
       onChange?.(saved);
       onClose();
     } finally {

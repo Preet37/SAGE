@@ -1,11 +1,19 @@
 "use client";
 
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from "react";
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 
 import AgentBadge from "@/components/AgentBadge";
 import MessageBubble, { type Message } from "@/components/MessageBubble";
 import {
   type AgentEvent,
+  type AudioEvent,
   type DoneEvent,
   type TokenEvent,
   type VerificationEvent,
@@ -31,12 +39,15 @@ const TutorChat = forwardRef<TutorChatHandle, TutorChatProps>(function TutorChat
   const [draft, setDraft] = useState("");
   const [streaming, setStreaming] = useState(false);
   const [activeAgent, setActiveAgent] = useState<string | null>(null);
+  const [voiceOn, setVoiceOn] = useState(false);
   const abortRef = useRef<(() => void) | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(
     () => () => {
       abortRef.current?.();
+      audioRef.current?.pause();
     },
     [],
   );
@@ -45,71 +56,111 @@ const TutorChat = forwardRef<TutorChatHandle, TutorChatProps>(function TutorChat
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [turns]);
 
+  const playAudio = useCallback((event: AudioEvent) => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
+    const audio = new Audio(`data:${event.mime};base64,${event.base64}`);
+    audioRef.current = audio;
+    void audio.play().catch(() => {
+      // Autoplay can be blocked; user can re-enable explicitly.
+    });
+  }, []);
+
   const fire = useCallback(
     (message: string) => {
       const trimmed = message.trim();
       if (!trimmed || streaming) return;
 
-      setTurns((t) => [...t, { role: "user", text: trimmed }, { role: "sage", text: "" }]);
+      setTurns((t) => [
+        ...t,
+        { role: "user", text: trimmed },
+        { role: "sage", text: "" },
+      ]);
       setDraft("");
       setStreaming(true);
       setActiveAgent("orchestrator:start");
 
-      abortRef.current = streamTutorChat(sessionId, trimmed, token, {
-        onAgent: (e: AgentEvent) => {
-          setActiveAgent(`${e.agent}:${e.phase}`);
-          onAgentEvent?.(e);
+      abortRef.current = streamTutorChat(
+        sessionId,
+        trimmed,
+        token,
+        {
+          onAgent: (e: AgentEvent) => {
+            setActiveAgent(`${e.agent}:${e.phase}`);
+            onAgentEvent?.(e);
+          },
+          onToken: (e: TokenEvent) =>
+            setTurns((t) => {
+              const next = [...t];
+              const last = next[next.length - 1];
+              if (last?.role === "sage") {
+                next[next.length - 1] = { ...last, text: last.text + e.text, agent: e.agent };
+              }
+              return next;
+            }),
+          onVerification: (v: VerificationEvent) =>
+            setTurns((t) => {
+              const next = [...t];
+              const last = next[next.length - 1];
+              if (last?.role === "sage") next[next.length - 1] = { ...last, verification: v };
+              return next;
+            }),
+          onAudio: playAudio,
+          onDone: (e: DoneEvent) => {
+            setStreaming(false);
+            setActiveAgent(null);
+            onDone?.(e);
+          },
+          onError: () => {
+            setStreaming(false);
+            setActiveAgent(null);
+            setTurns((t) => {
+              const next = [...t];
+              const last = next[next.length - 1];
+              if (last?.role === "sage" && !last.text) {
+                next[next.length - 1] = {
+                  ...last,
+                  text: "_(connection error — please try again)_",
+                };
+              }
+              return next;
+            });
+          },
         },
-        onToken: (e: TokenEvent) =>
-          setTurns((t) => {
-            const next = [...t];
-            const last = next[next.length - 1];
-            if (last?.role === "sage") {
-              next[next.length - 1] = { ...last, text: last.text + e.text, agent: e.agent };
-            }
-            return next;
-          }),
-        onVerification: (v: VerificationEvent) =>
-          setTurns((t) => {
-            const next = [...t];
-            const last = next[next.length - 1];
-            if (last?.role === "sage") next[next.length - 1] = { ...last, verification: v };
-            return next;
-          }),
-        onDone: (e: DoneEvent) => {
-          setStreaming(false);
-          setActiveAgent(null);
-          onDone?.(e);
-        },
-        onError: () => {
-          setStreaming(false);
-          setActiveAgent(null);
-          setTurns((t) => {
-            const next = [...t];
-            const last = next[next.length - 1];
-            if (last?.role === "sage" && !last.text) {
-              next[next.length - 1] = {
-                ...last,
-                text: "_(connection error — please try again)_",
-              };
-            }
-            return next;
-          });
-        },
-      });
+        { voice: voiceOn },
+      );
     },
-    [onAgentEvent, onDone, sessionId, streaming, token],
+    [onAgentEvent, onDone, playAudio, sessionId, streaming, token, voiceOn],
   );
 
   useImperativeHandle(ref, () => ({ submit: fire }), [fire]);
 
   return (
     <div className="card flex h-full flex-col p-5">
-      <header className="flex items-center justify-between">
+      <header className="flex items-center justify-between gap-2">
         <h2 className="text-lg" style={{ fontFamily: "var(--font-heading)" }}>
           Chat with SAGE
         </h2>
-        <AgentBadge active={activeAgent} />
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setVoiceOn((v) => !v)}
+            aria-pressed={voiceOn}
+            title="Have SAGE read responses aloud"
+            className="rounded-full px-3 py-1 text-xs font-semibold"
+            style={{
+              background: voiceOn ? "var(--color-primary)" : "var(--color-muted)",
+              color: voiceOn ? "var(--color-on-primary)" : "var(--color-primary)",
+              border: "1px solid var(--color-border)",
+              cursor: "pointer",
+            }}
+          >
+            {voiceOn ? "Voice on" : "Voice off"}
+          </button>
+          <AgentBadge active={activeAgent} />
+        </div>
       </header>
 
       <div ref={scrollRef} className="mt-4 flex-1 space-y-3 overflow-y-auto pr-1">

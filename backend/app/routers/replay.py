@@ -4,8 +4,8 @@ from sqlalchemy.orm import Session as OrmSession
 from app.db import get_db
 from app.models import Concept
 from app.models import Session as TutorSession
-from app.models import User
-from app.schemas import ConceptOut, ReplaySessionOut, SessionOut
+from app.models import TutorMessage, User
+from app.schemas import ConceptOut, ReplaySessionOut, SessionOut, TutorMessageOut
 from app.security import get_current_user
 
 router = APIRouter(prefix="/replay", tags=["replay"])
@@ -38,6 +38,12 @@ def replay_session(
     if not s:
         raise HTTPException(status_code=404, detail="Session not found")
     concepts = db.query(Concept).filter(Concept.session_id == s.id).all()
+    messages = (
+        db.query(TutorMessage)
+        .filter(TutorMessage.session_id == s.id)
+        .order_by(TutorMessage.created_at.asc(), TutorMessage.id.asc())
+        .all()
+    )
     return ReplaySessionOut(
         session_id=s.id,
         lesson_id=s.lesson_id,
@@ -46,4 +52,5 @@ def replay_session(
         ended_at=s.ended_at,
         transcript=s.transcript or "",
         concepts=[ConceptOut.model_validate(c) for c in concepts],
+        messages=[TutorMessageOut.model_validate(m) for m in messages],
     )

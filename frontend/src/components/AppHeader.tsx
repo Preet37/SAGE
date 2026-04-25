@@ -1,8 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { useCallback, useState } from "react";
 
-import { clearAuth, useAuth } from "@/lib/auth";
+import TeachingModeSelector from "@/components/TeachingModeSelector";
+import { updateTeachingMode, type TeachingMode } from "@/lib/api";
+import { clearAuth, setAuth, useAuth } from "@/lib/auth";
 
 interface AppHeaderProps {
   courseId?: string;
@@ -11,12 +14,27 @@ interface AppHeaderProps {
 }
 
 export default function AppHeader({ courseId, lessonId, onOpenAccessibility }: AppHeaderProps) {
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const initial = (user?.name || user?.email || "?").charAt(0).toUpperCase();
+  const [busy, setBusy] = useState(false);
+
+  const onModeChange = useCallback(
+    async (mode: TeachingMode) => {
+      if (!token || !user) return;
+      setBusy(true);
+      try {
+        const updated = await updateTeachingMode(mode, token);
+        setAuth(token, updated);
+      } finally {
+        setBusy(false);
+      }
+    },
+    [token, user],
+  );
 
   return (
     <header
-      className="flex items-center justify-between rounded-3xl px-5 py-3"
+      className="flex flex-wrap items-center justify-between gap-2 rounded-3xl px-5 py-3"
       style={{
         background: "white",
         border: "1px solid var(--color-border)",
@@ -50,6 +68,13 @@ export default function AppHeader({ courseId, lessonId, onOpenAccessibility }: A
       )}
 
       <div className="flex items-center gap-2">
+        {user && (
+          <TeachingModeSelector
+            value={user.teaching_mode}
+            onChange={onModeChange}
+            disabled={busy}
+          />
+        )}
         {onOpenAccessibility && (
           <button
             type="button"

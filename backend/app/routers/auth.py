@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session as OrmSession
 from app.db import get_db
 from app.models import User
 from app.rate_limit import limiter
-from app.schemas import Token, UserCreate, UserOut
+from app.schemas import ModeUpdate, Token, UserCreate, UserOut
 from app.security import create_access_token, get_current_user, hash_password, verify_password
 
 router = APIRouter(prefix="/auth", tags=["auth"])
@@ -46,4 +46,16 @@ def login(
 
 @router.get("/me", response_model=UserOut)
 def me(current: User = Depends(get_current_user)):
+    return current
+
+
+@router.patch("/me/mode", response_model=UserOut)
+def update_mode(
+    payload: ModeUpdate,
+    db: OrmSession = Depends(get_db),
+    current: User = Depends(get_current_user),
+):
+    current.teaching_mode = payload.mode
+    db.commit()
+    db.refresh(current)
     return current

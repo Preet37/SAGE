@@ -13,11 +13,12 @@ Live chat uses the 6-agent Orchestrator. SSE event sequence per turn:
     agent_event { agent="assessment",   phase="done", data }
     agent_event { agent="peer_match",   phase="done", peers }
     agent_event { agent="progress",     phase="done", delta }
+    audio       { mime: "audio/mpeg", base64 }                (optional)
     done         { session_id, ok, grounded }
 
-Concept map deltas are persisted as Concept rows on the session, and mastery
-deltas from the Progress agent are applied to those rows so the UI map is
-always live.
+Each turn (user + assistant) is persisted to `tutor_messages` with the full
+agent trace, verification result, retrieved chunk preview, and content. The
+session-level transcript is also kept for backward-compatible callers.
 """
 
 from __future__ import annotations
@@ -26,7 +27,7 @@ import asyncio
 import json
 from typing import AsyncIterator
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session as OrmSession
 from sse_starlette.sse import EventSourceResponse
 
@@ -34,10 +35,12 @@ from app.agents.base import AgentContext
 from app.agents.orchestrator import Orchestrator
 from app.core.retrieval import CosineRetriever, Document
 from app.core.verification import verify
+from app.core.voice import synthesize
 from app.db import get_db
 from app.models import Concept, Lesson
 from app.models import Session as TutorSession
-from app.models import User
+from app.models import TutorMessage, User
+from app.rate_limit import limiter
 from app.routers.accessibility import _PREFS as A11Y_STORE
 from app.schemas import SessionCreate, SessionOut, TutorReply, TutorTurn
 from app.security import get_current_user
@@ -169,13 +172,54 @@ def _apply_mastery_delta(db: OrmSession, session_id: int, by_concept: dict[str, 
     db.commit()
 
 
+def _persist_messages(
+    db: OrmSession,
+    session_id: int,
+    user_text: str,
+    assistant_text: str,
+    verification: dict,
+    agent_trace: dict,
+    retrieved: list[dict],
+) -> None:
+    db.add(
+        TutorMessage(
+            session_id=session_id,
+            role="user",
+            content=user_text,
+            verification_passed=True,
+            verification_score=1.0,
+            verification_flags=[],
+            agent_trace={},
+            retrieved_chunks=[],
+        )
+    )
+    db.add(
+        TutorMessage(
+            session_id=session_id,
+            role="assistant",
+            content=assistant_text,
+            verification_passed=bool(verification.get("grounded", False)),
+            verification_score=float(verification.get("score", 1.0)),
+            verification_flags=[
+                c["claim"] for c in verification.get("claims", []) if not c.get("grounded")
+            ],
+            agent_trace=agent_trace,
+            retrieved_chunks=retrieved,
+        )
+    )
+    db.commit()
+
+
 # ----- Streaming chat ------------------------------------------------------
 
 
 @router.get("/chat")
+@limiter.limit("30/minute")
 async def chat(
+    request: Request,
     session_id: int,
     message: str,
+    voice: bool = False,
     db: OrmSession = Depends(get_db),
     user: User = Depends(get_current_user),
 ):
@@ -193,13 +237,13 @@ async def chat(
     mastery = _load_mastery(db, session_id)
     raw_sources = _load_sources(db, s.lesson_id)
 
-    # Retrieve top-k chunks deterministically.
     retriever = CosineRetriever()
     if raw_sources:
         retriever.add(Document(id=f"src-{i}", text=t) for i, t in enumerate(raw_sources))
     hits = retriever.search(message, k=4)
     sources = [h.doc.text for h in hits] or raw_sources[:4]
     scores = [round(h.score, 3) for h in hits]
+    retrieved = [{"id": h.doc.id, "score": round(h.score, 3)} for h in hits]
 
     ctx = AgentContext(
         session_id=s.id,
@@ -208,14 +252,19 @@ async def chat(
         a11y=a11y,
         mastery=mastery,
         sources=sources,
-        retrieved=[{"id": h.doc.id, "score": round(h.score, 3)} for h in hits],
+        retrieved=retrieved,
     )
+    # Make the user's mode visible to the content agent.
+    ctx.a11y["teaching_mode"] = user.teaching_mode
 
     orch = _ORCHESTRATOR
 
     async def gen():
         try:
-            yield _sse("agent_event", {"agent": "orchestrator", "phase": "start", "session_id": s.id})
+            yield _sse(
+                "agent_event",
+                {"agent": "orchestrator", "phase": "start", "session_id": s.id},
+            )
             yield _sse(
                 "agent_event",
                 {"agent": "retriever", "phase": "retrieved", "k": len(hits), "scores": scores},
@@ -265,8 +314,25 @@ async def chat(
                 {"agent": "progress", "phase": "done", "delta": ctx.progress_delta},
             )
 
+            agent_trace = {
+                "plan": ctx.plan,
+                "concept_map_delta": ctx.concept_map_delta,
+                "assessment": ctx.assessment,
+                "peers": ctx.peers,
+                "progress_delta": ctx.progress_delta,
+                "teaching_mode": user.teaching_mode,
+            }
+            _persist_messages(
+                db, s.id, message, answer, ctx.verification, agent_trace, retrieved
+            )
+
             s.transcript = (s.transcript or "") + f"\nUSER: {message}\nSAGE: {answer.strip()}"
             db.commit()
+
+            if voice:
+                audio_b64 = await synthesize(answer)
+                if audio_b64:
+                    yield _sse("audio", {"mime": "audio/mpeg", "base64": audio_b64})
 
             yield _sse(
                 "done",
@@ -276,7 +342,7 @@ async def chat(
                     "grounded": bool(ctx.verification.get("grounded", False)),
                 },
             )
-        except Exception as e:  # surface as SSE error rather than HTTP 500
+        except Exception as e:
             yield _sse("error", {"message": str(e)})
 
     return EventSourceResponse(gen())

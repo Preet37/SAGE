@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
@@ -17,12 +18,20 @@ class UserOut(BaseModel):
     id: int
     email: EmailStr
     name: str
+    teaching_mode: str = "default"
     created_at: datetime
 
 
 class Token(BaseModel):
     access_token: str
     token_type: str = "bearer"
+
+
+TeachingMode = Literal["default", "eli5", "analogy", "code", "deep_dive"]
+
+
+class ModeUpdate(BaseModel):
+    mode: TeachingMode
 
 
 # ----- Courses / Lessons ---------------------------------------------------
@@ -88,7 +97,21 @@ class MasteryUpdate(BaseModel):
     delta: float = Field(..., ge=-1.0, le=1.0)
 
 
-# ----- Replay --------------------------------------------------------------
+# ----- Messages / Replay ---------------------------------------------------
+
+
+class TutorMessageOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    id: int
+    session_id: int
+    role: Literal["user", "assistant"]
+    content: str
+    verification_passed: bool
+    verification_score: float
+    verification_flags: list[Any]
+    agent_trace: dict[str, Any]
+    retrieved_chunks: list[Any]
+    created_at: datetime
 
 
 class ReplaySessionOut(BaseModel):
@@ -99,6 +122,7 @@ class ReplaySessionOut(BaseModel):
     ended_at: datetime | None
     transcript: str
     concepts: list[ConceptOut]
+    messages: list[TutorMessageOut]
 
 
 # ----- Notes ---------------------------------------------------------------
@@ -116,6 +140,12 @@ class NotesOut(BaseModel):
     suggestions: list[str]
 
 
+class StudyPlanOut(BaseModel):
+    session_id: int
+    filename: str
+    markdown: str
+
+
 # ----- Network -------------------------------------------------------------
 
 
@@ -125,7 +155,7 @@ class PeerMatchRequest(BaseModel):
 
 
 class PeerMatchResponse(BaseModel):
-    state: str  # "waiting" | "matched"
+    state: Literal["waiting", "matched"]
     room_token: str
     peer: str | None = None
 
@@ -148,3 +178,13 @@ class DashboardOut(BaseModel):
     concepts_mastered: int
     grounded_rate: float
     recent_sessions: list[SessionOut]
+
+
+class CourseDashboardOut(BaseModel):
+    course: LessonOut
+    sessions: int
+    messages: int
+    concepts_total: int
+    concepts_mastered: int
+    weakest: list[ConceptOut]
+    next_concepts: list[ConceptOut]

@@ -13,6 +13,7 @@ class User(Base):
     email: Mapped[str] = mapped_column(String(255), unique=True, index=True)
     name: Mapped[str] = mapped_column(String(120), default="")
     hashed_password: Mapped[str] = mapped_column(String(255))
+    teaching_mode: Mapped[str] = mapped_column(String(32), default="default")
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
     lessons: Mapped[list["Lesson"]] = relationship(back_populates="owner", cascade="all, delete-orphan")  # noqa: F821
