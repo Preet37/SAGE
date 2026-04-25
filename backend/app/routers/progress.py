@@ -64,7 +64,7 @@ def get_chat_history(
         ).all()
 
     return [
-        ChatMessageResponse(id=m.id, role=m.role, content=m.content, created_at=m.created_at)
+        ChatMessageResponse(id=m.id, role=m.role, content=m.content, created_at=m.created_at, message_meta=m.message_meta)
         for m in messages
     ]
 
@@ -100,7 +100,7 @@ def get_session_history(
         .order_by(ChatMessage.created_at)
     ).all()
     return [
-        ChatMessageResponse(id=m.id, role=m.role, content=m.content, created_at=m.created_at)
+        ChatMessageResponse(id=m.id, role=m.role, content=m.content, created_at=m.created_at, message_meta=m.message_meta)
         for m in messages
     ]
 

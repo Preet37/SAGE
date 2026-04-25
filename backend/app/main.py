@@ -10,6 +10,7 @@ from .config import get_settings
 from .db import run_migrations, create_db_and_tables
 from .routers import auth, learning_paths, progress, tutor, explore, quiz, concepts, assessment, curriculum
 from .routers import projects, course_creator
+from .routers import cognition, network, media, fetchai_bridge
 
 settings = get_settings()
 
@@ -56,6 +57,12 @@ app.include_router(curriculum.router)
 
 app.include_router(projects.router)
 app.include_router(course_creator.router)
+
+# Hackathon track routers
+app.include_router(cognition.router)
+app.include_router(network.router)
+app.include_router(media.router)
+app.include_router(fetchai_bridge.router)
 
 from .config import WIKI_DIR
 _wiki_topics_dir = WIKI_DIR / "resources" / "by-topic"

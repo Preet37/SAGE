@@ -18,6 +18,7 @@ class ChatMessageResponse(BaseModel):
     role: str
     content: str
     created_at: datetime
+    message_meta: Optional[str] = None
 
 
 class ChatRequest(BaseModel):

@@ -13,13 +13,15 @@ import { AnimatedFlowBlock } from "./AnimatedFlowBlock";
 import { ArchitectureBlock } from "./ArchitectureBlock";
 import { parseFlowDiagram } from "@/lib/schemas/flow";
 import { parseArchitectureDiagram } from "@/lib/schemas/architecture";
-import { Loader2, Play, ExternalLink, BookOpen, ImageIcon, ZoomIn, X } from "lucide-react";
+import { Loader2, Play, ExternalLink, BookOpen, ImageIcon, ZoomIn, X, ShieldCheck, ShieldAlert, ShieldQuestion } from "lucide-react";
+import type { Verification } from "@/lib/useTutorStream";
 
 interface MessageBubbleProps {
   role: "user" | "assistant";
   content: string;
   isStreaming?: boolean;
   onSendMessage?: (msg: string) => void;
+  verification?: Verification;
 }
 
 type BlockPart =
@@ -244,7 +246,53 @@ function ImageCard({
   );
 }
 
-function MessageBubbleInner({ role, content, isStreaming, onSendMessage }: MessageBubbleProps) {
+function VerificationChip({ v }: { v: Verification }) {
+  const [open, setOpen] = useState(false);
+  const config =
+    v.label === "grounded"
+      ? { Icon: ShieldCheck, cls: "text-emerald-700 bg-emerald-50 border-emerald-200 dark:text-emerald-300 dark:bg-emerald-950/40 dark:border-emerald-900", text: "Grounded" }
+      : v.label === "partial"
+        ? { Icon: ShieldQuestion, cls: "text-amber-700 bg-amber-50 border-amber-200 dark:text-amber-300 dark:bg-amber-950/40 dark:border-amber-900", text: "Partially grounded" }
+        : { Icon: ShieldAlert, cls: "text-rose-700 bg-rose-50 border-rose-200 dark:text-rose-300 dark:bg-rose-950/40 dark:border-rose-900", text: "Unverified" };
+  const pct = Math.round((v.score ?? 0) * 100);
+  return (
+    <div className="mt-2">
+      <button
+        type="button"
+        onClick={() => setOpen((s) => !s)}
+        className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-medium transition hover:opacity-90 ${config.cls}`}
+        title="Click for verification details"
+      >
+        <config.Icon className="h-3 w-3" />
+        <span>{config.text}</span>
+        <span className="opacity-70">· {pct}%</span>
+      </button>
+      {open && (
+        <div className="mt-2 rounded-lg border border-border bg-muted/40 p-3 text-xs space-y-2">
+          {v.rationale && <div className="text-foreground/90">{v.rationale}</div>}
+          {v.grounded_claims.length > 0 && (
+            <div>
+              <div className="font-semibold text-emerald-700 dark:text-emerald-300 mb-1">Supported by lesson:</div>
+              <ul className="list-disc list-inside text-foreground/80 space-y-0.5">
+                {v.grounded_claims.map((c, i) => <li key={i}>{c}</li>)}
+              </ul>
+            </div>
+          )}
+          {v.unsupported_claims.length > 0 && (
+            <div>
+              <div className="font-semibold text-amber-700 dark:text-amber-300 mb-1">Not found in lesson material:</div>
+              <ul className="list-disc list-inside text-foreground/80 space-y-0.5">
+                {v.unsupported_claims.map((c, i) => <li key={i}>{c}</li>)}
+              </ul>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verification }: MessageBubbleProps) {
   if (role === "user") {
     return (
       <div className="flex justify-end">
@@ -392,6 +440,7 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage }: Messa
           );
         })}
       </div>
+      {verification && !isStreaming && <VerificationChip v={verification} />}
     </div>
   );
 }

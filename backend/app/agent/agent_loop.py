@@ -6,6 +6,7 @@ from .context import TutorContext
 from .tool_handlers import execute_tool
 from .system_prompt_v2 import build_system_prompt_v2 as build_system_prompt
 from .system_prompt_explore import build_exploration_prompt
+from .verifier import verify_response
 from ..config import get_settings
 
 logger = logging.getLogger(__name__)
@@ -35,8 +36,12 @@ async def run_tutor_agent_loop(
 
     # Pick the right prompt builder based on mode
     prompt_builder = build_exploration_prompt if context.exploration_mode else build_system_prompt
-    system_msg = {"role": "system", "content": prompt_builder(context)}
+    system_text = prompt_builder(context)
+    if context.memory_block:
+        system_text = f"{system_text}\n\n## Recalled prior context\n{context.memory_block}"
+    system_msg = {"role": "system", "content": system_text}
     api_messages = [system_msg] + messages
+    full_assistant_text = ""
 
     while steps < MAX_STEPS:
         steps += 1
@@ -69,6 +74,7 @@ async def run_tutor_agent_loop(
 
                 if delta.content:
                     text_content += delta.content
+                    full_assistant_text += delta.content
                     yield f"data: {json.dumps({'type': 'text', 'delta': delta.content})}\n\n"
 
                 if delta.tool_calls:
@@ -133,5 +139,20 @@ async def run_tutor_agent_loop(
                     "content": json.dumps(result),
                 })
                 yield f"data: {json.dumps({'type': 'tool_result', 'name': tc['name'], 'result': result})}\n\n"
+
+    # Cognition track: emit a verification event before 'done' so the
+    # frontend can render a confidence chip on the final assistant message.
+    if settings.feature_verification and full_assistant_text:
+        try:
+            result = await verify_response(
+                full_assistant_text,
+                context.lesson_title,
+                context.lesson_content,
+                context.reference_kb,
+            )
+            if result is not None:
+                yield f"data: {json.dumps({'type': 'verification', 'result': result.to_dict()})}\n\n"
+        except Exception as e:
+            logger.warning("Verification failed: %s", e)
 
     yield f"data: {json.dumps({'type': 'done'})}\n\n"

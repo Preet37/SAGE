@@ -108,11 +108,21 @@ export function TutorPanel({
     try {
       const msgs = await api.progress.getSessionHistory(lessonId, sid, token);
       loadHistory(
-        msgs.map((m) => ({
-          id: m.id,
-          role: m.role as "user" | "assistant",
-          content: m.content,
-        })),
+        msgs.map((m) => {
+          let verification;
+          if (m.message_meta) {
+            try {
+              const meta = JSON.parse(m.message_meta);
+              if (meta?.verification) verification = meta.verification;
+            } catch { /* ignore */ }
+          }
+          return {
+            id: m.id,
+            role: m.role as "user" | "assistant",
+            content: m.content,
+            verification,
+          };
+        }),
         sid,
       );
     } catch { /* ignore */ }
@@ -295,6 +305,7 @@ export function TutorPanel({
                       content={m.content}
                       isStreaming={streaming && i === messages.length - 1}
                       onSendMessage={(msg) => handleSend(msg)}
+                      verification={m.verification}
                     />
                   </div>
                 );

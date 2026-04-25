@@ -8,8 +8,15 @@ from .curriculum import GeneratedCurriculum
 from .usage import DailyUsage
 from .course_draft import CourseDraft
 from .exploration import ExplorationSession, ExplorationMessage
+from .memory import MemoryRecord
+from .network import PeerPresence, ResourceCacheEntry
+from .media import MediaAsset
 
 __all__ = [
+    "MemoryRecord",
+    "PeerPresence",
+    "ResourceCacheEntry",
+    "MediaAsset",
     "User",
     "LearningPath",
     "Module",

@@ -17,10 +17,19 @@ function uid(): string {
   return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
 }
 
+export interface Verification {
+  score: number;
+  label: "grounded" | "partial" | "unverified";
+  grounded_claims: string[];
+  unsupported_claims: string[];
+  rationale: string;
+}
+
 export interface Message {
   id: string;
   role: "user" | "assistant";
   content: string;
+  verification?: Verification;
 }
 
 export interface ToolCallState {
@@ -173,6 +182,13 @@ export function useTutorStream(lessonId: string) {
                   m.id === assistantId
                     ? { ...m, content: assistantText }
                     : m
+                )
+              );
+            } else if (event.type === "verification") {
+              const verification = event.result as Verification;
+              updateMessages((prev) =>
+                prev.map((m) =>
+                  m.id === assistantId ? { ...m, verification } : m
                 )
               );
             } else if (event.type === "done") {

@@ -17,3 +17,7 @@ class TutorContext:
     # Exploration mode fields (all optional, backward compatible)
     exploration_mode: bool = False
     available_courses: list[dict] = field(default_factory=list)
+    # Cognition track: identifiers used by verifier + semantic memory
+    user_id: str = ""
+    session_id: str = ""
+    memory_block: str = ""

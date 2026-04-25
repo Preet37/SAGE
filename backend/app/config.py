@@ -85,6 +85,46 @@ class Settings:
             "FRONTEND_URL", cfg["server"]["frontend_url"]
         )
 
+        # ── Track features ────────────────────────────────────
+        features = cfg.get("features", {})
+        self.feature_verification: bool = bool(features.get("verification", False))
+        self.feature_semantic_memory: bool = bool(features.get("semantic_memory", False))
+        self.feature_mcp_server: bool = bool(features.get("mcp_server", False))
+        self.feature_peer_network: bool = bool(features.get("peer_network", False))
+        self.feature_resource_router: bool = bool(features.get("resource_router", False))
+        self.feature_cloudinary: bool = bool(features.get("cloudinary", False))
+        self.feature_fetchai_agent: bool = bool(features.get("fetchai_agent", False))
+        self.feature_on_device: bool = bool(features.get("on_device", False))
+
+        # Cloudinary
+        cl = cfg.get("cloudinary", {})
+        self.cloudinary_cloud_name: str = os.getenv(
+            "CLOUDINARY_CLOUD_NAME", cl.get("cloud_name", "")
+        )
+        self.cloudinary_api_key: str = os.getenv("CLOUDINARY_API_KEY", "")
+        self.cloudinary_api_secret: str = os.getenv("CLOUDINARY_API_SECRET", "")
+        self.cloudinary_upload_preset: str = cl.get("upload_preset", "sage_unsigned")
+        self.cloudinary_folder: str = cl.get("folder", "sage")
+
+        # Fetch.ai
+        fai = cfg.get("fetchai", {})
+        self.fetchai_agentverse_url: str = fai.get(
+            "agentverse_url", "https://agentverse.ai"
+        )
+        self.fetchai_asi_one_url: str = fai.get("asi_one_url", "https://asi1.ai")
+        self.fetchai_agent_name: str = fai.get("agent_name", "sage-tutor")
+        self.fetchai_agent_seed: str = os.getenv(
+            "FETCHAI_AGENT_SEED", fai.get("agent_seed", "")
+        )
+        self.agentverse_api_key: str = os.getenv("AGENTVERSE_API_KEY", "")
+
+        # Resource router
+        rr = cfg.get("resource_router", {})
+        self.arxiv_url: str = rr.get("arxiv_url", "http://export.arxiv.org/api/query")
+        self.github_url: str = rr.get("github_url", "https://api.github.com")
+        self.youtube_api_key: str = os.getenv("YOUTUBE_API_KEY", "")
+        self.youtube_search_enabled: bool = bool(rr.get("youtube_search_enabled", False))
+
     @property
     def search_enabled(self) -> bool:
         has_perplexity = bool(self.search_api_key and self.search_base_url)
