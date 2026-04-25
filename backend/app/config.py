@@ -125,6 +125,11 @@ class Settings:
         self.youtube_api_key: str = os.getenv("YOUTUBE_API_KEY", "")
         self.youtube_search_enabled: bool = bool(rr.get("youtube_search_enabled", False))
 
+        # Twilio SMS integration (optional — mock mode when absent)
+        self.twilio_account_sid: str = os.getenv("TWILIO_ACCOUNT_SID", "")
+        self.twilio_auth_token: str = os.getenv("TWILIO_AUTH_TOKEN", "")
+        self.twilio_phone_number: str = os.getenv("TWILIO_PHONE_NUMBER", "")
+
     @property
     def search_enabled(self) -> bool:
         has_perplexity = bool(self.search_api_key and self.search_base_url)
