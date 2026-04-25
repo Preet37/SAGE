@@ -5,56 +5,84 @@ visible to anyone who registers. Mutation (create/delete) is owner-scoped.
 """
 
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session as OrmSession
-
-from app.db import get_db
-from app.models import Lesson, User
-from app.schemas import LessonCreate, LessonOut
-from app.security import get_current_user
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
+from pydantic import BaseModel
+from typing import Optional
+from app.database import get_db
+from app.models.lesson import Course, Lesson
+from app.models.user import User
+from app.routers.auth import get_current_user
 
 router = APIRouter(prefix="/courses", tags=["courses"])
 
 
-@router.get("", response_model=list[LessonOut])
-def list_courses(db: OrmSession = Depends(get_db), _: User = Depends(get_current_user)):
-    return db.query(Lesson).order_by(Lesson.id.asc()).all()
+class CourseOut(BaseModel):
+    id: int
+    slug: str
+    title: str
+    description: str
+    level: str
+    tags: list
+    thumbnail_url: Optional[str]
+
+    class Config:
+        from_attributes = True
 
 
-@router.post("", response_model=LessonOut, status_code=201)
-def create_course(
-    payload: LessonCreate,
-    db: OrmSession = Depends(get_db),
-    user: User = Depends(get_current_user),
-):
-    lesson = Lesson(owner_id=user.id, **payload.model_dump())
-    db.add(lesson)
-    db.commit()
-    db.refresh(lesson)
-    return lesson
+class LessonOut(BaseModel):
+    id: int
+    slug: str
+    title: str
+    order: int
+    summary: str
+    key_concepts: list
+    estimated_minutes: int
+    video_url: Optional[str]
+
+    class Config:
+        from_attributes = True
 
 
-@router.get("/{course_id}", response_model=LessonOut)
-def get_course(
-    course_id: int,
-    db: OrmSession = Depends(get_db),
-    _: User = Depends(get_current_user),
-):
-    lesson = db.query(Lesson).filter(Lesson.id == course_id).first()
-    if not lesson:
+@router.get("/", response_model=list[CourseOut])
+async def list_courses(db: AsyncSession = Depends(get_db)):
+    result = await db.execute(select(Course).order_by(Course.id))
+    return result.scalars().all()
+
+
+@router.get("/{course_slug}", response_model=CourseOut)
+async def get_course(course_slug: str, db: AsyncSession = Depends(get_db)):
+    result = await db.execute(select(Course).where(Course.slug == course_slug))
+    course = result.scalar_one_or_none()
+    if not course:
         raise HTTPException(status_code=404, detail="Course not found")
-    return lesson
+    return course
 
 
-@router.delete("/{course_id}", status_code=204)
-def delete_course(
-    course_id: int,
-    db: OrmSession = Depends(get_db),
-    user: User = Depends(get_current_user),
-):
-    lesson = db.query(Lesson).filter(Lesson.id == course_id).first()
-    if not lesson:
+@router.get("/{course_slug}/lessons", response_model=list[LessonOut])
+async def list_lessons(course_slug: str, db: AsyncSession = Depends(get_db)):
+    result = await db.execute(select(Course).where(Course.slug == course_slug))
+    course = result.scalar_one_or_none()
+    if not course:
         raise HTTPException(status_code=404, detail="Course not found")
-    if lesson.owner_id != user.id:
-        raise HTTPException(status_code=403, detail="Not owner")
-    db.delete(lesson)
-    db.commit()
+
+    lessons_result = await db.execute(
+        select(Lesson).where(Lesson.course_id == course.id).order_by(Lesson.order)
+    )
+    return lessons_result.scalars().all()
+
+
+@router.get("/{course_slug}/lessons/{lesson_slug}", response_model=LessonOut)
+async def get_lesson(course_slug: str, lesson_slug: str, db: AsyncSession = Depends(get_db)):
+    result = await db.execute(select(Course).where(Course.slug == course_slug))
+    course = result.scalar_one_or_none()
+    if not course:
+        raise HTTPException(status_code=404, detail="Course not found")
+
+    lesson_result = await db.execute(
+        select(Lesson).where(Lesson.course_id == course.id, Lesson.slug == lesson_slug)
+    )
+    lesson = lesson_result.scalar_one_or_none()
+    if not lesson:
+        raise HTTPException(status_code=404, detail="Lesson not found")
+    return lesson

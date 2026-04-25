@@ -1,4 +1,7 @@
-from dotenv import load_dotenv
+from functools import lru_cache
+from pathlib import Path
+from typing import Optional
+import yaml
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # Populate os.environ from .env so direct os.getenv(...) calls in agent code
@@ -7,12 +10,38 @@ load_dotenv()
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+    # LLM
+    llm_api_key: str = ""
+    llm_provider: str = "anthropic"
 
-    database_url: str = "sqlite:///./sage.db"
-    jwt_secret: str = "change-me-in-prod"
-    jwt_alg: str = "HS256"
-    jwt_expire_minutes: int = 60 * 24
+    # Fetch.ai
+    agentverse_api_key: str = ""
+    asi1_api_key: str = ""
+
+    # Auth
+    jwt_secret: str = "change-me-in-production"
+    jwt_algorithm: str = "HS256"
+
+    # Database
+    database_url: str = "sqlite+aiosqlite:///./sage.db"
+
+    # Voice
+    elevenlabs_api_key: str = ""
+    elevenlabs_voice_id: str = "21m00Tcm4TlvDq8ikWAM"
+
+    # Search
+    search_api_key: str = ""
+
+    # Server
+    frontend_url: str = "http://localhost:3000"
+    backend_port: int = 8000
+    content_dir: str = "./content"
+
+    model_config = SettingsConfigDict(
+        env_file="backend/.env",
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
 
     environment: str = "development"  # "development" | "production"
     log_level: str = "INFO"
@@ -22,18 +51,24 @@ class Settings(BaseSettings):
         return self.environment.lower() == "production"
 
 
-settings = Settings()
+@lru_cache
+def get_settings() -> Settings:
+    return Settings()
 
 
-def assert_safe_for_production() -> None:
-    """Raise if production deployment is using insecure defaults."""
-    if not settings.is_production:
-        return
-    if settings.jwt_secret == "change-me-in-prod" or len(settings.jwt_secret) < 32:
-        raise RuntimeError(
-            "JWT_SECRET must be a 32+ character random string in production."
-        )
-    if settings.database_url.startswith("sqlite"):
-        raise RuntimeError(
-            "Set DATABASE_URL to a Postgres URL in production; SQLite is dev-only."
-        )
+def load_yaml_config() -> dict:
+    config_path = Path(__file__).parent.parent / "settings.yaml"
+    with open(config_path) as f:
+        return yaml.safe_load(f)
+
+
+def get_tutor_model(settings: Settings, yaml_cfg: dict) -> str:
+    provider = settings.llm_provider
+    models = yaml_cfg.get("models", {}).get("tutor", {})
+    return models.get(provider, "claude-sonnet-4-5")
+
+
+def get_judge_model(settings: Settings, yaml_cfg: dict) -> str:
+    provider = settings.llm_provider
+    models = yaml_cfg.get("models", {}).get("judge", {})
+    return models.get(provider, "claude-haiku-3-5")

@@ -1,72 +1,146 @@
+"""Concept map API — live knowledge graph of student mastery."""
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session as OrmSession
-
-from app.db import get_db
-from app.models import Concept
-from app.models import Session as TutorSession
-from app.models import User
-from app.schemas import ConceptOut, MasteryUpdate
-from app.security import get_current_user
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select, and_
+from pydantic import BaseModel
+from typing import Optional
+from app.database import get_db
+from app.models.user import User
+from app.models.concept import ConceptNode, ConceptEdge, StudentMastery
+from app.routers.auth import get_current_user
 
 router = APIRouter(prefix="/concept-map", tags=["concept-map"])
 
 
-def _own_session(db: OrmSession, session_id: int, user: User) -> TutorSession:
-    s = (
-        db.query(TutorSession)
-        .filter(TutorSession.id == session_id, TutorSession.user_id == user.id)
-        .first()
-    )
-    if not s:
-        raise HTTPException(status_code=404, detail="Session not found")
-    return s
+class NodeOut(BaseModel):
+    id: int
+    label: str
+    description: str
+    node_type: str
+    mastery_score: float = 0.0
+    is_mastered: bool = False
+    lesson_id: Optional[int]
+
+    class Config:
+        from_attributes = True
 
 
-@router.get("/{session_id}", response_model=list[ConceptOut])
-def get_map(
-    session_id: int,
-    db: OrmSession = Depends(get_db),
+class EdgeOut(BaseModel):
+    id: int
+    source_id: int
+    target_id: int
+    edge_type: str
+    weight: float
+
+    class Config:
+        from_attributes = True
+
+
+class MasteryUpdate(BaseModel):
+    concept_id: int
+    score: float  # 0.0 - 1.0
+
+
+@router.get("/{course_id}")
+async def get_concept_map(
+    course_id: int,
     user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
 ):
-    _own_session(db, session_id, user)
-    return db.query(Concept).filter(Concept.session_id == session_id).all()
-
-
-@router.patch("/{session_id}/concepts/{concept_id}/mastery", response_model=ConceptOut)
-def bump_mastery(
-    session_id: int,
-    concept_id: int,
-    payload: MasteryUpdate,
-    db: OrmSession = Depends(get_db),
-    user: User = Depends(get_current_user),
-):
-    _own_session(db, session_id, user)
-    c = (
-        db.query(Concept)
-        .filter(Concept.id == concept_id, Concept.session_id == session_id)
-        .first()
+    """Return the full concept graph with student mastery overlaid."""
+    nodes_result = await db.execute(
+        select(ConceptNode).where(ConceptNode.course_id == course_id)
     )
-    if not c:
-        raise HTTPException(status_code=404, detail="Concept not found")
-    c.mastery = max(0.0, min(1.0, (c.mastery or 0.0) + payload.delta))
-    db.commit()
-    db.refresh(c)
-    return c
+    nodes = nodes_result.scalars().all()
 
-
-@router.get("/{session_id}/next", response_model=list[ConceptOut])
-def next_concepts(
-    session_id: int,
-    db: OrmSession = Depends(get_db),
-    user: User = Depends(get_current_user),
-):
-    """Top 3 concepts the learner is weakest at — what to study next."""
-    _own_session(db, session_id, user)
-    rows = (
-        db.query(Concept)
-        .filter(Concept.session_id == session_id, Concept.mastery < 0.8)
-        .order_by(Concept.mastery.asc())
-        .limit(3)
-        .all()
+    mastery_result = await db.execute(
+        select(StudentMastery).where(StudentMastery.user_id == user.id)
     )
-    return rows
+    mastery_map = {m.concept_id: m for m in mastery_result.scalars().all()}
+
+    node_ids = [n.id for n in nodes]
+    edges_result = await db.execute(
+        select(ConceptEdge).where(
+            ConceptEdge.source_id.in_(node_ids),
+            ConceptEdge.target_id.in_(node_ids),
+        )
+    )
+    edges = edges_result.scalars().all()
+
+    nodes_out = []
+    for node in nodes:
+        m = mastery_map.get(node.id)
+        nodes_out.append({
+            "id": node.id,
+            "label": node.label,
+            "description": node.description,
+            "node_type": node.node_type,
+            "lesson_id": node.lesson_id,
+            "mastery_score": m.score if m else 0.0,
+            "is_mastered": m.is_mastered if m else False,
+        })
+
+    edges_out = [
+        {"id": e.id, "source_id": e.source_id, "target_id": e.target_id,
+         "edge_type": e.edge_type, "weight": e.weight}
+        for e in edges
+    ]
+
+    return {"nodes": nodes_out, "edges": edges_out}
+
+
+@router.post("/mastery")
+async def update_mastery(
+    update: MasteryUpdate,
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    result = await db.execute(
+        select(StudentMastery).where(
+            and_(
+                StudentMastery.user_id == user.id,
+                StudentMastery.concept_id == update.concept_id,
+            )
+        )
+    )
+    mastery = result.scalar_one_or_none()
+
+    if mastery:
+        mastery.score = max(mastery.score, update.score)
+        mastery.attempts += 1
+        mastery.is_mastered = mastery.score >= 0.8
+    else:
+        mastery = StudentMastery(
+            user_id=user.id,
+            concept_id=update.concept_id,
+            score=update.score,
+            attempts=1,
+            is_mastered=update.score >= 0.8,
+        )
+        db.add(mastery)
+
+    await db.commit()
+    return {"concept_id": update.concept_id, "score": mastery.score, "is_mastered": mastery.is_mastered}
+
+
+@router.get("/next/{course_id}")
+async def get_next_concepts(
+    course_id: int,
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """Return the 3 concepts the Progress Agent recommends studying next."""
+    nodes_result = await db.execute(
+        select(ConceptNode).where(ConceptNode.course_id == course_id)
+    )
+    nodes = {n.id: n for n in nodes_result.scalars().all()}
+
+    mastery_result = await db.execute(
+        select(StudentMastery).where(
+            and_(StudentMastery.user_id == user.id, StudentMastery.is_mastered == False)
+        )
+    )
+    not_mastered_ids = {m.concept_id for m in mastery_result.scalars().all()}
+    unvisited = [n for n in nodes.values() if n.id in not_mastered_ids or True]
+
+    return [{"id": n.id, "label": n.label, "description": n.description} for n in unvisited[:3]]

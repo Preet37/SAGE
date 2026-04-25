@@ -1,0 +1,52 @@
+llm:
+  provider: groq                    # anthropic | openai | groq | asi1
+  base_url: "https://api.anthropic.com"
+  anthropic_base: "https://api.anthropic.com"
+  openai_base: "https://api.openai.com/v1"
+  groq_base: "https://api.groq.com/openai/v1"
+  asi1_base: "https://api.asi1.ai/v1"
+
+models:
+  tutor:
+    anthropic: "claude-sonnet-4-5"
+    openai: "gpt-4o"
+    groq: "llama-3.3-70b-versatile"
+    asi1: "asi1-mini"
+  judge:
+    anthropic: "claude-haiku-3-5"
+    openai: "gpt-4o-mini"
+    groq: "llama-3.1-8b-instant"
+    asi1: "asi1-mini"
+  embeddings:
+    model: "all-MiniLM-L6-v2"      # local sentence-transformers model
+
+auth:
+  algorithm: HS256
+  expire_days: 7
+
+agents:
+  pedagogy_port: 8001
+  content_port: 8002
+  concept_map_port: 8003
+  assessment_port: 8004
+  peer_match_port: 8005
+  progress_port: 8006
+
+retrieval:
+  top_k: 4
+  chunk_size: 512
+  chunk_overlap: 64
+
+verification:
+  enabled: true
+  check_hallucination: true
+  check_url_fabrication: true
+  check_quiz_format: true
+
+voice:
+  provider: elevenlabs              # elevenlabs | browser
+  speaking_rate: 1.0
+
+peer_match:
+  max_wait_seconds: 30
+  concept_similarity_threshold: 0.7

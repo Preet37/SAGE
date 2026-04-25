@@ -23,7 +23,9 @@ from sqlalchemy import create_engine, inspect, text
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
-from app.config import settings
+from app.config import get_settings
+
+settings = get_settings()
 
 log = logging.getLogger("sage.db")
 

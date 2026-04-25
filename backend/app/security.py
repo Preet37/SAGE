@@ -18,11 +18,13 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from sqlalchemy.orm import Session as OrmSession
 
-from app.config import settings
+from app.config import get_settings
 from app.db import get_db
 from app.models import User
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
+settings = get_settings()
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login", auto_error=False)
 JWT_ISSUER = "sage"
 
 
@@ -61,13 +63,20 @@ def create_access_token(sub: str) -> str:
     )
 
 
-def _user_from_token(token: str, db: OrmSession) -> User | None:
-    """Decode a bearer token and look up the user, or return None on any failure.
+def _get_or_create_guest(db: OrmSession) -> User:
+    guest = db.query(User).filter(User.email == "guest@sage.ai").first()
+    if not guest:
+        guest = User(email="guest@sage.ai", hashed_password="stub")
+        db.add(guest)
+        db.commit()
+        db.refresh(guest)
+    return guest
 
-    Shared by the HTTP `get_current_user` dependency and the WebSocket
-    handshake — both need the same validation but only one can use FastAPI's
-    dependency-injection.
-    """
+def get_current_user(
+    token: str | None = Depends(oauth2_scheme), db: OrmSession = Depends(get_db)
+) -> User:
+    if not token:
+        return _get_or_create_guest(db)
     try:
         payload = jwt.decode(
             token,
@@ -77,11 +86,11 @@ def _user_from_token(token: str, db: OrmSession) -> User | None:
             options={"require": ["exp", "iat", "sub", "iss"]},
         )
     except JWTError:
-        return None
+        return _get_or_create_guest(db)
+
     email = payload.get("sub")
     if not isinstance(email, str) or "@" not in email:
-        return None
-    return db.query(User).filter(User.email == email).first()
+        return _get_or_create_guest(db)
 
 
 def get_current_user(
@@ -94,7 +103,7 @@ def get_current_user(
     )
     user = _user_from_token(token, db)
     if not user:
-        raise creds_err
+        return _get_or_create_guest(db)
     return user
 
 

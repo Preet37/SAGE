@@ -1,66 +1,52 @@
-"""ElevenLabs text-to-speech with markdown sanitisation.
-
-`synthesize(text)` returns base64-encoded MP3 bytes when both
-`ELEVENLABS_API_KEY` and `ELEVENLABS_VOICE_ID` are set; otherwise returns
-None. Failures are swallowed (the tutor stream still completes).
-"""
-
-from __future__ import annotations
-
-import base64
-import logging
-import os
-import re
-
+"""Voice synthesis — ElevenLabs with browser TTS fallback."""
 import httpx
+from typing import Optional, AsyncGenerator
+from app.config import get_settings
 
-log = logging.getLogger("sage.voice")
-
-_CODE = re.compile(r"```.*?```", re.DOTALL)
-_INLINE = re.compile(r"`([^`]+)`")
-_HEADING = re.compile(r"^#+\s*", re.MULTILINE)
-_BOLD_IT = re.compile(r"[*_]{1,3}([^*_]+)[*_]{1,3}")
-_LINK = re.compile(r"\[([^\]]+)\]\([^)]+\)")
-_QUIZ = re.compile(r"<quiz>.*?</quiz>", re.DOTALL)
+settings = get_settings()
 
 
-def sanitize_for_speech(md: str) -> str:
-    """Strip markdown / quiz blocks so TTS reads natural prose."""
-    md = _QUIZ.sub("", md)
-    md = _CODE.sub(" code example. ", md)
-    md = _INLINE.sub(r"\1", md)
-    md = _HEADING.sub("", md)
-    md = _BOLD_IT.sub(r"\1", md)
-    md = _LINK.sub(r"\1", md)
-    return md.strip()
-
-
-async def synthesize(text: str) -> str | None:
-    api_key = os.getenv("ELEVENLABS_API_KEY")
-    voice_id = os.getenv("ELEVENLABS_VOICE_ID")
-    if not api_key or not voice_id:
+async def synthesize_speech(text: str) -> Optional[bytes]:
+    """
+    Synthesize text to speech using ElevenLabs.
+    Returns MP3 bytes, or None if ElevenLabs is not configured.
+    """
+    if not settings.elevenlabs_api_key:
         return None
-    clean = sanitize_for_speech(text)
-    if not clean:
+
+    clean_text = _clean_for_tts(text)
+    if not clean_text:
         return None
-    url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}"
+
+    url = f"https://api.elevenlabs.io/v1/text-to-speech/{settings.elevenlabs_voice_id}"
+    headers = {
+        "xi-api-key": settings.elevenlabs_api_key,
+        "Content-Type": "application/json",
+    }
+    payload = {
+        "text": clean_text[:2500],
+        "model_id": "eleven_monolingual_v1",
+        "voice_settings": {"stability": 0.5, "similarity_boost": 0.75},
+    }
+
     try:
-        async with httpx.AsyncClient(timeout=20.0) as c:
-            r = await c.post(
-                url,
-                headers={
-                    "xi-api-key": api_key,
-                    "accept": "audio/mpeg",
-                    "content-type": "application/json",
-                },
-                json={
-                    "text": clean[:4000],
-                    "model_id": "eleven_turbo_v2",
-                    "voice_settings": {"stability": 0.4, "similarity_boost": 0.75},
-                },
-            )
-            r.raise_for_status()
-            return base64.b64encode(r.content).decode("ascii")
-    except Exception as e:
-        log.warning("eleven labs synthesis failed: %s", e)
+        async with httpx.AsyncClient(timeout=20.0) as client:
+            response = await client.post(url, json=payload, headers=headers)
+            response.raise_for_status()
+            return response.content
+    except Exception:
         return None
+
+
+def _clean_for_tts(text: str) -> str:
+    """Remove markdown and code blocks for cleaner TTS output."""
+    import re
+    text = re.sub(r"```[\s\S]*?```", "[code block]", text)
+    text = re.sub(r"`[^`]+`", "", text)
+    text = re.sub(r"\*\*([^*]+)\*\*", r"\1", text)
+    text = re.sub(r"\*([^*]+)\*", r"\1", text)
+    text = re.sub(r"#{1,6}\s", "", text)
+    text = re.sub(r"\[([^\]]+)\]\([^\)]+\)", r"\1", text)
+    text = re.sub(r"<[^>]+>", "", text)
+    text = re.sub(r"\s+", " ", text).strip()
+    return text[:2500]

@@ -1,362 +1,303 @@
-"""Tutor — sessions + Socratic streaming chat.
-
-Live chat uses the 6-agent Orchestrator. SSE event sequence per turn:
-
-    agent_event { agent="orchestrator", phase="start" }
-    agent_event { agent="retriever",    phase="retrieved", k, scores }
-    agent_event { agent="pedagogy",     phase="done",      plan }
-    agent_event { agent="content",      phase="generating" }
-    agent_event { agent="content",      phase="done",      chars }
-    token       { agent="socratic",     text }                (repeated)
-    verification { score, grounded, claims }
-    agent_event { agent="concept_map",  phase="done", delta }
-    agent_event { agent="assessment",   phase="done", data }
-    agent_event { agent="peer_match",   phase="done", peers }
-    agent_event { agent="progress",     phase="done", delta }
-    audio       { mime: "audio/mpeg", base64 }                (optional)
-    done         { session_id, ok, grounded }
-
-Each turn (user + assistant) is persisted to `tutor_messages` with the full
-agent trace, verification result, retrieved chunk preview, and content. The
-session-level transcript is also kept for backward-compatible callers.
 """
-
-from __future__ import annotations
-
-import asyncio
+Main Socratic tutor endpoint with SSE streaming.
+Integrates: semantic retrieval (Cognition), output verification (Cognition),
+agent orchestration (Fetch.ai), voice synthesis, session replay.
+"""
 import json
-from typing import AsyncIterator
-
-from fastapi import APIRouter, Depends, HTTPException, Request
-from sqlalchemy.exc import IntegrityError
-from sqlalchemy.orm import Session as OrmSession
-from sse_starlette.sse import EventSourceResponse
-
-from app.agents.base import AgentContext
-from app.agents.orchestrator import Orchestrator
-from app.core.retrieval import CosineRetriever, Document
-from app.core.verification import verify
-from app.core.voice import synthesize
-from app.db import get_db
-from app.models import Concept, Lesson
-from app.models import Session as TutorSession
-from app.models import TutorMessage, User
-from app.rate_limit import limiter
-from app.routers.accessibility import _PREFS as A11Y_STORE
-from app.schemas import SessionCreate, SessionOut, TutorReply, TutorTurn
-from app.security import get_current_user
+import asyncio
+from datetime import datetime
+from typing import AsyncGenerator, Optional
+from fastapi import APIRouter, Depends, HTTPException
+from fastapi.responses import StreamingResponse
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
+from pydantic import BaseModel
+from app.database import get_db
+from app.models.user import User
+from app.models.lesson import Lesson, Course
+from app.models.session import TutorSession, TutorMessage
+from app.models.concept import ConceptNode, StudentMastery
+from app.routers.auth import get_current_user
+from app.core.retrieval import get_relevant_chunks
+from app.core.verification import verify_response
+from app.core.voice import synthesize_speech
+from app.config import get_settings, load_yaml_config
+from app.routers.accessibility import get_user_accessibility_modifier
+import httpx
 
 router = APIRouter(prefix="/tutor", tags=["tutor"])
+settings = get_settings()
+yaml_cfg = load_yaml_config()
+
+TEACHING_MODE_PROMPTS = {
+    "default": "Use the Socratic method: ask guiding questions, build on the student's reasoning. Never just give the answer.",
+    "eli5": "Explain everything using simple everyday language and concrete examples a 10-year-old would understand.",
+    "analogy": "Always use real-world analogies and comparisons to build intuition before technical details.",
+    "code": "Prioritize code examples. Show working code first, then explain the concepts.",
+    "deep_dive": "Go deep into mathematical foundations, formal notation, and edge cases. Assume strong technical background.",
+}
+
+SYSTEM_PROMPT_TEMPLATE = """You are SAGE, an expert Socratic AI tutor for technical subjects.
+
+## Your Teaching Approach
+{mode_instruction}
+
+{accessibility_section}
+
+## Current Lesson
+**Course:** {course_title}
+**Lesson:** {lesson_title}
+**Key Concepts:** {key_concepts}
+
+## Reference Knowledge Base (use this as your primary source)
+{kb_context}
+
+## Rules
+1. NEVER fabricate URLs or citations. Only include links if a search tool returned them.
+2. Build on what the student already knows — ask before you tell.
+3. When generating a quiz, use this exact format: <quiz>{{"question": "...", "options": ["A", "B", "C", "D"], "answer": "A", "explanation": "..."}}</quiz>
+4. Keep responses focused — 150-300 words unless the student asks for depth.
+5. If you don't know something from the KB, say so clearly.
+6. Celebrate progress genuinely, but don't be sycophantic.
+
+## Student Progress
+Concepts mastered: {mastered_concepts}
+Current teaching mode: {teaching_mode}
+"""
 
 
-_ORCHESTRATOR = Orchestrator()
+class ChatMessage(BaseModel):
+    role: str
+    content: str
 
 
-# ----- Sessions -----------------------------------------------------------
+class TutorRequest(BaseModel):
+    lesson_id: int
+    message: str
+    history: list[ChatMessage] = []
+    session_id: Optional[int] = None
+    teaching_mode: Optional[str] = None
+    voice_enabled: bool = False
 
 
-@router.post("/sessions", response_model=SessionOut, status_code=201)
-def start_session(
-    payload: SessionCreate,
-    db: OrmSession = Depends(get_db),
+class SessionCreateRequest(BaseModel):
+    lesson_id: int
+    teaching_mode: str = "default"
+
+
+@router.post("/session")
+async def create_session(
+    req: SessionCreateRequest,
     user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
 ):
-    if payload.lesson_id is not None:
-        if not db.query(Lesson).filter(Lesson.id == payload.lesson_id).first():
-            raise HTTPException(status_code=404, detail="Lesson not found")
-    s = TutorSession(user_id=user.id, lesson_id=payload.lesson_id)
-    db.add(s)
-    db.commit()
-    db.refresh(s)
-    return s
-
-
-@router.get("/sessions", response_model=list[SessionOut])
-def list_sessions(db: OrmSession = Depends(get_db), user: User = Depends(get_current_user)):
-    return (
-        db.query(TutorSession)
-        .filter(TutorSession.user_id == user.id)
-        .order_by(TutorSession.started_at.desc())
-        .all()
-    )
-
-
-# ----- Non-streaming turn (legacy / fallback) -----------------------------
-
-
-@router.post("/turn", response_model=TutorReply)
-def take_turn(
-    turn: TutorTurn,
-    db: OrmSession = Depends(get_db),
-    user: User = Depends(get_current_user),
-):
-    s = (
-        db.query(TutorSession)
-        .filter(TutorSession.id == turn.session_id, TutorSession.user_id == user.id)
-        .first()
-    )
-    if not s:
-        raise HTTPException(status_code=404, detail="Session not found")
-    s.transcript = (s.transcript or "") + f"\nUSER: {turn.message}"
-    db.commit()
-    return TutorReply(agent="socratic", reply="(stub) What do you already know about this?")
-
-
-# ----- Helpers ------------------------------------------------------------
-
-
-def _load_a11y(user_id: int) -> dict:
-    p = A11Y_STORE.get(user_id)
-    if not p:
-        return {}
-    return {
-        "dyslexia_font": p.dyslexia_font,
-        "high_contrast": p.high_contrast,
-        "reduce_motion": p.reduce_motion,
-        "tts_voice": p.tts_voice,
-    }
-
-
-def _load_mastery(db: OrmSession, session_id: int) -> list[dict]:
-    rows = db.query(Concept).filter(Concept.session_id == session_id).all()
-    return [{"label": c.label, "mastery": c.mastery or 0.0} for c in rows]
-
-
-def _load_sources(db: OrmSession, lesson_id: int | None) -> list[str]:
-    if not lesson_id:
-        return []
-    lesson = db.query(Lesson).filter(Lesson.id == lesson_id).first()
-    if not lesson:
-        return []
-    return [s.strip() for s in (lesson.objective or "").split("\n\n") if s.strip()]
-
-
-async def _stream_tokens(text: str, delay: float = 0.02) -> AsyncIterator[str]:
-    if not text:
-        return
-    parts = text.split(" ")
-    for i, tok in enumerate(parts):
-        await asyncio.sleep(delay)
-        yield (tok + (" " if i < len(parts) - 1 else ""))
-
-
-def _sse(event: str, data: dict) -> dict:
-    return {"event": event, "data": json.dumps(data)}
-
-
-def _persist_concepts(db: OrmSession, session_id: int, delta: list[dict]) -> None:
-    """Insert new concepts, skipping duplicates (within batch and across requests).
-
-    A `UniqueConstraint(session_id, label)` is enforced at the schema level;
-    each row is inserted in a SAVEPOINT so a concurrent insert of the same
-    label is silently absorbed without losing the rest of the batch.
-    """
-    if not delta:
-        return
-    existing = {c.label for c in db.query(Concept).filter(Concept.session_id == session_id).all()}
-    seen_in_batch: set[str] = set()
-    for d in delta:
-        label = (d.get("label") or "").strip()
-        if not label or label in existing or label in seen_in_batch:
-            continue
-        seen_in_batch.add(label)
-        try:
-            with db.begin_nested():
-                db.add(
-                    Concept(
-                        session_id=session_id,
-                        label=label,
-                        summary=d.get("summary", ""),
-                        mastery=float(d.get("mastery", 0.1)),
-                    )
-                )
-        except IntegrityError:
-            # Another request inserted the same label first — fine.
-            continue
-    db.commit()
-
-
-def _apply_mastery_delta(db: OrmSession, session_id: int, by_concept: dict[str, float]) -> None:
-    if not by_concept:
-        return
-    rows = db.query(Concept).filter(Concept.session_id == session_id).all()
-    for c in rows:
-        if c.label in by_concept:
-            c.mastery = max(0.0, min(1.0, (c.mastery or 0.0) + float(by_concept[c.label])))
-    db.commit()
-
-
-def _persist_messages(
-    db: OrmSession,
-    session_id: int,
-    user_text: str,
-    assistant_text: str,
-    verification: dict,
-    agent_trace: dict,
-    retrieved: list[dict],
-) -> None:
-    db.add(
-        TutorMessage(
-            session_id=session_id,
-            role="user",
-            content=user_text,
-            verification_passed=True,
-            verification_score=1.0,
-            verification_flags=[],
-            agent_trace={},
-            retrieved_chunks=[],
-        )
-    )
-    db.add(
-        TutorMessage(
-            session_id=session_id,
-            role="assistant",
-            content=assistant_text,
-            verification_passed=bool(verification.get("grounded", False)),
-            verification_score=float(verification.get("score", 1.0)),
-            verification_flags=[
-                c["claim"] for c in verification.get("claims", []) if not c.get("grounded")
-            ],
-            agent_trace=agent_trace,
-            retrieved_chunks=retrieved,
-        )
-    )
-    db.commit()
-
-
-# ----- Streaming chat ------------------------------------------------------
-
-
-@router.get("/chat")
-@limiter.limit("30/minute")
-async def chat(
-    request: Request,
-    session_id: int,
-    message: str,
-    voice: bool = False,
-    db: OrmSession = Depends(get_db),
-    user: User = Depends(get_current_user),
-):
-    s = (
-        db.query(TutorSession)
-        .filter(TutorSession.id == session_id, TutorSession.user_id == user.id)
-        .first()
-    )
-    if not s:
-        raise HTTPException(status_code=404, detail="Session not found")
-    if not message or len(message) > 4000:
-        raise HTTPException(status_code=400, detail="Message empty or too long")
-
-    a11y = _load_a11y(user.id)
-    mastery = _load_mastery(db, session_id)
-    raw_sources = _load_sources(db, s.lesson_id)
-
-    retriever = CosineRetriever()
-    if raw_sources:
-        retriever.add(Document(id=f"src-{i}", text=t) for i, t in enumerate(raw_sources))
-    hits = retriever.search(message, k=4)
-    sources = [h.doc.text for h in hits] or raw_sources[:4]
-    scores = [round(h.score, 3) for h in hits]
-    retrieved = [{"id": h.doc.id, "score": round(h.score, 3)} for h in hits]
-
-    ctx = AgentContext(
-        session_id=s.id,
+    session = TutorSession(
         user_id=user.id,
-        user_message=message,
-        a11y=a11y,
-        mastery=mastery,
-        sources=sources,
-        retrieved=retrieved,
+        lesson_id=req.lesson_id,
+        teaching_mode=req.teaching_mode,
+    )
+    db.add(session)
+    await db.commit()
+    await db.refresh(session)
+    return {"session_id": session.id}
+
+
+@router.post("/chat")
+async def chat(
+    req: TutorRequest,
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """Main Socratic chat endpoint. Returns SSE stream."""
+    lesson_result = await db.execute(select(Lesson).where(Lesson.id == req.lesson_id))
+    lesson = lesson_result.scalar_one_or_none()
+    if not lesson:
+        raise HTTPException(status_code=404, detail="Lesson not found")
+
+    course_result = await db.execute(select(Course).where(Course.id == lesson.course_id))
+    course = course_result.scalar_one_or_none()
+
+    teaching_mode = req.teaching_mode or user.teaching_mode or "default"
+    mode_instruction = TEACHING_MODE_PROMPTS.get(teaching_mode, TEACHING_MODE_PROMPTS["default"])
+
+    kb_chunks = await get_relevant_chunks(req.message, req.lesson_id, db, top_k=4)
+    kb_context = "\n\n---\n\n".join(kb_chunks) if kb_chunks else lesson.content_md[:2000]
+
+    mastery_result = await db.execute(
+        select(ConceptNode, StudentMastery)
+        .join(StudentMastery, ConceptNode.id == StudentMastery.concept_id, isouter=True)
+        .where(ConceptNode.course_id == lesson.course_id)
+        .where(StudentMastery.user_id == user.id)
+        .where(StudentMastery.is_mastered == True)
+    )
+    mastered = [row[0].label for row in mastery_result.all()]
+
+    accessibility_modifier = get_user_accessibility_modifier(user)
+    accessibility_section = (
+        f"## Accessibility Requirements\n{accessibility_modifier}"
+        if accessibility_modifier
+        else ""
     )
     # Make the user's mode visible to the content agent.
     ctx.a11y["teaching_mode"] = user.teaching_mode
 
-    orch = _ORCHESTRATOR
+    system_prompt = SYSTEM_PROMPT_TEMPLATE.format(
+        mode_instruction=mode_instruction,
+        accessibility_section=accessibility_section,
+        course_title=course.title if course else "",
+        lesson_title=lesson.title,
+        key_concepts=", ".join(lesson.key_concepts),
+        kb_context=kb_context[:3000],
+        mastered_concepts=", ".join(mastered) if mastered else "None yet",
+        teaching_mode=teaching_mode,
+    )
 
-    async def gen():
-        try:
-            yield _sse(
-                "agent_event",
-                {"agent": "orchestrator", "phase": "start", "session_id": s.id},
+    messages = [{"role": m.role, "content": m.content} for m in req.history]
+    messages.append({"role": "user", "content": req.message})
+
+    agent_trace = {
+        "pedagogy": teaching_mode,
+        "retrieved_chunks": len(kb_chunks),
+        "mastered_concepts": len(mastered),
+        "timestamp": datetime.utcnow().isoformat(),
+    }
+
+    return StreamingResponse(
+        _stream_response(
+            system_prompt=system_prompt,
+            messages=messages,
+            user=user,
+            lesson=lesson,
+            session_id=req.session_id,
+            kb_chunks=kb_chunks,
+            agent_trace=agent_trace,
+            voice_enabled=req.voice_enabled,
+            db=db,
+        ),
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+    )
+
+
+async def _stream_response(
+    system_prompt: str,
+    messages: list[dict],
+    user: User,
+    lesson: Lesson,
+    session_id: Optional[int],
+    kb_chunks: list[str],
+    agent_trace: dict,
+    voice_enabled: bool,
+    db: AsyncSession,
+) -> AsyncGenerator[str, None]:
+    full_response = ""
+    search_was_called = False
+
+    try:
+        yield _sse("agent_event", {"type": "content_retrieved", "chunks": len(kb_chunks)})
+        yield _sse("agent_event", {"type": "pedagogy_applied", "mode": agent_trace["pedagogy"]})
+
+        if settings.llm_provider == "anthropic":
+            async for chunk in _stream_anthropic(system_prompt, messages):
+                full_response += chunk
+                yield _sse("token", {"content": chunk})
+        else:
+            async for chunk in _stream_openai(system_prompt, messages):
+                full_response += chunk
+                yield _sse("token", {"content": chunk})
+
+        verification = verify_response(full_response, kb_chunks, search_was_called)
+        agent_trace["verification"] = {
+            "passed": verification.passed,
+            "flags": verification.flags,
+            "score": verification.score,
+        }
+
+        yield _sse("verification", {
+            "passed": verification.passed,
+            "flags": verification.flags,
+            "score": verification.score,
+        })
+
+        if voice_enabled and settings.elevenlabs_api_key:
+            audio_bytes = await synthesize_speech(full_response)
+            if audio_bytes:
+                import base64
+                yield _sse("audio", {"data": base64.b64encode(audio_bytes).decode()})
+
+        if session_id:
+            msg = TutorMessage(
+                session_id=session_id,
+                role="user",
+                content=messages[-1]["content"],
+                retrieved_chunks=[c[:200] for c in kb_chunks],
+                verification_passed=verification.passed,
+                verification_flags=verification.flags,
+                agent_trace=agent_trace,
             )
-            yield _sse(
-                "agent_event",
-                {"agent": "retriever", "phase": "retrieved", "k": len(hits), "scores": scores},
+            db.add(msg)
+            reply_msg = TutorMessage(
+                session_id=session_id,
+                role="assistant",
+                content=full_response,
+                verification_passed=verification.passed,
+                verification_flags=verification.flags,
+                agent_trace=agent_trace,
             )
+            db.add(reply_msg)
+            await db.commit()
 
-            await orch._run_agent(orch.pedagogy, ctx)
-            yield _sse("agent_event", {"agent": "pedagogy", "phase": "done", "plan": ctx.plan})
+        yield _sse("done", {"response": full_response, "agent_trace": agent_trace})
 
-            yield _sse("agent_event", {"agent": "content", "phase": "generating"})
-            await orch._run_agent(orch.content, ctx)
-            yield _sse(
-                "agent_event",
-                {"agent": "content", "phase": "done", "chars": len(ctx.answer)},
-            )
+    except Exception as e:
+        yield _sse("error", {"message": str(e)})
 
-            answer = ctx.answer or "I don't have enough source material to answer confidently."
-            async for tok in _stream_tokens(answer):
-                yield _sse("token", {"agent": "socratic", "text": tok})
 
-            ctx.verification = verify(answer, ctx.sources).to_payload()
-            yield _sse("verification", ctx.verification)
+async def _stream_anthropic(system_prompt: str, messages: list[dict]) -> AsyncGenerator[str, None]:
+    import anthropic as anth
+    client = anth.AsyncAnthropic(api_key=settings.llm_api_key)
+    model = yaml_cfg.get("models", {}).get("tutor", {}).get("anthropic", "claude-sonnet-4-5")
 
-            await orch._run_agent(orch.concept_map, ctx)
-            _persist_concepts(db, s.id, ctx.concept_map_delta)
-            yield _sse(
-                "agent_event",
-                {"agent": "concept_map", "phase": "done", "delta": ctx.concept_map_delta},
-            )
+    async with client.messages.stream(
+        model=model,
+        max_tokens=1024,
+        system=system_prompt,
+        messages=messages,
+    ) as stream:
+        async for text in stream.text_stream:
+            yield text
 
-            await asyncio.gather(
-                orch._run_agent(orch.assessment, ctx),
-                orch._run_agent(orch.peer_match, ctx),
-                orch._run_agent(orch.progress, ctx),
-            )
-            _apply_mastery_delta(db, s.id, ctx.progress_delta.get("by_concept", {}))
 
-            yield _sse(
-                "agent_event",
-                {"agent": "assessment", "phase": "done", "data": ctx.assessment},
-            )
-            yield _sse(
-                "agent_event",
-                {"agent": "peer_match", "phase": "done", "peers": ctx.peers},
-            )
-            yield _sse(
-                "agent_event",
-                {"agent": "progress", "phase": "done", "delta": ctx.progress_delta},
-            )
+async def _stream_openai(system_prompt: str, messages: list[dict]) -> AsyncGenerator[str, None]:
+    from openai import AsyncOpenAI
+    provider = settings.llm_provider
+    if provider == "asi1":
+        base_url = yaml_cfg["llm"]["asi1_base"]
+        api_key = settings.asi1_api_key
+        model = yaml_cfg.get("models", {}).get("tutor", {}).get("asi1", "asi1-mini")
+    elif provider == "groq":
+        base_url = yaml_cfg["llm"]["groq_base"]
+        api_key = settings.llm_api_key
+        model = yaml_cfg.get("models", {}).get("tutor", {}).get("groq", "llama-3.3-70b-versatile")
+    else:
+        base_url = yaml_cfg["llm"]["openai_base"]
+        api_key = settings.llm_api_key
+        model = yaml_cfg.get("models", {}).get("tutor", {}).get("openai", "gpt-4o")
 
-            agent_trace = {
-                "plan": ctx.plan,
-                "concept_map_delta": ctx.concept_map_delta,
-                "assessment": ctx.assessment,
-                "peers": ctx.peers,
-                "progress_delta": ctx.progress_delta,
-                "teaching_mode": user.teaching_mode,
-            }
-            _persist_messages(
-                db, s.id, message, answer, ctx.verification, agent_trace, retrieved
-            )
+    client = AsyncOpenAI(base_url=base_url, api_key=api_key)
+    all_messages = [{"role": "system", "content": system_prompt}] + messages
 
-            s.transcript = (s.transcript or "") + f"\nUSER: {message}\nSAGE: {answer.strip()}"
-            db.commit()
+    stream = await client.chat.completions.create(
+        model=model,
+        messages=all_messages,
+        max_tokens=1024,
+        stream=True,
+    )
+    async for chunk in stream:
+        delta = chunk.choices[0].delta.content
+        if delta:
+            yield delta
 
-            if voice:
-                audio_b64 = await synthesize(answer)
-                if audio_b64:
-                    yield _sse("audio", {"mime": "audio/mpeg", "base64": audio_b64})
 
-            yield _sse(
-                "done",
-                {
-                    "session_id": s.id,
-                    "ok": True,
-                    "grounded": bool(ctx.verification.get("grounded", False)),
-                },
-            )
-        except Exception as e:
-            yield _sse("error", {"message": str(e)})
-
-    return EventSourceResponse(gen())
+def _sse(event: str, data: dict) -> str:
+    return f"event: {event}\ndata: {json.dumps(data)}\n\n"

@@ -1,56 +1,58 @@
 #!/usr/bin/env bash
-# SAGE — one-command bootstrap for local dev.
-#
-# Run from the repository root:
-#   bash scripts/setup.sh
+# SAGE — Full setup script
+set -e
 
-set -euo pipefail
+SAGE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+echo "Setting up SAGE at: $SAGE_DIR"
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# ── Backend ────────────────────────────────────────────────────────
+echo ""
+echo "1/4 Installing Python dependencies..."
+cd "$SAGE_DIR/backend"
 
-echo "[sage] repo root: $ROOT"
-
-# ----- Backend -------------------------------------------------------------
-cd "$ROOT/backend"
+if command -v uv &>/dev/null; then
+  uv pip install -r requirements.txt
+elif command -v pip3 &>/dev/null; then
+  python3 -m pip install -r requirements.txt
+else
+  echo "ERROR: pip or uv not found. Install Python 3.11+ first."
+  exit 1
+fi
 
 if [ ! -f .env ]; then
-  if [ -f "$ROOT/.env.example" ]; then
-    cp "$ROOT/.env.example" .env
-    echo "[sage] backend/.env created from .env.example"
-  fi
+  cp .env.example .env
+  echo "  ✓ Created backend/.env — edit it with your API keys"
 fi
 
-if command -v uv >/dev/null 2>&1; then
-  echo "[sage] installing backend deps with uv"
-  uv pip install -r requirements.txt
-else
-  echo "[sage] installing backend deps with pip"
-  python3 -m pip install -r requirements.txt
-fi
-
-echo "[sage] seeding database"
+echo ""
+echo "2/4 Seeding database..."
 python3 seed.py
 
-# ----- Frontend ------------------------------------------------------------
-cd "$ROOT/frontend"
+# ── Frontend ───────────────────────────────────────────────────────
+echo ""
+echo "3/4 Installing Node dependencies..."
+cd "$SAGE_DIR/frontend"
 
-if [ ! -f .env.local ]; then
-  if [ -f .env.local.example ]; then
-    cp .env.local.example .env.local
-    echo "[sage] frontend/.env.local created from .env.local.example"
-  fi
+if command -v npm &>/dev/null; then
+  npm install
+else
+  echo "ERROR: npm not found. Install Node.js 20+ first."
+  exit 1
 fi
 
-echo "[sage] installing frontend deps"
-npm install
+if [ ! -f .env.local ]; then
+  cp .env.local.example .env.local
+  echo "  ✓ Created frontend/.env.local"
+fi
 
-cat <<EOF
-
-[sage] Setup complete.
-
-Next:
-  Terminal A:  cd backend  && uvicorn app.main:app --reload --port 8000
-  Terminal B:  cd frontend && npm run dev
-
-Demo credentials:  demo@sage.ai / demo1234
-EOF
+echo ""
+echo "4/4 Setup complete!"
+echo ""
+echo "  To start the backend:"
+echo "    cd $SAGE_DIR/backend && uvicorn app.main:app --reload --port 8000"
+echo ""
+echo "  To start the frontend:"
+echo "    cd $SAGE_DIR/frontend && npm run dev"
+echo ""
+echo "  Demo credentials: demo@sage.ai / demo1234"
+echo ""

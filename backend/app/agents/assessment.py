@@ -9,8 +9,8 @@ class AssessmentAgent(Agent):
     name = "assessment"
 
     async def run(self, ctx: AgentContext) -> AgentContext:
-        weak = ctx.plan.get("weak_concepts") or []
-        target = weak[0] if weak else None
+        weak_concepts = ctx.plan.get("weak_concepts", [])
+        target = weak_concepts[0] if weak_concepts else None
         if not target and ctx.concept_map_delta:
             target = ctx.concept_map_delta[0]["label"]
         if not target:
