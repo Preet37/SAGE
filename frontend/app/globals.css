@@ -3,6 +3,11 @@
 @import "shadcn/tailwind.css";
 @plugin "@tailwindcss/typography";
 
+@keyframes voice-bar {
+  from { transform: scaleY(0.4); }
+  to   { transform: scaleY(1.0); }
+}
+
 /* Code blocks: clean background, proper font sizing, syntax highlight integration */
 @layer base {
   .prose pre {

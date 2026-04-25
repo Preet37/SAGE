@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { VoiceOrb } from "@/components/voice/VoiceOrb";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "SocraticTutor",
-  description: "Socratic AI tutor for technical training",
+  title: "SAGE",
+  description: "SAGE — AI-powered adaptive learning platform",
 };
 
 export default function RootLayout({
@@ -18,7 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          {children}
+          <VoiceOrb />
+        </ThemeProvider>
       </body>
     </html>
   );

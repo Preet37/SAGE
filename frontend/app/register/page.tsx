@@ -33,7 +33,9 @@ function RegisterForm() {
     try {
       const res = await api.auth.register(email, username, password);
       setToken(res.access_token);
-      router.push(returnTo);
+      // New users go to onboarding unless they were sent to a specific page
+      const dest = returnTo !== "/learn" ? returnTo : "/onboarding";
+      router.push(dest);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Registration failed");
     } finally {
@@ -51,7 +53,7 @@ function RegisterForm() {
               <path d="M8 7h6M8 11h8"/>
             </svg>
             <CardTitle className="text-2xl font-bold">
-              SocraticTutor
+              SAGE
             </CardTitle>
           </div>
           <CardDescription>Start your ML/AI Engineering journey</CardDescription>

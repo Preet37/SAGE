@@ -1,5 +1,5 @@
 "use client";
-import { memo, useState } from "react";
+import { memo, useState, useCallback } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
@@ -11,9 +11,14 @@ import { InlineQuiz } from "./InlineQuiz";
 import { MermaidBlock } from "./MermaidBlock";
 import { AnimatedFlowBlock } from "./AnimatedFlowBlock";
 import { ArchitectureBlock } from "./ArchitectureBlock";
+import { VisualPlotRenderer } from "@/components/visual/VisualPlotRenderer";
+import { CodeRunner, getCodeLang } from "@/components/tutor/CodeRunner";
 import { parseFlowDiagram } from "@/lib/schemas/flow";
 import { parseArchitectureDiagram } from "@/lib/schemas/architecture";
-import { Loader2, Play, ExternalLink, BookOpen, ImageIcon, ZoomIn, X, ShieldCheck, ShieldAlert, ShieldQuestion } from "lucide-react";
+import { api } from "@/lib/api";
+import { getToken } from "@/lib/auth";
+import { Loader2, Play, ExternalLink, BookOpen, ImageIcon, ZoomIn, X, BarChart2, Microscope, ShieldCheck, ShieldAlert, ShieldQuestion } from "lucide-react";
+import { useRouter } from "next/navigation";
 import type { Verification } from "@/lib/useTutorStream";
 
 interface MessageBubbleProps {
@@ -22,6 +27,7 @@ interface MessageBubbleProps {
   isStreaming?: boolean;
   onSendMessage?: (msg: string) => void;
   verification?: Verification;
+  lessonTitle?: string;
 }
 
 type BlockPart =
@@ -292,7 +298,30 @@ function VerificationChip({ v }: { v: Verification }) {
   );
 }
 
-function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verification }: MessageBubbleProps) {
+function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verification, lessonTitle }: MessageBubbleProps) {
+  const router = useRouter();
+  const [plotHtml, setPlotHtml] = useState<string | null>(null);
+  const [plotTopic, setPlotTopic] = useState<string>("");
+  const [plotLoading, setPlotLoading] = useState(false);
+
+  const handleVisualize = useCallback(async () => {
+    const token = getToken();
+    if (!token) return;
+    setPlotLoading(true);
+    try {
+      const topic = lessonTitle || content.slice(0, 120);
+      const result = await api.visual.generatePlot(topic, content.slice(0, 1500), token);
+      if (result.html) {
+        setPlotHtml(result.html);
+        setPlotTopic(result.topic || topic);
+      }
+    } catch (e) {
+      console.error("Plot generation failed:", e);
+    } finally {
+      setPlotLoading(false);
+    }
+  }, [content, lessonTitle]);
+
   if (role === "user") {
     return (
       <div className="flex justify-end">
@@ -398,36 +427,48 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verific
                     return <img src={resolved} alt={alt || ""} className="rounded-xl max-h-80 object-contain my-3" loading="lazy" />;
                   },
                   pre({ node, children, ...props }) {
+                    // Check if this is a runnable code block
                     if (node && node.children) {
                       for (const child of node.children) {
                         if (
                           child.type === "element" &&
-                          child.tagName === "code" &&
-                          Array.isArray(child.properties?.className) &&
-                          child.properties.className.some(
-                            (c: string | number) => typeof c === "string" && c.includes("mermaid")
-                          )
+                          child.tagName === "code"
                         ) {
-                          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                          function extractText(nodes: any[]): string {
-                            return nodes
-                              .map((n) => {
+                          const classes = Array.isArray(child.properties?.className)
+                            ? child.properties.className
+                            : [];
+
+                          // Mermaid diagrams
+                          if (classes.some((c: string | number) => typeof c === "string" && c.includes("mermaid"))) {
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                            function extractText(nodes: any[]): string {
+                              return nodes.map((n) => {
                                 if ("value" in n) return n.value as string;
                                 if ("children" in n) return extractText(n.children);
                                 return "";
-                              })
-                              .join("");
+                              }).join("");
+                            }
+                            const text = extractText(child.children);
+                            if (isStreaming) {
+                              return <pre className="text-xs text-muted-foreground opacity-60"><code>{text.trim()}</code></pre>;
+                            }
+                            return <MermaidBlock code={text.trim()} />;
                           }
-                          const text = extractText(child.children);
-                          if (isStreaming) {
-                            return (
-                              <pre className="text-xs text-muted-foreground opacity-60">
-                                <code>{text.trim()}</code>
-                              </pre>
-                            );
-                          }
-                          return <MermaidBlock code={text.trim()} />;
-                        }
+
+                          // Runnable code blocks
+                          const langConfig = getCodeLang(classes as (string | number)[]);
+                          if (langConfig && !isStreaming) {
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                            function extractCode(nodes: any[]): string {
+                              return nodes.map((n) => {
+                                if ("value" in n) return n.value as string;
+                                if ("children" in n) return extractCode(n.children);
+                                return "";
+                              }).join("");
+                            }
+                            const code = extractCode(child.children).trimEnd();
+                            return <CodeRunner key={code.slice(0, 20)} code={code} langConfig={langConfig} />;
+                          }                        }
                       }
                     }
                     return <pre {...props}>{children}</pre>;
@@ -441,6 +482,44 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verific
         })}
       </div>
       {verification && !isStreaming && <VerificationChip v={verification} />}
+
+      {/* Action buttons — only for non-streaming assistant messages */}
+      {!isStreaming && content.length > 80 && (
+        <div className="mt-3 flex items-center gap-2 flex-wrap">
+          {plotHtml ? (
+            <button
+              onClick={() => setPlotHtml(null)}
+              className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+            >
+              <X className="h-3 w-3" /> Close Plot
+            </button>
+          ) : (
+            <button
+              onClick={handleVisualize}
+              disabled={plotLoading}
+              className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-primary/30 text-primary bg-primary/5 hover:bg-primary/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {plotLoading ? (
+                <><Loader2 className="h-3 w-3 animate-spin" /> Generating simulation...</>
+              ) : (
+                <><BarChart2 className="h-3 w-3" /> Plot Interactive Graph</>
+              )}
+            </button>
+          )}
+          <button
+            onClick={() => {
+              const topic = lessonTitle || content.slice(0, 60).replace(/\n/g, " ").trim();
+              router.push(`/explore?q=${encodeURIComponent(topic)}`);
+            }}
+            className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+          >
+            <Microscope className="h-3 w-3" /> Deep Dive
+          </button>
+        </div>
+      )}
+
+      {/* Rendered plot */}
+      {plotHtml && <VisualPlotRenderer html={plotHtml} topic={plotTopic} />}
     </div>
   );
 }

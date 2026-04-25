@@ -60,7 +60,7 @@ export function AppHeader({ leftSlot }: AppHeaderProps) {
             <path d="M8 7h6M8 11h8" />
           </svg>
           <span className="font-semibold text-sm hidden sm:inline">
-            <span className="text-primary">Socratic</span>Tutor
+            <span className="text-primary">S</span>AGE
           </span>
         </Link>
         {leftSlot && (

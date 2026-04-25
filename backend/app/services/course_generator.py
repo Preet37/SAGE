@@ -48,7 +48,7 @@ async def _call_llm(
         async with _llm_semaphore:
             async with httpx.AsyncClient(timeout=300.0) as client:
                 resp = await client.post(
-                    f"{settings.llm_base_url}/v1/chat/completions",
+                    f"{settings.llm_base_url}/chat/completions",
                     headers=headers,
                     json=payload,
                 )
@@ -65,7 +65,7 @@ async def _call_llm(
             async with _llm_semaphore:
                 async with httpx.AsyncClient(timeout=300.0) as client:
                     resp = await client.post(
-                        f"{settings.llm_base_url}/v1/chat/completions",
+                        f"{settings.llm_base_url}/chat/completions",
                         headers=headers,
                         json=payload,
                     )
@@ -113,7 +113,7 @@ async def _stream_llm(
         async with httpx.AsyncClient(timeout=300.0) as client:
             async with client.stream(
                 "POST",
-                f"{settings.llm_base_url}/v1/chat/completions",
+                f"{settings.llm_base_url}/chat/completions",
                 headers=headers,
                 json=payload,
             ) as resp:

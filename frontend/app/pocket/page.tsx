@@ -98,7 +98,9 @@ export default function PocketTutorPage() {
     setGenerating(true);
     abortRef.current = new AbortController();
 
-    const history = [{ role: "system" as const, content: SYSTEM_PROMPT }];
+    const history: { role: "system" | "user" | "assistant"; content: string }[] = [
+      { role: "system", content: SYSTEM_PROMPT },
+    ];
     for (const m of [...messages, userMsg]) {
       history.push({ role: m.role, content: m.content });
     }

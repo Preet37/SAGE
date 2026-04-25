@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { getToken } from "@/lib/auth";
-import { api, ConceptPageResponse, ConceptSuggestion } from "@/lib/api";
+import { api, ConceptPageResponse, ConceptSuggestion, KeyEquation, ConceptPaper, ConceptVideo } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
@@ -18,6 +18,13 @@ import {
   Star,
   Link2,
   Sparkles,
+  FlaskConical,
+  Youtube,
+  GraduationCap,
+  Network,
+  ChevronRight,
+  ExternalLink,
+  Sigma,
 } from "lucide-react";
 
 function LevelBadge({ level }: { level: string }) {
@@ -37,16 +44,93 @@ function RevealSection({ index, children }: { index: number; children: React.Rea
   return (
     <div
       className="animate-[fadeSlideIn_0.4s_ease-out_both]"
-      style={{ animationDelay: `${index * 800}ms` }}
+      style={{ animationDelay: `${index * 120}ms` }}
     >
       {children}
     </div>
   );
 }
 
-export function ConceptDeepDive() {
+// Simple SVG concept web — nodes for related concepts around a center
+function ConceptWeb({
+  center,
+  nodes,
+  onNodeClick,
+}: {
+  center: string;
+  nodes: string[];
+  onNodeClick: (n: string) => void;
+}) {
+  const r = 120;
+  const cx = 180;
+  const cy = 160;
+  const displayed = nodes.slice(0, 8);
+
+  return (
+    <svg viewBox="0 0 360 320" className="w-full max-h-72 select-none">
+      {/* edges */}
+      {displayed.map((_, i) => {
+        const angle = (2 * Math.PI * i) / displayed.length - Math.PI / 2;
+        const nx = cx + r * Math.cos(angle);
+        const ny = cy + r * Math.sin(angle);
+        return (
+          <line
+            key={i}
+            x1={cx} y1={cy}
+            x2={nx} y2={ny}
+            stroke="currentColor"
+            strokeOpacity={0.15}
+            strokeWidth={1.5}
+          />
+        );
+      })}
+      {/* peripheral nodes */}
+      {displayed.map((label, i) => {
+        const angle = (2 * Math.PI * i) / displayed.length - Math.PI / 2;
+        const nx = cx + r * Math.cos(angle);
+        const ny = cy + r * Math.sin(angle);
+        const words = label.split(" ");
+        return (
+          <g key={i} className="cursor-pointer" onClick={() => onNodeClick(label)}>
+            <circle cx={nx} cy={ny} r={28} className="fill-card stroke-border" strokeWidth={1.5} />
+            <circle cx={nx} cy={ny} r={28} className="fill-primary/5 hover:fill-primary/15 transition-colors" />
+            {words.slice(0, 2).map((word, wi) => (
+              <text
+                key={wi}
+                x={nx}
+                y={ny + (words.length > 1 ? (wi - 0.5) * 11 : 4)}
+                textAnchor="middle"
+                fontSize={8}
+                className="fill-foreground font-medium"
+              >
+                {word.length > 10 ? word.slice(0, 9) + "…" : word}
+              </text>
+            ))}
+          </g>
+        );
+      })}
+      {/* center node */}
+      <circle cx={cx} cy={cy} r={36} className="fill-primary/20 stroke-primary/60" strokeWidth={2} />
+      {center.split(" ").slice(0, 3).map((word, i, arr) => (
+        <text
+          key={i}
+          x={cx}
+          y={cy + (i - (arr.length - 1) / 2) * 12 + 4}
+          textAnchor="middle"
+          fontSize={9}
+          fontWeight="600"
+          className="fill-primary"
+        >
+          {word.length > 12 ? word.slice(0, 11) + "…" : word}
+        </text>
+      ))}
+    </svg>
+  );
+}
+
+export function ConceptDeepDive({ initialQuery = "" }: { initialQuery?: string }) {
   const router = useRouter();
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(initialQuery);
   const [concept, setConcept] = useState<ConceptPageResponse | null>(null);
   const [suggestions, setSuggestions] = useState<ConceptSuggestion[]>([]);
   const [loading, setLoading] = useState(false);
@@ -64,6 +148,13 @@ export function ConceptDeepDive() {
       .catch(() => {})
       .finally(() => setSuggestionsLoading(false));
   }, [router]);
+
+  useEffect(() => {
+    if (initialQuery) {
+      handleSearch(initialQuery);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const filteredSuggestions = query.trim().length > 0
     ? suggestions.filter((s) => s.label.toLowerCase().includes(query.toLowerCase().trim()))
@@ -122,7 +213,7 @@ export function ConceptDeepDive() {
             </div>
             <h1 className="text-2xl font-bold mb-2">Deep Dive</h1>
             <p className="text-muted-foreground text-sm">
-              Search any concept for a structured breakdown with examples, analogies, and misconceptions.
+              Search any concept for a full breakdown — equations, papers, videos, and a knowledge graph.
             </p>
           </div>
         )}
@@ -195,7 +286,6 @@ export function ConceptDeepDive() {
           </div>
         )}
 
-        {/* Back button */}
         {concept && !loading && (
           <button
             onClick={() => { setConcept(null); setQuery(""); }}
@@ -208,7 +298,7 @@ export function ConceptDeepDive() {
         {loading && (
           <div className="text-center py-20">
             <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto mb-4" />
-            <p className="text-sm text-muted-foreground">Generating concept page...</p>
+            <p className="text-sm text-muted-foreground">Generating deep dive — finding papers, equations, and videos...</p>
           </div>
         )}
 
@@ -230,61 +320,108 @@ function ConceptPageView({
   let idx = 0;
 
   return (
-    <div key={concept.id} className="space-y-6 pb-8">
+    <div key={concept.id} className="space-y-5 pb-8">
       <style>{`
         @keyframes fadeSlideIn {
-          from { opacity: 0; transform: translateY(12px); }
+          from { opacity: 0; transform: translateY(10px); }
           to   { opacity: 1; transform: translateY(0); }
         }
       `}</style>
 
+      {/* Header */}
       <RevealSection index={idx++}>
         <div className="rounded-xl border border-border bg-card p-6">
-          <div className="flex items-start justify-between">
+          <div className="flex items-start justify-between gap-4">
             <div>
               <h1 className="text-2xl font-bold mb-2">{concept.topic}</h1>
-              <LevelBadge level={concept.level} />
+              <div className="flex items-center gap-2 flex-wrap">
+                <LevelBadge level={concept.level} />
+                {concept.prerequisites.length > 0 && (
+                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                    <ChevronRight className="h-3 w-3" />
+                    <span>Requires: </span>
+                    {concept.prerequisites.slice(0, 3).map((p, i) => (
+                      <button
+                        key={i}
+                        onClick={() => onRelatedClick(p)}
+                        className="underline underline-offset-2 hover:text-foreground transition-colors"
+                      >
+                        {p}{i < Math.min(concept.prerequisites.length, 3) - 1 ? "," : ""}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
-            <Sparkles className="h-6 w-6 text-muted-foreground/30" />
+            <Sparkles className="h-5 w-5 text-muted-foreground/30 flex-shrink-0 mt-1" />
           </div>
         </div>
       </RevealSection>
 
+      {/* Simple definition */}
       <RevealSection index={idx++}>
-        <div className="rounded-xl border border-border bg-card p-6">
+        <div className="rounded-xl border border-border bg-card p-5">
           <div className="text-[10px] font-bold uppercase tracking-widest text-primary mb-3">Simple Definition</div>
           <p className="text-sm leading-relaxed">{concept.simple_definition}</p>
         </div>
       </RevealSection>
 
+      {/* Why it matters */}
       <RevealSection index={idx++}>
-        <div className="rounded-xl border border-border bg-card p-6">
-          <h3 className="font-semibold mb-3 flex items-center gap-2">
+        <div className="rounded-xl border border-border bg-card p-5">
+          <h3 className="font-semibold mb-3 flex items-center gap-2 text-sm">
             <Star className="h-4 w-4 text-primary" /> Why It Matters
           </h3>
           <p className="text-sm leading-relaxed whitespace-pre-line">{concept.why_it_matters}</p>
         </div>
       </RevealSection>
 
+      {/* Key equations */}
+      {concept.key_equations.length > 0 && (
+        <RevealSection index={idx++}>
+          <div className="rounded-xl border border-indigo-500/30 bg-indigo-500/5 p-5">
+            <h3 className="font-semibold mb-4 flex items-center gap-2 text-sm">
+              <Sigma className="h-4 w-4 text-indigo-400" /> Key Equations
+            </h3>
+            <div className="space-y-3">
+              {concept.key_equations.map((eq: KeyEquation, i: number) => (
+                <div key={i} className="rounded-lg border border-indigo-500/20 bg-background/60 p-4">
+                  <div className="flex items-start justify-between gap-4 mb-2">
+                    <span className="text-xs font-semibold text-indigo-400 uppercase tracking-wide">{eq.label}</span>
+                  </div>
+                  <code className="block font-mono text-sm text-foreground bg-muted/50 rounded px-3 py-2 mb-2 overflow-x-auto">
+                    {eq.latex}
+                  </code>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{eq.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </RevealSection>
+      )}
+
+      {/* Detailed explanation */}
       <RevealSection index={idx++}>
-        <div className="rounded-xl border border-border bg-card p-6">
-          <h3 className="font-semibold mb-3 flex items-center gap-2">
+        <div className="rounded-xl border border-border bg-card p-5">
+          <h3 className="font-semibold mb-3 flex items-center gap-2 text-sm">
             <BookMarked className="h-4 w-4 text-primary" /> Detailed Explanation
           </h3>
           <div className="text-sm leading-relaxed whitespace-pre-line">{concept.detailed_explanation}</div>
         </div>
       </RevealSection>
 
+      {/* Analogy */}
       <RevealSection index={idx++}>
-        <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-6">
+        <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-5">
           <div className="text-[10px] font-bold uppercase tracking-widest text-amber-400 mb-3">Analogy</div>
           <p className="text-sm leading-relaxed">{concept.analogy}</p>
         </div>
       </RevealSection>
 
+      {/* Real-world example */}
       <RevealSection index={idx++}>
-        <div className="rounded-xl border border-border bg-card p-6">
-          <h3 className="font-semibold mb-3 flex items-center gap-2">
+        <div className="rounded-xl border border-border bg-card p-5">
+          <h3 className="font-semibold mb-3 flex items-center gap-2 text-sm">
             <Lightbulb className="h-4 w-4 text-primary" /> Real-World Example
           </h3>
           <div className="text-sm leading-relaxed whitespace-pre-line font-mono bg-muted/30 rounded-lg p-4">
@@ -293,10 +430,11 @@ function ConceptPageView({
         </div>
       </RevealSection>
 
+      {/* Misconceptions */}
       {concept.misconceptions.length > 0 && (
         <RevealSection index={idx++}>
-          <div className="rounded-xl border border-border bg-card p-6">
-            <h3 className="font-semibold mb-4 flex items-center gap-2">
+          <div className="rounded-xl border border-border bg-card p-5">
+            <h3 className="font-semibold mb-4 flex items-center gap-2 text-sm">
               <AlertTriangle className="h-4 w-4 text-orange-400" /> Common Misconceptions
             </h3>
             <div className="space-y-2">
@@ -317,10 +455,11 @@ function ConceptPageView({
         </RevealSection>
       )}
 
+      {/* Key takeaways */}
       {concept.key_takeaways.length > 0 && (
         <RevealSection index={idx++}>
-          <div className="rounded-xl border border-border bg-card p-6">
-            <h3 className="font-semibold mb-4 flex items-center gap-2">
+          <div className="rounded-xl border border-border bg-card p-5">
+            <h3 className="font-semibold mb-4 flex items-center gap-2 text-sm">
               <Star className="h-4 w-4 text-primary" /> Key Takeaways
             </h3>
             <div className="space-y-2">
@@ -335,11 +474,87 @@ function ConceptPageView({
         </RevealSection>
       )}
 
+      {/* Papers */}
+      {concept.papers.length > 0 && (
+        <RevealSection index={idx++}>
+          <div className="rounded-xl border border-border bg-card p-5">
+            <h3 className="font-semibold mb-4 flex items-center gap-2 text-sm">
+              <FlaskConical className="h-4 w-4 text-violet-400" /> Key Papers
+            </h3>
+            <div className="space-y-3">
+              {concept.papers.map((p: ConceptPaper, i: number) => {
+                const searchQuery = encodeURIComponent(`${p.title} ${p.authors} ${p.year}`);
+                const scholarUrl = `https://scholar.google.com/scholar?q=${searchQuery}`;
+                return (
+                  <div key={i} className="flex items-start gap-3 p-3 rounded-lg border border-border hover:border-violet-500/30 hover:bg-violet-500/5 transition-all group">
+                    <div className="flex-1 min-w-0">
+                      <a
+                        href={scholarUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-medium text-sm text-foreground group-hover:text-violet-400 transition-colors flex items-center gap-1"
+                      >
+                        {p.title}
+                        <ExternalLink className="h-3 w-3 opacity-0 group-hover:opacity-100 flex-shrink-0" />
+                      </a>
+                      <p className="text-xs text-muted-foreground mt-0.5">{p.authors} · {p.year}</p>
+                      <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{p.description}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </RevealSection>
+      )}
+
+      {/* Videos */}
+      {concept.videos.length > 0 && (
+        <RevealSection index={idx++}>
+          <div className="rounded-xl border border-border bg-card p-5">
+            <h3 className="font-semibold mb-4 flex items-center gap-2 text-sm">
+              <Youtube className="h-4 w-4 text-red-400" /> Recommended Videos
+            </h3>
+            <div className="space-y-2">
+              {concept.videos.map((v: ConceptVideo, i: number) => {
+                const ytUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(v.search_query)}`;
+                return (
+                  <a
+                    key={i}
+                    href={ytUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-3 rounded-lg border border-border hover:border-red-500/30 hover:bg-red-500/5 transition-all group"
+                  >
+                    <div className="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center flex-shrink-0">
+                      <Youtube className="h-4 w-4 text-red-400" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-foreground group-hover:text-red-400 transition-colors truncate">{v.title}</p>
+                      <p className="text-xs text-muted-foreground">{v.channel}</p>
+                    </div>
+                    <ExternalLink className="h-3.5 w-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 flex-shrink-0" />
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+        </RevealSection>
+      )}
+
+      {/* Concept knowledge graph */}
       {concept.related_concepts.length > 0 && (
         <RevealSection index={idx++}>
-          <div className="rounded-xl border border-border bg-card p-6">
-            <h3 className="font-semibold mb-4">Related Concepts</h3>
-            <div className="flex flex-wrap gap-2">
+          <div className="rounded-xl border border-border bg-card p-5">
+            <h3 className="font-semibold mb-4 flex items-center gap-2 text-sm">
+              <Network className="h-4 w-4 text-primary" /> Knowledge Graph
+            </h3>
+            <ConceptWeb
+              center={concept.topic}
+              nodes={concept.related_concepts}
+              onNodeClick={onRelatedClick}
+            />
+            <div className="flex flex-wrap gap-2 mt-3">
               {concept.related_concepts.map((rc) => (
                 <button
                   key={rc}
@@ -354,16 +569,17 @@ function ConceptPageView({
         </RevealSection>
       )}
 
+      {/* Further reading */}
       {concept.further_reading.length > 0 && (
         <RevealSection index={idx++}>
-          <div className="rounded-xl border border-border bg-card p-6">
-            <h3 className="font-semibold mb-4 flex items-center gap-2">
-              <Link2 className="h-4 w-4 text-primary" /> Further Reading
+          <div className="rounded-xl border border-border bg-card p-5">
+            <h3 className="font-semibold mb-4 flex items-center gap-2 text-sm">
+              <GraduationCap className="h-4 w-4 text-primary" /> Further Reading
             </h3>
             <ul className="space-y-2">
               {concept.further_reading.map((fr, i) => (
                 <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
-                  <span className="text-primary mt-1">•</span>
+                  <Link2 className="h-3.5 w-3.5 text-primary flex-shrink-0 mt-0.5" />
                   <span>{fr}</span>
                 </li>
               ))}

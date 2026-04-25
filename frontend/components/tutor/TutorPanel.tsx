@@ -6,7 +6,8 @@ import { ResourceCard } from "./ResourceCard";
 import { SuggestedPrompts } from "./SuggestedPrompts";
 import { ExplainDifferentlyBar } from "./ExplainDifferentlyBar";
 import { useTutorStream, Message } from "@/lib/useTutorStream";
-import { Send, Loader2, Wrench, BotMessageSquare, Download, RotateCcw, History, Trash2 } from "lucide-react";
+import { useVoiceConversation } from "@/lib/useVoiceConversation";
+import { Send, Loader2, Wrench, BotMessageSquare, Download, RotateCcw, History, Trash2, Mic, MicOff, Volume2, X } from "lucide-react";
 import { api, TutorSessionResponse } from "@/lib/api";
 import { getToken } from "@/lib/auth";
 import { cn } from "@/lib/utils";
@@ -34,17 +35,31 @@ export function TutorPanel({
   const [input, setInput] = useState("");
   const [mode, setMode] = useState("default");
   const [showSessions, setShowSessions] = useState(false);
+  const [showVoicePanel, setShowVoicePanel] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const latestUserRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const sessionsRef = useRef<HTMLDivElement>(null);
   const pendingScroll = useRef(false);
 
+  const voice = useVoiceConversation({ contextOverride: lessonTitle });
+
   useEffect(() => {
     if (initialHistory && initialHistory.length > 0) {
       loadHistory(initialHistory, initialSessionId);
     }
   }, [lessonId]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Listen for voice agent injected messages
+  useEffect(() => {
+    function onVoiceSend(e: Event) {
+      const msg = (e as CustomEvent<{ message: string }>).detail?.message;
+      if (msg) handleSend(msg);
+    }
+    window.addEventListener("sage:voice-send", onVoiceSend);
+    return () => window.removeEventListener("sage:voice-send", onVoiceSend);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (pendingScroll.current && messages.length > 0 && messages[messages.length - 1].role === "user") {
@@ -214,6 +229,33 @@ export function TutorPanel({
                 rows={1}
                 className="flex-1 resize-none bg-transparent text-sm placeholder:text-muted-foreground focus:outline-none disabled:opacity-50 min-h-[28px] max-h-[120px]"
               />
+              {/* Voice mic button */}
+              <button
+                onClick={async () => {
+                  if (voice.isActive) {
+                    await voice.stopConversation();
+                    setShowVoicePanel(false);
+                  } else {
+                    setShowVoicePanel(true);
+                    await voice.startConversation();
+                  }
+                }}
+                title={voice.isActive ? "End voice session" : "Start voice session"}
+                className={cn(
+                  "h-9 w-9 rounded-xl flex-shrink-0 flex items-center justify-center transition-all",
+                  voice.isActive
+                    ? "bg-violet-600 text-white ring-2 ring-violet-400/40"
+                    : "hover:bg-muted text-muted-foreground hover:text-foreground"
+                )}
+              >
+                {voice.status === "connecting" ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : voice.isActive ? (
+                  <Mic className="h-4 w-4 animate-pulse" />
+                ) : (
+                  <Mic className="h-4 w-4" />
+                )}
+              </button>
               <Button
                 onClick={() => handleSend()}
                 disabled={!input.trim() || streaming}
@@ -306,6 +348,7 @@ export function TutorPanel({
                       isStreaming={streaming && i === messages.length - 1}
                       onSendMessage={(msg) => handleSend(msg)}
                       verification={m.verification}
+                      lessonTitle={lessonTitle}
                     />
                   </div>
                 );
@@ -347,6 +390,84 @@ export function TutorPanel({
 
           {/* Bottom bar — only when messages exist */}
           <div className="border-t border-border bg-card/50 flex-shrink-0">
+            {/* Voice panel — shown when active */}
+            {showVoicePanel && (
+              <div className={cn(
+                "mx-4 mt-3 mb-1 rounded-xl border px-4 py-3 flex items-center gap-4 transition-all",
+                voice.isActive
+                  ? "border-violet-400/40 bg-violet-50/50 dark:bg-violet-950/30"
+                  : "border-border bg-muted/30"
+              )}>
+                {/* Waveform bars */}
+                <div className="flex items-end gap-0.5 h-7 flex-shrink-0">
+                  {Array.from({ length: 8 }).map((_, i) => (
+                    <div
+                      key={i}
+                      className={cn(
+                        "w-1 rounded-full transition-all duration-100",
+                        voice.mode === "speaking" ? "bg-emerald-500" :
+                        voice.mode === "listening" ? "bg-violet-500" : "bg-border"
+                      )}
+                      style={{
+                        height: voice.mode !== "idle"
+                          ? `${10 + ((i * 7 + Date.now() / 100) % 22)}px`
+                          : "4px",
+                      }}
+                    />
+                  ))}
+                </div>
+
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-medium text-foreground truncate">
+                    {voice.status === "connecting" ? "Connecting to SAGE voice..." :
+                     voice.mode === "speaking" ? "SAGE is speaking..." :
+                     voice.mode === "listening" ? "Listening to you..." :
+                     voice.isActive ? `Voice session active — ${lessonTitle}` :
+                     "Voice session ended"}
+                  </p>
+                  {voice.error && (
+                    <p className="text-xs text-red-500 truncate">{voice.error}</p>
+                  )}
+                  {voice.messages.length > 0 && (
+                    <p className="text-xs text-muted-foreground truncate mt-0.5">
+                      {voice.messages[voice.messages.length - 1].text}
+                    </p>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-1.5 flex-shrink-0">
+                  {voice.isActive && (
+                    <button
+                      onClick={voice.toggleMute}
+                      className={cn(
+                        "p-1.5 rounded-lg transition-colors",
+                        voice.isMuted
+                          ? "bg-red-100 dark:bg-red-950 text-red-600 dark:text-red-400"
+                          : "hover:bg-muted text-muted-foreground"
+                      )}
+                      title={voice.isMuted ? "Unmute" : "Mute"}
+                    >
+                      {voice.isMuted ? <MicOff className="h-3.5 w-3.5" /> : <Mic className="h-3.5 w-3.5" />}
+                    </button>
+                  )}
+                  <button
+                    onClick={async () => {
+                      if (voice.isActive) {
+                        await voice.stopConversation();
+                        setShowVoicePanel(false);
+                      } else {
+                        setShowVoicePanel(false);
+                      }
+                    }}
+                    className="p-1.5 rounded-lg hover:bg-muted text-muted-foreground transition-colors"
+                    title="Close"
+                  >
+                    <X className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              </div>
+            )}
+
             <ExplainDifferentlyBar activeMode={mode} onModeChange={setMode} />
             <div className="max-w-3xl mx-auto px-4 py-3">
               <div className="flex gap-3 items-end">
@@ -362,6 +483,37 @@ export function TutorPanel({
                     placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring
                     disabled:opacity-50 min-h-[44px] max-h-[160px]"
                 />
+                {/* Voice mic button */}
+                <button
+                  onClick={async () => {
+                    if (voice.isActive) {
+                      await voice.stopConversation();
+                      setShowVoicePanel(false);
+                    } else {
+                      setShowVoicePanel(true);
+                      await voice.startConversation();
+                    }
+                  }}
+                  title={voice.isActive ? "End voice session" : "Start voice session about this lesson"}
+                  className={cn(
+                    "h-11 w-11 rounded-xl flex-shrink-0 flex items-center justify-center transition-all border",
+                    voice.isActive
+                      ? "bg-violet-600 hover:bg-violet-700 text-white border-violet-600 ring-2 ring-violet-400/40"
+                      : voice.status === "connecting"
+                      ? "bg-amber-500 text-white border-amber-500 animate-pulse"
+                      : "border-border hover:bg-muted text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  {voice.status === "connecting" ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : voice.isActive && voice.mode === "speaking" ? (
+                    <Volume2 className="h-4 w-4" />
+                  ) : voice.isActive ? (
+                    <Mic className="h-4 w-4 animate-pulse" />
+                  ) : (
+                    <Mic className="h-4 w-4" />
+                  )}
+                </button>
                 <Button
                   onClick={() => handleSend()}
                   disabled={!input.trim() || streaming}
