@@ -1,10 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import { Conversation } from "@11labs/client";
 import type { Mode } from "@11labs/client";
-import { useVoiceStore } from "./useVoiceStore";
 
 export type VoiceStatus = "idle" | "connecting" | "connected" | "error";
 export type VoiceMode = "listening" | "speaking" | "idle";
@@ -20,15 +18,13 @@ export interface UseVoiceConversationOptions {
   contextOverride?: string;
 }
 
-export function useVoiceConversation(options: UseVoiceConversationOptions = {}) {
+export function useVoiceConversation(_options: UseVoiceConversationOptions = {}) {
   const [status, setStatus] = useState<VoiceStatus>("idle");
   const [mode, setMode] = useState<VoiceMode>("idle");
   const [messages, setMessages] = useState<VoiceMessage[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isMuted, setIsMuted] = useState(false);
   const conversationRef = useRef<Conversation | null>(null);
-  const router = useRouter();
-  const { context } = useVoiceStore();
 
   const agentId = process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID ?? "";
 
@@ -48,20 +44,9 @@ export function useVoiceConversation(options: UseVoiceConversationOptions = {}) 
     try {
       await navigator.mediaDevices.getUserMedia({ audio: true });
 
-      // Build a short first message based on current context
-      const topicCtx = options.contextOverride || context.currentTopic || context.title;
-      const firstMessage = topicCtx && topicCtx !== "SAGE"
-        ? `Hi! I'm SAGE. I can see you're on "${topicCtx}". What would you like to explore?`
-        : `Hi! I'm SAGE, your AI learning tutor. What would you like to learn today?`;
-
       const conversation = await Conversation.startSession({
         agentId,
-        connectionType: "websocket",
-        overrides: {
-          agent: {
-            firstMessage,
-          },
-        },
+        connectionType: "webrtc",
         onConnect: () => {
           setStatus("connected");
           setMode("idle");
@@ -84,9 +69,6 @@ export function useVoiceConversation(options: UseVoiceConversationOptions = {}) 
       });
 
       conversationRef.current = conversation;
-
-      // After connecting, send context as a system message via the navigate tool
-      // (works passively — agent already has good system prompt from dashboard)
     } catch (err) {
       const msg =
         err instanceof DOMException && err.name === "NotAllowedError"
@@ -97,7 +79,7 @@ export function useVoiceConversation(options: UseVoiceConversationOptions = {}) 
       setError(msg);
       setStatus("error");
     }
-  }, [agentId, addMessage, context, options.contextOverride]);
+  }, [agentId, addMessage]);
 
   const stopConversation = useCallback(async () => {
     if (conversationRef.current) {
@@ -114,9 +96,6 @@ export function useVoiceConversation(options: UseVoiceConversationOptions = {}) 
     await conversationRef.current.setMicMuted(next);
     setIsMuted(next);
   }, [isMuted]);
-
-  // Expose router for potential future navigation tools
-  const _ = router;
 
   useEffect(() => {
     return () => {

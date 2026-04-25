@@ -108,12 +108,12 @@ interface RunResult { stdout: string; stderr: string; error?: string }
 export function CodeRunner({ code, langConfig }: { code: string; langConfig: LangConfig }) {
   const [running, setRunning] = useState(false);
   const [result, setResult] = useState<RunResult | null>(null);
-  const [showPreview, setShowPreview] = useState(false);
+  const [htmlSrcdoc, setHtmlSrcdoc] = useState<string | null>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const previewRef = useRef<HTMLIFrameElement>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isHtml = langConfig.strategy === "iframe-html";
   const isJs  = langConfig.strategy === "iframe-js";
+  const showPreview = htmlSrcdoc !== null;
 
   // postMessage listener for JS iframe
   const onMessage = useCallback((e: MessageEvent) => {
@@ -135,9 +135,7 @@ export function CodeRunner({ code, langConfig }: { code: string; langConfig: Lan
 
     try {
       if (isHtml) {
-        // HTML: just show preview
-        setShowPreview(true);
-        if (previewRef.current) previewRef.current.srcdoc = code;
+        setHtmlSrcdoc(code);
         setRunning(false);
         return;
       }
@@ -170,7 +168,7 @@ export function CodeRunner({ code, langConfig }: { code: string; langConfig: Lan
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     setResult(null);
     setRunning(false);
-    setShowPreview(false);
+    setHtmlSrcdoc(null);
     if (iframeRef.current) iframeRef.current.srcdoc = "";
   }
 
@@ -194,9 +192,9 @@ export function CodeRunner({ code, langConfig }: { code: string; langConfig: Lan
           <span className="text-[11px] font-mono text-zinc-500 ml-1">{langConfig.label}</span>
         </div>
         <div className="flex items-center gap-2">
-          {isHtml && result === null && !showPreview && (
+          {isHtml && !showPreview && (
             <button
-              onClick={() => { setShowPreview(true); if (previewRef.current) previewRef.current.srcdoc = code; }}
+              onClick={() => setHtmlSrcdoc(code)}
               className="flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-md text-zinc-400 hover:text-zinc-200 border border-zinc-700 hover:border-zinc-500 transition-all"
             >
               <Eye className="h-3 w-3" /> Preview
@@ -234,7 +232,7 @@ export function CodeRunner({ code, langConfig }: { code: string; langConfig: Lan
       {/* Hidden JS execution iframe */}
       {isJs && <iframe ref={iframeRef} sandbox="allow-scripts" title="js-runner" className="hidden" />}
 
-      {/* HTML preview iframe */}
+      {/* HTML preview iframe — controlled via srcDoc state */}
       {isHtml && showPreview && (
         <div className="border-t border-zinc-700">
           <div className="flex items-center gap-2 px-4 py-2 bg-zinc-800">
@@ -242,7 +240,7 @@ export function CodeRunner({ code, langConfig }: { code: string; langConfig: Lan
             <span className="text-[11px] text-blue-400 font-semibold uppercase tracking-wider">Preview</span>
           </div>
           <iframe
-            ref={previewRef}
+            srcDoc={htmlSrcdoc ?? ""}
             sandbox="allow-scripts allow-same-origin"
             title="html-preview"
             className="w-full bg-white"
