@@ -18,9 +18,11 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from sqlalchemy.orm import Session as OrmSession
 
-from app.config import settings
+from app.config import get_settings
 from app.db import get_db
 from app.models import User
+
+settings = get_settings()
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login", auto_error=False)
 JWT_ISSUER = "sage"
