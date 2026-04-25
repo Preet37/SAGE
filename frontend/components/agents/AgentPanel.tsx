@@ -11,7 +11,7 @@ const AGENTS = [
 ];
 
 export default function AgentPanel() {
-  const { agentEvents, isStreaming } = useTutorStore();
+  const { agentEvents, isStreaming, fetchAiBadge } = useTutorStore();
 
   const latestByType = new Map<string, { type: string; data: unknown; ts: number }>();
   agentEvents.forEach(ev => { latestByType.set(ev.type, ev); });
@@ -19,7 +19,7 @@ export default function AgentPanel() {
   return (
     <div className="flex flex-col p-4 gap-3">
       <div className="flex items-center gap-2 mb-1">
-        <div className="text-[9.5px] font-bold uppercase tracking-widest text-t3">Fetch.ai Agent Network</div>
+        <div className="text-[9.5px] font-bold uppercase tracking-widest text-t3">Fetch.ai Bureau</div>
         {isStreaming && (
           <div className="ml-auto flex items-center gap-1">
             <div className="w-1.5 h-1.5 rounded-full bg-acc animate-pulse" />
@@ -27,6 +27,37 @@ export default function AgentPanel() {
           </div>
         )}
       </div>
+
+      {/* Director badge — shown after first turn so it's not noise on load */}
+      {fetchAiBadge && (
+        <div className="rounded-xl border border-acc/30 bg-acc/5 p-3">
+          <div className="flex items-center gap-2 mb-1.5">
+            <div className="w-6 h-6 rounded-lg bg-acc/20 flex items-center justify-center text-xs text-acc font-bold">
+              ★
+            </div>
+            <span className="text-xs font-bold text-t0">Director</span>
+            <a
+              href={fetchAiBadge.agentverse_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ml-auto text-[9px] font-bold text-acc hover:underline"
+            >
+              Agentverse ↗
+            </a>
+          </div>
+          <div className="text-[9px] font-mono text-t3 break-all leading-relaxed">
+            {fetchAiBadge.director_address || 'agent1q…'}
+          </div>
+          {fetchAiBadge.payment && (
+            <div className="mt-2 pt-2 border-t border-acc/15 flex items-center justify-between">
+              <span className="text-[9px] text-t3 uppercase tracking-wider">Deep Dive paid</span>
+              <span className="text-[10px] font-bold text-acc">
+                {fetchAiBadge.payment.amount_micro_asi} μASI
+              </span>
+            </div>
+          )}
+        </div>
+      )}
 
       {AGENTS.map(agent => {
         const event = latestByType.get(agent.id);
@@ -71,14 +102,33 @@ export default function AgentPanel() {
         );
       })}
 
-      {/* Agent addresses (Fetch.ai) */}
+      {/* Agent ports — proves they're real uAgents on chain */}
       <div className="mt-2 p-3 bg-bg2 border border-pur/15 rounded-xl">
-        <div className="text-[9px] font-bold uppercase tracking-widest text-pur mb-2">Agentverse</div>
+        <div className="flex items-center justify-between mb-2">
+          <div className="text-[9px] font-bold uppercase tracking-widest text-pur">Bureau Ports</div>
+          <a
+            href="https://agentverse.ai/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[9px] font-semibold text-pur hover:underline"
+          >
+            agentverse.ai
+          </a>
+        </div>
         <div className="space-y-1">
-          {['pedagogy', 'content', 'concept_map', 'assessment', 'peer_match', 'progress'].map(a => (
-            <div key={a} className="flex items-center gap-2 text-[9px]">
+          {(fetchAiBadge?.agents ?? [
+            { name: 'Director', port: 8007, role: 'coordinator' },
+            { name: 'Pedagogy', port: 8001, role: 'teaching strategy' },
+            { name: 'Content', port: 8002, role: 'KB retrieval' },
+            { name: 'ConceptMap', port: 8003, role: 'graph' },
+            { name: 'Assessment', port: 8004, role: 'quiz' },
+            { name: 'PeerMatch', port: 8005, role: 'peers' },
+            { name: 'Progress', port: 8006, role: 'mastery' },
+          ]).map(a => (
+            <div key={a.port} className="flex items-center gap-2 text-[9px]">
               <div className="w-1.5 h-1.5 rounded-full bg-pur/60 flex-shrink-0" />
-              <span className="text-t3 font-mono">sage_{a}_agent</span>
+              <span className="text-t3 font-mono flex-1">sage_{a.name.toLowerCase()}</span>
+              <span className="text-t2 font-mono">:{a.port}</span>
             </div>
           ))}
         </div>
@@ -97,7 +147,7 @@ function formatEventLog(agentId: string, data: unknown): string {
     case 'concept_map_updated':
       return `Graph nodes updated`;
     case 'assessment_check':
-      return `Quiz: ${d.quiz ?? 'pending'}`;
+      return `Quiz: ${d.quiz ?? d.should_quiz ?? 'pending'}`;
     case 'peer_match_check':
       return `Matching peers...`;
     case 'progress_updated':

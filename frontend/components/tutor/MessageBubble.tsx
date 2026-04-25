@@ -7,6 +7,8 @@ import { useState, useCallback } from 'react';
 import { generateVisualPlot } from '@/lib/api';
 import { useAuthStore } from '@/lib/store';
 import VisualPlotRenderer, { type VisualPlot } from '@/components/visual/VisualPlotRenderer';
+import CognitionScoreCard from '@/components/cognition/CognitionScoreCard';
+import type { CognitionData } from '@/lib/store';
 
 interface Message {
   id: string;
@@ -15,6 +17,8 @@ interface Message {
   verification?: { passed: boolean; flags: string[] };
   quiz?: { question: string; options: string[]; answer: string; explanation: string };
   lessonId?: number;
+  cognition?: CognitionData;
+  image_url?: string;
 }
 
 interface Props { message: Message }
@@ -85,6 +89,14 @@ export default function MessageBubble({ message }: Props) {
     return (
       <div className="flex justify-end animate-fade-up">
         <div className="max-w-[78%] flex flex-col gap-1.5 items-end">
+          {message.image_url && (
+            <img
+              src={message.image_url}
+              alt="user upload"
+              className="max-w-[280px] rounded-2xl border border-ora/30"
+              loading="lazy"
+            />
+          )}
           <div className="bg-acc/15 border border-acc/25 rounded-2xl rounded-tr-sm px-4 py-3">
             <p className="text-sm text-t0 leading-relaxed whitespace-pre-wrap">{message.content}</p>
           </div>
@@ -225,6 +237,8 @@ export default function MessageBubble({ message }: Props) {
           {message.verification.flags.map(f => <span key={f} className="block">⚠ {f}</span>)}
         </div>
       ) : null}
+
+      {message.cognition && <CognitionScoreCard data={message.cognition} />}
     </div>
   );
 }

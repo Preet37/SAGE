@@ -19,6 +19,7 @@ from app.routers import (
     visual,
     visual_code,
     visual_plot,
+    media,
 )
 
 settings = get_settings()
@@ -28,6 +29,17 @@ configure_logging(settings.log_level)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await create_tables()
+    # Boot the Fetch.ai Bureau (7 uAgents) in a background daemon thread
+    # so the FastAPI process can talk to them via the Chat/Payment Protocol.
+    if settings.environment != "test":
+        try:
+            from app.agents.bureau_runner import start_bureau_daemon
+            start_bureau_daemon()
+        except Exception:
+            import logging
+            logging.getLogger("sage.bureau").warning(
+                "Bureau startup skipped", exc_info=True
+            )
     yield
 
 
@@ -70,6 +82,7 @@ app.include_router(notes.router)
 app.include_router(visual.router)
 app.include_router(visual_code.router)
 app.include_router(visual_plot.router)
+app.include_router(media.router)
 
 
 @app.get("/")

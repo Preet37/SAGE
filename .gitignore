@@ -1,3 +1,6 @@
+# Local agent memory
+.sage_memory/
+
 # Python
 __pycache__/
 *.py[cod]

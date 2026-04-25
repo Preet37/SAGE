@@ -13,6 +13,10 @@ import ReplayPanel from '@/components/replay/ReplayPanel';
 import ModelDownloadBanner from '@/components/offline/ModelDownloadBanner';
 import OfflineBadge from '@/components/offline/OfflineBadge';
 import AccessibilityModal from '@/components/accessibility/AccessibilityModal';
+import MaterialsGallery from '@/components/cloudinary/MaterialsGallery';
+import DiagramLibrary from '@/components/cloudinary/DiagramLibrary';
+import ZeticAgent from '@/components/zetic/ZeticAgent';
+import type { CognitionData, FetchAiBadge } from '@/lib/store';
 import Link from 'next/link';
 import { useConnectivity } from '@/lib/offline/connectivity';
 import { runOfflineChat } from '@/lib/offline/agent';
@@ -39,7 +43,7 @@ export default function LessonPage() {
 
   const { token } = useAuthStore();
   const router = useRouter();
-  const { sessionId: activeSessionId, setSessionId, setTeachingMode, teachingMode, clearMessages, addAgentEvent, addMessage, appendToLast, setStreaming, updateLastVerification } = useTutorStore();
+  const { sessionId: activeSessionId, setSessionId, setTeachingMode, teachingMode, clearMessages, addAgentEvent, addMessage, appendToLast, setStreaming, updateLastVerification, updateLastCognition, setFetchAiBadge } = useTutorStore();
 
   const { isOnline } = useConnectivity();
   const wasOnlineRef = useRef(true);
@@ -47,7 +51,7 @@ export default function LessonPage() {
 
   const [lesson, setLesson] = useState<Lesson | null>(null);
   const [conceptMap, setConceptMap] = useState<{ nodes: unknown[]; edges: unknown[] } | null>(null);
-  const [activePanel, setActivePanel] = useState<'chat' | 'map' | 'network' | 'notes' | 'replay'>('chat');
+  const [activePanel, setActivePanel] = useState<'chat' | 'map' | 'network' | 'notes' | 'replay' | 'materials'>('chat');
   const [showAccessibility, setShowAccessibility] = useState(false);
   const [loading, setLoading] = useState(true);
   const [uiHints, setUiHints] = useState<string[]>([]);
@@ -123,11 +127,11 @@ export default function LessonPage() {
     }
   }
 
-  const handleSend = useCallback(async (text: string) => {
+  const handleSend = useCallback(async (text: string, imageUrl?: string, extractedText?: string) => {
     if (!lesson || !token) return;
     const { messages, sessionId } = useTutorStore.getState();
 
-    addMessage({ id: Date.now().toString(), role: 'user', content: text });
+    addMessage({ id: Date.now().toString(), role: 'user', content: text, image_url: imageUrl });
     addMessage({ id: Date.now().toString() + '-a', role: 'assistant', content: '' });
     setStreaming(true);
 
@@ -165,19 +169,23 @@ export default function LessonPage() {
         session_id: sessionId ?? undefined,
         teaching_mode: teachingMode,
         voice_enabled: false,
+        image_url: imageUrl,
+        extracted_text: extractedText,
       },
       (event, data: unknown) => {
         const d = data as Record<string, unknown>;
         if (event === 'token') appendToLast((d.content as string) || '');
         else if (event === 'agent_event') addAgentEvent(d.type as string, d);
         else if (event === 'verification') updateLastVerification({ passed: d.passed as boolean, flags: d.flags as string[] });
+        else if (event === 'fetchai_badge') setFetchAiBadge(d as unknown as FetchAiBadge);
+        else if (event === 'judge_result') updateLastCognition(d as unknown as CognitionData);
         else if (event === 'done') setStreaming(false);
         else if (event === 'error') { setStreaming(false); appendToLast('\n\n_Error: ' + d.message + '_'); }
       }
     );
 
     return () => stop();
-  }, [lesson, token, teachingMode, isOnline]);
+  }, [lesson, token, teachingMode, isOnline, addMessage, appendToLast, setStreaming, addAgentEvent, updateLastVerification, setFetchAiBadge, updateLastCognition]);
 
   if (loading) return (
     <div className="min-h-screen flex items-center justify-center">
@@ -263,6 +271,7 @@ export default function LessonPage() {
               ['chat', '◎ Chat'],
               ['map', '⬡ Concepts'],
               ['network', '◈ Peers'],
+              ['materials', '◫ Materials'],
               ['notes', '✎ Notes'],
               ['replay', '↩ Replay'],
             ] as const).map(([p, label]) => (
@@ -284,6 +293,29 @@ export default function LessonPage() {
             {activePanel === 'chat' && <TutorChat onSend={handleSend} lesson={lesson} />}
             {activePanel === 'map' && <ConceptMap data={conceptMap} courseId={lesson.course_id} />}
             {activePanel === 'network' && <NetworkPanel lessonId={lesson.id} />}
+            {activePanel === 'materials' && (
+              <div className="p-6 h-full overflow-y-auto space-y-6">
+                <div>
+                  <div className="text-[9.5px] font-bold uppercase tracking-widest text-t3 mb-3">
+                    Cloudinary · uploaded materials
+                  </div>
+                  <MaterialsGallery lessonId={lesson.id} />
+                </div>
+                <div>
+                  <div className="text-[9.5px] font-bold uppercase tracking-widest text-t3 mb-3">
+                    Diagram library · {lesson.title}
+                  </div>
+                  <DiagramLibrary
+                    courseId={lesson.course_id}
+                    lessonId={lesson.id}
+                    conceptSlug={(lesson.key_concepts[0] || lesson.slug || 'main')
+                      .toLowerCase()
+                      .replace(/[^a-z0-9]+/g, '-')
+                      .replace(/^-|-$/g, '')}
+                  />
+                </div>
+              </div>
+            )}
             {activePanel === 'notes' && <NotesPanel lessonId={lesson.id} />}
             {activePanel === 'replay' && <ReplayPanel activeSessionId={activeSessionId} />}
           </div>
@@ -306,6 +338,8 @@ export default function LessonPage() {
             </div>
 
             <ModelDownloadBanner autoLoad={!isOnline} />
+
+            <ZeticAgent context={lesson.summary} />
 
             <div>
               <div className="text-[10px] font-bold uppercase tracking-widest text-t3 mb-3">About This Lesson</div>

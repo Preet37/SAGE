@@ -1,13 +1,29 @@
 """
 Student network API — Arista track.
-Routes students to peers based on current concept, enables peer sessions.
+
+Routes students to peers using **SRP** (SAGE Routing Protocol) — modeled on
+Arista's link-state routing where every node advertises its "cost" and the
+fabric picks the lowest-cost path.
+
+For SAGE, "cost" is replaced by a learning-fitness score:
+
+    srp_score = 0.40 * mastery_delta   # tutor knows what learner doesn't
+              + 0.20 * recency         # both still in active session
+              + 0.20 * style_compat    # teaching modes line up
+              + 0.20 * novelty         # haven't been paired before
+
+Higher score = better peer. The router returns the top-ranked peer plus the
+full routing table so the UI can show the decision the way Arista's CLI
+shows `show ip route`.
 """
 import logging
+import math
 import secrets
 import time
+from dataclasses import dataclass
 from fastapi import APIRouter, Depends, HTTPException, WebSocket, WebSocketDisconnect
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, and_
+from sqlalchemy import select, and_, or_
 from pydantic import BaseModel
 from app.database import get_db
 from app.models.user import User
@@ -17,6 +33,42 @@ from app.routers.auth import get_current_user
 
 router = APIRouter(prefix="/network", tags=["network"])
 log = logging.getLogger("sage.network")
+
+# SRP scoring weights — exposed so the dashboard can display the formula.
+SRP_WEIGHTS = {
+    "mastery_delta": 0.40,
+    "recency": 0.20,
+    "style_compat": 0.20,
+    "novelty": 0.20,
+}
+
+
+@dataclass(frozen=True)
+class RouteCandidate:
+    user_id: int
+    display: str
+    score: float
+    components: dict
+    role: str  # "tutor" | "co_learner"
+    last_seen_seconds: float
+
+
+def _srp_score(
+    *,
+    mastery_delta: float,
+    recency: float,
+    style_compat: float,
+    novelty: float,
+) -> tuple[float, dict]:
+    """Return (score, components) — components are normalized to 0..1."""
+    components = {
+        "mastery_delta": max(0.0, min(1.0, mastery_delta)),
+        "recency": max(0.0, min(1.0, recency)),
+        "style_compat": max(0.0, min(1.0, style_compat)),
+        "novelty": max(0.0, min(1.0, novelty)),
+    }
+    score = sum(SRP_WEIGHTS[k] * components[k] for k in SRP_WEIGHTS)
+    return score, components
 
 WAIT_TIMEOUT_SECONDS = 300  # 5 minutes
 MAX_HOT_CONCEPTS = 256
@@ -54,6 +106,111 @@ class NetworkStatusOut(BaseModel):
     peer_sessions: int
 
 
+async def _build_routing_table(
+    db: AsyncSession,
+    requester: User,
+    concept_id: int,
+) -> list[RouteCandidate]:
+    """Compute SRP scores for every plausible peer for this concept."""
+    now = time.monotonic()
+
+    # Master tutors — students who already mastered this concept
+    masters_result = await db.execute(
+        select(User, StudentMastery)
+        .join(StudentMastery, StudentMastery.user_id == User.id)
+        .where(
+            and_(
+                StudentMastery.concept_id == concept_id,
+                StudentMastery.is_mastered == True,
+                StudentMastery.user_id != requester.id,
+            )
+        )
+        .limit(20)
+    )
+    candidates: list[RouteCandidate] = []
+    for u, mastery in masters_result.all():
+        # Tutor mastery is high; learner mastery is low → big delta
+        mastery_delta = float(mastery.score or 0.85)
+        recency = 0.5  # we don't have last-seen for offline DB users
+        # Style compat: same teaching mode → 1.0; otherwise simple matrix
+        style_compat = 1.0 if (u.teaching_mode == requester.teaching_mode) else 0.6
+        # Novelty: have we seen them before? Penalize repeat pairs.
+        prior = await db.execute(
+            select(PeerSession).where(
+                or_(
+                    and_(
+                        PeerSession.initiator_id == requester.id,
+                        PeerSession.partner_id == u.id,
+                    ),
+                    and_(
+                        PeerSession.initiator_id == u.id,
+                        PeerSession.partner_id == requester.id,
+                    ),
+                )
+            )
+        )
+        prior_count = len(prior.scalars().all())
+        novelty = math.exp(-prior_count / 2.0)
+
+        score, components = _srp_score(
+            mastery_delta=mastery_delta,
+            recency=recency,
+            style_compat=style_compat,
+            novelty=novelty,
+        )
+        candidates.append(RouteCandidate(
+            user_id=u.id,
+            display=u.display_name or u.username or f"user-{u.id}",
+            score=score,
+            components=components,
+            role="tutor",
+            last_seen_seconds=0.0,
+        ))
+
+    # Co-learners — anyone currently waiting on the same concept
+    waiting = _waiting_room.get(concept_id, [])
+    for waiter_id, ts in waiting:
+        if waiter_id == requester.id:
+            continue
+        wu_result = await db.execute(select(User).where(User.id == waiter_id))
+        wu = wu_result.scalar_one_or_none()
+        if not wu:
+            continue
+        seconds_waiting = now - ts
+        recency = max(0.0, 1.0 - seconds_waiting / WAIT_TIMEOUT_SECONDS)
+        score, components = _srp_score(
+            mastery_delta=0.3,         # equal — both learners
+            recency=recency,
+            style_compat=1.0 if wu.teaching_mode == requester.teaching_mode else 0.5,
+            novelty=1.0,
+        )
+        candidates.append(RouteCandidate(
+            user_id=wu.id,
+            display=wu.display_name or wu.username or f"user-{wu.id}",
+            score=score,
+            components=components,
+            role="co_learner",
+            last_seen_seconds=seconds_waiting,
+        ))
+
+    candidates.sort(key=lambda c: c.score, reverse=True)
+    return candidates[:8]
+
+
+def _route_table_payload(table: list[RouteCandidate]) -> list[dict]:
+    return [
+        {
+            "user_id": c.user_id,
+            "display": c.display,
+            "score": round(c.score, 3),
+            "components": {k: round(v, 3) for k, v in c.components.items()},
+            "role": c.role,
+            "last_seen_seconds": round(c.last_seen_seconds, 1),
+        }
+        for c in table
+    ]
+
+
 @router.post("/peer-match")
 async def request_peer_match(
     req: PeerMatchRequest,
@@ -61,8 +218,8 @@ async def request_peer_match(
     db: AsyncSession = Depends(get_db),
 ):
     """
-    Arista-style routing: find a peer who has mastered this concept
-    or is currently studying the same one. Returns a room token.
+    SRP-routed peer match. Returns the best peer from the routing table plus
+    the full table so the UI can show the decision.
     """
     _cleanup_waiting_room()
 
@@ -73,28 +230,23 @@ async def request_peer_match(
     if not node:
         raise HTTPException(status_code=404, detail="Concept not found")
 
-    mastered_result = await db.execute(
-        select(StudentMastery).where(
-            and_(
-                StudentMastery.concept_id == req.concept_id,
-                StudentMastery.is_mastered == True,
-                StudentMastery.user_id != user.id,
-            )
-        )
-    )
-    mastered_users = mastered_result.scalars().all()
-
+    routing_table = await _build_routing_table(db, user, req.concept_id)
     waiting = _waiting_room.get(req.concept_id, [])
+    best = routing_table[0] if routing_table else None
 
-    if waiting and waiting[0][0] != user.id:
-        partner_id, _ = waiting.pop(0)
-        if not waiting:
+    if best and best.role == "co_learner" and waiting and waiting[0][0] == best.user_id:
+        # Pair with the best co-learner waiter
+        _waiting_room[req.concept_id] = [
+            (uid, ts) for uid, ts in _waiting_room.get(req.concept_id, [])
+            if uid != best.user_id
+        ]
+        if not _waiting_room[req.concept_id]:
             _waiting_room.pop(req.concept_id, None)
 
         room_token = secrets.token_urlsafe(16)
         session = PeerSession(
             concept_id=req.concept_id,
-            initiator_id=partner_id,
+            initiator_id=best.user_id,
             partner_id=user.id,
             room_token=room_token,
             status="active",
@@ -105,31 +257,90 @@ async def request_peer_match(
         return {
             "matched": True,
             "room_token": room_token,
-            "partner_is_master": any(m.user_id == partner_id for m in mastered_users),
+            "partner_is_master": False,
             "concept": node.label,
+            "selected": _route_table_payload([best])[0],
+            "routing_table": _route_table_payload(routing_table),
+            "srp_weights": SRP_WEIGHTS,
         }
 
+    if best and best.role == "tutor":
+        # Tutor isn't necessarily live — return their info but mark waiting.
+        if req.concept_id not in _waiting_room:
+            _waiting_room[req.concept_id] = []
+        if user.id not in [uid for uid, _ in _waiting_room[req.concept_id]]:
+            _waiting_room[req.concept_id].append((user.id, time.monotonic()))
+        room_token = secrets.token_urlsafe(16)
+        db.add(PeerSession(
+            concept_id=req.concept_id,
+            initiator_id=user.id,
+            room_token=room_token,
+            status="waiting",
+        ))
+        await db.commit()
+        return {
+            "matched": False,
+            "room_token": room_token,
+            "waiting": True,
+            "concept": node.label,
+            "selected": _route_table_payload([best])[0],
+            "routing_table": _route_table_payload(routing_table),
+            "srp_weights": SRP_WEIGHTS,
+        }
+
+    # No candidates → enqueue
     if req.concept_id not in _waiting_room:
         _waiting_room[req.concept_id] = []
     if user.id not in [uid for uid, _ in _waiting_room[req.concept_id]]:
         _waiting_room[req.concept_id].append((user.id, time.monotonic()))
-
     room_token = secrets.token_urlsafe(16)
-    session = PeerSession(
+    db.add(PeerSession(
         concept_id=req.concept_id,
         initiator_id=user.id,
         room_token=room_token,
         status="waiting",
-    )
-    db.add(session)
+    ))
     await db.commit()
-
     return {
         "matched": False,
         "room_token": room_token,
         "waiting": True,
         "concept": node.label,
-        "masters_available": len(mastered_users),
+        "selected": None,
+        "routing_table": _route_table_payload(routing_table),
+        "srp_weights": SRP_WEIGHTS,
+    }
+
+
+@router.get("/topology/{concept_id}")
+async def topology(
+    concept_id: int,
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """Snapshot of the network topology for D3 rendering."""
+    routing_table = await _build_routing_table(db, user, concept_id)
+    nodes = [
+        {"id": "self", "label": "you", "kind": "self", "x": 0, "y": 0},
+    ]
+    edges = []
+    for i, c in enumerate(routing_table):
+        nodes.append({
+            "id": str(c.user_id),
+            "label": c.display,
+            "kind": c.role,
+            "score": round(c.score, 3),
+        })
+        edges.append({
+            "source": "self",
+            "target": str(c.user_id),
+            "weight": round(c.score, 3),
+        })
+    return {
+        "nodes": nodes,
+        "edges": edges,
+        "weights": SRP_WEIGHTS,
+        "routing_table": _route_table_payload(routing_table),
     }
 
 

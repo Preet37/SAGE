@@ -82,6 +82,8 @@ export function streamChat(
     session_id?: number;
     teaching_mode?: string;
     voice_enabled?: boolean;
+    image_url?: string;
+    extracted_text?: string;
   },
   onEvent: (event: string, data: unknown) => void,
 ): () => void {
@@ -176,6 +178,26 @@ export async function getNetworkStatus() {
 
 export function getPeerSocketUrl(roomToken: string) {
   return `${websocketBase()}/network/peer-session/${encodeURIComponent(roomToken)}`;
+}
+
+export async function getTopology(token: string, conceptId: number) {
+  const res = await fetch(`${BASE}/network/topology/${conceptId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!res.ok) throw new Error('Could not fetch topology');
+  return res.json() as Promise<{
+    nodes: { id: string; label: string; kind: 'self' | 'tutor' | 'co_learner'; score?: number }[];
+    edges: { source: string; target: string; weight: number }[];
+    weights: Record<string, number>;
+    routing_table: {
+      user_id: number;
+      display: string;
+      score: number;
+      components: { mastery_delta: number; recency: number; style_compat: number; novelty: number };
+      role: string;
+      last_seen_seconds: number;
+    }[];
+  }>;
 }
 
 // ── Replay ────────────────────────────────────────────────────────
@@ -300,4 +322,56 @@ export async function generateVisualCode(
     throw new Error((err as { detail?: string }).detail || 'Code generation failed');
   }
   return res.json() as Promise<{ code: string; title: string; concept: string; lines: number }>;
+}
+
+// ── Media (Cloudinary) ────────────────────────────────────────────
+export interface SignedUploadParams {
+  cloud_name: string;
+  api_key: string;
+  timestamp: number;
+  signature: string;
+  folder: string;
+  upload_url: string;
+  public_id?: string;
+  use_ocr: boolean;
+}
+
+export async function getSignedUpload(token: string, lessonId: number = 0): Promise<SignedUploadParams> {
+  const res = await fetch(`${BASE}/media/upload-signed`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ folder: 'sage_uploads', lesson_id: lessonId, use_ocr: true }),
+  });
+  if (!res.ok) throw new Error('Could not get upload signature');
+  return res.json();
+}
+
+export async function ingestOcr(
+  token: string,
+  payload: { image_url: string; public_id?: string; lesson_id?: number; width?: number; height?: number; bytes?: number },
+): Promise<{ extracted_text: string; image_url: string; mock: boolean; annotations: number }> {
+  const res = await fetch(`${BASE}/media/ingest-ocr`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) throw new Error('OCR ingestion failed');
+  return res.json();
+}
+
+export async function getDiagramLibrary(courseId: number, lessonId: number, conceptSlug: string) {
+  const res = await fetch(`${BASE}/media/diagram/${courseId}/${lessonId}/${encodeURIComponent(conceptSlug)}`);
+  if (!res.ok) return { items: [], mock: true };
+  return res.json() as Promise<{ items: { label: string; url: string; thumb_url: string }[]; mock: boolean }>;
+}
+
+export async function getMaterials(token: string, lessonId: number) {
+  const res = await fetch(`${BASE}/media/materials/${lessonId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!res.ok) return { items: [], mock: true };
+  return res.json() as Promise<{
+    items: { public_id: string; url: string; thumb_url: string; width: number; height: number; bytes: number; format: string }[];
+    mock: boolean;
+  }>;
 }

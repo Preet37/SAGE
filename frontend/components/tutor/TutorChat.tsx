@@ -2,10 +2,11 @@
 import { useRef, useEffect, useState, KeyboardEvent } from 'react';
 import { useTutorStore } from '@/lib/store';
 import MessageBubble from './MessageBubble';
+import VisualUpload from '@/components/cloudinary/VisualUpload';
 
 interface Props {
-  onSend: (text: string) => void;
-  lesson: { title: string; key_concepts: string[] };
+  onSend: (text: string, imageUrl?: string, extractedText?: string) => void;
+  lesson: { id: number; title: string; key_concepts: string[] };
 }
 
 const STARTERS = [
@@ -18,6 +19,7 @@ const STARTERS = [
 export default function TutorChat({ onSend, lesson }: Props) {
   const { messages, isStreaming } = useTutorStore();
   const [input, setInput] = useState('');
+  const [pendingImage, setPendingImage] = useState<{ url: string; text: string } | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -34,10 +36,15 @@ export default function TutorChat({ onSend, lesson }: Props) {
 
   function submit() {
     const text = input.trim();
-    if (!text || isStreaming) return;
+    if ((!text && !pendingImage) || isStreaming) return;
     setInput('');
     if (textareaRef.current) textareaRef.current.style.height = 'auto';
-    onSend(text);
+    onSend(
+      text || (pendingImage ? 'What does this show?' : ''),
+      pendingImage?.url,
+      pendingImage?.text,
+    );
+    setPendingImage(null);
   }
 
   function autoResize(e: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -87,22 +94,51 @@ export default function TutorChat({ onSend, lesson }: Props) {
         </div>
       )}
 
+      {/* Pending image preview */}
+      {pendingImage && (
+        <div className="mx-4 mb-2 flex items-center gap-2 p-2 rounded-xl bg-ora/5 border border-ora/20">
+          <img
+            src={pendingImage.url}
+            alt="pending"
+            className="w-12 h-12 object-cover rounded-lg flex-shrink-0"
+          />
+          <div className="flex-1 min-w-0">
+            <div className="text-[10px] font-bold text-ora uppercase tracking-widest">Image attached</div>
+            <div className="text-[10px] text-t2 truncate">
+              {pendingImage.text ? `OCR: ${pendingImage.text.slice(0, 80)}…` : 'no text detected'}
+            </div>
+          </div>
+          <button
+            onClick={() => setPendingImage(null)}
+            className="text-t3 hover:text-t0 text-xs px-2"
+            aria-label="Remove image"
+          >
+            ×
+          </button>
+        </div>
+      )}
+
       {/* Input */}
       <div className="flex-shrink-0 px-4 pb-4 pt-2 border-t border-white/5">
         <div className={`flex items-end gap-2 bg-bg2 border rounded-2xl px-4 py-3 transition-all ${isStreaming ? 'border-white/5' : 'border-white/10 focus-within:border-acc/40'}`}>
+          <VisualUpload
+            lessonId={lesson.id}
+            disabled={isStreaming}
+            onUpload={(url, text) => setPendingImage({ url, text })}
+          />
           <textarea
             ref={textareaRef}
             value={input}
             onChange={autoResize}
             onKeyDown={handleKeyDown}
-            placeholder={isStreaming ? 'SAGE is thinking…' : 'Ask anything…'}
+            placeholder={isStreaming ? 'SAGE is thinking…' : pendingImage ? 'Ask about the image…' : 'Ask anything…'}
             disabled={isStreaming}
             rows={1}
             className="flex-1 bg-transparent outline-none resize-none text-sm text-t0 placeholder-t3 max-h-28 font-sans"
           />
           <button
             onClick={submit}
-            disabled={isStreaming || !input.trim()}
+            disabled={isStreaming || (!input.trim() && !pendingImage)}
             className="w-8 h-8 rounded-full bg-acc text-white flex items-center justify-center flex-shrink-0 hover:bg-blue-400 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-3.5 h-3.5">

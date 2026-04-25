@@ -19,12 +19,15 @@ from app.models.session import TutorSession, TutorMessage
 from app.models.concept import ConceptNode, StudentMastery
 from app.routers.auth import get_current_user
 from app.core.retrieval import get_relevant_chunks
+from app.core.cognition import cognition_retrieve, llm_judge, CognitionTrace
 from app.core.verification import verify_response
 from app.core.voice import synthesize_speech
 from app.config import get_settings, load_yaml_config
 from app.routers.accessibility import get_user_accessibility_modifier
 from app.agents.orchestrator import AgentOrchestrator
+from app.agents.director_agent import director_badge_payload, DEEP_DIVE_COST_MICRO_ASI
 import httpx
+import secrets
 
 router = APIRouter(prefix="/tutor", tags=["tutor"])
 settings = get_settings()
@@ -79,6 +82,9 @@ class TutorRequest(BaseModel):
     session_id: Optional[int] = None
     teaching_mode: Optional[str] = None
     voice_enabled: bool = False
+    image_url: Optional[str] = None
+    extracted_text: Optional[str] = None
+    deep_dive_token: Optional[str] = None
 
 
 class SessionCreateRequest(BaseModel):
@@ -125,8 +131,21 @@ async def chat(
     teaching_mode = req.teaching_mode or user.teaching_mode or "default"
     mode_instruction = TEACHING_MODE_PROMPTS.get(teaching_mode, TEACHING_MODE_PROMPTS["default"])
 
-    kb_chunks = await get_relevant_chunks(req.message, req.lesson_id, db, top_k=4)
+    # Cognition track — HyDE + cosine + cross-encoder rerank
+    cognition_trace = await cognition_retrieve(req.message, req.lesson_id, db, top_k=4)
+    kb_chunks = [c.text for c in cognition_trace.retrieved]
+    if not kb_chunks:
+        kb_chunks = await get_relevant_chunks(req.message, req.lesson_id, db, top_k=4)
     kb_context = "\n\n---\n\n".join(kb_chunks) if kb_chunks else lesson.content_md[:2000]
+
+    # If the student attached an image and we OCR'd it, prepend that text to
+    # the KB context so the tutor sees it without us shipping the image bytes
+    # to a vision model.
+    if req.extracted_text:
+        kb_context = (
+            f"## Student-Uploaded Image (OCR text)\n{req.extracted_text[:1200]}\n\n"
+            + kb_context
+        )
 
     mastery_result = await db.execute(
         select(ConceptNode, StudentMastery)
@@ -173,6 +192,7 @@ async def chat(
             lesson=lesson,
             session_id=req.session_id,
             kb_chunks=kb_chunks,
+            cognition_trace=cognition_trace,
             agent_trace=agent_trace,
             voice_enabled=req.voice_enabled,
             db=db,
@@ -189,6 +209,7 @@ async def _stream_response(
     lesson: Lesson,
     session_id: Optional[int],
     kb_chunks: list[str],
+    cognition_trace: CognitionTrace,
     agent_trace: dict,
     voice_enabled: bool,
     db: AsyncSession,
@@ -277,6 +298,16 @@ async def _stream_response(
         for event in agent_events:
             yield _sse("agent_event", event)
 
+        # Fetch.ai Bureau badge — proves agents are real, not just labels
+        badge = director_badge_payload()
+        if agent_trace["pedagogy"] == "deep_dive":
+            badge["payment"] = {
+                "amount_micro_asi": DEEP_DIVE_COST_MICRO_ASI,
+                "token": secrets.token_urlsafe(8),
+                "ts": datetime.utcnow().isoformat(),
+            }
+        yield _sse("fetchai_badge", badge)
+
         if settings.llm_provider == "anthropic":
             async for chunk in _stream_anthropic(system_prompt, messages):
                 full_response += chunk
@@ -298,6 +329,35 @@ async def _stream_response(
             "flags": verification.flags,
             "score": verification.score,
         })
+
+        # Cognition track — LLM-as-judge runs after the answer is finalized.
+        # Streamed in parallel with TTS so it doesn't block voice playback.
+        try:
+            judge = await llm_judge(
+                question=messages[-1]["content"],
+                answer=full_response,
+                sources=cognition_trace.retrieved,
+            )
+            agent_trace["judge"] = {
+                "score": judge.score,
+                "grounded": judge.grounded,
+                "reasoning": judge.reasoning,
+                "citations": judge.citations,
+            }
+            yield _sse("judge_result", {
+                **cognition_trace.to_payload(),
+                "judge": agent_trace["judge"],
+            })
+        except Exception as _judge_err:
+            yield _sse("judge_result", {
+                **cognition_trace.to_payload(),
+                "judge": {
+                    "score": 0.5,
+                    "grounded": False,
+                    "reasoning": f"judge error: {_judge_err}",
+                    "citations": [],
+                },
+            })
 
         if voice_enabled and settings.elevenlabs_api_key:
             audio_bytes = await synthesize_speech(full_response)

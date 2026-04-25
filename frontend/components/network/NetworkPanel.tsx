@@ -1,15 +1,28 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import { useAuthStore } from '@/lib/store';
-import { requestPeerMatch, getNetworkStatus, getPeerSocketUrl } from '@/lib/api';
+import { requestPeerMatch, getNetworkStatus, getPeerSocketUrl, getTopology } from '@/lib/api';
+import NetworkTopology from './NetworkTopology';
+import RoutingTable from './RoutingTable';
 
 interface Props { lessonId: number }
 interface NetworkStatus { active_students: number; hot_concepts: { concept: string; students_waiting: number; concept_id: number }[]; peer_sessions: number }
+interface TopologyData {
+  nodes: { id: string; label: string; kind: 'self' | 'tutor' | 'co_learner'; score?: number }[];
+  edges: { source: string; target: string; weight: number }[];
+  weights: Record<string, number>;
+  routing_table: {
+    user_id: number; display: string; score: number;
+    components: { mastery_delta: number; recency: number; style_compat: number; novelty: number };
+    role: string; last_seen_seconds: number;
+  }[];
+}
 
 export default function NetworkPanel({ lessonId }: Props) {
   const { token } = useAuthStore();
   const [status, setStatus] = useState<NetworkStatus | null>(null);
   const [matchResult, setMatchResult] = useState<unknown | null>(null);
+  const [topology, setTopology] = useState<TopologyData | null>(null);
   const [loading, setLoading] = useState(true);
   const [matching, setMatching] = useState(false);
   const [roomMessages, setRoomMessages] = useState<{ mine: boolean; text: string; ts: number }[]>([]);
@@ -35,12 +48,16 @@ export default function NetworkPanel({ lessonId }: Props) {
     if (!token) return;
     setMatching(true);
     try {
-      const result = await requestPeerMatch(token, conceptId, lessonId);
+      const [result, topo] = await Promise.all([
+        requestPeerMatch(token, conceptId, lessonId),
+        getTopology(token, conceptId).catch(() => null),
+      ]);
       setMatchResult(result);
+      if (topo) setTopology(topo);
       const roomToken = (result as Record<string, unknown>).room_token as string | undefined;
       if (roomToken) connectRoom(roomToken);
-    } catch (e) {
-      console.error(e);
+    } catch {
+      // swallow — UI already shows match state
     } finally {
       setMatching(false);
     }
@@ -183,15 +200,35 @@ export default function NetworkPanel({ lessonId }: Props) {
         </div>
       )}
 
-      {/* Network visualization description */}
-      <div className="mt-6 bg-bg2 border border-ora/15 rounded-2xl p-4">
-        <div className="text-[10px] font-bold uppercase tracking-widest text-ora mb-2">Arista Routing</div>
-        <p className="text-[11px] text-t1 leading-relaxed">
-          Peer matching uses concept-similarity scoring to route students to the most relevant peers — 
-          like Arista's network fabric routes packets to optimal paths. Students who've mastered a concept 
-          are preferred as "tutor peers" over co-learners.
-        </p>
-      </div>
+      {/* SRP Topology visualization */}
+      {topology && topology.routing_table.length > 0 && (
+        <div className="mt-6 space-y-3">
+          <div className="flex items-center gap-2">
+            <div className="text-[10px] font-bold uppercase tracking-widest text-ora">SRP Topology</div>
+            <span className="text-[9px] text-t3 font-mono ml-auto">
+              srp = 0.4·Δm + 0.2·rec + 0.2·style + 0.2·novel
+            </span>
+          </div>
+          <NetworkTopology nodes={topology.nodes} edges={topology.edges} />
+          <RoutingTable
+            rows={topology.routing_table}
+            weights={topology.weights}
+            selectedUserId={(matchResult as { selected?: { user_id: number } } | null)?.selected?.user_id}
+          />
+        </div>
+      )}
+
+      {!topology && (
+        <div className="mt-6 bg-bg2 border border-ora/15 rounded-2xl p-4">
+          <div className="text-[10px] font-bold uppercase tracking-widest text-ora mb-2">SAGE Routing Protocol</div>
+          <p className="text-[11px] text-t1 leading-relaxed">
+            Tap <strong>Join</strong> on a hot concept to compute the routing table.
+            SRP scores each peer on mastery delta, recency, style compatibility, and
+            novelty — like Arista's fabric routes packets, SAGE routes <em>students</em>
+            to the best learning partner.
+          </p>
+        </div>
+      )}
     </div>
   );
 }

@@ -29,6 +29,22 @@ export const useAuthStore = create<AuthStore>()(
   )
 );
 
+export interface CognitionData {
+  hyde_query?: string;
+  retrieved: { id: string; preview: string; cosine: number; rerank?: number }[];
+  rerank_used: boolean;
+  judge?: { score: number; grounded: boolean; reasoning: string; citations: number[] };
+  latency_ms: number;
+}
+
+export interface FetchAiBadge {
+  director_address: string;
+  agentverse_url: string;
+  deep_dive_cost_micro_asi: number;
+  agents: { name: string; port: number; role: string }[];
+  payment?: { amount_micro_asi: number; token: string; ts: string };
+}
+
 interface Message {
   id: string;
   role: 'user' | 'assistant';
@@ -37,6 +53,8 @@ interface Message {
   verification?: { passed: boolean; flags: string[] };
   quiz?: { question: string; options: string[]; answer: string; explanation: string };
   audio?: string;
+  cognition?: CognitionData;
+  image_url?: string;
 }
 
 interface TutorStore {
@@ -45,6 +63,7 @@ interface TutorStore {
   teachingMode: string;
   isStreaming: boolean;
   agentEvents: { type: string; data: unknown; ts: number }[];
+  fetchAiBadge: FetchAiBadge | null;
   addMessage: (msg: Message) => void;
   appendToLast: (content: string) => void;
   setSessionId: (id: number) => void;
@@ -53,6 +72,8 @@ interface TutorStore {
   addAgentEvent: (type: string, data: unknown) => void;
   clearMessages: () => void;
   updateLastVerification: (v: { passed: boolean; flags: string[] }) => void;
+  updateLastCognition: (c: CognitionData) => void;
+  setFetchAiBadge: (b: FetchAiBadge) => void;
 }
 
 export const useTutorStore = create<TutorStore>((set) => ({
@@ -61,6 +82,7 @@ export const useTutorStore = create<TutorStore>((set) => ({
   teachingMode: 'default',
   isStreaming: false,
   agentEvents: [],
+  fetchAiBadge: null,
   addMessage: (msg) => set((s) => ({ messages: [...s.messages, msg] })),
   appendToLast: (content) =>
     set((s) => {
@@ -82,4 +104,11 @@ export const useTutorStore = create<TutorStore>((set) => ({
       if (msgs.length > 0) msgs[msgs.length - 1].verification = v;
       return { messages: msgs };
     }),
+  updateLastCognition: (c) =>
+    set((s) => {
+      const msgs = [...s.messages];
+      if (msgs.length > 0) msgs[msgs.length - 1].cognition = c;
+      return { messages: msgs };
+    }),
+  setFetchAiBadge: (b) => set({ fetchAiBadge: b }),
 }));
