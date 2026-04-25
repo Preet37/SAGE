@@ -176,7 +176,17 @@ Return ONLY a valid JSON object. No markdown. No explanation. Just the JSON:
         raise HTTPException(status_code=422, detail=f"Invalid JSON from LLM: {e}")
 
     if "vizType" not in vizconfig or vizconfig["vizType"] not in VIZ_SCHEMA:
-        raise HTTPException(status_code=422, detail=f"Unknown vizType: {vizconfig.get('vizType')}")
+        # Fall back to custom_geometry rather than erroring
+        vizconfig["vizType"] = "custom_geometry"
+        if "params" not in vizconfig or not isinstance(vizconfig.get("params"), dict):
+            vizconfig["params"] = {}
+        if "objects" not in vizconfig["params"]:
+            vizconfig["params"]["objects"] = [
+                {"type": "sphere", "position": [-2, 0, 0], "size": [0.8, 0.8, 0.8], "color": "#60a5fa", "label": "Input"},
+                {"type": "box", "position": [0, 0, 0], "size": [1.2, 0.8, 0.4], "color": "#8b5cf6", "label": req.concept[:20]},
+                {"type": "cone", "position": [2, 0, 0], "size": [0.8, 1, 0.8], "color": "#34d399", "label": "Output"},
+            ]
+            vizconfig["params"]["connections"] = [{"from": 0, "to": 1}, {"from": 1, "to": 2}]
 
     return vizconfig
 
