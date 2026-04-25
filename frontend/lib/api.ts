@@ -187,6 +187,25 @@ export interface ConceptMisconception {
   is_correct: boolean;
 }
 
+export interface KeyEquation {
+  label: string;
+  latex: string;
+  description: string;
+}
+
+export interface ConceptPaper {
+  title: string;
+  authors: string;
+  year: string;
+  description: string;
+}
+
+export interface ConceptVideo {
+  title: string;
+  channel: string;
+  search_query: string;
+}
+
 export interface ConceptPageResponse {
   id: string;
   topic: string;
@@ -200,6 +219,10 @@ export interface ConceptPageResponse {
   key_takeaways: string[];
   related_concepts: string[];
   further_reading: string[];
+  prerequisites: string[];
+  key_equations: KeyEquation[];
+  papers: ConceptPaper[];
+  videos: ConceptVideo[];
   lesson_id: string | null;
   created_at: string;
 }

@@ -1,8 +1,9 @@
 import json
 import logging
+import re
 from fastapi import APIRouter, Depends, HTTPException
 from openai import AsyncOpenAI
-from sqlmodel import Session, select
+from sqlmodel import Session, select, text
 
 from ..db import get_session
 from ..deps import get_current_user
@@ -14,6 +15,9 @@ from ..schemas.concepts import (
     ConceptPageResponse,
     ConceptSuggestion,
     MisconceptionItem,
+    KeyEquation,
+    Paper,
+    VideoSuggestion,
 )
 from ..agent.system_prompt_concepts import build_concept_prompt
 from ..config import get_settings
@@ -35,8 +39,65 @@ def _get_client() -> AsyncOpenAI:
     return _async_client
 
 
+def _ensure_extra_data_column(session: Session) -> None:
+    """Add extra_data column to conceptpage if it doesn't exist (SQLite safe)."""
+    try:
+        session.exec(text("SELECT extra_data FROM conceptpage LIMIT 1"))
+    except Exception:
+        try:
+            session.exec(text("ALTER TABLE conceptpage ADD COLUMN extra_data TEXT DEFAULT '{}'"))
+            session.commit()
+            logger.info("Added extra_data column to conceptpage table")
+        except Exception as e:
+            logger.warning("Could not add extra_data column: %s", e)
+
+
+def _extract_json(raw: str) -> dict:
+    """Robustly extract a JSON object from LLM output.
+
+    Tries multiple strategies in order:
+    1. Direct parse
+    2. Strip markdown code fences (```json ... ```)
+    3. Regex extract first {...} block
+    4. Truncate at last valid closing brace
+    """
+    text_to_parse = raw.strip()
+
+    # Strategy 1: direct parse
+    try:
+        return json.loads(text_to_parse)
+    except json.JSONDecodeError:
+        pass
+
+    # Strategy 2: strip any code fence flavour
+    stripped = re.sub(r"^```[a-zA-Z]*\n?", "", text_to_parse)
+    stripped = re.sub(r"\n?```$", "", stripped.rstrip()).strip()
+    try:
+        return json.loads(stripped)
+    except json.JSONDecodeError:
+        pass
+
+    # Strategy 3: regex — find the first { ... } block
+    match = re.search(r"\{[\s\S]*\}", stripped)
+    if match:
+        try:
+            return json.loads(match.group(0))
+        except json.JSONDecodeError:
+            # Strategy 4: truncate at last complete closing brace
+            candidate = match.group(0)
+            for end in range(len(candidate), 0, -1):
+                try:
+                    return json.loads(candidate[:end])
+                except json.JSONDecodeError:
+                    continue
+
+    raise ValueError(f"Could not extract valid JSON from response: {raw[:300]}")
+
+
 def _concept_to_response(c: ConceptPage) -> ConceptPageResponse:
-    def _parse_json(raw: str, default):
+    def _parse_json(raw: str | None, default):
+        if not raw:
+            return default
         try:
             return json.loads(raw)
         except Exception:
@@ -48,6 +109,41 @@ def _concept_to_response(c: ConceptPage) -> ConceptPageResponse:
         for m in misconceptions_raw
         if isinstance(m, dict)
     ]
+
+    extra = _parse_json(c.extra_data, {})
+
+    key_equations = [
+        KeyEquation(
+            label=e.get("label", ""),
+            latex=e.get("latex", ""),
+            description=e.get("description", ""),
+        )
+        for e in extra.get("key_equations", [])
+        if isinstance(e, dict)
+    ]
+
+    papers = [
+        Paper(
+            title=p.get("title", ""),
+            authors=p.get("authors", ""),
+            year=p.get("year", ""),
+            description=p.get("description", ""),
+        )
+        for p in extra.get("papers", [])
+        if isinstance(p, dict)
+    ]
+
+    videos = [
+        VideoSuggestion(
+            title=v.get("title", ""),
+            channel=v.get("channel", ""),
+            search_query=v.get("search_query", ""),
+        )
+        for v in extra.get("videos", [])
+        if isinstance(v, dict)
+    ]
+
+    prerequisites = [p for p in extra.get("prerequisites", []) if isinstance(p, str)]
 
     return ConceptPageResponse(
         id=c.id,
@@ -62,15 +158,17 @@ def _concept_to_response(c: ConceptPage) -> ConceptPageResponse:
         key_takeaways=_parse_json(c.key_takeaways, []),
         related_concepts=_parse_json(c.related_concepts, []),
         further_reading=_parse_json(c.further_reading, []),
+        prerequisites=prerequisites,
+        key_equations=key_equations,
+        papers=papers,
+        videos=videos,
         lesson_id=c.lesson_id,
         created_at=c.created_at,
     )
 
 
 def _find_matching_lesson(topic: str, session: Session) -> Lesson | None:
-    """Try to match the topic to a lesson by title or concepts."""
     topic_lower = topic.lower().strip()
-
     lessons = session.exec(select(Lesson)).all()
     for lesson in lessons:
         if topic_lower in lesson.title.lower() or lesson.title.lower() in topic_lower:
@@ -109,16 +207,13 @@ FEATURED_CONCEPTS = [
 _FEATURED_KEYS = {c.lower() for c in FEATURED_CONCEPTS}
 
 
-# ── GET /concepts/suggestions ─────────────────────────────────────────────────
-
 @router.get("/suggestions", response_model=list[ConceptSuggestion])
 async def get_suggestions(
     session: Session = Depends(get_session),
     user: User = Depends(get_current_user),
 ):
-    lessons = session.exec(
-        select(Lesson).order_by(Lesson.order_index)
-    ).all()
+    _ensure_extra_data_column(session)
+    lessons = session.exec(select(Lesson).order_by(Lesson.order_index)).all()
 
     seen: set[str] = set()
     by_key: dict[str, ConceptSuggestion] = {}
@@ -146,32 +241,29 @@ async def get_suggestions(
     return featured + rest
 
 
-# ── POST /concepts/search ─────────────────────────────────────────────────────
-
 @router.post("/search", response_model=ConceptPageResponse)
 async def search_concept(
     req: ConceptSearchRequest,
     session: Session = Depends(get_session),
     user: User = Depends(get_current_user),
 ):
+    _ensure_extra_data_column(session)
     topic = req.topic.strip()
     if not topic:
         raise HTTPException(status_code=400, detail="Topic cannot be empty")
 
-    # Check cache (case-insensitive)
     cached = session.exec(
         select(ConceptPage).where(ConceptPage.topic.ilike(topic))
     ).first()
     if cached:
-        return _concept_to_response(cached)
+        # Re-generate if the cached record has no enrichment data
+        extra = json.loads(cached.extra_data or "{}") if cached.extra_data else {}
+        if extra.get("papers") or extra.get("key_equations"):
+            return _concept_to_response(cached)
+        # Otherwise fall through to regenerate with new prompt
 
-    # Try to match to a curriculum lesson for grounding
     matching_lesson = _find_matching_lesson(topic, session)
-
-    lesson_title = None
-    lesson_content = None
-    lesson_summary = None
-    reference_kb = None
+    lesson_title = lesson_content = lesson_summary = reference_kb = None
     concepts = None
     lesson_id = None
 
@@ -203,28 +295,49 @@ async def search_concept(
             model=settings.llm_model,
             messages=[
                 {"role": "system", "content": prompt},
-                {"role": "user", "content": f"Generate a concept page for: {topic}"},
+                {"role": "user", "content": f"Generate the concept page JSON for: {topic}"},
             ],
-            max_tokens=4096,
-            temperature=0.7,
+            max_tokens=8192,
+            temperature=0.4,
         )
     except Exception as e:
         logger.error("LLM concept generation failed: %s", e)
         raise HTTPException(status_code=502, detail="Concept generation failed. Please try again.")
 
     raw = (response.choices[0].message.content or "").strip()
-    if raw.startswith("```"):
-        lines = raw.split("\n")
-        lines = lines[1:]
-        if lines and lines[-1].strip() == "```":
-            lines = lines[:-1]
-        raw = "\n".join(lines)
 
     try:
-        data = json.loads(raw)
-    except json.JSONDecodeError:
-        logger.error("Failed to parse concept JSON: %s", raw[:500])
-        raise HTTPException(status_code=502, detail="Concept generation returned invalid format. Please try again.")
+        data = _extract_json(raw)
+    except ValueError:
+        logger.error("Failed to parse concept JSON. Raw: %s", raw[:800])
+        raise HTTPException(
+            status_code=502,
+            detail="Concept generation returned an invalid format. Please try again.",
+        )
+
+    extra_data = json.dumps({
+        "prerequisites": data.get("prerequisites", []),
+        "key_equations": data.get("key_equations", []),
+        "papers": data.get("papers", []),
+        "videos": data.get("videos", []),
+    })
+
+    if cached:
+        # Update existing stale record
+        cached.simple_definition = data.get("simple_definition", cached.simple_definition)
+        cached.why_it_matters = data.get("why_it_matters", cached.why_it_matters)
+        cached.detailed_explanation = data.get("detailed_explanation", cached.detailed_explanation)
+        cached.analogy = data.get("analogy", cached.analogy)
+        cached.real_world_example = data.get("real_world_example", cached.real_world_example)
+        cached.misconceptions = json.dumps(data.get("misconceptions", []))
+        cached.key_takeaways = json.dumps(data.get("key_takeaways", []))
+        cached.related_concepts = json.dumps(data.get("related_concepts", []))
+        cached.further_reading = json.dumps(data.get("further_reading", []))
+        cached.extra_data = extra_data
+        session.add(cached)
+        session.commit()
+        session.refresh(cached)
+        return _concept_to_response(cached)
 
     concept_page = ConceptPage(
         topic=data.get("topic", topic),
@@ -238,6 +351,7 @@ async def search_concept(
         key_takeaways=json.dumps(data.get("key_takeaways", [])),
         related_concepts=json.dumps(data.get("related_concepts", [])),
         further_reading=json.dumps(data.get("further_reading", [])),
+        extra_data=extra_data,
         lesson_id=lesson_id,
     )
     session.add(concept_page)

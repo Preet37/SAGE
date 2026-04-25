@@ -12,6 +12,25 @@ class MisconceptionItem(BaseModel):
     is_correct: bool
 
 
+class KeyEquation(BaseModel):
+    label: str
+    latex: str
+    description: str
+
+
+class Paper(BaseModel):
+    title: str
+    authors: str
+    year: str
+    description: str
+
+
+class VideoSuggestion(BaseModel):
+    title: str
+    channel: str
+    search_query: str
+
+
 class ConceptPageResponse(BaseModel):
     id: str
     topic: str
@@ -25,6 +44,11 @@ class ConceptPageResponse(BaseModel):
     key_takeaways: List[str]
     related_concepts: List[str]
     further_reading: List[str]
+    # v2 enrichment
+    prerequisites: List[str]
+    key_equations: List[KeyEquation]
+    papers: List[Paper]
+    videos: List[VideoSuggestion]
     lesson_id: Optional[str]
     created_at: datetime
 

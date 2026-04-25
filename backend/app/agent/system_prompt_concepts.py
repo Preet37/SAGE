@@ -28,53 +28,116 @@ DETAILED REFERENCE KNOWLEDGE:
 {reference_kb}
 """
 
-    return f"""You are an expert technical educator creating a comprehensive concept reference page.
+    return f"""You are an expert technical educator creating a rich, research-grade concept reference page.
 
 TOPIC: {topic}
 {grounding_section}
-TASK: Generate a structured concept page for the topic above. The page should be thorough, accurate, and accessible. If grounding material is provided, use it as your primary source. Otherwise, use your own knowledge but avoid fabricating specific citations, paper numbers, or benchmark results.
+TASK: Generate a comprehensive, deeply detailed concept page. This should feel like the best Wikipedia article merged with a graduate textbook chapter — covering theory, equations, real research, and curated learning resources.
 
-RESPOND WITH ONLY valid JSON (no markdown, no code fences, no extra text) in this exact format:
+OUTPUT FORMAT: Respond with ONLY valid JSON. No markdown fences, no commentary, no trailing text. Start your response with {{ and end with }}.
+
+Required JSON structure:
 {{
   "topic": "{topic}",
   "level": "beginner|intermediate|advanced",
-  "simple_definition": "A clear 2-3 sentence definition accessible to someone new to the topic.",
-  "why_it_matters": "1-2 paragraphs explaining the practical importance of this concept and where it fits in the broader landscape.",
-  "detailed_explanation": "A thorough multi-paragraph explanation. Include numbered steps or phases if the concept involves a process. Use concrete technical details. This should be comprehensive enough that someone could understand the concept deeply from this section alone.",
-  "analogy": "A vivid real-world analogy that makes the concept intuitive. Extend the analogy to cover the key aspects of the concept, not just a surface-level comparison.",
-  "real_world_example": "A concrete, realistic example showing the concept in action. Include specific steps, inputs, and outputs. For technical concepts, show a walkthrough with Thought/Action/Observation or similar structured reasoning where appropriate.",
+  "simple_definition": "A crisp 2-3 sentence definition accessible to a curious newcomer.",
+  "why_it_matters": "2-3 paragraphs on practical significance, industry impact, and where this fits in the broader landscape. Be specific about real applications.",
+  "detailed_explanation": "The core of the page — 4-6 substantial paragraphs. Cover the mechanism, theory, variants/extensions, trade-offs, and historical context. For mathematical topics, describe the key ideas that would be expressed as equations. Be thorough enough that someone could implement or use this concept after reading.",
+  "analogy": "A vivid, extended real-world analogy. Go beyond a surface comparison — trace the analogy through at least 3 aspects of the concept to make it deeply intuitive.",
+  "real_world_example": "A concrete worked example: show a specific scenario with inputs, the process step by step, and the output/result. For ML/CS topics show realistic pseudocode or a worked numeric example.",
   "misconceptions": [
-    {{"text": "A common misconception stated as fact", "is_correct": false}},
-    {{"text": "The correct understanding", "is_correct": true}},
-    {{"text": "Another misconception", "is_correct": false}},
-    {{"text": "Another correct understanding", "is_correct": true}}
+    {{"text": "A common misconception stated as if true", "is_correct": false}},
+    {{"text": "The correct understanding that corrects the above", "is_correct": true}},
+    {{"text": "Another frequent misconception", "is_correct": false}},
+    {{"text": "The correct counterpoint", "is_correct": true}},
+    {{"text": "A subtler but important misconception", "is_correct": false}},
+    {{"text": "The nuanced truth", "is_correct": true}}
   ],
   "key_takeaways": [
-    "First key takeaway — a concise, memorable point",
-    "Second key takeaway",
-    "Third key takeaway",
-    "Fourth key takeaway",
-    "Fifth key takeaway"
+    "The single most important insight about this concept",
+    "A key practical implication",
+    "A common pitfall to avoid",
+    "How this connects to adjacent concepts",
+    "The key condition under which this concept works / breaks"
+  ],
+  "prerequisites": [
+    "Prerequisite Concept 1",
+    "Prerequisite Concept 2",
+    "Prerequisite Concept 3"
+  ],
+  "key_equations": [
+    {{
+      "label": "Short name for the equation",
+      "latex": "LaTeX string, e.g. E = mc^2 (without $ delimiters)",
+      "description": "What this equation represents and when to use it"
+    }},
+    {{
+      "label": "Second equation name",
+      "latex": "Another LaTeX expression",
+      "description": "Description of second equation"
+    }},
+    {{
+      "label": "Third equation name",
+      "latex": "Third LaTeX expression",
+      "description": "Description of third equation"
+    }}
   ],
   "related_concepts": [
-    "Related Concept 1",
-    "Related Concept 2",
-    "Related Concept 3",
-    "Related Concept 4",
-    "Related Concept 5"
+    "Directly Related Concept 1",
+    "Directly Related Concept 2",
+    "Directly Related Concept 3",
+    "Broader Context Concept",
+    "Downstream Application Concept"
+  ],
+  "papers": [
+    {{
+      "title": "Title of a seminal or highly cited real paper on this topic",
+      "authors": "Last, F. and Last, F.",
+      "year": "YYYY",
+      "description": "One sentence on what this paper contributed and why it matters"
+    }},
+    {{
+      "title": "Title of a second key paper",
+      "authors": "Last, F. et al.",
+      "year": "YYYY",
+      "description": "One sentence on its contribution"
+    }},
+    {{
+      "title": "Title of a more recent influential paper",
+      "authors": "Last, F. et al.",
+      "year": "YYYY",
+      "description": "One sentence on its contribution"
+    }}
+  ],
+  "videos": [
+    {{
+      "title": "Descriptive title for a video that would explain this well",
+      "channel": "Name of a real YouTube channel known for this topic (3Blue1Brown, Andrej Karpathy, MIT OpenCourseWare, StatQuest, Yannic Kilcher, etc.)",
+      "search_query": "Exact YouTube search query that would find a relevant video on this topic"
+    }},
+    {{
+      "title": "Title of a second useful video",
+      "channel": "Channel name",
+      "search_query": "YouTube search query for this video"
+    }},
+    {{
+      "title": "A hands-on tutorial video title",
+      "channel": "Channel name",
+      "search_query": "YouTube search query"
+    }}
   ],
   "further_reading": [
-    "Title of a real, well-known resource (Author, Year)",
-    "Another real resource — only include resources you are confident actually exist",
-    "Official documentation link descriptions are fine"
+    "A real textbook or online course that covers this thoroughly (Author, Year or URL description)",
+    "Official documentation or a highly reputable reference",
+    "A blog post or tutorial from a respected practitioner"
   ]
 }}
 
-RULES:
-- The level should reflect the inherent complexity of the topic, not the explanation depth.
-- The detailed_explanation should be the longest section — 3-5 substantial paragraphs.
-- Misconceptions should alternate between incorrect statements (is_correct: false) and correct counterpoints (is_correct: true). Include 4-6 items.
-- Related concepts should be real, searchable technical concepts that someone studying this topic would naturally explore next.
-- For further_reading, ONLY include resources you are highly confident exist. Generic descriptions are better than fabricated titles. 3-5 items.
-- All text should be plain text (no markdown formatting, no bullet markers, no asterisks).
-- Keep the analogy section engaging and extended — not just a one-liner."""
+STRICT RULES:
+- Output ONLY the JSON object. The very first character must be {{ and the last must be }}.
+- All field values must be plain text — no markdown, no asterisks, no bullet markers inside strings.
+- key_equations: include 2-5 equations relevant to the topic. For non-mathematical topics, include the closest quantitative relations (e.g. cost functions, ratios). If truly no equations apply, return an empty array [].
+- papers: only include real, well-known papers you are confident actually exist with correct titles, authors, and years. 2-4 papers.
+- videos: always include 2-3 video entries with realistic search queries. Use real channel names.
+- prerequisites: list 2-4 concepts someone should understand first.
+- detailed_explanation: this must be the longest section — minimum 4 paragraphs."""
