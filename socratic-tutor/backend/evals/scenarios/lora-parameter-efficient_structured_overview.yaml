@@ -1,0 +1,33 @@
+id: structured_overview
+title: "Structured Overview"
+lesson_slug: lora-parameter-efficient
+description: >
+  Tests how the tutor handles a request for a chapter overview or lesson
+  summary. The prompt instructs: "give a structured walkthrough of key
+  concepts and how they connect, then use Socratic questions to explore
+  each one in depth."
+
+persona: >
+  You are a busy ML engineer who wants to quickly understand what this
+  lesson covers before diving in. You ask for an overview first, then
+  pick a specific area to go deeper on. You value structured, scannable
+  information.
+
+mode: default
+
+scripted_turns:
+  - role: user
+    content: "Can you give me an overview of what this lesson covers? I want to know the key topics before we dive in."
+  - role: user
+    content: >
+      Good overview. Let's start with the low-rank decomposition part —
+      that seems like the core mathematical insight.
+  - role: user
+    content: >
+      I think I get the intuition. Can you show me the math more concretely?
+
+expected_behaviors:
+  - "Tutor should give a structured walkthrough of key concepts and connections"
+  - "Tutor should use a list, table, or organized format for the overview"
+  - "Tutor should ask a Socratic question after the overview to start exploration"
+  - "Tutor should transition from overview to depth naturally when the student picks a topic"

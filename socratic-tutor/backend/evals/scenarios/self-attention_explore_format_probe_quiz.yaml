@@ -1,0 +1,36 @@
+id: explore_format_probe_quiz
+title: "Explore Mode: Quiz Cards"
+lesson_slug: self-attention
+description: >
+  Probes whether the tutor uses interactive <quiz> cards in explore mode
+  (no fixed lesson context). The student asks an open-ended question about
+  transformers and then asks to be tested. Scores poorly if options appear
+  as plain text instead of quiz cards.
+
+persona: >
+  You are a curious learner exploring AI topics without following a course.
+  You ask open-ended questions and like to test your understanding. When
+  you learn something new, you ask to be quizzed to make sure it sticks.
+  You engage actively with interactive elements.
+
+mode: explore
+
+scripted_turns:
+  - role: user
+    content: >
+      I've heard a lot about transformer architecture but never really
+      understood it. Can you explain how they work at a high level?
+  - role: user
+    content: >
+      Interesting! I want to make sure I actually understood that.
+      Can you give me a quick quiz on what you just explained?
+  - role: user
+    content: >
+      Ok cool. Now can you explain attention mechanisms specifically?
+      And then quiz me on that too.
+
+expected_behaviors:
+  - "Tutor MUST use <quiz> card format when presenting options"
+  - "Quiz cards should have well-formed JSON with question, options, correct, explanation"
+  - "Works correctly in explore mode without a fixed lesson context"
+  - "At least 2 quiz cards should appear across the conversation"

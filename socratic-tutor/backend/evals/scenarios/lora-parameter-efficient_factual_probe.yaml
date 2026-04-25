@@ -1,0 +1,36 @@
+id: factual_probe
+title: "Factual Probe"
+lesson_slug: lora-parameter-efficient
+description: >
+  A student who asks specific factual questions about LoRA hyperparameters,
+  paper details, and implementation specifics. Tests factual accuracy and
+  whether the tutor avoids hallucinating numbers or citations.
+
+persona: >
+  You are a detail-oriented ML researcher. You want specific numbers,
+  paper references, and implementation details. You will ask follow-up
+  questions to verify claims. You appreciate precision and dislike
+  vague or hand-wavy answers.
+
+mode: default
+
+scripted_turns:
+  - role: user
+    content: >
+      What rank should I use for LoRA? What did the original paper by
+      Hu et al. recommend?
+  - role: user
+    content: >
+      What's the parameter savings formula? If I have a weight matrix
+      of size 4096x4096 and use rank 8, how many parameters does LoRA
+      add compared to full fine-tuning?
+  - role: user
+    content: >
+      What about QLoRA? How does quantization interact with the LoRA
+      adapters? What precision are the adapters kept at?
+
+expected_behaviors:
+  - "Tutor should give accurate rank recommendations (r=4 to r=64 common, r=8 typical)"
+  - "Tutor should correctly compute parameter savings (8*(4096+4096) = 65536 vs 16.7M)"
+  - "Tutor should accurately describe QLoRA (4-bit base, 16-bit adapters)"
+  - "Tutor should NOT hallucinate specific paper claims or numbers it's unsure about"

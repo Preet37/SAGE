@@ -1,0 +1,70 @@
+# Copy to Caddyfile and replace YOURDOMAIN with your real domain.
+# TLS is automatic (Let's Encrypt) when ports 80/443 are reachable.
+
+# Routing strategy: Several backend API prefixes (/explore, /projects, /quiz,
+# /concepts, /assess, /curriculum) collide with Next.js page routes at the same
+# path.  We split matchers into three tiers:
+#
+#   1. backend_safe  — API prefixes that do NOT match any frontend page route.
+#   2. backend_api   — specific API sub-paths under the colliding prefixes.
+#   3. backend_auth  — root-level API endpoints (like GET /projects) that fully
+#                      overlap frontend pages; distinguished by the presence of
+#                      an Authorization header (React fetch sends it, browser
+#                      page-load does not).
+
+YOURDOMAIN {
+	# --- Tier 1: No conflict with frontend pages ---
+	@backend_safe {
+		path /auth/*
+		path /learning-paths*
+		path /tutor/*
+		path /course-creator/*
+		path /api/*
+		path /health
+	}
+
+	# --- Tier 2: Specific API sub-paths under colliding prefixes ---
+	@backend_api {
+		path /explore/chat
+		path /explore/sessions
+		path /explore/sessions/*
+		path /quiz/topics*
+		path /quiz/generate*
+		path /quiz/sessions
+		path /quiz/sessions/*
+		path /concepts/suggestions*
+		path /concepts/search*
+		path /assess/latest*
+		path /assess/history*
+		path /curriculum/generate*
+		path /curriculum/latest*
+		path /curriculum/history*
+		path /progress/chat-history/*
+		path /progress/sessions/*
+	}
+
+	# --- Tier 3: Root-level overlaps, resolved by Authorization header ---
+	# API calls from the React app always include "Authorization: Bearer ..."
+	# Browser page navigation never does (token is in localStorage).
+	@backend_auth {
+		header Authorization *
+		path /projects
+		path /projects/*
+		path /assess
+		path /progress
+		path /progress/*
+	}
+
+	handle @backend_safe {
+		reverse_proxy backend:8000
+	}
+	handle @backend_api {
+		reverse_proxy backend:8000
+	}
+	handle @backend_auth {
+		reverse_proxy backend:8000
+	}
+	handle {
+		reverse_proxy frontend:3000
+	}
+}

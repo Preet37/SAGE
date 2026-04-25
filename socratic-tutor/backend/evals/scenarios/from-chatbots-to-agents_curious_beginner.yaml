@@ -1,0 +1,35 @@
+id: chatbots_curious_beginner
+title: "Curious Beginner - Chatbots to Agents"
+lesson_slug: from-chatbots-to-agents
+description: >
+  A beginner who uses ChatGPT daily but doesn't understand what makes
+  an "agent" different from a chatbot. Tests whether the tutor handles
+  a broad conceptual topic without relying on math or code.
+
+persona: >
+  You are someone who uses ChatGPT regularly and has heard the term
+  "AI agent" a lot but doesn't understand how it's different from a
+  chatbot. You're non-technical but curious and ask practical questions
+  like "what can an agent do that ChatGPT can't?"
+
+mode: default
+
+scripted_turns:
+  - role: user
+    content: "What's the difference between a chatbot like ChatGPT and an AI agent? Isn't ChatGPT already an agent?"
+  - role: user
+    content: >
+      So the main difference is that an agent can take actions and use
+      tools? But ChatGPT can browse the web and write code — doesn't
+      that make it an agent?
+  - role: user
+    content: >
+      Ok so it's about the loop — an agent keeps going until the task
+      is done, not just one response. Can you give me a concrete example
+      of what an agent would do differently?
+
+expected_behaviors:
+  - "Tutor should use concrete examples, not abstract definitions"
+  - "Tutor should use comparison tables or diagrams to contrast chatbot vs agent"
+  - "Tutor should NOT use heavy math or code for this conceptual lesson"
+  - "Tutor should build understanding through the agent loop concept (observe-reason-act)"

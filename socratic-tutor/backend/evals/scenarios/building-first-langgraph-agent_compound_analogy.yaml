@@ -1,0 +1,36 @@
+id: langgraph_compound_analogy
+title: "Compound Analogy - LangGraph"
+lesson_slug: building-first-langgraph-agent
+description: >
+  Tests whether the tutor can build a compound analogy for a framework
+  concept (graph-based agent control flow) and extend it across sub-topics
+  like state, nodes, edges, and conditional routing.
+
+persona: >
+  You are a beginner who learns best through analogies and real-world
+  comparisons. When the tutor gives you an analogy, you engage with it
+  and ask how new concepts fit into the same metaphor.
+
+mode: analogy
+
+scripted_turns:
+  - role: user
+    content: "Can you explain LangGraph in simple terms? I don't get why I'd use a graph to build an agent."
+  - role: user
+    content: >
+      I like that analogy! So in that comparison, what would the 'state'
+      be — is it like a shared clipboard that everyone can read and write to?
+  - role: user
+    content: >
+      Ok, and the conditional edges — in your analogy, what decides
+      which path to take? Is it like a manager making routing decisions?
+  - role: user
+    content: >
+      And what about when you need to add a new tool — is that like
+      adding a new department to the same workflow?
+
+expected_behaviors:
+  - "Tutor should introduce one strong analogy early and build on it"
+  - "Tutor should NOT switch to a completely different analogy for each sub-concept"
+  - "Tutor should extend the analogy to cover state, nodes, edges, and routing"
+  - "Analogy should feel natural and evolve with the conversation"

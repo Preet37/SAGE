@@ -1,0 +1,40 @@
+{
+  "title": "Attention Mechanisms in Deep Learning",
+  "description": "A focused course on attention mechanisms from Bahdanau to modern transformers.",
+  "modules": [
+    {
+      "title": "Foundations of Attention",
+      "lessons": [
+        {
+          "title": "The Attention Mechanism",
+          "slug": "the-attention-mechanism",
+          "summary": "How attention works in sequence-to-sequence models",
+          "concepts": ["attention mechanism", "bahdanau attention", "additive attention"]
+        },
+        {
+          "title": "Self-Attention and Keys/Queries/Values",
+          "slug": "self-attention-kqv",
+          "summary": "Understanding the self-attention computation",
+          "concepts": ["self-attention", "masked self-attention"]
+        }
+      ]
+    },
+    {
+      "title": "Multi-Head and Beyond",
+      "lessons": [
+        {
+          "title": "Multi-Head Attention",
+          "slug": "multi-head-attention",
+          "summary": "Running multiple attention heads in parallel",
+          "concepts": ["multi-head attention", "grouped query attention"]
+        },
+        {
+          "title": "The Transformer Architecture",
+          "slug": "the-transformer-architecture",
+          "summary": "Putting it all together: encoder-decoder with attention",
+          "concepts": ["transformer", "positional encoding", "cross-attention"]
+        }
+      ]
+    }
+  ]
+}

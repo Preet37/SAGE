@@ -1,0 +1,9 @@
+{
+  "concept_verdicts": {
+    "attention mechanism": {"verdict": "covered", "evidence": "Detailed in Illustrated Transformer"},
+    "bahdanau attention": {"verdict": "covered", "evidence": "Covered in Paperspace blog"},
+    "additive attention": {"verdict": "thin", "evidence": "Mentioned briefly but not explained"}
+  },
+  "lesson_verdict": "needs_research",
+  "research_topics": ["additive attention mechanisms", "alignment models in seq2seq"]
+}

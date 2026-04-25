@@ -1,0 +1,8 @@
+{
+  "content": "## The Attention Mechanism\n\nAttention allows neural networks to focus on relevant parts of the input...\n\n### Bahdanau Attention\n\nThe original attention mechanism was proposed by Bahdanau et al.\n\n## Recommended Reading\n- The Illustrated Transformer by Jay Alammar",
+  "summary": "How attention works in sequence-to-sequence models",
+  "concepts": ["attention mechanism", "bahdanau attention"],
+  "sources_used": ["jalammar-illustrated-transformer.md"],
+  "youtube_id": "eMlx5fFNoYc",
+  "video_title": "Attention in transformers, visually explained"
+}

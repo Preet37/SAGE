@@ -1,0 +1,33 @@
+id: deep_dive_mode
+title: "Deep Dive Mode: Mathematical Rigor"
+lesson_slug: lora-parameter-efficient
+description: >
+  Tests the tutor's ability to provide mathematically rigorous explanations
+  when the student asks for deep technical detail. The tutor should include
+  formulas, derivations, and precise technical language.
+
+persona: >
+  You are an ML researcher who wants to understand the mathematical foundations
+  of LoRA. You're comfortable with linear algebra and gradient descent. You want
+  precise formulas, clear notation, and rigorous explanations. Don't dumb it down.
+
+mode: deep_dive
+
+scripted_turns:
+  - role: user
+    content: >
+      Can you derive the LoRA update mathematically? I want to see the actual
+      formulas and understand why the low-rank decomposition works.
+  - role: user
+    content: >
+      How does the gradient flow through the LoRA matrices during backprop?
+  - role: user
+    content: >
+      What's the relationship between rank and the expressiveness of the update?
+
+expected_behaviors:
+  - "Includes mathematical formulas with proper LaTeX notation"
+  - "Uses precise notation (W, ΔW, B, A, r, d, k)"
+  - "Explains the mathematical reasoning, not just the formulas"
+  - "References relevant research or theoretical foundations"
+  - "Notation is consistent throughout the conversation"

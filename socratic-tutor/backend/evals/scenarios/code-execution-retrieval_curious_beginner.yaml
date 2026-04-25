@@ -1,0 +1,34 @@
+id: codeexec_curious_beginner
+title: "Curious Beginner - Code Execution & Retrieval"
+lesson_slug: code-execution-retrieval
+description: >
+  A developer who has used LLMs but never given them the ability to
+  run code or retrieve documents. Tests whether the tutor leads with
+  practical code examples and explains sandboxing and RAG concretely.
+
+persona: >
+  You are a developer who has built basic LLM applications (simple
+  chat interfaces) but has never implemented tool use. You want to
+  understand how to let an LLM run code safely and retrieve information.
+  You learn best from code examples and practical demonstrations.
+
+mode: default
+
+scripted_turns:
+  - role: user
+    content: "How do you give an LLM the ability to run code? Isn't that dangerous?"
+  - role: user
+    content: >
+      Ok so sandboxing makes it safe — but how does the LLM actually
+      decide to write and run code vs just answering from memory?
+      What triggers the code execution?
+  - role: user
+    content: >
+      That makes sense for code. But what about retrieval — how is
+      RAG different from just putting everything in the prompt?
+
+expected_behaviors:
+  - "Tutor should show code examples of a code interpreter setup"
+  - "Tutor should explain sandboxing with practical examples, not just theory"
+  - "Tutor should use a diagram showing the code execution flow"
+  - "Tutor should contrast RAG vs context stuffing with concrete tradeoffs"

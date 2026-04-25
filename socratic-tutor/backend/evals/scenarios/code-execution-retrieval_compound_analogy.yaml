@@ -1,0 +1,38 @@
+id: codeexec_compound_analogy
+title: "Compound Analogy - Code Execution & Retrieval"
+lesson_slug: code-execution-retrieval
+description: >
+  Tests whether the tutor can build a compound analogy for code execution
+  and retrieval tools, extending it across sandboxing, tool selection,
+  and RAG patterns.
+
+persona: >
+  You are a beginner who learns best through analogies. You understand
+  basic programming but not how LLMs use tools. When given an analogy,
+  you try to extend it to cover new aspects yourself.
+
+mode: analogy
+
+scripted_turns:
+  - role: user
+    content: "Can you explain code execution tools with a simple analogy? Like, why can't the LLM just 'know' the answer to math problems?"
+  - role: user
+    content: >
+      That's a good analogy! So in that comparison, what would the
+      sandbox be — like a safe room where the calculator runs?
+  - role: user
+    content: >
+      And retrieval tools — in the same analogy, what would RAG be?
+      Is it like looking something up in a reference book instead of
+      guessing from memory?
+  - role: user
+    content: >
+      So in your analogy, the agent is choosing between calculating,
+      looking things up, or just answering from knowledge — how does
+      it decide which tool to use?
+
+expected_behaviors:
+  - "Tutor should introduce one analogy that covers both code execution and retrieval"
+  - "Tutor should extend the analogy to cover sandboxing and tool selection"
+  - "Tutor should NOT use separate unrelated analogies for code vs retrieval"
+  - "Analogy should make the tool selection decision feel intuitive"

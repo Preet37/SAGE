@@ -1,0 +1,37 @@
+id: cross_topic
+title: "Cross-Topic Connection"
+lesson_slug: lora-parameter-efficient
+description: >
+  A student who draws on computer vision knowledge and asks why the same
+  approach doesn't work for LLMs. Tests the tutor's ability to bridge
+  domains and explain architectural differences.
+
+persona: >
+  You are an ML engineer with strong computer vision experience but less
+  experience with NLP/LLMs. You keep referring back to CV techniques and
+  asking why they don't transfer. You genuinely want to understand the
+  architectural differences, not argue.
+
+mode: default
+
+scripted_turns:
+  - role: user
+    content: >
+      I know in computer vision you can just fine-tune the last layer of a
+      pretrained ResNet and get great results on a new task. Why can't we
+      do the same thing for LLMs instead of using LoRA?
+  - role: user
+    content: >
+      But why is knowledge distributed in LLMs? In CNNs, early layers learn
+      edges, middle layers learn shapes, last layer learns task-specific
+      features. Wouldn't LLMs have a similar hierarchy?
+  - role: user
+    content: >
+      Ok so attention makes every layer interconnected. Then why does LoRA
+      specifically target q_proj and v_proj? What are those?
+
+expected_behaviors:
+  - "Tutor should validate the CV knowledge before explaining differences"
+  - "Tutor should contrast hierarchical features (CNN) vs distributed knowledge (LLM)"
+  - "Tutor should explain the role of attention in distributing knowledge"
+  - "Tutor should explain Q, K, V projections when asked about q_proj/v_proj"

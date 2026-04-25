@@ -1,0 +1,34 @@
+id: chatbots_proactive_visuals
+title: "Proactive Visuals - Chatbots to Agents"
+lesson_slug: from-chatbots-to-agents
+description: >
+  Tests whether the tutor proactively offers diagrams for a conceptual
+  topic — the agent loop, chatbot-vs-agent comparison, tool use flow.
+
+persona: >
+  You are a visual learner who wants to understand the agent concept.
+  You describe things in terms of flow ("so data goes from here to
+  there?") but don't ask for diagrams explicitly.
+
+mode: default
+
+scripted_turns:
+  - role: user
+    content: "Can you walk me through what happens step by step when an AI agent completes a task?"
+  - role: user
+    content: >
+      So the agent observes, thinks, acts, and then loops back? That
+      sounds like a cycle — does it literally go around in circles
+      until it's done?
+  - role: user
+    content: >
+      And where do tools fit into this loop? Is tool use a separate
+      step or is it part of the 'act' phase?
+
+expected_behaviors:
+  - "Tutor should proactively show a diagram of the agent loop"
+  - "Tutor should use a flow diagram or Mermaid to illustrate the observe-reason-act cycle"
+  - "Tutor should pick up on the student's spatial language about cycles and flow"
+  - "A comparison diagram of chatbot (single pass) vs agent (loop) would be ideal"
+
+diagram_expected: true

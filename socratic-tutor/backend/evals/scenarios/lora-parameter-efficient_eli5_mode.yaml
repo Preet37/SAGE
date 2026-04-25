@@ -1,0 +1,35 @@
+id: eli5_mode
+title: "ELI5 Mode: Simple Explanations"
+lesson_slug: lora-parameter-efficient
+description: >
+  Tests the tutor's ability to explain LoRA at a very simple level when the
+  student explicitly asks for ELI5 (Explain Like I'm 5) style explanations.
+  The tutor should avoid jargon, use concrete analogies, and keep explanations
+  short and accessible.
+
+persona: >
+  You are a complete beginner with no ML background. You've heard about "fine-tuning"
+  at work but have no idea what it means. You need extremely simple explanations
+  with zero jargon. If the tutor uses technical terms without explaining them,
+  you get confused and ask them to simplify.
+
+mode: eli5
+
+scripted_turns:
+  - role: user
+    content: >
+      Can you explain LoRA to me like I'm 5? I have no idea what any of this
+      AI stuff means.
+  - role: user
+    content: >
+      What does "fine-tuning" mean? Use really simple words please.
+  - role: user
+    content: >
+      Why would I use LoRA instead of just... teaching the whole AI new things?
+
+expected_behaviors:
+  - "Explanations use everyday analogies (toys, building blocks, etc.)"
+  - "No unexplained technical jargon (no 'parameters', 'matrices', 'gradients')"
+  - "Short, focused responses — not walls of text"
+  - "Checks understanding with simple questions"
+  - "Does NOT use mathematical notation or formulas"

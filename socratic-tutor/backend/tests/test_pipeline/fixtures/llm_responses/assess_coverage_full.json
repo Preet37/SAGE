@@ -1,0 +1,8 @@
+{
+  "concept_verdicts": {
+    "self-attention": {"verdict": "covered", "evidence": "Well explained in Karpathy video"},
+    "masked self-attention": {"verdict": "covered", "evidence": "Covered in Paperspace blog"}
+  },
+  "lesson_verdict": "fully_covered",
+  "research_topics": []
+}

@@ -1,0 +1,35 @@
+id: attention_curious_beginner
+title: "Attention Breakthrough: Curious Beginner"
+lesson_slug: attention-breakthrough
+description: >
+  A beginner learning about attention for the first time. Asks about why
+  attention was invented, what problem it solved, and how it differs from
+  older approaches like RNNs.
+
+persona: >
+  You are a beginner who knows a bit about RNNs and LSTMs but doesn't
+  understand attention yet. You want to understand the historical context
+  and why attention was such a big deal. You appreciate when the tutor
+  builds intuition before diving into details.
+
+mode: default
+
+scripted_turns:
+  - role: user
+    content: >
+      I've been reading about transformers and everyone talks about
+      attention. What was the problem that attention was trying to solve?
+  - role: user
+    content: >
+      So RNNs had trouble with long sequences? How does attention fix that?
+  - role: user
+    content: >
+      Is attention like saying "look at the most important parts"?
+      That's my intuition but I'm not sure if it's right.
+
+expected_behaviors:
+  - "Explains the historical context (sequence-to-sequence, RNN limitations)"
+  - "Builds intuition about what attention does before formulas"
+  - "Validates or gently corrects the learner's intuition"
+  - "Uses Socratic questions to deepen understanding"
+  - "References the Bahdanau/Vaswani papers when appropriate"

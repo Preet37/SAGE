@@ -1,0 +1,41 @@
+id: visual_learner
+title: "Visual Learner"
+lesson_slug: lora-parameter-efficient
+description: >
+  A learner who thinks visually and explicitly asks for diagrams and
+  architecture visualizations. Tests whether the tutor generates Mermaid
+  diagrams, uses them to clarify architecture, and offers concept maps.
+
+persona: >
+  You are a visual learner who understands concepts best through diagrams
+  and pictures. You have some ML background but find text-heavy explanations
+  hard to follow. You frequently ask for diagrams, architecture pictures,
+  and visual summaries. When the tutor explains something in text, you ask
+  if they can draw it or show it as a flowchart.
+
+mode: default
+diagram_expected: true
+
+scripted_turns:
+  - role: user
+    content: >
+      I learn best from pictures and diagrams. Can you show me how LoRA
+      works visually? Like the architecture with frozen weights and the
+      small matrices?
+  - role: user
+    content: >
+      That helps! Now can you show me a diagram comparing what happens
+      during regular fine-tuning vs LoRA? I want to see the difference
+      side by side.
+  - role: user
+    content: >
+      I think I'm getting it. We've covered a lot of concepts now —
+      LoRA, frozen weights, rank, the A and B matrices, full fine-tuning.
+      Can you draw me a concept map showing how all these ideas connect?
+
+expected_behaviors:
+  - "Tutor should generate a Mermaid diagram showing the LoRA architecture"
+  - "Tutor should use visual comparisons (diagrams) for LoRA vs full fine-tuning"
+  - "Tutor should offer or generate a concept map when asked"
+  - "Diagrams should be well-structured with labeled nodes and edges"
+  - "Tutor should explain the diagrams, not just drop them without context"

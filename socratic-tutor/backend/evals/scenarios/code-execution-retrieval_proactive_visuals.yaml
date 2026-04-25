@@ -1,0 +1,34 @@
+id: codeexec_proactive_visuals
+title: "Proactive Visuals - Code Execution & Retrieval"
+lesson_slug: code-execution-retrieval
+description: >
+  Tests whether the tutor proactively offers architecture diagrams for
+  code execution pipelines and RAG retrieval flows.
+
+persona: >
+  You are a developer who thinks in terms of system architecture and
+  data flow. You describe things spatially but don't ask for diagrams.
+  You want to understand the end-to-end pipeline.
+
+mode: default
+
+scripted_turns:
+  - role: user
+    content: "Walk me through what happens end-to-end when an agent runs code to answer a question."
+  - role: user
+    content: >
+      So the LLM generates code, sends it to a sandbox, gets the output
+      back, and then uses that to formulate the answer? That's like a
+      round trip through multiple systems.
+  - role: user
+    content: >
+      And for retrieval — does the agent decide when to search, or
+      does it always search before answering?
+
+expected_behaviors:
+  - "Tutor should proactively show an architecture diagram of the code execution pipeline"
+  - "Tutor should use a flow diagram showing LLM → sandbox → result → response"
+  - "Tutor should pick up on the student's 'round trip' framing"
+  - "A comparison of code-execution vs retrieval flows would be ideal"
+
+diagram_expected: true

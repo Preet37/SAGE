@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Building an AI-First Tutor — Architecture of a Multimodal Learning System</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap">
+<style>
+:root {
+  --nv-green: #76b900;
+  --nv-green-dark: #5a8a00;
+  --nv-bg-dark: #1a1a2e;
+  --nv-bg-darker: #0f0f1a;
+  --nv-surface: #252540;
+  --nv-text: #e8e8f0;
+  --nv-text-dim: #9999b0;
+  --nv-accent-blue: #4a9eff;
+  --nv-accent-amber: #ffb347;
+  --nv-accent-red: #ff6b6b;
+  --nv-accent-purple: #b380ff;
+}
+
+.reveal {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 32px;
+  color: var(--nv-text);
+}
+
+.reveal .slides { text-align: left; }
+
+.reveal .slides section {
+  padding: 40px 60px;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.reveal h1 {
+  font-size: 2.4em;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 0.4em;
+  color: #fff;
+  text-transform: none;
+  letter-spacing: -0.02em;
+}
+
+.reveal h2 {
+  font-size: 1.6em;
+  font-weight: 700;
+  margin-bottom: 0.5em;
+  color: #fff;
+  text-transform: none;
+  letter-spacing: -0.01em;
+}
+
+.reveal h3 {
+  font-size: 1.15em;
+  font-weight: 600;
+  color: var(--nv-green);
+  text-transform: none;
+  margin-bottom: 0.4em;
+}
+
+.reveal p, .reveal li {
+  font-size: 0.72em;
+  line-height: 1.6;
+  color: var(--nv-text);
+  font-weight: 400;
+}
+
+.reveal ul { list-style: none; padding-left: 0; margin: 0; }
+.reveal ul li { padding-left: 1.4em; position: relative; margin-bottom: 0.5em; }
+.reveal ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--nv-green);
+}
+
+.reveal .slides section.hero-slide {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.reveal .slides section.hero-slide h1 {
+  font-size: 2.8em;
+  max-width: 14em;
+}
+
+.subtitle {
+  font-size: 0.85em !important;
+  color: var(--nv-text-dim) !important;
+  font-weight: 300;
+  margin-top: 0.3em;
+}
+
+.speaker-note {
+  font-size: 0.5em !important;
+  color: var(--nv-text-dim) !important;
+  font-style: italic;
+  margin-top: 1.5em;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 0.8em;
+}
+
+.green { color: var(--nv-green) !important; }
+.blue { color: var(--nv-accent-blue) !important; }
+.amber { color: var(--nv-accent-amber) !important; }
+.red { color: var(--nv-accent-red) !important; }
+.purple { color: var(--nv-accent-purple) !important; }
+.dim { color: var(--nv-text-dim) !important; }
+.bold { font-weight: 700; }
+.big-number { font-size: 2.5em !important; font-weight: 800; color: var(--nv-green); line-height: 1; }
+
+.card {
+  background: var(--nv-surface);
+  border-radius: 12px;
+  padding: 24px 28px;
+  margin: 12px 0;
+  border-left: 4px solid var(--nv-green);
+}
+
+.card.blue-card { border-left-color: var(--nv-accent-blue); }
+.card.amber-card { border-left-color: var(--nv-accent-amber); }
+.card.red-card { border-left-color: var(--nv-accent-red); }
+.card.purple-card { border-left-color: var(--nv-accent-purple); }
+
+.card h3 { margin-top: 0; font-size: 0.9em; }
+.card p, .card li { font-size: 0.65em; }
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.three-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.pipeline-flow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+
+.pipeline-step {
+  background: var(--nv-surface);
+  border-radius: 8px;
+  padding: 12px 18px;
+  font-size: 0.6em;
+  font-weight: 600;
+  color: var(--nv-text);
+  white-space: nowrap;
+}
+
+.pipeline-step.active {
+  background: var(--nv-green);
+  color: #000;
+}
+
+.pipeline-arrow {
+  font-size: 0.7em;
+  color: var(--nv-text-dim);
+}
+
+.question-box {
+  background: linear-gradient(135deg, rgba(76,158,255,0.12), rgba(118,185,0,0.08));
+  border: 1px solid rgba(76,158,255,0.3);
+  border-radius: 12px;
+  padding: 28px 32px;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.question-box p {
+  font-size: 0.9em !important;
+  font-weight: 500;
+  color: #fff !important;
+  font-style: italic;
+  margin: 0;
+}
+
+.stat-row {
+  display: flex;
+  gap: 40px;
+  margin: 20px 0;
+}
+
+.stat-item { text-align: center; }
+.stat-item .big-number { display: block; margin-bottom: 4px; }
+.stat-item .label {
+  font-size: 0.55em !important;
+  color: var(--nv-text-dim) !important;
+  font-weight: 500;
+}
+
+.modality-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.modality-item {
+  background: var(--nv-surface);
+  border-radius: 10px;
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.modality-icon {
+  font-size: 1.4em;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(118,185,0,0.15);
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.modality-item h4 {
+  margin: 0 0 2px 0;
+  font-size: 0.65em;
+  font-weight: 600;
+  color: #fff;
+}
+
+.modality-item p {
+  margin: 0;
+  font-size: 0.5em !important;
+  line-height: 1.4;
+  color: var(--nv-text-dim) !important;
+}
+
+.tier-bar {
+  display: flex;
+  align-items: stretch;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 16px 0;
+  height: 80px;
+}
+
+.tier-segment {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 20px;
+}
+
+.tier-segment h4 {
+  margin: 0;
+  font-size: 0.55em;
+  font-weight: 700;
+  color: #fff;
+}
+
+.tier-segment p {
+  margin: 2px 0 0 0;
+  font-size: 0.42em !important;
+  color: rgba(255,255,255,0.7) !important;
+}
+
+.tier-1 { background: var(--nv-green); flex: 2; }
+.tier-1 h4, .tier-1 p { color: #000 !important; }
+.tier-2 { background: var(--nv-accent-blue); flex: 2; }
+.tier-3 { background: var(--nv-accent-purple); flex: 1.5; }
+
+.closing-quote {
+  font-size: 1.1em !important;
+  font-weight: 600;
+  color: #fff !important;
+  line-height: 1.5;
+  max-width: 16em;
+  border-left: 4px solid var(--nv-green);
+  padding-left: 28px;
+  margin: 0;
+}
+
+.tag {
+  display: inline-block;
+  background: rgba(118,185,0,0.15);
+  color: var(--nv-green);
+  font-size: 0.5em;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-right: 6px;
+  margin-bottom: 6px;
+}
+
+.tag.blue-tag { background: rgba(74,158,255,0.15); color: var(--nv-accent-blue); }
+.tag.amber-tag { background: rgba(255,179,71,0.15); color: var(--nv-accent-amber); }
+.tag.purple-tag { background: rgba(179,128,255,0.15); color: var(--nv-accent-purple); }
+
+.footer-bar {
+  position: absolute;
+  bottom: 20px;
+  left: 60px;
+  right: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.45em;
+  color: var(--nv-text-dim);
+}
+
+/* code block style */
+.code-block {
+  background: var(--nv-bg-darker);
+  border-radius: 8px;
+  padding: 16px 20px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 0.58em;
+  color: var(--nv-text);
+  overflow-x: auto;
+  margin: 12px 0;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.code-block .kw { color: var(--nv-accent-purple); }
+.code-block .fn { color: var(--nv-accent-blue); }
+.code-block .str { color: var(--nv-green); }
+.code-block .cm { color: var(--nv-text-dim); }
+
+.reveal .slide-number { font-family: 'Inter', sans-serif; font-size: 14px; }
+
+/* Ensure vertical slides background */
+.reveal .slides section { background: var(--nv-bg-dark); }
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ============================================================ -->
+<!-- SLIDE 1: TITLE -->
+<!-- ============================================================ -->
+<section class="hero-slide" data-background-color="#0f0f1a">
+  <div>
+    <p style="font-size:0.55em; color:var(--nv-green); font-weight:600; letter-spacing:0.1em; margin-bottom:0.3em;">MULTIMODAL AI CONFERENCE &middot; UCLA 2026</p>
+    <h1>Building an AI-First Tutor</h1>
+    <p class="subtitle">Architecture of a Multimodal Learning System</p>
+    <div style="margin-top:2em;">
+      <p style="font-size:0.6em; color:var(--nv-text-dim); margin:0;">Pratik Mehta</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 2: THE HOOK -->
+<!-- ============================================================ -->
+<section data-background-color="#1a1a2e">
+  <h1 style="font-size:2.2em; text-align:center; margin-top:1em;">Every LLM can <span class="green">explain</span> attention mechanisms.</h1>
+  <h1 style="font-size:2.2em; text-align:center; margin-top:0.2em;">None of them can <span class="blue">teach</span> it.</h1>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 3: THE GAP -->
+<!-- ============================================================ -->
+<section data-background-color="#1a1a2e">
+  <h2>Answering &ne; Teaching</h2>
+  <div class="two-col" style="margin-top:24px;">
+    <div>
+      <div class="card red-card">
+        <h3 class="red">What ChatGPT does</h3>
+        <ul>
+          <li>Dumps the correct answer immediately</li>
+          <li>No awareness of what you already know</li>
+          <li>Cites training data &mdash; or hallucinates URLs</li>
+          <li>No curriculum &mdash; every question is standalone</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <h3 class="green">What a tutor does</h3>
+        <ul>
+          <li>Probes understanding before explaining</li>
+          <li>Adapts to gaps in your knowledge</li>
+          <li>Grounds answers in curated, verified sources</li>
+          <li>Tracks progress across a full curriculum</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <p style="text-align:center; margin-top:28px; font-size:0.8em; font-weight:600; color:#fff;">An AI-first tutor is not a chatbot with a textbook &mdash;<br>it's a <span class="green">pipeline of specialized AI systems</span>.</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 4: WHAT WE BUILT — NUMBERS -->
+<!-- ============================================================ -->
+<section data-background-color="#1a1a2e">
+  <h2>What We Built</h2>
+  <p class="subtitle">SocraticTutor &mdash; a wiki-first, LLM-powered learning platform</p>
+  <div class="stat-row" style="justify-content:center; margin-top:40px;">
+    <div class="stat-item">
+      <span class="big-number">51</span>
+      <span class="label">Wiki Topics</span>
+    </div>
+    <div class="stat-item">
+      <span class="big-number" style="color:var(--nv-accent-blue);">466+</span>
+      <span class="label">Curated Sources</span>
+    </div>
+    <div class="stat-item">
+      <span class="big-number" style="color:var(--nv-accent-amber);">74</span>
+      <span class="label">Lessons Generated</span>
+    </div>
+    <div class="stat-item">
+      <span class="big-number" style="color:var(--nv-accent-purple);">1,499+</span>
+      <span class="label">Annotated Images</span>
+    </div>
+  </div>
+  <div style="text-align:center; margin-top:32px;">
+    <span class="tag">FastAPI</span>
+    <span class="tag blue-tag">Next.js</span>
+    <span class="tag amber-tag">GPT-5.2</span>
+    <span class="tag purple-tag">Perplexity Search</span>
+    <span class="tag">SQLite</span>
+    <span class="tag blue-tag">SSE Streaming</span>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 5: LIVE DEMO INTRO -->
+<!-- ============================================================ -->
+<section class="hero-slide" data-background-color="#0f0f1a">
+  <div>
+    <p style="font-size:0.65em; color:var(--nv-green); font-weight:600; letter-spacing:0.08em;">ACT 2</p>
+    <h1 style="font-size:2.4em;">Live Demo</h1>
+    <p class="subtitle">The student experience</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 6: DEMO WALKTHROUGH -->
+<!-- ============================================================ -->
+<section data-background-color="#1a1a2e">
+  <h2>Demo: Learning Multimodal AI</h2>
+  <div class="two-col">
+    <div>
+      <div class="card" style="border-left-color:var(--nv-accent-blue);">
+        <h3 class="blue">What to watch for</h3>
+        <ul>
+          <li><strong>Chat-first layout</strong> &mdash; tutor is center stage, notes are reference</li>
+          <li><strong>Socratic response</strong> &mdash; asks back instead of dumping answers</li>
+          <li><strong>Inline images</strong> &mdash; curated diagrams with teaching context</li>
+          <li><strong>Quiz cards</strong> &mdash; interactive assessment mid-conversation</li>
+          <li><strong>Mermaid diagrams</strong> &mdash; generated architecture visuals</li>
+          <li><strong>Explore mode</strong> &mdash; cross-curriculum without a fixed lesson</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <h3 class="green">Key takeaway</h3>
+        <p style="font-size:0.72em !important; line-height:1.6; color:#fff !important;">
+          This isn't a wrapper around<br>
+          <code style="background:var(--nv-bg-darker); padding:3px 8px; border-radius:4px; font-size:0.85em;">openai.chat.completions.create</code>
+        </p>
+        <p>Something deeper is happening underneath.</p>
+      </div>
+      <div class="card amber-card" style="margin-top:16px;">
+        <h3 class="amber">Course: Intro to Multi-Modal AI</h3>
+        <p>12 lessons covering vision-language models, image generation, audio/speech, video understanding, and document AI.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 7: FIVE DECISIONS INTRO -->
+<!-- ============================================================ -->
+<section class="hero-slide" data-background-color="#0f0f1a">
+  <div>
+    <p style="font-size:0.65em; color:var(--nv-green); font-weight:600; letter-spacing:0.08em;">ACT 3</p>
+    <h1 style="font-size:2.2em;">Five Design Decisions</h1>
+    <p class="subtitle">If you were building this, what would you do?</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 8: DECISION 1 — QUESTION -->
+<!-- ============================================================ -->
+<section data-background-color="#1a1a2e">
+  <h2><span class="dim">Decision 1</span></h2>
+  <h2>Where does knowledge come from?</h2>
+  <div class="question-box">
+    <p>"Your tutor needs to explain LoRA. Do you&hellip;"</p>
+  </div>
+  <div class="three-col" style="margin-top:24px;">
+    <div class="card red-card">
+      <h3>(a) LLM training data</h3>
+      <p>Fast. But unverifiable. May hallucinate citations. Stale by months.</p>
+    </div>
+    <div class="card amber-card">
+      <h3>(b) RAG over papers</h3>
+      <p>Grounded. But noisy retrieval. Teaching quality depends on what you indexed.</p>
+    </div>
+    <div class="card">
+      <h3>(c) Something else</h3>
+      <p>&hellip;</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 9: DECISION 1 — ANSWER -->
+<!-- ============================================================ -->
+<section data-background-color="#1a1a2e">
+  <h2><span class="green">Decision 1</span> &mdash; Wiki-First Architecture</h2>
+  <div class="two-col">
+    <div>
+      <p style="font-size:0.75em; color:#fff; font-weight:500;">A curated knowledge base organized for teaching, not just retrieval.</p>
+      <div class="card" style="margin-top:16px;">
+        <h3>Two tracks per topic</h3>
+        <ul>
+          <li><span class="green bold">Pedagogy track</span> &mdash; how to teach it (analogies, visuals, common misconceptions)</li>
+          <li><span class="blue bold">Reference track</span> &mdash; precision facts (formulas, benchmarks, API details)</li>
+        </ul>
+      </div>
+      <div class="card blue-card" style="margin-top:12px;">
+        <h3>Why it matters</h3>
+        <ul>
+          <li>Citation validation catches hallucinated URLs</li>
+          <li>Wiki grows with every new course created</li>
+          <li>Sources are curated by an LLM curator + reviewer pipeline</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="code-block" style="font-size:0.5em;">
+<span class="cm">content/pedagogy-wiki/</span>
+├── concept-map.md          <span class="cm"># 51 topics, 517 concepts</span>
+├── educators/              <span class="cm"># 15 educator profiles</span>
+└── resources/by-topic/
+    └── <span class="fn">attention-mechanism</span>/
+        ├── attention.md    <span class="cm"># topic overview</span>
+        ├── <span class="str">jay-alammar-illustrated.md</span>
+        ├── <span class="str">vaswani-et-al-2017.md</span>
+        ├── proposals.json  <span class="cm"># curation decisions</span>
+        ├── images/
+        │   └── images.json <span class="cm"># annotated by vision LLM</span>
+        └── reference/
+            ├── <span class="str">pytorch-mha-docs.md</span>
+            └── <span class="str">pytorch-mha-docs.card.md</span>  <span class="cm"># distilled card</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 10: DECISION 2 — QUESTION -->
+<!-- ============================================================ -->
+<section data-background-color="#1a1a2e">
+  <h2><span class="dim">Decision 2</span></h2>
+  <h2>How do you turn knowledge into a course?</h2>
+  <div class="question-box">
+    <p>"You have 466 sources. A creator says 'make me a course on attention mechanisms.' Now what?"</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 11: DECISION 2 — ANSWER -->
+<!-- ============================================================ -->
+<section data-background-color="#1a1a2e">
+  <h2><span class="green">Decision 2</span> &mdash; 7-Stage Pipeline</h2>
+  <div class="pipeline-flow">
+    <div class="pipeline-step">1. Wiki Readiness</div>
+    <span class="pipeline-arrow">&rarr;</span>
+    <div class="pipeline-step">2. Outline</div>
+    <span class="pipeline-arrow">&rarr;</span>
+    <div class="pipeline-step active">3. Coverage</div>
+    <span class="pipeline-arrow">&rarr;</span>
+    <div class="pipeline-step active">4. Enrichment</div>
+    <span class="pipeline-arrow">&rarr;</span>
+    <div class="pipeline-step">5. Generation</div>
+    <span class="pipeline-arrow">&rarr;</span>
+    <div class="pipeline-step">6. Resources</div>
+    <span class="pipeline-arrow">&rarr;</span>
+    <div class="pipeline-step">7. Validation</div>
+  </div>
+  <div class="two-col" style="margin-top:16px;">
+    <div>
+      <div class="card">
+        <h3>The enrichment step (stages 3-4)</h3>
+        <ul>
+          <li>LLM assesses concept-level coverage: <span class="green">covered</span> / <span class="amber">thin</span> / <span class="red">missing</span></li>
+          <li>Generates targeted search queries for gaps</li>
+          <li>Curates best sources (curator + reviewer audit loop)</li>
+          <li>Downloads, indexes, extracts reference cards</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card purple-card">
+        <h3 class="purple">Multimodal tie-in</h3>
+        <ul>
+          <li>Image pipeline extracts diagrams from HTML sources</li>
+          <li>Vision LLM annotates each image: caption, concepts, teaching value, "when to show"</li>
+          <li>Cross-topic deduplication saved 430 MB</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 12: DECISION 3 — QUESTION -->
+<!-- ============================================================ -->
+<section data-background-color="#1a1a2e">
+  <h2><span class="dim">Decision 3</span></h2>
+  <h2>How do you make it actually <em>teach</em>?</h2>
+  <div class="question-box">
+    <p>"You have great content. But the LLM still just&hellip; answers. How do you make it Socratic?"</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 13: DECISION 3 — ANSWER -->
+<!-- ============================================================ -->
+<section data-background-color="#1a1a2e">
+  <h2><span class="green">Decision 3</span> &mdash; Two-Layer Knowledge</h2>
+  <div class="two-col">
+    <div>
+      <div class="card">
+        <h3>Student Notes <span class="dim" style="font-weight:400;">(what learners read)</span></h3>
+        <ul>
+          <li>Narrative-driven, varied openings</li>
+          <li>Analogies when they clarify, not forced</li>
+          <li>LaTeX math, code examples, comparison tables</li>
+          <li>Recommended reading at the end</li>
+        </ul>
+      </div>
+      <div class="card blue-card" style="margin-top:12px;">
+        <h3>Reference KB <span class="dim" style="font-weight:400;">(what the tutor consults)</span></h3>
+        <ul>
+          <li>Teaching approaches (intuitive / technical / analogy)</li>
+          <li>Common misconceptions with corrections</li>
+          <li>Socratic question bank</li>
+          <li>"Show when" guidance for visuals and resources</li>
+          <li>Key formulas and empirical results</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <h3 style="margin-top:8px;">Tutor toolkit &mdash; 7 tools</h3>
+      <div class="card" style="padding:16px 20px;">
+        <p style="font-size:0.58em !important; margin:0; line-height:2;">
+          <span class="tag">search_web</span>
+          <span class="tag blue-tag">get_lesson_context</span>
+          <span class="tag">get_relevant_images</span>
+          <span class="tag amber-tag">get_curated_resources</span>
+          <span class="tag purple-tag">get_lesson_reference_kb</span>
+          <span class="tag blue-tag">get_lesson_transcript</span>
+          <span class="tag">search_curriculum</span>
+        </p>
+      </div>
+      <p style="margin-top:16px; font-size:0.68em;">The LLM decides <strong>when</strong> to use each tool based on the conversation context &mdash; not hardcoded rules.</p>
+      <p style="font-size:0.68em;">System prompt enforces Socratic behavior: <em>"Probe understanding before explaining. Ask a question before giving an answer."</em></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 14: DECISION 4 — QUESTION -->
+<!-- ============================================================ -->
+<section data-background-color="#1a1a2e">
+  <h2><span class="dim">Decision 4</span></h2>
+  <h2>Where does multimodal actually matter?</h2>
+  <div class="question-box">
+    <p>"The conference theme is Multimodal AI. But where does it matter in a tutor?"</p>
+  </div>
+  <p style="text-align:center; margin-top:20px; font-size:0.7em;">Hint: it's not about one flashy modality.</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 15: DECISION 4 — ANSWER -->
+<!-- ============================================================ -->
+<section data-background-color="#1a1a2e">
+  <h2><span class="green">Decision 4</span> &mdash; Orchestrating Modalities</h2>
+  <div class="modality-grid">
+    <div class="modality-item">
+      <div class="modality-icon">📝</div>
+      <div>
+        <h4>Text</h4>
+        <p>Markdown, LaTeX math, syntax-highlighted code blocks</p>
+      </div>
+    </div>
+    <div class="modality-item">
+      <div class="modality-icon">🖼️</div>
+      <div>
+        <h4>Images</h4>
+        <p>1,499 wiki images annotated by vision LLM with "show when" metadata</p>
+      </div>
+    </div>
+    <div class="modality-item">
+      <div class="modality-icon">🎬</div>
+      <div>
+        <h4>Video</h4>
+        <p>YouTube/Vimeo embeds + transcripts the tutor can reference</p>
+      </div>
+    </div>
+    <div class="modality-item">
+      <div class="modality-icon">📊</div>
+      <div>
+        <h4>Diagrams</h4>
+        <p>LLM-generated Mermaid diagrams, theme-aware rendering</p>
+      </div>
+    </div>
+    <div class="modality-item">
+      <div class="modality-icon">❓</div>
+      <div>
+        <h4>Interactive Quizzes</h4>
+        <p>Inline quiz cards with immediate feedback mid-conversation</p>
+      </div>
+    </div>
+    <div class="modality-item">
+      <div class="modality-icon">🔮</div>
+      <div>
+        <h4>Future: Interactive Artifacts</h4>
+        <p>Sliders, step-throughs, sandboxed HTML visualizations</p>
+      </div>
+    </div>
+  </div>
+  <p style="text-align:center; margin-top:20px; font-size:0.75em; font-weight:600; color:#fff;">The hard part isn't rendering modalities &mdash; it's deciding <span class="green">WHEN</span> to use each one.</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 16: DECISION 5 — EVAL -->
+<!-- ============================================================ -->
+<section data-background-color="#1a1a2e">
+  <h2><span class="green">Decision 5</span> &mdash; How do you know it works?</h2>
+  <div class="question-box" style="margin-bottom:24px;">
+    <p>"You ship it. How do you know students are actually learning?"</p>
+  </div>
+  <div class="tier-bar">
+    <div class="tier-segment tier-1">
+      <h4>Tier 1: Structural</h4>
+      <p>Required sections, word counts, LaTeX balance, URL validity. Runs in &lt;1 second.</p>
+    </div>
+    <div class="tier-segment tier-2">
+      <h4>Tier 2: Grounding</h4>
+      <p>Citation validation against wiki. Concept coverage vs. outline. Source diversity.</p>
+    </div>
+    <div class="tier-segment tier-3">
+      <h4>Tier 3: LLM Judge</h4>
+      <p>Rubric scoring on accuracy, engagement, pedagogy. Format-probe scenarios.</p>
+    </div>
+  </div>
+  <div class="two-col" style="margin-top:16px;">
+    <div class="card" style="padding:16px 20px;">
+      <h3>Format compliance checks</h3>
+      <p>Quiz cards used? Resource cards have URLs? Responses aren't getting shorter? Duplicates caught?</p>
+    </div>
+    <div class="card purple-card" style="padding:16px 20px;">
+      <h3>Regression-catching scenarios</h3>
+      <p>Automated multi-turn conversations that probe specific format behaviors — catches prompt regressions before deploy.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 17: COURSE CREATOR INTRO -->
+<!-- ============================================================ -->
+<section class="hero-slide" data-background-color="#0f0f1a">
+  <div>
+    <p style="font-size:0.65em; color:var(--nv-green); font-weight:600; letter-spacing:0.08em;">ACT 4</p>
+    <h1 style="font-size:2.2em;">AI Building AI</h1>
+    <p class="subtitle">The Course Creator</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 18: COURSE CREATOR FLOW -->
+<!-- ============================================================ -->
+<section data-background-color="#1a1a2e">
+  <h2>Course Creator &mdash; Five Tabs, One Pipeline</h2>
+  <div class="pipeline-flow">
+    <div class="pipeline-step active">Outline</div>
+    <span class="pipeline-arrow">&rarr;</span>
+    <div class="pipeline-step active">Research</div>
+    <span class="pipeline-arrow">&rarr;</span>
+    <div class="pipeline-step active">Enrich</div>
+    <span class="pipeline-arrow">&rarr;</span>
+    <div class="pipeline-step active">Build</div>
+    <span class="pipeline-arrow">&rarr;</span>
+    <div class="pipeline-step active">Publish</div>
+  </div>
+  <div class="two-col" style="margin-top:20px;">
+    <div>
+      <div class="card">
+        <h3>"Build me a course on [topic]"</h3>
+        <ul>
+          <li><strong>Outline</strong> &mdash; LLM generates modules + lessons; editable title &amp; description</li>
+          <li><strong>Research</strong> &mdash; per-lesson KB coverage assessment (green / amber / red)</li>
+          <li><strong>Enrich</strong> &mdash; live streaming search-curate-download pipeline</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card blue-card">
+        <h3>Build &amp; Publish</h3>
+        <ul>
+          <li><strong>Build</strong> &mdash; concurrent content generation with progress cards, concept tags</li>
+          <li><strong>Publish</strong> &mdash; quality gate, course stats, readiness summary, one-click publish</li>
+          <li><strong>Chat co-pilot</strong> &mdash; knows draft state, coverage stats, suggests next steps</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <p style="text-align:center; margin-top:20px; font-size:0.7em; color:#fff; font-weight:500;">The creator is itself AI-first &mdash; AI helping humans build AI-powered courses.</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 19: ARCHITECTURE OVERVIEW -->
+<!-- ============================================================ -->
+<section data-background-color="#1a1a2e">
+  <h2>Full Architecture</h2>
+  <div style="position:relative; width:100%; max-width:1100px; margin:0 auto;">
+
+    <!-- FRONTEND LAYER -->
+    <div style="border:2px solid rgba(118,185,0,0.4); border-radius:12px; padding:14px 20px 14px 20px; margin-bottom:10px;">
+      <p style="font-size:0.5em !important; font-weight:700; color:var(--nv-green); margin:0 0 10px 0; letter-spacing:0.05em;">FRONTEND &mdash; Next.js</p>
+      <div style="display:flex; gap:12px;">
+        <div style="flex:1; background:var(--nv-surface); border-radius:8px; padding:10px 14px; text-align:center;">
+          <p style="font-size:0.55em !important; font-weight:600; color:#fff; margin:0;">Learn</p>
+          <p style="font-size:0.42em !important; color:var(--nv-text-dim); margin:2px 0 0 0;">Socratic Tutor</p>
+        </div>
+        <div style="flex:1; background:var(--nv-surface); border-radius:8px; padding:10px 14px; text-align:center;">
+          <p style="font-size:0.55em !important; font-weight:600; color:#fff; margin:0;">Explore</p>
+          <p style="font-size:0.42em !important; color:var(--nv-text-dim); margin:2px 0 0 0;">Cross-Curriculum Chat</p>
+        </div>
+        <div style="flex:1; background:var(--nv-surface); border-radius:8px; padding:10px 14px; text-align:center;">
+          <p style="font-size:0.55em !important; font-weight:600; color:#fff; margin:0;">Create</p>
+          <p style="font-size:0.42em !important; color:var(--nv-text-dim); margin:2px 0 0 0;">Course Author</p>
+        </div>
+        <div style="flex:1; background:var(--nv-surface); border-radius:8px; padding:10px 14px; text-align:center;">
+          <p style="font-size:0.55em !important; font-weight:600; color:#fff; margin:0;">Wiki</p>
+          <p style="font-size:0.42em !important; color:var(--nv-text-dim); margin:2px 0 0 0;">Quartz Static Site</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DOWN ARROWS -->
+    <div style="display:flex; justify-content:center; gap:120px; margin:2px 0;">
+      <span style="font-size:0.7em; color:var(--nv-text-dim);">&#9660;</span>
+      <span style="font-size:0.7em; color:var(--nv-text-dim);">&#9660;</span>
+      <span style="font-size:0.7em; color:var(--nv-text-dim);">&#9660;</span>
+    </div>
+
+    <!-- BACKEND LAYER -->
+    <div style="border:2px solid rgba(74,158,255,0.4); border-radius:12px; padding:14px 20px; margin-bottom:10px;">
+      <p style="font-size:0.5em !important; font-weight:700; color:var(--nv-accent-blue); margin:0 0 10px 0; letter-spacing:0.05em;">BACKEND &mdash; FastAPI</p>
+      <div style="display:flex; gap:12px;">
+        <div style="flex:1; background:var(--nv-surface); border-radius:8px; padding:10px 14px; text-align:center;">
+          <p style="font-size:0.55em !important; font-weight:600; color:#fff; margin:0;">Agent Loop</p>
+          <p style="font-size:0.42em !important; color:var(--nv-text-dim); margin:2px 0 0 0;">SSE streaming + 7 tools</p>
+        </div>
+        <div style="flex:1; background:var(--nv-surface); border-radius:8px; padding:10px 14px; text-align:center;">
+          <p style="font-size:0.55em !important; font-weight:600; color:#fff; margin:0;">7-Stage Pipeline</p>
+          <p style="font-size:0.42em !important; color:var(--nv-text-dim); margin:2px 0 0 0;">Assess &rarr; Enrich &rarr; Generate</p>
+        </div>
+        <div style="flex:1; background:var(--nv-surface); border-radius:8px; padding:10px 14px; text-align:center;">
+          <p style="font-size:0.55em !important; font-weight:600; color:#fff; margin:0;">Eval Framework</p>
+          <p style="font-size:0.42em !important; color:var(--nv-text-dim); margin:2px 0 0 0;">3-tier + format probes</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DOWN ARROWS -->
+    <div style="display:flex; justify-content:center; gap:80px; margin:2px 0;">
+      <span style="font-size:0.7em; color:var(--nv-text-dim);">&#9660;</span>
+      <span style="font-size:0.7em; color:var(--nv-text-dim);">&#9660;</span>
+      <span style="font-size:0.7em; color:var(--nv-text-dim);">&#9660;</span>
+    </div>
+
+    <!-- BOTTOM LAYER: LLM + WIKI + DB -->
+    <div style="display:flex; gap:12px;">
+      <div style="flex:2; border:2px solid rgba(179,128,255,0.4); border-radius:12px; padding:14px 20px;">
+        <p style="font-size:0.5em !important; font-weight:700; color:var(--nv-accent-purple); margin:0 0 8px 0; letter-spacing:0.05em;">LLM APIs</p>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <span class="tag purple-tag" style="font-size:0.42em;">GPT-5.2</span>
+          <span class="tag purple-tag" style="font-size:0.42em;">Perplexity Search</span>
+          <span class="tag purple-tag" style="font-size:0.42em;">Vision LLM</span>
+          <span class="tag purple-tag" style="font-size:0.42em;">GPT-4.1-mini</span>
+        </div>
+      </div>
+      <div style="flex:2; border:2px solid rgba(118,185,0,0.4); border-radius:12px; padding:14px 20px;">
+        <p style="font-size:0.5em !important; font-weight:700; color:var(--nv-green); margin:0 0 4px 0; letter-spacing:0.05em;">Pedagogy Wiki</p>
+        <p style="font-size:0.45em !important; color:var(--nv-text-dim); margin:0; line-height:1.5;">51 topics &bull; 466+ sources &bull; 1,499+ images<br>Concept map &bull; 15 educators &bull; Reference cards</p>
+      </div>
+      <div style="flex:1; border:2px solid rgba(255,179,71,0.4); border-radius:12px; padding:14px 20px;">
+        <p style="font-size:0.5em !important; font-weight:700; color:var(--nv-accent-amber); margin:0 0 4px 0; letter-spacing:0.05em;">SQLite DB</p>
+        <p style="font-size:0.45em !important; color:var(--nv-text-dim); margin:0; line-height:1.5;">Users, progress<br>Courses, drafts</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 20: WHAT WOULD YOU BUILD? -->
+<!-- ============================================================ -->
+<section class="hero-slide" data-background-color="#0f0f1a">
+  <div>
+    <p style="font-size:0.65em; color:var(--nv-green); font-weight:600; letter-spacing:0.08em;">ACT 5</p>
+    <h1 style="font-size:2.2em;">What Would <em>You</em> Build?</h1>
+    <p class="subtitle">Open questions for the room</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 21: OPEN QUESTIONS -->
+<!-- ============================================================ -->
+<section data-background-color="#1a1a2e">
+  <h2>Open Questions</h2>
+  <div style="max-width:900px;">
+    <div class="card" style="margin-bottom:16px;">
+      <h3 class="green">Missing modalities</h3>
+      <p>"We showed text, images, diagrams, quizzes. What modality is missing?"</p>
+      <p class="dim" style="font-size:0.55em !important;">Audio/podcast generation &bull; Interactive simulations &bull; Collaborative learning &bull; Handwriting/whiteboard</p>
+    </div>
+    <div class="card blue-card" style="margin-bottom:16px;">
+      <h3 class="blue">Multimodal input</h3>
+      <p>"The tutor reads curated content. What if it could also <em>watch</em> a lecture video and teach from it?"</p>
+    </div>
+    <div class="card amber-card" style="margin-bottom:16px;">
+      <h3 class="amber">Ground truth</h3>
+      <p>"We evaluate with LLM-as-judge. What's the actual ground truth for 'did the student learn?'"</p>
+    </div>
+    <div class="card purple-card">
+      <h3 class="purple">Scale</h3>
+      <p>"This wiki has 51 topics. What happens at 5,000?"</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 22: CLOSING -->
+<!-- ============================================================ -->
+<section class="hero-slide" data-background-color="#0f0f1a">
+  <div style="max-width:800px;">
+    <p class="closing-quote">
+      "The best AI tutors won't be the ones with the smartest model &mdash; they'll be the ones with the best <span class="green">knowledge pipeline</span>."
+    </p>
+    <div style="margin-top:3em; text-align:center;">
+      <p style="font-size:0.7em; color:var(--nv-text-dim); margin:0;">Thank you</p>
+      <p style="font-size:0.6em; color:var(--nv-text-dim); margin:8px 0 0 0;">Pratik Mehta</p>
+    </div>
+  </div>
+</section>
+
+</div><!-- /slides -->
+</div><!-- /reveal -->
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+Reveal.initialize({
+  hash: true,
+  history: true,
+  transition: 'fade',
+  transitionSpeed: 'fast',
+  backgroundTransition: 'fade',
+  center: false,
+  width: 1280,
+  height: 720,
+  margin: 0,
+  slideNumber: 'c/t',
+  showSlideNumber: 'speaker',
+  controls: true,
+  controlsLayout: 'bottom-right',
+  progress: true,
+  keyboard: true,
+  overview: true,
+});
+</script>
+</body>
+</html>

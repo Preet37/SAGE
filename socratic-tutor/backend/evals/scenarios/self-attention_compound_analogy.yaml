@@ -1,0 +1,35 @@
+id: compound_analogy
+title: "Compound Analogy - Attention"
+lesson_slug: self-attention
+description: >
+  Tests compound analogy building for the self-attention topic. The student
+  engages with analogies and wants the tutor to extend them to cover Q, K, V
+  and the attention score computation.
+
+persona: >
+  You are a visual thinker who learns through metaphors. You've heard that
+  attention is like "looking up information in a database" but you want to
+  understand the Query, Key, Value decomposition through that lens. You'll
+  push the tutor to extend the analogy to cover softmax and multi-head.
+
+mode: analogy
+
+scripted_turns:
+  - role: user
+    content: "I've heard attention is like a database lookup. Can you explain what Q, K, and V are using that analogy?"
+  - role: user
+    content: >
+      OK so in the database analogy, the Query is my search term, Keys
+      are the labels on each entry, and Values are the actual data. But
+      how does the softmax fit into this picture?
+  - role: user
+    content: >
+      And multi-head attention — staying with the same analogy, is that
+      like searching the same database with different queries at the
+      same time?
+
+expected_behaviors:
+  - "Tutor should adopt and extend the database/lookup analogy"
+  - "Tutor should map softmax to the analogy (relevance scoring / fuzzy matching)"
+  - "Tutor should extend to multi-head without switching metaphors"
+  - "Analogy should compound — each extension builds on the previous one"

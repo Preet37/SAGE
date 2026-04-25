@@ -1,0 +1,32 @@
+id: attention_format_probe_visual
+title: "Attention Breakthrough: Visual Diagrams"
+lesson_slug: attention-breakthrough
+description: >
+  Probes whether the tutor uses visual elements (Mermaid diagrams, images)
+  when explaining attention mechanisms. Attention is highly visual—the
+  alignment weights, the encoder-decoder flow—and should be shown visually.
+
+persona: >
+  You are a visual learner who finds attention mechanisms confusing when
+  explained in text only. You explicitly ask for diagrams and visual
+  representations to help you understand.
+
+mode: default
+
+scripted_turns:
+  - role: user
+    content: >
+      Can you explain how attention works in the original seq2seq context?
+  - role: user
+    content: >
+      I'm having trouble visualizing this. Can you draw a diagram showing
+      how the decoder attends to the encoder outputs?
+  - role: user
+    content: >
+      What do the attention weights look like? Can you show me an example?
+
+expected_behaviors:
+  - "Uses Mermaid diagrams or <flow> blocks for architecture visualization"
+  - "May reference or show attention weight heatmaps from images"
+  - "Diagrams accurately represent encoder-decoder attention flow"
+  - "At least 1 visual element should appear when explicitly requested"

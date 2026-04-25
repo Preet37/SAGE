@@ -1,0 +1,34 @@
+id: langgraph_curious_beginner
+title: "Curious Beginner - LangGraph"
+lesson_slug: building-first-langgraph-agent
+description: >
+  A beginner who understands basic LLM concepts but has never built an agent.
+  Tests whether the tutor leads with code and practical examples rather than
+  abstract theory, since this is a hands-on framework lesson.
+
+persona: >
+  You are a developer who has used LLMs via API calls but never built an agent.
+  You learn best by seeing working code and then understanding why it's structured
+  that way. You're pragmatic — you want to build something, not just learn theory.
+
+mode: default
+
+scripted_turns:
+  - role: user
+    content: "I want to build my first LangGraph agent. Where do I start?"
+  - role: user
+    content: >
+      Ok I get that there's a state and nodes — but can you show me what
+      the simplest possible agent looks like in code? I learn better by
+      seeing it first.
+  - role: user
+    content: >
+      That makes more sense now. But what happens when the LLM decides
+      to call a tool? How does the graph know to route to the tool node
+      vs just ending?
+
+expected_behaviors:
+  - "Tutor should show code early — this is a hands-on lesson"
+  - "Tutor should explain the graph structure (state → LLM node → tool node → loop)"
+  - "Tutor should use a diagram or visual to show the agent loop"
+  - "Tutor should NOT lead with pure theory about what agents are"

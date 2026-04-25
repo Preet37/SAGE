@@ -1,0 +1,34 @@
+id: simtoreal_curious_beginner
+title: "Curious Beginner - Sim-to-Real"
+lesson_slug: sim-to-real-transfer
+description: >
+  A beginner interested in robotics who has heard about training in simulation
+  but doesn't understand the reality gap or transfer techniques.
+  Tests whether the tutor handles a non-math-heavy, domain-specific topic well.
+
+persona: >
+  You are curious about robotics and have heard that robots can be trained
+  in simulation before deploying to real hardware. You have basic ML
+  knowledge but no robotics experience. You're excited about the practical
+  implications and ask "why" questions.
+
+mode: default
+
+scripted_turns:
+  - role: user
+    content: "How does sim-to-real transfer work? Can you really train a robot in a video game and have it work in real life?"
+  - role: user
+    content: >
+      So there's a gap between simulation and reality — what causes that
+      gap exactly? Is it just that the physics aren't perfect?
+  - role: user
+    content: >
+      Ok so domain randomization sounds like you're making training
+      deliberately harder so it generalizes. But doesn't that make
+      training take way longer?
+
+expected_behaviors:
+  - "Tutor should explain the reality gap with concrete examples"
+  - "Tutor should use images of simulation vs real environments if available"
+  - "Tutor should connect to practical applications (robot manipulation, self-driving)"
+  - "Tutor should NOT rely heavily on math — this is a conceptual topic"

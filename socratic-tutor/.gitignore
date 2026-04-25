@@ -1,0 +1,70 @@
+# Dependencies
+frontend/node_modules/
+backend/.venv/
+backend/venv/
+
+# Environment / secrets
+.env
+backend/.env
+frontend/.env.local
+course-creator/.env.local
+course-creator/.env
+
+# Database
+backend/tutor.db
+backend/tutor-staging.db
+backend/socratic_tutor.db
+
+# Eval results (generated artifacts)
+backend/evals/results/
+
+# Test caches and generated output
+backend/scripts/.layer1_cache_*
+backend/scripts/.generated_course*
+
+# Build artifacts
+frontend/.next/
+frontend/out/
+frontend/tsconfig.tsbuildinfo
+course-creator/.next/
+course-creator/node_modules/
+course-creator/tsconfig.tsbuildinfo
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE
+.claude/
+.cursor/
+
+# Personal / temporary docs
+scratch/
+
+# Content — ignore all course data, track wiki metadata
+content/*
+!content/README.md
+!content/preloaded_concepts.json
+!content/pedagogy-wiki/
+content/pedagogy-wiki/resources/by-topic/*/
+content/pedagogy-wiki/.needs-rebuild
+content/pedagogy-wiki/.pending/
+
+# Wiki bootstrap cache
+.wiki_bootstrap_cache.json
+
+# Pipeline test output
+backend/content/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Quartz wiki build output
+wiki/public/
+wiki/.quartz-cache/
+scripts/.job_state.json
+scripts/.link_validation_cache.json
+scripts/kb_compare_old.md
+scripts/kb_compare_new.md

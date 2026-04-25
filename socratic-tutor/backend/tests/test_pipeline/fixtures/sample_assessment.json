@@ -1,0 +1,37 @@
+{
+  "fully_covered": [
+    {
+      "lesson": {
+        "title": "Self-Attention and Keys/Queries/Values",
+        "slug": "self-attention-kqv",
+        "summary": "Understanding the self-attention computation",
+        "concepts": ["self-attention", "masked self-attention"]
+      },
+      "topics": ["self-attention"],
+      "resolved_topics": ["self-attention"],
+      "concept_verdicts": {
+        "self-attention": {"verdict": "covered", "evidence": "Well explained"},
+        "masked self-attention": {"verdict": "covered", "evidence": "Covered in Paperspace blog"}
+      }
+    }
+  ],
+  "needs_research": [
+    {
+      "lesson": {
+        "title": "The Attention Mechanism",
+        "slug": "the-attention-mechanism",
+        "summary": "How attention works in sequence-to-sequence models",
+        "concepts": ["attention mechanism", "bahdanau attention", "additive attention"]
+      },
+      "topics": ["attention-mechanism"],
+      "resolved_topics": ["attention-mechanism"],
+      "concept_verdicts": {
+        "attention mechanism": {"verdict": "covered", "evidence": "Detailed coverage"},
+        "bahdanau attention": {"verdict": "covered", "evidence": "Good coverage"},
+        "additive attention": {"verdict": "thin", "evidence": "Mentioned briefly"}
+      },
+      "research_topics": ["additive attention mechanisms", "alignment models in seq2seq"]
+    }
+  ],
+  "no_match": []
+}

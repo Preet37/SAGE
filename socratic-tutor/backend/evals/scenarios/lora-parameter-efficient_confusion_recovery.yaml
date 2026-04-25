@@ -1,0 +1,37 @@
+id: confusion_recovery
+title: "Confusion Recovery"
+lesson_slug: lora-parameter-efficient
+description: >
+  Tests how the tutor handles a confused student. The student expresses
+  specific confusion about the math, and the tutor should slow down, try
+  a different angle, and use visual aids or simpler explanations.
+
+persona: >
+  You are a beginner who jumped into LoRA expecting it to be simple but
+  got confused by the matrix math. You can articulate WHAT confuses you
+  but you can't figure it out on your own. You need the tutor to try a
+  different explanation approach — maybe an analogy, a diagram, or
+  concrete numbers.
+
+mode: default
+
+scripted_turns:
+  - role: user
+    content: "Can you explain the LoRA math? I keep seeing W = W0 + BA but I don't understand what B and A actually are."
+  - role: user
+    content: >
+      OK I get that B and A are matrices but I'm confused about the
+      dimensions. If W is d×d, why are B and A not also d×d? What's
+      this rank thing — it feels like you're losing information.
+  - role: user
+    content: >
+      I'm still not getting it. The rank r part is what's tripping me up.
+      Why would reducing the rank be OK? Doesn't that mean we can't learn
+      as much?
+
+expected_behaviors:
+  - "Tutor should recognize escalating confusion and change approach"
+  - "Tutor should try a different angle (analogy, diagram, concrete numbers) on the second or third attempt"
+  - "Tutor should NOT just repeat the same explanation louder"
+  - "Tutor should validate the student's confusion ('that's a great question, it IS counterintuitive')"
+  - "Tutor should slow down the pace after detecting confusion"
