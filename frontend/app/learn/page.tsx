@@ -7,7 +7,7 @@ import { getToken } from "@/lib/auth";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BookOpen, Share2, Sparkles } from "lucide-react";
+import { ArrowRight, BookOpen, Share2, Sparkles, Star } from "lucide-react";
 import { ShareDialog } from "@/components/ShareDialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
@@ -76,8 +76,13 @@ export default function LearnPage() {
   const [paths, setPaths] = useState<LearningPathSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [shareSlug, setShareSlug] = useState<string | null>(null);
+  const [interests, setInterests] = useState<string[]>([]);
 
   useEffect(() => {
+    const saved = localStorage.getItem("sage_interests");
+    if (saved) {
+      try { setInterests(JSON.parse(saved)); } catch { /* ignore */ }
+    }
     const token = getToken();
     if (!token) { router.push("/login"); return; }
     api.learningPaths.list(token)
@@ -98,11 +103,44 @@ export default function LearnPage() {
   const sharedWithMe = paths.filter(p => !p.is_mine && p.visibility === "private");
   const platformPaths = paths.filter(p => p.visibility === "public" && !p.is_mine);
 
+  // Score platform paths by interest match
+  const INTEREST_KEYWORDS: Record<string, string[]> = {
+    "llms": ["llm", "language model", "gpt", "llama", "claude", "rlhf", "tokeniz"],
+    "agents": ["agent", "reasoning", "tool use", "multi-agent", "planning"],
+    "neural-networks": ["neural", "backprop", "cnn", "rnn", "transformer", "deep learning"],
+    "multimodal": ["multimodal", "vision", "audio", "image"],
+    "generative": ["generative", "diffusion", "gan", "vae", "nerf"],
+    "ml-engineering": ["engineering", "fine-tun", "inference", "mlops", "training"],
+    "rag": ["rag", "retrieval", "embedding", "vector"],
+    "reinforcement": ["reinforcement", "reward", "policy", "ppo"],
+    "math": ["math", "linear algebra", "calculus", "probability"],
+    "safety": ["safety", "alignment", "interpretab", "red-team"],
+    "nlp": ["nlp", "natural language", "tokeniz", "attention"],
+    "physics-ai": ["physics", "scientific", "simulation"],
+  };
+
+  function scoreMatch(path: LearningPathSummary): number {
+    if (interests.length === 0) return 0;
+    const text = `${path.title} ${path.description}`.toLowerCase();
+    let score = 0;
+    for (const interest of interests) {
+      const kws = INTEREST_KEYWORDS[interest] || [];
+      for (const kw of kws) {
+        if (text.includes(kw)) score++;
+      }
+    }
+    return score;
+  }
+
+  const scoredPlatform = [...platformPaths].sort((a, b) => scoreMatch(b) - scoreMatch(a));
+  const recommendedPaths = interests.length > 0 ? scoredPlatform.filter(p => scoreMatch(p) > 0) : [];
+  const otherPlatform = interests.length > 0 ? scoredPlatform.filter(p => scoreMatch(p) === 0) : scoredPlatform;
+
   return (
     <ScrollArea className="h-full"><div className="p-8 max-w-3xl mx-auto">
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Learning Paths</h1>
-        <p className="text-muted-foreground">Choose a path to start your Socratic learning journey</p>
+        <p className="text-muted-foreground">Choose a path to start your SAGE learning journey</p>
       </div>
 
       {myCourses.length > 0 && (
@@ -137,13 +175,27 @@ export default function LearnPage() {
         </div>
       )}
 
+      {recommendedPaths.length > 0 && (
+        <div className="mb-8">
+          <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
+            <Star className="h-4 w-4 text-yellow-500" />
+            Recommended for You
+          </h2>
+          <div className="grid gap-4">
+            {recommendedPaths.map((path) => (
+              <CourseCard key={path.id} path={path} />
+            ))}
+          </div>
+        </div>
+      )}
+
       <div>
         <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
           <BookOpen className="h-4 w-4 text-primary" />
-          Platform Courses
+          {recommendedPaths.length > 0 ? "More Courses" : "Platform Courses"}
         </h2>
         <div className="grid gap-4">
-          {platformPaths.map((path) => (
+          {otherPlatform.map((path) => (
             <CourseCard key={path.id} path={path} />
           ))}
         </div>

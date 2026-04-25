@@ -21,5 +21,7 @@ class ConceptPage(SQLModel, table=True):
     key_takeaways: str = "[]"  # JSON array of strings
     related_concepts: str = "[]"  # JSON array of strings
     further_reading: str = "[]"  # JSON array of strings
+    # Rich enrichment data added in v2 — stored as a single JSON blob for migration safety
+    extra_data: Optional[str] = Field(default="{}")
     lesson_id: Optional[str] = Field(default=None, foreign_key="lesson.id")
     created_at: datetime = Field(default_factory=datetime.utcnow)

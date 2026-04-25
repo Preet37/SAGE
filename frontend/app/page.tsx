@@ -60,7 +60,7 @@ export default function Home() {
               <path d="M8 7h6M8 11h8" />
             </svg>
             <span className="font-semibold text-lg">
-              <span className="text-primary">Socratic</span>Tutor
+              <span className="text-primary">S</span>AGE
             </span>
           </div>
           <div className="flex items-center gap-2">
@@ -97,12 +97,12 @@ export default function Home() {
           </div>
           <h1 className="text-5xl sm:text-6xl font-bold tracking-tight leading-tight">
             Master ML & AI{" "}
-            <span className="text-primary">the Socratic way</span>
+            <span className="text-primary">with SAGE</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             An AI tutor that teaches through questions, not lectures. Powered
-            by LLM Wiki, an LLM-curated knowledge base that grows with every
-            topic &mdash; grounded in the best educators&apos; content.
+            by a living knowledge base that grows with every topic &mdash;
+            grounded in the best educators&apos; content.
           </p>
           <div className="flex flex-col items-center gap-3 pt-4">
             <div className="flex items-center justify-center gap-3">
@@ -157,7 +157,7 @@ export default function Home() {
                   <span className="text-primary">real understanding</span>
                 </h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  Most AI tools give you the answer. SocraticTutor asks you the
+                  Most AI tools give you the answer. SAGE asks you the
                   question. The AI tutor guides you through concepts using
                   dialogue &mdash; probing your reasoning, surfacing
                   misconceptions, and adapting to how you think. You don&apos;t
@@ -349,7 +349,7 @@ export default function Home() {
                 </h2>
                 <p className="text-muted-foreground leading-relaxed">
                   Most learning platforms freeze their content the day it ships.
-                  SocraticTutor is backed by an LLM-curated wiki &mdash; a living
+                  SAGE is backed by an LLM-curated wiki &mdash; a living
                   knowledge base that&apos;s continuously enriched with new sources,
                   connections, and explanations. Every course, every tutor
                   conversation, every concept lookup draws from this evolving

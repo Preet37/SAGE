@@ -9,12 +9,11 @@ from fastapi.responses import FileResponse, RedirectResponse
 from .config import get_settings
 from .db import run_migrations, create_db_and_tables
 from .routers import auth, learning_paths, progress, tutor, explore, quiz, concepts, assessment, curriculum
-from .routers import projects, course_creator
-from .routers import sms, diagnostic, broadcast, export
+from .routers import projects, course_creator, visual_plot, sandbox, sms, diagnostic, broadcast, export
 
 settings = get_settings()
 
-app = FastAPI(title="SocraticTutor API", version="1.0.0")
+app = FastAPI(title="SAGE API", version="1.0.0")
 
 _origins = [o.strip() for o in settings.frontend_url.split(",") if o.strip()]
 
@@ -61,6 +60,8 @@ app.include_router(sms.router)
 app.include_router(diagnostic.router)
 app.include_router(broadcast.router)
 app.include_router(export.router)
+app.include_router(visual_plot.router)
+app.include_router(sandbox.router)
 
 from .config import WIKI_DIR
 _wiki_topics_dir = WIKI_DIR / "resources" / "by-topic"
