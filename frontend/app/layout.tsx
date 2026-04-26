@@ -1,11 +1,33 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Cormorant_Garamond, Crimson_Pro, DM_Mono, Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import { VoiceOrb } from "@/components/voice/VoiceOrb";
-import Link from "next/link";
+import { FloatingUI } from "@/components/FloatingUI";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-cormorant",
+});
+
+const crimson = Crimson_Pro({
+  subsets: ["latin"],
+  weight: ["300", "400", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-crimson",
+});
+
+const dmMono = DM_Mono({
+  subsets: ["latin"],
+  weight: ["300", "400", "500"],
+  variable: "--font-dm-mono",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
 
 export const metadata: Metadata = {
   title: "SAGE",
@@ -18,21 +40,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+    <html lang="en" suppressHydrationWarning style={{ background: "#0D0B08" }}>
+      <body
+        className={`${cormorant.variable} ${crimson.variable} ${dmMono.variable} ${inter.variable}`}
+        style={{ background: "#0D0B08" }}
+      >
         <ThemeProvider>
           {children}
-          <VoiceOrb />
-          {/* Documentation link — bottom-left fixed, opens internal wiki */}
-          <Link
-            href="/wiki"
-            className="fixed bottom-4 left-4 z-50 flex items-center gap-1.5 rounded-lg border border-border/60 bg-card/80 backdrop-blur-sm px-3 py-1.5 text-xs text-muted-foreground hover:text-foreground hover:border-border transition-colors shadow-sm"
-          >
-            <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 fill-current flex-shrink-0" aria-hidden="true">
-              <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h11A1.5 1.5 0 0 1 15 2.5v11a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 13.5v-11zm1.5 0v11h11v-11h-11zM4 5h8v1H4V5zm0 3h8v1H4V8zm0 3h5v1H4v-1z"/>
-            </svg>
-            Documentation
-          </Link>
+          <FloatingUI />
         </ThemeProvider>
       </body>
     </html>

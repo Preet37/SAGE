@@ -1,9 +1,7 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   output: "standalone",
   basePath: process.env.NEXT_PUBLIC_BASE_PATH || "",
-  // Turbopack handles WASM natively in Next.js 16
   turbopack: {},
 };
 
