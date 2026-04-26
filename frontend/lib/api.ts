@@ -3,12 +3,12 @@ export const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000
 async function request<T>(
   path: string,
   options: RequestInit = {},
-  token?: string | null
+  token?: string | null,
+  multipart = false,
 ): Promise<T> {
-  const headers: Record<string, string> = {
-    "Content-Type": "application/json",
-    ...(options.headers as Record<string, string>),
-  };
+  const headers: Record<string, string> = multipart
+    ? {}
+    : { "Content-Type": "application/json", ...(options.headers as Record<string, string>) };
   if (token) headers["Authorization"] = `Bearer ${token}`;
 
   const res = await fetch(`${API_URL}${path}`, { ...options, headers });
@@ -646,7 +646,37 @@ export const api = {
         body: JSON.stringify({ topic, context }),
       }, token),
   },
+  documents: {
+    upload: (file: File, token: string) => {
+      const form = new FormData();
+      form.append("file", file);
+      return request<DocumentOut>("/documents/upload", {
+        method: "POST",
+        body: form,
+      }, token, true);
+    },
+    list: (token: string) =>
+      request<DocumentOut[]>("/documents", {}, token),
+    get: (id: string, token: string) =>
+      request<DocumentDetail>(`/documents/${id}`, {}, token),
+    delete: (id: string, token: string) =>
+      request<{ ok: boolean; deleted: number }>(`/documents/${id}`, { method: "DELETE" }, token),
+  },
 };
+
+export interface DocumentOut {
+  id: string;
+  filename: string;
+  mime: string;
+  size_bytes: number;
+  chunk_count: number;
+  preview: string;
+  created_at: string;
+}
+
+export interface DocumentDetail extends DocumentOut {
+  chunks: string[];
+}
 
 export interface MemoryItemResponse {
   id: string;
@@ -790,21 +820,22 @@ export interface BroadcastRoom {
   qr_url: string;
 }
 
-export function createBroadcastRoom(teacherId: string): Promise<BroadcastRoom> {
+export function createBroadcastRoom(teacherId: string, lessonId?: number | string): Promise<BroadcastRoom> {
   return request<BroadcastRoom>("/broadcast/room", {
     method: "POST",
-    body: JSON.stringify({ teacher_id: teacherId }),
+    body: JSON.stringify({ teacher_id: teacherId, lesson_id: lessonId }),
   });
 }
 
 export function pushBroadcastContent(
+  token: string,
   code: string,
-  payload: { lesson_id: string; title: string; content_md: string; key_concepts: string[] },
+  payload: { lesson_id: number | string; title: string; content_md: string; key_concepts: string[] },
 ): Promise<{ students_reached: number }> {
   return request<{ students_reached: number }>(`/broadcast/room/${code}/push`, {
     method: "POST",
     body: JSON.stringify(payload),
-  });
+  }, token);
 }
 
 export function getBroadcastStreamUrl(code: string): string {
@@ -840,4 +871,30 @@ export async function exportSessionPDF(
 
 export function getSmsStatus(): Promise<{ connected: boolean; active_sessions: number; mock_mode: boolean }> {
   return request("/sms/status");
+}
+
+// ── Course / Lesson helpers (for broadcast page) ─────────────────────────────
+
+export interface CourseStub { id: number; slug: string; title: string; }
+export interface LessonStub { id: number; slug: string; title: string; content_md: string; key_concepts: string[]; }
+
+export function getCourses(token?: string): Promise<CourseStub[]> {
+  return request<CourseStub[]>("/learning-paths", {}, token);
+}
+
+export function getLessons(courseSlug: string, token?: string): Promise<LessonStub[]> {
+  return request<LessonStub[]>(`/learning-paths/${courseSlug}/lessons`, {}, token);
+}
+
+// ── Diagnostic (user-scoped submit) ──────────────────────────────────────────
+
+export function submitDiagnosticForUser(
+  token: string,
+  answers: Record<string, string>,
+  name?: string,
+): Promise<DiagnosticResult> {
+  return request<DiagnosticResult>("/diagnostic/submit", {
+    method: "POST",
+    body: JSON.stringify({ answers, name }),
+  }, token);
 }

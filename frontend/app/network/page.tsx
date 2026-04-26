@@ -157,9 +157,13 @@ export default function NetworkPage() {
               </p>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {livePeers
-                  .filter((p) => !presence || p.user_id !== presence.me.user_id)
-                  .map((p) => <PeerCard key={p.user_id} peer={p}
+                {Array.from(
+                  new Map(
+                    livePeers
+                      .filter((p) => !presence || p.user_id !== presence.me.user_id)
+                      .map((p) => [p.user_id, p])
+                  ).values()
+                ).map((p) => <PeerCard key={p.user_id} peer={p}
                     onNudge={(msg) => nudge(p.user_id, msg)} />)}
               </div>
             )}
