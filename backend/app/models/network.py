@@ -19,7 +19,7 @@ class PeerPresence(SQLModel, table=True):
     __tablename__ = "peerpresence"
 
     id: str = Field(default_factory=cuid, primary_key=True)
-    user_id: str = Field(foreign_key="user.id", index=True)
+    user_id: str = Field(foreign_key="users.id", index=True)
     lesson_id: Optional[str] = Field(default=None, foreign_key="lesson.id", index=True)
     display_name: str = ""
     status: str = "studying"            # "studying" | "stuck" | "review" | "idle"

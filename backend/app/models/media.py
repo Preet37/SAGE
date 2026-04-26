@@ -12,7 +12,7 @@ class MediaAsset(SQLModel, table=True):
     __tablename__ = "mediaasset"
 
     id: str = Field(default_factory=cuid, primary_key=True)
-    user_id: str = Field(foreign_key="user.id", index=True)
+    user_id: str = Field(foreign_key="users.id", index=True)
     lesson_id: Optional[str] = Field(default=None, foreign_key="lesson.id", index=True)
     public_id: str                     # Cloudinary public_id
     secure_url: str                    # Direct CDN URL

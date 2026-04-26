@@ -15,7 +15,7 @@ class LearningPath(SQLModel, table=True):
     description: str
     level: str = "beginner"
     order_index: int = 0
-    created_by: Optional[str] = Field(default=None, foreign_key="user.id", index=True)
+    created_by: Optional[str] = Field(default=None, foreign_key="users.id", index=True)
     visibility: str = Field(default="public")  # "public" | "private"
     share_token: Optional[str] = Field(default=None, index=True)
 
@@ -27,7 +27,7 @@ class CourseShare(SQLModel, table=True):
 
     id: str = Field(default_factory=cuid, primary_key=True)
     learning_path_id: str = Field(foreign_key="learningpath.id", index=True)
-    user_id: str = Field(foreign_key="user.id", index=True)
+    user_id: str = Field(foreign_key="users.id", index=True)
     shared_at: datetime = Field(default_factory=datetime.utcnow)
 
 

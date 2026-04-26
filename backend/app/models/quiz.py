@@ -12,7 +12,7 @@ class QuizSession(SQLModel, table=True):
     __tablename__ = "quizsession"
 
     id: str = Field(default_factory=cuid, primary_key=True)
-    user_id: str = Field(foreign_key="user.id", index=True)
+    user_id: str = Field(foreign_key="users.id", index=True)
     lesson_id: Optional[str] = Field(default=None, foreign_key="lesson.id")
     topic: str
     difficulty: str = "intermediate"

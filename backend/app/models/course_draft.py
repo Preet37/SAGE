@@ -10,7 +10,7 @@ class CourseDraft(SQLModel, table=True):
     __tablename__ = "coursedraft"
 
     id: str = Field(default_factory=cuid, primary_key=True)
-    user_id: str = Field(foreign_key="user.id", index=True)
+    user_id: str = Field(foreign_key="users.id", index=True)
     title: str
     slug: str
     source_type: str = "prompt"
