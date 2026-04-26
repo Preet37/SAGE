@@ -57,7 +57,7 @@ export interface CourseOut {
 }
 
 export interface LessonOut {
-  id: number;
+  id: string;
   slug: string;
   title: string;
   order: number;
@@ -391,19 +391,11 @@ export const api = {
         method: "POST",
         body: JSON.stringify({ email, username, password }),
       }),
-    login: async (email: string, password: string): Promise<TokenResponse> => {
-      const body = new URLSearchParams({ username: email, password });
-      const res = await fetch(`${API_URL}/auth/token`, {
+    login: (email: string, password: string) =>
+      request<TokenResponse>("/auth/login", {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: body.toString(),
-      });
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({ detail: res.statusText }));
-        throw new Error(err.detail || "Login failed");
-      }
-      return res.json();
-    },
+        body: JSON.stringify({ email, password }),
+      }),
   },
   courses: {
     list: (token: string) =>
@@ -678,7 +670,7 @@ export const api = {
   },
   visual: {
     generatePlot: (topic: string, context: string, token: string) =>
-      request<{ html: string; topic: string; error?: string }>("/visual/plot", {
+      request<{ html?: string; topic?: string; error?: string }>("/visual/plot", {
         method: "POST",
         body: JSON.stringify({ topic, context }),
       }, token),

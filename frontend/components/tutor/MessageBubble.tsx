@@ -6,7 +6,7 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import rehypeHighlight from "rehype-highlight";
 import "katex/dist/katex.min.css";
-import "highlight.js/styles/github.css";
+import "highlight.js/styles/github-dark.css";
 import { InlineQuiz } from "./InlineQuiz";
 import { MermaidBlock } from "./MermaidBlock";
 import { AnimatedFlowBlock } from "./AnimatedFlowBlock";
@@ -303,20 +303,25 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verific
   const [plotHtml, setPlotHtml] = useState<string | null>(null);
   const [plotTopic, setPlotTopic] = useState<string>("");
   const [plotLoading, setPlotLoading] = useState(false);
+  const [plotError, setPlotError] = useState<string | null>(null);
 
   const handleVisualize = useCallback(async () => {
     const token = getToken();
     if (!token) return;
     setPlotLoading(true);
+    setPlotError(null);
     try {
       const topic = lessonTitle || content.slice(0, 120);
       const result = await api.visual.generatePlot(topic, content.slice(0, 1500), token);
-      if (result.html) {
+      if (result.error) {
+        setPlotError(result.error);
+      } else if (result.html) {
         setPlotHtml(result.html);
         setPlotTopic(result.topic || topic);
       }
     } catch (e) {
       console.error("Plot generation failed:", e);
+      setPlotError("Failed to generate visualization. Please try again.");
     } finally {
       setPlotLoading(false);
     }
@@ -402,20 +407,17 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verific
           return (
             <div
               key={i}
-              className="text-sm
-                prose dark:prose-invert prose-sm max-w-none
-                prose-p:my-2 prose-p:text-foreground prose-p:leading-[1.75]
-                prose-headings:text-foreground prose-headings:font-semibold prose-headings:mt-4 prose-headings:mb-2
-                prose-code:bg-muted prose-code:rounded-md prose-code:px-1.5 prose-code:py-0.5 prose-code:text-xs prose-code:font-medium
-                prose-pre:bg-slate-50 dark:prose-pre:bg-slate-900 prose-pre:rounded-xl prose-pre:p-4 prose-pre:my-3 prose-pre:border prose-pre:border-border
-                prose-strong:text-foreground prose-strong:font-semibold
-                prose-a:text-primary prose-a:no-underline hover:prose-a:underline
-                prose-li:my-0.5 prose-li:text-foreground prose-li:leading-[1.75]
+              className="prose prose-invert prose-sm max-w-none
+                prose-p:my-2 prose-p:leading-[1.75]
+                prose-headings:font-semibold prose-headings:mt-4 prose-headings:mb-2
+                prose-strong:font-semibold
+                prose-a:no-underline hover:prose-a:underline
+                prose-li:my-0.5 prose-li:leading-[1.75]
                 prose-ul:my-2 prose-ol:my-2
                 prose-table:text-sm prose-table:rounded-lg prose-table:overflow-hidden
-                prose-th:bg-muted/60 prose-th:px-3 prose-th:py-2 prose-th:text-left prose-th:font-semibold prose-th:text-foreground
-                prose-td:px-3 prose-td:py-2 prose-td:text-foreground/80
-                prose-blockquote:border-l-primary/50 prose-blockquote:text-foreground/80"
+                prose-th:px-3 prose-th:py-2 prose-th:text-left prose-th:font-semibold
+                prose-td:px-3 prose-td:py-2"
+              style={{ fontFamily: "var(--font-crimson)", fontSize: "0.95rem", color: "rgba(210,208,220,0.88)" }}
             >
               <ReactMarkdown
                 remarkPlugins={remarkPlugins}
@@ -488,21 +490,25 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verific
         <div className="mt-3 flex items-center gap-2 flex-wrap">
           {plotHtml ? (
             <button
-              onClick={() => setPlotHtml(null)}
-              className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              onClick={() => { setPlotHtml(null); setPlotError(null); }}
+              style={{ display: "inline-flex", alignItems: "center", gap: "0.375rem", fontFamily: "var(--font-dm-mono)", fontSize: "0.6rem", letterSpacing: "0.1em", textTransform: "uppercase", padding: "0.375rem 0.75rem", border: "1px solid rgba(240,233,214,0.12)", color: "var(--cream-2)", background: "none", cursor: "pointer", transition: "border-color 0.15s, color 0.15s" }}
+              onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(240,233,214,0.25)"; (e.currentTarget as HTMLButtonElement).style.color = "var(--cream-1)"; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(240,233,214,0.12)"; (e.currentTarget as HTMLButtonElement).style.color = "var(--cream-2)"; }}
             >
-              <X className="h-3 w-3" /> Close Plot
+              <X style={{ width: "0.7rem", height: "0.7rem" }} /> Close Plot
             </button>
           ) : (
             <button
               onClick={handleVisualize}
               disabled={plotLoading}
-              className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-primary/30 text-primary bg-primary/5 hover:bg-primary/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{ display: "inline-flex", alignItems: "center", gap: "0.375rem", fontFamily: "var(--font-dm-mono)", fontSize: "0.6rem", letterSpacing: "0.1em", textTransform: "uppercase", padding: "0.375rem 0.75rem", border: "1px solid rgba(196,152,90,0.3)", color: "var(--gold)", background: "rgba(196,152,90,0.06)", cursor: "pointer", transition: "border-color 0.15s, background 0.15s", opacity: plotLoading ? 0.5 : 1 }}
+              onMouseEnter={e => { if (!plotLoading) { (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(196,152,90,0.55)"; (e.currentTarget as HTMLButtonElement).style.background = "rgba(196,152,90,0.12)"; } }}
+              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(196,152,90,0.3)"; (e.currentTarget as HTMLButtonElement).style.background = "rgba(196,152,90,0.06)"; }}
             >
               {plotLoading ? (
-                <><Loader2 className="h-3 w-3 animate-spin" /> Generating simulation...</>
+                <><Loader2 style={{ width: "0.7rem", height: "0.7rem", animation: "spin 1s linear infinite" }} /> Generating...</>
               ) : (
-                <><BarChart2 className="h-3 w-3" /> Plot Interactive Graph</>
+                <><BarChart2 style={{ width: "0.7rem", height: "0.7rem" }} /> Plot Interactive Graph</>
               )}
             </button>
           )}
@@ -511,15 +517,24 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verific
               const topic = lessonTitle || content.slice(0, 60).replace(/\n/g, " ").trim();
               router.push(`/explore?q=${encodeURIComponent(topic)}`);
             }}
-            className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+            style={{ display: "inline-flex", alignItems: "center", gap: "0.375rem", fontFamily: "var(--font-dm-mono)", fontSize: "0.6rem", letterSpacing: "0.1em", textTransform: "uppercase", padding: "0.375rem 0.75rem", border: "1px solid rgba(240,233,214,0.12)", color: "var(--cream-2)", background: "none", cursor: "pointer", transition: "border-color 0.15s, color 0.15s" }}
+            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(240,233,214,0.25)"; (e.currentTarget as HTMLButtonElement).style.color = "var(--cream-1)"; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(240,233,214,0.12)"; (e.currentTarget as HTMLButtonElement).style.color = "var(--cream-2)"; }}
           >
-            <Microscope className="h-3 w-3" /> Deep Dive
+            <Microscope style={{ width: "0.7rem", height: "0.7rem" }} /> Deep Dive
           </button>
         </div>
       )}
 
       {/* Rendered plot */}
       {plotHtml && <VisualPlotRenderer html={plotHtml} topic={plotTopic} />}
+
+      {/* Plot generation error */}
+      {plotError && !plotHtml && (
+        <div style={{ marginTop: "0.75rem", background: "var(--ink-2)", border: "1px solid rgba(196,90,90,0.25)", padding: "0.75rem 1rem", fontFamily: "var(--font-crimson)", fontSize: "0.88rem", color: "var(--rose)" }}>
+          {plotError}
+        </div>
+      )}
     </div>
   );
 }
