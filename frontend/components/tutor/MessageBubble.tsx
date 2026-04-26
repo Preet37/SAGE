@@ -17,7 +17,7 @@ import { parseFlowDiagram } from "@/lib/schemas/flow";
 import { parseArchitectureDiagram } from "@/lib/schemas/architecture";
 import { api } from "@/lib/api";
 import { getToken } from "@/lib/auth";
-import { Loader2, Play, ExternalLink, BookOpen, ImageIcon, ZoomIn, X, BarChart2, Microscope, ShieldCheck, ShieldAlert, ShieldQuestion } from "lucide-react";
+import { Loader2, Play, ExternalLink, BookOpen, ImageIcon, ZoomIn, X, BarChart2, Microscope, ShieldCheck, ShieldAlert, ShieldQuestion, Box } from "lucide-react";
 import { useRouter } from "next/navigation";
 import type { Verification } from "@/lib/useTutorStream";
 
@@ -303,6 +303,8 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verific
   const [plotHtml, setPlotHtml] = useState<string | null>(null);
   const [plotTopic, setPlotTopic] = useState<string>("");
   const [plotLoading, setPlotLoading] = useState(false);
+  const [sim3dHtml, setSim3dHtml] = useState<string | null>(null);
+  const [sim3dLoading, setSim3dLoading] = useState(false);
 
   const handleVisualize = useCallback(async () => {
     const token = getToken();
@@ -314,11 +316,30 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verific
       if (result.html) {
         setPlotHtml(result.html);
         setPlotTopic(result.topic || topic);
+        setSim3dHtml(null);
       }
     } catch (e) {
       console.error("Plot generation failed:", e);
     } finally {
       setPlotLoading(false);
+    }
+  }, [content, lessonTitle]);
+
+  const handle3DSimulation = useCallback(async () => {
+    const token = getToken();
+    if (!token) return;
+    setSim3dLoading(true);
+    try {
+      const topic = lessonTitle || content.slice(0, 120);
+      const result = await api.visual.generate3D(topic, content.slice(0, 1500), token);
+      if (result.html) {
+        setSim3dHtml(result.html);
+        setPlotHtml(null);
+      }
+    } catch (e) {
+      console.error("3D simulation failed:", e);
+    } finally {
+      setSim3dLoading(false);
     }
   }, [content, lessonTitle]);
 
@@ -486,6 +507,7 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verific
       {/* Action buttons — only for non-streaming assistant messages */}
       {!isStreaming && content.length > 80 && (
         <div className="mt-3 flex items-center gap-2 flex-wrap">
+          {/* 2D Plot */}
           {plotHtml ? (
             <button
               onClick={() => setPlotHtml(null)}
@@ -496,16 +518,39 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verific
           ) : (
             <button
               onClick={handleVisualize}
-              disabled={plotLoading}
+              disabled={plotLoading || sim3dLoading}
               className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-primary/30 text-primary bg-primary/5 hover:bg-primary/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {plotLoading ? (
-                <><Loader2 className="h-3 w-3 animate-spin" /> Generating simulation...</>
+                <><Loader2 className="h-3 w-3 animate-spin" /> Generating...</>
               ) : (
-                <><BarChart2 className="h-3 w-3" /> Plot Interactive Graph</>
+                <><BarChart2 className="h-3 w-3" /> 2D Simulation</>
               )}
             </button>
           )}
+
+          {/* 3D Simulation */}
+          {sim3dHtml ? (
+            <button
+              onClick={() => setSim3dHtml(null)}
+              className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+            >
+              <X className="h-3 w-3" /> Close 3D
+            </button>
+          ) : (
+            <button
+              onClick={handle3DSimulation}
+              disabled={sim3dLoading || plotLoading}
+              className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-purple-500/30 text-purple-400 bg-purple-500/5 hover:bg-purple-500/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {sim3dLoading ? (
+                <><Loader2 className="h-3 w-3 animate-spin" /> Building 3D...</>
+              ) : (
+                <><Box className="h-3 w-3" /> 3D Simulation</>
+              )}
+            </button>
+          )}
+
           <button
             onClick={() => {
               const topic = lessonTitle || content.slice(0, 60).replace(/\n/g, " ").trim();
@@ -518,8 +563,20 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verific
         </div>
       )}
 
-      {/* Rendered plot */}
+      {/* Rendered 2D plot */}
       {plotHtml && <VisualPlotRenderer html={plotHtml} topic={plotTopic} />}
+
+      {/* Rendered 3D simulation */}
+      {sim3dHtml && (
+        <div className="mt-4 rounded-xl overflow-hidden border border-purple-500/20 bg-[#08090e]" style={{ height: 520 }}>
+          <iframe
+            srcDoc={sim3dHtml}
+            className="w-full h-full border-0"
+            title="3D Simulation"
+            sandbox="allow-scripts allow-same-origin"
+          />
+        </div>
+      )}
     </div>
   );
 }

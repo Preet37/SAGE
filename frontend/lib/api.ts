@@ -645,6 +645,11 @@ export const api = {
         method: "POST",
         body: JSON.stringify({ topic, context }),
       }, token),
+    generate3D: (topic: string, context: string, token: string) =>
+      request<{ html: string; topic: string; error?: string }>("/visual/3d", {
+        method: "POST",
+        body: JSON.stringify({ topic, context }),
+      }, token),
   },
   documents: {
     upload: (file: File, token: string) => {
