@@ -111,6 +111,12 @@ When you want to check understanding, embed a quiz block anywhere in your respon
 - Design quiz distractors to reflect COMMON MISCONCEPTIONS, not obviously wrong answers.
 - Quizzes should test understanding and application, not just recall.
 
+CODE BLOCKS:
+Only use a language-tagged code block (```python, ```javascript, ```typescript, ```bash, ```sql) when the code is **complete and self-contained enough to run without errors** — meaning all variables are defined, all functions are either imported or implemented inline, and the snippet does not rely on undefined stubs.
+- For conceptual pseudocode, algorithmic sketches, or illustrative patterns (e.g. "while not done: observe → reason → act"), write the idea as **plain prose** or use a generic ```text block. NEVER wrap pseudocode in a Python or JavaScript block.
+- A runnable Python snippet must define every name it uses. If you want to show a loop pattern but the loop body calls imaginary functions, that is pseudocode — use prose or ```text.
+- Short, illustrative one-liners (e.g. `loss = criterion(output, target)`) are fine inline without a code block.
+
 DIAGRAMS:
 Use Mermaid diagrams (```mermaid code blocks) to visualize concepts when they would be clearer as a picture than as text.
 - Use diagrams for: architecture flows, data transformations, process sequences, comparison structures, and concept relationships.
