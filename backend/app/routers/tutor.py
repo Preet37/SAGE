@@ -18,6 +18,7 @@ from ..services.semantic_memory import (
     memory_block_for_prompt,
     record_memory,
 )
+from ..services.learner_profile import profile_summary_for_prompt
 
 router = APIRouter(prefix="/tutor", tags=["tutor"])
 
@@ -215,6 +216,7 @@ async def chat(
         user_id=user.id,
         session_id=tutor_session.id,
         slash_instruction=cmd.instruction if cmd else "",
+        learner_profile=profile_summary_for_prompt(user.id),
     )
 
     # Extract the plain-text portion of the latest user message for DB storage.
