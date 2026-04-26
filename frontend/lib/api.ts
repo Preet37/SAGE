@@ -370,11 +370,19 @@ export const api = {
         method: "POST",
         body: JSON.stringify({ email, username, password }),
       }),
-    login: (email: string, password: string) =>
-      request<TokenResponse>("/auth/login", {
+    login: async (email: string, password: string): Promise<TokenResponse> => {
+      const body = new URLSearchParams({ username: email, password });
+      const res = await fetch(`${API_URL}/auth/token`, {
         method: "POST",
-        body: JSON.stringify({ email, password }),
-      }),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: body.toString(),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ detail: res.statusText }));
+        throw new Error(err.detail || "Login failed");
+      }
+      return res.json();
+    },
   },
   learningPaths: {
     list: (token: string) =>
