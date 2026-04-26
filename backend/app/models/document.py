@@ -8,7 +8,7 @@ cuid = cuid_wrapper()
 
 class Document(SQLModel, table=True):
     id: str = Field(default_factory=cuid, primary_key=True)
-    user_id: str = Field(index=True, foreign_key="user.id")
+    user_id: str = Field(index=True, foreign_key="users.id")
     public_id: str = Field(index=True)
     resource_type: str  # "image" | "video" | "raw"
     format: Optional[str] = None

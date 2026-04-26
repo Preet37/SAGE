@@ -1,11 +1,13 @@
 "use client";
 import { useState } from "react";
-import { Maximize2, Minimize2, X } from "lucide-react";
+import { Maximize2, X, Zap } from "lucide-react";
 
 interface VisualPlotRendererProps {
   html: string;
   topic: string;
 }
+
+const mono: React.CSSProperties = { fontFamily: "var(--font-dm-mono)" };
 
 export function VisualPlotRenderer({ html, topic }: VisualPlotRendererProps) {
   const [fullscreen, setFullscreen] = useState(false);
@@ -14,44 +16,52 @@ export function VisualPlotRenderer({ html, topic }: VisualPlotRendererProps) {
     <iframe
       srcDoc={html}
       sandbox="allow-scripts allow-same-origin"
-      className="w-full h-full border-0"
+      style={{ width: "100%", height: "100%", border: "none", display: "block" }}
       title={`Interactive simulation: ${topic}`}
     />
   );
 
   if (fullscreen) {
     return (
-      <div className="fixed inset-0 z-50 bg-[#0f1117] flex flex-col">
-        <div className="flex items-center justify-between px-4 py-2 bg-[#161b22] border-b border-[#30363d] shrink-0">
-          <span className="text-sm font-medium text-gray-200">⚡ {topic}</span>
+      <div style={{ position: "fixed", inset: 0, zIndex: 50, background: "var(--ink)", display: "flex", flexDirection: "column" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0.4rem 0.75rem", background: "var(--ink-1)", borderBottom: "1px solid rgba(240,233,214,0.08)", flexShrink: 0 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
+            <Zap style={{ width: "0.75rem", height: "0.75rem", color: "var(--gold)" }} />
+            <span style={{ ...mono, fontSize: "0.52rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--cream-1)" }}>{topic}</span>
+          </div>
           <button
             onClick={() => setFullscreen(false)}
-            className="p-1.5 rounded-md hover:bg-[#21262d] text-gray-400 hover:text-gray-200 transition-colors"
+            style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "0.3rem", background: "transparent", border: "1px solid rgba(240,233,214,0.12)", borderRadius: "3px", cursor: "pointer", color: "var(--cream-2)", transition: "color 0.15s, border-color 0.15s" }}
+            onMouseEnter={e => { e.currentTarget.style.color = "var(--cream-0)"; e.currentTarget.style.borderColor = "rgba(240,233,214,0.3)"; }}
+            onMouseLeave={e => { e.currentTarget.style.color = "var(--cream-2)"; e.currentTarget.style.borderColor = "rgba(240,233,214,0.12)"; }}
           >
-            <X className="h-4 w-4" />
+            <X style={{ width: "0.8rem", height: "0.8rem" }} />
           </button>
         </div>
-        <div className="flex-1 overflow-hidden">{iframe}</div>
+        <div style={{ flex: 1, overflow: "hidden" }}>{iframe}</div>
       </div>
     );
   }
 
   return (
-    <div className="rounded-xl overflow-hidden border border-border my-3 bg-[#0f1117]" style={{ height: 520 }}>
-      <div className="flex items-center justify-between px-3 py-2 bg-[#161b22] border-b border-[#30363d] shrink-0">
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-medium text-gray-300">⚡ Interactive Simulation</span>
-          <span className="text-xs text-gray-500 truncate max-w-48">{topic}</span>
+    <div style={{ borderRadius: "6px", overflow: "hidden", border: "1px solid rgba(240,233,214,0.1)", margin: "0.75rem 0", background: "var(--ink)", height: 520, display: "flex", flexDirection: "column" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0.4rem 0.75rem", background: "var(--ink-1)", borderBottom: "1px solid rgba(240,233,214,0.08)", flexShrink: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", minWidth: 0 }}>
+          <Zap style={{ width: "0.7rem", height: "0.7rem", color: "var(--gold)", flexShrink: 0 }} />
+          <span style={{ ...mono, fontSize: "0.5rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--cream-1)" }}>Interactive Simulation</span>
+          <span style={{ ...mono, fontSize: "0.48rem", color: "var(--cream-2)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "12rem" }}>{topic}</span>
         </div>
         <button
           onClick={() => setFullscreen(true)}
-          className="p-1 rounded hover:bg-[#21262d] text-gray-500 hover:text-gray-300 transition-colors"
           title="Fullscreen"
+          style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "0.25rem", background: "transparent", border: "1px solid rgba(240,233,214,0.1)", borderRadius: "3px", cursor: "pointer", color: "var(--cream-2)", transition: "color 0.15s, border-color 0.15s", flexShrink: 0 }}
+          onMouseEnter={e => { e.currentTarget.style.color = "var(--cream-1)"; e.currentTarget.style.borderColor = "rgba(240,233,214,0.25)"; }}
+          onMouseLeave={e => { e.currentTarget.style.color = "var(--cream-2)"; e.currentTarget.style.borderColor = "rgba(240,233,214,0.1)"; }}
         >
-          <Maximize2 className="h-3.5 w-3.5" />
+          <Maximize2 style={{ width: "0.7rem", height: "0.7rem" }} />
         </button>
       </div>
-      <div className="h-[calc(100%-37px)]">{iframe}</div>
+      <div style={{ flex: 1, overflow: "hidden" }}>{iframe}</div>
     </div>
   );
 }

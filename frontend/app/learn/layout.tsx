@@ -1,26 +1,32 @@
 "use client";
-import { useEffect, useState, useMemo, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
-import { api, LearningPathResponse, ProgressResponse } from "@/lib/api";
+import { api, CourseOut, LessonOut } from "@/lib/api";
 import { getToken, removeToken } from "@/lib/auth";
-import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, Circle, ChevronRight, LogOut, BookOpen, Menu, X, ChevronDown, GripVertical } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { CheckCircle2, Circle, LogOut, BookOpen, Menu, X, ChevronDown, GripVertical } from "lucide-react";
 import { AppHeader } from "@/components/AppHeader";
+
+const mono: React.CSSProperties = { fontFamily: "var(--font-dm-mono)" };
+const serif: React.CSSProperties = { fontFamily: "var(--font-cormorant)" };
 
 function LevelBadge({ level }: { level: string }) {
   const colors: Record<string, string> = {
-    beginner: "bg-green-500/20 text-green-400",
-    intermediate: "bg-yellow-500/20 text-yellow-400",
-    advanced: "bg-red-500/20 text-red-400",
+    beginner:     "var(--sage-c)",
+    intermediate: "var(--gold)",
+    advanced:     "var(--rose)",
   };
   return (
-    <span className={cn("text-xs px-2 py-0.5 rounded-full font-medium", colors[level] || colors.beginner)}>
+    <span style={{
+      ...mono,
+      fontSize: "0.5rem",
+      letterSpacing: "0.1em",
+      textTransform: "uppercase",
+      color: colors[level] || colors.beginner,
+      border: `1px solid ${colors[level] || colors.beginner}`,
+      padding: "0.1rem 0.4rem",
+    }}>
       {level}
     </span>
   );
@@ -29,10 +35,11 @@ function LevelBadge({ level }: { level: string }) {
 export default function LearnLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const [paths, setPaths] = useState<LearningPathResponse[]>([]);
+  const [paths, setPaths] = useState<CourseOut[]>([]);
+  const [lessons, setLessons] = useState<LessonOut[]>([]);
   const [progress, setProgress] = useState<Record<string, boolean>>({});
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [sidebarWidth, setSidebarWidth] = useState(280);
+  const [sidebarWidth, setSidebarWidth] = useState(260);
   const [loading, setLoading] = useState(true);
   const [pathPickerOpen, setPathPickerOpen] = useState(false);
   const isDragging = useRef(false);
@@ -42,10 +49,8 @@ export default function LearnLayout({ children }: { children: React.ReactNode })
     isDragging.current = true;
     const startX = e.clientX;
     const startWidth = sidebarWidth;
-
     const onMouseMove = (ev: MouseEvent) => {
-      const newWidth = Math.max(200, Math.min(500, startWidth + (ev.clientX - startX)));
-      setSidebarWidth(newWidth);
+      setSidebarWidth(Math.max(200, Math.min(480, startWidth + (ev.clientX - startX))));
     };
     const onMouseUp = () => {
       isDragging.current = false;
@@ -54,50 +59,26 @@ export default function LearnLayout({ children }: { children: React.ReactNode })
       document.body.style.cursor = "";
       document.body.style.userSelect = "";
     };
-
     document.body.style.cursor = "col-resize";
     document.body.style.userSelect = "none";
     document.addEventListener("mousemove", onMouseMove);
     document.addEventListener("mouseup", onMouseUp);
   }, [sidebarWidth]);
 
-  const [expandedModules, setExpandedModules] = useState<Set<string>>(new Set());
-
-  // Extract the active path slug from the URL: /learn/[pathId]/...
   const segments = pathname.split("/").filter(Boolean);
   const activePathSlug = segments[1] || "";
   const activePath = paths.find((p) => p.slug === activePathSlug);
   const isOnLesson = segments.length >= 3;
-  const activeLessonId = isOnLesson ? segments[2] : "";
+  const activeLessonSlug = isOnLesson ? segments[2] : "";
 
-  // Auto-expand the module containing the active lesson
-  const activeModuleId = useMemo(() => {
-    if (!activePath || !activeLessonId) return "";
-    for (const mod of activePath.modules) {
-      if (mod.lessons.some((l) => l.id === activeLessonId)) return mod.id;
-    }
-    return "";
-  }, [activePath, activeLessonId]);
-
+  // Load lessons whenever the active course changes
   useEffect(() => {
-    if (activeModuleId) {
-      setExpandedModules((prev) => {
-        if (prev.has(activeModuleId)) return prev;
-        const next = new Set(prev);
-        next.add(activeModuleId);
-        return next;
-      });
-    }
-  }, [activeModuleId]);
+    if (!activePathSlug) return;
+    const token = getToken();
+    if (!token) return;
+    api.courses.lessons(activePathSlug, token).then(setLessons).catch(() => {});
+  }, [activePathSlug]);
 
-  function toggleModule(modId: string) {
-    setExpandedModules((prev) => {
-      const next = new Set(prev);
-      if (next.has(modId)) next.delete(modId);
-      else next.add(modId);
-      return next;
-    });
-  }
 
   useEffect(() => {
     const token = getToken();
@@ -105,20 +86,10 @@ export default function LearnLayout({ children }: { children: React.ReactNode })
 
     async function load() {
       try {
-        const [summaries, prog] = await Promise.all([
-          api.learningPaths.list(token!),
-          api.progress.getAll(token!),
-        ]);
-        const progMap: Record<string, boolean> = {};
-        prog.forEach((p) => { progMap[p.lesson_id] = p.completed; });
-        setProgress(progMap);
-
-        const full = await Promise.all(
-          summaries.map((s) => api.learningPaths.get(s.slug, token!))
-        );
-        setPaths(full);
+        const courseList = await api.courses.list(token!);
+        setPaths(courseList);
       } catch {
-        router.push("/login");
+        // 401s handled inside request(); other failures show empty state
       } finally {
         setLoading(false);
       }
@@ -126,162 +97,188 @@ export default function LearnLayout({ children }: { children: React.ReactNode })
     load();
   }, [router]);
 
-  function handleLogout() {
-    removeToken();
-    router.push("/login");
-  }
+  function handleLogout() { removeToken(); router.push("/login"); }
 
   return (
-    <div className="flex h-dvh bg-background overflow-hidden">
+    <div className="flex h-dvh overflow-hidden" style={{ background: "var(--ink)", color: "var(--cream-0)" }}>
       {/* Sidebar */}
       {sidebarOpen && (
         <>
           <aside
-            className="flex flex-col h-full border-r border-border bg-card flex-shrink-0"
-            style={{ width: sidebarWidth }}
+            className="flex flex-col h-full flex-shrink-0"
+            style={{
+              width: sidebarWidth,
+              background: "var(--ink-1)",
+              borderRight: "1px solid rgba(240,233,214,0.07)",
+            }}
           >
-            <div className="flex items-center justify-between p-4 border-b border-border">
-              <div className="flex items-center gap-2">
-                <svg viewBox="0 0 24 24" className="h-5 w-5 text-primary" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
-                  <path d="M8 7h6M8 11h8"/>
-                </svg>
-                <span className="font-semibold text-sm"><span className="text-primary">Socratic</span>Tutor</span>
-              </div>
-              <div className="flex items-center gap-0.5">
-                <ThemeToggle />
-                <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(false)}>
-                  <X className="h-4 w-4" />
-                </Button>
-              </div>
+            {/* Sidebar header */}
+            <div
+              className="flex items-center justify-between px-4"
+              style={{
+                height: "3rem",
+                borderBottom: "1px solid rgba(240,233,214,0.07)",
+                flexShrink: 0,
+              }}
+            >
+              <span style={{ ...serif, fontWeight: 600, fontStyle: "italic", fontSize: "1.05rem", color: "var(--cream-0)" }}>
+                Courses
+              </span>
+              <button
+                onClick={() => setSidebarOpen(false)}
+                style={{ background: "none", border: "none", cursor: "pointer", color: "var(--cream-2)", display: "flex", alignItems: "center", padding: "0.25rem" }}
+              >
+                <X style={{ width: "0.85rem", height: "0.85rem" }} />
+              </button>
             </div>
 
             <ScrollArea className="flex-1">
               {loading ? (
-                <div className="p-4 text-sm text-muted-foreground">Loading...</div>
+                <div style={{ ...mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: "var(--cream-2)", padding: "1rem 1rem" }}>
+                  Loading...
+                </div>
               ) : (
-                <nav className="p-2 space-y-1">
-                  <div className="relative">
+                <nav style={{ padding: "0.5rem" }}>
+                  {/* Course picker */}
+                  <div style={{ position: "relative" }}>
                     <button
                       onClick={() => setPathPickerOpen(!pathPickerOpen)}
-                      className="w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm hover:bg-accent transition-colors text-left"
+                      className="w-full"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.5rem",
+                        padding: "0.6rem 0.75rem",
+                        background: pathPickerOpen ? "rgba(240,233,214,0.05)" : "none",
+                        border: "1px solid rgba(240,233,214,0.08)",
+                        cursor: "pointer",
+                        textAlign: "left",
+                      }}
                     >
-                      <BookOpen className="h-4 w-4 text-primary flex-shrink-0" />
-                      <span className="flex-1 font-medium truncate">
+                      <BookOpen style={{ width: "0.8rem", height: "0.8rem", color: "var(--gold)", flexShrink: 0 }} />
+                      <span style={{ ...mono, fontSize: "0.58rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--cream-1)", flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                         {activePath?.title || "Select a course"}
                       </span>
-                      <ChevronDown className={cn(
-                        "h-3.5 w-3.5 text-muted-foreground transition-transform",
-                        pathPickerOpen && "rotate-180"
-                      )} />
+                      <ChevronDown style={{ width: "0.7rem", height: "0.7rem", color: "var(--cream-2)", transform: pathPickerOpen ? "rotate(180deg)" : "none", transition: "transform 0.2s", flexShrink: 0 }} />
                     </button>
 
                     {pathPickerOpen && (
-                      <div className="absolute z-10 left-0 right-0 mt-1 rounded-md border border-border bg-popover shadow-lg">
+                      <div style={{
+                        position: "absolute",
+                        left: 0, right: 0,
+                        marginTop: "0.25rem",
+                        background: "var(--ink-2)",
+                        border: "1px solid rgba(240,233,214,0.08)",
+                        zIndex: 10,
+                      }}>
+                        {paths.length === 0 && (
+                          <div style={{ ...mono, fontSize: "0.58rem", color: "var(--cream-2)", padding: "0.75rem" }}>No courses yet</div>
+                        )}
                         {paths.map((path) => (
                           <Link
                             key={path.id}
                             href={`/learn/${path.slug}`}
                             onClick={() => setPathPickerOpen(false)}
-                            className={cn(
-                              "flex items-center gap-2 px-3 py-2 text-sm hover:bg-accent transition-colors first:rounded-t-md last:rounded-b-md",
-                              path.slug === activePathSlug && "bg-accent/50"
-                            )}
                           >
-                            <span className="flex-1 truncate">{path.title}</span>
-                            <LevelBadge level={path.level} />
+                            <div style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                              gap: "0.5rem",
+                              padding: "0.65rem 0.75rem",
+                              background: path.slug === activePathSlug ? "rgba(196,152,90,0.07)" : "none",
+                              borderLeft: path.slug === activePathSlug ? "2px solid var(--gold)" : "2px solid transparent",
+                              cursor: "pointer",
+                            }}>
+                              <span style={{ ...mono, fontSize: "0.58rem", letterSpacing: "0.08em", color: path.slug === activePathSlug ? "var(--cream-0)" : "var(--cream-1)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{path.title}</span>
+                              <LevelBadge level={path.level} />
+                            </div>
                           </Link>
                         ))}
                       </div>
                     )}
                   </div>
 
-                  {activePath && (
-                    <>
-                      <Separator className="my-2" />
-                      {activePath.modules.map((mod) => {
-                        const isExpanded = expandedModules.has(mod.id);
-                        const completedCount = mod.lessons.filter((l) => progress[l.id]).length;
-                        const hasActiveLessonInMod = mod.lessons.some((l) => pathname.includes(l.id));
+                  {/* Lesson list */}
+                  {activePath && lessons.length > 0 && (
+                    <div style={{ marginTop: "0.75rem" }}>
+                      <div style={{ height: "1px", background: "rgba(240,233,214,0.07)", marginBottom: "0.5rem" }} />
+                      {lessons.map((lesson) => {
+                        const done = progress[String(lesson.id)];
+                        const isActive = activeLessonSlug === lesson.slug;
                         return (
-                          <div key={mod.id} className="mt-1">
-                            <button
-                              onClick={() => toggleModule(mod.id)}
-                              className={cn(
-                                "w-full flex items-center gap-1.5 px-2 py-1.5 rounded-md text-left hover:bg-accent transition-colors group",
-                                hasActiveLessonInMod && "bg-accent/30"
-                              )}
-                            >
-                              <ChevronRight className={cn(
-                                "h-3 w-3 text-muted-foreground transition-transform flex-shrink-0",
-                                isExpanded && "rotate-90"
-                              )} />
-                              <span className="flex-1 text-xs font-medium text-muted-foreground uppercase tracking-wider leading-tight">
-                                {mod.title}
+                          <Link key={lesson.id} href={`/learn/${activePath.slug}/${lesson.slug}`}>
+                            <div style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "0.5rem",
+                              padding: "0.45rem 0.5rem",
+                              background: isActive ? "rgba(196,152,90,0.08)" : "none",
+                              borderLeft: isActive ? "1px solid var(--gold)" : "1px solid transparent",
+                              cursor: "pointer",
+                              transition: "background 0.15s",
+                            }}>
+                              {done
+                                ? <CheckCircle2 style={{ width: "0.75rem", height: "0.75rem", color: "var(--sage-c)", flexShrink: 0 }} />
+                                : <Circle style={{ width: "0.75rem", height: "0.75rem", color: isActive ? "var(--gold)" : "var(--cream-2)", flexShrink: 0 }} />
+                              }
+                              <span style={{ fontFamily: "var(--font-crimson)", fontSize: "0.85rem", color: isActive ? "var(--cream-0)" : "var(--cream-1)", lineHeight: 1.3, flex: 1 }}>
+                                {lesson.title}
                               </span>
-                              <span className="text-[10px] text-muted-foreground/60 flex-shrink-0">
-                                {completedCount}/{mod.lessons.length}
-                              </span>
-                            </button>
-                            {isExpanded && (
-                              <div className="ml-1.5 mt-0.5 space-y-0.5">
-                                {mod.lessons.map((lesson) => {
-                                  const done = progress[lesson.id];
-                                  const isActive = pathname.includes(lesson.id);
-                                  return (
-                                    <Link
-                                      key={lesson.id}
-                                      href={`/learn/${activePath.slug}/${lesson.id}`}
-                                      className={cn(
-                                        "flex items-center gap-2 px-2 py-1.5 rounded-md text-sm hover:bg-accent hover:text-accent-foreground transition-colors group",
-                                        isActive && "bg-accent text-accent-foreground"
-                                      )}
-                                    >
-                                      {done ? (
-                                        <CheckCircle2 className="h-4 w-4 text-green-500 flex-shrink-0" />
-                                      ) : (
-                                        <Circle className={cn(
-                                          "h-4 w-4 flex-shrink-0",
-                                          isActive ? "text-primary" : "text-muted-foreground"
-                                        )} />
-                                      )}
-                                      <span className="flex-1 leading-tight">{lesson.title}</span>
-                                      <ChevronRight className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 flex-shrink-0" />
-                                    </Link>
-                                  );
-                                })}
-                              </div>
-                            )}
-                          </div>
+                            </div>
+                          </Link>
                         );
                       })}
-                    </>
+                    </div>
                   )}
 
                   {!activePath && paths.length > 0 && (
-                    <div className="px-3 py-4 text-sm text-muted-foreground">
+                    <p style={{ ...mono, fontSize: "0.55rem", color: "var(--cream-2)", padding: "0.75rem 0.5rem", letterSpacing: "0.08em" }}>
                       Select a course above to see its lessons.
-                    </div>
+                    </p>
                   )}
                 </nav>
               )}
             </ScrollArea>
 
-            <div className="p-4 border-t border-border">
-              <Button variant="ghost" size="sm" onClick={handleLogout} className="w-full justify-start gap-2 text-muted-foreground">
-                <LogOut className="h-4 w-4" />
-                Sign out
-              </Button>
+            {/* Sign out */}
+            <div style={{ padding: "0.75rem", borderTop: "1px solid rgba(240,233,214,0.07)", flexShrink: 0 }}>
+              <button
+                onClick={handleLogout}
+                className="w-full"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                  padding: "0.5rem 0.6rem",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  color: "var(--cream-2)",
+                  transition: "color 0.2s",
+                }}
+                onMouseEnter={e => (e.currentTarget as HTMLButtonElement).style.color = "var(--cream-1)"}
+                onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.color = "var(--cream-2)"}
+              >
+                <LogOut style={{ width: "0.75rem", height: "0.75rem" }} />
+                <span style={{ ...mono, fontSize: "0.55rem", letterSpacing: "0.12em", textTransform: "uppercase" }}>Sign out</span>
+              </button>
             </div>
           </aside>
 
           {/* Drag handle */}
           <div
             onMouseDown={handleDragStart}
-            className="w-1.5 flex-shrink-0 bg-border hover:bg-primary/30 active:bg-primary/50 transition-colors cursor-col-resize flex items-center justify-center group"
-          >
-            <GripVertical className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-          </div>
+            style={{
+              width: "4px",
+              flexShrink: 0,
+              background: "rgba(240,233,214,0.04)",
+              cursor: "col-resize",
+              transition: "background 0.2s",
+            }}
+            onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.background = "rgba(196,152,90,0.25)"}
+            onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.background = "rgba(240,233,214,0.04)"}
+          />
         </>
       )}
 
@@ -290,14 +287,12 @@ export default function LearnLayout({ children }: { children: React.ReactNode })
         <AppHeader
           leftSlot={
             !sidebarOpen ? (
-              <>
-                <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(true)}>
-                  <Menu className="h-4 w-4" />
-                </Button>
-                {!isOnLesson && (
-                  <span className="text-sm font-medium"><span className="text-primary">Socratic</span>Tutor</span>
-                )}
-              </>
+              <button
+                onClick={() => setSidebarOpen(true)}
+                style={{ background: "none", border: "none", cursor: "pointer", color: "var(--cream-2)", display: "flex", alignItems: "center", padding: "0.25rem" }}
+              >
+                <Menu style={{ width: "0.9rem", height: "0.9rem" }} />
+              </button>
             ) : undefined
           }
         />

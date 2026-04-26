@@ -7,9 +7,6 @@ import {
   QuizQuestionResponse,
   QuizAnswerResponse,
 } from "@/lib/api";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
 import {
   Loader2,
   Trophy,
@@ -21,24 +18,19 @@ import {
   Sparkles,
 } from "lucide-react";
 
+const mono: React.CSSProperties = { fontFamily: "var(--font-dm-mono)" };
+const serif: React.CSSProperties = { fontFamily: "var(--font-cormorant)" };
+const body: React.CSSProperties = { fontFamily: "var(--font-crimson)" };
+
 const DIFFICULTIES = [
-  { id: "beginner", label: "Beginner", color: "bg-green-500/20 text-green-400 border-green-500/30" },
-  { id: "intermediate", label: "Intermediate", color: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30" },
-  { id: "advanced", label: "Advanced", color: "bg-orange-500/20 text-orange-400 border-orange-500/30" },
-  { id: "expert", label: "Expert", color: "bg-red-500/20 text-red-400 border-red-500/30" },
+  { id: "beginner",     label: "Beginner",     activeColor: "var(--sage-c)",  activeBg: "rgba(107,153,118,0.15)" },
+  { id: "intermediate", label: "Intermediate", activeColor: "var(--gold)",    activeBg: "rgba(196,152,90,0.15)"  },
+  { id: "advanced",     label: "Advanced",     activeColor: "#f97316",        activeBg: "rgba(249,115,22,0.12)"  },
+  { id: "expert",       label: "Expert",       activeColor: "#a78bfa",        activeBg: "rgba(167,139,250,0.12)" },
 ] as const;
 
 const QUESTION_COUNTS = [5, 10, 15] as const;
 const OPTION_LETTERS = ["A", "B", "C", "D"];
-
-function DifficultyBadge({ difficulty }: { difficulty: string }) {
-  const d = DIFFICULTIES.find((x) => x.id === difficulty) ?? DIFFICULTIES[1];
-  return (
-    <span className={cn("text-xs px-2.5 py-0.5 rounded-full font-medium border", d.color)}>
-      {d.label}
-    </span>
-  );
-}
 
 interface LessonQuizProps {
   lessonId: string;
@@ -89,11 +81,11 @@ export function LessonQuiz({ lessonId, lessonTitle }: LessonQuizProps) {
         session.id,
         session.questions[currentIndex].id,
         selectedOption,
-        token
+        token,
       );
       setAnswerResult(result);
       setSession((prev) =>
-        prev ? { ...prev, correct_count: result.correct_count, completed: result.completed } : prev
+        prev ? { ...prev, correct_count: result.correct_count, completed: result.completed } : prev,
       );
     } catch (err) {
       console.error("Answer submission failed:", err);
@@ -106,10 +98,7 @@ export function LessonQuiz({ lessonId, lessonTitle }: LessonQuizProps) {
   async function handleNext() {
     if (!session) return;
     const nextIdx = currentIndex + 1;
-    if (nextIdx >= session.total_questions) {
-      setView("results");
-      return;
-    }
+    if (nextIdx >= session.total_questions) { setView("results"); return; }
     if (nextIdx < session.questions.length) {
       setCurrentIndex(nextIdx);
       setSelectedOption(null);
@@ -153,64 +142,105 @@ export function LessonQuiz({ lessonId, lessonTitle }: LessonQuizProps) {
 
   if (view === "setup") {
     return (
-      <div className="flex flex-col items-center justify-center h-full px-6">
-        <div className="w-full max-w-md space-y-6">
-          <div className="text-center">
-            <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-3">
-              <Trophy className="h-6 w-6 text-primary" />
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", padding: "2rem 2rem" }}>
+        <div style={{ width: "100%", maxWidth: "42rem", display: "flex", flexDirection: "column", gap: "2rem" }}>
+          {/* Header */}
+          <div style={{ textAlign: "center" }}>
+            <div style={{ width: "4rem", height: "4rem", background: "rgba(196,152,90,0.12)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 1rem" }}>
+              <Trophy style={{ width: "2rem", height: "2rem", color: "var(--gold)" }} />
             </div>
-            <h2 className="text-lg font-bold mb-1">Quiz Yourself</h2>
-            <p className="text-sm text-muted-foreground">{lessonTitle}</p>
+            <h2 style={{ ...serif, fontWeight: 700, fontStyle: "italic", fontSize: "clamp(1.75rem,3vw,2.5rem)", color: "var(--cream-0)", marginBottom: "0.4rem" }}>
+              Quiz Yourself
+            </h2>
+            <p style={{ ...mono, fontSize: "0.58rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--cream-2)" }}>
+              {lessonTitle}
+            </p>
           </div>
 
-          <div className="space-y-4 p-5 rounded-xl border border-border bg-card/50">
-            <div>
-              <p className="text-xs text-muted-foreground font-medium mb-2">Difficulty</p>
-              <div className="flex flex-wrap gap-1.5">
-                {DIFFICULTIES.map((d) => (
-                  <button
-                    key={d.id}
-                    onClick={() => setDifficulty(d.id)}
-                    className={cn(
-                      "text-xs px-3 py-1.5 rounded-full font-medium border transition-all",
-                      difficulty === d.id
-                        ? d.color + " ring-1 ring-current ring-offset-1 ring-offset-background"
-                        : "border-border text-muted-foreground hover:text-foreground"
-                    )}
-                  >
-                    {d.label}
-                  </button>
-                ))}
+          {/* Config card */}
+          <div style={{ background: "var(--ink-1)", border: "1px solid rgba(240,233,214,0.08)", padding: "1.75rem 2rem" }}>
+            <div style={{ marginBottom: "1.5rem" }}>
+              <p style={{ ...mono, fontSize: "0.52rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--cream-2)", marginBottom: "0.8rem" }}>
+                Difficulty
+              </p>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+                {DIFFICULTIES.map((d) => {
+                  const isActive = difficulty === d.id;
+                  return (
+                    <button
+                      key={d.id}
+                      onClick={() => setDifficulty(d.id)}
+                      style={{
+                        ...mono,
+                        fontSize: "0.55rem",
+                        letterSpacing: "0.1em",
+                        textTransform: "uppercase",
+                        padding: "0.5rem 1.1rem",
+                        background: isActive ? d.activeBg : "transparent",
+                        color: isActive ? d.activeColor : "var(--cream-2)",
+                        border: isActive ? `1px solid ${d.activeColor}` : "1px solid rgba(240,233,214,0.12)",
+                        cursor: "pointer",
+                        transition: "all 0.15s",
+                      }}
+                    >
+                      {d.label}
+                    </button>
+                  );
+                })}
               </div>
             </div>
+
             <div>
-              <p className="text-xs text-muted-foreground font-medium mb-2">Questions</p>
-              <div className="flex gap-1.5">
-                {QUESTION_COUNTS.map((n) => (
-                  <button
-                    key={n}
-                    onClick={() => setNumQuestions(n)}
-                    className={cn(
-                      "text-xs px-3 py-1.5 rounded-full font-medium border transition-all",
-                      numQuestions === n
-                        ? "bg-primary/20 text-primary border-primary/30"
-                        : "border-border text-muted-foreground hover:text-foreground"
-                    )}
-                  >
-                    {n}
-                  </button>
-                ))}
+              <p style={{ ...mono, fontSize: "0.52rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--cream-2)", marginBottom: "0.8rem" }}>
+                Questions
+              </p>
+              <div style={{ display: "flex", gap: "0.5rem" }}>
+                {QUESTION_COUNTS.map((n) => {
+                  const isActive = numQuestions === n;
+                  return (
+                    <button
+                      key={n}
+                      onClick={() => setNumQuestions(n)}
+                      style={{
+                        ...mono,
+                        fontSize: "0.55rem",
+                        letterSpacing: "0.1em",
+                        padding: "0.5rem 1.1rem",
+                        background: isActive ? "rgba(196,152,90,0.15)" : "transparent",
+                        color: isActive ? "var(--gold)" : "var(--cream-2)",
+                        border: isActive ? "1px solid rgba(196,152,90,0.4)" : "1px solid rgba(240,233,214,0.12)",
+                        cursor: "pointer",
+                        transition: "all 0.15s",
+                      }}
+                    >
+                      {n}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>
 
-          <Button onClick={handleGenerate} disabled={generating} className="w-full rounded-xl h-11 gap-2">
+          {/* Start button */}
+          <button
+            onClick={handleGenerate}
+            disabled={generating}
+            style={{
+              display: "flex", alignItems: "center", justifyContent: "center", gap: "0.6rem",
+              width: "100%", padding: "1rem",
+              background: generating ? "var(--ink-3)" : "var(--gold)",
+              color: generating ? "var(--cream-2)" : "var(--ink)",
+              border: "none", cursor: generating ? "default" : "pointer",
+              ...mono, fontSize: "0.6rem", letterSpacing: "0.14em", textTransform: "uppercase",
+              transition: "all 0.15s",
+            }}
+          >
             {generating ? (
-              <><Loader2 className="h-4 w-4 animate-spin" /> Generating...</>
+              <><Loader2 style={{ width: "1rem", height: "1rem" }} className="animate-spin" /> Generating…</>
             ) : (
-              <><Sparkles className="h-4 w-4" /> Start Quiz</>
+              <><Sparkles style={{ width: "1rem", height: "1rem" }} /> Start Quiz</>
             )}
-          </Button>
+          </button>
         </div>
       </div>
     );
@@ -221,37 +251,52 @@ export function LessonQuiz({ lessonId, lessonTitle }: LessonQuizProps) {
       ? Math.round((session.correct_count / session.total_questions) * 100)
       : 0;
     const grade =
-      pct >= 90 ? { label: "Excellent", color: "text-green-400" }
-      : pct >= 70 ? { label: "Good", color: "text-yellow-400" }
-      : pct >= 50 ? { label: "Fair", color: "text-orange-400" }
-      : { label: "Needs Practice", color: "text-red-400" };
+      pct >= 90 ? { label: "Excellent",       color: "var(--sage-c)" }
+      : pct >= 70 ? { label: "Good",           color: "var(--gold)"   }
+      : pct >= 50 ? { label: "Fair",           color: "#f97316"       }
+      : { label: "Needs Practice",             color: "var(--rose)"   };
 
     return (
-      <div className="flex flex-col items-center justify-center h-full px-6">
-        <div className="w-full max-w-sm text-center space-y-6">
-          <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto">
-            <Trophy className="h-7 w-7 text-primary" />
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", padding: "0 1.5rem" }}>
+        <div style={{ width: "100%", maxWidth: "24rem", textAlign: "center", display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+          <div style={{ width: "3.5rem", height: "3.5rem", background: "rgba(196,152,90,0.12)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto" }}>
+            <Trophy style={{ width: "1.75rem", height: "1.75rem", color: "var(--gold)" }} />
           </div>
           <div>
-            <h2 className="text-xl font-bold mb-1">Quiz Complete</h2>
-            <p className="text-sm text-muted-foreground">{lessonTitle}</p>
+            <h2 style={{ ...serif, fontWeight: 700, fontStyle: "italic", fontSize: "1.5rem", color: "var(--cream-0)", marginBottom: "0.25rem" }}>
+              Quiz Complete
+            </h2>
+            <p style={{ ...mono, fontSize: "0.55rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--cream-2)" }}>
+              {lessonTitle}
+            </p>
           </div>
-          <div className="rounded-xl border border-border bg-card p-6">
-            <div className="text-5xl font-bold mb-1">
-              <span className={grade.color}>{pct}%</span>
+          <div style={{ background: "var(--ink-1)", border: "1px solid rgba(240,233,214,0.08)", padding: "1.5rem" }}>
+            <div style={{ fontSize: "3rem", fontWeight: 700, marginBottom: "0.25rem", color: grade.color, fontFamily: "var(--font-cormorant)" }}>
+              {pct}%
             </div>
-            <div className={cn("font-medium mb-1", grade.color)}>{grade.label}</div>
-            <p className="text-sm text-muted-foreground">
+            <div style={{ ...mono, fontSize: "0.55rem", letterSpacing: "0.1em", textTransform: "uppercase", color: grade.color, marginBottom: "0.5rem" }}>
+              {grade.label}
+            </div>
+            <p style={{ ...mono, fontSize: "0.55rem", color: "var(--cream-2)" }}>
               {session.correct_count} / {session.total_questions} correct
             </p>
-            <div className="mt-4 h-2.5 bg-muted rounded-full overflow-hidden flex">
-              <div className="h-full bg-green-500" style={{ width: `${pct}%` }} />
-              <div className="h-full bg-red-500/60" style={{ width: `${100 - pct}%` }} />
+            <div style={{ marginTop: "1rem", height: "4px", background: "var(--ink-3)", overflow: "hidden", display: "flex" }}>
+              <div style={{ height: "100%", background: "var(--sage-c)", width: `${pct}%` }} />
+              <div style={{ height: "100%", background: "rgba(180,80,80,0.5)", width: `${100 - pct}%` }} />
             </div>
           </div>
-          <Button variant="outline" onClick={handleRetake} className="rounded-xl gap-2">
-            <RotateCcw className="h-4 w-4" /> Try Again
-          </Button>
+          <button
+            onClick={handleRetake}
+            style={{
+              display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem",
+              padding: "0.65rem 1.5rem", margin: "0 auto",
+              background: "transparent", color: "var(--cream-1)",
+              border: "1px solid rgba(240,233,214,0.15)", cursor: "pointer",
+              ...mono, fontSize: "0.52rem", letterSpacing: "0.1em", textTransform: "uppercase",
+            }}
+          >
+            <RotateCcw style={{ width: "0.75rem", height: "0.75rem" }} /> Try Again
+          </button>
         </div>
       </div>
     );
@@ -262,33 +307,38 @@ export function LessonQuiz({ lessonId, lessonTitle }: LessonQuizProps) {
 
   const progress = ((currentIndex + (answerResult ? 1 : 0)) / session.total_questions) * 100;
   const isLastQuestion = currentIndex + 1 >= session.total_questions;
+  const activeDiffObj = DIFFICULTIES.find((d) => d.id === session.difficulty) ?? DIFFICULTIES[1];
 
   return (
-    <div className="flex flex-col h-full overflow-y-auto">
-      <div className="max-w-2xl mx-auto w-full px-4 py-5 space-y-4">
+    <div style={{ height: "100%", overflowY: "auto" }} className="thin-scrollbar">
+      <div style={{ maxWidth: "40rem", margin: "0 auto", padding: "1.25rem 1rem" }}>
         {/* Progress header */}
-        <div className="p-3 rounded-xl border border-border bg-card/50">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-2">
-              <DifficultyBadge difficulty={session.difficulty} />
-              <span className="text-xs text-muted-foreground">
+        <div style={{ background: "var(--ink-1)", border: "1px solid rgba(240,233,214,0.08)", padding: "0.75rem 1rem", marginBottom: "1rem" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.5rem" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+              <span style={{ ...mono, fontSize: "0.48rem", letterSpacing: "0.08em", textTransform: "uppercase", color: activeDiffObj.activeColor, border: `1px solid ${activeDiffObj.activeColor}`, padding: "0.1rem 0.4rem" }}>
+                {session.difficulty}
+              </span>
+              <span style={{ ...mono, fontSize: "0.5rem", color: "var(--cream-2)" }}>
                 Question {currentIndex + 1} / {session.total_questions}
               </span>
             </div>
-            <span className="text-sm font-bold text-primary">
+            <span style={{ ...mono, fontSize: "0.58rem", color: "var(--gold)", fontWeight: 600 }}>
               {session.correct_count}/{session.total_questions}
             </span>
           </div>
-          <div className="h-1.5 bg-muted rounded-full overflow-hidden">
-            <div className="h-full bg-primary rounded-full transition-all duration-500" style={{ width: `${progress}%` }} />
+          <div style={{ height: "3px", background: "var(--ink-3)", overflow: "hidden" }}>
+            <div style={{ height: "100%", background: "var(--gold)", width: `${progress}%`, transition: "width 0.5s" }} />
           </div>
         </div>
 
-        {/* Question */}
-        <div className="rounded-xl border border-border bg-card p-5">
-          <h3 className="font-medium mb-5 leading-relaxed">{question.question_text}</h3>
+        {/* Question card */}
+        <div style={{ background: "var(--ink-1)", border: "1px solid rgba(240,233,214,0.08)", padding: "1.25rem" }}>
+          <h3 style={{ ...body, fontSize: "1rem", color: "var(--cream-0)", lineHeight: 1.6, marginBottom: "1.25rem" }}>
+            {question.question_text}
+          </h3>
 
-          <div className="space-y-2.5">
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
             {question.options.map((opt, idx) => {
               const letter = OPTION_LETTERS[idx] || String(idx + 1);
               const isSelected = selectedOption === opt.id;
@@ -296,50 +346,74 @@ export function LessonQuiz({ lessonId, lessonTitle }: LessonQuizProps) {
               const isCorrect = answerResult?.correct_option_id === opt.id;
               const isWrong = isAnswered && isSelected && !answerResult.is_correct;
 
+              let borderColor = "rgba(240,233,214,0.1)";
+              let bgColor = "transparent";
+              let letterBg = "var(--ink-2)";
+              let letterColor = "var(--cream-2)";
+              let opacity = 1;
+
+              if (isAnswered && isCorrect) {
+                borderColor = "rgba(107,153,118,0.6)";
+                bgColor = "rgba(107,153,118,0.08)";
+                letterBg = "var(--sage-c)";
+                letterColor = "var(--ink)";
+              } else if (isAnswered && isWrong) {
+                borderColor = "rgba(180,80,80,0.6)";
+                bgColor = "rgba(180,80,80,0.08)";
+                letterBg = "var(--rose)";
+                letterColor = "white";
+              } else if (isAnswered) {
+                opacity = 0.4;
+              } else if (isSelected) {
+                borderColor = "rgba(196,152,90,0.5)";
+                bgColor = "rgba(196,152,90,0.06)";
+                letterBg = "var(--gold)";
+                letterColor = "var(--ink)";
+              }
+
               return (
                 <button
                   key={opt.id}
                   onClick={() => !isAnswered && setSelectedOption(opt.id)}
                   disabled={isAnswered}
-                  className={cn(
-                    "w-full flex items-center gap-3 px-4 py-3 rounded-xl border text-left text-sm transition-all",
-                    isAnswered && isCorrect && "border-green-500 bg-green-500/10",
-                    isAnswered && isWrong && "border-red-500 bg-red-500/10",
-                    isAnswered && !isCorrect && !isWrong && "opacity-50",
-                    !isAnswered && isSelected && "border-primary bg-primary/5 ring-1 ring-primary/30",
-                    !isAnswered && !isSelected && "border-border hover:border-foreground/20",
-                  )}
+                  style={{
+                    display: "flex", alignItems: "center", gap: "0.75rem",
+                    padding: "0.75rem 1rem", textAlign: "left",
+                    background: bgColor, border: `1px solid ${borderColor}`,
+                    cursor: isAnswered ? "default" : "pointer", opacity,
+                    transition: "all 0.15s", width: "100%",
+                  }}
                 >
-                  <span
-                    className={cn(
-                      "flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-xs font-semibold border",
-                      isAnswered && isCorrect && "bg-green-500 text-white border-green-500",
-                      isAnswered && isWrong && "bg-red-500 text-white border-red-500",
-                      !isAnswered && isSelected && "bg-primary text-primary-foreground border-primary",
-                      !isAnswered && !isSelected && "bg-muted border-border text-muted-foreground",
-                      isAnswered && !isCorrect && !isWrong && "bg-muted border-border text-muted-foreground",
-                    )}
-                  >
-                    {isAnswered && isCorrect ? <CheckCircle2 className="h-3.5 w-3.5" /> :
-                     isAnswered && isWrong ? <XCircle className="h-3.5 w-3.5" /> : letter}
+                  <span style={{
+                    flexShrink: 0, width: "1.75rem", height: "1.75rem",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    ...mono, fontSize: "0.55rem", fontWeight: 600,
+                    background: letterBg, color: letterColor,
+                    border: "none",
+                  }}>
+                    {isAnswered && isCorrect ? <CheckCircle2 style={{ width: "0.875rem", height: "0.875rem" }} /> :
+                     isAnswered && isWrong   ? <XCircle      style={{ width: "0.875rem", height: "0.875rem" }} /> :
+                     letter}
                   </span>
-                  <span>{opt.text}</span>
+                  <span style={{ ...body, fontSize: "0.95rem", color: "var(--cream-1)", lineHeight: 1.4 }}>
+                    {opt.text}
+                  </span>
                 </button>
               );
             })}
           </div>
 
           {!answerResult && question.hint && (
-            <div className="mt-3">
+            <div style={{ marginTop: "0.75rem" }}>
               <button
                 onClick={() => setShowHint(!showHint)}
-                className="flex items-center gap-1.5 text-xs text-primary hover:text-primary/80 transition-colors"
+                style={{ display: "flex", alignItems: "center", gap: "0.35rem", background: "none", border: "none", cursor: "pointer", color: "var(--gold)", ...mono, fontSize: "0.5rem", letterSpacing: "0.08em" }}
               >
-                <Lightbulb className="h-3.5 w-3.5" />
+                <Lightbulb style={{ width: "0.75rem", height: "0.75rem" }} />
                 {showHint ? "Hide Hint" : "Show Hint"}
               </button>
               {showHint && (
-                <div className="mt-2 px-3 py-2 rounded-lg bg-primary/5 border border-primary/20 text-sm text-primary">
+                <div style={{ marginTop: "0.5rem", padding: "0.6rem 0.75rem", background: "rgba(196,152,90,0.06)", border: "1px solid rgba(196,152,90,0.2)", ...body, fontSize: "0.9rem", color: "var(--gold)", lineHeight: 1.5 }}>
                   {question.hint}
                 </div>
               )}
@@ -347,39 +421,62 @@ export function LessonQuiz({ lessonId, lessonTitle }: LessonQuizProps) {
           )}
 
           {answerResult && (
-            <div className={cn(
-              "mt-3 px-3 py-2.5 rounded-lg border text-sm",
-              answerResult.is_correct
-                ? "bg-green-500/5 border-green-500/20"
-                : "bg-red-500/5 border-red-500/20"
-            )}>
-              <div className="font-medium mb-1 flex items-center gap-1.5">
-                {answerResult.is_correct ? (
-                  <><CheckCircle2 className="h-4 w-4 text-green-400" /> Correct!</>
-                ) : (
-                  <><XCircle className="h-4 w-4 text-red-400" /> Incorrect</>
-                )}
+            <div style={{
+              marginTop: "0.75rem", padding: "0.75rem 1rem",
+              background: answerResult.is_correct ? "rgba(107,153,118,0.06)" : "rgba(180,80,80,0.06)",
+              border: answerResult.is_correct ? "1px solid rgba(107,153,118,0.25)" : "1px solid rgba(180,80,80,0.25)",
+            }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", marginBottom: "0.4rem", ...mono, fontSize: "0.52rem", letterSpacing: "0.08em", textTransform: "uppercase", color: answerResult.is_correct ? "var(--sage-c)" : "var(--rose)", fontWeight: 600 }}>
+                {answerResult.is_correct
+                  ? <><CheckCircle2 style={{ width: "0.875rem", height: "0.875rem" }} /> Correct!</>
+                  : <><XCircle      style={{ width: "0.875rem", height: "0.875rem" }} /> Incorrect</>}
               </div>
-              <p className="text-muted-foreground">{answerResult.explanation}</p>
+              <p style={{ ...body, fontSize: "0.9rem", color: "var(--cream-2)", lineHeight: 1.5 }}>
+                {answerResult.explanation}
+              </p>
             </div>
           )}
 
-          <div className="mt-4 flex justify-end">
+          <div style={{ marginTop: "1rem", display: "flex", justifyContent: "flex-end" }}>
             {!answerResult ? (
-              <Button onClick={handleSubmitAnswer} disabled={!selectedOption || submitting} className="rounded-xl px-5">
-                {submitting && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
+              <button
+                onClick={handleSubmitAnswer}
+                disabled={!selectedOption || submitting}
+                style={{
+                  display: "flex", alignItems: "center", gap: "0.4rem",
+                  padding: "0.55rem 1.25rem",
+                  background: (!selectedOption || submitting) ? "var(--ink-3)" : "var(--gold)",
+                  color: (!selectedOption || submitting) ? "var(--cream-2)" : "var(--ink)",
+                  border: "none", cursor: (!selectedOption || submitting) ? "default" : "pointer",
+                  ...mono, fontSize: "0.52rem", letterSpacing: "0.1em", textTransform: "uppercase",
+                  transition: "all 0.15s",
+                }}
+              >
+                {submitting && <Loader2 style={{ width: "0.75rem", height: "0.75rem" }} className="animate-spin" />}
                 Submit
-              </Button>
+              </button>
             ) : (
-              <Button onClick={handleNext} disabled={loadingNext} className="rounded-xl px-5 gap-1.5">
+              <button
+                onClick={handleNext}
+                disabled={loadingNext}
+                style={{
+                  display: "flex", alignItems: "center", gap: "0.4rem",
+                  padding: "0.55rem 1.25rem",
+                  background: loadingNext ? "var(--ink-3)" : "var(--gold)",
+                  color: loadingNext ? "var(--cream-2)" : "var(--ink)",
+                  border: "none", cursor: loadingNext ? "default" : "pointer",
+                  ...mono, fontSize: "0.52rem", letterSpacing: "0.1em", textTransform: "uppercase",
+                  transition: "all 0.15s",
+                }}
+              >
                 {loadingNext ? (
-                  <><Loader2 className="h-4 w-4 animate-spin" /> Loading...</>
+                  <><Loader2 style={{ width: "0.75rem", height: "0.75rem" }} className="animate-spin" /> Loading…</>
                 ) : isLastQuestion ? (
-                  <><Trophy className="h-4 w-4" /> View Results</>
+                  <><Trophy style={{ width: "0.75rem", height: "0.75rem" }} /> View Results</>
                 ) : (
-                  <>Next <ArrowRight className="h-4 w-4" /></>
+                  <>Next <ArrowRight style={{ width: "0.75rem", height: "0.75rem" }} /></>
                 )}
-              </Button>
+              </button>
             )}
           </div>
         </div>

@@ -10,7 +10,7 @@ class SkillAssessment(SQLModel, table=True):
     __tablename__ = "skillassessment"
 
     id: str = Field(default_factory=cuid, primary_key=True)
-    user_id: str = Field(foreign_key="user.id", index=True)
+    user_id: str = Field(foreign_key="users.id", index=True)
     background_text: str = ""
     overall_level: str = "beginner"
     overall_summary: str = ""

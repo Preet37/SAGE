@@ -26,13 +26,28 @@ def _load_yaml() -> dict:
 class Settings:
     def __init__(self) -> None:
         load_dotenv(_BACKEND_DIR / ".env")
+        # Cloudinary reads CLOUDINARY_URL at module import time, before load_dotenv
+        # runs. Re-configure it now that the env is populated.
+        if os.getenv("CLOUDINARY_URL"):
+            try:
+                import cloudinary as _cl
+                _cl.reset_config()
+            except Exception:
+                pass
+
         cfg = _load_yaml()
 
         # Database
         self.database_url: str = cfg["database"]["url"]
 
-        # Secrets from .env only
-        self.llm_api_key: str = os.getenv("LLM_API_KEY", "")
+        # Secrets from .env only — accept LLM_API_KEY or the provider-specific keys
+        self.llm_api_key: str = (
+            os.getenv("LLM_API_KEY")
+            or os.getenv("GROQ_API_KEY")
+            or os.getenv("OPENAI_API_KEY")
+            or os.getenv("ANTHROPIC_API_KEY")
+            or ""
+        )
 
         jwt_secret = os.getenv("JWT_SECRET", "")
         if not jwt_secret:

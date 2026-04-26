@@ -14,7 +14,7 @@ class MemoryRecord(SQLModel, table=True):
     __tablename__ = "memoryrecord"
 
     id: str = Field(default_factory=cuid, primary_key=True)
-    user_id: str = Field(foreign_key="user.id", index=True)
+    user_id: str = Field(foreign_key="users.id", index=True)
     lesson_id: Optional[str] = Field(default=None, foreign_key="lesson.id", index=True)
     session_id: Optional[str] = Field(default=None, index=True)
     role: str                           # "user" | "assistant" | "summary"

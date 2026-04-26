@@ -1,28 +1,22 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { api, LessonResponse, TutorSessionResponse } from "@/lib/api";
+import { api, LessonOut } from "@/lib/api";
 import { getToken } from "@/lib/auth";
 import { useVoiceActions } from "@/lib/useVoiceActions";
 import { VideoPlayer } from "@/components/content/VideoPlayer";
-import { LessonContent } from "@/components/content/LessonContent";
-import { ReferenceSources } from "@/components/content/ReferenceSources";
 import { TutorPanel } from "@/components/tutor/TutorPanel";
 import { LessonQuiz } from "@/components/lesson/LessonQuiz";
-import { Button } from "@/components/ui/button";
 import {
-  CheckCircle2,
   ChevronLeft,
   PanelRightOpen,
   PanelRightClose,
   GripVertical,
   BotMessageSquare,
   Trophy,
-  Download,
-  Headphones,
+  Loader2,
 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Badge } from "@/components/ui/badge";
 import { Message } from "@/lib/useTutorStream";
 import { usePresence } from "@/lib/usePresence";
 import Link from "next/link";
@@ -34,7 +28,22 @@ import {
 } from "react-resizable-panels";
 import { useVoiceStore } from "@/lib/useVoiceStore";
 
+const mono: React.CSSProperties = { fontFamily: "var(--font-dm-mono)" };
+const serif: React.CSSProperties = { fontFamily: "var(--font-cormorant)" };
+const body: React.CSSProperties = { fontFamily: "var(--font-crimson)" };
+
 type ActiveTab = "chat" | "quiz";
+
+function youtubeId(url: string | null): string | null {
+  if (!url) return null;
+  const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+  return m ? m[1] : null;
+}
+
+function vimeoUrl(url: string | null): string | null {
+  if (!url) return null;
+  return url.includes("vimeo.com") ? url : null;
+}
 
 export default function LessonPage() {
   const router = useRouter();
@@ -42,249 +51,115 @@ export default function LessonPage() {
   const pathId = params.pathId as string;
   const lessonId = params.lessonId as string;
 
-  const [lesson, setLesson] = useState<LessonResponse | null>(null);
-  const [completed, setCompleted] = useState(false);
-  const [history, setHistory] = useState<Message[]>([]);
-  const [sessions, setSessions] = useState<TutorSessionResponse[]>([]);
-  const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
+  const [lesson, setLesson] = useState<LessonOut | null>(null);
   const [loading, setLoading] = useState(true);
-  const [marking, setMarking] = useState(false);
   const [showContent, setShowContent] = useState(false);
   const [activeTab, setActiveTab] = useState<ActiveTab>("chat");
 
-  // Arista track: announce my presence on this lesson so peers can see me.
   usePresence({ lessonId, status: "studying" });
 
-  // Voice context: expose lesson state to the SAGE voice agent
   const { setContext, clearContext } = useVoiceStore();
   const { register, unregister } = useVoiceActions();
   const sendToTutorRef = useCallback((msg: string) => {
-    // Dispatched by the voice agent via clientTools — routes message into TutorPanel
-    const event = new CustomEvent("sage:voice-send", { detail: { message: msg } });
-    window.dispatchEvent(event);
+    window.dispatchEvent(new CustomEvent("sage:voice-send", { detail: { message: msg } }));
   }, []);
 
   useEffect(() => {
     const token = getToken();
-    if (!token) {
-      router.push("/login");
-      return;
-    }
+    if (!token) { router.push("/login"); return; }
 
-    Promise.all([
-      api.learningPaths.getLesson(lessonId, token),
-      api.progress.getAll(token),
-      api.progress.getSessions(lessonId, token),
-    ])
-      .then(async ([lessonData, prog, tutorSessions]) => {
-        setLesson(lessonData);
-        const progMap: Record<string, boolean> = {};
-        prog.forEach((r) => {
-          progMap[r.lesson_id] = r.completed;
-        });
-        setCompleted(!!progMap[lessonId]);
-        setSessions(tutorSessions);
-
-        if (tutorSessions.length > 0) {
-          const latest = tutorSessions[0];
-          setActiveSessionId(latest.id);
-          const msgs = await api.progress.getSessionHistory(
-            lessonId,
-            latest.id,
-            token
-          );
-          setHistory(
-            msgs.map((m) => {
-              let verification;
-              if (m.message_meta) {
-                try {
-                  const meta = JSON.parse(m.message_meta);
-                  if (meta?.verification) verification = meta.verification;
-                } catch { /* ignore */ }
-              }
-              return {
-                id: m.id,
-                role: m.role as "user" | "assistant",
-                content: m.content,
-                verification,
-              };
-            })
-          );
-        }
-      })
-      .catch(() => router.push("/learn"))
+    api.courses.lesson(pathId, lessonId, token)
+      .then(setLesson)
+      .catch(() => router.push(`/learn/${pathId}`))
       .finally(() => setLoading(false));
-  }, [lessonId, router]);
+  }, [pathId, lessonId, router]);
 
-  // Push lesson context to the voice agent whenever lesson or history changes
   useEffect(() => {
     if (!lesson) return;
-    const recentMsgs = history
-      .slice(-6)
-      .map((m) => `${m.role === "user" ? "Student" : "Tutor"}: ${m.content.slice(0, 200)}`)
-      .join("\n");
     setContext({
       pageType: "lesson",
       title: lesson.title,
-      description: lesson.summary || lesson.content?.slice(0, 300) || "",
+      description: lesson.summary,
       currentTopic: lesson.title,
-      recentMessages: recentMsgs,
+      recentMessages: "",
       sendToTutor: sendToTutorRef,
     });
-    // Register voice agent actions for this lesson
     register([
-      {
-        key: "open_quiz",
-        description: "Switch to the quiz tab on the current lesson",
-        handler: () => setActiveTab("quiz"),
-      },
-      {
-        key: "open_chat",
-        description: "Switch to the tutor chat tab on the current lesson",
-        handler: () => setActiveTab("chat"),
-      },
-      {
-        key: "mark_complete",
-        description: "Mark the current lesson as completed",
-        handler: () => handleMarkComplete(),
-      },
+      { key: "open_quiz",    description: "Switch to the quiz tab",    handler: () => setActiveTab("quiz") },
+      { key: "open_chat",    description: "Switch to the tutor chat",  handler: () => setActiveTab("chat") },
     ]);
     return () => {
       clearContext();
-      unregister(["open_quiz", "open_chat", "mark_complete"]);
+      unregister(["open_quiz", "open_chat"]);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lesson, history]);
-
-  async function handleMarkComplete() {
-    const token = getToken();
-    if (!token || marking || completed) return;
-    setMarking(true);
-    try {
-      await api.progress.markComplete(lessonId, token);
-      setCompleted(true);
-    } finally {
-      setMarking(false);
-    }
-  }
-
-  const handleDownloadNotes = useCallback(() => {
-    if (!lesson) return;
-    const md = `# ${lesson.title}\n\n${lesson.content}`;
-    const blob = new Blob([md], { type: "text/markdown;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${lesson.slug || lesson.title.toLowerCase().replace(/\s+/g, "-")}.md`;
-    a.click();
-    URL.revokeObjectURL(url);
   }, [lesson]);
 
-  if (loading || !lesson) {
+  if (loading) {
     return (
-      <div className="flex items-center justify-center h-full text-muted-foreground">
-        Loading lesson...
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%" }}>
+        <Loader2 style={{ width: "1.25rem", height: "1.25rem", color: "var(--gold)" }} className="animate-spin" />
       </div>
     );
   }
 
+  if (!lesson) return null;
+
+  const ytId   = youtubeId(lesson.video_url);
+  const vimUrl = vimeoUrl(lesson.video_url);
+  const hasVideo = !!(ytId || vimUrl);
+
   return (
-    <div className="flex flex-col h-full overflow-hidden">
+    <div style={{ display: "flex", flexDirection: "column", height: "100%", overflow: "hidden", background: "var(--ink)" }}>
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-2.5 border-b border-border bg-card/50 flex-shrink-0">
-        <div className="flex items-center gap-2 min-w-0">
-          <Link href={`/learn/${pathId}`}>
-            <Button variant="ghost" size="icon" className="flex-shrink-0">
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 1rem", height: "3rem", borderBottom: "1px solid rgba(240,233,214,0.07)", background: "var(--ink-1)", flexShrink: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", minWidth: 0 }}>
+          <Link href={`/learn/${pathId}`} style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "1.75rem", height: "1.75rem", color: "var(--cream-2)", flexShrink: 0 }}>
+            <ChevronLeft style={{ width: "1rem", height: "1rem" }} />
           </Link>
-          <h1 className="text-sm font-semibold truncate">{lesson.title}</h1>
+          <span style={{ fontFamily: "var(--font-crimson)", fontSize: "0.95rem", color: "var(--cream-0)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            {lesson.title}
+          </span>
         </div>
-        <div className="flex items-center gap-2 flex-shrink-0">
-          {/* Chat / Quiz tabs */}
-          <div className="flex items-center rounded-lg border border-border bg-muted/50 p-0.5">
-            <button
-              onClick={() => setActiveTab("chat")}
-              className={cn(
-                "flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium transition-all",
-                activeTab === "chat"
-                  ? "bg-background text-foreground shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              <BotMessageSquare className="h-3.5 w-3.5" />
-              Chat
-            </button>
-            <button
-              onClick={() => setActiveTab("quiz")}
-              className={cn(
-                "flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium transition-all",
-                activeTab === "quiz"
-                  ? "bg-background text-foreground shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              <Trophy className="h-3.5 w-3.5" />
-              Quiz
-            </button>
+
+        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexShrink: 0 }}>
+          {/* Chat / Quiz tab switcher */}
+          <div style={{ display: "flex", alignItems: "center", background: "var(--ink-2)", border: "1px solid rgba(240,233,214,0.08)", padding: "0.15rem" }}>
+            {(["chat", "quiz"] as ActiveTab[]).map((tab) => (
+              <button key={tab} onClick={() => setActiveTab(tab)} style={{ ...mono, display: "flex", alignItems: "center", gap: "0.35rem", fontSize: "0.48rem", letterSpacing: "0.1em", textTransform: "uppercase", padding: "0.3rem 0.65rem", background: activeTab === tab ? "var(--ink-3)" : "transparent", color: activeTab === tab ? "var(--cream-0)" : "var(--cream-2)", border: "none", cursor: "pointer", transition: "all 0.15s" }}>
+                {tab === "chat" ? <BotMessageSquare style={{ width: "0.7rem", height: "0.7rem" }} /> : <Trophy style={{ width: "0.7rem", height: "0.7rem" }} />}
+                {tab}
+              </button>
+            ))}
           </div>
 
-          <div className="h-5 w-px bg-border" />
+          <div style={{ width: "1px", height: "1rem", background: "rgba(240,233,214,0.1)" }} />
 
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setShowContent(!showContent)}
-            className="gap-1.5 text-muted-foreground"
-          >
-            {showContent ? (
-              <PanelRightClose className="h-4 w-4" />
-            ) : (
-              <PanelRightOpen className="h-4 w-4" />
-            )}
-            <span className="hidden md:inline">
-              {showContent ? "Hide" : "Show"} Notes
-            </span>
-          </Button>
-          <Button
-            size="sm"
-            variant={completed ? "secondary" : "default"}
-            onClick={handleMarkComplete}
-            disabled={completed || marking}
-            className="gap-1.5"
-          >
-            <CheckCircle2 className="h-4 w-4" />
-            <span className="hidden md:inline">
-              {completed ? "Completed" : marking ? "Saving..." : "Mark Complete"}
-            </span>
-          </Button>
+          {/* Notes toggle */}
+          <button onClick={() => setShowContent(!showContent)} style={{ ...mono, display: "flex", alignItems: "center", gap: "0.35rem", fontSize: "0.48rem", letterSpacing: "0.1em", textTransform: "uppercase", padding: "0.35rem 0.65rem", background: "none", color: showContent ? "var(--cream-1)" : "var(--cream-2)", border: "none", cursor: "pointer" }}>
+            {showContent ? <PanelRightClose style={{ width: "0.7rem", height: "0.7rem" }} /> : <PanelRightOpen style={{ width: "0.7rem", height: "0.7rem" }} />}
+            <span className="hidden md:inline">Notes</span>
+          </button>
         </div>
       </div>
 
       {/* Main area */}
-      <PanelGroup
-        orientation="horizontal"
-        className="flex-1 overflow-hidden"
-      >
-        <Panel
-          id="primary"
-          defaultSize={showContent ? 50 : 100}
-          minSize={15}
-        >
-          <div className="h-full overflow-hidden">
+      <PanelGroup orientation="horizontal" className="flex-1 overflow-hidden">
+        <Panel id="primary" defaultSize={showContent ? 50 : 100} minSize={15}>
+          <div style={{ height: "100%", overflow: "hidden" }}>
             {activeTab === "chat" ? (
               <TutorPanel
-                lessonId={lesson.id}
+                lessonId={String(lesson.id)}
                 lessonTitle={lesson.title}
-                concepts={lesson.concepts}
-                initialHistory={history}
-                initialSessionId={activeSessionId}
-                sessions={sessions}
-                onSessionsChange={setSessions}
+                concepts={lesson.key_concepts}
+                initialHistory={[] as Message[]}
+                initialSessionId={null}
+                sessions={[]}
+                onSessionsChange={() => {}}
               />
             ) : (
               <LessonQuiz
-                lessonId={lesson.id}
+                lessonId={String(lesson.id)}
                 lessonTitle={lesson.title}
               />
             )}
@@ -298,49 +173,36 @@ export default function LessonPage() {
             </PanelResizeHandle>
             <Panel id="content" defaultSize={50} minSize={15}>
               <ScrollArea className="h-full">
-                <div className="p-6 space-y-6">
-                  {/* Notes action bar */}
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="gap-1.5"
-                      onClick={handleDownloadNotes}
-                    >
-                      <Download className="h-3.5 w-3.5" />
-                      Download Notes
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="gap-1.5 text-muted-foreground cursor-not-allowed"
-                      disabled
-                    >
-                      <Headphones className="h-3.5 w-3.5" />
-                      Podcast
-                      <Badge variant="secondary" className="text-[10px] px-1.5 py-0 ml-0.5">
-                        Soon
-                      </Badge>
-                    </Button>
-                  </div>
+                <div style={{ padding: "1.75rem 1.5rem 3rem", maxWidth: "44rem", margin: "0 auto" }}>
+                  <h1 style={{ ...serif, fontWeight: 700, fontStyle: "italic", fontSize: "clamp(1.5rem,3vw,2rem)", color: "var(--cream-0)", lineHeight: 1.15, marginBottom: "1rem" }}>
+                    {lesson.title}
+                  </h1>
 
-                  {(lesson.youtube_id || lesson.vimeo_url) && (
-                    <VideoPlayer
-                      youtubeId={lesson.youtube_id}
-                      vimeoUrl={lesson.vimeo_url}
-                      title={lesson.video_title || undefined}
-                    />
+                  {lesson.key_concepts.length > 0 && (
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "0.35rem", marginBottom: "1.25rem" }}>
+                      {lesson.key_concepts.map((c) => (
+                        <span key={c} style={{ ...mono, fontSize: "0.45rem", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--gold)", border: "1px solid rgba(196,152,90,0.3)", padding: "0.1rem 0.4rem" }}>{c}</span>
+                      ))}
+                    </div>
                   )}
-                  <LessonContent
-                    title={lesson.title}
-                    content={lesson.content}
-                    concepts={lesson.concepts}
-                  />
-                  <ReferenceSources
-                    referenceKb={lesson.reference_kb}
-                    sourcesUsed={lesson.sources_used}
-                    imageMetadata={lesson.image_metadata}
-                  />
+
+                  {hasVideo && (
+                    <div style={{ marginBottom: "1.5rem" }}>
+                      <VideoPlayer youtubeId={ytId} vimeoUrl={vimUrl} title={lesson.title} />
+                    </div>
+                  )}
+
+                  {lesson.summary && (
+                    <p style={{ ...body, fontSize: "1rem", color: "var(--cream-1)", lineHeight: 1.75, marginBottom: "1.5rem" }}>
+                      {lesson.summary}
+                    </p>
+                  )}
+
+                  {lesson.estimated_minutes > 0 && (
+                    <p style={{ ...mono, fontSize: "0.5rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--cream-2)" }}>
+                      ~{lesson.estimated_minutes} min read
+                    </p>
+                  )}
                 </div>
               </ScrollArea>
             </Panel>

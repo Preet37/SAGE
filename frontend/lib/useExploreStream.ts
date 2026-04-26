@@ -33,23 +33,34 @@ export interface ToolResultMessage {
   result: unknown;
 }
 
-function parseSSEBuffer(buffer: string): { events: unknown[]; remainder: string } {
-  const events: unknown[] = [];
+interface SSEEvent {
+  name: string;
+  data: Record<string, unknown>;
+}
+
+function parseSSEBuffer(buffer: string): { events: SSEEvent[]; remainder: string } {
+  const events: SSEEvent[] = [];
   const parts = buffer.split("\n\n");
   const remainder = parts.pop() ?? "";
   for (const part of parts) {
+    let name = "message";
+    let data: Record<string, unknown> | null = null;
     for (const line of part.split("\n")) {
-      if (line.startsWith("data: ")) {
+      if (line.startsWith("event: ")) {
+        name = line.slice(7).trim();
+      } else if (line.startsWith("data: ")) {
         try {
-          events.push(JSON.parse(line.slice(6)));
+          data = JSON.parse(line.slice(6)) as Record<string, unknown>;
         } catch {
           // ignore malformed lines
         }
       }
     }
+    if (data !== null) events.push({ name, data });
   }
   return { events, remainder };
 }
+
 
 export function useExploreStream() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -58,6 +69,7 @@ export function useExploreStream() {
   const [toolCall, setToolCall] = useState<ToolCallState | null>(null);
   const [sessionId, setSessionId] = useState<string | null>(null);
   const messagesRef = useRef<Message[]>(messages);
+  const sessionIdRef = useRef<string | null>(null);
 
   const updateMessages = useCallback((updater: Message[] | ((prev: Message[]) => Message[])) => {
     setMessages((prev) => {
@@ -70,23 +82,21 @@ export function useExploreStream() {
   const sendMessage = useCallback(
     async (content: string, mode = "default") => {
       const userMsg: Message = { id: uid(), role: "user", content };
-
       const allMessages = [...messagesRef.current, userMsg];
       updateMessages(allMessages);
       setStreaming(true);
       setToolCall(null);
 
-      const apiMessages = allMessages.map((m) => ({
-        role: m.role,
-        content: m.content,
-      }));
-
       const assistantId = uid();
       let assistantText = "";
 
+      updateMessages((prev) => [
+        ...prev,
+        { id: assistantId, role: "assistant", content: "" },
+      ]);
+
       try {
-        const body: Record<string, unknown> = { messages: apiMessages, mode };
-        if (sessionId) body.session_id = sessionId;
+        const messages = allMessages.map((m) => ({ role: m.role, content: m.content }));
 
         const res = await fetch(`${API_URL}/explore/chat`, {
           method: "POST",
@@ -94,23 +104,32 @@ export function useExploreStream() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${getToken()}`,
           },
-          body: JSON.stringify(body),
+          body: JSON.stringify({
+            messages,
+            mode,
+            session_id: sessionIdRef.current ?? null,
+          }),
         });
 
-        if (!res.ok) throw new Error("Stream request failed");
+        if (res.status === 401) {
+          if (typeof window !== "undefined") {
+            localStorage.removeItem("tutor_token");
+            window.location.href = `/login?returnTo=${encodeURIComponent(window.location.pathname)}`;
+          }
+          return;
+        }
 
-        // Capture session ID from response header for subsequent requests
+        if (!res.ok) throw new Error(`Stream request failed (${res.status})`);
+
         const newSessionId = res.headers.get("X-Session-Id");
-        if (newSessionId) setSessionId(newSessionId);
+        if (newSessionId) {
+          sessionIdRef.current = newSessionId;
+          setSessionId(newSessionId);
+        }
 
         const reader = res.body!.getReader();
         const decoder = new TextDecoder();
         let sseBuffer = "";
-
-        updateMessages((prev) => [
-          ...prev,
-          { id: assistantId, role: "assistant", content: "" },
-        ]);
 
         while (true) {
           const { done, value } = await reader.read();
@@ -120,41 +139,29 @@ export function useExploreStream() {
           const { events, remainder } = parseSSEBuffer(sseBuffer);
           sseBuffer = remainder;
 
-          for (const event of events as Record<string, unknown>[]) {
-            if (event.type === "text") {
-              assistantText += event.delta as string;
+          for (const { data: evtData } of events) {
+            const evtType = evtData.type as string | undefined;
+            if (evtType === "text") {
+              assistantText += (evtData.delta as string) || "";
               updateMessages((prev) =>
-                prev.map((m) =>
-                  m.id === assistantId ? { ...m, content: assistantText } : m
-                )
+                prev.map((m) => m.id === assistantId ? { ...m, content: assistantText } : m)
               );
-            } else if (event.type === "tool_call") {
-              setToolCall({ name: event.name as string });
-            } else if (event.type === "tool_result") {
+            } else if (evtType === "error") {
+              const errorMsg = (evtData.message as string) || "Something went wrong. Please try again.";
+              assistantText = assistantText
+                ? `${assistantText}\n\n---\n\n*${errorMsg}*`
+                : errorMsg;
+              updateMessages((prev) =>
+                prev.map((m) => m.id === assistantId ? { ...m, content: assistantText } : m)
+              );
+            } else if (evtType === "tool_call") {
+              setToolCall({ name: evtData.name as string });
+            } else if (evtType === "tool_result") {
               setToolCall(null);
               setToolResults((prev) => [
                 ...prev,
-                {
-                  id: uid(),
-                  type: "tool_result",
-                  toolName: event.name as string,
-                  result: event.result,
-                },
+                { id: uid(), type: "tool_result", toolName: evtData.name as string, result: evtData.result },
               ]);
-            } else if (event.type === "error") {
-              const errorMsg = (event.message as string) || "Something went wrong. Please try again.";
-              if (assistantText) {
-                assistantText += `\n\n---\n\n*${errorMsg}*`;
-              } else {
-                assistantText = errorMsg;
-              }
-              updateMessages((prev) =>
-                prev.map((m) =>
-                  m.id === assistantId ? { ...m, content: assistantText } : m
-                )
-              );
-            } else if (event.type === "done") {
-              // streaming complete
             }
           }
         }
@@ -172,29 +179,22 @@ export function useExploreStream() {
         setToolCall(null);
       }
     },
-    [sessionId, updateMessages]
+    [updateMessages]
   );
 
   const loadSession = useCallback((id: string, history: Message[]) => {
+    sessionIdRef.current = id;
     setSessionId(id);
     updateMessages(history);
     setToolResults([]);
   }, [updateMessages]);
 
   const startNewSession = useCallback(() => {
+    sessionIdRef.current = null;
     setSessionId(null);
     updateMessages([]);
     setToolResults([]);
   }, [updateMessages]);
 
-  return {
-    messages,
-    toolResults,
-    streaming,
-    toolCall,
-    sessionId,
-    sendMessage,
-    loadSession,
-    startNewSession,
-  };
+  return { messages, toolResults, streaming, toolCall, sessionId, sendMessage, loadSession, startNewSession };
 }

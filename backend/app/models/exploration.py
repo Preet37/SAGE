@@ -10,7 +10,7 @@ class ExplorationSession(SQLModel, table=True):
     __tablename__ = "explorationsession"
 
     id: str = Field(default_factory=cuid, primary_key=True)
-    user_id: str = Field(foreign_key="user.id", index=True)
+    user_id: str = Field(foreign_key="users.id", index=True)
     title: str = "Untitled exploration"
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)

@@ -1,26 +1,15 @@
 "use client";
 import { useState } from "react";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
 import {
-  ChevronDown,
-  ChevronRight,
-  GripVertical,
-  ArrowUp,
-  ArrowDown,
-  Plus,
-  Trash2,
-  Loader2,
-  Play,
-  Pencil,
-  Check,
-  X,
-  Search,
+  ChevronDown, ChevronRight, GripVertical, ArrowUp, ArrowDown,
+  Plus, Trash2, Loader2, Play, Pencil, Check, X, Search,
 } from "lucide-react";
 import type { useCreatorState } from "@/lib/useCreatorState";
 import type { Outline, OutlineModule, OutlineLesson } from "@/lib/useCreatorState";
+
+const mono: React.CSSProperties = { fontFamily: "var(--font-dm-mono)" };
+const serif: React.CSSProperties = { fontFamily: "var(--font-cormorant)" };
+const body: React.CSSProperties = { fontFamily: "var(--font-crimson)" };
 
 interface OutlineViewProps {
   state: ReturnType<typeof useCreatorState>;
@@ -37,337 +26,185 @@ export function OutlineView({ state }: OutlineViewProps) {
 
   if (!outline && generating) {
     return (
-      <div className="flex flex-col items-center justify-center h-full gap-3 text-muted-foreground">
-        <Loader2 className="h-6 w-6 animate-spin" />
-        <p className="text-sm">Building your course outline...</p>
-        <p className="text-xs text-muted-foreground/60">
-          Analyzing wiki sources and structuring lessons
-        </p>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", gap: "0.75rem", color: "var(--cream-2)" }}>
+        <Loader2 style={{ width: "1.5rem", height: "1.5rem" }} className="animate-spin" />
+        <p style={{ ...body, fontSize: "0.95rem" }}>Building your course outline…</p>
+        <p style={{ ...mono, fontSize: "0.45rem", letterSpacing: "0.1em", opacity: 0.6 }}>Analysing wiki sources and structuring lessons</p>
       </div>
     );
   }
 
   if (!outline) {
     return (
-      <div className="flex items-center justify-center h-full text-muted-foreground text-sm">
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: "var(--cream-2)", ...body, fontSize: "0.95rem" }}>
         No outline yet. Describe what you want to learn in the chat.
       </div>
     );
   }
 
-  const totalLessons = outline.modules.reduce(
-    (acc, m) => acc + m.lessons.length,
-    0,
-  );
-
+  const totalLessons = outline.modules.reduce((acc, m) => acc + m.lessons.length, 0);
   const allSlugs = outline.modules.flatMap((m) => m.lessons.map((l) => l.slug));
 
   const toggleSlug = (slug: string) => {
     setSelectedSlugs((prev) => {
       const next = new Set(prev);
-      if (next.has(slug)) next.delete(slug);
-      else next.add(slug);
+      if (next.has(slug)) next.delete(slug); else next.add(slug);
       return next;
     });
   };
 
   const toggleSelectAll = () => {
-    if (selectedSlugs.size === allSlugs.length) {
-      setSelectedSlugs(new Set());
-    } else {
-      setSelectedSlugs(new Set(allSlugs));
-    }
+    setSelectedSlugs(selectedSlugs.size === allSlugs.length ? new Set() : new Set(allSlugs));
   };
 
-  const enterSelectionMode = () => {
-    setSelectedSlugs(new Set(allSlugs));
-    setSelectionMode(true);
-  };
+  const enterSelectionMode = () => { setSelectedSlugs(new Set(allSlugs)); setSelectionMode(true); };
+  const buildSelected = () => { const slugs = Array.from(selectedSlugs); setSelectionMode(false); state.generateContent(false, slugs); };
 
-  const buildSelected = () => {
-    const slugs = Array.from(selectedSlugs);
-    setSelectionMode(false);
-    state.generateContent(false, slugs);
-  };
-
-  function handleMoveLesson(
-    moduleIdx: number,
-    lessonIdx: number,
-    direction: "up" | "down",
-  ) {
+  function handleMoveLesson(moduleIdx: number, lessonIdx: number, direction: "up" | "down") {
     if (!outline) return;
-    const newModules = outline.modules.map((m) => ({
-      ...m,
-      lessons: [...m.lessons],
-    }));
+    const newModules = outline.modules.map((m) => ({ ...m, lessons: [...m.lessons] }));
     const mod = newModules[moduleIdx];
     const target = direction === "up" ? lessonIdx - 1 : lessonIdx + 1;
     if (target < 0 || target >= mod.lessons.length) return;
-    [mod.lessons[lessonIdx], mod.lessons[target]] = [
-      mod.lessons[target],
-      mod.lessons[lessonIdx],
-    ];
+    [mod.lessons[lessonIdx], mod.lessons[target]] = [mod.lessons[target], mod.lessons[lessonIdx]];
     state.updateOutline({ ...outline, modules: newModules });
   }
 
   function handleDeleteLesson(moduleIdx: number, lessonIdx: number) {
     if (!outline) return;
-    const newModules = outline.modules.map((m, i) =>
-      i === moduleIdx
-        ? { ...m, lessons: m.lessons.filter((_, j) => j !== lessonIdx) }
-        : m,
-    );
-    state.updateOutline({ ...outline, modules: newModules });
+    state.updateOutline({ ...outline, modules: outline.modules.map((m, i) => i === moduleIdx ? { ...m, lessons: m.lessons.filter((_, j) => j !== lessonIdx) } : m) });
   }
 
   function handleAddLesson(moduleIdx: number) {
     if (!outline) return;
-    const newModules = outline.modules.map((m, i) =>
-      i === moduleIdx
-        ? {
-            ...m,
-            lessons: [
-              ...m.lessons,
-              {
-                slug: `new-lesson-${Date.now()}`,
-                title: "New Lesson",
-                summary: "",
-                concepts: [],
-              },
-            ],
-          }
-        : m,
-    );
-    state.updateOutline({ ...outline, modules: newModules });
+    state.updateOutline({ ...outline, modules: outline.modules.map((m, i) => i === moduleIdx ? { ...m, lessons: [...m.lessons, { slug: `new-lesson-${Date.now()}`, title: "New Lesson", summary: "", concepts: [] }] } : m) });
   }
 
   return (
-    <div className="flex flex-col flex-1 min-h-0">
-      <ScrollArea className="flex-1 min-h-0">
-        <div className="p-6 space-y-4">
-          {/* Header */}
-          <div className="space-y-1">
-            {editingTitle ? (
-              <div className="flex items-center gap-1.5">
-                <input
-                  value={titleDraft}
-                  onChange={(e) => setTitleDraft(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      state.updateOutline({ ...outline, title: titleDraft.trim() || outline.title });
-                      setEditingTitle(false);
-                    }
-                    if (e.key === "Escape") setEditingTitle(false);
-                  }}
-                  className="flex-1 text-lg font-semibold bg-transparent border-b-2 border-primary focus:outline-none"
-                  autoFocus
-                />
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-7 w-7 p-0"
-                  onClick={() => {
-                    state.updateOutline({ ...outline, title: titleDraft.trim() || outline.title });
-                    setEditingTitle(false);
-                  }}
-                >
-                  <Check className="h-3.5 w-3.5" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-7 w-7 p-0"
-                  onClick={() => setEditingTitle(false)}
-                >
-                  <X className="h-3.5 w-3.5" />
-                </Button>
-              </div>
-            ) : (
-              <h2
-                className="text-lg font-semibold cursor-pointer hover:text-primary transition-colors group/title"
-                onClick={() => { setTitleDraft(outline.title); setEditingTitle(true); }}
-              >
-                {outline.title}
-                <Pencil className="inline h-3 w-3 ml-1.5 opacity-0 group-hover/title:opacity-60 transition-opacity" />
-              </h2>
-            )}
-            <p className="text-sm text-muted-foreground">
-              {outline.modules.length} modules &middot; {totalLessons} lessons
-            </p>
-            {outline.description && !editingDesc && (
-              <p
-                className="text-xs text-muted-foreground/80 line-clamp-2 cursor-pointer hover:text-muted-foreground transition-colors group/desc"
-                onClick={() => { setDescDraft(outline.description || ""); setEditingDesc(true); }}
-                title="Click to edit description"
-              >
-                {outline.description}
-                <Pencil className="inline h-3 w-3 ml-1 opacity-0 group-hover/desc:opacity-60 transition-opacity" />
-              </p>
-            )}
-            {editingDesc && (
-              <div className="space-y-1.5">
-                <textarea
-                  value={descDraft}
-                  onChange={(e) => setDescDraft(e.target.value)}
-                  rows={3}
-                  className="w-full text-xs bg-transparent border border-border rounded-md px-2 py-1.5 focus:outline-none focus:border-primary/40 resize-none"
-                  autoFocus
-                />
-                <div className="flex items-center gap-1">
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    className="h-6 px-2 text-xs gap-1"
-                    onClick={() => {
-                      state.updateOutline({ ...outline, description: descDraft.trim() });
-                      setEditingDesc(false);
-                    }}
-                  >
-                    <Check className="h-3 w-3" /> Save
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-6 px-2 text-xs"
-                    onClick={() => setEditingDesc(false)}
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Modules */}
-          <div className="space-y-3">
-            {outline.modules.map((mod, mi) => (
-              <ModuleCard
-                key={mi}
-                module={mod}
-                moduleIndex={mi}
-                onMoveLesson={(li, dir) => handleMoveLesson(mi, li, dir)}
-                onDeleteLesson={(li) => handleDeleteLesson(mi, li)}
-                onAddLesson={() => handleAddLesson(mi)}
-                onUpdateLesson={(li, updates) => {
-                  if (!outline) return;
-                  const newModules = outline.modules.map((m, i) =>
-                    i === mi
-                      ? {
-                          ...m,
-                          lessons: m.lessons.map((l, j) =>
-                            j === li ? { ...l, ...updates } : l,
-                          ),
-                        }
-                      : m,
-                  );
-                  state.updateOutline({ ...outline, modules: newModules });
+    <div style={{ display: "flex", flexDirection: "column", flex: 1, minHeight: 0 }}>
+      <div style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "1.5rem" }}>
+        {/* Header */}
+        <div style={{ marginBottom: "1.25rem" }}>
+          {editingTitle ? (
+            <div style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
+              <input
+                value={titleDraft}
+                onChange={(e) => setTitleDraft(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") { state.updateOutline({ ...outline, title: titleDraft.trim() || outline.title }); setEditingTitle(false); }
+                  if (e.key === "Escape") setEditingTitle(false);
                 }}
+                style={{ flex: 1, ...serif, fontSize: "1.2rem", fontStyle: "italic", fontWeight: 600, background: "transparent", borderBottom: "1px solid var(--gold)", color: "var(--cream-0)", outline: "none" }}
+                autoFocus
               />
-            ))}
-            {generating && (
-              <div className="flex items-center gap-2 px-4 py-3 text-muted-foreground">
-                <Loader2 className="h-4 w-4 animate-spin" />
-                <span className="text-sm">Generating more modules...</span>
+              <IconBtn onClick={() => { state.updateOutline({ ...outline, title: titleDraft.trim() || outline.title }); setEditingTitle(false); }}><Check style={{ width: "0.75rem", height: "0.75rem" }} /></IconBtn>
+              <IconBtn onClick={() => setEditingTitle(false)}><X style={{ width: "0.75rem", height: "0.75rem" }} /></IconBtn>
+            </div>
+          ) : (
+            <h2
+              style={{ ...serif, fontSize: "1.2rem", fontStyle: "italic", fontWeight: 600, color: "var(--cream-0)", cursor: "pointer", display: "flex", alignItems: "center", gap: "0.4rem" }}
+              onClick={() => { setTitleDraft(outline.title); setEditingTitle(true); }}
+            >
+              {outline.title}
+              <Pencil style={{ width: "0.65rem", height: "0.65rem", opacity: 0.4 }} />
+            </h2>
+          )}
+          <p style={{ ...mono, fontSize: "0.45rem", letterSpacing: "0.1em", color: "var(--cream-2)", marginTop: "0.3rem" }}>
+            {outline.modules.length} modules · {totalLessons} lessons
+          </p>
+          {outline.description && !editingDesc && (
+            <p
+              style={{ ...body, fontSize: "0.875rem", color: "var(--cream-2)", marginTop: "0.4rem", cursor: "pointer", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}
+              onClick={() => { setDescDraft(outline.description || ""); setEditingDesc(true); }}
+            >
+              {outline.description}
+            </p>
+          )}
+          {editingDesc && (
+            <div style={{ marginTop: "0.5rem", display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+              <textarea
+                value={descDraft}
+                onChange={(e) => setDescDraft(e.target.value)}
+                rows={3}
+                style={{ ...body, fontSize: "0.875rem", background: "var(--ink-2)", border: "1px solid rgba(240,233,214,0.12)", color: "var(--cream-0)", padding: "0.5rem", outline: "none", resize: "none", width: "100%", boxSizing: "border-box" }}
+                autoFocus
+              />
+              <div style={{ display: "flex", gap: "0.4rem" }}>
+                <GoldBtn onClick={() => { state.updateOutline({ ...outline, description: descDraft.trim() }); setEditingDesc(false); }}>Save</GoldBtn>
+                <GhostBtn onClick={() => setEditingDesc(false)}>Cancel</GhostBtn>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
-      </ScrollArea>
 
-      {/* Prepare / Build button */}
+        {/* Modules */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "0.625rem" }}>
+          {outline.modules.map((mod, mi) => (
+            <ModuleCard
+              key={mi}
+              module={mod}
+              moduleIndex={mi}
+              onMoveLesson={(li, dir) => handleMoveLesson(mi, li, dir)}
+              onDeleteLesson={(li) => handleDeleteLesson(mi, li)}
+              onAddLesson={() => handleAddLesson(mi)}
+              onUpdateLesson={(li, updates) => {
+                if (!outline) return;
+                state.updateOutline({ ...outline, modules: outline.modules.map((m, i) => i === mi ? { ...m, lessons: m.lessons.map((l, j) => j === li ? { ...l, ...updates } : l) } : m) });
+              }}
+            />
+          ))}
+          {generating && (
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: "0.75rem 1rem", color: "var(--cream-2)", ...body, fontSize: "0.9rem" }}>
+              <Loader2 style={{ width: "0.85rem", height: "0.85rem" }} className="animate-spin" />
+              Generating more modules…
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Footer actions */}
       {phase !== "published" && outline && (
-        <div className="p-4 border-t border-border shrink-0 space-y-3">
+        <div style={{ padding: "0.875rem 1rem", borderTop: "1px solid rgba(240,233,214,0.08)", flexShrink: 0, display: "flex", flexDirection: "column", gap: "0.6rem" }}>
           {!state.coverageAssessment && phase === "shaping" ? (
-            <Button
+            <GoldBtn
               onClick={() => state.assessCoverage()}
               disabled={state.assessingCoverage || totalLessons === 0}
-              className="w-full gap-2"
+              wide
             >
-              {state.assessingCoverage ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  Assessing Coverage...
-                </>
-              ) : (
-                <>
-                  <Search className="h-4 w-4" />
-                  Prepare Content ({totalLessons} lessons)
-                </>
-              )}
-            </Button>
+              {state.assessingCoverage ? <><Loader2 style={{ width: "0.75rem", height: "0.75rem" }} className="animate-spin" /> Assessing Coverage…</> : <><Search style={{ width: "0.75rem", height: "0.75rem" }} /> Prepare Content ({totalLessons} lessons)</>}
+            </GoldBtn>
           ) : selectionMode ? (
             <>
-              <div className="space-y-1 max-h-48 overflow-y-auto rounded-md border border-border p-2">
-                <label className="flex items-center gap-2 px-2 py-1 text-xs text-muted-foreground cursor-pointer hover:text-foreground">
-                  <input
-                    type="checkbox"
-                    checked={selectedSlugs.size === allSlugs.length}
-                    onChange={toggleSelectAll}
-                    className="h-3.5 w-3.5 rounded border-border accent-primary"
-                  />
+              <div style={{ border: "1px solid rgba(240,233,214,0.1)", background: "var(--ink-2)", padding: "0.4rem", maxHeight: "10rem", overflowY: "auto" }}>
+                <label style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: "0.3rem 0.5rem", ...mono, fontSize: "0.45rem", letterSpacing: "0.08em", color: "var(--cream-2)", cursor: "pointer" }}>
+                  <input type="checkbox" checked={selectedSlugs.size === allSlugs.length} onChange={toggleSelectAll} style={{ accentColor: "var(--gold)" }} />
                   {selectedSlugs.size === allSlugs.length ? "Deselect all" : "Select all"}
                 </label>
-                {outline.modules.flatMap((m) =>
-                  m.lessons.map((l) => (
-                    <label
-                      key={l.slug}
-                      className="flex items-center gap-2 px-2 py-1 text-xs cursor-pointer hover:bg-accent/20 rounded"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={selectedSlugs.has(l.slug)}
-                        onChange={() => toggleSlug(l.slug)}
-                        className="h-3.5 w-3.5 rounded border-border accent-primary"
-                      />
-                      <span className="truncate">{l.title}</span>
-                    </label>
-                  )),
-                )}
+                {outline.modules.flatMap((m) => m.lessons.map((l) => (
+                  <label key={l.slug} style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: "0.3rem 0.5rem", ...body, fontSize: "0.85rem", color: "var(--cream-1)", cursor: "pointer" }}>
+                    <input type="checkbox" checked={selectedSlugs.has(l.slug)} onChange={() => toggleSlug(l.slug)} style={{ accentColor: "var(--gold)" }} />
+                    <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{l.title}</span>
+                  </label>
+                )))}
               </div>
-              <div className="flex items-center gap-2">
-                <Button
-                  onClick={buildSelected}
-                  disabled={selectedSlugs.size === 0 || generating}
-                  className="flex-1 gap-2"
-                >
-                  <Play className="h-4 w-4" />
-                  Build {selectedSlugs.size} Lesson{selectedSlugs.size !== 1 ? "s" : ""}
-                </Button>
-                <Button
-                  variant="ghost"
-                  onClick={() => setSelectionMode(false)}
-                >
-                  Cancel
-                </Button>
+              <div style={{ display: "flex", gap: "0.5rem" }}>
+                <GoldBtn onClick={buildSelected} disabled={selectedSlugs.size === 0 || generating} wide>
+                  <Play style={{ width: "0.75rem", height: "0.75rem" }} /> Build {selectedSlugs.size} Lesson{selectedSlugs.size !== 1 ? "s" : ""}
+                </GoldBtn>
+                <GhostBtn onClick={() => setSelectionMode(false)}>Cancel</GhostBtn>
               </div>
             </>
           ) : (
-            <div className="flex items-center gap-2">
-              <Button
+            <div style={{ display: "flex", gap: "0.5rem" }}>
+              <GoldBtn
                 onClick={() => state.generateContent()}
                 disabled={generating || totalLessons === 0 || state.enriching || state.assessingCoverage}
-                className="flex-1 gap-2"
+                wide
               >
-                {generating ? (
-                  <>
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    Generating...
-                  </>
-                ) : (
-                  <>
-                    <Play className="h-4 w-4" />
-                    Build All ({totalLessons} lessons)
-                  </>
-                )}
-              </Button>
+                {generating ? <><Loader2 style={{ width: "0.75rem", height: "0.75rem" }} className="animate-spin" /> Generating…</> : <><Play style={{ width: "0.75rem", height: "0.75rem" }} /> Build All ({totalLessons} lessons)</>}
+              </GoldBtn>
               {totalLessons > 1 && !generating && (
-                <Button
-                  variant="outline"
-                  onClick={enterSelectionMode}
-                  disabled={state.enriching || state.assessingCoverage}
-                >
-                  Select Lessons...
-                </Button>
+                <OutlineBtn onClick={enterSelectionMode} disabled={state.enriching || state.assessingCoverage}>Select…</OutlineBtn>
               )}
             </div>
           )}
@@ -377,47 +214,105 @@ export function OutlineView({ state }: OutlineViewProps) {
   );
 }
 
+/* ── Shared primitive buttons ─────────────────────── */
+
+function GoldBtn({ onClick, disabled, wide, children }: { onClick?: () => void; disabled?: boolean; wide?: boolean; children: React.ReactNode }) {
+  return (
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      style={{
+        display: "flex", alignItems: "center", justifyContent: "center", gap: "0.4rem",
+        ...(wide ? { flex: 1 } : {}),
+        padding: "0.5rem 0.875rem",
+        fontFamily: "var(--font-dm-mono)", fontSize: "0.48rem", letterSpacing: "0.1em", textTransform: "uppercase",
+        background: disabled ? "var(--ink-3)" : "var(--gold)",
+        color: disabled ? "var(--cream-2)" : "var(--ink)",
+        border: "none", cursor: disabled ? "not-allowed" : "pointer", transition: "background 0.15s",
+      }}
+    >
+      {children}
+    </button>
+  );
+}
+
+function GhostBtn({ onClick, children }: { onClick?: () => void; children: React.ReactNode }) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        padding: "0.5rem 0.75rem",
+        fontFamily: "var(--font-dm-mono)", fontSize: "0.48rem", letterSpacing: "0.1em", textTransform: "uppercase",
+        background: "transparent", color: "var(--cream-2)",
+        border: "1px solid rgba(240,233,214,0.12)", cursor: "pointer", transition: "color 0.15s",
+      }}
+      onMouseEnter={e => (e.currentTarget.style.color = "var(--cream-1)")}
+      onMouseLeave={e => (e.currentTarget.style.color = "var(--cream-2)")}
+    >
+      {children}
+    </button>
+  );
+}
+
+function OutlineBtn({ onClick, disabled, children }: { onClick?: () => void; disabled?: boolean; children: React.ReactNode }) {
+  return (
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      style={{
+        padding: "0.5rem 0.75rem",
+        fontFamily: "var(--font-dm-mono)", fontSize: "0.48rem", letterSpacing: "0.1em", textTransform: "uppercase",
+        background: "transparent", color: disabled ? "var(--cream-2)" : "var(--cream-1)",
+        border: "1px solid rgba(240,233,214,0.15)", cursor: disabled ? "not-allowed" : "pointer",
+      }}
+    >
+      {children}
+    </button>
+  );
+}
+
+function IconBtn({ onClick, children }: { onClick?: () => void; children: React.ReactNode }) {
+  return (
+    <button
+      onClick={onClick}
+      style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "1.5rem", height: "1.5rem", background: "transparent", border: "1px solid rgba(240,233,214,0.1)", color: "var(--cream-2)", cursor: "pointer" }}
+    >
+      {children}
+    </button>
+  );
+}
+
 /* ── Module Card ───────────────────────────────────── */
 
-function ModuleCard({
-  module,
-  moduleIndex,
-  onMoveLesson,
-  onDeleteLesson,
-  onAddLesson,
-  onUpdateLesson,
-}: {
-  module: OutlineModule;
-  moduleIndex: number;
-  onMoveLesson: (lessonIdx: number, dir: "up" | "down") => void;
-  onDeleteLesson: (lessonIdx: number) => void;
+function ModuleCard({ module, moduleIndex, onMoveLesson, onDeleteLesson, onAddLesson, onUpdateLesson }: {
+  module: OutlineModule; moduleIndex: number;
+  onMoveLesson: (li: number, dir: "up" | "down") => void;
+  onDeleteLesson: (li: number) => void;
   onAddLesson: () => void;
-  onUpdateLesson: (lessonIdx: number, updates: Partial<OutlineLesson>) => void;
+  onUpdateLesson: (li: number, updates: Partial<OutlineLesson>) => void;
 }) {
   const [expanded, setExpanded] = useState(true);
 
   return (
-    <Card className="overflow-hidden">
+    <div style={{ border: "1px solid rgba(240,233,214,0.08)", background: "var(--ink-1)", overflow: "hidden" }}>
       <button
         onClick={() => setExpanded(!expanded)}
-        className="flex items-center gap-2 w-full px-4 py-3 text-left hover:bg-accent/30 transition-colors"
+        style={{ display: "flex", alignItems: "center", gap: "0.5rem", width: "100%", padding: "0.65rem 0.875rem", background: "transparent", border: "none", cursor: "pointer", textAlign: "left" }}
       >
-        {expanded ? (
-          <ChevronDown className="h-4 w-4 text-muted-foreground shrink-0" />
-        ) : (
-          <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
-        )}
-        <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+        {expanded
+          ? <ChevronDown style={{ width: "0.85rem", height: "0.85rem", color: "var(--cream-2)", flexShrink: 0 }} />
+          : <ChevronRight style={{ width: "0.85rem", height: "0.85rem", color: "var(--cream-2)", flexShrink: 0 }} />}
+        <span style={{ ...mono, fontSize: "0.42rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--cream-2)" }}>
           Module {moduleIndex + 1}
         </span>
-        <span className="text-sm font-medium flex-1">{module.title}</span>
-        <Badge variant="secondary" className="text-xs">
-          {module.lessons.length} lessons
-        </Badge>
+        <span style={{ ...body, fontSize: "0.9rem", color: "var(--cream-0)", flex: 1 }}>{module.title}</span>
+        <span style={{ ...mono, fontSize: "0.42rem", letterSpacing: "0.08em", color: "var(--cream-2)", background: "var(--ink-2)", padding: "0.15rem 0.4rem", border: "1px solid rgba(240,233,214,0.08)", flexShrink: 0 }}>
+          {module.lessons.length}
+        </span>
       </button>
 
       {expanded && (
-        <div className="border-t border-border">
+        <div style={{ borderTop: "1px solid rgba(240,233,214,0.08)" }}>
           {module.lessons.map((lesson, li) => (
             <LessonRow
               key={lesson.slug}
@@ -431,135 +326,92 @@ function ModuleCard({
           ))}
           <button
             onClick={onAddLesson}
-            className="flex items-center gap-2 w-full px-4 py-2 text-xs text-muted-foreground hover:text-foreground hover:bg-accent/30 transition-colors"
+            style={{ display: "flex", alignItems: "center", gap: "0.4rem", width: "100%", padding: "0.5rem 0.875rem", background: "transparent", border: "none", borderTop: "1px solid rgba(240,233,214,0.05)", ...mono, fontSize: "0.42rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--cream-2)", cursor: "pointer" }}
+            onMouseEnter={e => (e.currentTarget.style.color = "var(--cream-1)")}
+            onMouseLeave={e => (e.currentTarget.style.color = "var(--cream-2)")}
           >
-            <Plus className="h-3 w-3" />
+            <Plus style={{ width: "0.65rem", height: "0.65rem" }} />
             Add lesson
           </button>
         </div>
       )}
-    </Card>
+    </div>
   );
 }
 
 /* ── Lesson Row ────────────────────────────────────── */
 
-function LessonRow({
-  lesson,
-  lessonIndex,
-  totalLessons,
-  onMove,
-  onDelete,
-  onUpdate,
-}: {
-  lesson: OutlineLesson;
-  lessonIndex: number;
-  totalLessons: number;
+function LessonRow({ lesson, lessonIndex, totalLessons, onMove, onDelete, onUpdate }: {
+  lesson: OutlineLesson; lessonIndex: number; totalLessons: number;
   onMove: (dir: "up" | "down") => void;
   onDelete: () => void;
   onUpdate: (updates: Partial<OutlineLesson>) => void;
 }) {
   const [editing, setEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(lesson.title);
+  const [hovered, setHovered] = useState(false);
 
-  function saveEdit() {
-    if (editTitle.trim()) {
-      onUpdate({ title: editTitle.trim() });
-    }
-    setEditing(false);
-  }
+  function saveEdit() { if (editTitle.trim()) onUpdate({ title: editTitle.trim() }); setEditing(false); }
 
   return (
-    <div className="flex items-center gap-2 px-4 py-2 border-t border-border/50 group hover:bg-accent/20 transition-colors">
-      <GripVertical className="h-3.5 w-3.5 text-muted-foreground/40 shrink-0" />
-      <span className="text-xs text-muted-foreground w-5 shrink-0">
-        {lessonIndex + 1}
-      </span>
+    <div
+      style={{ display: "flex", alignItems: "center", gap: "0.4rem", padding: "0.45rem 0.875rem", borderTop: "1px solid rgba(240,233,214,0.05)", background: hovered ? "var(--ink-2)" : "transparent", transition: "background 0.1s" }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <GripVertical style={{ width: "0.7rem", height: "0.7rem", color: "var(--cream-2)", opacity: 0.4, flexShrink: 0 }} />
+      <span style={{ ...mono, fontSize: "0.42rem", color: "var(--cream-2)", width: "1rem", flexShrink: 0 }}>{lessonIndex + 1}</span>
 
       {editing ? (
-        <div className="flex-1 flex items-center gap-1">
+        <div style={{ flex: 1, display: "flex", alignItems: "center", gap: "0.3rem" }}>
           <input
             value={editTitle}
             onChange={(e) => setEditTitle(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") saveEdit();
-              if (e.key === "Escape") setEditing(false);
-            }}
-            className="flex-1 text-sm bg-transparent border-b border-primary focus:outline-none"
+            onKeyDown={(e) => { if (e.key === "Enter") saveEdit(); if (e.key === "Escape") setEditing(false); }}
+            style={{ flex: 1, ...body, fontSize: "0.875rem", background: "transparent", borderBottom: "1px solid var(--gold)", color: "var(--cream-0)", outline: "none" }}
             autoFocus
           />
-          <Button variant="ghost" size="sm" className="h-6 w-6 p-0" onClick={saveEdit}>
-            <Check className="h-3 w-3" />
-          </Button>
-          <Button variant="ghost" size="sm" className="h-6 w-6 p-0" onClick={() => setEditing(false)}>
-            <X className="h-3 w-3" />
-          </Button>
+          <IconBtn onClick={saveEdit}><Check style={{ width: "0.6rem", height: "0.6rem" }} /></IconBtn>
+          <IconBtn onClick={() => setEditing(false)}><X style={{ width: "0.6rem", height: "0.6rem" }} /></IconBtn>
         </div>
       ) : (
         <span
-          className="flex-1 text-sm cursor-pointer hover:text-primary transition-colors"
-          onClick={() => {
-            setEditTitle(lesson.title);
-            setEditing(true);
-          }}
+          style={{ flex: 1, ...body, fontSize: "0.875rem", color: "var(--cream-0)", cursor: "pointer" }}
+          onClick={() => { setEditTitle(lesson.title); setEditing(true); }}
         >
           {lesson.title}
         </span>
       )}
 
-      {/* Concepts */}
-      <div className="hidden lg:flex gap-1 shrink-0">
-        {lesson.concepts.slice(0, 3).map((c) => (
-          <Badge key={c} variant="secondary" className="text-[10px] px-1.5 py-0">
-            {c}
-          </Badge>
-        ))}
-        {lesson.concepts.length > 3 && (
-          <Badge variant="secondary" className="text-[10px] px-1.5 py-0">
-            +{lesson.concepts.length - 3}
-          </Badge>
-        )}
-      </div>
+      {/* Concept tags */}
+      {lesson.concepts.slice(0, 3).map((c) => (
+        <span key={c} style={{ ...mono, fontSize: "0.38rem", letterSpacing: "0.06em", color: "var(--cream-2)", background: "var(--ink-3)", padding: "0.1rem 0.35rem", border: "1px solid rgba(240,233,214,0.07)", flexShrink: 0 }}>
+          {c}
+        </span>
+      ))}
+      {lesson.concepts.length > 3 && (
+        <span style={{ ...mono, fontSize: "0.38rem", letterSpacing: "0.06em", color: "var(--cream-2)", background: "var(--ink-3)", padding: "0.1rem 0.35rem", border: "1px solid rgba(240,233,214,0.07)" }}>
+          +{lesson.concepts.length - 3}
+        </span>
+      )}
 
-      {/* Actions */}
-      <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
-        <Button
-          variant="ghost"
-          size="sm"
-          className="h-6 w-6 p-0"
-          onClick={() => onMove("up")}
-          disabled={lessonIndex === 0}
-        >
-          <ArrowUp className="h-3 w-3" />
-        </Button>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="h-6 w-6 p-0"
-          onClick={() => onMove("down")}
-          disabled={lessonIndex === totalLessons - 1}
-        >
-          <ArrowDown className="h-3 w-3" />
-        </Button>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="h-6 w-6 p-0"
-          onClick={() => {
-            setEditTitle(lesson.title);
-            setEditing(true);
-          }}
-        >
-          <Pencil className="h-3 w-3" />
-        </Button>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="h-6 w-6 p-0 text-destructive"
-          onClick={onDelete}
-        >
-          <Trash2 className="h-3 w-3" />
-        </Button>
+      {/* Row actions */}
+      <div style={{ display: "flex", alignItems: "center", gap: "0.15rem", opacity: hovered ? 1 : 0, transition: "opacity 0.15s", flexShrink: 0 }}>
+        {[
+          { icon: ArrowUp, action: () => onMove("up"), disabled: lessonIndex === 0 },
+          { icon: ArrowDown, action: () => onMove("down"), disabled: lessonIndex === totalLessons - 1 },
+          { icon: Pencil, action: () => { setEditTitle(lesson.title); setEditing(true); }, disabled: false },
+          { icon: Trash2, action: onDelete, disabled: false, danger: true },
+        ].map(({ icon: Icon, action, disabled, danger }, i) => (
+          <button
+            key={i}
+            onClick={action}
+            disabled={disabled}
+            style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "1.25rem", height: "1.25rem", background: "transparent", border: "none", color: danger ? "rgba(188,106,90,0.7)" : "var(--cream-2)", cursor: disabled ? "not-allowed" : "pointer", opacity: disabled ? 0.3 : 1 }}
+          >
+            <Icon style={{ width: "0.65rem", height: "0.65rem" }} />
+          </button>
+        ))}
       </div>
     </div>
   );

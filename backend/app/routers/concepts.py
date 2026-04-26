@@ -32,6 +32,11 @@ def _get_client() -> AsyncOpenAI:
     global _async_client
     if _async_client is None:
         settings = get_settings()
+        if not settings.llm_api_key:
+            raise HTTPException(
+                status_code=503,
+                detail="LLM not configured. Set LLM_API_KEY in backend/.env and restart the server.",
+            )
         _async_client = AsyncOpenAI(
             api_key=settings.llm_api_key,
             base_url=settings.llm_base_url,

@@ -240,6 +240,11 @@ Rules:
 - Always write 1-2 sentences BEFORE the tag telling the student what to look for ("Notice how the alignment scores form a diagonal pattern — that means...").
 - If no curated images exist for a concept but a diagram would help, fall back to Mermaid or a flow diagram instead.
 
+CODE BLOCKS:
+Only use a language-tagged code block (```python, ```javascript, ```typescript, ```bash, ```sql) when the code is **complete and self-contained enough to run without errors** — meaning all variables are defined, all functions are either imported or implemented inline, and the snippet does not rely on undefined stubs.
+- For conceptual pseudocode, algorithmic sketches, or illustrative patterns (e.g. "while not done: observe → reason → act"), write the idea as **plain prose** or use a generic ```text block. NEVER wrap pseudocode in a Python or JavaScript block.
+- A runnable Python snippet must define every name it uses. If you want to show a loop pattern but the loop body calls imaginary functions, that is pseudocode — use prose or ```text.
+
 DIAGRAMS:
 Use Mermaid diagrams (```mermaid code blocks) when a visual would be clearer than text. Do not include style/classDef directives — the frontend themes them automatically.
 For interactive flow diagrams (<flow>) and architecture diagrams (<architecture>), see FORMAT REFERENCE at the end of this prompt.

@@ -85,6 +85,11 @@ export function useVoiceConversation(_options: UseVoiceConversationOptions = {})
 
   const startConversation = useCallback(async () => {
     if (conversationRef.current) return;
+    if (!agentId) {
+      setError("Voice feature is not configured. Set NEXT_PUBLIC_ELEVENLABS_AGENT_ID in your .env.local to enable it.");
+      setStatus("error");
+      return;
+    }
     setError(null);
     setStatus("connecting");
     setMessages([]);

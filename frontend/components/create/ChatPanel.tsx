@@ -1,11 +1,12 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Button } from "@/components/ui/button";
 import { Send, Loader2, Sparkles, RefreshCw, Check, X } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import type { useCreatorState, PendingAction } from "@/lib/useCreatorState";
+
+const mono: React.CSSProperties = { fontFamily: "var(--font-dm-mono)" };
+const body: React.CSSProperties = { fontFamily: "var(--font-crimson)" };
 
 function stripActionBlocks(text: string): string {
   return text
@@ -45,41 +46,37 @@ export function ChatPanel({ state }: ChatPanelProps) {
   const hasMessages = state.chatMessages.length > 0;
 
   return (
-    <div className="flex flex-col h-full min-h-0 bg-card/30">
-      {/* Chat header */}
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-border shrink-0">
-        <Sparkles className="h-4 w-4 text-primary" />
-        <span className="text-sm font-medium">Course Assistant</span>
+    <div style={{ display: "flex", flexDirection: "column", height: "100%", minHeight: 0, background: "var(--ink-1)" }}>
+      {/* Header */}
+      <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: "0.65rem 1rem", borderBottom: "1px solid rgba(240,233,214,0.08)", flexShrink: 0 }}>
+        <Sparkles style={{ width: "0.8rem", height: "0.8rem", color: "var(--gold)" }} />
+        <span style={{ ...mono, fontSize: "0.52rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--cream-1)" }}>Course Assistant</span>
       </div>
 
       {/* Messages */}
-      <ScrollArea className="flex-1 min-h-0 px-4">
-        <div className="py-4 space-y-4">
-          {!hasMessages && (
-            <WelcomeMessage phase={state.phase} generating={state.generating} />
-          )}
+      <div style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "1rem" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}>
+          {!hasMessages && <WelcomeMessage phase={state.phase} generating={state.generating} />}
           {state.chatMessages.map((msg) => (
-            <div key={msg.id} className={`flex flex-col ${msg.role === "user" ? "items-end" : "items-start"}`}>
-              <div
-                className={`max-w-[85%] rounded-xl px-3.5 py-2.5 text-sm leading-relaxed ${
-                  msg.role === "user"
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-muted/50"
-                }`}
-              >
+            <div key={msg.id} style={{ display: "flex", flexDirection: "column", alignItems: msg.role === "user" ? "flex-end" : "flex-start" }}>
+              <div style={{
+                maxWidth: "85%",
+                padding: "0.5rem 0.75rem",
+                ...body, fontSize: "0.9rem", lineHeight: 1.6,
+                ...(msg.role === "user"
+                  ? { background: "rgba(196,152,90,0.18)", color: "var(--cream-0)", border: "1px solid rgba(196,152,90,0.25)", borderRadius: "12px 12px 2px 12px" }
+                  : { background: "var(--ink-2)", color: "var(--cream-0)", border: "1px solid rgba(240,233,214,0.07)", borderRadius: "2px 12px 12px 12px" }),
+              }}>
                 {msg.role === "assistant" ? (
-                  <div className="prose prose-sm dark:prose-invert max-w-none prose-p:my-1 prose-headings:my-2 prose-ul:my-1 prose-li:my-0">
+                  <div className="prose prose-sm max-w-none" style={{ color: "var(--cream-0)" }}>
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
                       {stripActionBlocks(msg.content || "...")}
                     </ReactMarkdown>
                   </div>
-                ) : (
-                  msg.content
-                )}
+                ) : msg.content}
               </div>
-              {/* Inline pending action cards */}
               {msg.pendingActions && msg.pendingActions.length > 0 && (
-                <div className="mt-2 max-w-[85%] space-y-2">
+                <div style={{ marginTop: "0.5rem", maxWidth: "85%", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
                   {msg.pendingActions.map((action) => (
                     <PendingActionCard
                       key={action.id}
@@ -93,18 +90,18 @@ export function ChatPanel({ state }: ChatPanelProps) {
             </div>
           ))}
           {state.chatStreaming && (
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <Loader2 className="h-3 w-3 animate-spin" />
-              Thinking...
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", ...mono, fontSize: "0.48rem", color: "var(--cream-2)", letterSpacing: "0.08em" }}>
+              <Loader2 style={{ width: "0.7rem", height: "0.7rem" }} className="animate-spin" />
+              Thinking…
             </div>
           )}
           <div ref={bottomRef} />
         </div>
-      </ScrollArea>
+      </div>
 
       {/* Input */}
-      <div className="p-3 border-t border-border shrink-0">
-        <div className="flex items-end gap-2">
+      <div style={{ padding: "0.75rem", borderTop: "1px solid rgba(240,233,214,0.08)", flexShrink: 0 }}>
+        <div style={{ display: "flex", alignItems: "flex-end", gap: "0.5rem" }}>
           <textarea
             ref={inputRef}
             value={input}
@@ -112,73 +109,59 @@ export function ChatPanel({ state }: ChatPanelProps) {
             onKeyDown={handleKeyDown}
             placeholder="Refine your course..."
             rows={1}
-            className="flex-1 resize-none rounded-lg border border-border bg-background px-3 py-2 text-sm placeholder:text-muted-foreground/60 focus:outline-none focus:border-primary/40 min-h-[36px] max-h-[120px]"
             disabled={state.chatStreaming}
+            style={{
+              flex: 1, resize: "none", background: "var(--ink-2)",
+              border: "1px solid rgba(240,233,214,0.1)", padding: "0.5rem 0.75rem",
+              ...body, fontSize: "0.9rem", color: "var(--cream-0)", outline: "none",
+              minHeight: "36px", maxHeight: "120px", lineHeight: 1.5,
+              borderRadius: 0,
+            }}
+            onFocus={e => (e.currentTarget.style.borderColor = "rgba(196,152,90,0.4)")}
+            onBlur={e => (e.currentTarget.style.borderColor = "rgba(240,233,214,0.1)")}
           />
-          <Button
-            size="sm"
-            className="h-9 w-9 p-0 shrink-0"
+          <button
             onClick={handleSend}
             disabled={!input.trim() || state.chatStreaming}
+            style={{
+              width: "2.25rem", height: "2.25rem", display: "flex", alignItems: "center", justifyContent: "center",
+              background: (!input.trim() || state.chatStreaming) ? "var(--ink-3)" : "var(--gold)",
+              color: (!input.trim() || state.chatStreaming) ? "var(--cream-2)" : "var(--ink)",
+              border: "none", cursor: (!input.trim() || state.chatStreaming) ? "not-allowed" : "pointer",
+              flexShrink: 0, transition: "background 0.15s",
+            }}
           >
-            <Send className="h-4 w-4" />
-          </Button>
+            <Send style={{ width: "0.85rem", height: "0.85rem" }} />
+          </button>
         </div>
       </div>
     </div>
   );
 }
 
-function PendingActionCard({
-  action,
-  onApprove,
-  onDismiss,
-}: {
-  action: PendingAction;
-  onApprove: () => void;
-  onDismiss: () => void;
-}) {
+function PendingActionCard({ action, onApprove, onDismiss }: { action: PendingAction; onApprove: () => void; onDismiss: () => void }) {
   const isDone = action.status === "approved" || action.status === "skipped";
-
   return (
-    <div className={`rounded-lg border border-border bg-background px-3 py-2.5 text-sm transition-opacity ${isDone ? "opacity-50" : ""}`}>
-      <div className="flex items-start gap-2">
-        <RefreshCw className={`h-3.5 w-3.5 mt-0.5 shrink-0 text-muted-foreground ${action.status === "loading" ? "animate-spin" : ""}`} />
-        <div className="flex-1 min-w-0">
-          <p className="font-medium text-xs text-foreground leading-snug">{action.label}</p>
-          <p className="text-xs text-muted-foreground mt-0.5">Full lesson regeneration from wiki</p>
+    <div style={{ background: "var(--ink-2)", border: "1px solid rgba(240,233,214,0.1)", padding: "0.6rem 0.75rem", opacity: isDone ? 0.5 : 1, transition: "opacity 0.2s" }}>
+      <div style={{ display: "flex", alignItems: "flex-start", gap: "0.5rem" }}>
+        <RefreshCw style={{ width: "0.75rem", height: "0.75rem", marginTop: "2px", flexShrink: 0, color: "var(--cream-2)" }} className={action.status === "loading" ? "animate-spin" : ""} />
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <p style={{ fontFamily: "var(--font-dm-mono)", fontSize: "0.48rem", letterSpacing: "0.08em", color: "var(--cream-0)", lineHeight: 1.4 }}>{action.label}</p>
+          <p style={{ fontFamily: "var(--font-crimson)", fontSize: "0.8rem", color: "var(--cream-2)", marginTop: "2px" }}>Full lesson regeneration from wiki</p>
         </div>
       </div>
       {!isDone && action.status !== "loading" && (
-        <div className="flex gap-1.5 mt-2 justify-end">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="h-6 px-2 text-xs gap-1 text-muted-foreground"
-            onClick={onDismiss}
-          >
-            <X className="h-3 w-3" />
-            Skip
-          </Button>
-          <Button
-            variant="secondary"
-            size="sm"
-            className="h-6 px-2 text-xs gap-1"
-            onClick={onApprove}
-          >
-            <Check className="h-3 w-3" />
-            Approve
-          </Button>
+        <div style={{ display: "flex", gap: "0.4rem", marginTop: "0.5rem", justifyContent: "flex-end" }}>
+          <button onClick={onDismiss} style={{ fontFamily: "var(--font-dm-mono)", fontSize: "0.45rem", letterSpacing: "0.08em", color: "var(--cream-2)", background: "transparent", border: "1px solid rgba(240,233,214,0.12)", padding: "0.2rem 0.5rem", cursor: "pointer", display: "flex", alignItems: "center", gap: "0.25rem" }}>
+            <X style={{ width: "0.6rem", height: "0.6rem" }} /> Skip
+          </button>
+          <button onClick={onApprove} style={{ fontFamily: "var(--font-dm-mono)", fontSize: "0.45rem", letterSpacing: "0.08em", color: "var(--ink)", background: "var(--gold)", border: "none", padding: "0.2rem 0.5rem", cursor: "pointer", display: "flex", alignItems: "center", gap: "0.25rem" }}>
+            <Check style={{ width: "0.6rem", height: "0.6rem" }} /> Approve
+          </button>
         </div>
       )}
-      {action.status === "approved" && (
-        <p className="text-xs text-green-600 mt-1.5 flex items-center gap-1">
-          <Check className="h-3 w-3" /> Regeneration started
-        </p>
-      )}
-      {action.status === "skipped" && (
-        <p className="text-xs text-muted-foreground mt-1.5">Skipped</p>
-      )}
+      {action.status === "approved" && <p style={{ fontFamily: "var(--font-crimson)", fontSize: "0.8rem", color: "rgba(146,188,158,0.8)", marginTop: "0.4rem", display: "flex", alignItems: "center", gap: "0.25rem" }}><Check style={{ width: "0.65rem", height: "0.65rem" }} /> Regeneration started</p>}
+      {action.status === "skipped" && <p style={{ fontFamily: "var(--font-crimson)", fontSize: "0.8rem", color: "var(--cream-2)", marginTop: "0.4rem" }}>Skipped</p>}
     </div>
   );
 }
@@ -186,50 +169,39 @@ function PendingActionCard({
 function WelcomeMessage({ phase, generating }: { phase: string; generating: boolean }) {
   if (generating) {
     return (
-      <div className="flex items-center gap-3 text-sm text-muted-foreground py-8 justify-center">
-        <Loader2 className="h-4 w-4 animate-spin" />
-        <span>Generating your course outline...</span>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.75rem", padding: "3rem 0", fontFamily: "var(--font-crimson)", fontSize: "0.95rem", color: "var(--cream-2)" }}>
+        <Loader2 style={{ width: "1rem", height: "1rem" }} className="animate-spin" />
+        Generating your course outline…
       </div>
     );
   }
 
   const tips: Record<string, string[]> = {
     shaping: [
-      "\"Add a hands-on section on fine-tuning\"",
-      "\"Make this more beginner-friendly\"",
-      "\"Remove the math-heavy parts\"",
-      "\"Split the attention lesson into two\"",
+      '"Add a hands-on section on fine-tuning"',
+      '"Make this more beginner-friendly"',
+      '"Remove the math-heavy parts"',
+      '"Split the attention lesson into two"',
     ],
-    building: [
-      "Content is being generated — feel free to ask questions about the course!",
-    ],
+    building: ["Content is being generated — feel free to ask questions!"],
     reviewing: [
-      "\"Remove the duplicate links in the intro lesson\"",
-      "\"Add an example of backprop to lesson 3\"",
-      "\"Simplify the math section of the transformer lesson\"",
-      "\"Regenerate lesson 2 with more depth on gradients\"",
+      '"Remove the duplicate links in the intro lesson"',
+      '"Add an example of backprop to lesson 3"',
+      '"Regenerate lesson 2 with more depth on gradients"',
     ],
-    published: [
-      "Your course is published! Head to the Learn section to start studying.",
-    ],
+    published: ["Your course is published! Head to the Learn section to start studying."],
   };
 
   const suggestions = tips[phase] || tips.shaping;
 
   return (
-    <div className="py-8 space-y-4 text-center">
-      <p className="text-sm text-muted-foreground">
-        {phase === "shaping"
-          ? "Your outline is ready. Tell me how to refine it, or explore the tabs on the right."
-          : phase === "reviewing"
-            ? "Review your lessons. Tell me if anything needs changes."
-            : ""}
+    <div style={{ padding: "2.5rem 0.5rem", textAlign: "center" }}>
+      <p style={{ fontFamily: "var(--font-crimson)", fontSize: "0.95rem", color: "var(--cream-2)", marginBottom: "1rem", lineHeight: 1.6 }}>
+        {phase === "shaping" ? "Your outline is ready. Tell me how to refine it, or explore the tabs →" : phase === "reviewing" ? "Review your lessons. Tell me if anything needs changes." : ""}
       </p>
-      <div className="space-y-1.5">
+      <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
         {suggestions.map((tip, i) => (
-          <p key={i} className="text-xs text-muted-foreground/70 italic">
-            {tip}
-          </p>
+          <p key={i} style={{ fontFamily: "var(--font-crimson)", fontSize: "0.85rem", color: "var(--cream-2)", fontStyle: "italic", opacity: 0.7 }}>{tip}</p>
         ))}
       </div>
     </div>

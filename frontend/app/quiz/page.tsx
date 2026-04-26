@@ -100,7 +100,7 @@ export default function QuizPage() {
         const t = await api.quiz.getTopics(token!);
         setTopics(t);
       } catch {
-        router.push("/login");
+        // API unavailable — show empty state
       } finally {
         setTopicsLoading(false);
       }

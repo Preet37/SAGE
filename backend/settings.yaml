@@ -5,7 +5,7 @@
 # ─────────────────────────────────────────────────────────────
 
 database:
-  url: "sqlite:///./tutor.db"
+  url: "sqlite:///./sage.db"
 
 server:
   frontend_url: "http://localhost:3000,http://localhost:3001"

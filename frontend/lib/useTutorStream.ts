@@ -50,20 +50,30 @@ export interface ToolResultMessage {
   result: unknown;
 }
 
-function parseSSEBuffer(buffer: string): { events: unknown[]; remainder: string } {
-  const events: unknown[] = [];
+interface SSEEvent {
+  name: string;
+  data: Record<string, unknown>;
+}
+
+function parseSSEBuffer(buffer: string): { events: SSEEvent[]; remainder: string } {
+  const events: SSEEvent[] = [];
   const parts = buffer.split("\n\n");
   const remainder = parts.pop() ?? "";
   for (const part of parts) {
+    let name = "message";
+    let data: Record<string, unknown> | null = null;
     for (const line of part.split("\n")) {
-      if (line.startsWith("data: ")) {
+      if (line.startsWith("event: ")) {
+        name = line.slice(7).trim();
+      } else if (line.startsWith("data: ")) {
         try {
-          events.push(JSON.parse(line.slice(6)));
+          data = JSON.parse(line.slice(6)) as Record<string, unknown>;
         } catch {
           // ignore malformed lines
         }
       }
     }
+    if (data !== null) events.push({ name, data });
   }
   return { events, remainder };
 }
@@ -99,15 +109,18 @@ export function useTutorStream(lessonId: string) {
       setStreaming(true);
       setToolCall(null);
 
-      const apiMessages = allMessages.map((m) => ({
-        role: m.role,
-        content: m.content,
-      }));
-
       const assistantId = uid();
       let assistantText = "";
 
+      // Add placeholder immediately so error messages have a bubble to land in
+      updateMessages((prev) => [
+        ...prev,
+        { id: assistantId, role: "assistant", content: "" },
+      ]);
+
       try {
+        // Backend expects: lesson_id (int), message (str), history (prev msgs), teaching_mode
+        const messages = allMessages.map((m) => ({ role: m.role, content: m.content }));
         const res = await fetch(`${API_URL}/tutor/chat`, {
           method: "POST",
           headers: {
@@ -115,14 +128,23 @@ export function useTutorStream(lessonId: string) {
             Authorization: `Bearer ${getToken()}`,
           },
           body: JSON.stringify({
-            messages: apiMessages,
             lesson_id: lessonId,
+            messages,
             mode,
-            session_id: sessionIdRef.current,
+            session_id: sessionIdRef.current ?? null,
           }),
         });
 
-        if (!res.ok) throw new Error("Stream request failed");
+        if (res.status === 401) {
+          if (typeof window !== "undefined") {
+            localStorage.removeItem("tutor_token");
+            const returnTo = window.location.pathname;
+            window.location.href = `/login?returnTo=${encodeURIComponent(returnTo)}`;
+          }
+          return;
+        }
+
+        if (!res.ok) throw new Error(`Stream request failed (${res.status})`);
 
         const returnedSessionId = res.headers.get("X-Session-Id");
         if (returnedSessionId) {
@@ -134,11 +156,6 @@ export function useTutorStream(lessonId: string) {
         const decoder = new TextDecoder();
         let sseBuffer = "";
 
-        updateMessages((prev) => [
-          ...prev,
-          { id: assistantId, role: "assistant", content: "" },
-        ]);
-
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
@@ -147,52 +164,47 @@ export function useTutorStream(lessonId: string) {
           const { events, remainder } = parseSSEBuffer(sseBuffer);
           sseBuffer = remainder;
 
-          for (const event of events as Record<string, unknown>[]) {
-            if (event.type === "text") {
-              assistantText += event.delta as string;
+          for (const { data: evtData } of events) {
+            const evtType = evtData.type as string | undefined;
+            if (evtType === "text") {
+              assistantText += (evtData.delta as string) || "";
               updateMessages((prev) =>
                 prev.map((m) =>
-                  m.id === assistantId
-                    ? { ...m, content: assistantText }
-                    : m
+                  m.id === assistantId ? { ...m, content: assistantText } : m
                 )
               );
-            } else if (event.type === "tool_call") {
-              setToolCall({ name: event.name as string });
-            } else if (event.type === "tool_result") {
+            } else if (evtType === "done") {
+              const v = evtData.verification as Record<string, unknown> | undefined;
+              if (v) {
+                const verification: Verification = {
+                  score: (v.score as number) ?? 1.0,
+                  label: (v.passed as boolean) ? "grounded" : "unverified",
+                  grounded_claims: [],
+                  unsupported_claims: [],
+                  rationale: "",
+                };
+                updateMessages((prev) =>
+                  prev.map((m) => m.id === assistantId ? { ...m, verification } : m)
+                );
+              }
+            } else if (evtType === "error") {
+              const errorMsg = (evtData.message as string) || "Something went wrong. Please try again.";
+              assistantText = assistantText
+                ? `${assistantText}\n\n---\n\n*${errorMsg}*`
+                : errorMsg;
+              updateMessages((prev) =>
+                prev.map((m) =>
+                  m.id === assistantId ? { ...m, content: assistantText } : m
+                )
+              );
+            } else if (evtType === "tool_call") {
+              setToolCall({ name: evtData.name as string });
+            } else if (evtType === "tool_result") {
               setToolCall(null);
               setToolResults((prev) => [
                 ...prev,
-                {
-                  id: uid(),
-                  type: "tool_result",
-                  toolName: event.name as string,
-                  result: event.result,
-                },
+                { id: uid(), type: "tool_result", toolName: evtData.name as string, result: evtData.result },
               ]);
-            } else if (event.type === "error") {
-              const errorMsg = (event.message as string) || "Something went wrong. Please try again.";
-              if (assistantText) {
-                assistantText += `\n\n---\n\n*${errorMsg}*`;
-              } else {
-                assistantText = errorMsg;
-              }
-              updateMessages((prev) =>
-                prev.map((m) =>
-                  m.id === assistantId
-                    ? { ...m, content: assistantText }
-                    : m
-                )
-              );
-            } else if (event.type === "verification") {
-              const verification = event.result as Verification;
-              updateMessages((prev) =>
-                prev.map((m) =>
-                  m.id === assistantId ? { ...m, verification } : m
-                )
-              );
-            } else if (event.type === "done") {
-              // streaming complete
             }
           }
         }

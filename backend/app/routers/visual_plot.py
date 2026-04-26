@@ -30,26 +30,27 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f1117;color:#e0e0e0;display:flex;height:100vh;overflow:hidden}
-#sidebar{width:240px;min-width:180px;background:#161b22;border-right:1px solid #30363d;padding:10px;overflow-y:auto;flex-shrink:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#141009;color:#f0e9d6;display:flex;height:100vh;overflow:hidden}
+#sidebar{width:240px;min-width:180px;background:#1a1612;border-right:1px solid rgba(240,233,214,0.08);padding:10px;overflow-y:auto;flex-shrink:0}
 #main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
-#tabs{display:flex;gap:4px;padding:7px 10px;background:#161b22;border-bottom:1px solid #30363d;flex-shrink:0;flex-wrap:wrap}
-.tab-btn{padding:4px 11px;border-radius:6px;border:1px solid #30363d;background:#0f1117;color:#8b949e;cursor:pointer;font-size:12px;transition:all .15s}
-.tab-btn.active{background:#1f6feb;border-color:#1f6feb;color:#fff}
+#tabs{display:flex;gap:4px;padding:7px 10px;background:#1a1612;border-bottom:1px solid rgba(240,233,214,0.08);flex-shrink:0;flex-wrap:wrap}
+.tab-btn{padding:4px 11px;border-radius:3px;border:1px solid rgba(240,233,214,0.12);background:transparent;color:rgba(240,233,214,0.45);cursor:pointer;font-size:11px;letter-spacing:.04em;transition:all .15s}
+.tab-btn.active{background:rgba(196,152,90,0.15);border-color:rgba(196,152,90,0.6);color:#c4985a}
+.tab-btn:not(.active):hover{border-color:rgba(240,233,214,0.25);color:rgba(240,233,214,0.75)}
 #plot-area{flex:1;overflow:hidden;min-height:0}
 #plot{width:100%;height:100%}
-#playbar{display:flex;align-items:center;gap:8px;padding:5px 10px;background:#161b22;border-top:1px solid #30363d;flex-shrink:0}
-#playbar button{padding:4px 9px;border-radius:5px;border:1px solid #30363d;background:#21262d;color:#e0e0e0;cursor:pointer;font-size:11px}
-#playbar button:hover{background:#30363d}
-#time-display{font-size:11px;color:#8b949e;margin-left:4px;font-variant-numeric:tabular-nums}
-.grp-label{font-size:10px;font-weight:700;color:#6e7681;text-transform:uppercase;letter-spacing:.07em;margin:10px 0 5px;border-bottom:1px solid #21262d;padding-bottom:3px}
+#playbar{display:flex;align-items:center;gap:8px;padding:5px 10px;background:#1a1612;border-top:1px solid rgba(240,233,214,0.08);flex-shrink:0}
+#playbar button{padding:4px 9px;border-radius:3px;border:1px solid rgba(240,233,214,0.15);background:transparent;color:rgba(240,233,214,0.75);cursor:pointer;font-size:11px;letter-spacing:.03em;transition:background .15s,border-color .15s}
+#playbar button:hover{background:rgba(240,233,214,0.06);border-color:rgba(240,233,214,0.3)}
+#time-display{font-size:11px;color:rgba(240,233,214,0.4);margin-left:4px;font-variant-numeric:tabular-nums}
+.grp-label{font-size:9px;font-weight:700;color:rgba(240,233,214,0.35);text-transform:uppercase;letter-spacing:.1em;margin:10px 0 5px;border-bottom:1px solid rgba(240,233,214,0.07);padding-bottom:3px}
 .grp-label:first-child{margin-top:0}
 .slider-row{margin-bottom:7px}
-.slider-label{display:flex;justify-content:space-between;font-size:11px;color:#c9d1d9;margin-bottom:3px;gap:4px}
+.slider-label{display:flex;justify-content:space-between;font-size:11px;color:rgba(240,233,214,0.7);margin-bottom:3px;gap:4px}
 .slider-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0}
-.slider-val{color:#58a6ff;font-weight:700;font-variant-numeric:tabular-nums;flex-shrink:0;min-width:40px;text-align:right}
-input[type=range]{width:100%;accent-color:#1f6feb;cursor:pointer}
-#errbox{display:none;position:absolute;inset:8px;background:#1a0505;border:1px solid #8b1a1a;border-radius:8px;padding:12px;overflow:auto;z-index:99;font-size:11px;color:#f0a0a0;white-space:pre-wrap}
+.slider-val{color:#c4985a;font-weight:700;font-variant-numeric:tabular-nums;flex-shrink:0;min-width:40px;text-align:right}
+input[type=range]{width:100%;accent-color:#c4985a;cursor:pointer}
+#errbox{display:none;position:absolute;inset:8px;background:rgba(80,20,20,0.95);border:1px solid rgba(220,80,80,0.4);border-radius:6px;padding:12px;overflow:auto;z-index:99;font-size:11px;color:#f0a0a0;white-space:pre-wrap}
 </style>
 </head>
 <body>
@@ -186,10 +187,10 @@ __PHYSICS_CODE__
   /* ── Speed control ─────────────────────────────────────────────────── */
   var speedMult = 1.0;
   var speedRow = document.createElement('div');
-  speedRow.style.cssText='padding:6px 10px;background:#0f1117;border-top:1px solid #21262d;display:flex;align-items:center;gap:8px;flex-shrink:0';
-  speedRow.innerHTML='<span style="font-size:11px;color:#6e7681;white-space:nowrap">Speed</span>'
-    +'<input type="range" id="speed-sl" min="0.1" max="5" step="0.1" value="1" style="flex:1;accent-color:#1f6feb">'
-    +'<span id="speed-val" style="font-size:11px;color:#58a6ff;min-width:30px;text-align:right">1×</span>';
+  speedRow.style.cssText='padding:6px 10px;background:#141009;border-top:1px solid rgba(240,233,214,0.07);display:flex;align-items:center;gap:8px;flex-shrink:0';
+  speedRow.innerHTML='<span style="font-size:10px;color:rgba(240,233,214,0.35);white-space:nowrap;text-transform:uppercase;letter-spacing:.07em">Speed</span>'
+    +'<input type="range" id="speed-sl" min="0.1" max="5" step="0.1" value="1" style="flex:1;accent-color:#c4985a">'
+    +'<span id="speed-val" style="font-size:11px;color:#c4985a;min-width:30px;text-align:right;font-weight:700">1×</span>';
   document.getElementById('playbar').parentNode.insertBefore(speedRow, document.getElementById('playbar').nextSibling);
   document.getElementById('speed-sl').addEventListener('input', function(){
     speedMult = parseFloat(this.value);
@@ -227,12 +228,12 @@ __PHYSICS_CODE__
   /* ── Render ───────────────────────────────────────────────────────── */
   var plotInited=false;
   var BASE_LAYOUT = {
-    paper_bgcolor:'#0f1117', plot_bgcolor:'#0d1117',
-    font:{color:'#c9d1d9',size:11},
+    paper_bgcolor:'#141009', plot_bgcolor:'#141009',
+    font:{color:'#f0e9d6',size:11,family:'-apple-system,BlinkMacSystemFont,sans-serif'},
     margin:{l:52,r:18,t:38,b:48},
-    xaxis:{gridcolor:'#1c2128',zerolinecolor:'#30363d',zerolinewidth:1,linecolor:'#30363d'},
-    yaxis:{gridcolor:'#1c2128',zerolinecolor:'#30363d',zerolinewidth:1,linecolor:'#30363d'},
-    legend:{bgcolor:'rgba(22,27,34,0.85)',bordercolor:'#30363d',borderwidth:1,font:{size:10}}
+    xaxis:{gridcolor:'rgba(240,233,214,0.06)',zerolinecolor:'rgba(240,233,214,0.15)',zerolinewidth:1,linecolor:'rgba(240,233,214,0.12)',tickfont:{color:'rgba(240,233,214,0.55)'}},
+    yaxis:{gridcolor:'rgba(240,233,214,0.06)',zerolinecolor:'rgba(240,233,214,0.15)',zerolinewidth:1,linecolor:'rgba(240,233,214,0.12)',tickfont:{color:'rgba(240,233,214,0.55)'}},
+    legend:{bgcolor:'rgba(20,16,9,0.88)',bordercolor:'rgba(240,233,214,0.1)',borderwidth:1,font:{size:10,color:'rgba(240,233,214,0.75)'}}
   };
 
   function renderPlot(t){

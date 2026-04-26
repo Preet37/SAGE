@@ -9,7 +9,7 @@ class GeneratedCurriculum(SQLModel, table=True):
     __tablename__ = "generatedcurriculum"
 
     id: str = Field(default_factory=cuid, primary_key=True)
-    user_id: str = Field(foreign_key="user.id", index=True)
+    user_id: str = Field(foreign_key="users.id", index=True)
     learning_goals: str = ""
     title: str = ""
     level_range: str = ""

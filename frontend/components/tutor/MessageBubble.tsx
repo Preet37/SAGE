@@ -309,6 +309,7 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verific
   const [plotHtml, setPlotHtml] = useState<string | null>(null);
   const [plotTopic, setPlotTopic] = useState<string>("");
   const [plotLoading, setPlotLoading] = useState(false);
+  const [plotError, setPlotError] = useState<string | null>(null);
   const [sim3dHtml, setSim3dHtml] = useState<string | null>(null);
   const [sim3dLoading, setSim3dLoading] = useState(false);
   const [genesisVideoB64, setGenesisVideoB64] = useState<string | null>(null);
@@ -334,10 +335,13 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verific
     try {
       const topic = lessonTitle || content.slice(0, 120);
       const result = await api.visual.generatePlot(topic, content.slice(0, 1500), token);
-      if (result.html) {
+      if (result.error) {
+        setPlotError(result.error);
+      } else if (result.html) {
         setPlotHtml(result.html);
         setPlotTopic(result.topic || topic);
         setSim3dHtml(null);
+        setPlotError(null);
       }
     } catch (e) {
       console.error("Plot generation failed:", e);
@@ -554,7 +558,7 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verific
           {/* 2D Plot */}
           {plotHtml ? (
             <button
-              onClick={() => setPlotHtml(null)}
+              onClick={() => { setPlotHtml(null); setPlotError(null); }}
               className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
             >
               <X className="h-3 w-3" /> Close Plot
@@ -653,6 +657,13 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verific
 
       {/* Rendered 2D plot */}
       {plotHtml && <VisualPlotRenderer html={plotHtml} topic={plotTopic} />}
+
+      {/* Plot generation error */}
+      {plotError && !plotHtml && (
+        <div className="mt-3 rounded-lg border border-red-500/20 bg-red-500/5 px-3 py-2 text-xs text-red-400">
+          {plotError}
+        </div>
+      )}
 
       {/* Rendered 3D simulation (JSCAD/Three.js interactive) */}
       {sim3dHtml && (
