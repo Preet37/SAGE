@@ -23,7 +23,10 @@ import tempfile
 from datetime import datetime
 from typing import Optional
 
-from cuid2 import cuid
+from cuid2 import Cuid as _Cuid
+_cuid_gen = _Cuid()
+def cuid() -> str:
+    return _cuid_gen.generate()
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from pydantic import BaseModel
 from sqlmodel import Session, select
