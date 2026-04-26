@@ -1,17 +1,16 @@
 """
-3D Simulation endpoint.
+3D Simulation — accurate, topic-specific mechanical/physical model.
 
-LLM generates only three focused functions inside a hardcoded Three.js + cannon-es
-template:
-  - PARAMS      — array of slider definitions
-  - setupScene  — create geometry, materials, lights, camera position
-  - updateScene — animation frame callback (t, dt, params)
-  - onParamChange (optional) — called when user moves a slider
+Two-step LLM pipeline:
+  1. Extract: identify the exact physical object to model, its components,
+     materials, dimensions, and motion type.
+  2. Generate: produce Three.js code for ONE accurate cross-section model
+     with labeled parts, correct PBR materials, and physics-accurate animation.
 
-The template handles: WebGLRenderer, PBR tone-mapping, shadow maps, OrbitControls,
-resize observer, slider UI, error overlay, FPS counter, and the RAF loop.
+The output is always a single focused object — not a random shape showcase.
 """
 
+import json
 import logging
 import re
 from fastapi import APIRouter, Depends
@@ -27,238 +26,273 @@ logger = logging.getLogger(__name__)
 
 
 # ─── HTML template ────────────────────────────────────────────────────────────
-# Everything except the LLM-generated ${GENERATED_CODE} block is hardcoded so
-# the simulation always works regardless of what the LLM produces.
-
 HTML_3D_TEMPLATE = r"""<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8"/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#08090e;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;display:flex;height:100vh;overflow:hidden}
-#sidebar{width:230px;background:#0d1117;border-right:1px solid #21262d;display:flex;flex-direction:column;flex-shrink:0}
-#sb-title{padding:12px 14px;border-bottom:1px solid #21262d;font-size:13px;font-weight:700;color:#e6edf3;letter-spacing:.02em}
-#sb-subtitle{padding:4px 14px 10px;font-size:10px;color:#8b949e;border-bottom:1px solid #21262d}
-#params{padding:12px 14px;overflow-y:auto;flex:1}
-#canvas-wrap{flex:1;position:relative;min-width:0}
+body{background:#0a0c12;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;display:flex;height:100vh;overflow:hidden}
+#sidebar{width:220px;background:#0d1117;border-right:1px solid #1e2530;display:flex;flex-direction:column;flex-shrink:0;min-width:0}
+#sb-head{padding:10px 12px;border-bottom:1px solid #1e2530}
+#sb-title{font-size:12px;font-weight:700;color:#e6edf3;letter-spacing:.03em}
+#sb-object{font-size:10px;color:#58a6ff;margin-top:2px;word-wrap:break-word}
+#params{padding:10px 12px;overflow-y:auto;flex:1}
+#canvas-wrap{flex:1;position:relative;min-width:0;overflow:hidden}
 canvas{display:block;width:100%;height:100%}
-.pg{margin-bottom:14px}
-.pl{font-size:10px;color:#8b949e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center}
-.pv{color:#58a6ff;font-weight:600}
-input[type=range]{width:100%;height:4px;accent-color:#58a6ff;cursor:pointer}
-#status{position:absolute;bottom:8px;right:10px;font-size:10px;color:#484f58;pointer-events:none}
-#hint{position:absolute;bottom:8px;left:10px;font-size:10px;color:#484f58;pointer-events:none}
-#err{display:none;position:absolute;inset:0;background:rgba(8,9,14,.92);padding:20px;color:#f85149;font-size:11px;white-space:pre-wrap;z-index:99;overflow:auto}
-.badge{display:inline-block;font-size:9px;padding:2px 6px;border-radius:10px;background:#1f2937;color:#58a6ff;border:1px solid #1e3a5f;margin-top:6px}
+.pg{margin-bottom:12px}
+.pl{font-size:10px;color:#8b949e;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px;display:flex;justify-content:space-between}
+.pv{color:#58a6ff;font-weight:600;font-size:10px}
+input[type=range]{width:100%;height:3px;accent-color:#58a6ff;cursor:pointer;display:block;margin-top:2px}
+#legend{padding:10px 12px;border-top:1px solid #1e2530;font-size:9px;color:#8b949e}
+.leg-item{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+#fps{position:absolute;top:8px;right:10px;font-size:9px;color:#484f58;pointer-events:none;font-variant-numeric:tabular-nums}
+#hint{position:absolute;bottom:8px;left:10px;font-size:9px;color:#484f58;pointer-events:none}
+#label-layer{position:absolute;inset:0;pointer-events:none}
+.label3d{position:absolute;transform:translate(-50%,-50%);white-space:nowrap;font-size:10px;color:#e6edf3;background:rgba(13,17,23,.82);border:1px solid #30363d;border-radius:4px;padding:2px 6px;pointer-events:none;line-height:1.4}
+.label3d::before{content:'';position:absolute;left:50%;top:100%;transform:translateX(-50%);border:4px solid transparent;border-top-color:#30363d}
+#err{display:none;position:absolute;inset:0;background:rgba(10,12,18,.93);padding:20px;color:#f85149;font-size:11px;white-space:pre-wrap;z-index:99;overflow:auto}
 </style>
 </head>
 <body>
 <div id="sidebar">
-  <div id="sb-title">⚡ 3D Simulation</div>
-  <div id="sb-subtitle" id="sb-sub"><!-- topic injected --></div>
-  <div id="params"></div>
-  <div style="padding:12px 14px;margin-top:auto;border-top:1px solid #21262d">
-    <div class="badge">Three.js r169 · WebGL2</div>
-    <div class="badge" style="margin-left:4px">cannon-es physics</div>
+  <div id="sb-head">
+    <div id="sb-title">⚡ 3D Simulation</div>
+    <div id="sb-object">Loading…</div>
   </div>
+  <div id="params"></div>
+  <div id="legend"></div>
 </div>
 <div id="canvas-wrap">
   <canvas id="c"></canvas>
-  <div id="status"></div>
-  <div id="hint">Drag to orbit · scroll to zoom · right-drag to pan</div>
+  <div id="label-layer"></div>
+  <div id="fps"></div>
+  <div id="hint">Drag · scroll · right-drag to pan</div>
   <div id="err"></div>
 </div>
 
 <script type="importmap">
 {"imports":{
   "three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
-  "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/",
-  "cannon-es":"https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js"
+  "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
 }}
 </script>
 
 <script type="module">
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import * as CANNON from 'cannon-es';
 
-// ── Global error overlay ────────────────────────────────────────────────────
-window.onerror = (msg, src, line, col, err) => {
-  const box = document.getElementById('err');
-  box.style.display = 'block';
-  box.textContent = `Runtime error:\n${msg}\n@ ${src}:${line}:${col}\n\n${err?.stack||''}`;
+window.onerror = (m,s,l,c,e) => {
+  document.getElementById('err').style.display='block';
+  document.getElementById('err').textContent=`Error: ${m}\n@ ${s}:${l}\n${e?.stack||''}`;
 };
 window.addEventListener('unhandledrejection', e => {
-  const box = document.getElementById('err');
-  box.style.display = 'block';
-  box.textContent = `Unhandled promise rejection:\n${e.reason}`;
+  document.getElementById('err').style.display='block';
+  document.getElementById('err').textContent=`Promise error:\n${e.reason}`;
 });
 
-// ── Renderer ────────────────────────────────────────────────────────────────
+// ── Renderer ─────────────────────────────────────────────────────────────────
 const canvas = document.getElementById('c');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.3;
+renderer.toneMappingExposure = 1.4;
 renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.localClippingEnabled = true;  // needed for cross-section cut
 
-// ── Scene ───────────────────────────────────────────────────────────────────
+// ── Scene ─────────────────────────────────────────────────────────────────────
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x08090e);
+scene.background = new THREE.Color(0x0a0c12);
 
-// ── Camera + controls ───────────────────────────────────────────────────────
-const camera = new THREE.PerspectiveCamera(55, 1, 0.01, 5000);
-camera.position.set(0, 5, 14);
+// ── Camera ────────────────────────────────────────────────────────────────────
+const camera = new THREE.PerspectiveCamera(50, 1, 0.001, 5000);
+camera.position.set(0, 3, 8);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
-controls.dampingFactor = 0.06;
-controls.target.set(0, 1, 0);
+controls.dampingFactor = 0.07;
+controls.target.set(0, 0, 0);
 
-// ── Param system ────────────────────────────────────────────────────────────
-const paramValues = {};
+// ── Resize ────────────────────────────────────────────────────────────────────
+const wrap = document.getElementById('canvas-wrap');
+function resize(){
+  const w=wrap.clientWidth, h=wrap.clientHeight;
+  camera.aspect = w/h;
+  camera.updateProjectionMatrix();
+  renderer.setSize(w,h,false);
+}
+new ResizeObserver(resize).observe(wrap);
+resize();
 
-function buildUI(params) {
-  const container = document.getElementById('params');
-  container.innerHTML = '';
-  for (const p of params) {
-    paramValues[p.key] = p.default ?? p.min;
-    const wrap = document.createElement('div');
-    wrap.className = 'pg';
-    const lbl = document.createElement('div');
-    lbl.className = 'pl';
-    const nameEl = document.createElement('span');
-    nameEl.textContent = p.label;
-    const valEl = document.createElement('span');
-    valEl.className = 'pv';
-    valEl.id = 'v_' + p.key;
-    valEl.textContent = (+paramValues[p.key]).toFixed(2);
-    lbl.appendChild(nameEl);
-    lbl.appendChild(valEl);
-    const slider = document.createElement('input');
-    slider.type = 'range';
-    slider.min = p.min;
-    slider.max = p.max;
-    slider.step = p.step ?? ((p.max - p.min) / 200);
-    slider.value = paramValues[p.key];
-    slider.addEventListener('input', () => {
-      paramValues[p.key] = parseFloat(slider.value);
-      document.getElementById('v_' + p.key).textContent = paramValues[p.key].toFixed(2);
-      try { if (typeof onParamChange === 'function') onParamChange(p.key, paramValues[p.key], paramValues, scene, THREE, CANNON); }
-      catch(e) { console.warn('onParamChange error', e); }
-    });
-    wrap.appendChild(lbl);
-    wrap.appendChild(slider);
-    container.appendChild(wrap);
+// ── Param system ──────────────────────────────────────────────────────────────
+const P = {};
+function buildUI(params){
+  const c=document.getElementById('params');
+  c.innerHTML='';
+  for(const p of params){
+    P[p.key]=p.default??p.min;
+    const w=document.createElement('div'); w.className='pg';
+    const l=document.createElement('div'); l.className='pl';
+    const n=document.createElement('span'); n.textContent=p.label;
+    const v=document.createElement('span'); v.className='pv'; v.id='v_'+p.key;
+    v.textContent=(+P[p.key]).toFixed(p.decimals??2);
+    l.append(n,v);
+    const s=document.createElement('input'); s.type='range';
+    s.min=p.min; s.max=p.max;
+    s.step=p.step??((p.max-p.min)/200);
+    s.value=P[p.key];
+    s.oninput=()=>{
+      P[p.key]=parseFloat(s.value);
+      document.getElementById('v_'+p.key).textContent=P[p.key].toFixed(p.decimals??2);
+      try{ if(typeof onParam==='function') onParam(p.key,P[p.key],P); }catch(e){console.warn(e);}
+    };
+    w.append(l,s); c.append(w);
   }
 }
 
-// ── Resize ──────────────────────────────────────────────────────────────────
-function resize() {
-  const wrap = document.getElementById('canvas-wrap');
-  const w = wrap.clientWidth, h = wrap.clientHeight;
-  camera.aspect = w / h;
-  camera.updateProjectionMatrix();
-  renderer.setSize(w, h, false);
+// ── Legend ────────────────────────────────────────────────────────────────────
+function buildLegend(items){
+  const l=document.getElementById('legend'); l.innerHTML='';
+  for(const it of items){
+    const row=document.createElement('div'); row.className='leg-item';
+    const dot=document.createElement('div'); dot.className='leg-dot';
+    dot.style.background=it.color;
+    const txt=document.createElement('span'); txt.textContent=it.label;
+    row.append(dot,txt); l.append(row);
+  }
 }
-new ResizeObserver(resize).observe(document.getElementById('canvas-wrap'));
-resize();
+
+// ── 3D Labels ────────────────────────────────────────────────────────────────
+const _labels=[];
+function addLabel(text, worldPos){
+  const el=document.createElement('div'); el.className='label3d';
+  el.textContent=text;
+  document.getElementById('label-layer').append(el);
+  _labels.push({el, pos: worldPos.clone()});
+}
+function updateLabels(){
+  const ww=wrap.clientWidth, wh=wrap.clientHeight;
+  for(const lb of _labels){
+    const v=lb.pos.clone().project(camera);
+    const x=(v.x*.5+.5)*ww, y=(-.5*v.y+.5)*wh;
+    if(v.z>1){ lb.el.style.display='none'; continue; }
+    lb.el.style.display='block';
+    lb.el.style.left=x+'px'; lb.el.style.top=y+'px';
+  }
+}
 
 // ════════════════════════════════════════════════════════════════════════════
-// LLM-GENERATED CODE — scene setup, physics, animation
+// LLM-GENERATED CODE
 // ════════════════════════════════════════════════════════════════════════════
 ${GENERATED_CODE}
 // ════════════════════════════════════════════════════════════════════════════
 
-// ── Animation loop ──────────────────────────────────────────────────────────
-const clock = new THREE.Clock();
-let frameCount = 0;
-const fpsEl = document.getElementById('status');
-
-(function animate() {
-  requestAnimationFrame(animate);
-  const dt = Math.min(clock.getDelta(), 0.05);
-  const elapsed = clock.getElapsedTime();
-  frameCount++;
+// ── Animation loop ────────────────────────────────────────────────────────────
+const clock=new THREE.Clock();
+let fc=0;
+(function loop(){
+  requestAnimationFrame(loop);
+  const dt=Math.min(clock.getDelta(),.05);
+  const t=clock.getElapsedTime();
+  fc++;
   controls.update();
-  try {
-    if (typeof updateScene === 'function') updateScene(elapsed, dt, paramValues, scene, THREE, CANNON);
-  } catch(e) { console.error('updateScene error', e); }
-  renderer.render(scene, camera);
-  if (frameCount % 60 === 0) fpsEl.textContent = Math.round(1 / (dt || 0.016)) + ' fps';
+  try{ if(typeof tick==='function') tick(t,dt,P); }catch(e){ console.error('tick error',e); }
+  renderer.render(scene,camera);
+  updateLabels();
+  if(fc%60===0) document.getElementById('fps').textContent=Math.round(1/(dt||.016))+' fps';
 })();
 </script>
 </body>
 </html>"""
 
 
-# ─── LLM prompt ────────────────────────────────────────────────────────────
-SCENE_PROMPT = """You are an expert Three.js + cannon-es physics simulation engineer.
-Generate a self-contained JavaScript block for a 3D physics simulation of: "{topic}"
+# ─── Step 1: Extract exact model spec ────────────────────────────────────────
+EXTRACT_PROMPT = """You are a mechanical/physical engineering expert.
 
+Given this topic and context, identify the SINGLE most important physical mechanism or component to model in 3D.
+
+Topic: {topic}
 Context: {context}
 
-The block will be injected inside a Three.js r169 module script.
-These globals are already defined and available:
-  scene        — THREE.Scene
-  camera       — THREE.PerspectiveCamera (positioned by you)
-  renderer     — THREE.WebGLRenderer (shadows enabled)
-  controls     — OrbitControls
-  THREE        — the three.js namespace
-  CANNON       — cannon-es namespace
-  buildUI(params) — call this with your PARAMS array to create sliders
-  paramValues  — live object of current slider values
+Respond with a JSON object ONLY (no markdown):
+{{
+  "object_name": "exact technical name of the component",
+  "description": "1-sentence description of what it does",
+  "components": [
+    {{"name": "component name", "shape": "cylinder|box|sphere|torus|custom", "material": "steel|rubber|glass|plastic|fluid|copper|ceramic", "color_hex": "#rrggbb", "role": "brief functional role"}}
+  ],
+  "motion_type": "linear|rotational|oscillating|expanding|none",
+  "motion_description": "describe the exact motion to animate (e.g. 'piston rod extends 40mm then retracts')",
+  "cross_section_axis": "x|y|z",
+  "key_parameters": [
+    {{"key": "param_key", "label": "Human Label", "min": 0, "max": 100, "default": 50, "unit": "unit", "effect": "what changing this does to the animation"}}
+  ]
+}}
+"""
 
-You MUST define these:
+# ─── Step 2: Generate Three.js from spec ─────────────────────────────────────
+GEN_PROMPT = """You are an expert Three.js engineer. Generate JavaScript code for an accurate 3D model.
 
-1. const PARAMS = [ {{ key, label, min, max, default, step? }}, ... ]
-   — 4-8 physically meaningful parameters the user can tweak.
+MODEL SPEC:
+{spec_json}
 
-2. (function that runs immediately) — sets up the scene:
-   a. Set camera.position and controls.target for a good view
-   b. Add meaningful lights:
-      - DirectionalLight with castShadow = true, shadow map size 2048
-      - AmbientLight or HemisphereLight for fill
-      - Optional PointLights for dramatic highlights
-   c. Create rich PBR geometry using THREE.MeshStandardMaterial or
-      THREE.MeshPhysicalMaterial with realistic metalness, roughness,
-      envMapIntensity. Use BufferGeometry for custom meshes where appropriate.
-   d. Add a ground plane that receiveShadow = true.
-   e. Set up a CANNON.World with gravity if physics applies.
-   f. Call buildUI(PARAMS) ONCE.
+CRITICAL RULES — read every one:
 
-3. function updateScene(t, dt, params, scene, THREE, CANNON) {{
-   }}
-   — Called every animation frame. t=elapsed seconds, dt=delta.
-   — Advance the cannon physics world: world.step(1/60, dt).
-   — Drive geometry from physics body positions/quaternions.
-   — Animate non-physics elements (rotation, oscillation, orbits).
-   — Make the simulation visually DYNAMIC — things should MOVE.
+1. MODEL ONLY the object named above. ONE focused, anatomically accurate model.
+   NO random floating shapes. NO decorative extras. NO generic "physics sandbox."
 
-4. (optional) function onParamChange(key, val, params, scene, THREE, CANNON) {{
-   }}
-   — If a slider changes, rebuild or rescale relevant objects.
+2. GEOMETRY must be accurate:
+   - Use real-world proportions. A hydraulic cylinder is 5-10x longer than its diameter.
+   - CylinderGeometry for shafts, rods, barrels. TorusGeometry for O-rings/seals.
+   - LatheGeometry or ExtrudeGeometry for complex profiles.
+   - Use clipping planes (renderer.localClippingEnabled=true is set) to cut a
+     cross-section that reveals internal components.
+   - Arrange parts in correct spatial relationships (piston INSIDE cylinder, etc.)
 
-CRITICAL RULES:
-- Output ONLY the raw JavaScript. No markdown, no ```js, no explanation.
-- Use THREE.MeshStandardMaterial or THREE.MeshPhysicalMaterial — never MeshBasicMaterial.
-- Every mesh that should cast/receive shadows must set castShadow/receiveShadow = true.
-- Lighting MUST include at least one DirectionalLight with shadows.
-- Physics (CANNON.World) is MANDATORY — at minimum one rigid body.
-- Camera must be positioned interestingly, not just at default (0,5,14).
-- Scene must look like a real simulation — not a static showcase.
-- Include at least 3 different geometric shapes (spheres, boxes, cylinders,
-  custom BufferGeometry, lathe geometry, etc.).
-- Use at least 3 different materials with different colors/metalness/roughness.
-- Add fog or environment details for depth: scene.fog = new THREE.FogExp2(...)
-- The simulation must AUTO-START and be visually compelling within 1 second.
+3. MATERIALS must be realistic:
+   - Steel/aluminum: MeshStandardMaterial, metalness:0.85, roughness:0.15, color:#8a9bb0
+   - Rubber seals: MeshStandardMaterial, metalness:0, roughness:0.9, color:#1a1a1a
+   - Hydraulic fluid: MeshStandardMaterial, metalness:0, roughness:0, color:#c07020, transparent:true, opacity:0.5
+   - Glass/viewport: MeshPhysicalMaterial, transmission:0.9, roughness:0, thickness:0.5
+   - Copper/brass: MeshStandardMaterial, metalness:0.9, roughness:0.2, color:#b87333
+
+4. LIGHTING must be high quality:
+   - One DirectionalLight (intensity 2.5, castShadow true, shadow map 2048x2048)
+   - One HemisphereLight for ambient (skyColor:#1a2f4a, groundColor:#0a0c12, intensity 0.8)
+   - One or two PointLights for dramatic highlights on metal surfaces
+   - Camera aimed at the object, not at origin unless object is centered there
+
+5. ANIMATION must show the ACTUAL FUNCTION of this specific object:
+   - Use the motion_type and motion_description from the spec
+   - Sliders control physically meaningful parameters (speed, stroke, pressure)
+   - The motion must make physical sense (piston moves axially, gear rotates, spring oscillates)
+   - Use smooth sinusoidal or physics-based motion, NOT random spinning
+
+6. LABELS: Call addLabel('Component Name', worldPos) for every major component.
+   worldPos must be a THREE.Vector3 positioned at the label's target.
+
+7. LEGEND: Call buildLegend([{{label:'...', color:'#hex'}},...]) with material colors.
+
+8. Call document.getElementById('sb-object').textContent = 'ObjectName';
+   to show the object name in the sidebar header.
+
+9. Expose EXACTLY these named symbols (no other names):
+   - buildUI(PARAMS) called ONCE with your param array
+   - function tick(t, dt, P) — animation update, t=elapsed, dt=delta, P=param values
+   - function onParam(key, val, P) — optional, handle slider changes
+
+10. All mesh objects must set castShadow=true, receiveShadow=true.
+
+11. Add a ground/floor plane with receiveShadow=true and a subtle grid.
+
+Output ONLY raw JavaScript. No markdown. No ```js. No explanation.
 """
 
 
-# ─── Request/Response models ────────────────────────────────────────────────
+# ─── Request/Response ────────────────────────────────────────────────────────
 class Visual3DRequest(BaseModel):
     topic: str
     context: str = ""
@@ -267,10 +301,11 @@ class Visual3DRequest(BaseModel):
 class Visual3DResponse(BaseModel):
     html: str
     topic: str
+    object_name: str = ""
     error: str | None = None
 
 
-# ─── Endpoint ────────────────────────────────────────────────────────────────
+# ─── Endpoint ─────────────────────────────────────────────────────────────────
 @router.post("/3d", response_model=Visual3DResponse)
 async def generate_3d_simulation(
     req: Visual3DRequest,
@@ -281,105 +316,271 @@ async def generate_3d_simulation(
     topic = req.topic[:200]
     context = req.context[:2000]
 
-    prompt = SCENE_PROMPT.format(topic=topic, context=context)
+    object_name = topic
 
     try:
-        resp = client.chat.completions.create(
+        # ── Step 1: Extract model spec ────────────────────────────────────────
+        extract_resp = client.chat.completions.create(
             model=settings.llm_model,
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.4,
-            max_tokens=3500,
+            messages=[{
+                "role": "user",
+                "content": EXTRACT_PROMPT.format(topic=topic, context=context)
+            }],
+            temperature=0.1,
+            max_tokens=800,
         )
-        generated = resp.choices[0].message.content or ""
+        raw_spec = extract_resp.choices[0].message.content or ""
+        # Strip markdown fences
+        raw_spec = re.sub(r"```(?:json)?\s*", "", raw_spec)
+        raw_spec = re.sub(r"```\s*$", "", raw_spec, flags=re.MULTILINE).strip()
 
-        # Strip any accidental markdown fences
+        # Parse spec
+        try:
+            spec = json.loads(raw_spec)
+            object_name = spec.get("object_name", topic)
+        except json.JSONDecodeError:
+            # Try extracting JSON from the response
+            m = re.search(r'\{.*\}', raw_spec, re.DOTALL)
+            if m:
+                spec = json.loads(m.group())
+                object_name = spec.get("object_name", topic)
+            else:
+                spec = {"object_name": topic, "description": "", "components": [], "motion_type": "none"}
+                object_name = topic
+
+        spec_json = json.dumps(spec, indent=2)
+
+        # ── Step 2: Generate Three.js code ────────────────────────────────────
+        gen_resp = client.chat.completions.create(
+            model=settings.llm_model,
+            messages=[{
+                "role": "user",
+                "content": GEN_PROMPT.format(spec_json=spec_json)
+            }],
+            temperature=0.2,
+            max_tokens=4000,
+        )
+        generated = gen_resp.choices[0].message.content or ""
         generated = re.sub(r"```(?:javascript|js)?\s*", "", generated)
-        generated = re.sub(r"```\s*$", "", generated, flags=re.MULTILINE)
-        generated = generated.strip()
+        generated = re.sub(r"```\s*$", "", generated, flags=re.MULTILINE).strip()
 
         html = HTML_3D_TEMPLATE.replace("${GENERATED_CODE}", generated)
-        return Visual3DResponse(html=html, topic=topic)
+        return Visual3DResponse(html=html, topic=topic, object_name=object_name)
 
     except Exception as exc:
-        logger.exception("3D simulation generation failed")
-        fallback = _fallback_scene(topic)
+        logger.exception("3D simulation generation failed: %s", exc)
+        fallback = _fallback_hydraulic(topic)
         html = HTML_3D_TEMPLATE.replace("${GENERATED_CODE}", fallback)
-        return Visual3DResponse(html=html, topic=topic, error=str(exc))
+        return Visual3DResponse(html=html, topic=topic, object_name=topic, error=str(exc))
 
 
-def _fallback_scene(topic: str) -> str:
-    """Minimal deterministic scene shown when the LLM call fails."""
-    return f"""
-// Fallback scene for: {topic}
+def _fallback_hydraulic(topic: str) -> str:
+    """Accurate fallback: a hydraulic linear actuator cross-section."""
+    return r"""
+// ── Fallback: Hydraulic Linear Actuator ──────────────────────────────────────
+document.getElementById('sb-object').textContent = 'Hydraulic Linear Actuator';
+
 const PARAMS = [
-  {{ key:'speed', label:'Speed', min:0.1, max:5, default:1, step:0.1 }},
-  {{ key:'radius', label:'Orbit Radius', min:2, max:10, default:5, step:0.1 }},
-  {{ key:'gravity', label:'Gravity', min:0, max:20, default:9.8, step:0.1 }},
+  { key:'stroke', label:'Stroke Position', min:0, max:1, default:0.3, step:0.005, decimals:2 },
+  { key:'speed',  label:'Cycle Speed',     min:0.1, max:3, default:0.8, step:0.05, decimals:2 },
+  { key:'bore',   label:'Bore Diameter',   min:0.3, max:1.2, default:0.7, step:0.01, decimals:2 },
 ];
 buildUI(PARAMS);
 
-// Lights
-const sun = new THREE.DirectionalLight(0xfff4e0, 2.5);
-sun.position.set(8, 12, 6);
+// Materials
+const matSteel  = new THREE.MeshStandardMaterial({ color:0x7a8fa6, metalness:0.85, roughness:0.2 });
+const matDkSteel = new THREE.MeshStandardMaterial({ color:0x4a5568, metalness:0.9, roughness:0.15 });
+const matRubber = new THREE.MeshStandardMaterial({ color:0x1a1a1a, metalness:0, roughness:0.95 });
+const matFluid  = new THREE.MeshStandardMaterial({ color:0xc07020, metalness:0, roughness:0, transparent:true, opacity:0.45 });
+const matBrass  = new THREE.MeshStandardMaterial({ color:0xb87333, metalness:0.9, roughness:0.2 });
+const matGround = new THREE.MeshStandardMaterial({ color:0x0f131a, roughness:0.9 });
+
+// Clipping plane for cross-section (cut along +Y half)
+const clipPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), 0.01);
+
+function makeSec(mat) {
+  const m = mat.clone();
+  m.clippingPlanes = [clipPlane];
+  m.clipShadows = true;
+  m.side = THREE.DoubleSide;
+  return m;
+}
+
+// ── Geometry ──────────────────────────────────────────────────────────────────
+const CYL_LEN = 4.0;
+const CYL_R   = 0.35;
+const ROD_R   = 0.12;
+
+// Outer cylinder barrel
+const barrel = new THREE.Mesh(
+  new THREE.CylinderGeometry(CYL_R, CYL_R, CYL_LEN, 48, 1, true),
+  makeSec(matDkSteel)
+);
+barrel.rotation.z = Math.PI/2;
+barrel.castShadow = barrel.receiveShadow = true;
+scene.add(barrel);
+
+// Cylinder end cap (rod side)
+const capRod = new THREE.Mesh(
+  new THREE.CylinderGeometry(CYL_R, CYL_R, 0.12, 32),
+  makeSec(matSteel)
+);
+capRod.rotation.z = Math.PI/2;
+capRod.position.x = CYL_LEN/2 + 0.06;
+capRod.castShadow = capRod.receiveShadow = true;
+scene.add(capRod);
+
+// Cylinder end cap (blind end)
+const capBlind = capRod.clone();
+capBlind.position.x = -(CYL_LEN/2 + 0.06);
+scene.add(capBlind);
+
+// Piston
+const piston = new THREE.Mesh(
+  new THREE.CylinderGeometry(CYL_R*0.92, CYL_R*0.92, 0.22, 40),
+  makeSec(matBrass)
+);
+piston.rotation.z = Math.PI/2;
+piston.castShadow = piston.receiveShadow = true;
+scene.add(piston);
+
+// Piston O-ring seal
+const pistonSeal = new THREE.Mesh(
+  new THREE.TorusGeometry(CYL_R*0.92, 0.035, 12, 36),
+  makeSec(matRubber)
+);
+pistonSeal.rotation.x = Math.PI/2;
+pistonSeal.castShadow = true;
+scene.add(pistonSeal);
+
+// Piston rod
+const rod = new THREE.Mesh(
+  new THREE.CylinderGeometry(ROD_R, ROD_R, CYL_LEN*1.3, 24),
+  makeSec(matSteel)
+);
+rod.rotation.z = Math.PI/2;
+rod.castShadow = rod.receiveShadow = true;
+scene.add(rod);
+
+// Rod seal (at rod-side cap)
+const rodSeal = new THREE.Mesh(
+  new THREE.TorusGeometry(ROD_R*1.4, 0.04, 10, 32),
+  makeSec(matRubber)
+);
+rodSeal.rotation.x = Math.PI/2;
+rodSeal.position.x = CYL_LEN/2 + 0.06;
+rodSeal.castShadow = true;
+scene.add(rodSeal);
+
+// Hydraulic fluid (pressurized side — behind piston)
+const fluid = new THREE.Mesh(
+  new THREE.CylinderGeometry(CYL_R*0.88, CYL_R*0.88, CYL_LEN, 32),
+  makeSec(matFluid)
+);
+fluid.rotation.z = Math.PI/2;
+scene.add(fluid);
+
+// Port fittings (hydraulic inlet/outlet)
+for(const xPos of [-CYL_LEN/2+0.3, CYL_LEN/2-0.3]) {
+  const port = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.06, 0.06, 0.28, 10),
+    matBrass.clone()
+  );
+  port.position.set(xPos, CYL_R+0.1, 0);
+  port.castShadow = true;
+  scene.add(port);
+}
+
+// ── Lights ────────────────────────────────────────────────────────────────────
+const sun = new THREE.DirectionalLight(0xfff4e0, 2.8);
+sun.position.set(6, 8, 5);
 sun.castShadow = true;
 sun.shadow.mapSize.set(2048, 2048);
+sun.shadow.camera.near = 0.1;
+sun.shadow.camera.far = 30;
+sun.shadow.camera.left = -6;
+sun.shadow.camera.right = 6;
+sun.shadow.camera.top = 4;
+sun.shadow.camera.bottom = -4;
 scene.add(sun);
-scene.add(new THREE.AmbientLight(0x1a2744, 0.8));
-const fill = new THREE.PointLight(0x4488ff, 1.5, 40);
-fill.position.set(-8, 4, -4);
-scene.add(fill);
+scene.add(new THREE.HemisphereLight(0x1a2f4a, 0x0a0c12, 0.9));
+const rim = new THREE.PointLight(0x4488ff, 1.5, 20);
+rim.position.set(-5, 3, -3);
+scene.add(rim);
 
-// Ground
-const ground = new THREE.Mesh(
-  new THREE.PlaneGeometry(30, 30),
-  new THREE.MeshStandardMaterial({{ color:0x1a1f2e, roughness:0.9, metalness:0.1 }})
-);
+// ── Ground ────────────────────────────────────────────────────────────────────
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(20, 20), matGround);
 ground.rotation.x = -Math.PI/2;
+ground.position.y = -0.65;
 ground.receiveShadow = true;
 scene.add(ground);
+scene.add(new THREE.GridHelper(16, 24, 0x1a2030, 0x111820));
 
-// Grid
-const grid = new THREE.GridHelper(30, 30, 0x1f3a5f, 0x0f1f3a);
-scene.add(grid);
+// ── Camera ────────────────────────────────────────────────────────────────────
+camera.position.set(3, 2.5, 5);
+controls.target.set(0, 0, 0);
 
-// Orbiting spheres
-const bodies = [];
-const colors = [0xff6b6b, 0x4ecdc4, 0xffe66d, 0xa8e6cf, 0xdda0dd];
-for (let i=0;i<5;i++) {{
-  const r = 0.3+Math.random()*0.6;
-  const m = new THREE.Mesh(
-    new THREE.SphereGeometry(r,32,32),
-    new THREE.MeshStandardMaterial({{ color:colors[i], metalness:0.3, roughness:0.5 }})
-  );
-  m.castShadow = true;
-  scene.add(m);
-  bodies.push({{ mesh:m, phase:i*Math.PI*2/5, orbitR:2+i*1.2, height:0.5+i*0.3, speed:0.5+i*0.2 }});
-}}
+// ── Labels ────────────────────────────────────────────────────────────────────
+addLabel('Piston', new THREE.Vector3(0, CYL_R+0.4, 0));
+addLabel('Piston Rod', new THREE.Vector3(CYL_LEN*0.6, 0.3, 0));
+addLabel('Cylinder Barrel', new THREE.Vector3(-0.5, -CYL_R-0.35, 0));
+addLabel('End Cap', new THREE.Vector3(-(CYL_LEN/2+0.1), -0.4, 0));
+addLabel('Rod Seal', new THREE.Vector3(CYL_LEN/2+0.15, 0.4, 0));
 
-// Central sphere
-const core = new THREE.Mesh(
-  new THREE.SphereGeometry(1.2,64,64),
-  new THREE.MeshStandardMaterial({{ color:0x2a5298, metalness:0.8, roughness:0.2 }})
-);
-core.castShadow = true;
-scene.add(core);
+buildLegend([
+  { label:'Steel barrel / rod', color:'#7a8fa6' },
+  { label:'Brass piston', color:'#b87333' },
+  { label:'Rubber O-ring seals', color:'#333' },
+  { label:'Hydraulic fluid', color:'#c07020' },
+]);
 
-camera.position.set(0, 8, 18);
-controls.target.set(0, 2, 0);
+// ── Animation ─────────────────────────────────────────────────────────────────
+let autoStroke = 0.3;
+let strokeDir = 1;
 
-function updateScene(t, dt, params) {{
-  const spd = params.speed ?? 1;
-  const rad = params.radius ?? 5;
-  bodies.forEach((b,i) => {{
-    const angle = t*b.speed*spd + b.phase;
-    b.mesh.position.set(
-      Math.cos(angle)*b.orbitR*(rad/5),
-      b.height + Math.sin(t*2+i)*0.3,
-      Math.sin(angle)*b.orbitR*(rad/5)
-    );
-    b.mesh.rotation.y = t*2*spd;
-  }});
-  core.rotation.y = t*0.4*spd;
-  core.rotation.x = t*0.15*spd;
-}}
-"""
+function tick(t, dt, P) {
+  const spd = P.speed ?? 0.8;
+  const boreScale = (P.bore ?? 0.7) / 0.7;
+
+  // Auto-cycle stroke with adjustable speed
+  autoStroke += dt * spd * strokeDir * 0.6;
+  if(autoStroke > 0.98) strokeDir = -1;
+  if(autoStroke < 0.02) strokeDir = 1;
+
+  const s = P.stroke !== undefined
+    ? P.stroke
+    : autoStroke;
+
+  // Piston position: from -CYL_LEN/2+0.11 to +CYL_LEN/2-0.11
+  const minX = -CYL_LEN/2 + 0.25;
+  const maxX =  CYL_LEN/2 - 0.25;
+  const pistonX = minX + s * (maxX - minX);
+
+  piston.position.x = pistonX;
+  pistonSeal.position.x = pistonX;
+
+  // Rod moves with piston (rod center extends right)
+  const rodOffset = CYL_LEN*0.65 + pistonX * 0.5;
+  rod.position.x = rodOffset * 0.5;
+
+  // Fluid fills left chamber (behind piston)
+  const fluidLen = pistonX + CYL_LEN/2 - 0.12;
+  if(fluidLen > 0.05) {
+    fluid.scale.set(fluidLen / CYL_LEN, boreScale, boreScale);
+    fluid.position.x = pistonX/2 - CYL_LEN/4 + 0.06;
+  }
+
+  // Scale bore visually
+  barrel.scale.set(1, boreScale, boreScale);
+  piston.scale.set(1, boreScale*0.92, boreScale*0.92);
+  pistonSeal.scale.set(1, boreScale, boreScale);
+}
+
+function onParam(key, val, P) {
+  if(key === 'stroke') {
+    // Manual override from slider — disable auto advance temporarily
+    strokeDir = 0;
+    setTimeout(() => { strokeDir = 1; }, 2000);
+  }
+}
+""";
