@@ -221,11 +221,11 @@ export default function LessonPage() {
                   ))}
                 </div>
                 {contentTab === "lesson" ? (
-                  <ScrollArea className="flex-1 thin-scrollbar">
+                  <div style={{ flex: 1, minHeight: 0, overflowY: "auto" }} className="thin-scrollbar">
                     <RichLessonPanel lesson={lesson} ytId={ytId} vimUrl={vimUrl} hasVideo={hasVideo} />
-                  </ScrollArea>
+                  </div>
                 ) : (
-                  <div style={{ flex: 1, overflow: "hidden" }}>
+                  <div style={{ flex: 1, minHeight: 0, overflow: "auto" }}>
                     <NotesPanel lessonId={String(lesson.id)} lessonTitle={lesson.title} concepts={lesson.key_concepts} />
                   </div>
                 )}
