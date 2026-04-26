@@ -52,7 +52,6 @@ GENESIS_PYTHON = os.environ.get("GENESIS_PYTHON") or sys.executable
 SCRIPT_PREFIX = textwrap.dedent("""\
 import os, sys, math, numpy as np
 os.environ.setdefault("GENESIS_LOGGING", "WARNING")
-os.environ["PYOPENGL_PLATFORM"] = "osmesa"  # headless fallback
 
 import genesis as gs
 
@@ -60,19 +59,29 @@ import genesis as gs
 try:
     gs.init(backend=gs.metal, logging_level="warning")
 except Exception:
-    gs.init(backend=gs.cpu,   logging_level="warning")
+    gs.init(backend=gs.cpu, logging_level="warning")
 
 _OUTPUT_PATH = sys.argv[1] if len(sys.argv) > 1 else "/tmp/genesis_out.mp4"
-_RES = (960, 540)
-_FPS = 30
-_FRAMES = 120   # 4 seconds
+_FPS    = 30
+_FRAMES = 120   # 4 seconds @ 30fps
 
+# Genesis 0.4.x: Rasterizer() takes no size args — resolution is set on add_camera
+# Lighting goes in VisOptions, NOT scene.add_light (which only works for BatchRenderer)
 scene = gs.Scene(
     show_viewer=False,
-    renderer=gs.renderers.Rasterizer(width=_RES[0], height=_RES[1]),
+    renderer=gs.renderers.Rasterizer(),
+    vis_options=gs.options.VisOptions(
+        ambient_light=(0.45, 0.45, 0.50),
+        lights=[
+            {"type": "directional", "dir": (-0.5, -1.5, -1.0),
+             "intensity": 5.0, "color": (1.0, 0.95, 0.88)},
+            {"type": "directional", "dir": (1.0, -0.5, -0.5),
+             "intensity": 1.5, "color": (0.6, 0.7, 1.0)},
+        ],
+    ),
 )
 
-# Convenience re-exports the model code can use
+# Convenience aliases
 Cylinder  = gs.morphs.Cylinder
 Box       = gs.morphs.Box
 Sphere    = gs.morphs.Sphere
@@ -83,12 +92,10 @@ Liquid    = gs.materials.Liquid
 Elastic   = gs.materials.Elastic
 Surface   = gs.surfaces.Default
 
+# In Genesis 0.4.x, lighting is configured in VisOptions above.
+# add_standard_lights() is a no-op kept for compatibility with generated code.
 def add_standard_lights():
-    scene.add_light(gs.lights.DirectionalLight(
-        dir=(-0.5, -1.5, -1.0), intensity=6.0, cast_shadow=True))
-    scene.add_light(gs.lights.AmbientLight(intensity=2.5))
-    scene.add_light(gs.lights.PointLight(
-        pos=(0.6, 0.6, 0.6), intensity=4.0, color=(0.8, 0.9, 1.0)))
+    pass  # lighting already set in vis_options above
 
 # ─────────────────────────────────────────────────────────────────────────────
 # USER CODE START
@@ -98,10 +105,8 @@ SCRIPT_SUFFIX = textwrap.dedent("""\
 # USER CODE END
 # ─────────────────────────────────────────────────────────────────────────────
 
-# Build scene
+# Build and render
 scene.build()
-
-# Render
 _cam.start_recording()
 for _i in range(_FRAMES):
     if callable(globals().get("pre_step")):
@@ -110,35 +115,39 @@ for _i in range(_FRAMES):
     if callable(globals().get("post_step")):
         post_step(_i, _i / _FPS)
     _cam.render()
-_cam.stop_recording(save_to=_OUTPUT_PATH, fps=_FPS)
+# Genesis 0.4.x uses save_to_filename=
+_cam.stop_recording(save_to_filename=_OUTPUT_PATH, fps=_FPS)
 print("DONE:", _OUTPUT_PATH)
 """)
 
 
 # ─── LLM prompt ──────────────────────────────────────────────────────────────
 GENESIS_PROMPT = '''\
-You are an expert in Genesis physics simulation (genesis-world Python package).
+You are an expert in Genesis physics simulation (genesis-world 0.4.x Python package).
 
 Generate a complete Genesis scene for: "{topic}"
 Context: {context}
 
-═══ GENESIS API REFERENCE ═══
+═══ GENESIS 0.4.x API (USE EXACTLY THIS SYNTAX) ═══
 
-Available globals (pre-imported for you):
-  scene        — the gs.Scene (already created, show_viewer=False)
+Available globals (pre-imported — do NOT import or call gs.init):
+  scene        — gs.Scene (already created, show_viewer=False, renderer=Rasterizer())
   Cylinder, Box, Sphere, Plane, Mesh   — morphs
   Rigid, Liquid, Elastic               — materials
   Surface                              — gs.surfaces.Default
   add_standard_lights()                — adds directional+ambient+point light
 
-CAMERA (you MUST define _cam):
+CAMERA — you MUST define _cam (resolution set HERE, not on renderer):
   _cam = scene.add_camera(
-      res=(960, 540),
-      pos=(x, y, z),         # in meters, Y is up
+      res=(960, 540),        # width x height
+      pos=(x, y, z),         # meters, Y is up
       lookat=(0, 0.1, 0),
       fov=45,
-      GUI=False,
+      GUI=False,             # headless
   )
+
+LIGHTING — already configured in vis_options. Just call add_standard_lights() once.
+  add_standard_lights()      # sets directional + ambient in vis_options (no-op but required)
 
 ENTITIES:
   obj = scene.add_entity(
@@ -366,9 +375,10 @@ async def generate_genesis_simulation(
 
 # ─── Canned fallback: hydraulic actuator ─────────────────────────────────────
 def _fallback_script(topic: str) -> str:
+    desc = topic.replace("'", "\\'")
     return f'''\
-# Hydraulic Linear Actuator — {topic}
-# Real physics, accurate dimensions (meters)
+# Hydraulic Linear Actuator — {desc}
+# Genesis 0.4.x API — accurate dimensions in meters
 
 add_standard_lights()
 
@@ -381,78 +391,56 @@ _cam = scene.add_camera(
 )
 
 # Ground
-scene.add_entity(
-    morph=Plane(),
-    material=Rigid(),
-    surface=Surface(color=(0.06, 0.08, 0.10, 1.0), roughness=0.95),
-)
+scene.add_entity(morph=Plane(), material=Rigid(),
+    surface=Surface(color=(0.06, 0.08, 0.10, 1.0), roughness=0.95))
 
-# ── Cylinder barrel (cast iron) ──────────────────────────────────────────────
-barrel = scene.add_entity(
+# Cylinder barrel (cast iron)
+scene.add_entity(
     morph=Cylinder(radius=0.053, height=0.40, pos=(0.0, 0.05, 0.0), euler=(0, 0, 90)),
     material=Rigid(rho=7800),
-    surface=Surface(color=(0.26, 0.29, 0.33, 1.0), roughness=0.62, metallic=0.72),
-)
+    surface=Surface(color=(0.26, 0.29, 0.33, 1.0), roughness=0.62, metallic=0.72))
 
-# ── Blind end cap (left) ─────────────────────────────────────────────────────
+# Blind end cap
 scene.add_entity(
     morph=Cylinder(radius=0.053, height=0.025, pos=(-0.213, 0.05, 0.0), euler=(0, 0, 90)),
     material=Rigid(rho=7800),
-    surface=Surface(color=(0.42, 0.48, 0.55, 1.0), roughness=0.22, metallic=0.88),
-)
+    surface=Surface(color=(0.42, 0.48, 0.55, 1.0), roughness=0.22, metallic=0.88))
 
-# ── Rod end cap (right) ──────────────────────────────────────────────────────
+# Rod end cap
 scene.add_entity(
     morph=Cylinder(radius=0.053, height=0.025, pos=(0.213, 0.05, 0.0), euler=(0, 0, 90)),
     material=Rigid(rho=7800),
-    surface=Surface(color=(0.42, 0.48, 0.55, 1.0), roughness=0.22, metallic=0.88),
-)
+    surface=Surface(color=(0.42, 0.48, 0.55, 1.0), roughness=0.22, metallic=0.88))
 
-# ── Piston (anodized aluminum, moves) ────────────────────────────────────────
+# Piston (anodized aluminum) — animated
 piston = scene.add_entity(
     morph=Cylinder(radius=0.040, height=0.030, pos=(-0.10, 0.05, 0.0), euler=(0, 0, 90)),
     material=Rigid(rho=2700),
-    surface=Surface(color=(0.16, 0.32, 0.60, 1.0), roughness=0.30, metallic=0.65),
-)
+    surface=Surface(color=(0.16, 0.32, 0.60, 1.0), roughness=0.30, metallic=0.65))
 
-# ── Piston rod (chrome steel) ────────────────────────────────────────────────
+# Piston rod (chrome steel) — animated
 rod = scene.add_entity(
     morph=Cylinder(radius=0.020, height=0.30, pos=(0.05, 0.05, 0.0), euler=(0, 0, 90)),
     material=Rigid(rho=7800),
-    surface=Surface(color=(0.80, 0.85, 0.90, 1.0), roughness=0.04, metallic=0.96),
-)
+    surface=Surface(color=(0.80, 0.85, 0.90, 1.0), roughness=0.04, metallic=0.96))
 
-# ── O-ring seals (rubber) ─────────────────────────────────────────────────────
+# Rubber O-ring seals (approximated as thin discs)
 for ox in [-0.007, 0.007]:
     scene.add_entity(
-        morph=Box(size=(0.006, 0.082, 0.082), pos=(-0.10 + ox, 0.05, 0.0)),
+        morph=Box(size=(0.005, 0.083, 0.083), pos=(-0.10 + ox, 0.05, 0.0)),
         material=Rigid(rho=1200),
-        surface=Surface(color=(0.05, 0.05, 0.05, 1.0), roughness=0.97),
-    )
+        surface=Surface(color=(0.05, 0.05, 0.05, 1.0), roughness=0.97))
 
-# ── Port A fitting (brass) ────────────────────────────────────────────────────
-scene.add_entity(
-    morph=Cylinder(radius=0.009, height=0.025, pos=(-0.17, 0.103, 0.0), euler=(90, 0, 0)),
-    material=Rigid(rho=8500),
-    surface=Surface(color=(0.72, 0.52, 0.22, 1.0), roughness=0.24, metallic=0.88),
-)
-
-# ── Port B fitting (brass) ────────────────────────────────────────────────────
-scene.add_entity(
-    morph=Cylinder(radius=0.009, height=0.025, pos=(0.12, 0.103, 0.0), euler=(90, 0, 0)),
-    material=Rigid(rho=8500),
-    surface=Surface(color=(0.72, 0.52, 0.22, 1.0), roughness=0.24, metallic=0.88),
-)
-
-# ── Animation: piston + rod extend and retract ────────────────────────────────
-_piston_start = (-0.10, 0.05, 0.0)
-_rod_start     = ( 0.05, 0.05, 0.0)
+# Brass port fittings
+for px in [-0.17, 0.12]:
+    scene.add_entity(
+        morph=Cylinder(radius=0.009, height=0.025, pos=(px, 0.103, 0.0), euler=(90, 0, 0)),
+        material=Rigid(rho=8500),
+        surface=Surface(color=(0.72, 0.52, 0.22, 1.0), roughness=0.24, metallic=0.88))
 
 def pre_step(frame, t):
-    # Sinusoidal stroke: full extend in 2s, retract in 2s
-    stroke = 0.5 * (1.0 - math.cos(t * math.pi * 0.5))  # 0→1 over 4s
-    travel = stroke * 0.19                                 # 190mm max travel
-
-    piston.set_pos((_piston_start[0] + travel, _piston_start[1], _piston_start[2]))
-    rod.set_pos(   (_rod_start[0]    + travel, _rod_start[1],    _rod_start[2]))
+    stroke = 0.5 * (1.0 - math.cos(t * math.pi * 0.5))
+    travel = stroke * 0.19
+    piston.set_pos((-0.10 + travel, 0.05, 0.0))
+    rod.set_pos((0.05 + travel, 0.05, 0.0))
 '''
