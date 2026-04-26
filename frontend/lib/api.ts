@@ -646,6 +646,18 @@ export const api = {
         body: JSON.stringify({ topic, context }),
       }, token),
   },
+  wikiNotes: {
+    get: (topicSlug: string, token: string) =>
+      request<{ topic_slug: string; content: string }>(
+        `/wiki/notes/${encodeURIComponent(topicSlug)}`, {}, token,
+      ),
+    save: (topicSlug: string, content: string, token: string) =>
+      request<{ topic_slug: string; saved: boolean }>(
+        `/wiki/notes/${encodeURIComponent(topicSlug)}`,
+        { method: "PUT", body: JSON.stringify({ content }) },
+        token,
+      ),
+  },
   wikiStaging: {
     list: (token: string) =>
       request<{ items: WikiStagingItemResponse[] }>("/wiki/staging", {}, token),
