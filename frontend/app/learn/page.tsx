@@ -98,11 +98,23 @@ export default function LearnPage() {
       .then(setPaths)
       .catch(() => router.push("/login"))
       .finally(() => setLoading(false));
-    // Galaxy snapshot
-    fetch(`${API_URL}/progress/galaxy`, { headers: { Authorization: `Bearer ${token}` } })
-      .then(r => r.ok ? r.json() : null)
-      .then(d => d && setGalaxy(d))
-      .catch(() => null);
+    // Galaxy snapshot — fetch on load and on window focus
+    const fetchGalaxy = () => {
+      const t = getToken();
+      if (!t) return;
+      fetch(`${API_URL}/progress/galaxy`, { headers: { Authorization: `Bearer ${t}` } })
+        .then(r => r.ok ? r.json() : null)
+        .then(d => d && setGalaxy(d))
+        .catch(() => null);
+    };
+    fetchGalaxy();
+    window.addEventListener("focus", fetchGalaxy);
+    // Also poll every 30s while page is open
+    const interval = setInterval(fetchGalaxy, 30_000);
+    return () => {
+      window.removeEventListener("focus", fetchGalaxy);
+      clearInterval(interval);
+    };
   }, [router]);
 
   if (loading) {

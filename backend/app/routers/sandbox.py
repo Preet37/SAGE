@@ -111,14 +111,39 @@ class PistonRequest(BaseModel):
 
 @router.post("/piston")
 async def piston_proxy(req: PistonRequest):
-    """Execute code via Judge0 CE (proxied to avoid CORS)."""
+    """Execute code — Python via subprocess (numpy/scipy available), others via Judge0 CE."""
     import base64
 
     lang = req.language.lower()
+    source = req.files[0].content if req.files else ""
+
+    # Python: use our own subprocess which has all scientific packages installed
+    if lang in {"python", "py", "python3"}:
+        if len(source) > MAX_CODE_LEN:
+            return {"run": {"stdout": "", "stderr": "Code too long.", "output": ""}}
+        try:
+            proc = await asyncio.create_subprocess_exec(
+                sys.executable, "-c", source,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE,
+            )
+            try:
+                out, err = await asyncio.wait_for(proc.communicate(), timeout=TIMEOUT_SECS)
+            except asyncio.TimeoutError:
+                try: proc.kill()
+                except ProcessLookupError: pass
+                return {"run": {"stdout": "", "stderr": f"Timed out after {TIMEOUT_SECS}s", "output": ""}}
+            stdout = out.decode("utf-8", errors="replace").strip()
+            stderr = err.decode("utf-8", errors="replace").strip()
+            return {"run": {"stdout": stdout, "stderr": stderr, "output": stdout or stderr}}
+        except Exception as e:
+            return {"run": {"stdout": "", "stderr": str(e), "output": ""}}
+
     lang_id = JUDGE0_LANG_IDS.get(lang)
     if lang_id is None:
         return {"run": {"stdout": "", "stderr": f"Unsupported language: {lang}", "output": ""}}
 
+    # All other languages: Judge0 CE
     source = req.files[0].content if req.files else ""
     payload = {
         "source_code": base64.b64encode(source.encode()).decode(),

@@ -244,3 +244,89 @@ async def chat(
             "X-Session-Id": tutor_session.id,
         },
     )
+
+
+# ── Voice intent detection ────────────────────────────────────────────────────
+import re as _re
+from openai import AsyncOpenAI as _AsyncOpenAI
+from pydantic import BaseModel as _BaseModel
+from typing import Optional as _Optional
+
+class VoiceIntentRequest(_BaseModel):
+    transcript: str
+    page_type: _Optional[str] = None
+    page_title: _Optional[str] = None
+    topic: _Optional[str] = None
+
+class VoiceIntentResponse(_BaseModel):
+    action: str   # "navigate"|"open_graph"|"add_note"|"open_quiz"|"open_chat"|"mark_complete"|"none"
+    path: _Optional[str] = None
+    note_content: _Optional[str] = None
+    explanation: _Optional[str] = None
+
+_INTENT_PROMPT = """You are an intent classifier for an AI tutoring app called SAGE.
+Given a student's voice message, determine what UI action (if any) the agent should take.
+
+Available pages (for navigate):
+- /learn — learning paths dashboard
+- /explore — explore topics/concepts
+- /network — real-time learner network
+- /pocket — on-device AI pocket tutor
+- /galaxy — knowledge galaxy ranking
+- /documents — my uploaded documents
+- /create — create a new course
+
+Available actions:
+- navigate: go to a page
+- open_graph: open the interactive simulation/graph for the current lesson
+- add_note: add a written note (provide note_content)
+- open_quiz: switch to the quiz tab
+- open_chat: switch to the tutor chat tab
+- mark_complete: mark current lesson complete
+- none: no UI action needed, just speak
+
+Current context: page={page_type}, title="{page_title}", topic="{topic}"
+
+Respond with a single JSON object:
+{{
+  "action": "<action>",
+  "path": "<path or null>",
+  "note_content": "<note text or null>",
+  "explanation": "<brief reason>"
+}}
+
+Student message: "{transcript}"
+"""
+
+@router.post("/voice-intent", response_model=VoiceIntentResponse)
+async def detect_voice_intent(req: VoiceIntentRequest):
+    """Detect and return the UI action implied by a voice message."""
+    settings = get_settings()
+    client = _AsyncOpenAI(api_key=settings.llm_api_key, base_url=settings.llm_base_url)
+    prompt = _INTENT_PROMPT.format(
+        page_type=req.page_type or "unknown",
+        page_title=req.page_title or "",
+        topic=req.topic or "",
+        transcript=req.transcript,
+    )
+    try:
+        resp = await client.chat.completions.create(
+            model=settings.llm_model,
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.1,
+            max_tokens=200,
+        )
+        raw = resp.choices[0].message.content or ""
+        # Extract JSON block
+        m = _re.search(r'\{.*\}', raw, _re.DOTALL)
+        if m:
+            data = json.loads(m.group())
+            return VoiceIntentResponse(
+                action=data.get("action", "none"),
+                path=data.get("path"),
+                note_content=data.get("note_content"),
+                explanation=data.get("explanation"),
+            )
+    except Exception:
+        pass
+    return VoiceIntentResponse(action="none")

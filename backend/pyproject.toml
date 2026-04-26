@@ -38,6 +38,7 @@ dependencies = [
     "python-pptx>=1.0.2",
     "uagents>=0.24",
     "uagents-core>=0.1",
+    "numpy>=2.4.4",
 ]
 
 [project.scripts]

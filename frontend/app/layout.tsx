@@ -23,11 +23,9 @@ export default function RootLayout({
         <ThemeProvider>
           {children}
           <VoiceOrb />
-          {/* Documentation link — bottom-left fixed */}
+          {/* Documentation link — bottom-left fixed, opens internal wiki */}
           <Link
-            href="https://socratic-tutor-pi.vercel.app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/wiki"
             className="fixed bottom-4 left-4 z-50 flex items-center gap-1.5 rounded-lg border border-border/60 bg-card/80 backdrop-blur-sm px-3 py-1.5 text-xs text-muted-foreground hover:text-foreground hover:border-border transition-colors shadow-sm"
           >
             <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 fill-current flex-shrink-0" aria-hidden="true">

@@ -6,6 +6,7 @@ import type { Mode } from "@11labs/client";
 import { useVoiceActions } from "./useVoiceActions";
 import { useVoiceStore } from "./useVoiceStore";
 import { useRouter } from "next/navigation";
+import { API_URL } from "./api";
 
 export type VoiceStatus = "idle" | "connecting" | "connected" | "error";
 export type VoiceMode = "listening" | "speaking" | "idle";
@@ -45,6 +46,42 @@ export function useVoiceConversation(_options: UseVoiceConversationOptions = {})
       { id: `${Date.now()}-${Math.random()}`, role, text, timestamp: Date.now() },
     ]);
   }, []);
+
+  // Detect and execute UI actions from user speech, in background
+  const handleUserSpeech = useCallback(async (transcript: string) => {
+    const ctx = pageCtxRef.current;
+    try {
+      const res = await fetch(`${API_URL}/tutor/voice-intent`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          transcript,
+          page_type: ctx.pageType,
+          page_title: ctx.pageTitle,
+          topic: ctx.topic,
+        }),
+      });
+      if (!res.ok) return;
+      const data = await res.json() as { action: string; path?: string; note_content?: string };
+      const { action, path, note_content } = data;
+
+      if (action === "navigate" && path) {
+        router.push(path);
+      } else if (action === "open_graph") {
+        await actionsRef.current.find(a => a.key === "open_graph")?.handler();
+      } else if (action === "add_note" && note_content) {
+        ctx.sendToTutor?.(note_content);
+      } else if (action === "open_quiz") {
+        await actionsRef.current.find(a => a.key === "open_quiz")?.handler();
+      } else if (action === "open_chat") {
+        await actionsRef.current.find(a => a.key === "open_chat")?.handler();
+      } else if (action === "mark_complete") {
+        await actionsRef.current.find(a => a.key === "mark_complete")?.handler();
+      }
+    } catch {
+      // silent — never interrupt voice session on action detection failure
+    }
+  }, [router]);
 
   const startConversation = useCallback(async () => {
     if (conversationRef.current) return;
@@ -105,6 +142,9 @@ export function useVoiceConversation(_options: UseVoiceConversationOptions = {})
         },
         onMessage: ({ message, source }) => {
           addMessage(source === "ai" ? "agent" : "user", message);
+          if (source === "user" && message.trim()) {
+            handleUserSpeech(message);
+          }
         },
         onModeChange: ({ mode: m }: { mode: Mode }) => {
           setMode(m === "speaking" ? "speaking" : m === "listening" ? "listening" : "idle");
@@ -126,7 +166,7 @@ export function useVoiceConversation(_options: UseVoiceConversationOptions = {})
       setError(msg);
       setStatus("error");
     }
-  }, [agentId, addMessage, router]);
+  }, [agentId, addMessage, router, handleUserSpeech]);
 
   const stopConversation = useCallback(async () => {
     if (conversationRef.current) {

@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useState, useRef, useEffect } from "react";
 import { removeToken } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -8,23 +9,29 @@ import { cn } from "@/lib/utils";
 import {
   BookOpen,
   Compass,
-  Hammer,
   Sparkles,
   LogOut,
   FolderOpen,
   Network,
   Smartphone,
+  MoreHorizontal,
+  Hammer,
 } from "lucide-react";
 import type { ReactNode } from "react";
 
-const NAV_ITEMS = [
+// Primary nav — always visible
+const PRIMARY_NAV = [
   { href: "/learn", icon: BookOpen, label: "Learn" },
   { href: "/explore", icon: Compass, label: "Explore" },
-  { href: "/projects", icon: Hammer, label: "Projects" },
   { href: "/create", icon: Sparkles, label: "Create" },
+  { href: "/pocket", icon: Smartphone, label: "Pocket" },
+] as const;
+
+// Secondary nav — collapsed into "More" dropdown
+const SECONDARY_NAV = [
+  { href: "/projects", icon: Hammer, label: "Projects" },
   { href: "/documents", icon: FolderOpen, label: "My Docs" },
   { href: "/network", icon: Network, label: "Network" },
-  { href: "/pocket", icon: Smartphone, label: "Pocket" },
 ] as const;
 
 interface AppHeaderProps {
@@ -34,11 +41,26 @@ interface AppHeaderProps {
 export function AppHeader({ leftSlot }: AppHeaderProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const [moreOpen, setMoreOpen] = useState(false);
+  const moreRef = useRef<HTMLDivElement>(null);
 
   function handleLogout() {
     removeToken();
     router.push("/login");
   }
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (moreRef.current && !moreRef.current.contains(e.target as Node)) {
+        setMoreOpen(false);
+      }
+    }
+    if (moreOpen) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [moreOpen]);
+
+  const secondaryActive = SECONDARY_NAV.some(({ href }) => pathname.startsWith(href));
 
   return (
     <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-card/50 flex-shrink-0">
@@ -67,8 +89,10 @@ export function AppHeader({ leftSlot }: AppHeaderProps) {
           </>
         )}
       </div>
+
       <div className="flex items-center gap-1">
-        {NAV_ITEMS.map(({ href, icon: Icon, label }) => {
+        {/* Primary nav items — always visible */}
+        {PRIMARY_NAV.map(({ href, icon: Icon, label }) => {
           const isActive = pathname.startsWith(href);
           return (
             <Link key={href} href={href}>
@@ -88,6 +112,46 @@ export function AppHeader({ leftSlot }: AppHeaderProps) {
             </Link>
           );
         })}
+
+        {/* More dropdown — secondary items */}
+        <div className="relative" ref={moreRef}>
+          <Button
+            variant="ghost"
+            size="sm"
+            className={cn(
+              "gap-1.5",
+              secondaryActive || moreOpen
+                ? "text-foreground font-medium"
+                : "text-muted-foreground hover:text-foreground"
+            )}
+            onClick={() => setMoreOpen((o) => !o)}
+          >
+            <MoreHorizontal className="h-3.5 w-3.5" />
+            <span className="hidden sm:inline">More</span>
+          </Button>
+
+          {moreOpen && (
+            <div className="absolute right-0 top-full mt-1 w-44 rounded-lg border border-border bg-card shadow-lg z-50 overflow-hidden">
+              {SECONDARY_NAV.map(({ href, icon: Icon, label }) => {
+                const isActive = pathname.startsWith(href);
+                return (
+                  <Link key={href} href={href} onClick={() => setMoreOpen(false)}>
+                    <div
+                      className={cn(
+                        "flex items-center gap-2.5 px-3 py-2 text-sm hover:bg-muted/60 transition-colors cursor-pointer",
+                        isActive ? "text-foreground font-medium bg-muted/40" : "text-muted-foreground"
+                      )}
+                    >
+                      <Icon className="h-4 w-4 flex-shrink-0" />
+                      {label}
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
         <ThemeToggle />
         <Button
           variant="ghost"
