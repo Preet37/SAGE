@@ -21,3 +21,7 @@ class TutorContext:
     user_id: str = ""
     session_id: str = ""
     memory_block: str = ""
+    # Slash-command behavioral hint injected into the system prompt for this turn.
+    slash_instruction: str = ""
+    # Personalization summary derived from the learner profile (if enabled).
+    learner_profile: str = ""

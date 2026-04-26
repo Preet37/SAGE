@@ -11,6 +11,7 @@ from ..models.learning import Lesson, Module, LearningPath
 from ..models.progress import UserLessonProgress, ChatMessage, TutorSession
 from ..agent.agent_loop import run_tutor_agent_loop
 from ..agent.context import TutorContext
+from ..agent.slash_commands import parse_slash_command, list_commands
 from ..config import get_settings
 from ..schemas.progress import ChatRequest
 from ..services.semantic_memory import (
@@ -19,6 +20,12 @@ from ..services.semantic_memory import (
 )
 
 router = APIRouter(prefix="/tutor", tags=["tutor"])
+
+
+@router.get("/slash-commands")
+def slash_command_catalog():
+    """Public catalog used by the frontend autocomplete."""
+    return {"commands": list_commands()}
 
 
 async def _get_completed_lesson_titles(user_id: str, session: Session) -> list[str]:
@@ -205,12 +212,15 @@ async def chat(
         available_images=available_images,
         user_id=user.id,
         session_id=tutor_session.id,
+        slash_instruction=cmd.instruction if cmd else "",
     )
 
     # Extract the plain-text portion of the latest user message for DB storage.
     # Content can be a string or a list of content blocks (e.g. tool_result dicts).
     user_message = ""
-    for msg in reversed(req.messages):
+    last_user_idx: int | None = None
+    for i in range(len(req.messages) - 1, -1, -1):
+        msg = req.messages[i]
         if msg.get("role") == "user":
             content = msg.get("content", "")
             if isinstance(content, str):
@@ -222,7 +232,25 @@ async def chat(
                     if isinstance(block, dict) and block.get("type") == "text"
                 ]
                 user_message = " ".join(text_parts) if text_parts else ""
+            last_user_idx = i
             break
+
+    # Slash-command detection — strip the command from the visible message and
+    # pass the behavioral instruction through TutorContext.
+    cmd, remainder = parse_slash_command(user_message)
+    if cmd is not None and last_user_idx is not None:
+        context_message = remainder or f"(/{cmd.name})"
+        # Persist the cleaned message for DB storage and inject it into the
+        # outgoing API messages so the LLM doesn't see the literal slash.
+        user_message = context_message
+        target = req.messages[last_user_idx]
+        if isinstance(target.get("content"), str):
+            target["content"] = context_message
+        elif isinstance(target.get("content"), list):
+            for block in target["content"]:
+                if isinstance(block, dict) and block.get("type") == "text":
+                    block["text"] = context_message
+                    break
 
     settings = get_settings()
     if settings.feature_semantic_memory and user_message:

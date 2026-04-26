@@ -39,6 +39,10 @@ async def run_tutor_agent_loop(
     system_text = prompt_builder(context)
     if context.memory_block:
         system_text = f"{system_text}\n\n## Recalled prior context\n{context.memory_block}"
+    if context.learner_profile:
+        system_text = f"{system_text}\n\n## Learner profile\n{context.learner_profile}"
+    if context.slash_instruction:
+        system_text = f"{system_text}\n\n## Slash command\n{context.slash_instruction}"
     system_msg = {"role": "system", "content": system_text}
     api_messages = [system_msg] + messages
     full_assistant_text = ""

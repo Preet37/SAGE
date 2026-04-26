@@ -7,6 +7,7 @@ import { SuggestedPrompts } from "./SuggestedPrompts";
 import { ExplainDifferentlyBar } from "./ExplainDifferentlyBar";
 import { useTutorStream, Message } from "@/lib/useTutorStream";
 import { useVoiceConversation } from "@/lib/useVoiceConversation";
+import { SlashCommandMenu, matchSlashCommands, SlashCommand } from "./SlashCommandMenu";
 import { Send, Loader2, Wrench, BotMessageSquare, Download, RotateCcw, History, Trash2, Mic, MicOff, Volume2, X } from "lucide-react";
 import { api, TutorSessionResponse } from "@/lib/api";
 import { getToken } from "@/lib/auth";
@@ -36,6 +37,8 @@ export function TutorPanel({
   const [mode, setMode] = useState("default");
   const [showSessions, setShowSessions] = useState(false);
   const [showVoicePanel, setShowVoicePanel] = useState(false);
+  const [slashIndex, setSlashIndex] = useState(0);
+  const slashMatches = matchSlashCommands(input);
   const bottomRef = useRef<HTMLDivElement>(null);
   const latestUserRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -96,7 +99,35 @@ export function TutorPanel({
     refreshSessions();
   }
 
+  function applySlashCommand(cmd: SlashCommand) {
+    setInput(`/${cmd.name} `);
+    setSlashIndex(0);
+    requestAnimationFrame(() => textareaRef.current?.focus());
+  }
+
   function handleKeyDown(e: React.KeyboardEvent) {
+    if (slashMatches && slashMatches.length > 0) {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setSlashIndex((i) => (i + 1) % slashMatches.length);
+        return;
+      }
+      if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setSlashIndex((i) => (i - 1 + slashMatches.length) % slashMatches.length);
+        return;
+      }
+      if (e.key === "Tab" || (e.key === "Enter" && !e.shiftKey)) {
+        e.preventDefault();
+        applySlashCommand(slashMatches[slashIndex]);
+        return;
+      }
+      if (e.key === "Escape") {
+        e.preventDefault();
+        setInput("");
+        return;
+      }
+    }
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSend();
@@ -217,14 +248,23 @@ export function TutorPanel({
           </div>
           <p className="text-sm text-muted-foreground mb-6">Ask a question about this lesson</p>
 
-          <div className="w-full max-w-2xl mb-5">
+          <div className="w-full max-w-2xl mb-5 relative">
+            {slashMatches && slashMatches.length > 0 && (
+              <SlashCommandMenu
+                matches={slashMatches}
+                activeIndex={slashIndex}
+                onSelect={applySlashCommand}
+                onHover={setSlashIndex}
+              />
+            )}
             <div className="flex gap-3 items-end rounded-2xl border border-border bg-card/80 px-4 py-3 shadow-sm">
               <textarea
                 ref={textareaRef}
                 value={input}
-                onChange={(e) => setInput(e.target.value)}
+                onChange={(e) => { setInput(e.target.value); setSlashIndex(0); }}
                 onKeyDown={handleKeyDown}
-                placeholder="Ask a question about this lesson..."
+                placeholder="Ask a question — or type / for commands"
+                aria-label="Chat input"
                 disabled={streaming}
                 rows={1}
                 className="flex-1 resize-none bg-transparent text-sm placeholder:text-muted-foreground focus:outline-none disabled:opacity-50 min-h-[28px] max-h-[120px]"
@@ -470,13 +510,22 @@ export function TutorPanel({
 
             <ExplainDifferentlyBar activeMode={mode} onModeChange={setMode} />
             <div className="max-w-3xl mx-auto px-4 py-3">
-              <div className="flex gap-3 items-end">
+              <div className="flex gap-3 items-end relative">
+                {slashMatches && slashMatches.length > 0 && (
+                  <SlashCommandMenu
+                    matches={slashMatches}
+                    activeIndex={slashIndex}
+                    onSelect={applySlashCommand}
+                    onHover={setSlashIndex}
+                  />
+                )}
                 <textarea
                   ref={textareaRef}
                   value={input}
-                  onChange={(e) => setInput(e.target.value)}
+                  onChange={(e) => { setInput(e.target.value); setSlashIndex(0); }}
                   onKeyDown={handleKeyDown}
-                  placeholder="Ask a question about this lesson..."
+                  placeholder="Ask a question — or type / for commands"
+                  aria-label="Chat input"
                   disabled={streaming}
                   rows={1}
                   className="flex-1 resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm
