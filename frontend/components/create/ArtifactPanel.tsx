@@ -28,7 +28,7 @@ export function ArtifactPanel({ state }: ArtifactPanelProps) {
   const active = state.activeView;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100%", minHeight: 0, background: "var(--ink)" }}>
+    <div className="dark" style={{ display: "flex", flexDirection: "column", height: "100%", minHeight: 0, background: "var(--ink)" }}>
       {/* Tab bar */}
       <div style={{ display: "flex", alignItems: "center", gap: "0", padding: "0 1rem", borderBottom: "1px solid rgba(240,233,214,0.08)", flexShrink: 0, background: "var(--ink-1)" }}>
         {TAB_CONFIG.map(({ value, label, icon: Icon }) => {
