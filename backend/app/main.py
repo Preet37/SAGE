@@ -9,7 +9,7 @@ from fastapi.responses import FileResponse, RedirectResponse
 from .config import get_settings
 from .db import run_migrations, create_db_and_tables
 from .routers import auth, learning_paths, progress, tutor, explore, quiz, concepts, assessment, curriculum
-from .routers import projects, course_creator, visual_plot, visual_3d, sandbox, sms, diagnostic, broadcast, export
+from .routers import projects, course_creator, visual_plot, visual_3d, visual_genesis, sandbox, sms, diagnostic, broadcast, export
 from .routers import cognition, network, media, fetchai_bridge, documents
 
 settings = get_settings()
@@ -63,6 +63,7 @@ app.include_router(broadcast.router)
 app.include_router(export.router)
 app.include_router(visual_plot.router)
 app.include_router(visual_3d.router)
+app.include_router(visual_genesis.router)
 app.include_router(sandbox.router)
 
 # Hackathon track routers

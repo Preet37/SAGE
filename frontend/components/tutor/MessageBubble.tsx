@@ -17,7 +17,7 @@ import { parseFlowDiagram } from "@/lib/schemas/flow";
 import { parseArchitectureDiagram } from "@/lib/schemas/architecture";
 import { api } from "@/lib/api";
 import { getToken } from "@/lib/auth";
-import { Loader2, Play, ExternalLink, BookOpen, ImageIcon, ZoomIn, X, BarChart2, Microscope, ShieldCheck, ShieldAlert, ShieldQuestion, Box } from "lucide-react";
+import { Loader2, Play, ExternalLink, BookOpen, ImageIcon, ZoomIn, X, BarChart2, Microscope, ShieldCheck, ShieldAlert, ShieldQuestion, Box, Atom } from "lucide-react";
 import { useRouter } from "next/navigation";
 import type { Verification } from "@/lib/useTutorStream";
 
@@ -305,6 +305,10 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verific
   const [plotLoading, setPlotLoading] = useState(false);
   const [sim3dHtml, setSim3dHtml] = useState<string | null>(null);
   const [sim3dLoading, setSim3dLoading] = useState(false);
+  const [genesisVideoB64, setGenesisVideoB64] = useState<string | null>(null);
+  const [genesisScript, setGenesisScript] = useState<string | null>(null);
+  const [genesisLoading, setGenesisLoading] = useState(false);
+  const [genesisError, setGenesisError] = useState<string | null>(null);
 
   const handleVisualize = useCallback(async () => {
     const token = getToken();
@@ -340,6 +344,29 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verific
       console.error("3D simulation failed:", e);
     } finally {
       setSim3dLoading(false);
+    }
+  }, [content, lessonTitle]);
+
+  const handleGenesis = useCallback(async () => {
+    const token = getToken();
+    if (!token) return;
+    setGenesisLoading(true);
+    setGenesisError(null);
+    try {
+      const topic = lessonTitle || content.slice(0, 120);
+      const result = await api.visual.generateGenesis(topic, content.slice(0, 1500), token);
+      if (result.error && !result.video_b64) {
+        setGenesisError(result.error);
+      } else {
+        if (result.video_b64) setGenesisVideoB64(result.video_b64);
+        if (result.script)   setGenesisScript(result.script);
+        setSim3dHtml(null);
+        setPlotHtml(null);
+      }
+    } catch (e) {
+      setGenesisError(String(e));
+    } finally {
+      setGenesisLoading(false);
     }
   }, [content, lessonTitle]);
 
@@ -551,6 +578,29 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verific
             </button>
           )}
 
+          {/* Genesis Physics Render */}
+          {genesisVideoB64 ? (
+            <button
+              onClick={() => { setGenesisVideoB64(null); setGenesisScript(null); setGenesisError(null); }}
+              className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+            >
+              <X className="h-3 w-3" /> Close Genesis
+            </button>
+          ) : (
+            <button
+              onClick={handleGenesis}
+              disabled={genesisLoading || sim3dLoading || plotLoading}
+              className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-emerald-500/30 text-emerald-400 bg-emerald-500/5 hover:bg-emerald-500/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              title="Genesis: photorealistic physics simulation"
+            >
+              {genesisLoading ? (
+                <><Loader2 className="h-3 w-3 animate-spin" /> Rendering…</>
+              ) : (
+                <><Atom className="h-3 w-3" /> Genesis Sim</>
+              )}
+            </button>
+          )}
+
           <button
             onClick={() => {
               const topic = lessonTitle || content.slice(0, 60).replace(/\n/g, " ").trim();
@@ -566,7 +616,7 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verific
       {/* Rendered 2D plot */}
       {plotHtml && <VisualPlotRenderer html={plotHtml} topic={plotTopic} />}
 
-      {/* Rendered 3D simulation */}
+      {/* Rendered 3D simulation (JSCAD/Three.js interactive) */}
       {sim3dHtml && (
         <div className="mt-4 rounded-xl overflow-hidden border border-purple-500/20 bg-[#08090e]" style={{ height: 520 }}>
           <iframe
@@ -575,6 +625,57 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verific
             title="3D Simulation"
             sandbox="allow-scripts allow-same-origin"
           />
+        </div>
+      )}
+
+      {/* Genesis physics render — video output */}
+      {(genesisVideoB64 || genesisError) && (
+        <div className="mt-4 rounded-xl overflow-hidden border border-emerald-500/20 bg-[#060d0a]">
+          <div className="flex items-center justify-between px-3 py-2 border-b border-emerald-500/10">
+            <span className="text-[10px] font-semibold text-emerald-400 tracking-wide flex items-center gap-1.5">
+              <Atom className="h-3 w-3" /> Genesis Physics Simulation
+            </span>
+            {genesisScript && (
+              <button
+                onClick={() => {
+                  const blob = new Blob([genesisScript], { type: "text/plain" });
+                  const a = document.createElement("a");
+                  a.href = URL.createObjectURL(blob);
+                  a.download = "genesis_simulation.py";
+                  a.click();
+                }}
+                className="text-[9px] text-emerald-500/70 hover:text-emerald-400 transition-colors"
+              >
+                ↓ Download .py
+              </button>
+            )}
+          </div>
+          {genesisError ? (
+            <div className="px-4 py-6 text-center">
+              <p className="text-xs text-red-400 mb-2">{genesisError.includes("not installed") ? "Genesis not installed on server" : "Render failed"}</p>
+              {genesisError.includes("not installed") && (
+                <p className="text-[10px] text-muted-foreground font-mono bg-muted/30 rounded px-2 py-1 inline-block">
+                  pip install torch &amp;&amp; pip install genesis-world
+                </p>
+              )}
+              {genesisScript && (
+                <p className="text-[10px] text-muted-foreground mt-2">
+                  Script generated — download it and run locally for photorealistic rendering.
+                </p>
+              )}
+            </div>
+          ) : genesisVideoB64 ? (
+            <video
+              controls
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full"
+              style={{ maxHeight: 480 }}
+              src={`data:video/mp4;base64,${genesisVideoB64}`}
+            />
+          ) : null}
         </div>
       )}
     </div>

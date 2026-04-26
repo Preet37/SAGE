@@ -650,6 +650,11 @@ export const api = {
         method: "POST",
         body: JSON.stringify({ topic, context }),
       }, token),
+    generateGenesis: (topic: string, context: string, token: string) =>
+      request<{ video_b64?: string; script?: string; topic: string; error?: string; fallback?: boolean }>("/visual/genesis", {
+        method: "POST",
+        body: JSON.stringify({ topic, context }),
+      }, token),
   },
   documents: {
     upload: (file: File, token: string) => {
