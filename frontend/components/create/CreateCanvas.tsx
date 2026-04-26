@@ -2,10 +2,12 @@
 import { Panel, Group as PanelGroup, Separator as PanelResizeHandle } from "react-resizable-panels";
 import { ChatPanel } from "./ChatPanel";
 import { ArtifactPanel } from "./ArtifactPanel";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, GripVertical } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import type { useCreatorState } from "@/lib/useCreatorState";
+
+const mono: React.CSSProperties = { fontFamily: "var(--font-dm-mono)" };
+const serif: React.CSSProperties = { fontFamily: "var(--font-cormorant)" };
 
 interface CreateCanvasProps {
   state: ReturnType<typeof useCreatorState>;
@@ -13,34 +15,35 @@ interface CreateCanvasProps {
 
 export function CreateCanvas({ state }: CreateCanvasProps) {
   return (
-    <div className="flex flex-col h-screen w-screen overflow-hidden">
+    <div style={{ display: "flex", flexDirection: "column", height: "100vh", width: "100vw", overflow: "hidden", background: "var(--ink)" }}>
       {/* Top bar */}
-      <div className="flex items-center gap-3 px-4 py-2.5 border-b border-border bg-card/50 shrink-0">
-        <Button variant="ghost" size="sm" className="h-8 w-8 p-0" asChild>
-          <Link href="/create">
-            <ArrowLeft className="h-4 w-4" />
-          </Link>
-        </Button>
-        <div className="h-4 w-px bg-border" />
-        <h1 className="text-sm font-medium truncate flex-1 min-w-0">
+      <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.6rem 1rem", borderBottom: "1px solid rgba(240,233,214,0.08)", background: "var(--ink-1)", flexShrink: 0 }}>
+        <Link
+          href="/create"
+          style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "1.75rem", height: "1.75rem", color: "var(--cream-1)", borderRadius: "4px", transition: "color 0.15s", textDecoration: "none" }}
+          onMouseEnter={e => (e.currentTarget.style.color = "var(--cream-0)")}
+          onMouseLeave={e => (e.currentTarget.style.color = "var(--cream-1)")}
+        >
+          <ArrowLeft style={{ width: "0.9rem", height: "0.9rem" }} />
+        </Link>
+        <div style={{ width: "1px", height: "1rem", background: "rgba(240,233,214,0.1)" }} />
+        <h1 style={{ ...serif, fontSize: "1rem", fontStyle: "italic", fontWeight: 600, color: "var(--cream-0)", flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
           {state.draft?.title || "Untitled Course"}
         </h1>
         <PhaseIndicator phase={state.phase} />
       </div>
 
       {/* Canvas — two resizable panels */}
-      <div className="flex-1 min-h-0">
+      <div style={{ flex: 1, minHeight: 0 }}>
         <PanelGroup orientation="horizontal" style={{ height: "100%" }}>
           <Panel defaultSize={35} minSize={25}>
-            <div className="h-full overflow-hidden">
+            <div style={{ height: "100%", overflow: "hidden" }}>
               <ChatPanel state={state} />
             </div>
           </Panel>
-          <PanelResizeHandle className="w-2 bg-border hover:bg-primary/30 active:bg-primary/50 transition-colors flex items-center justify-center group cursor-col-resize">
-            <GripVertical className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-          </PanelResizeHandle>
+          <PanelResizeHandle style={{ width: "1px", background: "rgba(240,233,214,0.08)", cursor: "col-resize", flexShrink: 0 }} />
           <Panel defaultSize={65} minSize={30}>
-            <div className="h-full overflow-hidden">
+            <div style={{ height: "100%", overflow: "hidden" }}>
               <ArtifactPanel state={state} />
             </div>
           </Panel>
@@ -50,17 +53,23 @@ export function CreateCanvas({ state }: CreateCanvasProps) {
   );
 }
 
+const PHASE_CONFIG: Record<string, { label: string; color: string; bg: string }> = {
+  shaping:     { label: "Shaping",     color: "var(--gold)",              bg: "rgba(196,152,90,0.12)" },
+  researching: { label: "Researching", color: "rgba(146,188,158,0.9)",    bg: "rgba(146,188,158,0.1)" },
+  building:    { label: "Building",    color: "rgba(196,152,90,0.8)",     bg: "rgba(196,152,90,0.1)" },
+  reviewing:   { label: "Reviewing",   color: "var(--cream-1)",           bg: "rgba(240,233,214,0.08)" },
+  published:   { label: "Published",   color: "rgba(146,188,158,0.9)",    bg: "rgba(146,188,158,0.1)" },
+};
+
 function PhaseIndicator({ phase }: { phase: string }) {
-  const labels: Record<string, { label: string; color: string }> = {
-    shaping: { label: "Shaping", color: "bg-blue-500/15 text-blue-400" },
-    researching: { label: "Researching", color: "bg-purple-500/15 text-purple-400" },
-    building: { label: "Building", color: "bg-amber-500/15 text-amber-400" },
-    reviewing: { label: "Reviewing", color: "bg-primary/15 text-primary" },
-    published: { label: "Published", color: "bg-green-500/15 text-green-400" },
-  };
-  const info = labels[phase] || labels.shaping;
+  const info = PHASE_CONFIG[phase] || PHASE_CONFIG.shaping;
   return (
-    <span className={`ml-auto text-xs font-medium px-2.5 py-1 rounded-full ${info.color}`}>
+    <span style={{
+      fontFamily: "var(--font-dm-mono)", fontSize: "0.48rem", letterSpacing: "0.12em",
+      textTransform: "uppercase", padding: "0.25rem 0.6rem",
+      color: info.color, background: info.bg,
+      border: `1px solid ${info.color}30`, flexShrink: 0,
+    }}>
       {info.label}
     </span>
   );
