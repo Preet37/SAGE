@@ -228,7 +228,7 @@ function MetricCard({
   value,
   highlight,
 }: {
-  icon: React.ElementType;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   label: string;
   value: string;
   highlight?: "green" | "amber";

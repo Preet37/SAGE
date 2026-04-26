@@ -315,7 +315,7 @@ function RichLessonPanel({ lesson, ytId, vimUrl, hasVideo }: {
               components={{
                 img({ src, alt }) {
                   if (!src) return null;
-                  const resolved = src.startsWith("/api/") ? `${apiBase}${src}` : src;
+                  const resolved = typeof src === "string" && src.startsWith("/api/") ? `${apiBase}${src}` : src;
                   return (
                     <img
                       src={resolved}

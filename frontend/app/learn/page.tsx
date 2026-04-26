@@ -65,7 +65,7 @@ function CourseCard({ path }: { path: CourseOut }) {
   );
 }
 
-function SectionLabel({ icon: Icon, color, children }: { icon: React.ElementType; color: string; children: React.ReactNode }) {
+function SectionLabel({ icon: Icon, color, children }: { icon: React.ComponentType<React.SVGProps<SVGSVGElement>>; color: string; children: React.ReactNode }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "1rem" }}>
       <Icon style={{ width: "0.75rem", height: "0.75rem", color, flexShrink: 0 }} />

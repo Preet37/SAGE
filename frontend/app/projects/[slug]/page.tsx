@@ -96,7 +96,7 @@ function SectionHeading({
   icon: Icon,
   title,
 }: {
-  icon: React.ElementType;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   title: string;
 }) {
   return (

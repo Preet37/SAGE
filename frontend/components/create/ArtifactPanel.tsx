@@ -15,7 +15,7 @@ interface ArtifactPanelProps {
   state: ReturnType<typeof useCreatorState>;
 }
 
-const TAB_CONFIG: { value: ArtifactView; label: string; icon: React.ElementType }[] = [
+const TAB_CONFIG: { value: ArtifactView; label: string; icon: React.ComponentType<React.SVGProps<SVGSVGElement>> }[] = [
   { value: "outline",    label: "Outline",  icon: List },
   { value: "research",   label: "Research", icon: Search },
   { value: "enrichment", label: "Enrich",   icon: Zap },

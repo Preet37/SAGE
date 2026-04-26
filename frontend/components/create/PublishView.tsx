@@ -339,7 +339,7 @@ function StatItem({
   value,
   sub,
 }: {
-  icon: React.ElementType;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   label: string;
   value: string;
   sub?: string;

@@ -657,7 +657,7 @@ function computeStats(
 
 const TYPE_CONFIG: Record<
   string,
-  { icon: React.ElementType; color: string; label: string }
+  { icon: React.ComponentType<React.SVGProps<SVGSVGElement>>; color: string; label: string }
 > = {
   status: { icon: Loader2, color: "text-muted-foreground", label: "Status" },
   assessment_summary: { icon: Search, color: "text-blue-500", label: "Assessment" },

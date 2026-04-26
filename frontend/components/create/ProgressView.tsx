@@ -149,7 +149,7 @@ function LessonProgressCard({ lesson }: { lesson: LessonProgress }) {
 
   const statusConfig: Record<
     LessonGenStatus,
-    { icon: React.ElementType; color: string; label: string; badgeClass: string }
+    { icon: React.ComponentType<React.SVGProps<SVGSVGElement>>; color: string; label: string; badgeClass: string }
   > = {
     queued: { icon: Clock, color: "text-muted-foreground", label: "Queued", badgeClass: "" },
     generating: { icon: Loader2, color: "text-primary", label: "Generating...", badgeClass: "bg-primary/10 text-primary" },
