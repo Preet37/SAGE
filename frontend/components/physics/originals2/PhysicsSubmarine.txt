@@ -1,7 +1,0 @@
-"use client";
-
-import { useRef } from "react";
-import { useFrame } from "@react-three/fiber";
-
-/** Hand-crafted submarine — pressure hull, sail, dive planes, rudder, propeller. */
-export default function PhysicsSubmarine({ params = {}, simConfig }

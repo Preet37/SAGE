@@ -1,6 +1,0 @@
-"use client";
-
-import { useMemo } from "react";
-
-/** Solderless breadboard — ABS base, red/blue power rails, aligned hole grid. */
-export default function PhysicsBreadboard({ params = {}, simConfig }
