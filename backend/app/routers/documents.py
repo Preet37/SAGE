@@ -1,529 +1,429 @@
-"""Document ingestion — Cloudinary-powered.
+"""My Documents — per-user Cloudinary-backed file storage.
 
-Every uploaded file goes through:
-  1. Upload to Cloudinary (storage + CDN)
-  2. Cloudinary transformations for images:
-       - Auto-enhance  : e_improve,e_sharpen,e_auto_contrast
-       - Background removal : e_background_removal
-       - Thumbnail     : c_thumb,w_300,h_300,g_auto
-  3. Text extraction (Cloudinary OCR for images, local parsers for docs)
-  4. LLM classification → doc_type / subject / summary / key_topics
-  5. Text chunked into MemoryRecord rows (semantic memory)
+Free-tier features (always on):
+  - Direct upload to Cloudinary via signed params
+  - HLS adaptive streaming for videos
+  - Smart-crop (g_auto, c_fill) on video posters
+  - Multi-page PDF rendering as images
+  - Text watermark overlay (l_text) showing the category
+  - Filename search
 
-Endpoints:
-  POST /documents/upload
-  GET  /documents
-  GET  /documents/{id}
-  DELETE /documents/{id}
+Add-on features (opt-in via /enhance — return 402 from Cloudinary if not enabled):
+  - Generative background removal, generative fill, generative recolor, AI upscale
+  - Semantic search (falls back to filename search if 4xx)
 """
-
 from __future__ import annotations
 
-import io
 import json
-import logging
-import mimetypes
 import os
-import re
-from datetime import datetime
-from typing import Optional
+import time
+import urllib.parse
+from typing import List, Literal, Optional
 
 import cloudinary
-import cloudinary.uploader
 import cloudinary.api
-from cuid2 import Cuid as _Cuid
-
-_cuid_gen = _Cuid()
-def cuid() -> str:
-    return _cuid_gen.generate()
-
-from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
+import cloudinary.uploader
+import cloudinary.utils
+from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel
 from sqlmodel import Session, select
 
-from ..agent.agent_loop import get_async_client
-from ..config import get_settings
 from ..db import get_session
 from ..deps import get_current_user
-from ..models.memory import MemoryRecord
+from ..models.document import Document
 from ..models.user import User
-from ..services.semantic_memory import _heuristic_importance as compute_importance
 
-logger = logging.getLogger(__name__)
+DEFAULT_CATEGORY = "Document"
+
 router = APIRouter(prefix="/documents", tags=["documents"])
 
-# ── Cloudinary config ─────────────────────────────────────────────────────────
 
-def _init_cloudinary() -> None:
-    """Configure Cloudinary from env / CLOUDINARY_URL."""
-    url = os.getenv("CLOUDINARY_URL", "")
-    if url.startswith("cloudinary://"):
-        cloudinary.config(cloudinary_url=url)
-    else:
-        settings = get_settings()
-        if settings.cloudinary_cloud_name and settings.cloudinary_api_key:
-            cloudinary.config(
-                cloud_name=settings.cloudinary_cloud_name,
-                api_key=settings.cloudinary_api_key,
-                api_secret=settings.cloudinary_api_secret,
-                secure=True,
-            )
+def _derive_category(tags: list[str], resource_type: str = "image") -> str:
+    """Pick a watermark label from the AI-generated tags.
 
-_init_cloudinary()
-
-# ── Limits ────────────────────────────────────────────────────────────────────
-MAX_BYTES    = 50 * 1024 * 1024
-CHUNK_SIZE   = 1200
-CHUNK_OVERLAP = 200
-
-# ── MIME sets ─────────────────────────────────────────────────────────────────
-_PDF_TYPES   = {"application/pdf"}
-_DOCX_TYPES  = {
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    "application/msword",
-}
-_PPTX_TYPES  = {
-    "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-    "application/vnd.ms-powerpoint",
-}
-_TEXT_TYPES  = {"text/plain", "text/markdown", "text/csv", "application/json"}
-_IMAGE_TYPES = {
-    "image/png", "image/jpeg", "image/jpg", "image/webp",
-    "image/bmp", "image/gif", "image/tiff",
-}
-_VIDEO_TYPES = {"video/mp4", "video/mpeg", "video/webm", "video/ogg", "video/quicktime"}
-_AUDIO_TYPES = {"audio/mpeg", "audio/wav", "audio/ogg", "audio/mp4", "audio/webm"}
-_RAW_TYPES   = _PDF_TYPES | _DOCX_TYPES | _PPTX_TYPES | _TEXT_TYPES
-
-ALL_ACCEPTED = _RAW_TYPES | _IMAGE_TYPES | _VIDEO_TYPES | _AUDIO_TYPES
+    Cloudinary's Imagga/Google taggers return tags ranked by confidence. The
+    top tag is usually a strong content descriptor (e.g. "hat", "whiteboard",
+    "document"). We title-case it and use it as the category.
+    """
+    for t in tags or []:
+        cleaned = (t or "").strip()
+        if cleaned and len(cleaned) >= 3:
+            return cleaned.title()
+    if resource_type == "video":
+        return "Video"
+    return DEFAULT_CATEGORY
 
 
-# ── Cloudinary upload helpers ─────────────────────────────────────────────────
+def _ensure_configured() -> None:
+    if not os.getenv("CLOUDINARY_URL") and not os.getenv("CLOUDINARY_CLOUD_NAME"):
+        raise HTTPException(status_code=500, detail="Cloudinary not configured")
+    # cloudinary auto-reads CLOUDINARY_URL from env on import
+    cloudinary.config(secure=True)
 
-def _cld_resource_type(mime: str) -> str:
-    if mime in _IMAGE_TYPES: return "image"
-    if mime in _VIDEO_TYPES | _AUDIO_TYPES: return "video"
-    return "raw"
+
+def _user_folder(user_id: str) -> str:
+    return f"sage/users/{user_id}"
 
 
-def _upload_to_cloudinary(data: bytes, filename: str, mime: str, folder: str) -> dict:
-    """Upload bytes to Cloudinary and return the upload response dict."""
-    resource_type = _cld_resource_type(mime)
-    result = cloudinary.uploader.upload(
-        data,
-        resource_type=resource_type,
-        folder=folder,
-        use_filename=True,
-        unique_filename=True,
+def _ensure_image_source(user_id: str, doc) -> str:
+    """Return a public_id that image add-ons (Pixelz, VIESUS, OCR) can process.
+
+    Cloudinary add-ons that operate on raster pixels won't run when the source
+    is a PDF — chaining `pg_1,f_jpg` in the URL doesn't help because they look
+    at the source asset, not the transformed bytes. So for PDFs we lazily
+    upload page 1 as a JPG derivative and reuse it.
+    """
+    if (doc.format or "").lower() != "pdf":
+        return doc.public_id
+
+    derivative_id = f"sage/users/{user_id}/_pages/{doc.id}_p1"
+
+    try:
+        cloudinary.api.resource(derivative_id, resource_type="image")
+        return derivative_id
+    except Exception:
+        pass
+
+    rendered_url, _ = cloudinary.utils.cloudinary_url(
+        doc.public_id,
+        resource_type="image",
+        secure=True,
+        format="jpg",
+        page=1,
+        transformation=[{"width": 2000, "crop": "limit"}],
+    )
+    cloudinary.uploader.upload(
+        rendered_url,
+        public_id=derivative_id,
+        resource_type="image",
         overwrite=False,
-        # Request Cloudinary OCR for images (if the add-on is enabled)
-        ocr="adv_ocr" if resource_type == "image" else None,
     )
-    return result  # type: ignore[return-value]
+    return derivative_id
 
 
-def _cld_transformation_url(public_id: str, resource_type: str, transformation: str) -> str:
-    """Build a Cloudinary transformation delivery URL."""
-    settings = get_settings()
-    cloud = settings.cloudinary_cloud_name or os.getenv("CLOUDINARY_CLOUD_NAME", "")
+def _safe_prompt(text: str) -> str:
+    """URL-encode a prompt for Cloudinary's `prompt_(...)` syntax.
+
+    Strips characters that would break the transformation grammar
+    (commas, semicolons, parentheses) and percent-encodes the rest.
+    """
+    cleaned = (text or "").replace(",", " ").replace(";", " ").replace("(", "").replace(")", "")
+    return urllib.parse.quote(cleaned.strip(), safe="")
+
+
+def _watermark_transform(category: str) -> str:
+    """Bottom-left text overlay tagging the category.
+
+    Black text at 50% opacity, no background — sits softly on any document.
+    """
+    safe = urllib.parse.quote(category, safe="")
     return (
-        f"https://res.cloudinary.com/{cloud}/{resource_type}/upload/"
-        f"{transformation}/{public_id}"
+        f"l_text:Arial_24_bold:{safe},"
+        f"co_rgb:000000,o_50,"
+        f"g_south_west,x_18,y_18"
     )
 
 
-def _build_image_urls(public_id: str) -> tuple[str, str, str]:
-    """
-    Returns (thumbnail_url, enhanced_url, nobg_url) as Cloudinary delivery URLs.
-    These are on-the-fly transformations — no extra API calls needed.
-    """
-    thumb    = _cld_transformation_url(public_id, "image", "c_thumb,w_300,h_300,g_auto,f_auto,q_auto")
-    enhanced = _cld_transformation_url(public_id, "image", "e_improve,e_sharpen:80,e_auto_contrast,f_auto,q_auto")
-    nobg     = _cld_transformation_url(public_id, "image", "e_background_removal,f_png")
-    return thumb, enhanced, nobg
+def _video_url(public_id: str, category: str) -> str:
+    base, _ = cloudinary.utils.cloudinary_url(
+        public_id,
+        resource_type="video",
+        format="m3u8",
+        streaming_profile="auto",
+        secure=True,
+    )
+    return base
 
 
-# ── Local text parsers (for document types Cloudinary can't parse) ────────────
-
-def _parse_pdf(data: bytes) -> str:
-    from pypdf import PdfReader
-    reader = PdfReader(io.BytesIO(data))
-    return "\n\n".join((p.extract_text() or "").strip() for p in reader.pages).strip()
-
-
-def _parse_docx(data: bytes) -> str:
-    from docx import Document  # type: ignore
-    doc = Document(io.BytesIO(data))
-    parts = [p.text.strip() for p in doc.paragraphs if p.text.strip()]
-    for table in doc.tables:
-        for row in table.rows:
-            cells = [c.text.strip() for c in row.cells if c.text.strip()]
-            if cells: parts.append(" | ".join(cells))
-    return "\n\n".join(parts)
+def _video_poster_url(public_id: str, category: str) -> str:
+    base, _ = cloudinary.utils.cloudinary_url(
+        public_id,
+        resource_type="video",
+        format="jpg",
+        transformation=[
+            {"width": 1280, "height": 720, "crop": "fill", "gravity": "auto"},
+            {"raw_transformation": _watermark_transform(category)},
+        ],
+        secure=True,
+    )
+    return base
 
 
-def _parse_pptx(data: bytes) -> str:
-    from pptx import Presentation  # type: ignore
-    prs = Presentation(io.BytesIO(data))
-    slides: list[str] = []
-    for i, slide in enumerate(prs.slides, 1):
-        texts = [
-            " ".join(run.text for run in para.runs).strip()
-            for shape in slide.shapes if shape.has_text_frame
-            for para in shape.text_frame.paragraphs
-        ]
-        texts = [t for t in texts if t]
-        if texts:
-            slides.append(f"[Slide {i}]\n" + "\n".join(texts))
-    return "\n\n".join(slides)
+def _image_url(
+    public_id: str,
+    category: str,
+    page: Optional[int] = None,
+    is_pdf: bool = False,
+) -> str:
+    transform = [
+        {"width": 1600, "crop": "limit"},
+        {"raw_transformation": _watermark_transform(category)},
+    ]
+    kwargs: dict = dict(
+        resource_type="image",
+        secure=True,
+        transformation=transform,
+    )
+    if is_pdf:
+        # PDFs uploaded as image need explicit page + image format to render in <img>.
+        kwargs["format"] = "jpg"
+        kwargs["page"] = page or 1
+    elif page is not None:
+        kwargs["page"] = page
+    base, _ = cloudinary.utils.cloudinary_url(public_id, **kwargs)
+    return base
 
 
-def _parse_text(data: bytes) -> str:
-    for enc in ("utf-8", "latin-1", "cp1252"):
-        try: return data.decode(enc)
-        except UnicodeDecodeError: continue
-    return data.decode("utf-8", errors="replace")
+def _raw_url(public_id: str) -> str:
+    base, _ = cloudinary.utils.cloudinary_url(public_id, resource_type="raw", secure=True)
+    return base
 
 
-def _extract_text_from_cloudinary_ocr(upload_result: dict) -> str:
-    """Pull OCR text from Cloudinary's adv_ocr response if available."""
-    try:
-        ocr_data = upload_result.get("info", {}).get("ocr", {})
-        adv = ocr_data.get("adv_ocr", {}) or ocr_data.get("adv_ocr", {})
-        status = adv.get("status", "")
-        if status == "complete":
-            data = adv.get("data", [])
-            all_text: list[str] = []
-            for page in data:
-                for annotation in page.get("textAnnotations", []):
-                    text = annotation.get("description", "")
-                    if text: all_text.append(text); break  # first annotation = full page text
-            return "\n\n".join(all_text).strip()
-    except Exception as exc:
-        logger.debug("OCR extraction failed: %s", exc)
-    return ""
+# ───────────── Schemas ─────────────
 
 
-async def _extract_text(data: bytes, mime: str, filename: str, upload_result: dict) -> str:
-    """Extract text from the document, using Cloudinary OCR for images."""
-    try:
-        if mime in _PDF_TYPES:   return _parse_pdf(data)
-        if mime in _DOCX_TYPES:  return _parse_docx(data)
-        if mime in _PPTX_TYPES:  return _parse_pptx(data)
-        if mime in _TEXT_TYPES:  return _parse_text(data)
-        if mime in _IMAGE_TYPES:
-            # Try Cloudinary OCR first
-            ocr_text = _extract_text_from_cloudinary_ocr(upload_result)
-            if ocr_text:
-                return ocr_text
-            # Fallback: Groq vision
-            return await _groq_vision_ocr(data, mime, filename)
-        if mime in (_VIDEO_TYPES | _AUDIO_TYPES):
-            dur = upload_result.get("duration", "")
-            return (
-                f"[Media file: {filename}]\n"
-                f"Size: {len(data)/1024/1024:.1f} MB"
-                + (f"\nDuration: {dur:.1f}s" if dur else "") + "\n"
-                "Transcription requires a Whisper API key."
-            )
-    except Exception as exc:
-        logger.warning("Text extraction failed for %s: %s", filename, exc)
-        return f"[Parse failed: {exc}]"
-    return ""
+class SignParams(BaseModel):
+    resource_type: Literal["image", "video", "raw"]
 
 
-async def _groq_vision_ocr(data: bytes, mime: str, filename: str) -> str:
-    import base64
-    try:
-        b64 = base64.b64encode(data).decode()
-        settings = get_settings()
-        client = get_async_client()
-        completion = await client.chat.completions.create(
-            model=settings.fast_llm_model or settings.llm_model,
-            messages=[{
-                "role": "user",
-                "content": [
-                    {"type": "image_url", "image_url": {"url": f"data:{mime};base64,{b64}"}},
-                    {"type": "text", "text":
-                        "Extract all visible text from this image verbatim, then briefly describe what it shows.\n"
-                        "Format:\nEXTRACTED TEXT:\n<text or 'None'>\n\nDESCRIPTION:\n<description>"},
-                ],
-            }],
-            max_tokens=1024, temperature=0.1,
-        )
-        return (completion.choices[0].message.content or "").strip()
-    except Exception as exc:
-        return f"[Image: {filename}. Vision OCR unavailable: {exc}]"
+class SignResponse(BaseModel):
+    cloud_name: str
+    api_key: str
+    timestamp: int
+    folder: str
+    signature: str
+    resource_type: str
+    # Extra params the browser must include in the upload form, exactly as
+    # they were signed. Tagging add-ons run during upload — these enable
+    # them automatically.
+    extra_params: dict[str, str]
 
 
-# ── LLM classification ────────────────────────────────────────────────────────
-
-_CLASSIFY_PROMPT = """Classify this document excerpt and return STRICT JSON (no markdown, no fences):
-
-{{
-  "doc_type": "<Research Paper|Lecture Notes|Textbook Chapter|Presentation|Study Guide|Code/Technical|Image/Diagram|Video Transcript|General Notes|Other>",
-  "subject": "<subject area>",
-  "summary": "<2-3 sentence plain-English summary>",
-  "key_topics": ["<topic>", "<topic>", "<topic>"]
-}}
-
-Excerpt:
-{excerpt}"""
+class ImportPayload(BaseModel):
+    public_id: str
+    resource_type: Literal["image", "video", "raw"]
+    format: Optional[str] = None
+    bytes: int = 0
+    pages: Optional[int] = None
+    duration: Optional[float] = None
+    # Optional override; if absent we derive the category from AI tags.
+    category: Optional[str] = None
+    original_filename: str
+    tags: List[str] = []
 
 
-async def _classify(text: str) -> dict:
-    try:
-        settings = get_settings()
-        client = get_async_client()
-        completion = await client.chat.completions.create(
-            model=settings.fast_llm_model or settings.llm_model,
-            messages=[
-                {"role": "system", "content": "Return strict JSON only."},
-                {"role": "user", "content": _CLASSIFY_PROMPT.format(excerpt=text[:1500].strip())},
-            ],
-            max_tokens=400, temperature=0.1,
-        )
-        raw = re.sub(r"^```(?:json)?\s*|\s*```$", "", (completion.choices[0].message.content or "").strip())
-        return json.loads(raw)
-    except Exception as exc:
-        logger.warning("Classification failed: %s", exc)
-        return {"doc_type": "Other", "subject": "", "summary": "", "key_topics": []}
+class UpdateCategoryPayload(BaseModel):
+    category: str
 
-
-# ── Chunker ───────────────────────────────────────────────────────────────────
-
-def _chunk(text: str) -> list[str]:
-    text = re.sub(r"\n{3,}", "\n\n", text).strip()
-    if not text: return []
-    chunks: list[str] = []
-    start = 0
-    while start < len(text):
-        end = min(start + CHUNK_SIZE, len(text))
-        chunks.append(text[start:end])
-        if end == len(text): break
-        start = end - CHUNK_OVERLAP
-    return chunks
-
-
-# ── Response models ───────────────────────────────────────────────────────────
 
 class DocumentOut(BaseModel):
     id: str
-    filename: str
-    mime: str
-    size_bytes: int
-    chunk_count: int
-    preview: str
-    created_at: datetime
-    # Cloudinary
-    cld_public_id: str = ""
-    cld_secure_url: str = ""
-    # Classification
-    doc_type: str = "Other"
-    subject: str = ""
-    summary: str = ""
-    key_topics: list[str] = []
-    # Image delivery URLs (Cloudinary on-the-fly transformations)
-    is_image: bool = False
-    thumbnail_url: Optional[str] = None
-    enhanced_url: Optional[str] = None
-    nobg_url: Optional[str] = None
+    public_id: str
+    resource_type: str
+    format: Optional[str]
+    bytes: int
+    pages: Optional[int]
+    duration: Optional[float]
+    category: str
+    original_filename: str
+    tags: List[str] = []
+    preview_url: str
+    download_url: str
+    streaming_url: Optional[str] = None
 
 
-class DocumentDetail(DocumentOut):
-    chunks: list[str]
+class EnhanceRequest(BaseModel):
+    document_id: str
+    op: Literal["bg_remove", "auto_enhance", "gen_remove", "gen_fill", "gen_recolor", "upscale"]
+    prompt: Optional[str] = None  # for gen_remove / gen_fill / gen_recolor
 
 
-def _meta_to_out(record: MemoryRecord) -> Optional[DocumentOut]:
-    try:
-        meta = json.loads(record.content)
-        if not meta.get("_doc_meta"): return None
-        return DocumentOut(
-            id=record.id,
-            filename=meta.get("filename", "unknown"),
-            mime=meta.get("mime", ""),
-            size_bytes=meta.get("size_bytes", 0),
-            chunk_count=meta.get("chunk_count", 0),
-            preview=meta.get("preview", ""),
-            created_at=record.created_at,
-            cld_public_id=meta.get("cld_public_id", ""),
-            cld_secure_url=meta.get("cld_secure_url", ""),
-            doc_type=meta.get("doc_type", "Other"),
-            subject=meta.get("subject", ""),
-            summary=meta.get("summary", ""),
-            key_topics=meta.get("key_topics", []),
-            is_image=meta.get("is_image", False),
-            thumbnail_url=meta.get("thumbnail_url"),
-            enhanced_url=meta.get("enhanced_url"),
-            nobg_url=meta.get("nobg_url"),
-        )
-    except Exception:
-        return None
+class EnhanceResponse(BaseModel):
+    url: str
+    enabled: bool
+    note: Optional[str] = None
 
 
-# ── Upload endpoint ───────────────────────────────────────────────────────────
+# ───────────── Endpoints ─────────────
 
-@router.post("/upload", response_model=DocumentOut)
-async def upload_document(
-    file: UploadFile = File(...),
-    session: Session = Depends(get_session),
+
+@router.post("/sign", response_model=SignResponse)
+def sign_upload(
+    params: SignParams,
     user: User = Depends(get_current_user),
-) -> DocumentOut:
-    data = await file.read()
-    if len(data) > MAX_BYTES:
-        raise HTTPException(status_code=413, detail=f"File too large (max {MAX_BYTES // (1024*1024)} MB)")
+):
+    """Return signed params so the browser can upload direct-to-Cloudinary.
 
-    filename = file.filename or "upload"
-    mime = file.content_type or mimetypes.guess_type(filename)[0] or "application/octet-stream"
+    Tagging add-ons (Imagga, Google Auto Tagging, Cloudinary AI Vision) run
+    during upload when the right params are signed in. Their output tags
+    populate `result.tags` on the upload response and become searchable.
+    """
+    _ensure_configured()
+    cfg = cloudinary.config()
+    folder = _user_folder(user.id)
+    timestamp = int(time.time())
 
-    # Normalise MIME from extension
-    ext_lower = filename.lower().rsplit(".", 1)[-1] if "." in filename else ""
-    _ext_map = {
-        "md": "text/markdown", "csv": "text/csv", "txt": "text/plain",
-        "png": "image/png", "jpg": "image/jpeg", "jpeg": "image/jpeg",
-        "webp": "image/webp", "bmp": "image/bmp", "gif": "image/gif",
+    # auto_tagging: keeps any tag with confidence >= 0.6 from the categorizers.
+    # categorization: which AI taggers to run. Imagga is image-only; google
+    # works on both images and video keyframes.
+    # Lower threshold = more tags = better content-based recall in search.
+    extra: dict[str, str] = {
+        "categorization": "google_tagging,imagga_tagging",
+        "auto_tagging": "0.4",
     }
-    if ext_lower in _ext_map:
-        mime = _ext_map[ext_lower]
 
-    if mime not in ALL_ACCEPTED:
-        raise HTTPException(
-            status_code=415,
-            detail=f"Unsupported type '{mime}'. Accepted: PDF, DOCX, PPTX, TXT, MD, CSV, PNG, JPG, WEBP, MP4, MP3…",
-        )
+    to_sign: dict = {"folder": folder, "timestamp": timestamp, **extra}
+    signature = cloudinary.utils.api_sign_request(to_sign, cfg.api_secret)
+    return SignResponse(
+        cloud_name=cfg.cloud_name,
+        api_key=cfg.api_key,
+        timestamp=timestamp,
+        folder=folder,
+        signature=signature,
+        resource_type=params.resource_type,
+        extra_params=extra,
+    )
 
-    is_image = mime in _IMAGE_TYPES
-    settings = get_settings()
-    folder = f"{settings.cloudinary_folder}/docs/user_{user.id}"
 
-    # ── 1. Upload to Cloudinary ───────────────────────────────────────────────
-    try:
-        upload_result = _upload_to_cloudinary(data, filename, mime, folder)
-        cld_public_id  = upload_result.get("public_id", "")
-        cld_secure_url = upload_result.get("secure_url", "")
-    except Exception as exc:
-        logger.error("Cloudinary upload failed: %s", exc)
-        raise HTTPException(status_code=502, detail=f"Cloudinary upload failed: {exc}")
+@router.post("/import", response_model=DocumentOut)
+def import_document(
+    payload: ImportPayload,
+    session: Session = Depends(get_session),
+    user: User = Depends(get_current_user),
+):
+    """Persist a Cloudinary upload result to the user's document list."""
+    _ensure_configured()
 
-    # ── 2. Image transformation URLs (on-the-fly, no extra API call) ──────────
-    thumbnail_url: Optional[str] = None
-    enhanced_url:  Optional[str] = None
-    nobg_url:      Optional[str] = None
+    folder = _user_folder(user.id)
+    if not payload.public_id.startswith(folder + "/"):
+        raise HTTPException(status_code=403, detail="public_id outside user folder")
 
-    if is_image and cld_public_id:
-        thumbnail_url, enhanced_url, nobg_url = _build_image_urls(cld_public_id)
-
-    # ── 3. Extract text ───────────────────────────────────────────────────────
-    text = await _extract_text(data, mime, filename, upload_result)
-    chunks = _chunk(text) or [f"[Empty document: {filename}]"]
-
-    # ── 4. Classify ───────────────────────────────────────────────────────────
-    cls = await _classify(text)
-
-    # ── 5. Persist metadata + chunks in DB ───────────────────────────────────
-    doc_id = cuid()
-    preview = text[:300].replace("\n", " ").strip()
-
-    meta_record = MemoryRecord(
-        id=doc_id,
+    derived_category = payload.category or _derive_category(
+        payload.tags, payload.resource_type
+    )
+    doc = Document(
         user_id=user.id,
-        role="document",
-        session_id=doc_id,
-        content=json.dumps({
-            "_doc_meta": True,
-            "filename": filename,
-            "mime": mime,
-            "size_bytes": len(data),
-            "chunk_count": len(chunks),
-            "preview": preview,
-            "cld_public_id": cld_public_id,
-            "cld_secure_url": cld_secure_url,
-            "doc_type": cls.get("doc_type", "Other"),
-            "subject": cls.get("subject", ""),
-            "summary": cls.get("summary", ""),
-            "key_topics": cls.get("key_topics", []),
-            "is_image": is_image,
-            "thumbnail_url": thumbnail_url,
-            "enhanced_url": enhanced_url,
-            "nobg_url": nobg_url,
-        }),
-        importance=0.9,
+        public_id=payload.public_id,
+        resource_type=payload.resource_type,
+        format=payload.format,
+        bytes=payload.bytes,
+        pages=payload.pages,
+        duration=payload.duration,
+        category=derived_category,
+        original_filename=payload.original_filename,
+        tags_json=json.dumps(payload.tags) if payload.tags else None,
     )
-    session.add(meta_record)
-
-    for i, chunk in enumerate(chunks):
-        session.add(MemoryRecord(
-            id=cuid(),
-            user_id=user.id,
-            role="document",
-            session_id=doc_id,
-            content=f"[From '{filename}', part {i+1}/{len(chunks)}]\n{chunk}",
-            importance=compute_importance(chunk),
-        ))
-
+    session.add(doc)
     session.commit()
-    session.refresh(meta_record)
+    session.refresh(doc)
 
-    return DocumentOut(
-        id=doc_id, filename=filename, mime=mime, size_bytes=len(data),
-        chunk_count=len(chunks), preview=preview,
-        created_at=meta_record.created_at,
-        cld_public_id=cld_public_id, cld_secure_url=cld_secure_url,
-        doc_type=cls.get("doc_type", "Other"),
-        subject=cls.get("subject", ""),
-        summary=cls.get("summary", ""),
-        key_topics=cls.get("key_topics", []),
-        is_image=is_image,
-        thumbnail_url=thumbnail_url,
-        enhanced_url=enhanced_url,
-        nobg_url=nobg_url,
-    )
+    # Best-effort: index OCR text for images and PDFs so search can match
+    # words inside the document. Videos skip — Cloudinary's OCR add-on doesn't
+    # process video; that needs the Video Transcription add-on which is async.
+    if doc.resource_type == "image":
+        try:
+            text, _ = _run_ocr_for_doc(user.id, doc)
+            if text:
+                doc.content_text = text
+                session.add(doc)
+                session.commit()
+                session.refresh(doc)
+        except Exception:
+            pass
 
-
-# ── List / Get / Delete ───────────────────────────────────────────────────────
-
-@router.get("", response_model=list[DocumentOut])
-def list_documents(
-    session: Session = Depends(get_session),
-    user: User = Depends(get_current_user),
-) -> list[DocumentOut]:
-    rows = list(session.exec(
-        select(MemoryRecord)
-        .where(MemoryRecord.user_id == user.id)
-        .where(MemoryRecord.role == "document")
-        .order_by(MemoryRecord.created_at.desc())
-    ))
-    docs: list[DocumentOut] = []
-    seen: set[str] = set()
-    for r in rows:
-        if r.session_id and r.session_id not in seen:
-            out = _meta_to_out(r)
-            if out:
-                seen.add(r.session_id)
-                docs.append(out)
-    return docs
+    return _to_out(doc)
 
 
-@router.get("/{doc_id}", response_model=DocumentDetail)
-def get_document(
+@router.patch("/{doc_id}", response_model=DocumentOut)
+def update_document(
     doc_id: str,
+    payload: UpdateCategoryPayload,
     session: Session = Depends(get_session),
     user: User = Depends(get_current_user),
-) -> DocumentDetail:
-    meta_record = session.get(MemoryRecord, doc_id)
-    if not meta_record or meta_record.user_id != user.id:
+):
+    _ensure_configured()
+    doc = session.get(Document, doc_id)
+    if not doc or doc.user_id != user.id:
         raise HTTPException(status_code=404, detail="Document not found")
-    out = _meta_to_out(meta_record)
-    if not out:
-        raise HTTPException(status_code=404, detail="Document not found")
-    chunks = [r.content for r in session.exec(
-        select(MemoryRecord)
-        .where(MemoryRecord.user_id == user.id)
-        .where(MemoryRecord.session_id == doc_id)
-        .where(MemoryRecord.id != doc_id)
-        .order_by(MemoryRecord.created_at)
-    )]
-    return DocumentDetail(**out.model_dump(), chunks=chunks)
+    doc.category = payload.category
+    session.add(doc)
+    session.commit()
+    session.refresh(doc)
+    return _to_out(doc)
+
+
+@router.get("", response_model=List[DocumentOut])
+def list_documents(
+    q: Optional[str] = Query(default=None),
+    category: Optional[str] = None,
+    session: Session = Depends(get_session),
+    user: User = Depends(get_current_user),
+):
+    _ensure_configured()
+    stmt = select(Document).where(Document.user_id == user.id)
+    if category:
+        stmt = stmt.where(Document.category == category)
+    if q:
+        like = f"%{q.lower()}%"
+        stmt = stmt.where(Document.original_filename.ilike(like))
+    stmt = stmt.order_by(Document.created_at.desc())
+    docs = session.exec(stmt).all()
+    return [_to_out(d) for d in docs]
+
+
+@router.get("/search", response_model=List[DocumentOut])
+def search_documents(
+    q: str = Query(..., min_length=1),
+    session: Session = Depends(get_session),
+    user: User = Depends(get_current_user),
+):
+    """Try Cloudinary semantic search; fall back to filename match on any error."""
+    _ensure_configured()
+    folder = _user_folder(user.id)
+    public_ids: list[str] = []
+    semantic_ok = False
+    try:
+        # Cloudinary Search API — works only on premium tiers with Visual Search.
+        result = cloudinary.search.Search() \
+            .expression(f'folder:"{folder}/*" AND ({q})') \
+            .max_results(50) \
+            .execute()
+        public_ids = [r.get("public_id") for r in result.get("resources", []) if r.get("public_id")]
+        semantic_ok = True
+    except Exception:
+        semantic_ok = False
+
+    if semantic_ok and public_ids:
+        stmt = select(Document).where(
+            Document.user_id == user.id,
+            Document.public_id.in_(public_ids),  # type: ignore[attr-defined]
+        )
+        docs = session.exec(stmt).all()
+        return [_to_out(d) for d in docs]
+
+    # Fallback: match filename OR AI-generated tags OR OCR'd content text.
+    docs = session.exec(
+        select(Document)
+        .where(Document.user_id == user.id)
+        .order_by(Document.created_at.desc())
+    ).all()
+    needle = q.lower()
+    matched = []
+    for d in docs:
+        if needle in (d.original_filename or "").lower():
+            matched.append(d)
+            continue
+        if d.content_text and needle in d.content_text.lower():
+            matched.append(d)
+            continue
+        if d.tags_json:
+            try:
+                tags = [t.lower() for t in json.loads(d.tags_json)]
+            except Exception:
+                tags = []
+            if any(needle in t or t in needle for t in tags):
+                matched.append(d)
+    return [_to_out(d) for d in matched]
 
 
 @router.delete("/{doc_id}")
@@ -531,26 +431,291 @@ def delete_document(
     doc_id: str,
     session: Session = Depends(get_session),
     user: User = Depends(get_current_user),
-) -> dict:
-    rows = list(session.exec(
-        select(MemoryRecord)
-        .where(MemoryRecord.user_id == user.id)
-        .where(MemoryRecord.session_id == doc_id)
-    ))
-    if not rows:
+):
+    _ensure_configured()
+    doc = session.get(Document, doc_id)
+    if not doc or doc.user_id != user.id:
         raise HTTPException(status_code=404, detail="Document not found")
-    # Also delete from Cloudinary
-    meta_record = next((r for r in rows if r.id == doc_id), None)
-    if meta_record:
-        try:
-            meta = json.loads(meta_record.content)
-            pub_id = meta.get("cld_public_id", "")
-            res_type = _cld_resource_type(meta.get("mime", "raw"))
-            if pub_id:
-                cloudinary.uploader.destroy(pub_id, resource_type=res_type)
-        except Exception as exc:
-            logger.warning("Cloudinary delete failed: %s", exc)
-    for r in rows:
-        session.delete(r)
+    try:
+        cloudinary.uploader.destroy(doc.public_id, resource_type=doc.resource_type, invalidate=True)
+    except Exception:
+        pass  # we still want to remove the DB row
+    session.delete(doc)
     session.commit()
-    return {"ok": True, "deleted": len(rows)}
+    return {"deleted": True}
+
+
+class OcrResponse(BaseModel):
+    text: str
+    blocks: int
+
+
+class TranscriptResponse(BaseModel):
+    text: str
+    status: str  # "ready" | "processing"
+    snippets: int
+
+
+def _run_ocr_for_doc(user_id: str, doc) -> tuple[str, int]:
+    """Run OCR on a document and return (text, blocks). Best-effort.
+
+    Re-renders PDFs to JPG first, destroys any cached derivative so the OCR
+    add-on actually runs on the upload, then extracts the text annotation.
+    """
+    is_pdf = (doc.format or "").lower() == "pdf"
+    if is_pdf:
+        source_url, _ = cloudinary.utils.cloudinary_url(
+            doc.public_id, resource_type="image", secure=True, format="jpg",
+            page=1, transformation=[{"width": 2000, "crop": "limit"}],
+        )
+    else:
+        source_url, _ = cloudinary.utils.cloudinary_url(
+            doc.public_id, resource_type="image", secure=True,
+        )
+    derivative_id = f"sage/users/{user_id}/_pages/{doc.id}_ocr"
+    try:
+        cloudinary.uploader.destroy(
+            derivative_id, resource_type="image", invalidate=True
+        )
+    except Exception:
+        pass
+    result = cloudinary.uploader.upload(
+        source_url, public_id=derivative_id, resource_type="image",
+        ocr="adv_ocr",
+    )
+    return _extract_ocr_text(result)
+
+
+def _extract_ocr_text(result: dict) -> tuple[str, int]:
+    info = (result or {}).get("info", {}) or {}
+    ocr_block = info.get("ocr", {}) or {}
+    adv = ocr_block.get("adv_ocr", {}) or {}
+    data = adv.get("data") or []
+    full_text = ""
+    if data:
+        annotation = data[0].get("fullTextAnnotation") or {}
+        full_text = annotation.get("text", "") or ""
+    return full_text, len(data)
+
+
+@router.post("/{doc_id}/ocr", response_model=OcrResponse)
+def ocr_extract(
+    doc_id: str,
+    session: Session = Depends(get_session),
+    user: User = Depends(get_current_user),
+):
+    """Run OCR on a document via the OCR Text Detection add-on.
+
+    For PDFs, the source asset doesn't expose text to the OCR add-on, so we
+    upload page 1 as a JPG derivative image and OCR that. For image uploads,
+    we OCR the asset in place via explicit().
+
+    Requires the OCR Text Detection and Extraction add-on to be enabled.
+    """
+    _ensure_configured()
+    doc = session.get(Document, doc_id)
+    if not doc or doc.user_id != user.id:
+        raise HTTPException(status_code=404, detail="Document not found")
+    if doc.resource_type != "image":
+        raise HTTPException(status_code=400, detail="OCR is image/PDF only")
+
+    try:
+        text, blocks = _run_ocr_for_doc(user.id, doc)
+    except Exception as e:
+        raise HTTPException(status_code=502, detail=f"OCR add-on error: {e}")
+
+    # Cache for future searches.
+    if text and text != doc.content_text:
+        doc.content_text = text
+        session.add(doc)
+        session.commit()
+
+    return OcrResponse(text=text, blocks=blocks)
+
+
+@router.post("/{doc_id}/transcribe", response_model=TranscriptResponse)
+def transcribe_video(
+    doc_id: str,
+    session: Session = Depends(get_session),
+    user: User = Depends(get_current_user),
+):
+    """Kick off Google AI Video Transcription on a video and return the text.
+
+    Cloudinary processes transcription asynchronously and writes a `.transcript`
+    JSON file alongside the original video. We fire the conversion if it
+    hasn't run yet, then attempt to fetch the transcript file. If processing
+    is still in flight the response is `status: processing` and the user can
+    click again in a few seconds.
+    """
+    _ensure_configured()
+    doc = session.get(Document, doc_id)
+    if not doc or doc.user_id != user.id:
+        raise HTTPException(status_code=404, detail="Document not found")
+    if doc.resource_type != "video":
+        raise HTTPException(status_code=400, detail="Transcription is video-only")
+
+    # Trigger google_speech on the asset (idempotent — Cloudinary skips if
+    # the transcript already exists).
+    try:
+        cloudinary.uploader.explicit(
+            doc.public_id,
+            type="upload",
+            resource_type="video",
+            raw_convert="google_speech",
+        )
+    except Exception as e:
+        raise HTTPException(status_code=502, detail=f"Transcription error: {e}")
+
+    # Try to fetch the transcript JSON file. If 404 it's still processing.
+    transcript_url, _ = cloudinary.utils.cloudinary_url(
+        f"{doc.public_id}.transcript",
+        resource_type="raw",
+        secure=True,
+    )
+    import urllib.request
+    try:
+        with urllib.request.urlopen(transcript_url, timeout=10) as resp:
+            data = resp.read().decode("utf-8", errors="replace")
+        parsed = json.loads(data)
+    except Exception:
+        return TranscriptResponse(text="", status="processing", snippets=0)
+
+    # Cloudinary's transcript JSON is a list of snippet objects with
+    # `transcript` and timing fields. Some accounts wrap them under a
+    # top-level key; handle both shapes.
+    snippets_list = parsed if isinstance(parsed, list) else parsed.get("snippets", [])
+    text_parts: list[str] = []
+    for s in snippets_list:
+        if not isinstance(s, dict):
+            continue
+        text_parts.append(s.get("transcript") or s.get("text") or "")
+    full_text = " ".join(p for p in text_parts if p).strip()
+
+    if full_text and full_text != doc.content_text:
+        doc.content_text = full_text
+        session.add(doc)
+        session.commit()
+
+    return TranscriptResponse(
+        text=full_text,
+        status="ready" if full_text else "processing",
+        snippets=len(snippets_list),
+    )
+
+
+@router.post("/enhance", response_model=EnhanceResponse)
+def enhance(
+    req: EnhanceRequest,
+    session: Session = Depends(get_session),
+    user: User = Depends(get_current_user),
+):
+    """Build a Cloudinary URL with the requested generative effect.
+
+    These transforms only render successfully if your Cloudinary account
+    has the corresponding add-on enabled. The URL is returned regardless;
+    the browser will see a 402/4xx if the add-on is off.
+    """
+    _ensure_configured()
+    doc = session.get(Document, req.document_id)
+    if not doc or doc.user_id != user.id:
+        raise HTTPException(status_code=404, detail="Document not found")
+    if doc.resource_type != "image":
+        raise HTTPException(status_code=400, detail="Enhancement is image-only")
+
+    # Effect strings map to specific Cloudinary add-ons. The exact add-on name
+    # in your account dashboard must be enabled, otherwise the URL 4xx's.
+    if req.op == "bg_remove":
+        # "Pixelz - Remove the Background" add-on uses e_bgremoval (NOT
+        # e_background_removal — that's a different, separate add-on).
+        effect = "e_bgremoval"
+    elif req.op == "auto_enhance":
+        # "VIESUS Image Enhancement" add-on
+        effect = "e_viesus_correct"
+    elif req.op == "upscale":
+        # Generative Upscale add-on (only fires if Generative AI add-on enabled)
+        effect = "e_upscale"
+    elif req.op == "gen_remove":
+        # Generative Remove — needs a prompt of the object to remove
+        prompt = _safe_prompt(req.prompt or "background")
+        effect = f"e_gen_remove:prompt_({prompt})"
+    elif req.op == "gen_fill":
+        # Outpainting: extend the canvas, then b_gen_fill paints the new pixels.
+        # Without a prompt the model fills with a natural extension; with one
+        # it follows the description.
+        prompt = _safe_prompt(req.prompt or "")
+        fill = "b_gen_fill" if not prompt else f"b_gen_fill:prompt_({prompt})"
+        effect = f"ar_4:3,c_pad,{fill}"
+    elif req.op == "gen_recolor":
+        # Recolor uses to-color (hyphen) and the prompt in parens.
+        prompt = _safe_prompt(req.prompt or "ink")
+        effect = f"e_gen_recolor:prompt_({prompt});to-color_000000"
+    else:
+        raise HTTPException(status_code=400, detail="Unknown op")
+
+    # PDFs need a materialized JPG derivative — chained transforms aren't
+    # enough because add-ons read the source asset, not the chained pixels.
+    try:
+        source_pid = _ensure_image_source(user.id, doc)
+    except Exception as e:
+        raise HTTPException(status_code=502, detail=f"Failed to render page: {e}")
+
+    base, _ = cloudinary.utils.cloudinary_url(
+        source_pid,
+        resource_type="image",
+        secure=True,
+        sign_url=True,
+        format="jpg",
+        transformation=[
+            {"raw_transformation": effect},
+            {"raw_transformation": _watermark_transform(doc.category)},
+        ],
+    )
+    # Cache-buster — the URL signature is identical for the same op+doc, so a
+    # browser that previously got a 4xx (e.g. before the add-on was enabled)
+    # would keep serving the cached failure. A querystring forces a refetch
+    # without invalidating Cloudinary's CDN cache.
+    base = f"{base}?_={int(time.time())}"
+    return EnhanceResponse(url=base, enabled=True, note=None)
+
+
+# ───────────── helpers ─────────────
+
+
+def _to_out(doc: Document) -> DocumentOut:
+    if doc.resource_type == "video":
+        preview = _video_poster_url(doc.public_id, doc.category)
+        streaming = _video_url(doc.public_id, doc.category)
+        download, _ = cloudinary.utils.cloudinary_url(doc.public_id, resource_type="video", secure=True)
+    elif doc.resource_type == "image":
+        is_pdf = (doc.format or "").lower() == "pdf"
+        preview = _image_url(doc.public_id, doc.category, is_pdf=is_pdf)
+        streaming = None
+        download, _ = cloudinary.utils.cloudinary_url(doc.public_id, resource_type="image", secure=True)
+    else:
+        # raw — usually PDFs are uploaded as resource_type=image so multi-page transforms work.
+        preview = _raw_url(doc.public_id)
+        streaming = None
+        download = preview
+
+    tags: List[str] = []
+    if doc.tags_json:
+        try:
+            tags = json.loads(doc.tags_json)
+        except Exception:
+            tags = []
+
+    return DocumentOut(
+        id=doc.id,
+        public_id=doc.public_id,
+        resource_type=doc.resource_type,
+        format=doc.format,
+        bytes=doc.bytes,
+        pages=doc.pages,
+        duration=doc.duration,
+        category=doc.category,
+        original_filename=doc.original_filename,
+        tags=tags,
+        preview_url=preview,
+        download_url=download,
+        streaming_url=streaming,
+    )

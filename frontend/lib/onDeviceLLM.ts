@@ -82,8 +82,10 @@ export async function loadOnDeviceEngine(
     _engine = null;
   }
 
-  let webllm: typeof import("@mlc-ai/web-llm");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let webllm: any;
   try {
+    // @ts-expect-error optional peer dep loaded at runtime only
     webllm = await import("@mlc-ai/web-llm");
   } catch (err) {
     throw new Error(

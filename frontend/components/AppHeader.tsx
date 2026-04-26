@@ -24,7 +24,7 @@ const NAV_ITEMS = [
   { href: "/explore", icon: Compass, label: "Explore" },
   { href: "/projects", icon: Hammer, label: "Projects" },
   { href: "/create", icon: Sparkles, label: "Create" },
-  { href: "/memory", icon: FolderOpen, label: "My Docs" },
+  { href: "/documents", icon: FolderOpen, label: "My Docs" },
   { href: "/network", icon: Network, label: "Network" },
   { href: "/sketch", icon: ImagePlus, label: "Sketch" },
   { href: "/pocket", icon: Smartphone, label: "Pocket" },
