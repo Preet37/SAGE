@@ -1,0 +1,17 @@
+"use client";
+
+/**
+ * PhysicsSteamEngine — hand-crafted R3F steam engine.
+ *
+ * Layout (horizontal portable / stationary engine, viewed from the side):
+ *  ← rear (firebox + boiler)          front (cylinder + flywheel) →
+ *
+ * Animation: realistic slider-crank mechanism — flywheel rotation drives
+ * the piston via a connecting rod, just like the real physics.
+ */
+
+import { useRef } from "react";
+import { useFrame } from "@react-three/fiber";
+import * as THREE from "three";
+
+export default function PhysicsSteamEngine({ params = {}, simConfig }

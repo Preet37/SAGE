@@ -1,0 +1,198 @@
+"use client";
+
+/**
+ * PhysicsSteamEngine — hand-crafted R3F steam engine.
+ *
+ * Layout (horizontal portable / stationary engine, viewed from the side):
+ *  ← rear (firebox + boiler)          front (cylinder + flywheel) →
+ *
+ * Animation: realistic slider-crank mechanism — flywheel rotation drives
+ * the piston via a connecting rod, just like the real physics.
+ */
+
+import { useRef } from "react";
+import { useFrame } from "@react-three/fiber";
+import * as THREE from "three";
+
+export default function PhysicsSteamEngine({ params = {}, simConfig }) {
+  const flywheelRef    = useRef();
+  const pistonRodRef   = useRef();
+  const conRodRef      = useRef();
+  const safetyRef      = useRef();
+  const steamCloudRef  = useRef();
+  const crankAngleRef  = useRef(0);
+
+  // ── Parameters ──────────────────────────────────────────────────────────────
+  const pistonSpeedRPM = Number(params.Piston_Speed      ?? params.piston_speed      ?? 60);
+  const boilerPressure = Number(params.Boiler_Pressure   ?? params.boiler_pressure   ?? 10);
+  const boilerTemp     = Number(params.Boiler_Temp       ?? params.boiler_temp       ?? 200);
+  const lubricLevel    = Number(params.Lubrication_Level ?? params.lubrication_level ?? 80);
+
+  // ── Constraint thresholds from simConfig ────────────────────────────────────
+  const pressC = simConfig?.constraints?.find((c) => c.param === "Boiler_Pressure") || {};
+  const warnT  = pressC.warningThreshold  ?? 14;
+  const critT  = pressC.criticalThreshold ?? 18;
+  const isCritical = boilerPressure >= critT;
+  const isWarning  = !isCritical && boilerPressure >= warnT;
+
+  const tempC    = simConfig?.constraints?.find((c) => c.param === "Boiler_Temp") || {};
+  const tempWarn = tempC.warningThreshold  ?? 260;
+  const tempCrit = tempC.criticalThreshold ?? 320;
+  const tempOver = boilerTemp >= tempCrit;
+
+  const lubWarn = lubricLevel < 30;
+  const lubCrit = lubricLevel < 15;
+
+  // ── Derived colours ──────────────────────────────────────────────────────────
+  // Boiler colour responds to temperature (cool grey → warm orange-red)
+  const boilerHeat = Math.min(1, Math.max(0, (boilerTemp - 100) / 250));
+  const boilerR = Math.round(180 + boilerHeat * 75);
+  const boilerG = Math.round(180 - boilerHeat * 100);
+  const boilerB = Math.round(180 - boilerHeat * 120);
+  const boilerCol = isCritical || tempOver
+    ? "#dc2626"
+    : isWarning
+    ? "#f97316"
+    : `rgb(${boilerR},${boilerG},${boilerB})`;
+
+  const metalDark   = "#374151";
+  const metalMid    = "#6b7280";
+  const metalLight  = "#9ca3af";
+  const brickRed    = "#7f2a2a";
+  const castIronCol = lubCrit ? "#991b1b" : lubWarn ? "#b45309" : "#374151";
+
+  // Slider-crank geometry constants
+  const CRANK_R   = 0.38;   // crank throw radius
+  const CONROD_L  = 1.10;   // connecting rod length
+  const FLYWHEEL_X = -1.70; // x-position of flywheel centre
+
+  // ── Animation ────────────────────────────────────────────────────────────────
+  useFrame((state, delta) => {
+    const angularVel = (pistonSpeedRPM / 60) * Math.PI * 2;
+    crankAngleRef.current += angularVel * delta;
+    const θ = crankAngleRef.current;
+
+    // Flywheel rotation
+    if (flywheelRef.current) {
+      flywheelRef.current.rotation.z = θ;
+    }
+
+    // Piston x-position (slider-crank formula):
+    //   x = r·cos(θ) + √(L² − r²·sin²(θ))
+    const crankX = CRANK_R * Math.cos(θ);
+    const underSqrt = CONROD_L ** 2 - (CRANK_R * Math.sin(θ)) ** 2;
+    const pistonOffset = crankX + Math.sqrt(Math.max(0, underSqrt));
+    const pistonX = FLYWHEEL_X + pistonOffset;
+
+    if (pistonRodRef.current) {
+      pistonRodRef.current.position.x = pistonX + 0.55;
+    }
+
+    // Connecting rod angle
+    const sinPhi = (CRANK_R * Math.sin(θ)) / CONROD_L;
+    const phi = Math.asin(Math.max(-1, Math.min(1, sinPhi)));
+    if (conRodRef.current) {
+      const crankPinX = FLYWHEEL_X + CRANK_R * Math.cos(θ);
+      const crankPinY = 0.62 + CRANK_R * Math.sin(θ);
+      conRodRef.current.position.x = (crankPinX + pistonX + 0.55) / 2;
+      conRodRef.current.position.y = (crankPinY + 0.62) / 2;
+      conRodRef.current.rotation.z = -phi;
+    }
+
+    // Safety valve jitters at high pressure
+    if (safetyRef.current) {
+      if (isCritical) {
+        safetyRef.current.position.y = 2.04 + Math.abs(Math.sin(state.clock.elapsedTime * 18)) * 0.06;
+      } else {
+        safetyRef.current.position.y = 2.04;
+      }
+    }
+
+    // Steam cloud opacity at high pressure
+    if (steamCloudRef.current) {
+      const vis = isCritical ? 1 : isWarning ? 0.45 : 0;
+      steamCloudRef.current.material.opacity =
+        THREE.MathUtils.lerp(steamCloudRef.current.material.opacity, vis, delta * 3);
+    }
+  });
+
+  // ── Spoke helper for flywheel ─────────────────────────────────────────────
+  const SPOKE_COUNT = 6;
+  const spokes = Array.from({ length: SPOKE_COUNT }, (_, i) => {
+    const angle = (i / SPOKE_COUNT) * Math.PI * 2;
+    return {
+      x: Math.cos(angle) * (CRANK_R * 1.5),
+      y: Math.sin(angle) * (CRANK_R * 1.5),
+      rot: angle,
+    };
+  });
+
+  return (
+    <group>
+      {/* ── Ground ── */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow position={[0, 0, 0]}>
+        <circleGeometry args={[7, 64]} />
+        <meshStandardMaterial color="#0f172a" roughness={0.9} />
+      </mesh>
+
+      {/* ══════════════════════════════════════════════════
+          BEDPLATE / FOUNDATION
+      ══════════════════════════════════════════════════ */}
+      <mesh position={[0, 0.08, 0]} receiveShadow castShadow>
+        <boxGeometry args={[5.4, 0.16, 1.8]} />
+        <meshStandardMaterial color="#1f2937" metalness={0.5} roughness={0.7} />
+      </mesh>
+      {/* Cross ribs on bedplate */}
+      {[-1.6, -0.4, 0.8, 1.8].map((x, i) => (
+        <mesh key={i} position={[x, 0.15, 0]} castShadow>
+          <boxGeometry args={[0.12, 0.06, 1.8]} />
+          <meshStandardMaterial color="#111827" metalness={0.4} roughness={0.7} />
+        </mesh>
+      ))}
+
+      {/* ══════════════════════════════════════════════════
+          FIREBOX (brick red box, rear of boiler)
+      ══════════════════════════════════════════════════ */}
+      <mesh position={[2.15, 0.88, 0]} castShadow>
+        <boxGeometry args={[0.85, 1.45, 1.55]} />
+        <meshStandardMaterial color={brickRed} roughness={0.85} metalness={0.05} />
+      </mesh>
+      {/* Firebox door */}
+      <mesh position={[2.62, 0.72, 0]} castShadow>
+        <boxGeometry args={[0.06, 0.40, 0.36]} />
+        <meshStandardMaterial color={metalDark} metalness={0.8} roughness={0.3} />
+      </mesh>
+      {/* Firebox grate glow (inside) */}
+      <mesh position={[2.15, 0.42, 0]}>
+        <boxGeometry args={[0.82, 0.06, 1.50]} />
+        <meshStandardMaterial
+          color="#f97316"
+          emissive="#f97316"
+          emissiveIntensity={isCritical ? 2.5 : 0.8 + (boilerTemp / 400)}
+        />
+      </mesh>
+      <pointLight position={[2.15, 0.5, 0]} color="#f97316" intensity={isCritical ? 4 : 1.5} distance={5} />
+
+      {/* ══════════════════════════════════════════════════
+          BOILER (dominant horizontal cylinder)
+      ══════════════════════════════════════════════════ */}
+      <mesh position={[0.2, 1.22, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
+        <cylinderGeometry args={[0.78, 0.78, 3.90, 40]} />
+        <meshStandardMaterial
+          color={boilerCol}
+          metalness={0.55}
+          roughness={0.4}
+          emissive={isCritical ? "#7f1d1d" : tempOver ? "#7c2d12" : "#000000"}
+          emissiveIntensity={isCritical || tempOver ? 0.35 : 0}
+        />
+      </mesh>
+      {/* Boiler end caps */}
+      {[2.15, -1.75].map((x, i) => (
+        <mesh key={i} position={[x, 1.22, 0]} castShadow>
+          <sphereGeometry args={[0.78, 24, 20]} />
+          <meshStandardMaterial color={boilerCol} metalness={0.55} roughness={0.4} />
+        </mesh>
+      ))}
+      {/* Boiler rivets (decorative bands) */}
+      {[-1.4, -0.6, 0.2, 1.0, 1.8].map((x, i) => (
+        <mesh key={i} position={[x, 1.22, 0]} rotation={[0, 0, Math.PI / 2]} castS

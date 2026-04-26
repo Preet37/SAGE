@@ -340,6 +340,10 @@ export function TutorPanel({
 
               {messages.map((m, i) => {
                 const isLastUser = m.role === "user" && !messages.slice(i + 1).some((msg) => msg.role === "user");
+                // Pass the preceding user message so sim detection reads the actual user intent
+                const userQuery = m.role === "assistant"
+                  ? messages.slice(0, i).reverse().find((msg) => msg.role === "user")?.content
+                  : undefined;
                 return (
                   <div key={m.id} ref={isLastUser ? latestUserRef : undefined}>
                     <MessageBubble
@@ -349,6 +353,7 @@ export function TutorPanel({
                       onSendMessage={(msg) => handleSend(msg)}
                       verification={m.verification}
                       lessonTitle={lessonTitle}
+                      userQuery={userQuery}
                     />
                   </div>
                 );

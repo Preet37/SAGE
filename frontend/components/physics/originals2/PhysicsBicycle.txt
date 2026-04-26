@@ -1,0 +1,24 @@
+"use client";
+
+/**
+ * PhysicsBicycle — hand-crafted R3F bicycle.
+ *
+ * Diamond frame layout (side view, facing +Z):
+ *   - Rear wheel at origin, front wheel ~1.05m forward (+Z)
+ *   - Bottom bracket between wheels at y≈0.32
+ *   - Seat tube: BB → saddle (~0.88m up)
+ *   - Top tube: seat tube top → head tube
+ *   - Down tube: head tube → BB
+ *   - Chain stays: BB → rear axle
+ *   - Seat stays: rear axle → seat tube top
+ *   - Fork: head tube → front axle
+ *
+ * Wheels are torusGeometry rings standing UPRIGHT (rotation=[π/2,0,0])
+ * with individual spoke cylinders radiating from hub.
+ */
+
+import { useRef, useMemo } from "react";
+import { useFrame } from "@react-three/fiber";
+import * as THREE from "three";
+
+export default function PhysicsBicycle({ params = {}, simConfig }

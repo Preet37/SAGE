@@ -131,16 +131,16 @@ export function LessonContent({ title, content, concepts }: LessonContentProps) 
                 </figure>
               );
             },
-            p({ children }) {
-              // Block-level custom renderers (figure, etc.) can't live inside <p>
-              const kids = React.Children.toArray(children);
-              const hasBlock = kids.some(
-                (c) =>
-                  React.isValidElement(c) &&
-                  typeof c.type === "string" &&
-                  ["figure", "div", "table", "ul", "ol", "section"].includes(c.type),
+            p({ node, children }) {
+              // If the paragraph's AST node contains an image (or any block-level
+              // element) as a direct child, render as <div> to avoid the invalid
+              // HTML nesting <div>/<figure> inside <p> that causes hydration errors.
+              const BLOCK_TAGS = new Set(["img", "figure", "div", "table", "ul", "ol", "pre", "blockquote", "section"]);
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              const hasBlock = node?.children?.some((child: any) =>
+                child.type === "element" && BLOCK_TAGS.has(child.tagName),
               );
-              if (hasBlock) return <div className="my-2">{children}</div>;
+              if (hasBlock) return <div className="my-2 leading-[1.8] text-foreground/85">{children}</div>;
               return <p>{children}</p>;
             },
             a({ href, children }) {

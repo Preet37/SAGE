@@ -1,0 +1,131 @@
+"use client";
+
+// Three.js equivalent of Blender's Screw Modifier + Principled BSDF shader
+// LatheGeometry  = Blender's Screw Modifier (sweeps a 2D profile 360° around Z axis)
+// MeshPhysicalMaterial with transmission + IOR = Blender's Principled BSDF with Glass setup
+// Everything is parametric and regenerates instantly when params change
+
+import { useRef, useMemo } from "react";
+import { useFrame } from "@react-three/fiber";
+import * as THREE from "three";
+
+// ── Build the 2D profile of the bottle (like a lathe outline) ─────────────
+// Same algorithm as the Blender Python script's create_profile_curve()
+function buildBottleProfile(H, R_base, R_neck, R_wall, segments) {
+  const pts = [];
+
+  // Base: flat bottom with a slight dome
+  pts.push(new THREE.Vector2(0, 0));
+  pts.push(new THREE.Vector2(R_base * 0.88, 0));
+  pts.push(new THREE.Vector2(R_base * 0.96, H * 0.012)); // chamfer
+
+  // Body: organic curve with waist indent (sin wave like the Blender script)
+  const bodyTop = H * 0.80;
+  for (let i = 0; i <= segments; i++) {
+    const t = i / segments;
+    const z = t * bodyTop;
+    let r = R_base - Math.sin(t * Math.PI) * (R_base * 0.07); // waist dip
+
+    // Shoulder taper
+    if (t > 0.78) {
+      const mix = (t - 0.78) / 0.22;
+      r = (1 - mix) * r + mix * R_neck;
+    }
+    pts.push(new THREE.Vector2(r, z));
+  }
+
+  // Neck: vertical cylinder
+  pts.push(new THREE.Vector2(R_neck, H * 0.80));
+  pts.push(new THREE.Vector2(R_neck, H * 0.91));
+
+  // Lip/rim: small flare that catches light
+  pts.push(new THREE.Vector2(R_neck + R_wall * 1.5, H * 0.91));
+  pts.push(new THREE.Vector2(R_neck + R_wall * 1.5, H * 0.945));
+  pts.push(new THREE.Vector2(R_neck, H * 0.96));
+  pts.push(new THREE.Vector2(R_neck, H));
+
+  return pts;
+}
+
+// ── Water profile — inner volume capped at fill level ─────────────────────
+function buildWaterProfile(H, R_base, R_wall, fillFraction, segments) {
+  if (fillFraction <= 0.01) return [];
+  const waterTopZ = H * 0.80 * fillFraction;
+  const pts = [];
+  pts.push(new THREE.Vector2(0, R_wall * 0.5));
+  for (let i = 0; i <= segments; i++) {
+    const t = i / segments;
+    const z = R_wall * 0.5 + t * (waterTopZ - R_wall * 0.5);
+    const tProfile = t * fillFraction;
+    const r = (R_base - R_wall * 2) - Math.sin(tProfile * Math.PI) * ((R_base - R_wall * 2) * 0.07);
+    pts.push(new THREE.Vector2(Math.max(R_wall, r * 0.94), z));
+  }
+  // Water surface (flat top)
+  pts.push(new THREE.Vector2(R_wall, waterTopZ));
+  return pts;
+}
+
+// ── Steam particle (single puff, animated) ────────────────────────────────
+function SteamPuff({ x, delay, H, R_neck }) {
+  const ref = useRef();
+  useFrame((state) => {
+    if (!ref.current) return;
+    const t = ((state.clock.elapsedTime + delay) % 2.5) / 2.5;
+    ref.current.position.set(x, H + t * H * 0.35, 0);
+    ref.current.material.opacity = Math.sin(t * Math.PI) * 0.35;
+    const s = 0.5 + t * 1.5;
+    ref.current.scale.setScalar(s);
+  });
+  return (
+    <mesh ref={ref} position={[x, H, 0]}>
+      <sphereGeometry args={[R_neck * 0.8, 8, 8]} />
+      <meshStandardMaterial color="white" transparent opacity={0} depthWrite={false} />
+    </mesh>
+  );
+}
+
+// ── Cap with knurling ridges ───────────────────────────────────────────────
+function Cap({ R_neck, R_wall, H, color, ridges = 24 }) {
+  const geom = useMemo(() => {
+    const shape = new THREE.Shape();
+    // Cap profile
+    shape.moveTo(0, 0);
+    shape.lineTo(R_neck + R_wall * 3, 0);
+    shape.lineTo(R_neck + R_wall * 3, -H * 0.065);
+    shape.lineTo(R_neck + R_wall * 4.5, -H * 0.065);
+    shape.lineTo(R_neck + R_wall * 4.5, H * 0.02);
+    shape.lineTo(0, H * 0.02);
+    shape.closePath();
+
+    // Lathe the profile
+    const pts = [];
+    const steps = 8;
+    for (let i = 0; i <= steps; i++) {
+      const t = i / steps;
+      pts.push(new THREE.Vector2(
+        shape.getPoint(t).x,
+        shape.getPoint(t).y,
+      ));
+    }
+    return new THREE.LatheGeometry(
+      [
+        new THREE.Vector2(0, 0),
+        new THREE.Vector2(R_neck + R_wall * 3, 0),
+        new THREE.Vector2(R_neck + R_wall * 4.5, -H * 0.025),
+        new THREE.Vector2(R_neck + R_wall * 4.5, -H * 0.065),
+        new THREE.Vector2(R_neck + R_wall * 3.5, -H * 0.065),
+        new THREE.Vector2(R_neck + R_wall * 3.5, 0),
+      ],
+      ridges,
+    );
+  }, [R_neck, R_wall, H, ridges]);
+
+  return (
+    <mesh geometry={geom} position={[0, H * 0.96, 0]} castShadow>
+      <meshStandardMaterial color={color} roughness={0.55} metalness={0.05} />
+    </mesh>
+  );
+}
+
+// ── Main component ─────────────────────────────────────────────────────────
+export default function PhysicsWaterBottle({ params = {}, simConfig }

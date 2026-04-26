@@ -1,0 +1,15 @@
+"use client";
+
+/**
+ * PhysicsMechanicalGears — hand-crafted R3F spur gear pair.
+ *
+ * Driver gear (left) meshes with driven gear (right).
+ * Teeth are individual boxes placed radially — exact spur gear geometry.
+ * Gear ratio changes the driven gear's tooth count and rotation speed.
+ */
+
+import { useRef, useMemo } from "react";
+import { useFrame } from "@react-three/fiber";
+import * as THREE from "three";
+
+export default function PhysicsMechanicalGears({ params = {}, simConfig }

@@ -358,6 +358,9 @@ function ExplorePageInner() {
                 <div className="max-w-3xl mx-auto px-6 py-6 space-y-5">
                   {messages.map((m, i) => {
                     const isLastUser = m.role === "user" && !messages.slice(i + 1).some((msg) => msg.role === "user");
+                    const userQuery = m.role === "assistant"
+                      ? messages.slice(0, i).reverse().find((msg) => msg.role === "user")?.content
+                      : undefined;
                     return (
                       <div key={m.id} ref={isLastUser ? latestUserRef : undefined}>
                         <MessageBubble
@@ -365,6 +368,8 @@ function ExplorePageInner() {
                           content={m.content}
                           isStreaming={streaming && i === messages.length - 1}
                           onSendMessage={(msg) => handleSend(msg)}
+                          lessonTitle={initialQ || undefined}
+                          userQuery={userQuery}
                         />
                       </div>
                     );

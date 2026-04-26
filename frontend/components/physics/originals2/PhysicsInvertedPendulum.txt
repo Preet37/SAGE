@@ -1,0 +1,11 @@
+"use client";
+
+import { useRef } from "react";
+import { useFrame } from "@react-three/fiber";
+import * as THREE from "three";
+
+/**
+ * Inverted pendulum on a cart — visually distinct from Newton's cradle.
+ * Params align with SIMCONFIG from agent-pipeline.
+ */
+export default function PhysicsInvertedPendulum({ params = {}, simConfig: _simConfig }

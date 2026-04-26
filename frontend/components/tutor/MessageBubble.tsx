@@ -1,5 +1,5 @@
 "use client";
-import { memo, useState, useCallback } from "react";
+import { memo, useState, useCallback, useEffect, lazy, Suspense } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
@@ -17,9 +17,13 @@ import { parseFlowDiagram } from "@/lib/schemas/flow";
 import { parseArchitectureDiagram } from "@/lib/schemas/architecture";
 import { api } from "@/lib/api";
 import { getToken } from "@/lib/auth";
-import { Loader2, Play, ExternalLink, BookOpen, ImageIcon, ZoomIn, X, BarChart2, Microscope, ShieldCheck, ShieldAlert, ShieldQuestion, Box, Atom } from "lucide-react";
+import { Loader2, Play, ExternalLink, BookOpen, ImageIcon, ZoomIn, X, BarChart2, Microscope, ShieldCheck, ShieldAlert, ShieldQuestion, Box, Atom, Boxes } from "lucide-react";
 import { useRouter } from "next/navigation";
 import type { Verification } from "@/lib/useTutorStream";
+import { detectSimFromSources, type SimType } from "@/lib/detectSimType";
+
+// Lazy-load the heavy R3F scene
+const InlinePhysicsSim = lazy(() => import("@/components/physics/InlinePhysicsSim"));
 
 interface MessageBubbleProps {
   role: "user" | "assistant";
@@ -28,6 +32,8 @@ interface MessageBubbleProps {
   onSendMessage?: (msg: string) => void;
   verification?: Verification;
   lessonTitle?: string;
+  /** The user's original query that prompted this assistant message — used for sim detection */
+  userQuery?: string;
 }
 
 type BlockPart =
@@ -298,7 +304,7 @@ function VerificationChip({ v }: { v: Verification }) {
   );
 }
 
-function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verification, lessonTitle }: MessageBubbleProps) {
+function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verification, lessonTitle, userQuery }: MessageBubbleProps) {
   const router = useRouter();
   const [plotHtml, setPlotHtml] = useState<string | null>(null);
   const [plotTopic, setPlotTopic] = useState<string>("");
@@ -309,6 +315,17 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verific
   const [genesisScript, setGenesisScript] = useState<string | null>(null);
   const [genesisLoading, setGenesisLoading] = useState(false);
   const [genesisError, setGenesisError] = useState<string | null>(null);
+
+  // User query + lesson title first; only then the first ~360 chars of the reply
+  // (avoids most metaphorical false positives in long answers).
+  const [physicsSimType, setPhysicsSimType] = useState<SimType | null>(
+    () => detectSimFromSources(userQuery, lessonTitle, content),
+  );
+  const [showPhysicsSim, setShowPhysicsSim] = useState(false);
+
+  useEffect(() => {
+    setPhysicsSimType(detectSimFromSources(userQuery, lessonTitle, content));
+  }, [userQuery, lessonTitle, content]);
 
   const handleVisualize = useCallback(async () => {
     const token = getToken();
@@ -556,8 +573,8 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verific
             </button>
           )}
 
-          {/* 3D Simulation */}
-          {sim3dHtml ? (
+          {/* 3D Simulation — hidden when an instant R3F sim is available */}
+          {!physicsSimType && (sim3dHtml ? (
             <button
               onClick={() => setSim3dHtml(null)}
               className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
@@ -576,10 +593,10 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verific
                 <><Box className="h-3 w-3" /> 3D Simulation</>
               )}
             </button>
-          )}
+          ))}
 
-          {/* Genesis Physics Render */}
-          {genesisVideoB64 ? (
+          {/* Genesis Physics Render — hidden when an instant R3F sim is available */}
+          {!physicsSimType && (genesisVideoB64 ? (
             <button
               onClick={() => { setGenesisVideoB64(null); setGenesisScript(null); setGenesisError(null); }}
               className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
@@ -599,6 +616,27 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verific
                 <><Atom className="h-3 w-3" /> Genesis Sim</>
               )}
             </button>
+          ))}
+
+          {/* Physics Sim — instant R3F, no server call needed */}
+          {physicsSimType && (
+            showPhysicsSim ? (
+              <button
+                onClick={() => setShowPhysicsSim(false)}
+                className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              >
+                <X className="h-3 w-3" /> Close Sim
+              </button>
+            ) : (
+              <button
+                onClick={() => setShowPhysicsSim(true)}
+                className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-violet-500/30 text-violet-400 bg-violet-500/5 hover:bg-violet-500/10 transition-colors"
+                title={`Show interactive ${physicsSimType.replace(/_/g, " ")} simulation`}
+              >
+                <Boxes className="h-3 w-3" />
+                {physicsSimType.replace(/_/g, " ")} Sim
+              </button>
+            )
           )}
 
           <button
@@ -676,6 +714,26 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verific
               src={`data:video/mp4;base64,${genesisVideoB64}`}
             />
           ) : null}
+        </div>
+      )}
+
+      {/* Inline Physics Simulation — R3F, instant, interactive */}
+      {showPhysicsSim && physicsSimType && (
+        <div className="mt-4">
+          <div className="flex items-center justify-between mb-1.5 px-0.5">
+            <span className="text-[10px] font-semibold text-violet-400 tracking-wide flex items-center gap-1.5">
+              <Boxes className="h-3 w-3" />
+              {physicsSimType.replace(/_/g, " ")} — Interactive Physics
+            </span>
+            <span className="text-[10px] text-muted-foreground">Drag to orbit · Scroll to zoom</span>
+          </div>
+          <Suspense fallback={
+            <div className="h-72 rounded-2xl border border-white/10 bg-[#070a0f] flex items-center justify-center">
+              <Loader2 className="h-5 w-5 text-violet-400 animate-spin" />
+            </div>
+          }>
+            <InlinePhysicsSim simType={physicsSimType} height={340} />
+          </Suspense>
         </div>
       )}
     </div>

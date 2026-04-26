@@ -1,0 +1,22 @@
+"use client";
+
+/**
+ * PhysicsHelicopter — hand-crafted R3F helicopter.
+ *
+ * Layout (right-side view):
+ *   Nose (front, +x) → cockpit → fuselage → tail boom → tail rotor (rear, -x)
+ *   Main rotor spins on top (y+).
+ *
+ * Physics:
+ *   - Main rotor RPM drives lift; below a threshold → warning (blade flap)
+ *   - Collective pitch controls blade angle → affects climb rate
+ *   - Gross weight vs lift (RPM × air density × blade area) determines hover safety
+ */
+
+import { useRef, useMemo } from "react";
+import { useFrame } from "@react-three/fiber";
+import * as THREE from "three";
+
+const DEG = Math.PI / 180;
+
+export default function PhysicsHelicopter({ params = {}, simConfig }
