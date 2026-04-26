@@ -26,7 +26,7 @@ const DIFFICULTIES = [
   { id: "beginner",     label: "Beginner",     activeColor: "var(--sage-c)",  activeBg: "rgba(107,153,118,0.15)" },
   { id: "intermediate", label: "Intermediate", activeColor: "var(--gold)",    activeBg: "rgba(196,152,90,0.15)"  },
   { id: "advanced",     label: "Advanced",     activeColor: "#f97316",        activeBg: "rgba(249,115,22,0.12)"  },
-  { id: "expert",       label: "Expert",       activeColor: "var(--rose)",    activeBg: "rgba(180,80,80,0.15)"   },
+  { id: "expert",       label: "Expert",       activeColor: "#a78bfa",        activeBg: "rgba(167,139,250,0.12)" },
 ] as const;
 
 const QUESTION_COUNTS = [5, 10, 15] as const;
