@@ -4,7 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { removeToken } from "@/lib/auth";
 import { SageLogo } from "@/components/SageLogo";
-import { LogOut, BookOpen, Compass, Sparkles, Smartphone, MoreHorizontal, Hammer, FolderOpen, Network } from "lucide-react";
+import { LogOut, BookOpen, Compass, Sparkles, Smartphone, MoreHorizontal, Hammer, FolderOpen, Network, Microscope } from "lucide-react";
 import type { ReactNode } from "react";
 
 const PRIMARY_NAV = [
@@ -15,9 +15,10 @@ const PRIMARY_NAV = [
 ] as const;
 
 const SECONDARY_NAV = [
-  { href: "/projects",  icon: Hammer,    label: "Projects" },
-  { href: "/documents", icon: FolderOpen,label: "My Docs"  },
-  { href: "/network",   icon: Network,   label: "Network"  },
+  { href: "/projects",      icon: Hammer,     label: "Projects"      },
+  { href: "/documents",     icon: FolderOpen, label: "My Docs"       },
+  { href: "/deep-research", icon: Microscope, label: "Deep Research" },
+  { href: "/network",       icon: Network,    label: "Network"       },
 ] as const;
 
 const mono: React.CSSProperties = { fontFamily: "var(--font-dm-mono)" };

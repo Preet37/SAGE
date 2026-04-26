@@ -12,6 +12,7 @@ from .memory import MemoryRecord
 from .network import PeerPresence, ResourceCacheEntry
 from .media import MediaAsset
 from .document import Document
+from .deep_research import ResearchRun, OutreachLog
 
 __all__ = [
     "MemoryRecord",
@@ -19,6 +20,8 @@ __all__ = [
     "ResourceCacheEntry",
     "MediaAsset",
     "Document",
+    "ResearchRun",
+    "OutreachLog",
     "User",
     "LearningPath",
     "Module",
