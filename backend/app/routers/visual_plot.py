@@ -183,10 +183,23 @@ __PHYSICS_CODE__
   var tMaxKey = Object.keys(paramDefs).find(function(k){ return k==='t_max'||k==='T'||k==='duration'||k==='time'; }) || null;
   var dtKey   = Object.keys(paramDefs).find(function(k){ return k==='dt'||k==='time_step'; }) || null;
 
+  /* ── Speed control ─────────────────────────────────────────────────── */
+  var speedMult = 1.0;
+  var speedRow = document.createElement('div');
+  speedRow.style.cssText='padding:6px 10px;background:#0f1117;border-top:1px solid #21262d;display:flex;align-items:center;gap:8px;flex-shrink:0';
+  speedRow.innerHTML='<span style="font-size:11px;color:#6e7681;white-space:nowrap">Speed</span>'
+    +'<input type="range" id="speed-sl" min="0.1" max="5" step="0.1" value="1" style="flex:1;accent-color:#1f6feb">'
+    +'<span id="speed-val" style="font-size:11px;color:#58a6ff;min-width:30px;text-align:right">1×</span>';
+  document.getElementById('playbar').parentNode.insertBefore(speedRow, document.getElementById('playbar').nextSibling);
+  document.getElementById('speed-sl').addEventListener('input', function(){
+    speedMult = parseFloat(this.value);
+    document.getElementById('speed-val').textContent = speedMult.toFixed(1)+'×';
+  });
+
   document.getElementById('btn-play').onclick=function(){
     playing=!playing;
     document.getElementById('btn-play').textContent=playing?'\u23F8 Pause':'\u25B6 Play';
-    if(playing) animLoop(); else{ cancelAnimationFrame(animId); animId=null; }
+    if(playing) { lastRaf=performance.now(); animLoop(); } else{ cancelAnimationFrame(animId); animId=null; }
   };
   document.getElementById('btn-reset').onclick=function(){
     playing=false; tAnim=0;
@@ -195,11 +208,17 @@ __PHYSICS_CODE__
     document.getElementById('time-display').textContent='';
     renderPlot(0);
   };
-  function animLoop(){
+  var lastRaf = 0;
+  function animLoop(ts){
     if(!playing) return;
+    var now = ts || performance.now();
+    var elapsed = (now - lastRaf) / 1000; // seconds since last frame
+    lastRaf = now;
     var tMax = (tMaxKey ? P[tMaxKey] : null) || 10;
     var dt   = (dtKey   ? P[dtKey]   : null) || 0.05;
-    tAnim += dt; if(tAnim > tMax) tAnim = 0;
+    // advance by wall-clock time × speed multiplier, not by dt steps
+    tAnim += elapsed * speedMult * (tMax / 8); // full sweep in ~8s at 1×
+    if(tAnim > tMax) tAnim = 0;
     document.getElementById('time-display').textContent='t = '+tAnim.toFixed(2)+' s';
     renderPlot(tAnim);
     animId = requestAnimationFrame(animLoop);
@@ -255,6 +274,13 @@ __PHYSICS_CODE__
   }
 
   renderPlot(0);
+  // Auto-start animation
+  setTimeout(function(){
+    playing = true;
+    document.getElementById('btn-play').textContent='\u23F8 Pause';
+    lastRaf = performance.now();
+    animLoop();
+  }, 400);
 })();
 </script>
 </body>
@@ -324,22 +350,40 @@ function compute(P, t) {{
 }}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// CRITICAL: Use data.ci to slice arrays so lines GROW as time advances.
+// NEVER return the full array — always slice to data.ci+1 for animated reveals.
+// Add a ghost (faded full trajectory) behind the live line for context.
 function getTraces(tab, data, P) {{
+  var ci = data.ci || 0;
   if(tab === 'Phase Space') {{
     return [
-      {{ x:data.x, y:data.v, mode:'lines', name:'trajectory',
-         line:{{color:'#58a6ff',width:1.5}} }},
-      {{ x:[data.x[data.ci]], y:[data.v[data.ci]], mode:'markers',
-         marker:{{size:10,color:'#f78166',symbol:'circle'}}, name:'now', showlegend:false }},
+      // ghost trajectory (faded)
+      {{ x:data.x, y:data.v, mode:'lines', name:'full path',
+         line:{{color:'rgba(88,166,255,0.15)',width:1}}, showlegend:false }},
+      // live growing trajectory
+      {{ x:data.x.slice(0,ci+1), y:data.v.slice(0,ci+1), mode:'lines', name:'trajectory',
+         line:{{color:'#58a6ff',width:2}} }},
+      // current state dot (large, pulsing via size)
+      {{ x:[data.x[ci]], y:[data.v[ci]], mode:'markers',
+         marker:{{size:12,color:'#f78166',symbol:'circle',
+           line:{{color:'#ffb3a3',width:2}}}}, name:'now', showlegend:false }},
     ];
   }}
   if(tab === 'Time Series') {{
-    return [
-      {{ x:data.t, y:data.x, mode:'lines', name:'position', line:{{color:'#79c0ff'}} }},
-      {{ x:data.t, y:data.v, mode:'lines', name:'velocity',  line:{{color:'#56d364'}} }},
+    // Ghost full lines
+    var traces = [
+      {{ x:data.t, y:data.x, mode:'lines', name:'', line:{{color:'rgba(121,192,255,0.12)',width:1}}, showlegend:false }},
+      {{ x:data.t, y:data.v, mode:'lines', name:'', line:{{color:'rgba(86,211,100,0.12)',width:1}}, showlegend:false }},
     ];
+    // Live growing lines
+    traces.push({{ x:data.t.slice(0,ci+1), y:data.x.slice(0,ci+1), mode:'lines', name:'position', line:{{color:'#79c0ff',width:2}} }});
+    traces.push({{ x:data.t.slice(0,ci+1), y:data.v.slice(0,ci+1), mode:'lines', name:'velocity',  line:{{color:'#56d364',width:2}} }});
+    // Current moment markers
+    traces.push({{ x:[data.t[ci]], y:[data.x[ci]], mode:'markers', marker:{{size:8,color:'#79c0ff'}}, showlegend:false }});
+    traces.push({{ x:[data.t[ci]], y:[data.v[ci]], mode:'markers', marker:{{size:8,color:'#56d364'}}, showlegend:false }});
+    return traces;
   }}
-  // … handle other tabs …
+  // … handle other tabs using the same slice(0,ci+1) pattern …
   return [];
 }}
 
@@ -364,8 +408,12 @@ Rules:
   mathematical process (e.g., attention score softmax, reward accumulation,
   gradient descent loss surface, etc.)
 - At least 3 tabs, each showing a genuinely different view
-- Gradient color: interpolate from blue (#1f6feb) to red (#f78166) for time
-- Animated dot shows current state at playhead time t
+- CRITICAL: ALL time-series traces MUST slice to data.ci: data.x.slice(0, data.ci+1)
+  Also add a ghost full-range trace at rgba opacity 0.12 behind the live one
+- Always add a current-state marker dot at index data.ci on every tab
+- Use vivid colors: position=#79c0ff, velocity=#56d364, energy=#f0883e, current=#f78166
+- Gradient: interpolate trace color from blue (#1f6feb) to red (#f78166) across time
+- NEVER show full static traces — always use data.ci as the reveal cursor
 - Output ONLY the 5 function definitions, nothing else"""
 
 

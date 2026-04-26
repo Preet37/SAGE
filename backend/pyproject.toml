@@ -36,6 +36,8 @@ dependencies = [
     "pypdf>=6.10.2",
     "python-docx>=1.2.0",
     "python-pptx>=1.0.2",
+    "uagents>=0.24",
+    "uagents-core>=0.1",
 ]
 
 [project.scripts]

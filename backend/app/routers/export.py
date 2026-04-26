@@ -17,13 +17,13 @@ try:
     from reportlab.lib import colors
     from reportlab.lib.utils import simpleSplit
     _RL_AVAILABLE = True
+    A4_W, A4_H = A4
 except ImportError:
     _RL_AVAILABLE = False
+    A4_W, A4_H = 595.27, 841.89  # A4 fallback dimensions
 
 router = APIRouter(prefix="/export", tags=["export"])
 log = logging.getLogger("sage.export")
-
-A4_W, A4_H = A4
 MARGIN = 40
 BUBBLE_MAX_W = A4_W - MARGIN * 2 - 20
 FONT_BODY = "Helvetica"

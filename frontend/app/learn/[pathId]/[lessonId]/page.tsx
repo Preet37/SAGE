@@ -3,6 +3,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { api, LessonResponse, TutorSessionResponse } from "@/lib/api";
 import { getToken } from "@/lib/auth";
+import { useVoiceActions } from "@/lib/useVoiceActions";
 import { VideoPlayer } from "@/components/content/VideoPlayer";
 import { LessonContent } from "@/components/content/LessonContent";
 import { ReferenceSources } from "@/components/content/ReferenceSources";
@@ -56,6 +57,7 @@ export default function LessonPage() {
 
   // Voice context: expose lesson state to the SAGE voice agent
   const { setContext, clearContext } = useVoiceStore();
+  const { register, unregister } = useVoiceActions();
   const sendToTutorRef = useCallback((msg: string) => {
     // Dispatched by the voice agent via clientTools — routes message into TutorPanel
     const event = new CustomEvent("sage:voice-send", { detail: { message: msg } });
@@ -129,7 +131,28 @@ export default function LessonPage() {
       recentMessages: recentMsgs,
       sendToTutor: sendToTutorRef,
     });
-    return () => clearContext();
+    // Register voice agent actions for this lesson
+    register([
+      {
+        key: "open_quiz",
+        description: "Switch to the quiz tab on the current lesson",
+        handler: () => setActiveTab("quiz"),
+      },
+      {
+        key: "open_chat",
+        description: "Switch to the tutor chat tab on the current lesson",
+        handler: () => setActiveTab("chat"),
+      },
+      {
+        key: "mark_complete",
+        description: "Mark the current lesson as completed",
+        handler: () => handleMarkComplete(),
+      },
+    ]);
+    return () => {
+      clearContext();
+      unregister(["open_quiz", "open_chat", "mark_complete"]);
+    };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lesson, history]);
 

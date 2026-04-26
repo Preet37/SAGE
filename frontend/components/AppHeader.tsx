@@ -16,6 +16,7 @@ import {
   Network,
   ImagePlus,
   Smartphone,
+  Telescope,
 } from "lucide-react";
 import type { ReactNode } from "react";
 
@@ -25,6 +26,7 @@ const NAV_ITEMS = [
   { href: "/projects", icon: Hammer, label: "Projects" },
   { href: "/create", icon: Sparkles, label: "Create" },
   { href: "/documents", icon: FolderOpen, label: "My Docs" },
+  { href: "/galaxy", icon: Telescope, label: "Galaxy" },
   { href: "/network", icon: Network, label: "Network" },
   { href: "/sketch", icon: ImagePlus, label: "Sketch" },
   { href: "/pocket", icon: Smartphone, label: "Pocket" },
