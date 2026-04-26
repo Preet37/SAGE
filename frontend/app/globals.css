@@ -8,6 +8,25 @@
   to   { transform: scaleY(1.0); }
 }
 
+/* Accessibility — keyboard-only focus indicators on every interactive element.
+   Uses :focus-visible so mouse clicks don't show the ring, but Tab does. */
+@layer base {
+  :where(button, [role="button"], a, input, textarea, select, [role="option"], [role="tab"]):focus-visible {
+    outline: 2px solid var(--ring, oklch(0.7 0.18 250));
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  /* Honor user "reduced motion" preferences. */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
 /* Code blocks: clean background, proper font sizing, syntax highlight integration */
 @layer base {
   .prose pre {

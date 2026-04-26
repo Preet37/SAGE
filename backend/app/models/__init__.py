@@ -11,12 +11,14 @@ from .exploration import ExplorationSession, ExplorationMessage
 from .memory import MemoryRecord
 from .network import PeerPresence, ResourceCacheEntry
 from .media import MediaAsset
+from .profile import LearnerProfile
 
 __all__ = [
     "MemoryRecord",
     "PeerPresence",
     "ResourceCacheEntry",
     "MediaAsset",
+    "LearnerProfile",
     "User",
     "LearningPath",
     "Module",
