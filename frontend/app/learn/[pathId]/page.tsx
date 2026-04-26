@@ -2,20 +2,20 @@
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
-import { api, LearningPathResponse } from "@/lib/api";
+import { api, CourseOut, LessonOut } from "@/lib/api";
 import { getToken } from "@/lib/auth";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, Circle, PlayCircle, FileText, ArrowLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { CheckCircle2, Circle, PlayCircle, FileText, ArrowLeft, Loader2 } from "lucide-react";
+
+const mono: React.CSSProperties  = { fontFamily: "var(--font-dm-mono)" };
+const serif: React.CSSProperties = { fontFamily: "var(--font-cormorant)" };
+const body: React.CSSProperties  = { fontFamily: "var(--font-crimson)" };
 
 export default function PathPage() {
   const router = useRouter();
   const params = useParams();
   const pathId = params.pathId as string;
-  const [path, setPath] = useState<LearningPathResponse | null>(null);
-  const [progress, setProgress] = useState<Record<string, boolean>>({});
+  const [course, setCourse] = useState<CourseOut | null>(null);
+  const [lessons, setLessons] = useState<LessonOut[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -23,93 +23,92 @@ export default function PathPage() {
     if (!token) { router.push("/login"); return; }
 
     Promise.all([
-      api.learningPaths.get(pathId, token),
-      api.progress.getAll(token),
+      api.courses.list(token),
+      api.courses.lessons(pathId, token),
     ])
-      .then(([p, prog]) => {
-        setPath(p);
-        const map: Record<string, boolean> = {};
-        prog.forEach((r) => { map[r.lesson_id] = r.completed; });
-        setProgress(map);
+      .then(([courseList, lessonList]) => {
+        const found = courseList.find((c) => c.slug === pathId);
+        if (!found) { router.push("/learn"); return; }
+        setCourse(found);
+        setLessons(lessonList);
       })
-      .catch(() => router.push("/learn"))
+      .catch(() => {})
       .finally(() => setLoading(false));
   }, [pathId, router]);
 
-  if (loading || !path) {
-    return <div className="flex items-center justify-center h-full text-muted-foreground">Loading...</div>;
+  if (loading) {
+    return (
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%" }}>
+        <Loader2 style={{ width: "1.25rem", height: "1.25rem", color: "var(--gold)" }} className="animate-spin" />
+      </div>
+    );
   }
 
-  const totalLessons = path.modules.reduce((s, m) => s + m.lessons.length, 0);
-  const completedCount = path.modules.reduce(
-    (s, m) => s + m.lessons.filter((l) => progress[l.id]).length,
-    0
-  );
+  if (!course) return null;
 
   return (
-    <ScrollArea className="h-full"><div className="p-8 max-w-3xl mx-auto">
-      <div className="mb-6">
-        <Button variant="ghost" size="sm" className="mb-3 -ml-2 gap-1.5 text-muted-foreground hover:text-foreground" asChild>
-          <Link href="/learn">
-            <ArrowLeft className="h-3.5 w-3.5" />
-            All Courses
-          </Link>
-        </Button>
-        <Badge variant="secondary">{path.level}</Badge>
-        <h1 className="text-3xl font-bold mt-2 mb-2">{path.title}</h1>
-        <p className="text-muted-foreground mb-4">{path.description}</p>
-        <div className="text-sm text-muted-foreground">
-          {completedCount} / {totalLessons} lessons completed
-        </div>
-        <div className="mt-2 h-2 bg-muted rounded-full overflow-hidden">
-          <div
-            className="h-full bg-primary rounded-full transition-all"
-            style={{ width: `${totalLessons ? (completedCount / totalLessons) * 100 : 0}%` }}
-          />
-        </div>
-      </div>
+    <div className="thin-scrollbar" style={{ height: "100%", overflowY: "auto" }}>
+      <div style={{ maxWidth: "42rem", margin: "0 auto", padding: "2.5rem 2rem 4rem" }}>
 
-      <div className="space-y-6">
-        {path.modules.map((mod, i) => (
-          <div key={mod.id}>
-            <h2 className="text-lg font-semibold mb-3 text-muted-foreground uppercase text-xs tracking-wider">
-              Module {i + 1}: {mod.title}
-            </h2>
-            <div className="space-y-2">
-              {mod.lessons.map((lesson) => {
-                const done = progress[lesson.id];
-                return (
-                  <Link key={lesson.id} href={`/learn/${pathId}/${lesson.id}`}>
-                    <Card className="hover:border-primary/50 transition-colors cursor-pointer group">
-                      <CardContent className="flex items-center gap-4 py-3">
-                        {done ? (
-                          <CheckCircle2 className="h-5 w-5 text-green-500 flex-shrink-0" />
-                        ) : (
-                          <Circle className="h-5 w-5 text-muted-foreground flex-shrink-0" />
-                        )}
-                        <div className="flex-1 min-w-0">
-                          <p className="font-medium group-hover:text-primary transition-colors">
-                            {lesson.title}
-                          </p>
-                          <p className="text-xs text-muted-foreground mt-0.5 truncate">
-                            {lesson.concepts.slice(0, 3).join(" · ")}
-                          </p>
-                        </div>
-                        <div className="flex items-center gap-2 flex-shrink-0">
-                          {lesson.youtube_id && (
-                            <PlayCircle className="h-4 w-4 text-muted-foreground" />
-                          )}
-                          <FileText className="h-4 w-4 text-muted-foreground" />
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        ))}
+        {/* Back */}
+        <Link href="/learn" style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", ...mono, fontSize: "0.52rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--cream-2)", textDecoration: "none", marginBottom: "1.75rem" }}>
+          <ArrowLeft style={{ width: "0.75rem", height: "0.75rem" }} />
+          All Courses
+        </Link>
+
+        {/* Header */}
+        <div style={{ marginBottom: "2rem" }}>
+          <span style={{ ...mono, fontSize: "0.5rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--gold)", border: "1px solid var(--gold)", padding: "0.1rem 0.4rem", marginBottom: "0.75rem", display: "inline-block" }}>
+            {course.level}
+          </span>
+          <h1 style={{ ...serif, fontWeight: 700, fontStyle: "italic", fontSize: "clamp(1.75rem,4vw,2.5rem)", color: "var(--cream-0)", lineHeight: 1.1, marginBottom: "0.5rem" }}>
+            {course.title}
+          </h1>
+          <p style={{ ...body, fontSize: "0.95rem", color: "var(--cream-1)", lineHeight: 1.6 }}>
+            {course.description}
+          </p>
+        </div>
+
+        {/* Lesson count */}
+        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "1.5rem" }}>
+          <div style={{ height: "1px", width: "1.5rem", background: "var(--gold)" }} />
+          <span style={{ ...mono, fontSize: "0.55rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--cream-2)" }}>
+            {lessons.length} {lessons.length === 1 ? "lesson" : "lessons"}
+          </span>
+          <div style={{ flex: 1, height: "1px", background: "rgba(240,233,214,0.07)" }} />
+        </div>
+
+        {/* Lessons */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+          {lessons.map((lesson, i) => (
+            <Link key={lesson.id} href={`/learn/${pathId}/${lesson.slug}`} style={{ textDecoration: "none" }}>
+              <div
+                className="topic-card"
+                style={{ background: "var(--ink-1)", border: "1px solid rgba(240,233,214,0.07)", padding: "1rem 1.25rem", display: "flex", alignItems: "center", gap: "1rem" }}
+              >
+                <span style={{ ...mono, fontSize: "0.5rem", color: "var(--cream-2)", flexShrink: 0, width: "1.5rem", textAlign: "right" }}>{String(i + 1).padStart(2, "0")}</span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ ...body, fontSize: "1rem", color: "var(--cream-0)", lineHeight: 1.3, marginBottom: lesson.key_concepts.length ? "0.3rem" : 0 }}>
+                    {lesson.title}
+                  </p>
+                  {lesson.key_concepts.length > 0 && (
+                    <p style={{ ...mono, fontSize: "0.48rem", letterSpacing: "0.06em", color: "var(--cream-2)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                      {lesson.key_concepts.slice(0, 4).join(" · ")}
+                    </p>
+                  )}
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", flexShrink: 0 }}>
+                  {lesson.estimated_minutes > 0 && (
+                    <span style={{ ...mono, fontSize: "0.48rem", color: "var(--cream-2)" }}>{lesson.estimated_minutes}m</span>
+                  )}
+                  {lesson.video_url && <PlayCircle style={{ width: "0.85rem", height: "0.85rem", color: "var(--cream-2)" }} />}
+                  <FileText style={{ width: "0.85rem", height: "0.85rem", color: "var(--cream-2)" }} />
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
-    </div></ScrollArea>
+    </div>
   );
 }
