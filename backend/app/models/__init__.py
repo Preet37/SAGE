@@ -8,6 +8,7 @@ from .curriculum import GeneratedCurriculum
 from .usage import DailyUsage
 from .course_draft import CourseDraft
 from .exploration import ExplorationSession, ExplorationMessage
+from .document import Document
 
 __all__ = [
     "User",
@@ -27,4 +28,5 @@ __all__ = [
     "CourseDraft",
     "ExplorationSession",
     "ExplorationMessage",
+    "Document",
 ]

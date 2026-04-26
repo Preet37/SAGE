@@ -29,6 +29,7 @@ dependencies = [
     "youtube-transcript-api>=1.2.4",
     "playwright>=1.58.0",
     "alembic>=1.15.0",
+    "cloudinary>=1.40.0",
 ]
 
 [project.scripts]

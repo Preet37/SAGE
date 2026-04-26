@@ -12,6 +12,7 @@ import {
   Sparkles,
   Library,
   LogOut,
+  FolderOpen,
 } from "lucide-react";
 import type { ReactNode } from "react";
 
@@ -20,6 +21,7 @@ const NAV_ITEMS = [
   { href: "/explore", icon: Compass, label: "Explore" },
   { href: "/projects", icon: Hammer, label: "Projects" },
   { href: "/create", icon: Sparkles, label: "Create" },
+  { href: "/documents", icon: FolderOpen, label: "My Documents" },
 ] as const;
 
 interface AppHeaderProps {

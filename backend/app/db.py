@@ -37,6 +37,8 @@ def _run_sqlite_migrations(eng):
         # Message metadata for production observability
         _add_column_if_missing(conn, "chatmessage", "message_meta", "TEXT")
         _add_column_if_missing(conn, "explorationmessage", "message_meta", "TEXT")
+        _add_column_if_missing(conn, "document", "tags_json", "TEXT")
+        _add_column_if_missing(conn, "document", "content_text", "TEXT")
         conn.commit()
 
 
