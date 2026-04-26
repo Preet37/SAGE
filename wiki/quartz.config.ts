@@ -8,8 +8,8 @@ import * as Plugin from "./quartz/plugins"
  */
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "SocraticTutor LLM Wiki",
-    pageTitleSuffix: " · SocraticTutor LLM Wiki",
+    pageTitle: "SAGE LLM Wiki",
+    pageTitleSuffix: " · SAGE LLM Wiki",
     enableSPA: true,
     enablePopovers: true,
     analytics: null,

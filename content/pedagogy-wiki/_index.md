@@ -1,7 +1,7 @@
 # Pedagogy Wiki
 
 A curated knowledge base of teaching resources and educator profiles 
-for the SocraticTutor platform. Used by the Course Creator to populate 
+for the SAGE platform. Used by the Course Creator to populate 
 videos, recommended reading, and teaching context for every lesson.
 
 ## Collections

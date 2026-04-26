@@ -73,7 +73,7 @@ test.describe("Frontend Smoke Tests", () => {
     await expect(page.locator('input[type="email"]')).toBeVisible();
     await expect(page.locator('input[type="password"]')).toBeVisible();
     await expect(page.getByRole("button", { name: "Sign In" })).toBeVisible();
-    await expect(page.locator("text=SocraticTutor").first()).toBeVisible();
+    await expect(page.locator("text=SAGE").first()).toBeVisible();
     await expect(page.getByRole("link", { name: "Register" })).toBeVisible();
 
     expect(errors).toHaveLength(0);

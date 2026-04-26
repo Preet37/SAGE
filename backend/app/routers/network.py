@@ -486,3 +486,17 @@ async def route_resources(
         by_source=by_source,
         elapsed_ms=elapsed,
     )
+
+
+# ── YouTube video availability check ──────────────────────────
+
+@router.get("/check-video/{youtube_id}")
+async def check_video_available(youtube_id: str):
+    """Check if a YouTube video is publicly available using the oEmbed API."""
+    url = f"https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v={youtube_id}&format=json"
+    try:
+        async with httpx.AsyncClient(timeout=5.0) as client:
+            r = await client.get(url)
+        return {"available": r.status_code == 200}
+    except Exception:
+        return {"available": False}

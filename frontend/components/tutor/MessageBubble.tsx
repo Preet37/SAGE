@@ -82,6 +82,7 @@ function ResourceRecommendation({
   onSendMessage?: (msg: string) => void;
 }) {
   const [expanded, setExpanded] = useState(false);
+  const [videoAvailable, setVideoAvailable] = useState<boolean | null>(null);
   const isVideo = !!(data.type === "video" && data.youtube_id);
   const resolvedUrl =
     data.url ||
@@ -89,6 +90,17 @@ function ResourceRecommendation({
   const thumbnail = isVideo
     ? `https://img.youtube.com/vi/${data.youtube_id}/mqdefault.jpg`
     : null;
+
+  useEffect(() => {
+    if (!isVideo || !data.youtube_id) return;
+    const apiBase = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+    fetch(`${apiBase}/network/check-video/${data.youtube_id}`)
+      .then(r => r.json())
+      .then(d => setVideoAvailable(d.available === true))
+      .catch(() => setVideoAvailable(true)); // fail open
+  }, [isVideo, data.youtube_id]);
+
+  if (isVideo && videoAvailable === false) return null;
 
   return (
     <div className="rounded-xl border border-border bg-card/60 overflow-hidden my-2">
@@ -133,7 +145,7 @@ function ResourceRecommendation({
                 onClick={() => setExpanded(true)}
                 className="text-xs px-3 py-1 rounded-md bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors"
               >
-                Watch inline
+                Watch online
               </button>
             )}
             {isVideo && resolvedUrl && (
@@ -472,19 +484,19 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verific
             <div
               key={i}
               className="text-sm
-                prose dark:prose-invert prose-sm max-w-none
-                prose-p:my-2 prose-p:text-foreground prose-p:leading-[1.75]
-                prose-headings:text-foreground prose-headings:font-semibold prose-headings:mt-4 prose-headings:mb-2
-                prose-code:bg-muted prose-code:rounded-md prose-code:px-1.5 prose-code:py-0.5 prose-code:text-xs prose-code:font-medium
-                prose-pre:bg-slate-50 dark:prose-pre:bg-slate-900 prose-pre:rounded-xl prose-pre:p-4 prose-pre:my-3 prose-pre:border prose-pre:border-border
-                prose-strong:text-foreground prose-strong:font-semibold
-                prose-a:text-primary prose-a:no-underline hover:prose-a:underline
-                prose-li:my-0.5 prose-li:text-foreground prose-li:leading-[1.75]
+                prose prose-invert prose-sm max-w-none
+                prose-p:my-2 prose-p:leading-[1.75]
+                prose-headings:font-semibold prose-headings:mt-4 prose-headings:mb-2
+                prose-code:bg-white/10 prose-code:rounded-md prose-code:px-1.5 prose-code:py-0.5 prose-code:text-xs prose-code:font-medium prose-code:text-[#F0E9D6]
+                prose-pre:bg-[#0a0d12] prose-pre:rounded-xl prose-pre:p-4 prose-pre:my-3 prose-pre:border prose-pre:border-white/10
+                prose-strong:font-semibold
+                prose-a:text-[var(--gold)] prose-a:no-underline hover:prose-a:underline
+                prose-li:my-0.5 prose-li:leading-[1.75]
                 prose-ul:my-2 prose-ol:my-2
                 prose-table:text-sm prose-table:rounded-lg prose-table:overflow-hidden
-                prose-th:bg-muted/60 prose-th:px-3 prose-th:py-2 prose-th:text-left prose-th:font-semibold prose-th:text-foreground
-                prose-td:px-3 prose-td:py-2 prose-td:text-foreground/80
-                prose-blockquote:border-l-primary/50 prose-blockquote:text-foreground/80"
+                prose-th:bg-white/5 prose-th:px-3 prose-th:py-2 prose-th:text-left prose-th:font-semibold
+                prose-td:px-3 prose-td:py-2
+                prose-blockquote:border-l-[var(--gold)]/50"
             >
               <ReactMarkdown
                 remarkPlugins={remarkPlugins}
@@ -493,7 +505,15 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verific
                   img({ src, alt }) {
                     if (!src) return null;
                     const resolved = resolveImageUrl(src as string);
-                    return <img src={resolved} alt={alt || ""} className="rounded-xl max-h-80 object-contain my-3" loading="lazy" />;
+                    return (
+                      <img
+                        src={resolved}
+                        alt={alt || ""}
+                        className="rounded-xl max-h-80 object-contain my-3"
+                        loading="lazy"
+                        onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+                      />
+                    );
                   },
                   pre({ node, children, ...props }) {
                     // Check if this is a runnable code block

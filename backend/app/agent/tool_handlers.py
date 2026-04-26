@@ -43,12 +43,34 @@ async def execute_tool(name: str, tool_input: dict, context: TutorContext) -> di
 
 
 async def _search_web(query: str) -> dict:
-    """Delegate to the enricher's _search which handles NVIDIA / Perplexity routing.
-
-    Adapts the enricher's response format (content + citations) into the
-    result-list format the tutor agent expects.
-    """
+    """Search the web via Tavily (preferred) or NVIDIA / Perplexity fallback."""
+    import os, httpx
     from ..config import get_settings
+
+    tavily_key = os.environ.get("TAVILY_API_KEY", "")
+    if tavily_key:
+        try:
+            async with httpx.AsyncClient(timeout=15.0) as client:
+                resp = await client.post(
+                    "https://api.tavily.com/search",
+                    json={
+                        "api_key": tavily_key,
+                        "query": query,
+                        "max_results": 6,
+                        "search_depth": "advanced",
+                        "include_answer": True,
+                    },
+                )
+                if resp.status_code == 200:
+                    data = resp.json()
+                    results = [
+                        {"title": r.get("title", ""), "url": r.get("url", ""), "source_type": "web"}
+                        for r in data.get("results", [])[:6]
+                    ]
+                    return {"query": query, "content": data.get("answer", ""), "results": results}
+        except Exception:
+            pass  # fall through to old search
+
     if not get_settings().search_enabled:
         return {
             "query": query,

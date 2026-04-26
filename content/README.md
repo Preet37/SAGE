@@ -1,4 +1,4 @@
-# SocraticTutor Content
+# SAGE Content
 
 Each subdirectory is a self-contained **course package** that the platform
 loads automatically on `python seed.py`.

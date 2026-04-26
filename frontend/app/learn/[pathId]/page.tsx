@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
-import { api, CourseOut, LessonOut } from "@/lib/api";
+import { api, CourseOut, LessonOut, LearningPathResponse, ModuleResponse, LessonResponse } from "@/lib/api";
 import { getToken } from "@/lib/auth";
 import { CheckCircle2, Circle, PlayCircle, FileText, ArrowLeft, Loader2 } from "lucide-react";
 
@@ -22,17 +22,38 @@ export default function PathPage() {
     const token = getToken();
     if (!token) { router.push("/login"); return; }
 
-    Promise.all([
-      api.courses.list(token),
-      api.courses.lessons(pathId, token),
-    ])
-      .then(([courseList, lessonList]) => {
-        const found = courseList.find((c) => c.slug === pathId);
-        if (!found) { router.push("/learn"); return; }
-        setCourse(found);
-        setLessons(lessonList);
+    // Try learning-paths first (user-created), fall back to legacy courses
+    api.learningPaths.get(pathId, token)
+      .then((lp: LearningPathResponse) => {
+        setCourse({ id: 0, slug: lp.slug, title: lp.title, description: lp.description, level: lp.level, tags: [], thumbnail_url: null });
+        const flat: LessonOut[] = lp.modules.flatMap((m: ModuleResponse) =>
+          m.lessons.map((l: LessonResponse) => ({
+            id: l.id,
+            slug: l.slug,
+            title: l.title,
+            order: l.order_index,
+            summary: l.summary,
+            key_concepts: l.concepts,
+            estimated_minutes: 0,
+            video_url: l.youtube_id ? `https://www.youtube.com/watch?v=${l.youtube_id}` : null,
+          }))
+        );
+        setLessons(flat);
       })
-      .catch(() => {})
+      .catch(() => {
+        // Fall back to platform courses
+        Promise.all([
+          api.courses.list(token),
+          api.courses.lessons(pathId, token),
+        ])
+          .then(([courseList, lessonList]) => {
+            const found = courseList.find((c) => c.slug === pathId);
+            if (!found) { router.push("/learn"); return; }
+            setCourse(found);
+            setLessons(lessonList);
+          })
+          .catch(() => {});
+      })
       .finally(() => setLoading(false));
   }, [pathId, router]);
 

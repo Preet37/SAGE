@@ -147,9 +147,11 @@ class Settings:
 
     @property
     def search_enabled(self) -> bool:
+        import os
+        has_tavily = bool(os.environ.get("TAVILY_API_KEY", ""))
         has_perplexity = bool(self.search_api_key and self.search_base_url)
         has_nvidia = bool(self.llm_api_key and self.llm_base_url)
-        return has_perplexity or has_nvidia
+        return has_tavily or has_perplexity or has_nvidia
 
 
 @lru_cache

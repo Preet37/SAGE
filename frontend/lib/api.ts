@@ -38,8 +38,10 @@ export interface UserResponse {
 
 export interface LessonImageMeta {
   file: string;
-  topic: string;
+  topic?: string;
+  source_url?: string;
   source_page?: string;
+  alt?: string;
   caption?: string;
   when_to_show?: string;
   concepts?: string[];
@@ -65,6 +67,14 @@ export interface LessonOut {
   key_concepts: string[];
   estimated_minutes: number;
   video_url: string | null;
+  // Rich fields (populated for platform and user-created courses)
+  content?: string | null;
+  youtube_id?: string | null;
+  video_title?: string | null;
+  vimeo_url?: string | null;
+  reference_kb?: string | null;
+  sources_used?: string[];
+  image_metadata?: LessonImageMeta[];
 }
 
 export interface LessonResponse {

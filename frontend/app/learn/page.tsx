@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { api, CourseOut } from "@/lib/api";
+import { api, CourseOut, LearningPathSummary } from "@/lib/api";
 import { getToken } from "@/lib/auth";
 import { ArrowRight, BookOpen, Sparkles, Star } from "lucide-react";
 
@@ -80,6 +80,7 @@ function SectionLabel({ icon: Icon, color, children }: { icon: React.ElementType
 export default function LearnPage() {
   const router = useRouter();
   const [paths, setPaths] = useState<CourseOut[]>([]);
+  const [myPaths, setMyPaths] = useState<LearningPathSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [interests, setInterests] = useState<string[]>([]);
 
@@ -88,10 +89,13 @@ export default function LearnPage() {
     if (saved) { try { setInterests(JSON.parse(saved)); } catch { /* ignore */ } }
     const token = getToken();
     if (!token) { router.push("/login"); return; }
-    api.courses.list(token)
-      .then(setPaths)
-      .catch(() => {})
-      .finally(() => setLoading(false));
+    Promise.all([
+      api.courses.list(token),
+      api.learningPaths.list(token),
+    ]).then(([platformPaths, userPaths]) => {
+      setPaths(platformPaths);
+      setMyPaths(userPaths.filter(p => p.is_mine));
+    }).catch(() => {}).finally(() => setLoading(false));
   }, [router]);
 
   if (loading) {
@@ -142,6 +146,18 @@ export default function LearnPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
               {recommendedPaths.map(p => <CourseCard key={p.id} path={p} />)}
 
+            </div>
+          </div>
+        )}
+
+        {/* My published courses */}
+        {myPaths.length > 0 && (
+          <div style={{ marginBottom: "2.5rem" }}>
+            <SectionLabel icon={Sparkles} color="var(--sage-c)">My Courses</SectionLabel>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+              {myPaths.map(p => (
+                <CourseCard key={p.id} path={{ id: parseInt(p.id, 10) || 0, slug: p.slug, title: p.title, description: p.description, level: p.level, tags: [], thumbnail_url: null }} />
+              ))}
             </div>
           </div>
         )}

@@ -18,8 +18,14 @@ export function ExploreSuggestedPrompts({ onSelect }: ExploreSuggestedPromptsPro
         <button
           key={i}
           onClick={() => onSelect(p)}
-          className="text-left text-sm rounded-xl border border-border px-4 py-3
-            hover:border-primary/50 hover:bg-accent hover:text-accent-foreground transition-colors"
+          className="text-left text-sm rounded-xl px-4 py-3 transition-colors"
+          style={{
+            border: "1px solid rgba(240,233,214,0.1)",
+            background: "var(--ink-1)",
+            color: "var(--cream-1)",
+          }}
+          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(196,152,90,0.4)"; (e.currentTarget as HTMLButtonElement).style.color = "var(--cream-0)"; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(240,233,214,0.1)"; (e.currentTarget as HTMLButtonElement).style.color = "var(--cream-1)"; }}
         >
           {p}
         </button>

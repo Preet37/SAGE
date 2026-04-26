@@ -207,7 +207,7 @@ function ExplorePageInner() {
   }
 
   return (
-    <div className="flex flex-col h-dvh bg-background overflow-hidden">
+    <div className="flex flex-col h-dvh overflow-hidden" style={{ background: "var(--ink)", color: "var(--cream-0)" }}>
       <AppHeader
         leftSlot={
           <>
@@ -262,10 +262,10 @@ function ExplorePageInner() {
 
       {/* Session history drawer */}
       {showHistory && (
-        <div className="border-b border-border bg-card/80 backdrop-blur">
+        <div className="border-b backdrop-blur" style={{ borderColor: "rgba(240,233,214,0.08)", background: "rgba(22,19,16,0.95)" }}>
           <div className="max-w-3xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-medium">Previous Sessions</h3>
+              <h3 className="text-sm font-medium" style={{ color: "var(--cream-0)" }}>Previous Sessions</h3>
               <Button
                 variant="ghost"
                 size="icon"
@@ -320,14 +320,14 @@ function ExplorePageInner() {
           {messages.length === 0 ? (
             /* Empty state — centered group like Gemini: greeting + input + chips */
             <div className="flex-1 flex flex-col items-center justify-center px-6">
-              <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-3">
-                <Compass className="h-6 w-6 text-primary" />
+              <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-3" style={{ background: "rgba(196,152,90,0.12)" }}>
+                <Compass className="h-6 w-6" style={{ color: "var(--gold)" }} />
               </div>
-              <h2 className="text-xl font-semibold text-foreground mb-1">Start exploring</h2>
-              <p className="text-sm text-muted-foreground mb-6">Ask anything — a question, a problem, or just curiosity</p>
+              <h2 className="text-xl font-semibold mb-1" style={{ color: "var(--cream-0)" }}>Start exploring</h2>
+              <p className="text-sm mb-6" style={{ color: "var(--cream-2)" }}>Ask anything — a question, a problem, or just curiosity</p>
 
               <div className="w-full max-w-2xl mb-5">
-                <div className="flex gap-3 items-end rounded-2xl border border-border bg-card/80 px-4 py-3 shadow-sm">
+                <div className="flex gap-3 items-end rounded-2xl px-4 py-3" style={{ border: "1px solid rgba(240,233,214,0.12)", background: "var(--ink-1)" }}>
                   <textarea
                     ref={textareaRef}
                     value={input}
@@ -336,7 +336,8 @@ function ExplorePageInner() {
                     placeholder="Ask anything..."
                     disabled={streaming}
                     rows={1}
-                    className="flex-1 resize-none bg-transparent text-sm placeholder:text-muted-foreground focus:outline-none disabled:opacity-50 min-h-[28px] max-h-[120px]"
+                    className="flex-1 resize-none bg-transparent text-sm focus:outline-none disabled:opacity-50 min-h-[28px] max-h-[120px]"
+                    style={{ color: "var(--cream-0)" }}
                   />
                   <Button
                     onClick={() => handleSend()}
@@ -354,7 +355,7 @@ function ExplorePageInner() {
           ) : (
             <>
               {/* Messages — scrollable */}
-              <div className="flex-1 overflow-y-auto min-h-0">
+              <div className="flex-1 overflow-y-auto min-h-0 thin-scrollbar">
                 <div className="max-w-3xl mx-auto px-6 py-6 space-y-5">
                   {messages.map((m, i) => {
                     const isLastUser = m.role === "user" && !messages.slice(i + 1).some((msg) => msg.role === "user");
@@ -413,7 +414,7 @@ function ExplorePageInner() {
               </div>
 
               {/* Bottom bar — only when messages exist */}
-              <div className="border-t border-border bg-card/50 flex-shrink-0">
+              <div className="flex-shrink-0" style={{ borderTop: "1px solid rgba(240,233,214,0.08)", background: "var(--ink-1)" }}>
                 <ExplainDifferentlyBar activeMode={mode} onModeChange={setMode} />
                 <div className="max-w-3xl mx-auto px-4 py-3">
                   <div className="flex gap-3 items-end">
@@ -425,7 +426,8 @@ function ExplorePageInner() {
                       placeholder="Ask anything — a question, a problem, or just what you're curious about..."
                       disabled={streaming}
                       rows={1}
-                      className="flex-1 resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring disabled:opacity-50 min-h-[44px] max-h-[160px]"
+                      className="flex-1 resize-none rounded-xl px-4 py-3 text-sm focus:outline-none disabled:opacity-50 min-h-[44px] max-h-[160px]"
+                      style={{ border: "1px solid rgba(240,233,214,0.12)", background: "var(--ink-2)", color: "var(--cream-0)" }}
                     />
                     <Button
                       onClick={() => handleSend()}

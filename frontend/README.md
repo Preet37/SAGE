@@ -1,6 +1,6 @@
-# SocraticTutor Frontend
+# SAGE Frontend
 
-Next.js 16 (App Router) frontend for the SocraticTutor platform. See the [project README](../README.md) for full documentation.
+Next.js 16 (App Router) frontend for the SAGE platform. See the [project README](../README.md) for full documentation.
 
 ## Setup
 

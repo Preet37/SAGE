@@ -304,17 +304,32 @@ async def search_concept(
             ],
             max_tokens=8192,
             temperature=0.4,
+            response_format={"type": "json_object"},
         )
     except Exception as e:
         logger.error("LLM concept generation failed: %s", e)
-        raise HTTPException(status_code=502, detail="Concept generation failed. Please try again.")
+        # Retry without response_format (some model deployments don't support it)
+        try:
+            response = await client.chat.completions.create(
+                model=settings.llm_model,
+                messages=[
+                    {"role": "system", "content": prompt},
+                    {"role": "user", "content": f"Generate the concept page JSON for: {topic}. Reply ONLY with raw JSON starting with {{ and ending with }}."},
+                ],
+                max_tokens=8192,
+                temperature=0.4,
+            )
+        except Exception as e2:
+            logger.error("LLM concept generation retry failed: %s", e2)
+            raise HTTPException(status_code=502, detail="Concept generation failed. Please try again.")
 
     raw = (response.choices[0].message.content or "").strip()
+    logger.debug("Concept raw response for %r: %s", topic, raw[:200])
 
     try:
         data = _extract_json(raw)
     except ValueError:
-        logger.error("Failed to parse concept JSON. Raw: %s", raw[:800])
+        logger.error("Failed to parse concept JSON for %r. Raw: %s", topic, raw[:800])
         raise HTTPException(
             status_code=502,
             detail="Concept generation returned an invalid format. Please try again.",
