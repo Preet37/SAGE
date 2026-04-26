@@ -39,8 +39,13 @@ from ..models.user import User
 router = APIRouter(prefix="/visual", tags=["visual"])
 logger = logging.getLogger(__name__)
 
-TIMEOUT_SECS = 45   # Genesis rendering budget
+TIMEOUT_SECS = 60   # Genesis rendering budget
 MAX_CODE_LEN  = 12_000
+
+# Path to a Python interpreter that has genesis-world installed.
+# If not set, falls back to sys.executable (same venv as the backend).
+# To use an isolated genesis venv:  export GENESIS_PYTHON=/tmp/genesis_venv/bin/python3
+GENESIS_PYTHON = os.environ.get("GENESIS_PYTHON") or sys.executable
 
 # ─── Genesis boilerplate ─────────────────────────────────────────────────────
 # Injected before and after the LLM-generated code.
@@ -242,14 +247,31 @@ async def generate_genesis_simulation(
     topic   = req.topic[:200]
     context = req.context[:2000]
 
-    # ── Check Genesis is installed ──────────────────────────────────────────
-    try:
-        import importlib
-        importlib.import_module("genesis")
-    except ImportError:
+    # ── Check Genesis is reachable ──────────────────────────────────────────
+    check = await asyncio.create_subprocess_exec(
+        GENESIS_PYTHON, "-c", "import genesis",
+        stdout=asyncio.subprocess.DEVNULL,
+        stderr=asyncio.subprocess.DEVNULL,
+    )
+    await check.wait()
+    if check.returncode != 0:
+        # Genesis not installed — still return the script so user can download it
+        raw_llm = ""
+        try:
+            resp = client.chat.completions.create(
+                model=settings.llm_model,
+                messages=[{"role": "user", "content": GENESIS_PROMPT.format(topic=topic, context=context)}],
+                temperature=0.15, max_tokens=3000,
+            )
+            raw_llm = resp.choices[0].message.content or ""
+            raw_llm = re.sub(r"```(?:python)?\s*", "", raw_llm)
+            raw_llm = re.sub(r"```\s*$", "", raw_llm, flags=re.MULTILINE).strip()
+        except Exception:
+            raw_llm = _fallback_script(topic)
+        full = SCRIPT_PREFIX + "\n" + raw_llm + "\n" + SCRIPT_SUFFIX
         return GenesisResponse(
-            topic=topic,
-            error="genesis-world is not installed. Run: pip install torch && pip install genesis-world",
+            topic=topic, script=full,
+            error="genesis-world is not installed on this server. Download the script and run locally:\n  pip install torch && pip install genesis-world\n  python genesis_simulation.py",
         )
 
     # ── Generate scene code via LLM ─────────────────────────────────────────
@@ -287,7 +309,7 @@ async def generate_genesis_simulation(
 
         try:
             proc = await asyncio.create_subprocess_exec(
-                sys.executable, script_path, output_path,
+                GENESIS_PYTHON, script_path, output_path,
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE,
                 cwd=tmpdir,
@@ -315,7 +337,7 @@ async def generate_genesis_simulation(
                     f.write(fs)
                 try:
                     proc2 = await asyncio.create_subprocess_exec(
-                        sys.executable, script_path, output_path,
+                        GENESIS_PYTHON, script_path, output_path,
                         stdout=asyncio.subprocess.PIPE,
                         stderr=asyncio.subprocess.PIPE,
                         cwd=tmpdir,
