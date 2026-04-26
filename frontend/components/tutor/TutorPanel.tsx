@@ -282,6 +282,8 @@ export function TutorPanel({
                   }
                 }}
                 title={voice.isActive ? "End voice session" : "Start voice session"}
+                aria-label={voice.isActive ? "End voice session" : "Start voice session"}
+                aria-pressed={voice.isActive}
                 className={cn(
                   "h-9 w-9 rounded-xl flex-shrink-0 flex items-center justify-center transition-all",
                   voice.isActive
@@ -302,6 +304,7 @@ export function TutorPanel({
                 disabled={!input.trim() || streaming}
                 size="icon"
                 className="h-9 w-9 rounded-xl flex-shrink-0"
+                aria-label={streaming ? "Sending..." : "Send message"}
               >
                 {streaming ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
               </Button>
@@ -332,12 +335,25 @@ export function TutorPanel({
                       History ({sessions.length})
                     </Button>
                     {showSessions && (
-                      <div className="absolute right-0 top-full mt-1 z-50 w-64 max-h-60 overflow-y-auto rounded-lg border border-border bg-popover shadow-lg">
+                      <ul
+                        role="listbox"
+                        aria-label="Previous sessions"
+                        className="absolute right-0 top-full mt-1 z-50 w-64 max-h-60 overflow-y-auto rounded-lg border border-border bg-popover shadow-lg"
+                      >
                         {sessions.map((s) => (
-                          <div
+                          <li
                             key={s.id}
+                            role="option"
+                            aria-selected={sessionId === s.id}
                             onClick={() => handleLoadSession(s.id)}
-                            className={`flex items-center justify-between px-3 py-2 text-sm cursor-pointer hover:bg-muted/50 ${
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter" || e.key === " ") {
+                                e.preventDefault();
+                                handleLoadSession(s.id);
+                              }
+                            }}
+                            tabIndex={0}
+                            className={`flex items-center justify-between px-3 py-2 text-sm cursor-pointer hover:bg-muted/50 focus:outline-none focus:ring-2 focus:ring-ring ${
                               sessionId === s.id ? "bg-muted" : ""
                             }`}
                           >
@@ -349,12 +365,13 @@ export function TutorPanel({
                               size="icon"
                               className="h-6 w-6 flex-shrink-0 text-muted-foreground hover:text-destructive"
                               onClick={(e) => handleDeleteSession(e, s.id)}
+                              aria-label={`Delete session from ${formatSessionDate(s.updated_at)}`}
                             >
                               <Trash2 className="h-3 w-3" />
                             </Button>
-                          </div>
+                          </li>
                         ))}
-                      </div>
+                      </ul>
                     )}
                   </div>
                 )}
@@ -545,6 +562,8 @@ export function TutorPanel({
                     }
                   }}
                   title={voice.isActive ? "End voice session" : "Start voice session about this lesson"}
+                  aria-label={voice.isActive ? "End voice session" : "Start voice session"}
+                  aria-pressed={voice.isActive}
                   className={cn(
                     "h-11 w-11 rounded-xl flex-shrink-0 flex items-center justify-center transition-all border",
                     voice.isActive
@@ -569,6 +588,7 @@ export function TutorPanel({
                   disabled={!input.trim() || streaming}
                   size="icon"
                   className="h-11 w-11 rounded-xl flex-shrink-0"
+                  aria-label={streaming ? "Sending..." : "Send message"}
                 >
                   {streaming ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
                 </Button>

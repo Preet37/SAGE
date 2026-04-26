@@ -176,7 +176,7 @@ export default function LessonPage() {
       <div className="flex items-center justify-between px-4 py-2.5 border-b border-border bg-card/50 flex-shrink-0">
         <div className="flex items-center gap-2 min-w-0">
           <Link href={`/learn/${pathId}`}>
-            <Button variant="ghost" size="icon" className="flex-shrink-0">
+            <Button variant="ghost" size="icon" className="flex-shrink-0" aria-label="Back to course">
               <ChevronLeft className="h-4 w-4" />
             </Button>
           </Link>
@@ -218,6 +218,8 @@ export default function LessonPage() {
             size="sm"
             onClick={() => setShowContent(!showContent)}
             className="gap-1.5 text-muted-foreground"
+            aria-label={showContent ? "Hide notes" : "Show notes"}
+            aria-expanded={showContent}
           >
             {showContent ? (
               <PanelRightClose className="h-4 w-4" />
