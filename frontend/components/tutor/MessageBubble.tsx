@@ -325,7 +325,7 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verific
   if (role === "user") {
     return (
       <div className="flex justify-end">
-        <div className="max-w-[75%] rounded-2xl rounded-tr-sm bg-primary text-primary-foreground px-5 py-3 text-sm leading-relaxed whitespace-pre-wrap">
+        <div style={{ maxWidth: "75%", background: "var(--ink-3)", border: "1px solid rgba(196,152,90,0.2)", padding: "0.65rem 1rem", fontFamily: "var(--font-crimson)", fontSize: "0.95rem", color: "var(--cream-0)", lineHeight: 1.6, whiteSpace: "pre-wrap" }}>
           {content}
         </div>
       </div>

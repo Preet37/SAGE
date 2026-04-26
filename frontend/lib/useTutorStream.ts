@@ -99,15 +99,12 @@ export function useTutorStream(lessonId: string) {
       setStreaming(true);
       setToolCall(null);
 
-      const apiMessages = allMessages.map((m) => ({
-        role: m.role,
-        content: m.content,
-      }));
-
       const assistantId = uid();
       let assistantText = "";
 
       try {
+        // Backend expects: lesson_id (int), message (str), history (prev msgs), teaching_mode
+        const history = allMessages.slice(0, -1).map((m) => ({ role: m.role, content: m.content }));
         const res = await fetch(`${API_URL}/tutor/chat`, {
           method: "POST",
           headers: {
@@ -115,10 +112,12 @@ export function useTutorStream(lessonId: string) {
             Authorization: `Bearer ${getToken()}`,
           },
           body: JSON.stringify({
-            messages: apiMessages,
-            lesson_id: lessonId,
-            mode,
-            session_id: sessionIdRef.current,
+            lesson_id: parseInt(lessonId, 10),
+            message: content,
+            history,
+            teaching_mode: mode === "default" ? null : mode,
+            session_id: sessionIdRef.current ? parseInt(sessionIdRef.current, 10) : null,
+            voice_enabled: false,
           }),
         });
 
