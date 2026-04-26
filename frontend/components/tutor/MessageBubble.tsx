@@ -75,26 +75,19 @@ function ResourceRecommendation({
   data: { type?: string; title?: string; youtube_id?: string; educator?: string; why?: string; url?: string };
   onSendMessage?: (msg: string) => void;
 }) {
-  const [expanded, setExpanded] = useState(false);
-  const isVideo = !!(data.type === "video" && data.youtube_id);
+  const isVideo = data.type === "video";
+  // Prefer an explicit URL; for videos fall back to a YouTube search (never embed a hallucinated ID)
   const resolvedUrl =
     data.url ||
-    (data.youtube_id ? `https://www.youtube.com/watch?v=${data.youtube_id}` : null);
-  const thumbnail = isVideo
-    ? `https://img.youtube.com/vi/${data.youtube_id}/mqdefault.jpg`
-    : null;
+    (isVideo && data.title
+      ? `https://www.youtube.com/results?search_query=${encodeURIComponent(
+          [data.title, data.educator].filter(Boolean).join(" ")
+        )}`
+      : null);
 
   return (
     <div className="rounded-xl border border-border bg-card/60 overflow-hidden my-2">
       <div className="flex gap-3 p-3">
-        {thumbnail && !expanded && (
-          <img
-            src={thumbnail}
-            alt=""
-            className="w-32 h-20 rounded-lg object-cover flex-shrink-0 cursor-pointer"
-            onClick={() => setExpanded(true)}
-          />
-        )}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-1">
             {isVideo ? <Play className="h-3 w-3" /> : <BookOpen className="h-3 w-3" />}
@@ -122,32 +115,14 @@ function ResourceRecommendation({
             <p className="text-xs text-muted-foreground mt-1">{data.why}</p>
           )}
           <div className="flex gap-2 mt-2">
-            {isVideo && !expanded && (
-              <button
-                onClick={() => setExpanded(true)}
-                className="text-xs px-3 py-1 rounded-md bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors"
-              >
-                Watch inline
-              </button>
-            )}
-            {isVideo && resolvedUrl && (
-              <a
-                href={resolvedUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs px-3 py-1 rounded-md border border-border text-muted-foreground hover:text-foreground hover:bg-muted transition-colors inline-flex items-center gap-1"
-              >
-                Open on YouTube <ExternalLink className="h-3 w-3" />
-              </a>
-            )}
-            {!isVideo && resolvedUrl && (
+            {resolvedUrl && (
               <a
                 href={resolvedUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs px-3 py-1 rounded-md bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors inline-flex items-center gap-1"
               >
-                Read <ExternalLink className="h-3 w-3" />
+                {isVideo ? "Search on YouTube" : "Read"} <ExternalLink className="h-3 w-3" />
               </a>
             )}
             {onSendMessage && (
@@ -163,17 +138,6 @@ function ResourceRecommendation({
           </div>
         </div>
       </div>
-      {expanded && isVideo && (
-        <div className="aspect-video w-full">
-          <iframe
-            src={`https://www.youtube.com/embed/${data.youtube_id}`}
-            title={data.title || "Video"}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            className="w-full h-full"
-          />
-        </div>
-      )}
     </div>
   );
 }
