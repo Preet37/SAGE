@@ -10,13 +10,10 @@ import {
   Compass,
   Hammer,
   Sparkles,
-  Library,
   LogOut,
   FolderOpen,
   Network,
-  ImagePlus,
   Smartphone,
-  Telescope,
 } from "lucide-react";
 import type { ReactNode } from "react";
 
@@ -26,9 +23,7 @@ const NAV_ITEMS = [
   { href: "/projects", icon: Hammer, label: "Projects" },
   { href: "/create", icon: Sparkles, label: "Create" },
   { href: "/documents", icon: FolderOpen, label: "My Docs" },
-  { href: "/galaxy", icon: Telescope, label: "Galaxy" },
   { href: "/network", icon: Network, label: "Network" },
-  { href: "/sketch", icon: ImagePlus, label: "Sketch" },
   { href: "/pocket", icon: Smartphone, label: "Pocket" },
 ] as const;
 
@@ -93,20 +88,6 @@ export function AppHeader({ leftSlot }: AppHeaderProps) {
             </Link>
           );
         })}
-        <a
-          href="https://socratic-tutor-pi.vercel.app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Button
-            variant="ghost"
-            size="sm"
-            className="gap-1.5 text-muted-foreground hover:text-foreground"
-          >
-            <Library className="h-3.5 w-3.5" />
-            <span className="hidden sm:inline">Wiki</span>
-          </Button>
-        </a>
         <ThemeToggle />
         <Button
           variant="ghost"
