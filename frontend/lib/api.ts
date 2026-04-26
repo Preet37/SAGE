@@ -661,10 +661,6 @@ export const api = {
       request<DocumentDetail>(`/documents/${id}`, {}, token),
     delete: (id: string, token: string) =>
       request<{ ok: boolean; deleted: number }>(`/documents/${id}`, { method: "DELETE" }, token),
-    enhance: (id: string, token: string) =>
-      request<{ result_b64: string }>(`/documents/${id}/enhance`, { method: "POST" }, token),
-    removeBg: (id: string, token: string) =>
-      request<{ result_b64: string }>(`/documents/${id}/remove-bg`, { method: "POST" }, token),
   },
 };
 
@@ -676,14 +672,16 @@ export interface DocumentOut {
   chunk_count: number;
   preview: string;
   created_at: string;
+  cld_public_id: string;
+  cld_secure_url: string;
   doc_type: string;
   subject: string;
   summary: string;
   key_topics: string[];
   is_image: boolean;
-  thumbnail_b64: string | null;
-  enhanced_b64: string | null;
-  nobg_b64: string | null;
+  thumbnail_url: string | null;
+  enhanced_url: string | null;
+  nobg_url: string | null;
 }
 
 export interface DocumentDetail extends DocumentOut {

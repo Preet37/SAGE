@@ -98,7 +98,7 @@ features:
 
 # ── External integrations ─────────────────────────────────────
 cloudinary:
-  cloud_name: ""         # Set via CLOUDINARY_CLOUD_NAME env var
+  cloud_name: "dywql3hua"
   upload_preset: "sage_unsigned"
   folder: "sage"
 

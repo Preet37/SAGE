@@ -1,33 +1,38 @@
-"""Document ingestion — parse, classify, enhance, and memorise.
+"""Document ingestion — Cloudinary-powered.
 
-Supported formats:
-  Documents : PDF, DOCX, PPTX, TXT, MD, CSV
-  Images    : PNG, JPG, JPEG, WEBP, BMP, GIF  ← text extracted via Groq vision
-  Video/Audio: MP4, MOV, WEBM, MP3, WAV, M4A  ← metadata only (Whisper opt-in)
+Every uploaded file goes through:
+  1. Upload to Cloudinary (storage + CDN)
+  2. Cloudinary transformations for images:
+       - Auto-enhance  : e_improve,e_sharpen,e_auto_contrast
+       - Background removal : e_background_removal
+       - Thumbnail     : c_thumb,w_300,h_300,g_auto
+  3. Text extraction (Cloudinary OCR for images, local parsers for docs)
+  4. LLM classification → doc_type / subject / summary / key_topics
+  5. Text chunked into MemoryRecord rows (semantic memory)
 
-On every upload the backend:
-  1. Extracts text (parser per mime-type, Groq vision for images)
-  2. Runs LLM classification → doc_type, subject, summary, key_topics
-  3. For images: Pillow auto-enhance + rembg background removal
-  4. Chunks text into MemoryRecord rows with role="document"
-
-Extra endpoints:
-  POST /documents/{id}/enhance    → re-run Pillow enhance on an image
-  POST /documents/{id}/remove-bg  → re-run rembg on an image
+Endpoints:
+  POST /documents/upload
+  GET  /documents
+  GET  /documents/{id}
+  DELETE /documents/{id}
 """
 
 from __future__ import annotations
 
-import base64
 import io
 import json
 import logging
 import mimetypes
+import os
 import re
 from datetime import datetime
 from typing import Optional
 
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 from cuid2 import Cuid as _Cuid
+
 _cuid_gen = _Cuid()
 def cuid() -> str:
     return _cuid_gen.generate()
@@ -47,9 +52,28 @@ from ..services.semantic_memory import _heuristic_importance as compute_importan
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/documents", tags=["documents"])
 
+# ── Cloudinary config ─────────────────────────────────────────────────────────
+
+def _init_cloudinary() -> None:
+    """Configure Cloudinary from env / CLOUDINARY_URL."""
+    url = os.getenv("CLOUDINARY_URL", "")
+    if url.startswith("cloudinary://"):
+        cloudinary.config(cloudinary_url=url)
+    else:
+        settings = get_settings()
+        if settings.cloudinary_cloud_name and settings.cloudinary_api_key:
+            cloudinary.config(
+                cloud_name=settings.cloudinary_cloud_name,
+                api_key=settings.cloudinary_api_key,
+                api_secret=settings.cloudinary_api_secret,
+                secure=True,
+            )
+
+_init_cloudinary()
+
 # ── Limits ────────────────────────────────────────────────────────────────────
-MAX_BYTES   = 50 * 1024 * 1024
-CHUNK_SIZE  = 1200
+MAX_BYTES    = 50 * 1024 * 1024
+CHUNK_SIZE   = 1200
 CHUNK_OVERLAP = 200
 
 # ── MIME sets ─────────────────────────────────────────────────────────────────
@@ -69,20 +93,62 @@ _IMAGE_TYPES = {
 }
 _VIDEO_TYPES = {"video/mp4", "video/mpeg", "video/webm", "video/ogg", "video/quicktime"}
 _AUDIO_TYPES = {"audio/mpeg", "audio/wav", "audio/ogg", "audio/mp4", "audio/webm"}
+_RAW_TYPES   = _PDF_TYPES | _DOCX_TYPES | _PPTX_TYPES | _TEXT_TYPES
 
-ALL_ACCEPTED = (
-    _PDF_TYPES | _DOCX_TYPES | _PPTX_TYPES | _TEXT_TYPES
-    | _IMAGE_TYPES | _VIDEO_TYPES | _AUDIO_TYPES
-)
+ALL_ACCEPTED = _RAW_TYPES | _IMAGE_TYPES | _VIDEO_TYPES | _AUDIO_TYPES
 
-# ── Text parsers ──────────────────────────────────────────────────────────────
+
+# ── Cloudinary upload helpers ─────────────────────────────────────────────────
+
+def _cld_resource_type(mime: str) -> str:
+    if mime in _IMAGE_TYPES: return "image"
+    if mime in _VIDEO_TYPES | _AUDIO_TYPES: return "video"
+    return "raw"
+
+
+def _upload_to_cloudinary(data: bytes, filename: str, mime: str, folder: str) -> dict:
+    """Upload bytes to Cloudinary and return the upload response dict."""
+    resource_type = _cld_resource_type(mime)
+    result = cloudinary.uploader.upload(
+        data,
+        resource_type=resource_type,
+        folder=folder,
+        use_filename=True,
+        unique_filename=True,
+        overwrite=False,
+        # Request Cloudinary OCR for images (if the add-on is enabled)
+        ocr="adv_ocr" if resource_type == "image" else None,
+    )
+    return result  # type: ignore[return-value]
+
+
+def _cld_transformation_url(public_id: str, resource_type: str, transformation: str) -> str:
+    """Build a Cloudinary transformation delivery URL."""
+    settings = get_settings()
+    cloud = settings.cloudinary_cloud_name or os.getenv("CLOUDINARY_CLOUD_NAME", "")
+    return (
+        f"https://res.cloudinary.com/{cloud}/{resource_type}/upload/"
+        f"{transformation}/{public_id}"
+    )
+
+
+def _build_image_urls(public_id: str) -> tuple[str, str, str]:
+    """
+    Returns (thumbnail_url, enhanced_url, nobg_url) as Cloudinary delivery URLs.
+    These are on-the-fly transformations — no extra API calls needed.
+    """
+    thumb    = _cld_transformation_url(public_id, "image", "c_thumb,w_300,h_300,g_auto,f_auto,q_auto")
+    enhanced = _cld_transformation_url(public_id, "image", "e_improve,e_sharpen:80,e_auto_contrast,f_auto,q_auto")
+    nobg     = _cld_transformation_url(public_id, "image", "e_background_removal,f_png")
+    return thumb, enhanced, nobg
+
+
+# ── Local text parsers (for document types Cloudinary can't parse) ────────────
 
 def _parse_pdf(data: bytes) -> str:
     from pypdf import PdfReader
     reader = PdfReader(io.BytesIO(data))
-    return "\n\n".join(
-        (page.extract_text() or "").strip() for page in reader.pages
-    ).strip()
+    return "\n\n".join((p.extract_text() or "").strip() for p in reader.pages).strip()
 
 
 def _parse_docx(data: bytes) -> str:
@@ -92,8 +158,7 @@ def _parse_docx(data: bytes) -> str:
     for table in doc.tables:
         for row in table.rows:
             cells = [c.text.strip() for c in row.cells if c.text.strip()]
-            if cells:
-                parts.append(" | ".join(cells))
+            if cells: parts.append(" | ".join(cells))
     return "\n\n".join(parts)
 
 
@@ -115,186 +180,132 @@ def _parse_pptx(data: bytes) -> str:
 
 def _parse_text(data: bytes) -> str:
     for enc in ("utf-8", "latin-1", "cp1252"):
-        try:
-            return data.decode(enc)
-        except UnicodeDecodeError:
-            continue
+        try: return data.decode(enc)
+        except UnicodeDecodeError: continue
     return data.decode("utf-8", errors="replace")
 
 
-async def _parse_image(data: bytes, mime: str, filename: str) -> str:
-    """Use Groq vision to describe the image and extract any visible text."""
+def _extract_text_from_cloudinary_ocr(upload_result: dict) -> str:
+    """Pull OCR text from Cloudinary's adv_ocr response if available."""
     try:
-        b64 = base64.b64encode(data).decode()
-        data_url = f"data:{mime};base64,{b64}"
-        settings = get_settings()
-        client = get_async_client()
-        completion = await client.chat.completions.create(
-            model=settings.fast_llm_model or settings.llm_model,
-            messages=[
-                {
-                    "role": "user",
-                    "content": [
-                        {
-                            "type": "image_url",
-                            "image_url": {"url": data_url},
-                        },
-                        {
-                            "type": "text",
-                            "text": (
-                                "Please do two things:\n"
-                                "1. Extract every piece of text visible in this image verbatim.\n"
-                                "2. Describe what the image shows (diagram, chart, photo, slide, etc.).\n"
-                                "Format:\n"
-                                "EXTRACTED TEXT:\n<text or 'None'>\n\n"
-                                "DESCRIPTION:\n<description>"
-                            ),
-                        },
-                    ],
-                }
-            ],
-            max_tokens=1024,
-            temperature=0.1,
-        )
-        return (completion.choices[0].message.content or "").strip()
+        ocr_data = upload_result.get("info", {}).get("ocr", {})
+        adv = ocr_data.get("adv_ocr", {}) or ocr_data.get("adv_ocr", {})
+        status = adv.get("status", "")
+        if status == "complete":
+            data = adv.get("data", [])
+            all_text: list[str] = []
+            for page in data:
+                for annotation in page.get("textAnnotations", []):
+                    text = annotation.get("description", "")
+                    if text: all_text.append(text); break  # first annotation = full page text
+            return "\n\n".join(all_text).strip()
     except Exception as exc:
-        logger.warning("Vision OCR failed for %s: %s", filename, exc)
-        return f"[Image file: {filename}. Vision OCR unavailable: {exc}]"
+        logger.debug("OCR extraction failed: %s", exc)
+    return ""
 
 
-def _parse_video_audio(filename: str, size_bytes: int) -> str:
-    return (
-        f"[Media file: {filename}]\n"
-        f"Size: {size_bytes / 1024 / 1024:.1f} MB\n"
-        "Full speech-to-text transcription requires a Whisper API key (WHISPER_API_KEY)."
-    )
-
-
-async def _extract_text(data: bytes, mime: str, filename: str) -> str:
+async def _extract_text(data: bytes, mime: str, filename: str, upload_result: dict) -> str:
+    """Extract text from the document, using Cloudinary OCR for images."""
     try:
         if mime in _PDF_TYPES:   return _parse_pdf(data)
         if mime in _DOCX_TYPES:  return _parse_docx(data)
         if mime in _PPTX_TYPES:  return _parse_pptx(data)
         if mime in _TEXT_TYPES:  return _parse_text(data)
-        if mime in _IMAGE_TYPES: return await _parse_image(data, mime, filename)
+        if mime in _IMAGE_TYPES:
+            # Try Cloudinary OCR first
+            ocr_text = _extract_text_from_cloudinary_ocr(upload_result)
+            if ocr_text:
+                return ocr_text
+            # Fallback: Groq vision
+            return await _groq_vision_ocr(data, mime, filename)
         if mime in (_VIDEO_TYPES | _AUDIO_TYPES):
-            return _parse_video_audio(filename, len(data))
+            dur = upload_result.get("duration", "")
+            return (
+                f"[Media file: {filename}]\n"
+                f"Size: {len(data)/1024/1024:.1f} MB"
+                + (f"\nDuration: {dur:.1f}s" if dur else "") + "\n"
+                "Transcription requires a Whisper API key."
+            )
     except Exception as exc:
-        logger.warning("Parser error for %s (%s): %s", filename, mime, exc)
-        return f"[Parse failed for {filename}: {exc}]"
-    return f"[Unsupported: {mime}]"
+        logger.warning("Text extraction failed for %s: %s", filename, exc)
+        return f"[Parse failed: {exc}]"
+    return ""
 
 
-# ── Image processing helpers ──────────────────────────────────────────────────
-
-def _pillow_enhance(data: bytes) -> bytes:
-    """Auto-enhance: contrast + sharpness + subtle brightness boost."""
-    from PIL import Image, ImageEnhance, ImageFilter  # type: ignore
-    img = Image.open(io.BytesIO(data)).convert("RGBA")
-
-    # Work on RGB layer only, preserve alpha
-    rgb = img.convert("RGB")
-    rgb = ImageEnhance.Contrast(rgb).enhance(1.3)
-    rgb = ImageEnhance.Sharpness(rgb).enhance(1.4)
-    rgb = ImageEnhance.Color(rgb).enhance(1.15)
-    rgb = ImageEnhance.Brightness(rgb).enhance(1.05)
-    # Mild unsharp-mask for crispness
-    rgb = rgb.filter(ImageFilter.UnsharpMask(radius=1.5, percent=80, threshold=3))
-
-    # Merge back alpha if present
-    r, g, b = rgb.split()
-    _, _, _, a = img.split()
-    out = Image.merge("RGBA", (r, g, b, a))
-
-    buf = io.BytesIO()
-    out.save(buf, format="PNG")
-    return buf.getvalue()
-
-
-def _remove_background(data: bytes) -> bytes:
-    """Remove background using rembg (U2Net). Returns RGBA PNG."""
-    from rembg import remove as rembg_remove  # type: ignore
-    result: bytes = rembg_remove(data)
-    return result
-
-
-def _thumbnail_b64(data: bytes, mime: str, max_px: int = 300) -> str:
-    """Resize image to thumbnail and return as base64 PNG data-URL."""
-    from PIL import Image  # type: ignore
-    img = Image.open(io.BytesIO(data))
-    img.thumbnail((max_px, max_px), Image.LANCZOS)
-    buf = io.BytesIO()
-    img.save(buf, format="PNG")
-    b64 = base64.b64encode(buf.getvalue()).decode()
-    return f"data:image/png;base64,{b64}"
+async def _groq_vision_ocr(data: bytes, mime: str, filename: str) -> str:
+    import base64
+    try:
+        b64 = base64.b64encode(data).decode()
+        settings = get_settings()
+        client = get_async_client()
+        completion = await client.chat.completions.create(
+            model=settings.fast_llm_model or settings.llm_model,
+            messages=[{
+                "role": "user",
+                "content": [
+                    {"type": "image_url", "image_url": {"url": f"data:{mime};base64,{b64}"}},
+                    {"type": "text", "text":
+                        "Extract all visible text from this image verbatim, then briefly describe what it shows.\n"
+                        "Format:\nEXTRACTED TEXT:\n<text or 'None'>\n\nDESCRIPTION:\n<description>"},
+                ],
+            }],
+            max_tokens=1024, temperature=0.1,
+        )
+        return (completion.choices[0].message.content or "").strip()
+    except Exception as exc:
+        return f"[Image: {filename}. Vision OCR unavailable: {exc}]"
 
 
 # ── LLM classification ────────────────────────────────────────────────────────
 
-_CLASSIFY_PROMPT = """You are a document classifier. Given the first ~1500 characters of a document,
-return STRICT JSON with exactly this shape:
+_CLASSIFY_PROMPT = """Classify this document excerpt and return STRICT JSON (no markdown, no fences):
 
 {{
-  "doc_type": "<one of: Research Paper, Lecture Notes, Textbook Chapter, Presentation, Study Guide, Code/Technical, Image/Diagram, Video Transcript, General Notes, Other>",
-  "subject": "<subject area, e.g. Machine Learning, Calculus, History, Chemistry>",
-  "summary": "<2-3 sentence plain-English summary of what this document covers>",
+  "doc_type": "<Research Paper|Lecture Notes|Textbook Chapter|Presentation|Study Guide|Code/Technical|Image/Diagram|Video Transcript|General Notes|Other>",
+  "subject": "<subject area>",
+  "summary": "<2-3 sentence plain-English summary>",
   "key_topics": ["<topic>", "<topic>", "<topic>"]
 }}
 
-Document excerpt:
-{excerpt}
-"""
+Excerpt:
+{excerpt}"""
 
 
-async def _classify_document(text: str) -> dict:
+async def _classify(text: str) -> dict:
     try:
         settings = get_settings()
         client = get_async_client()
-        excerpt = text[:1500].strip()
-        if not excerpt:
-            raise ValueError("Empty text")
         completion = await client.chat.completions.create(
             model=settings.fast_llm_model or settings.llm_model,
             messages=[
-                {"role": "system", "content": "You output strict JSON only. No markdown, no code fences."},
-                {"role": "user", "content": _CLASSIFY_PROMPT.format(excerpt=excerpt)},
+                {"role": "system", "content": "Return strict JSON only."},
+                {"role": "user", "content": _CLASSIFY_PROMPT.format(excerpt=text[:1500].strip())},
             ],
-            max_tokens=400,
-            temperature=0.1,
+            max_tokens=400, temperature=0.1,
         )
-        raw = (completion.choices[0].message.content or "").strip()
-        # Strip fences if any
-        raw = re.sub(r"^```(?:json)?\s*", "", raw)
-        raw = re.sub(r"\s*```$", "", raw)
+        raw = re.sub(r"^```(?:json)?\s*|\s*```$", "", (completion.choices[0].message.content or "").strip())
         return json.loads(raw)
     except Exception as exc:
         logger.warning("Classification failed: %s", exc)
-        return {
-            "doc_type": "Other",
-            "subject": "Unknown",
-            "summary": "",
-            "key_topics": [],
-        }
+        return {"doc_type": "Other", "subject": "", "summary": "", "key_topics": []}
 
 
 # ── Chunker ───────────────────────────────────────────────────────────────────
 
 def _chunk(text: str) -> list[str]:
     text = re.sub(r"\n{3,}", "\n\n", text).strip()
-    if not text:
-        return []
+    if not text: return []
     chunks: list[str] = []
     start = 0
     while start < len(text):
         end = min(start + CHUNK_SIZE, len(text))
         chunks.append(text[start:end])
-        if end == len(text):
-            break
+        if end == len(text): break
         start = end - CHUNK_OVERLAP
     return chunks
 
 
-# ── Response schemas ──────────────────────────────────────────────────────────
+# ── Response models ───────────────────────────────────────────────────────────
 
 class DocumentOut(BaseModel):
     id: str
@@ -304,16 +315,19 @@ class DocumentOut(BaseModel):
     chunk_count: int
     preview: str
     created_at: datetime
+    # Cloudinary
+    cld_public_id: str = ""
+    cld_secure_url: str = ""
     # Classification
     doc_type: str = "Other"
     subject: str = ""
     summary: str = ""
     key_topics: list[str] = []
-    # Image extras
+    # Image delivery URLs (Cloudinary on-the-fly transformations)
     is_image: bool = False
-    thumbnail_b64: Optional[str] = None
-    enhanced_b64: Optional[str] = None
-    nobg_b64: Optional[str] = None
+    thumbnail_url: Optional[str] = None
+    enhanced_url: Optional[str] = None
+    nobg_url: Optional[str] = None
 
 
 class DocumentDetail(DocumentOut):
@@ -323,8 +337,7 @@ class DocumentDetail(DocumentOut):
 def _meta_to_out(record: MemoryRecord) -> Optional[DocumentOut]:
     try:
         meta = json.loads(record.content)
-        if not meta.get("_doc_meta"):
-            return None
+        if not meta.get("_doc_meta"): return None
         return DocumentOut(
             id=record.id,
             filename=meta.get("filename", "unknown"),
@@ -333,14 +346,16 @@ def _meta_to_out(record: MemoryRecord) -> Optional[DocumentOut]:
             chunk_count=meta.get("chunk_count", 0),
             preview=meta.get("preview", ""),
             created_at=record.created_at,
+            cld_public_id=meta.get("cld_public_id", ""),
+            cld_secure_url=meta.get("cld_secure_url", ""),
             doc_type=meta.get("doc_type", "Other"),
             subject=meta.get("subject", ""),
             summary=meta.get("summary", ""),
             key_topics=meta.get("key_topics", []),
             is_image=meta.get("is_image", False),
-            thumbnail_b64=meta.get("thumbnail_b64"),
-            enhanced_b64=meta.get("enhanced_b64"),
-            nobg_b64=meta.get("nobg_b64"),
+            thumbnail_url=meta.get("thumbnail_url"),
+            enhanced_url=meta.get("enhanced_url"),
+            nobg_url=meta.get("nobg_url"),
         )
     except Exception:
         return None
@@ -361,86 +376,77 @@ async def upload_document(
     filename = file.filename or "upload"
     mime = file.content_type or mimetypes.guess_type(filename)[0] or "application/octet-stream"
 
-    # Normalise common aliases
+    # Normalise MIME from extension
     ext_lower = filename.lower().rsplit(".", 1)[-1] if "." in filename else ""
-    ext_map = {
+    _ext_map = {
         "md": "text/markdown", "csv": "text/csv", "txt": "text/plain",
         "png": "image/png", "jpg": "image/jpeg", "jpeg": "image/jpeg",
         "webp": "image/webp", "bmp": "image/bmp", "gif": "image/gif",
-        "heic": "image/heic", "tiff": "image/tiff",
     }
-    if ext_lower in ext_map:
-        mime = ext_map[ext_lower]
+    if ext_lower in _ext_map:
+        mime = _ext_map[ext_lower]
 
     if mime not in ALL_ACCEPTED:
         raise HTTPException(
             status_code=415,
-            detail=f"Unsupported file type '{mime}'. Accepted: PDF, DOCX, PPTX, TXT, MD, CSV, PNG, JPG, WEBP, MP4, MP3, WAV…",
+            detail=f"Unsupported type '{mime}'. Accepted: PDF, DOCX, PPTX, TXT, MD, CSV, PNG, JPG, WEBP, MP4, MP3…",
         )
 
     is_image = mime in _IMAGE_TYPES
+    settings = get_settings()
+    folder = f"{settings.cloudinary_folder}/docs/user_{user.id}"
 
-    # ── 1. Extract text ───────────────────────────────────────────────────────
-    text = await _extract_text(data, mime, filename)
-    chunks = _chunk(text)
-    if not chunks:
-        chunks = [f"[Empty document: {filename}]"]
+    # ── 1. Upload to Cloudinary ───────────────────────────────────────────────
+    try:
+        upload_result = _upload_to_cloudinary(data, filename, mime, folder)
+        cld_public_id  = upload_result.get("public_id", "")
+        cld_secure_url = upload_result.get("secure_url", "")
+    except Exception as exc:
+        logger.error("Cloudinary upload failed: %s", exc)
+        raise HTTPException(status_code=502, detail=f"Cloudinary upload failed: {exc}")
 
-    # ── 2. Classify ───────────────────────────────────────────────────────────
-    classification = await _classify_document(text)
+    # ── 2. Image transformation URLs (on-the-fly, no extra API call) ──────────
+    thumbnail_url: Optional[str] = None
+    enhanced_url:  Optional[str] = None
+    nobg_url:      Optional[str] = None
 
-    # ── 3. Image processing ───────────────────────────────────────────────────
-    thumbnail_b64: Optional[str] = None
-    enhanced_b64: Optional[str] = None
-    nobg_b64: Optional[str] = None
+    if is_image and cld_public_id:
+        thumbnail_url, enhanced_url, nobg_url = _build_image_urls(cld_public_id)
 
-    if is_image:
-        try:
-            thumbnail_b64 = _thumbnail_b64(data, mime)
-        except Exception as exc:
-            logger.warning("Thumbnail failed: %s", exc)
+    # ── 3. Extract text ───────────────────────────────────────────────────────
+    text = await _extract_text(data, mime, filename, upload_result)
+    chunks = _chunk(text) or [f"[Empty document: {filename}]"]
 
-        try:
-            enhanced_bytes = _pillow_enhance(data)
-            enhanced_b64 = f"data:image/png;base64,{base64.b64encode(enhanced_bytes).decode()}"
-        except Exception as exc:
-            logger.warning("Enhance failed: %s", exc)
+    # ── 4. Classify ───────────────────────────────────────────────────────────
+    cls = await _classify(text)
 
-        try:
-            nobg_bytes = _remove_background(data)
-            nobg_b64 = f"data:image/png;base64,{base64.b64encode(nobg_bytes).decode()}"
-        except Exception as exc:
-            logger.warning("BG removal failed: %s", exc)
-
-    # ── 4. Store in DB ────────────────────────────────────────────────────────
+    # ── 5. Persist metadata + chunks in DB ───────────────────────────────────
     doc_id = cuid()
     preview = text[:300].replace("\n", " ").strip()
-
-    meta_content = json.dumps({
-        "_doc_meta": True,
-        "filename": filename,
-        "mime": mime,
-        "size_bytes": len(data),
-        "chunk_count": len(chunks),
-        "preview": preview,
-        # Classification
-        "doc_type": classification.get("doc_type", "Other"),
-        "subject": classification.get("subject", ""),
-        "summary": classification.get("summary", ""),
-        "key_topics": classification.get("key_topics", []),
-        # Image extras (full data-URLs stored for instant retrieval)
-        "is_image": is_image,
-        "thumbnail_b64": thumbnail_b64,
-        "enhanced_b64": enhanced_b64,
-        "nobg_b64": nobg_b64,
-    })
 
     meta_record = MemoryRecord(
         id=doc_id,
         user_id=user.id,
         role="document",
         session_id=doc_id,
-        content=meta_content,
+        content=json.dumps({
+            "_doc_meta": True,
+            "filename": filename,
+            "mime": mime,
+            "size_bytes": len(data),
+            "chunk_count": len(chunks),
+            "preview": preview,
+            "cld_public_id": cld_public_id,
+            "cld_secure_url": cld_secure_url,
+            "doc_type": cls.get("doc_type", "Other"),
+            "subject": cls.get("subject", ""),
+            "summary": cls.get("summary", ""),
+            "key_topics": cls.get("key_topics", []),
+            "is_image": is_image,
+            "thumbnail_url": thumbnail_url,
+            "enhanced_url": enhanced_url,
+            "nobg_url": nobg_url,
+        }),
         importance=0.9,
     )
     session.add(meta_record)
@@ -459,85 +465,34 @@ async def upload_document(
     session.refresh(meta_record)
 
     return DocumentOut(
-        id=doc_id,
-        filename=filename,
-        mime=mime,
-        size_bytes=len(data),
-        chunk_count=len(chunks),
-        preview=preview,
+        id=doc_id, filename=filename, mime=mime, size_bytes=len(data),
+        chunk_count=len(chunks), preview=preview,
         created_at=meta_record.created_at,
-        doc_type=classification.get("doc_type", "Other"),
-        subject=classification.get("subject", ""),
-        summary=classification.get("summary", ""),
-        key_topics=classification.get("key_topics", []),
+        cld_public_id=cld_public_id, cld_secure_url=cld_secure_url,
+        doc_type=cls.get("doc_type", "Other"),
+        subject=cls.get("subject", ""),
+        summary=cls.get("summary", ""),
+        key_topics=cls.get("key_topics", []),
         is_image=is_image,
-        thumbnail_b64=thumbnail_b64,
-        enhanced_b64=enhanced_b64,
-        nobg_b64=nobg_b64,
+        thumbnail_url=thumbnail_url,
+        enhanced_url=enhanced_url,
+        nobg_url=nobg_url,
     )
 
 
-# ── Image action endpoints ────────────────────────────────────────────────────
-
-class ImageActionResponse(BaseModel):
-    result_b64: str   # data:image/png;base64,…
-
-
-@router.post("/{doc_id}/enhance", response_model=ImageActionResponse)
-async def enhance_image(
-    doc_id: str,
-    session: Session = Depends(get_session),
-    user: User = Depends(get_current_user),
-) -> ImageActionResponse:
-    meta_record = session.get(MemoryRecord, doc_id)
-    if not meta_record or meta_record.user_id != user.id:
-        raise HTTPException(status_code=404, detail="Document not found")
-    try:
-        meta = json.loads(meta_record.content)
-    except Exception:
-        raise HTTPException(status_code=400, detail="Invalid document metadata")
-
-    # If we already have enhanced_b64, return it directly
-    if meta.get("enhanced_b64"):
-        return ImageActionResponse(result_b64=meta["enhanced_b64"])
-
-    raise HTTPException(status_code=400, detail="Not an image document or enhancement unavailable")
-
-
-@router.post("/{doc_id}/remove-bg", response_model=ImageActionResponse)
-async def remove_bg(
-    doc_id: str,
-    session: Session = Depends(get_session),
-    user: User = Depends(get_current_user),
-) -> ImageActionResponse:
-    meta_record = session.get(MemoryRecord, doc_id)
-    if not meta_record or meta_record.user_id != user.id:
-        raise HTTPException(status_code=404, detail="Document not found")
-    try:
-        meta = json.loads(meta_record.content)
-    except Exception:
-        raise HTTPException(status_code=400, detail="Invalid document metadata")
-
-    if meta.get("nobg_b64"):
-        return ImageActionResponse(result_b64=meta["nobg_b64"])
-
-    raise HTTPException(status_code=400, detail="Not an image document or background removal unavailable")
-
-
-# ── List / get / delete ───────────────────────────────────────────────────────
+# ── List / Get / Delete ───────────────────────────────────────────────────────
 
 @router.get("", response_model=list[DocumentOut])
 def list_documents(
     session: Session = Depends(get_session),
     user: User = Depends(get_current_user),
 ) -> list[DocumentOut]:
-    stmt = (
+    rows = list(session.exec(
         select(MemoryRecord)
         .where(MemoryRecord.user_id == user.id)
         .where(MemoryRecord.role == "document")
         .order_by(MemoryRecord.created_at.desc())
-    )
-    rows = list(session.exec(stmt))
+    ))
     docs: list[DocumentOut] = []
     seen: set[str] = set()
     for r in rows:
@@ -561,14 +516,13 @@ def get_document(
     out = _meta_to_out(meta_record)
     if not out:
         raise HTTPException(status_code=404, detail="Document not found")
-    chunk_stmt = (
+    chunks = [r.content for r in session.exec(
         select(MemoryRecord)
         .where(MemoryRecord.user_id == user.id)
         .where(MemoryRecord.session_id == doc_id)
         .where(MemoryRecord.id != doc_id)
         .order_by(MemoryRecord.created_at)
-    )
-    chunks = [r.content for r in session.exec(chunk_stmt)]
+    )]
     return DocumentDetail(**out.model_dump(), chunks=chunks)
 
 
@@ -578,14 +532,24 @@ def delete_document(
     session: Session = Depends(get_session),
     user: User = Depends(get_current_user),
 ) -> dict:
-    stmt = (
+    rows = list(session.exec(
         select(MemoryRecord)
         .where(MemoryRecord.user_id == user.id)
         .where(MemoryRecord.session_id == doc_id)
-    )
-    rows = list(session.exec(stmt))
+    ))
     if not rows:
         raise HTTPException(status_code=404, detail="Document not found")
+    # Also delete from Cloudinary
+    meta_record = next((r for r in rows if r.id == doc_id), None)
+    if meta_record:
+        try:
+            meta = json.loads(meta_record.content)
+            pub_id = meta.get("cld_public_id", "")
+            res_type = _cld_resource_type(meta.get("mime", "raw"))
+            if pub_id:
+                cloudinary.uploader.destroy(pub_id, resource_type=res_type)
+        except Exception as exc:
+            logger.warning("Cloudinary delete failed: %s", exc)
     for r in rows:
         session.delete(r)
     session.commit()

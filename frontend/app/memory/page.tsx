@@ -64,15 +64,15 @@ type ImgTab = "original" | "enhanced" | "nobg";
 function ImageViewer({ doc }: { doc: DocumentOut }) {
   const [tab, setTab] = useState<ImgTab>("original");
   const src =
-    tab === "enhanced" ? doc.enhanced_b64 :
-    tab === "nobg"     ? doc.nobg_b64 :
-    doc.thumbnail_b64;
+    tab === "enhanced" ? doc.enhanced_url :
+    tab === "nobg"     ? doc.nobg_url :
+    doc.thumbnail_url;
   if (!src) return null;
 
   const tabs: { key: ImgTab; label: string; available: boolean }[] = [
-    { key: "original",  label: "Original",  available: !!doc.thumbnail_b64 },
-    { key: "enhanced",  label: "Enhanced",  available: !!doc.enhanced_b64 },
-    { key: "nobg",      label: "No BG",     available: !!doc.nobg_b64 },
+    { key: "original",  label: "Original",  available: !!doc.thumbnail_url },
+    { key: "enhanced",  label: "Enhanced",  available: !!doc.enhanced_url },
+    { key: "nobg",      label: "No BG",     available: !!doc.nobg_url },
   ];
 
   return (
@@ -295,9 +295,9 @@ export default function MyDocumentsPage() {
                     {/* Main row */}
                     <div className="flex gap-3 px-4 py-3">
                       {/* Thumbnail or icon */}
-                      {doc.is_image && doc.thumbnail_b64 ? (
+                      {doc.is_image && doc.thumbnail_url ? (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img src={doc.thumbnail_b64} alt={doc.filename}
+                        <img src={doc.thumbnail_url} alt={doc.filename}
                           className="h-12 w-12 rounded-lg object-cover flex-shrink-0 border border-border" />
                       ) : (
                         <div className="h-12 w-12 rounded-lg bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
@@ -372,12 +372,12 @@ export default function MyDocumentsPage() {
                         {/* Image action badges */}
                         {doc.is_image && (
                           <div className="flex gap-1 mt-1">
-                            {doc.enhanced_b64 && (
+                            {doc.enhanced_url && (
                               <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-medium flex items-center gap-0.5">
                                 <Zap className="h-2.5 w-2.5" />Enhanced
                               </span>
                             )}
-                            {doc.nobg_b64 && (
+                            {doc.nobg_url && (
                               <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-blue-500/15 text-blue-700 dark:text-blue-300 font-medium flex items-center gap-0.5">
                                 <Eraser className="h-2.5 w-2.5" />No BG
                               </span>
