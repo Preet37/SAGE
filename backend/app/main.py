@@ -10,7 +10,7 @@ from .config import get_settings
 from .db import run_migrations, create_db_and_tables
 from .routers import auth, learning_paths, progress, tutor, explore, quiz, concepts, assessment, curriculum
 from .routers import projects, course_creator, visual_plot, sandbox, sms, diagnostic, broadcast, export
-from .routers import cognition, network, media, fetchai_bridge, documents
+from .routers import cognition, network, media, fetchai_bridge, wiki_staging, user_wiki, profile, documents
 
 settings = get_settings()
 
@@ -69,6 +69,9 @@ app.include_router(cognition.router)
 app.include_router(network.router)
 app.include_router(media.router)
 app.include_router(fetchai_bridge.router)
+app.include_router(wiki_staging.router)
+app.include_router(user_wiki.router)
+app.include_router(profile.router)
 app.include_router(documents.router)
 
 from .config import WIKI_DIR

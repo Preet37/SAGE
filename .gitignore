@@ -68,3 +68,7 @@ scripts/.job_state.json
 scripts/.link_validation_cache.json
 scripts/kb_compare_old.md
 scripts/kb_compare_new.md
+
+# Local SAGE runtime artifacts
+sage.db
+.sage_memory/

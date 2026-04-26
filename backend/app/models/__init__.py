@@ -11,6 +11,7 @@ from .exploration import ExplorationSession, ExplorationMessage
 from .memory import MemoryRecord
 from .network import PeerPresence, ResourceCacheEntry
 from .media import MediaAsset
+from .profile import LearnerProfile
 from .document import Document
 
 __all__ = [
@@ -18,6 +19,7 @@ __all__ = [
     "PeerPresence",
     "ResourceCacheEntry",
     "MediaAsset",
+    "LearnerProfile",
     "Document",
     "User",
     "LearningPath",

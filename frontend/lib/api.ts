@@ -646,6 +646,62 @@ export const api = {
         body: JSON.stringify({ topic, context }),
       }, token),
   },
+  wikiNotes: {
+    get: (topicSlug: string, token: string) =>
+      request<{ topic_slug: string; content: string }>(
+        `/wiki/notes/${encodeURIComponent(topicSlug)}`, {}, token,
+      ),
+    save: (topicSlug: string, content: string, token: string) =>
+      request<{ topic_slug: string; saved: boolean }>(
+        `/wiki/notes/${encodeURIComponent(topicSlug)}`,
+        { method: "PUT", body: JSON.stringify({ content }) },
+        token,
+      ),
+  },
+  wikiStaging: {
+    list: (token: string) =>
+      request<{ items: WikiStagingItemResponse[] }>("/wiki/staging", {}, token),
+    get: (filename: string, token: string) =>
+      request<Record<string, unknown>>(
+        `/wiki/staging/${encodeURIComponent(filename)}`, {}, token,
+      ),
+    approve: (filename: string, token: string) =>
+      request<{ status: string }>(
+        `/wiki/staging/${encodeURIComponent(filename)}/approve`,
+        { method: "POST" }, token,
+      ),
+    reject: (filename: string, token: string) =>
+      request<{ status: string }>(
+        `/wiki/staging/${encodeURIComponent(filename)}/reject`,
+        { method: "POST" }, token,
+      ),
+  },
+  profile: {
+    get: (token: string) => request<LearnerProfileResponse>("/profile/me", {}, token),
+    update: (payload: Partial<LearnerProfileResponse>, token: string) =>
+      request<LearnerProfileResponse>("/profile/me", {
+        method: "PATCH",
+        body: JSON.stringify(payload),
+      }, token),
+  },
+};
+
+export interface WikiStagingItemResponse {
+  filename: string;
+  type: string;
+  topic_slug: string;
+  course: string;
+  timestamp: string;
+  summary: string;
+}
+
+export interface LearnerProfileResponse {
+  user_id: string;
+  expertise_level: string;
+  preferred_style: string;
+  interests: string[];
+  goals: string;
+  updated_at: string;
   documents: {
     upload: (file: File, token: string) => {
       const form = new FormData();

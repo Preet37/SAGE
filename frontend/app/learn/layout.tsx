@@ -31,7 +31,11 @@ export default function LearnLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname();
   const [paths, setPaths] = useState<LearningPathResponse[]>([]);
   const [progress, setProgress] = useState<Record<string, boolean>>({});
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  // Sidebar starts collapsed on small screens to keep the chat the focal point.
+  const [sidebarOpen, setSidebarOpen] = useState(() => {
+    if (typeof window === "undefined") return true;
+    return window.matchMedia("(min-width: 768px)").matches;
+  });
   const [sidebarWidth, setSidebarWidth] = useState(280);
   const [loading, setLoading] = useState(true);
   const [pathPickerOpen, setPathPickerOpen] = useState(false);
@@ -133,12 +137,19 @@ export default function LearnLayout({ children }: { children: React.ReactNode })
 
   return (
     <div className="flex h-dvh bg-background overflow-hidden">
-      {/* Sidebar */}
+      {/* Sidebar — overlay on mobile, inline column on md+ */}
       {sidebarOpen && (
         <>
+          {/* Mobile backdrop */}
+          <div
+            onClick={() => setSidebarOpen(false)}
+            aria-hidden="true"
+            className="fixed inset-0 z-30 bg-black/40 md:hidden"
+          />
           <aside
-            className="flex flex-col h-full border-r border-border bg-card flex-shrink-0"
-            style={{ width: sidebarWidth }}
+            aria-label="Course navigation"
+            className="fixed inset-y-0 left-0 z-40 flex flex-col h-full border-r border-border bg-card flex-shrink-0 md:static md:z-auto"
+            style={{ width: sidebarWidth, maxWidth: "85vw" }}
           >
             <div className="flex items-center justify-between p-4 border-b border-border">
               <div className="flex items-center gap-2">
@@ -150,7 +161,12 @@ export default function LearnLayout({ children }: { children: React.ReactNode })
               </div>
               <div className="flex items-center gap-0.5">
                 <ThemeToggle />
-                <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(false)}>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setSidebarOpen(false)}
+                  aria-label="Close sidebar"
+                >
                   <X className="h-4 w-4" />
                 </Button>
               </div>
@@ -275,10 +291,13 @@ export default function LearnLayout({ children }: { children: React.ReactNode })
             </div>
           </aside>
 
-          {/* Drag handle */}
+          {/* Drag handle — desktop only */}
           <div
             onMouseDown={handleDragStart}
-            className="w-1.5 flex-shrink-0 bg-border hover:bg-primary/30 active:bg-primary/50 transition-colors cursor-col-resize flex items-center justify-center group"
+            role="separator"
+            aria-orientation="vertical"
+            aria-label="Resize sidebar"
+            className="hidden md:flex w-1.5 flex-shrink-0 bg-border hover:bg-primary/30 active:bg-primary/50 transition-colors cursor-col-resize items-center justify-center group"
           >
             <GripVertical className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
           </div>
@@ -291,7 +310,12 @@ export default function LearnLayout({ children }: { children: React.ReactNode })
           leftSlot={
             !sidebarOpen ? (
               <>
-                <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(true)}>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setSidebarOpen(true)}
+                  aria-label="Open sidebar"
+                >
                   <Menu className="h-4 w-4" />
                 </Button>
                 {!isOnLesson && (
