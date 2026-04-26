@@ -1,9 +1,9 @@
 ---
-title: "SocraticTutor Knowledge Base"
+title: "SAGE Knowledge Base"
 tags: []
 ---
 
-# SocraticTutor Knowledge Base
+# SAGE Knowledge Base
 
 A curated, interlinked library of AI and machine learning concepts — built by educators, for learners.
 
@@ -50,5 +50,5 @@ Browse **51 topics** across **9 subjects**, backed by **621 additional depth sou
 
 ---
 
-> This wiki is the knowledge base that powers the [SocraticTutor](/) learning platform.
+> This wiki is the knowledge base that powers the [SAGE](/) learning platform.
 > Topics are curated from top educators and research papers, verified and enriched by our team.

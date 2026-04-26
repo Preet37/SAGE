@@ -1,7 +1,32 @@
 "use client";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { Play, Loader2, RotateCcw, Terminal, Eye } from "lucide-react";
 import { cn } from "@/lib/utils";
+import hljs from "highlight.js/lib/core";
+import python from "highlight.js/lib/languages/python";
+import javascript from "highlight.js/lib/languages/javascript";
+import typescript from "highlight.js/lib/languages/typescript";
+import cpp from "highlight.js/lib/languages/cpp";
+import c from "highlight.js/lib/languages/c";
+import java from "highlight.js/lib/languages/java";
+import go from "highlight.js/lib/languages/go";
+import rust from "highlight.js/lib/languages/rust";
+import bash from "highlight.js/lib/languages/bash";
+import xml from "highlight.js/lib/languages/xml"; // covers HTML
+import ruby from "highlight.js/lib/languages/ruby";
+import "highlight.js/styles/github-dark.css";
+
+hljs.registerLanguage("python", python);
+hljs.registerLanguage("javascript", javascript);
+hljs.registerLanguage("typescript", typescript);
+hljs.registerLanguage("cpp", cpp);
+hljs.registerLanguage("c", c);
+hljs.registerLanguage("java", java);
+hljs.registerLanguage("go", go);
+hljs.registerLanguage("rust", rust);
+hljs.registerLanguage("bash", bash);
+hljs.registerLanguage("xml", xml);
+hljs.registerLanguage("ruby", ruby);
 
 // ── Language config ──────────────────────────────────────────────────────────
 
@@ -57,25 +82,20 @@ export function getCodeLang(classNames: (string | number)[] | null | undefined):
   return null;
 }
 
-// ── Piston API ───────────────────────────────────────────────────────────────
+// ── Piston API (proxied through backend to avoid CORS/rate-limit) ────────────
 
-const PISTON_URL = "https://emkc.org/api/v2/piston/execute";
+import { API_URL } from "@/lib/api";
 
 async function runViaPiston(pistonLang: string, code: string, extension: string): Promise<{ stdout: string; stderr: string }> {
-  const res = await fetch(PISTON_URL, {
+  const res = await fetch(`${API_URL}/sandbox/piston`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       language: pistonLang,
-      version: "*",
       files: [{ name: `main.${extension}`, content: code }],
-      stdin: "",
-      args: [],
-      compile_timeout: 15000,
-      run_timeout: 10000,
     }),
   });
-  if (!res.ok) throw new Error(`Piston API error: ${res.status}`);
+  if (!res.ok) throw new Error(`Code execution error: ${res.status}`);
   const data = await res.json();
   return {
     stdout: (data.run?.stdout || data.compile?.stdout || "").trim(),
@@ -179,6 +199,25 @@ export function CodeRunner({ code, langConfig }: { code: string; langConfig: Lan
 
   const hasErr = !!(result?.error || result?.stderr);
 
+  // Syntax-highlighted code HTML
+  const highlightedHtml = useMemo(() => {
+    const hljsLang =
+      langConfig.pistonLang === "python" ? "python" :
+      langConfig.strategy === "iframe-js" ? "javascript" :
+      langConfig.pistonLang === "typescript" ? "typescript" :
+      langConfig.strategy === "iframe-html" ? "xml" :
+      langConfig.pistonLang === "c++" ? "cpp" :
+      langConfig.pistonLang ?? "";
+    try {
+      if (hljsLang && hljs.getLanguage(hljsLang)) {
+        return hljs.highlight(code, { language: hljsLang }).value;
+      }
+      return hljs.highlightAuto(code).value;
+    } catch {
+      return null;
+    }
+  }, [code, langConfig]);
+
   return (
     <div className="not-prose my-3 rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-700 shadow-sm">
       {/* Top bar */}
@@ -224,9 +263,16 @@ export function CodeRunner({ code, langConfig }: { code: string; langConfig: Lan
         </div>
       </div>
 
-      {/* Code */}
-      <pre className="bg-zinc-900 dark:bg-zinc-950 text-zinc-200 p-4 text-[13px] font-mono overflow-x-auto m-0 leading-relaxed border-t border-zinc-800">
-        <code>{code}</code>
+      {/* Code with syntax highlighting */}
+      <pre className="bg-[#0d1117] p-4 text-[13px] font-mono overflow-x-auto m-0 leading-relaxed border-t border-zinc-800/60 hljs">
+        {highlightedHtml ? (
+          <code
+            className={`language-${langConfig.pistonLang ?? "plaintext"}`}
+            dangerouslySetInnerHTML={{ __html: highlightedHtml }}
+          />
+        ) : (
+          <code className="text-zinc-200">{code}</code>
+        )}
       </pre>
 
       {/* Hidden JS execution iframe */}

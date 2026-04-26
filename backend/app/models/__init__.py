@@ -12,6 +12,7 @@ from .memory import MemoryRecord
 from .network import PeerPresence, ResourceCacheEntry
 from .media import MediaAsset
 from .profile import LearnerProfile
+from .document import Document
 
 __all__ = [
     "MemoryRecord",
@@ -19,6 +20,7 @@ __all__ = [
     "ResourceCacheEntry",
     "MediaAsset",
     "LearnerProfile",
+    "Document",
     "User",
     "LearningPath",
     "Module",

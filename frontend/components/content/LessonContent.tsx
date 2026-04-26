@@ -1,5 +1,5 @@
 "use client";
-import { useState, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
@@ -130,6 +130,18 @@ export function LessonContent({ title, content, concepts }: LessonContentProps) 
                   )}
                 </figure>
               );
+            },
+            p({ children }) {
+              // Block-level custom renderers (figure, etc.) can't live inside <p>
+              const kids = React.Children.toArray(children);
+              const hasBlock = kids.some(
+                (c) =>
+                  React.isValidElement(c) &&
+                  typeof c.type === "string" &&
+                  ["figure", "div", "table", "ul", "ol", "section"].includes(c.type),
+              );
+              if (hasBlock) return <div className="my-2">{children}</div>;
+              return <p>{children}</p>;
             },
             a({ href, children }) {
               const isExternal =
