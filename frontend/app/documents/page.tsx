@@ -301,7 +301,7 @@ function ViewerOverlay({ doc, onClose }: { doc: DocumentOut; onClose: () => void
               <span style={{ fontFamily: "var(--font-dm-mono)", fontSize: "0.5rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--cream-2)" }}>OCR result</span>
               <button onClick={() => setOcrText(null)} style={{ fontFamily: "var(--font-dm-mono)", fontSize: "0.48rem", letterSpacing: "0.1em", textTransform: "uppercase", background: "none", border: "none", cursor: "pointer", color: "var(--cream-2)" }}>Dismiss</button>
             </div>
-            <pre style={{ fontFamily: "var(--font-dm-mono)", fontSize: "0.55rem", background: "rgba(240,233,214,0.04)", border: "1px solid rgba(240,233,214,0.08)", padding: "0.75rem", maxHeight: "12rem", overflowY: "auto", whiteSpace: "pre-wrap", wordBreak: "break-words", color: "var(--cream-1)" }}>{ocrText}</pre>
+            <pre style={{ fontFamily: "var(--font-dm-mono)", fontSize: "0.55rem", background: "rgba(240,233,214,0.04)", border: "1px solid rgba(240,233,214,0.08)", padding: "0.75rem", maxHeight: "12rem", overflowY: "auto", whiteSpace: "pre-wrap", wordBreak: "break-word", color: "var(--cream-1)" }}>{ocrText}</pre>
           </div>
         )}
         {transcript !== null && (
@@ -310,7 +310,7 @@ function ViewerOverlay({ doc, onClose }: { doc: DocumentOut; onClose: () => void
               <span style={{ fontFamily: "var(--font-dm-mono)", fontSize: "0.5rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--cream-2)" }}>Transcript {transcriptStatus === "processing" && "(processing…)"}</span>
               <button onClick={() => setTranscript(null)} style={{ fontFamily: "var(--font-dm-mono)", fontSize: "0.48rem", letterSpacing: "0.1em", textTransform: "uppercase", background: "none", border: "none", cursor: "pointer", color: "var(--cream-2)" }}>Dismiss</button>
             </div>
-            <pre style={{ fontFamily: "var(--font-dm-mono)", fontSize: "0.55rem", background: "rgba(240,233,214,0.04)", border: "1px solid rgba(240,233,214,0.08)", padding: "0.75rem", maxHeight: "12rem", overflowY: "auto", whiteSpace: "pre-wrap", wordBreak: "break-words", color: "var(--cream-1)" }}>{transcript}</pre>
+            <pre style={{ fontFamily: "var(--font-dm-mono)", fontSize: "0.55rem", background: "rgba(240,233,214,0.04)", border: "1px solid rgba(240,233,214,0.08)", padding: "0.75rem", maxHeight: "12rem", overflowY: "auto", whiteSpace: "pre-wrap", wordBreak: "break-word", color: "var(--cream-1)" }}>{transcript}</pre>
           </div>
         )}
       </div>
