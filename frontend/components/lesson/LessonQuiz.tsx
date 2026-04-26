@@ -141,30 +141,29 @@ export function LessonQuiz({ lessonId, lessonTitle }: LessonQuizProps) {
   }
 
   if (view === "setup") {
-    const activeDiff = DIFFICULTIES.find((d) => d.id === difficulty) ?? DIFFICULTIES[1];
     return (
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", padding: "0 1.5rem" }}>
-        <div style={{ width: "100%", maxWidth: "28rem", display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", padding: "2rem 2rem" }}>
+        <div style={{ width: "100%", maxWidth: "42rem", display: "flex", flexDirection: "column", gap: "2rem" }}>
           {/* Header */}
           <div style={{ textAlign: "center" }}>
-            <div style={{ width: "3rem", height: "3rem", background: "rgba(196,152,90,0.12)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 0.75rem" }}>
-              <Trophy style={{ width: "1.5rem", height: "1.5rem", color: "var(--gold)" }} />
+            <div style={{ width: "4rem", height: "4rem", background: "rgba(196,152,90,0.12)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 1rem" }}>
+              <Trophy style={{ width: "2rem", height: "2rem", color: "var(--gold)" }} />
             </div>
-            <h2 style={{ ...serif, fontWeight: 700, fontStyle: "italic", fontSize: "1.5rem", color: "var(--cream-0)", marginBottom: "0.25rem" }}>
+            <h2 style={{ ...serif, fontWeight: 700, fontStyle: "italic", fontSize: "clamp(1.75rem,3vw,2.5rem)", color: "var(--cream-0)", marginBottom: "0.4rem" }}>
               Quiz Yourself
             </h2>
-            <p style={{ ...mono, fontSize: "0.55rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--cream-2)" }}>
+            <p style={{ ...mono, fontSize: "0.58rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--cream-2)" }}>
               {lessonTitle}
             </p>
           </div>
 
           {/* Config card */}
-          <div style={{ background: "var(--ink-1)", border: "1px solid rgba(240,233,214,0.08)", padding: "1.25rem" }}>
-            <div style={{ marginBottom: "1rem" }}>
-              <p style={{ ...mono, fontSize: "0.5rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--cream-2)", marginBottom: "0.6rem" }}>
+          <div style={{ background: "var(--ink-1)", border: "1px solid rgba(240,233,214,0.08)", padding: "1.75rem 2rem" }}>
+            <div style={{ marginBottom: "1.5rem" }}>
+              <p style={{ ...mono, fontSize: "0.52rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--cream-2)", marginBottom: "0.8rem" }}>
                 Difficulty
               </p>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
                 {DIFFICULTIES.map((d) => {
                   const isActive = difficulty === d.id;
                   return (
@@ -173,10 +172,10 @@ export function LessonQuiz({ lessonId, lessonTitle }: LessonQuizProps) {
                       onClick={() => setDifficulty(d.id)}
                       style={{
                         ...mono,
-                        fontSize: "0.5rem",
-                        letterSpacing: "0.08em",
+                        fontSize: "0.55rem",
+                        letterSpacing: "0.1em",
                         textTransform: "uppercase",
-                        padding: "0.3rem 0.75rem",
+                        padding: "0.5rem 1.1rem",
                         background: isActive ? d.activeBg : "transparent",
                         color: isActive ? d.activeColor : "var(--cream-2)",
                         border: isActive ? `1px solid ${d.activeColor}` : "1px solid rgba(240,233,214,0.12)",
@@ -192,10 +191,10 @@ export function LessonQuiz({ lessonId, lessonTitle }: LessonQuizProps) {
             </div>
 
             <div>
-              <p style={{ ...mono, fontSize: "0.5rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--cream-2)", marginBottom: "0.6rem" }}>
+              <p style={{ ...mono, fontSize: "0.52rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--cream-2)", marginBottom: "0.8rem" }}>
                 Questions
               </p>
-              <div style={{ display: "flex", gap: "0.4rem" }}>
+              <div style={{ display: "flex", gap: "0.5rem" }}>
                 {QUESTION_COUNTS.map((n) => {
                   const isActive = numQuestions === n;
                   return (
@@ -204,9 +203,9 @@ export function LessonQuiz({ lessonId, lessonTitle }: LessonQuizProps) {
                       onClick={() => setNumQuestions(n)}
                       style={{
                         ...mono,
-                        fontSize: "0.5rem",
-                        letterSpacing: "0.08em",
-                        padding: "0.3rem 0.75rem",
+                        fontSize: "0.55rem",
+                        letterSpacing: "0.1em",
+                        padding: "0.5rem 1.1rem",
                         background: isActive ? "rgba(196,152,90,0.15)" : "transparent",
                         color: isActive ? "var(--gold)" : "var(--cream-2)",
                         border: isActive ? "1px solid rgba(196,152,90,0.4)" : "1px solid rgba(240,233,214,0.12)",
@@ -227,19 +226,19 @@ export function LessonQuiz({ lessonId, lessonTitle }: LessonQuizProps) {
             onClick={handleGenerate}
             disabled={generating}
             style={{
-              display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem",
-              width: "100%", padding: "0.75rem",
+              display: "flex", alignItems: "center", justifyContent: "center", gap: "0.6rem",
+              width: "100%", padding: "1rem",
               background: generating ? "var(--ink-3)" : "var(--gold)",
               color: generating ? "var(--cream-2)" : "var(--ink)",
               border: "none", cursor: generating ? "default" : "pointer",
-              ...mono, fontSize: "0.55rem", letterSpacing: "0.12em", textTransform: "uppercase",
+              ...mono, fontSize: "0.6rem", letterSpacing: "0.14em", textTransform: "uppercase",
               transition: "all 0.15s",
             }}
           >
             {generating ? (
-              <><Loader2 style={{ width: "0.875rem", height: "0.875rem" }} className="animate-spin" /> Generating…</>
+              <><Loader2 style={{ width: "1rem", height: "1rem" }} className="animate-spin" /> Generating…</>
             ) : (
-              <><Sparkles style={{ width: "0.875rem", height: "0.875rem" }} /> Start Quiz</>
+              <><Sparkles style={{ width: "1rem", height: "1rem" }} /> Start Quiz</>
             )}
           </button>
         </div>
