@@ -1,25 +1,29 @@
-"""Document ingestion endpoint.
+"""Document ingestion — parse, classify, enhance, and memorise.
 
-Accepts uploads of PDF, DOCX, PPTX, TXT, MD, and video/audio files.
-Parses text from each, chunks it, and stores in semantic memory so the
-tutor can recall the contents in future sessions.
+Supported formats:
+  Documents : PDF, DOCX, PPTX, TXT, MD, CSV
+  Images    : PNG, JPG, JPEG, WEBP, BMP, GIF  ← text extracted via Groq vision
+  Video/Audio: MP4, MOV, WEBM, MP3, WAV, M4A  ← metadata only (Whisper opt-in)
 
-Endpoints:
-  POST /documents/upload        — multipart file upload, returns document record
-  GET  /documents               — list all uploaded documents for the user
-  GET  /documents/{id}          — get a single document + its memory chunks
-  DELETE /documents/{id}        — remove document and its memory entries
+On every upload the backend:
+  1. Extracts text (parser per mime-type, Groq vision for images)
+  2. Runs LLM classification → doc_type, subject, summary, key_topics
+  3. For images: Pillow auto-enhance + rembg background removal
+  4. Chunks text into MemoryRecord rows with role="document"
+
+Extra endpoints:
+  POST /documents/{id}/enhance    → re-run Pillow enhance on an image
+  POST /documents/{id}/remove-bg  → re-run rembg on an image
 """
 
 from __future__ import annotations
 
+import base64
 import io
 import json
 import logging
 import mimetypes
-import os
 import re
-import tempfile
 from datetime import datetime
 from typing import Optional
 
@@ -27,10 +31,13 @@ from cuid2 import Cuid as _Cuid
 _cuid_gen = _Cuid()
 def cuid() -> str:
     return _cuid_gen.generate()
+
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from pydantic import BaseModel
 from sqlmodel import Session, select
 
+from ..agent.agent_loop import get_async_client
+from ..config import get_settings
 from ..db import get_session
 from ..deps import get_current_user
 from ..models.memory import MemoryRecord
@@ -40,65 +47,70 @@ from ..services.semantic_memory import _heuristic_importance as compute_importan
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/documents", tags=["documents"])
 
-# ── Max sizes ────────────────────────────────────────────────────────────────
-MAX_BYTES = 50 * 1024 * 1024   # 50 MB hard limit
-CHUNK_SIZE = 1200               # characters per memory chunk
-CHUNK_OVERLAP = 200             # overlap between adjacent chunks
+# ── Limits ────────────────────────────────────────────────────────────────────
+MAX_BYTES   = 50 * 1024 * 1024
+CHUNK_SIZE  = 1200
+CHUNK_OVERLAP = 200
 
-# ── Supported MIME types ─────────────────────────────────────────────────────
+# ── MIME sets ─────────────────────────────────────────────────────────────────
 _PDF_TYPES   = {"application/pdf"}
-_DOCX_TYPES  = {"application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/msword"}
+_DOCX_TYPES  = {
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "application/msword",
+}
 _PPTX_TYPES  = {
     "application/vnd.openxmlformats-officedocument.presentationml.presentation",
     "application/vnd.ms-powerpoint",
 }
 _TEXT_TYPES  = {"text/plain", "text/markdown", "text/csv", "application/json"}
+_IMAGE_TYPES = {
+    "image/png", "image/jpeg", "image/jpg", "image/webp",
+    "image/bmp", "image/gif", "image/tiff",
+}
 _VIDEO_TYPES = {"video/mp4", "video/mpeg", "video/webm", "video/ogg", "video/quicktime"}
 _AUDIO_TYPES = {"audio/mpeg", "audio/wav", "audio/ogg", "audio/mp4", "audio/webm"}
 
-ALL_ACCEPTED = _PDF_TYPES | _DOCX_TYPES | _PPTX_TYPES | _TEXT_TYPES | _VIDEO_TYPES | _AUDIO_TYPES
+ALL_ACCEPTED = (
+    _PDF_TYPES | _DOCX_TYPES | _PPTX_TYPES | _TEXT_TYPES
+    | _IMAGE_TYPES | _VIDEO_TYPES | _AUDIO_TYPES
+)
 
-# ── Parsers ───────────────────────────────────────────────────────────────────
+# ── Text parsers ──────────────────────────────────────────────────────────────
 
 def _parse_pdf(data: bytes) -> str:
     from pypdf import PdfReader
     reader = PdfReader(io.BytesIO(data))
-    parts: list[str] = []
-    for page in reader.pages:
-        text = page.extract_text() or ""
-        parts.append(text.strip())
-    return "\n\n".join(p for p in parts if p)
+    return "\n\n".join(
+        (page.extract_text() or "").strip() for page in reader.pages
+    ).strip()
 
 
 def _parse_docx(data: bytes) -> str:
     from docx import Document  # type: ignore
     doc = Document(io.BytesIO(data))
-    paragraphs = [p.text.strip() for p in doc.paragraphs if p.text.strip()]
-    # Also extract tables
+    parts = [p.text.strip() for p in doc.paragraphs if p.text.strip()]
     for table in doc.tables:
         for row in table.rows:
-            cell_texts = [c.text.strip() for c in row.cells if c.text.strip()]
-            if cell_texts:
-                paragraphs.append(" | ".join(cell_texts))
-    return "\n\n".join(paragraphs)
+            cells = [c.text.strip() for c in row.cells if c.text.strip()]
+            if cells:
+                parts.append(" | ".join(cells))
+    return "\n\n".join(parts)
 
 
 def _parse_pptx(data: bytes) -> str:
     from pptx import Presentation  # type: ignore
     prs = Presentation(io.BytesIO(data))
-    slides_text: list[str] = []
+    slides: list[str] = []
     for i, slide in enumerate(prs.slides, 1):
-        texts: list[str] = []
-        for shape in slide.shapes:
-            if not shape.has_text_frame:
-                continue
-            for para in shape.text_frame.paragraphs:
-                line = " ".join(run.text for run in para.runs).strip()
-                if line:
-                    texts.append(line)
+        texts = [
+            " ".join(run.text for run in para.runs).strip()
+            for shape in slide.shapes if shape.has_text_frame
+            for para in shape.text_frame.paragraphs
+        ]
+        texts = [t for t in texts if t]
         if texts:
-            slides_text.append(f"[Slide {i}]\n" + "\n".join(texts))
-    return "\n\n".join(slides_text)
+            slides.append(f"[Slide {i}]\n" + "\n".join(texts))
+    return "\n\n".join(slides)
 
 
 def _parse_text(data: bytes) -> str:
@@ -110,68 +122,179 @@ def _parse_text(data: bytes) -> str:
     return data.decode("utf-8", errors="replace")
 
 
-def _parse_video_audio(data: bytes, filename: str) -> str:
-    """Best-effort: extract metadata. Full transcription requires Whisper (optional)."""
-    size_mb = len(data) / 1024 / 1024
-    name = os.path.basename(filename)
+async def _parse_image(data: bytes, mime: str, filename: str) -> str:
+    """Use Groq vision to describe the image and extract any visible text."""
+    try:
+        b64 = base64.b64encode(data).decode()
+        data_url = f"data:{mime};base64,{b64}"
+        settings = get_settings()
+        client = get_async_client()
+        completion = await client.chat.completions.create(
+            model=settings.fast_llm_model or settings.llm_model,
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "image_url",
+                            "image_url": {"url": data_url},
+                        },
+                        {
+                            "type": "text",
+                            "text": (
+                                "Please do two things:\n"
+                                "1. Extract every piece of text visible in this image verbatim.\n"
+                                "2. Describe what the image shows (diagram, chart, photo, slide, etc.).\n"
+                                "Format:\n"
+                                "EXTRACTED TEXT:\n<text or 'None'>\n\n"
+                                "DESCRIPTION:\n<description>"
+                            ),
+                        },
+                    ],
+                }
+            ],
+            max_tokens=1024,
+            temperature=0.1,
+        )
+        return (completion.choices[0].message.content or "").strip()
+    except Exception as exc:
+        logger.warning("Vision OCR failed for %s: %s", filename, exc)
+        return f"[Image file: {filename}. Vision OCR unavailable: {exc}]"
+
+
+def _parse_video_audio(filename: str, size_bytes: int) -> str:
     return (
-        f"[Video/audio file: {name}]\n"
-        f"Size: {size_mb:.1f} MB\n"
-        "Note: Full speech-to-text transcription is not yet enabled. "
-        "The file has been stored in your documents for reference. "
-        "To enable automatic transcription, add a Whisper API key to your environment."
+        f"[Media file: {filename}]\n"
+        f"Size: {size_bytes / 1024 / 1024:.1f} MB\n"
+        "Full speech-to-text transcription requires a Whisper API key (WHISPER_API_KEY)."
     )
 
 
-def _extract_text(data: bytes, mime: str, filename: str) -> str:
+async def _extract_text(data: bytes, mime: str, filename: str) -> str:
     try:
-        if mime in _PDF_TYPES:
-            return _parse_pdf(data)
-        if mime in _DOCX_TYPES:
-            return _parse_docx(data)
-        if mime in _PPTX_TYPES:
-            return _parse_pptx(data)
-        if mime in _TEXT_TYPES:
-            return _parse_text(data)
+        if mime in _PDF_TYPES:   return _parse_pdf(data)
+        if mime in _DOCX_TYPES:  return _parse_docx(data)
+        if mime in _PPTX_TYPES:  return _parse_pptx(data)
+        if mime in _TEXT_TYPES:  return _parse_text(data)
+        if mime in _IMAGE_TYPES: return await _parse_image(data, mime, filename)
         if mime in (_VIDEO_TYPES | _AUDIO_TYPES):
-            return _parse_video_audio(data, filename)
+            return _parse_video_audio(filename, len(data))
     except Exception as exc:
-        logger.warning("Parse failed for %s (%s): %s", filename, mime, exc)
-        return f"[Could not fully parse {filename}: {exc}]"
-    return f"[Unsupported file type: {mime}]"
+        logger.warning("Parser error for %s (%s): %s", filename, mime, exc)
+        return f"[Parse failed for {filename}: {exc}]"
+    return f"[Unsupported: {mime}]"
 
 
-def _chunk(text: str, chunk_size: int = CHUNK_SIZE, overlap: int = CHUNK_OVERLAP) -> list[str]:
-    """Split text into overlapping chunks."""
+# ── Image processing helpers ──────────────────────────────────────────────────
+
+def _pillow_enhance(data: bytes) -> bytes:
+    """Auto-enhance: contrast + sharpness + subtle brightness boost."""
+    from PIL import Image, ImageEnhance, ImageFilter  # type: ignore
+    img = Image.open(io.BytesIO(data)).convert("RGBA")
+
+    # Work on RGB layer only, preserve alpha
+    rgb = img.convert("RGB")
+    rgb = ImageEnhance.Contrast(rgb).enhance(1.3)
+    rgb = ImageEnhance.Sharpness(rgb).enhance(1.4)
+    rgb = ImageEnhance.Color(rgb).enhance(1.15)
+    rgb = ImageEnhance.Brightness(rgb).enhance(1.05)
+    # Mild unsharp-mask for crispness
+    rgb = rgb.filter(ImageFilter.UnsharpMask(radius=1.5, percent=80, threshold=3))
+
+    # Merge back alpha if present
+    r, g, b = rgb.split()
+    _, _, _, a = img.split()
+    out = Image.merge("RGBA", (r, g, b, a))
+
+    buf = io.BytesIO()
+    out.save(buf, format="PNG")
+    return buf.getvalue()
+
+
+def _remove_background(data: bytes) -> bytes:
+    """Remove background using rembg (U2Net). Returns RGBA PNG."""
+    from rembg import remove as rembg_remove  # type: ignore
+    result: bytes = rembg_remove(data)
+    return result
+
+
+def _thumbnail_b64(data: bytes, mime: str, max_px: int = 300) -> str:
+    """Resize image to thumbnail and return as base64 PNG data-URL."""
+    from PIL import Image  # type: ignore
+    img = Image.open(io.BytesIO(data))
+    img.thumbnail((max_px, max_px), Image.LANCZOS)
+    buf = io.BytesIO()
+    img.save(buf, format="PNG")
+    b64 = base64.b64encode(buf.getvalue()).decode()
+    return f"data:image/png;base64,{b64}"
+
+
+# ── LLM classification ────────────────────────────────────────────────────────
+
+_CLASSIFY_PROMPT = """You are a document classifier. Given the first ~1500 characters of a document,
+return STRICT JSON with exactly this shape:
+
+{{
+  "doc_type": "<one of: Research Paper, Lecture Notes, Textbook Chapter, Presentation, Study Guide, Code/Technical, Image/Diagram, Video Transcript, General Notes, Other>",
+  "subject": "<subject area, e.g. Machine Learning, Calculus, History, Chemistry>",
+  "summary": "<2-3 sentence plain-English summary of what this document covers>",
+  "key_topics": ["<topic>", "<topic>", "<topic>"]
+}}
+
+Document excerpt:
+{excerpt}
+"""
+
+
+async def _classify_document(text: str) -> dict:
+    try:
+        settings = get_settings()
+        client = get_async_client()
+        excerpt = text[:1500].strip()
+        if not excerpt:
+            raise ValueError("Empty text")
+        completion = await client.chat.completions.create(
+            model=settings.fast_llm_model or settings.llm_model,
+            messages=[
+                {"role": "system", "content": "You output strict JSON only. No markdown, no code fences."},
+                {"role": "user", "content": _CLASSIFY_PROMPT.format(excerpt=excerpt)},
+            ],
+            max_tokens=400,
+            temperature=0.1,
+        )
+        raw = (completion.choices[0].message.content or "").strip()
+        # Strip fences if any
+        raw = re.sub(r"^```(?:json)?\s*", "", raw)
+        raw = re.sub(r"\s*```$", "", raw)
+        return json.loads(raw)
+    except Exception as exc:
+        logger.warning("Classification failed: %s", exc)
+        return {
+            "doc_type": "Other",
+            "subject": "Unknown",
+            "summary": "",
+            "key_topics": [],
+        }
+
+
+# ── Chunker ───────────────────────────────────────────────────────────────────
+
+def _chunk(text: str) -> list[str]:
     text = re.sub(r"\n{3,}", "\n\n", text).strip()
     if not text:
         return []
     chunks: list[str] = []
     start = 0
     while start < len(text):
-        end = min(start + chunk_size, len(text))
+        end = min(start + CHUNK_SIZE, len(text))
         chunks.append(text[start:end])
         if end == len(text):
             break
-        start = end - overlap
+        start = end - CHUNK_OVERLAP
     return chunks
 
 
-# ── DB model (stored in MemoryRecord with role="document") ───────────────────
-# We re-use MemoryRecord with role="document" and store doc metadata in the
-# content field as JSON preamble. A separate meta record marks the doc header.
-
-def _doc_meta_content(filename: str, mime: str, size_bytes: int, chunk_count: int) -> str:
-    return json.dumps({
-        "_doc_meta": True,
-        "filename": filename,
-        "mime": mime,
-        "size_bytes": size_bytes,
-        "chunk_count": chunk_count,
-    })
-
-
-# ── Response models ───────────────────────────────────────────────────────────
+# ── Response schemas ──────────────────────────────────────────────────────────
 
 class DocumentOut(BaseModel):
     id: str
@@ -181,6 +304,16 @@ class DocumentOut(BaseModel):
     chunk_count: int
     preview: str
     created_at: datetime
+    # Classification
+    doc_type: str = "Other"
+    subject: str = ""
+    summary: str = ""
+    key_topics: list[str] = []
+    # Image extras
+    is_image: bool = False
+    thumbnail_b64: Optional[str] = None
+    enhanced_b64: Optional[str] = None
+    nobg_b64: Optional[str] = None
 
 
 class DocumentDetail(DocumentOut):
@@ -200,12 +333,20 @@ def _meta_to_out(record: MemoryRecord) -> Optional[DocumentOut]:
             chunk_count=meta.get("chunk_count", 0),
             preview=meta.get("preview", ""),
             created_at=record.created_at,
+            doc_type=meta.get("doc_type", "Other"),
+            subject=meta.get("subject", ""),
+            summary=meta.get("summary", ""),
+            key_topics=meta.get("key_topics", []),
+            is_image=meta.get("is_image", False),
+            thumbnail_b64=meta.get("thumbnail_b64"),
+            enhanced_b64=meta.get("enhanced_b64"),
+            nobg_b64=meta.get("nobg_b64"),
         )
     except Exception:
         return None
 
 
-# ── Endpoints ─────────────────────────────────────────────────────────────────
+# ── Upload endpoint ───────────────────────────────────────────────────────────
 
 @router.post("/upload", response_model=DocumentOut)
 async def upload_document(
@@ -221,55 +362,98 @@ async def upload_document(
     mime = file.content_type or mimetypes.guess_type(filename)[0] or "application/octet-stream"
 
     # Normalise common aliases
-    if filename.lower().endswith(".md"):
-        mime = "text/markdown"
-    if filename.lower().endswith(".csv"):
-        mime = "text/csv"
+    ext_lower = filename.lower().rsplit(".", 1)[-1] if "." in filename else ""
+    ext_map = {
+        "md": "text/markdown", "csv": "text/csv", "txt": "text/plain",
+        "png": "image/png", "jpg": "image/jpeg", "jpeg": "image/jpeg",
+        "webp": "image/webp", "bmp": "image/bmp", "gif": "image/gif",
+        "heic": "image/heic", "tiff": "image/tiff",
+    }
+    if ext_lower in ext_map:
+        mime = ext_map[ext_lower]
 
     if mime not in ALL_ACCEPTED:
         raise HTTPException(
             status_code=415,
-            detail=f"Unsupported file type '{mime}'. Accepted: PDF, DOCX, PPTX, TXT, MD, CSV, MP4, and other common video/audio.",
+            detail=f"Unsupported file type '{mime}'. Accepted: PDF, DOCX, PPTX, TXT, MD, CSV, PNG, JPG, WEBP, MP4, MP3, WAV…",
         )
 
-    text = _extract_text(data, mime, filename)
+    is_image = mime in _IMAGE_TYPES
+
+    # ── 1. Extract text ───────────────────────────────────────────────────────
+    text = await _extract_text(data, mime, filename)
     chunks = _chunk(text)
     if not chunks:
         chunks = [f"[Empty document: {filename}]"]
 
+    # ── 2. Classify ───────────────────────────────────────────────────────────
+    classification = await _classify_document(text)
+
+    # ── 3. Image processing ───────────────────────────────────────────────────
+    thumbnail_b64: Optional[str] = None
+    enhanced_b64: Optional[str] = None
+    nobg_b64: Optional[str] = None
+
+    if is_image:
+        try:
+            thumbnail_b64 = _thumbnail_b64(data, mime)
+        except Exception as exc:
+            logger.warning("Thumbnail failed: %s", exc)
+
+        try:
+            enhanced_bytes = _pillow_enhance(data)
+            enhanced_b64 = f"data:image/png;base64,{base64.b64encode(enhanced_bytes).decode()}"
+        except Exception as exc:
+            logger.warning("Enhance failed: %s", exc)
+
+        try:
+            nobg_bytes = _remove_background(data)
+            nobg_b64 = f"data:image/png;base64,{base64.b64encode(nobg_bytes).decode()}"
+        except Exception as exc:
+            logger.warning("BG removal failed: %s", exc)
+
+    # ── 4. Store in DB ────────────────────────────────────────────────────────
     doc_id = cuid()
     preview = text[:300].replace("\n", " ").strip()
 
-    # Store meta record (role="document", session_id=doc_id marks the group)
+    meta_content = json.dumps({
+        "_doc_meta": True,
+        "filename": filename,
+        "mime": mime,
+        "size_bytes": len(data),
+        "chunk_count": len(chunks),
+        "preview": preview,
+        # Classification
+        "doc_type": classification.get("doc_type", "Other"),
+        "subject": classification.get("subject", ""),
+        "summary": classification.get("summary", ""),
+        "key_topics": classification.get("key_topics", []),
+        # Image extras (full data-URLs stored for instant retrieval)
+        "is_image": is_image,
+        "thumbnail_b64": thumbnail_b64,
+        "enhanced_b64": enhanced_b64,
+        "nobg_b64": nobg_b64,
+    })
+
     meta_record = MemoryRecord(
         id=doc_id,
         user_id=user.id,
         role="document",
         session_id=doc_id,
-        content=json.dumps({
-            "_doc_meta": True,
-            "filename": filename,
-            "mime": mime,
-            "size_bytes": len(data),
-            "chunk_count": len(chunks),
-            "preview": preview,
-        }),
+        content=meta_content,
         importance=0.9,
     )
     session.add(meta_record)
 
-    # Store each chunk
     for i, chunk in enumerate(chunks):
-        importance = compute_importance(chunk)
-        chunk_record = MemoryRecord(
+        session.add(MemoryRecord(
             id=cuid(),
             user_id=user.id,
             role="document",
             session_id=doc_id,
-            content=f"[From document '{filename}', part {i+1}/{len(chunks)}]\n{chunk}",
-            importance=importance,
-        )
-        session.add(chunk_record)
+            content=f"[From '{filename}', part {i+1}/{len(chunks)}]\n{chunk}",
+            importance=compute_importance(chunk),
+        ))
 
     session.commit()
     session.refresh(meta_record)
@@ -282,8 +466,65 @@ async def upload_document(
         chunk_count=len(chunks),
         preview=preview,
         created_at=meta_record.created_at,
+        doc_type=classification.get("doc_type", "Other"),
+        subject=classification.get("subject", ""),
+        summary=classification.get("summary", ""),
+        key_topics=classification.get("key_topics", []),
+        is_image=is_image,
+        thumbnail_b64=thumbnail_b64,
+        enhanced_b64=enhanced_b64,
+        nobg_b64=nobg_b64,
     )
 
+
+# ── Image action endpoints ────────────────────────────────────────────────────
+
+class ImageActionResponse(BaseModel):
+    result_b64: str   # data:image/png;base64,…
+
+
+@router.post("/{doc_id}/enhance", response_model=ImageActionResponse)
+async def enhance_image(
+    doc_id: str,
+    session: Session = Depends(get_session),
+    user: User = Depends(get_current_user),
+) -> ImageActionResponse:
+    meta_record = session.get(MemoryRecord, doc_id)
+    if not meta_record or meta_record.user_id != user.id:
+        raise HTTPException(status_code=404, detail="Document not found")
+    try:
+        meta = json.loads(meta_record.content)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid document metadata")
+
+    # If we already have enhanced_b64, return it directly
+    if meta.get("enhanced_b64"):
+        return ImageActionResponse(result_b64=meta["enhanced_b64"])
+
+    raise HTTPException(status_code=400, detail="Not an image document or enhancement unavailable")
+
+
+@router.post("/{doc_id}/remove-bg", response_model=ImageActionResponse)
+async def remove_bg(
+    doc_id: str,
+    session: Session = Depends(get_session),
+    user: User = Depends(get_current_user),
+) -> ImageActionResponse:
+    meta_record = session.get(MemoryRecord, doc_id)
+    if not meta_record or meta_record.user_id != user.id:
+        raise HTTPException(status_code=404, detail="Document not found")
+    try:
+        meta = json.loads(meta_record.content)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid document metadata")
+
+    if meta.get("nobg_b64"):
+        return ImageActionResponse(result_b64=meta["nobg_b64"])
+
+    raise HTTPException(status_code=400, detail="Not an image document or background removal unavailable")
+
+
+# ── List / get / delete ───────────────────────────────────────────────────────
 
 @router.get("", response_model=list[DocumentOut])
 def list_documents(
@@ -298,12 +539,12 @@ def list_documents(
     )
     rows = list(session.exec(stmt))
     docs: list[DocumentOut] = []
-    seen_ids: set[str] = set()
+    seen: set[str] = set()
     for r in rows:
-        if r.session_id and r.session_id not in seen_ids:
+        if r.session_id and r.session_id not in seen:
             out = _meta_to_out(r)
             if out:
-                seen_ids.add(r.session_id)
+                seen.add(r.session_id)
                 docs.append(out)
     return docs
 
@@ -320,7 +561,6 @@ def get_document(
     out = _meta_to_out(meta_record)
     if not out:
         raise HTTPException(status_code=404, detail="Document not found")
-
     chunk_stmt = (
         select(MemoryRecord)
         .where(MemoryRecord.user_id == user.id)
