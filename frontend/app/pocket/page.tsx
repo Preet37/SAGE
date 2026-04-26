@@ -1,51 +1,18 @@
 "use client";
-
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getToken } from "@/lib/auth";
 import { AppHeader } from "@/components/AppHeader";
-import { Button } from "@/components/ui/button";
-import {
-  Cpu,
-  Cloud,
-  Loader2,
-  Send,
-  Smartphone,
-  ShieldCheck,
-  AlertTriangle,
-  Wifi,
-  WifiOff,
-  Sparkles,
-  RotateCw,
-} from "lucide-react";
-import {
-  isWebGPUAvailable,
-  loadOnDeviceEngine,
-  ON_DEVICE_MODELS,
-  type InitProgress,
-  type OnDeviceEngine,
-  type OnDeviceModel,
-} from "@/lib/onDeviceLLM";
+import { Cpu, Cloud, Loader2, Send, Smartphone, ShieldCheck, AlertTriangle, Wifi, WifiOff, Sparkles, RotateCw } from "lucide-react";
+import { isWebGPUAvailable, loadOnDeviceEngine, ON_DEVICE_MODELS, type InitProgress, type OnDeviceEngine, type OnDeviceModel } from "@/lib/onDeviceLLM";
 
-interface DeviceMessage {
-  id: string;
-  role: "user" | "assistant";
-  content: string;
-  tokensPerSec?: number;
-  latencyMs?: number;
-}
+const mono: React.CSSProperties  = { fontFamily: "var(--font-dm-mono)" };
+const serif: React.CSSProperties = { fontFamily: "var(--font-cormorant)" };
+const body: React.CSSProperties  = { fontFamily: "var(--font-crimson)" };
 
-const SYSTEM_PROMPT = `You are SAGE Pocket Tutor — running entirely on this user's device.
+const SYSTEM_PROMPT = `You are SAGE Pocket Tutor — running entirely on this user's device.\n\nYour job:\n- Answer ML / AI / computer science questions clearly and concisely.\n- When you're not confident, say so plainly. Don't invent specifics.\n- Use Socratic prompts when the user is exploring an idea: ask one pointed question that helps them think, rather than dumping a lecture.\n- Keep responses under ~250 words unless asked for more.\n\nYou have NO internet access. If a question requires fresh information, suggest the user switch to the Cloud Tutor.`;
 
-Your job:
-- Answer ML / AI / computer science questions clearly and concisely.
-- When you're not confident, say so plainly. Don't invent specifics.
-- Use Socratic prompts when the user is exploring an idea: ask one
-  pointed question that helps them think, rather than dumping a lecture.
-- Keep responses under ~250 words unless asked for more.
-
-You have NO internet access. If a question requires fresh information,
-suggest the user switch to the Cloud Tutor.`;
+interface DeviceMessage { id: string; role: "user" | "assistant"; content: string; tokensPerSec?: number; latencyMs?: number; }
 
 export default function PocketTutorPage() {
   const router = useRouter();
@@ -55,227 +22,174 @@ export default function PocketTutorPage() {
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState<InitProgress | null>(null);
   const [error, setError] = useState<string | null>(null);
-
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<DeviceMessage[]>([]);
   const [generating, setGenerating] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    if (!getToken()) router.push("/login");
-    isWebGPUAvailable().then(setHasWebGPU);
-  }, [router]);
-
-  useEffect(() => {
-    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
-  }, [messages, generating]);
+  useEffect(() => { if (!getToken()) router.push("/login"); isWebGPUAvailable().then(setHasWebGPU); }, [router]);
+  useEffect(() => { scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" }); }, [messages, generating]);
 
   async function handleLoad(target: OnDeviceModel) {
-    setError(null);
-    setLoading(true);
-    setProgress({ progress: 0, text: "Initializing WebGPU…" });
-    try {
-      const e = await loadOnDeviceEngine(target.id, setProgress);
-      setEngine(e);
-      setModel(target);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to load model");
-    } finally {
-      setLoading(false);
-      setProgress(null);
-    }
+    setError(null); setLoading(true); setProgress({ progress: 0, text: "Initializing WebGPU…" });
+    try { const e = await loadOnDeviceEngine(target.id, setProgress); setEngine(e); setModel(target); }
+    catch (err) { setError(err instanceof Error ? err.message : "Failed to load model"); }
+    finally { setLoading(false); setProgress(null); }
   }
 
   async function handleSend(e?: React.FormEvent) {
     e?.preventDefault();
     if (!engine || !input.trim() || generating) return;
-
     const userMsg: DeviceMessage = { id: crypto.randomUUID(), role: "user", content: input.trim() };
     const assistantId = crypto.randomUUID();
     setMessages((p) => [...p, userMsg, { id: assistantId, role: "assistant", content: "" }]);
-    setInput("");
-    setGenerating(true);
+    setInput(""); setGenerating(true);
     abortRef.current = new AbortController();
-
-    const history: { role: "system" | "user" | "assistant"; content: string }[] = [
-      { role: "system", content: SYSTEM_PROMPT },
-    ];
-    for (const m of [...messages, userMsg]) {
-      history.push({ role: m.role, content: m.content });
-    }
-
+    const history: { role: "system" | "user" | "assistant"; content: string }[] = [{ role: "system", content: SYSTEM_PROMPT }];
+    for (const m of [...messages, userMsg]) history.push({ role: m.role, content: m.content });
     try {
-      const { tokensPerSec, latencyMs } = await engine.generate(history, (delta) => {
-        setMessages((prev) =>
-          prev.map((m) => m.id === assistantId ? { ...m, content: m.content + delta } : m),
-        );
-      }, abortRef.current.signal);
-      setMessages((prev) =>
-        prev.map((m) => m.id === assistantId ? { ...m, tokensPerSec, latencyMs } : m),
-      );
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Generation failed");
-    } finally {
-      setGenerating(false);
-      abortRef.current = null;
-    }
-  }
-
-  function handleStop() {
-    abortRef.current?.abort();
-  }
-
-  function handleClear() {
-    setMessages([]);
+      const { tokensPerSec, latencyMs } = await engine.generate(history, (delta) => { setMessages((prev) => prev.map((m) => m.id === assistantId ? { ...m, content: m.content + delta } : m)); }, abortRef.current.signal);
+      setMessages((prev) => prev.map((m) => m.id === assistantId ? { ...m, tokensPerSec, latencyMs } : m));
+    } catch (err) { setError(err instanceof Error ? err.message : "Generation failed"); }
+    finally { setGenerating(false); abortRef.current = null; }
   }
 
   const isOffline = typeof navigator !== "undefined" && navigator.onLine === false;
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden">
+    <div className="flex flex-col h-screen overflow-hidden" style={{ background: "var(--ink)", color: "var(--cream-0)" }}>
       <AppHeader />
       <main className="flex-1 overflow-hidden flex flex-col">
-        <div className="max-w-4xl w-full mx-auto flex-1 flex flex-col px-6 py-6 gap-4">
+        <div style={{ maxWidth: "52rem", width: "100%", margin: "0 auto", flex: 1, display: "flex", flexDirection: "column", padding: "2rem 1.5rem", gap: "1.25rem" }}>
 
-          <header className="flex items-start justify-between">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
-                <Smartphone className="h-5 w-5" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold">Pocket Tutor</h1>
-                <p className="text-sm text-muted-foreground flex items-center gap-2 flex-wrap">
-                  Runs entirely on your device · zero tokens leave your browser
-                  {isOffline ? <span className="inline-flex items-center gap-1 text-emerald-600"><WifiOff className="h-3 w-3" /> offline</span>
-                              : <span className="inline-flex items-center gap-1 text-muted-foreground"><Wifi className="h-3 w-3" /> online (still local)</span>}
-                </p>
-              </div>
+          {/* Header */}
+          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
+            <div>
+              <p style={{ ...mono, fontSize: "0.58rem", letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--gold)", marginBottom: "0.4rem" }}>Pocket</p>
+              <h1 style={{ ...serif, fontWeight: 700, fontStyle: "italic", fontSize: "clamp(1.8rem,4vw,2.5rem)", color: "var(--cream-0)", lineHeight: 1.1, marginBottom: "0.3rem" }}>
+                Pocket Tutor<span style={{ color: "var(--gold)" }}>.</span>
+              </h1>
+              <p style={{ ...body, fontSize: "0.9rem", color: "var(--cream-1)", display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
+                Runs entirely on your device · zero tokens leave your browser
+                {isOffline
+                  ? <span style={{ ...mono, fontSize: "0.5rem", letterSpacing: "0.1em", color: "var(--sage-c)", display: "inline-flex", alignItems: "center", gap: "0.25rem" }}><WifiOff style={{ width: "0.7rem", height: "0.7rem" }} />offline</span>
+                  : <span style={{ ...mono, fontSize: "0.5rem", letterSpacing: "0.1em", color: "var(--cream-2)", display: "inline-flex", alignItems: "center", gap: "0.25rem" }}><Wifi style={{ width: "0.7rem", height: "0.7rem" }} />online (still local)</span>}
+              </p>
             </div>
-            <a href="/learn" className="text-xs text-muted-foreground hover:text-foreground inline-flex items-center gap-1">
-              <Cloud className="h-3.5 w-3.5" /> use Cloud Tutor instead
+            <a href="/learn" style={{ ...mono, fontSize: "0.52rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--cream-2)", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "0.3rem", transition: "color 0.2s" }}
+              onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.color = "var(--cream-1)"}
+              onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.color = "var(--cream-2)"}>
+              <Cloud style={{ width: "0.7rem", height: "0.7rem" }} /> Cloud Tutor
             </a>
-          </header>
+          </div>
 
           {hasWebGPU === false && (
-            <div className="rounded-lg border border-amber-500/40 bg-amber-50 dark:bg-amber-950/20 px-4 py-3 text-sm text-amber-700 dark:text-amber-300 flex items-start gap-2">
-              <AlertTriangle className="h-4 w-4 mt-0.5 flex-shrink-0" />
-              <div>
-                Your browser doesn't expose WebGPU, which is required for on-device inference.
-                Try Chrome 121+ or Edge on a desktop. Mobile path: build a Melange-deployed
-                app variant per docs/MELANGE-DEPLOYMENT.md.
-              </div>
+            <div style={{ background: "rgba(201,124,104,0.08)", border: "1px solid rgba(201,124,104,0.3)", padding: "0.75rem 1rem", display: "flex", alignItems: "flex-start", gap: "0.5rem" }}>
+              <AlertTriangle style={{ width: "0.85rem", height: "0.85rem", color: "var(--rose)", flexShrink: 0, marginTop: "0.1rem" }} />
+              <p style={{ ...body, fontSize: "0.9rem", color: "var(--rose)", lineHeight: 1.5 }}>Your browser doesn't expose WebGPU. Try Chrome 121+ or Edge on a desktop.</p>
             </div>
           )}
-
           {error && (
-            <div className="rounded-lg border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-destructive">
-              {error}
+            <div style={{ background: "rgba(201,124,104,0.08)", border: "1px solid rgba(201,124,104,0.3)", padding: "0.65rem 0.9rem" }}>
+              <p style={{ ...body, fontSize: "0.9rem", color: "var(--rose)" }}>{error}</p>
             </div>
           )}
 
-          <div className="rounded-xl border border-border bg-card p-4">
-            <div className="flex items-center justify-between mb-3">
-              <h2 className="text-sm font-semibold flex items-center gap-2">
-                <Cpu className="h-4 w-4 text-primary" /> Pick a model
-              </h2>
-              <span className="text-xs text-muted-foreground inline-flex items-center gap-1">
-                <ShieldCheck className="h-3 w-3" /> private inference
+          {/* Model picker */}
+          <div style={{ background: "var(--ink-1)", border: "1px solid rgba(240,233,214,0.07)", padding: "1.25rem" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1rem" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
+                <Cpu style={{ width: "0.8rem", height: "0.8rem", color: "var(--gold)" }} />
+                <span style={{ ...mono, fontSize: "0.55rem", letterSpacing: "0.13em", textTransform: "uppercase", color: "var(--cream-1)" }}>Pick a model</span>
+              </div>
+              <span style={{ ...mono, fontSize: "0.5rem", letterSpacing: "0.1em", color: "var(--cream-2)", display: "inline-flex", alignItems: "center", gap: "0.25rem" }}>
+                <ShieldCheck style={{ width: "0.65rem", height: "0.65rem" }} /> private inference
               </span>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(13rem, 1fr))", gap: "0.65rem" }}>
               {ON_DEVICE_MODELS.map((m) => (
-                <button key={m.id}
-                  onClick={() => handleLoad(m)}
-                  disabled={loading || hasWebGPU === false}
-                  className={`text-left rounded-lg border p-3 transition ${
-                    engine?.modelId === m.id
-                      ? "border-primary bg-primary/5"
-                      : "border-border hover:border-primary/40"
-                  } ${loading ? "opacity-60 cursor-wait" : ""}`}
-                >
-                  <div className="text-sm font-medium">{m.label}</div>
-                  <div className="text-[11px] text-muted-foreground mt-0.5">{m.approxSizeMb} MB · cached after first load</div>
-                  <div className="text-xs text-muted-foreground mt-1.5 line-clamp-2">{m.description}</div>
+                <button key={m.id} onClick={() => handleLoad(m)} disabled={loading || hasWebGPU === false} style={{
+                  textAlign: "left", padding: "0.85rem 1rem", background: engine?.modelId === m.id ? "rgba(196,152,90,0.07)" : "var(--ink-2)",
+                  border: `1px solid ${engine?.modelId === m.id ? "var(--gold)" : "rgba(240,233,214,0.08)"}`,
+                  cursor: loading || hasWebGPU === false ? "not-allowed" : "pointer", opacity: loading ? 0.6 : 1, transition: "all 0.2s",
+                }}>
+                  <div style={{ ...body, fontSize: "0.95rem", color: "var(--cream-0)", marginBottom: "0.2rem" }}>{m.label}</div>
+                  <div style={{ ...mono, fontSize: "0.5rem", letterSpacing: "0.08em", color: "var(--cream-2)", marginBottom: "0.4rem" }}>{m.approxSizeMb} MB · cached after first load</div>
+                  <div style={{ ...body, fontSize: "0.82rem", color: "var(--cream-2)", lineHeight: 1.4, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{m.description}</div>
                 </button>
               ))}
             </div>
             {loading && progress && (
-              <div className="mt-3">
-                <div className="h-1.5 bg-muted rounded-full overflow-hidden">
-                  <div className="h-full bg-primary transition-all" style={{ width: `${Math.round(progress.progress * 100)}%` }} />
+              <div style={{ marginTop: "1rem" }}>
+                <div style={{ height: "2px", background: "rgba(240,233,214,0.08)", overflow: "hidden" }}>
+                  <div style={{ height: "100%", background: "var(--gold)", transition: "width 0.3s", width: `${Math.round(progress.progress * 100)}%` }} />
                 </div>
-                <p className="text-xs text-muted-foreground mt-1.5">{progress.text}</p>
+                <p style={{ ...mono, fontSize: "0.5rem", letterSpacing: "0.1em", color: "var(--cream-2)", marginTop: "0.5rem" }}>{progress.text}</p>
               </div>
             )}
           </div>
 
           {/* Chat */}
-          <div className="flex-1 rounded-xl border border-border bg-card flex flex-col overflow-hidden">
-            <div ref={scrollRef} className="flex-1 overflow-y-auto p-5 space-y-4">
+          <div style={{ flex: 1, background: "var(--ink-1)", border: "1px solid rgba(240,233,214,0.07)", display: "flex", flexDirection: "column", overflow: "hidden", minHeight: 0 }}>
+            <div ref={scrollRef} className="thin-scrollbar" style={{ flex: 1, overflowY: "auto", padding: "1.25rem" }}>
               {!engine ? (
-                <div className="h-full flex items-center justify-center text-center text-sm text-muted-foreground py-10">
-                  Pick a model above to start chatting offline.
+                <div style={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center" }}>
+                  <p style={{ ...body, fontSize: "0.95rem", color: "var(--cream-2)" }}>Pick a model above to start chatting offline.</p>
                 </div>
               ) : messages.length === 0 ? (
-                <div className="h-full flex flex-col items-center justify-center text-center text-sm text-muted-foreground gap-3 py-10">
-                  <Sparkles className="h-6 w-6 text-primary" />
-                  <p>Ready. Ask anything — runs entirely on your device.</p>
-                  <div className="flex flex-wrap gap-2 justify-center">
-                    {[
-                      "Explain LoRA in three sentences.",
-                      "What's the intuition behind self-attention?",
-                      "Give me a quick comprehension check on transformers.",
-                    ].map((s) => (
-                      <button key={s} onClick={() => setInput(s)}
-                        className="text-xs rounded-full border border-border bg-background px-3 py-1 hover:bg-muted/50">
+                <div style={{ height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "1rem", textAlign: "center" }}>
+                  <Sparkles style={{ width: "1.4rem", height: "1.4rem", color: "var(--gold)" }} />
+                  <p style={{ ...body, fontSize: "0.95rem", color: "var(--cream-1)" }}>Ready. Ask anything — runs entirely on your device.</p>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", justifyContent: "center" }}>
+                    {["Explain LoRA in three sentences.", "What's the intuition behind self-attention?", "Give me a quick comprehension check on transformers."].map((s) => (
+                      <button key={s} onClick={() => setInput(s)} style={{ ...body, fontSize: "0.82rem", color: "var(--cream-1)", background: "none", border: "1px solid rgba(240,233,214,0.1)", padding: "0.35rem 0.75rem", cursor: "pointer", transition: "border-color 0.2s" }}
+                        onMouseEnter={e => (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(196,152,90,0.4)"}
+                        onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(240,233,214,0.1)"}>
                         {s}
                       </button>
                     ))}
                   </div>
                 </div>
               ) : (
-                messages.map((m) => (
-                  <div key={m.id} className={m.role === "user" ? "flex justify-end" : ""}>
-                    <div className={
-                      m.role === "user"
-                        ? "max-w-[75%] rounded-2xl rounded-tr-sm bg-primary text-primary-foreground px-4 py-2 text-sm whitespace-pre-wrap"
-                        : "max-w-[85%] text-sm whitespace-pre-wrap leading-relaxed"
-                    }>
-                      {m.content || (generating ? <span className="text-muted-foreground italic">thinking…</span> : null)}
-                      {m.role === "assistant" && m.tokensPerSec && (
-                        <div className="mt-2 inline-flex items-center gap-1 text-[11px] text-muted-foreground">
-                          <Cpu className="h-3 w-3" />
-                          {m.tokensPerSec.toFixed(1)} tok/s · {(m.latencyMs! / 1000).toFixed(1)}s · on-device
-                        </div>
-                      )}
+                <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                  {messages.map((m) => (
+                    <div key={m.id} style={{ display: "flex", justifyContent: m.role === "user" ? "flex-end" : "flex-start" }}>
+                      <div style={{
+                        maxWidth: m.role === "user" ? "75%" : "85%",
+                        background: m.role === "user" ? "rgba(196,152,90,0.15)" : "none",
+                        border: m.role === "user" ? "1px solid rgba(196,152,90,0.25)" : "none",
+                        padding: m.role === "user" ? "0.6rem 0.9rem" : "0",
+                        ...body, fontSize: "0.95rem", color: "var(--cream-0)", lineHeight: 1.6, whiteSpace: "pre-wrap",
+                      }}>
+                        {m.content || (generating ? <span style={{ color: "var(--cream-2)", fontStyle: "italic" }}>thinking…</span> : null)}
+                        {m.role === "assistant" && m.tokensPerSec && (
+                          <div style={{ marginTop: "0.5rem", display: "inline-flex", alignItems: "center", gap: "0.3rem", ...mono, fontSize: "0.48rem", letterSpacing: "0.08em", color: "var(--cream-2)" }}>
+                            <Cpu style={{ width: "0.65rem", height: "0.65rem" }} />
+                            {m.tokensPerSec.toFixed(1)} tok/s · {(m.latencyMs! / 1000).toFixed(1)}s · on-device
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                ))
+                  ))}
+                </div>
               )}
             </div>
 
-            <form onSubmit={handleSend} className="border-t border-border p-3 flex gap-2">
-              <input
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder={engine ? "Ask the Pocket Tutor…" : "Load a model to start"}
-                disabled={!engine || generating}
-                className="flex-1 px-3 py-2 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 disabled:opacity-60"
-              />
+            <form onSubmit={handleSend} style={{ borderTop: "1px solid rgba(240,233,214,0.07)", padding: "0.75rem", display: "flex", gap: "0.5rem" }}>
+              <input value={input} onChange={(e) => setInput(e.target.value)} placeholder={engine ? "Ask the Pocket Tutor…" : "Load a model to start"} disabled={!engine || generating}
+                style={{ flex: 1, padding: "0.6rem 0.85rem", background: "var(--ink-2)", border: "1px solid rgba(240,233,214,0.08)", outline: "none", ...body, fontSize: "0.9rem", color: "var(--cream-0)", opacity: (!engine || generating) ? 0.5 : 1 }} />
               {generating ? (
-                <Button type="button" variant="outline" onClick={handleStop}>
-                  Stop
-                </Button>
+                <button type="button" onClick={() => abortRef.current?.abort()} style={{ ...mono, fontSize: "0.52rem", letterSpacing: "0.1em", textTransform: "uppercase", padding: "0 1rem", background: "none", border: "1px solid rgba(240,233,214,0.15)", cursor: "pointer", color: "var(--cream-1)" }}>Stop</button>
               ) : (
                 <>
-                  <Button type="submit" disabled={!engine || !input.trim()}>
-                    <Send className="h-4 w-4" />
-                  </Button>
+                  <button type="submit" disabled={!engine || !input.trim()} style={{ background: !engine || !input.trim() ? "rgba(196,152,90,0.3)" : "var(--gold)", border: "none", cursor: !engine || !input.trim() ? "not-allowed" : "pointer", color: "var(--ink)", padding: "0.6rem 0.85rem", display: "flex", alignItems: "center" }}>
+                    <Send style={{ width: "0.9rem", height: "0.9rem" }} />
+                  </button>
                   {messages.length > 0 && (
-                    <Button type="button" variant="ghost" onClick={handleClear} title="Clear">
-                      <RotateCw className="h-4 w-4" />
-                    </Button>
+                    <button type="button" onClick={() => setMessages([])} style={{ background: "none", border: "1px solid rgba(240,233,214,0.1)", cursor: "pointer", color: "var(--cream-2)", padding: "0.6rem 0.75rem", display: "flex", alignItems: "center" }}>
+                      <RotateCw style={{ width: "0.85rem", height: "0.85rem" }} />
+                    </button>
                   )}
                 </>
               )}
