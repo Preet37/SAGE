@@ -184,16 +184,16 @@ export function TutorPanel({
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
       {messages.length === 0 ? (
         /* Empty state */
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "0 1.5rem" }}>
-          <div style={{ width: "3rem", height: "3rem", background: "rgba(196,152,90,0.12)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "0.75rem" }}>
-            <BotMessageSquare style={{ width: "1.5rem", height: "1.5rem", color: "var(--gold)" }} />
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "2rem 2rem" }}>
+          <div style={{ width: "4rem", height: "4rem", background: "rgba(196,152,90,0.12)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "1rem" }}>
+            <BotMessageSquare style={{ width: "2rem", height: "2rem", color: "var(--gold)" }} />
           </div>
-          <p style={{ ...mono, fontSize: "0.58rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--cream-2)", marginBottom: "1.5rem" }}>
+          <p style={{ ...mono, fontSize: "0.62rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--cream-2)", marginBottom: "2rem" }}>
             Ask a question about this lesson
           </p>
 
-          <div style={{ width: "100%", maxWidth: "42rem", marginBottom: "1.25rem" }}>
-            <div style={{ display: "flex", gap: "0.75rem", alignItems: "flex-end", border: "1px solid rgba(240,233,214,0.1)", background: "var(--ink-1)", padding: "0.75rem 1rem" }}>
+          <div style={{ width: "100%", maxWidth: "52rem", marginBottom: "1.5rem" }}>
+            <div style={{ display: "flex", gap: "0.75rem", alignItems: "flex-end", border: "1px solid rgba(240,233,214,0.1)", background: "var(--ink-1)", padding: "1rem 1.25rem" }}>
               <textarea
                 ref={textareaRef}
                 value={input}
@@ -202,7 +202,7 @@ export function TutorPanel({
                 placeholder="Ask a question about this lesson..."
                 disabled={streaming}
                 rows={1}
-                style={{ flex: 1, resize: "none", background: "transparent", color: "var(--cream-0)", fontSize: "0.95rem", fontFamily: "var(--font-crimson)", lineHeight: 1.6, border: "none", outline: "none", minHeight: "28px", maxHeight: "120px" }}
+                style={{ flex: 1, resize: "none", background: "transparent", color: "var(--cream-0)", fontSize: "1rem", fontFamily: "var(--font-crimson)", lineHeight: 1.6, border: "none", outline: "none", minHeight: "44px", maxHeight: "160px" }}
                 className="placeholder:text-[var(--cream-2)] disabled:opacity-50"
               />
               <button
@@ -212,7 +212,7 @@ export function TutorPanel({
                 }}
                 title={voice.isActive ? "End voice session" : "Start voice session"}
                 style={{
-                  width: "2.25rem", height: "2.25rem", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center",
+                  width: "2.75rem", height: "2.75rem", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center",
                   background: voice.isActive ? "rgb(124,58,237)" : "transparent",
                   color: voice.isActive ? "white" : "var(--cream-2)",
                   border: "1px solid rgba(240,233,214,0.1)", cursor: "pointer", transition: "all 0.15s",
@@ -226,15 +226,15 @@ export function TutorPanel({
                 onClick={() => handleSend()}
                 disabled={sendDisabled}
                 style={{
-                  width: "2.25rem", height: "2.25rem", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center",
+                  width: "2.75rem", height: "2.75rem", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center",
                   background: sendDisabled ? "var(--ink-3)" : "var(--gold)",
                   color: sendDisabled ? "var(--cream-2)" : "var(--ink)",
                   border: "1px solid rgba(240,233,214,0.08)",
                   cursor: sendDisabled ? "default" : "pointer", transition: "all 0.15s",
                 }}
               >
-                {streaming ? <Loader2 style={{ width: "0.875rem", height: "0.875rem" }} className="animate-spin" /> :
-                 <Send style={{ width: "0.875rem", height: "0.875rem" }} />}
+                {streaming ? <Loader2 style={{ width: "1rem", height: "1rem" }} className="animate-spin" /> :
+                 <Send style={{ width: "1rem", height: "1rem" }} />}
               </button>
             </div>
           </div>

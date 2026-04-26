@@ -31,7 +31,7 @@ export function SuggestedPrompts({ lessonTitle, concepts, onSelect }: SuggestedP
   ].slice(0, 4);
 
   return (
-    <div style={{ width: "100%", maxWidth: "42rem", display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "0.5rem" }}>
+    <div style={{ width: "100%", maxWidth: "52rem", display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "0.6rem" }}>
       {prompts.map((p, i) => (
         <button
           key={i}
@@ -39,11 +39,11 @@ export function SuggestedPrompts({ lessonTitle, concepts, onSelect }: SuggestedP
           style={{
             ...body,
             textAlign: "left",
-            fontSize: "0.9rem",
+            fontSize: "0.95rem",
             color: "var(--cream-1)",
             background: "var(--ink-1)",
             border: "1px solid rgba(240,233,214,0.08)",
-            padding: "0.75rem 1rem",
+            padding: "1rem 1.25rem",
             cursor: "pointer",
             lineHeight: 1.4,
             transition: "border-color 0.15s, color 0.15s",
