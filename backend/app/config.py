@@ -54,6 +54,9 @@ class Settings:
         self.llm_model: str = tutor["model_id"]
         self.llm_max_tokens: int = tutor["max_tokens"]
         self.llm_temperature: float = tutor["temperature"]
+        # Total token budget for the request (system + history + reply).
+        # 0 disables history trimming.
+        self.context_max_tokens: int = int(tutor.get("context_max_tokens", 0))
 
         # Vision model (optional, for multimodal image annotation)
         vision = cfg.get("models", {}).get("vision", {})

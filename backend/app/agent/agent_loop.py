@@ -7,6 +7,7 @@ from .tool_handlers import execute_tool
 from .system_prompt_v2 import build_system_prompt_v2 as build_system_prompt
 from .system_prompt_explore import build_exploration_prompt
 from .verifier import verify_response
+from .context_window import trim_messages_to_budget
 from ..config import get_settings
 
 logger = logging.getLogger(__name__)
@@ -45,6 +46,17 @@ async def run_tutor_agent_loop(
         system_text = f"{system_text}\n\n## Slash command\n{context.slash_instruction}"
     system_msg = {"role": "system", "content": system_text}
     api_messages = [system_msg] + messages
+
+    # Trim conversation history to fit the configured context budget. The
+    # system message and the latest user turn are always preserved; the oldest
+    # surplus turns get dropped first.
+    if settings.context_max_tokens > 0:
+        budget = max(
+            settings.context_max_tokens - settings.llm_max_tokens,
+            settings.context_max_tokens // 2,
+        )
+        api_messages = trim_messages_to_budget(api_messages, budget)
+
     full_assistant_text = ""
 
     while steps < MAX_STEPS:
