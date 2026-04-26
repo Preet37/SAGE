@@ -42,10 +42,14 @@ logger = logging.getLogger(__name__)
 TIMEOUT_SECS = 60   # Genesis rendering budget
 MAX_CODE_LEN  = 12_000
 
-# Path to a Python interpreter that has genesis-world installed.
-# If not set, falls back to sys.executable (same venv as the backend).
-# To use an isolated genesis venv:  export GENESIS_PYTHON=/tmp/genesis_venv/bin/python3
-GENESIS_PYTHON = os.environ.get("GENESIS_PYTHON") or sys.executable
+def _genesis_python() -> str:
+    """
+    Resolve the Python interpreter that has genesis-world installed.
+    Called lazily at request time so that load_dotenv() in config.py
+    has already populated os.environ before we read GENESIS_PYTHON.
+    Falls back to sys.executable if the env var is not set.
+    """
+    return os.environ.get("GENESIS_PYTHON") or sys.executable
 
 # ─── Genesis boilerplate ─────────────────────────────────────────────────────
 # Injected before and after the LLM-generated code.
@@ -88,8 +92,6 @@ Sphere    = gs.morphs.Sphere
 Plane     = gs.morphs.Plane
 Mesh      = gs.morphs.Mesh
 Rigid     = gs.materials.Rigid
-Liquid    = gs.materials.Liquid
-Elastic   = gs.materials.Elastic
 Surface   = gs.surfaces.Default
 
 # In Genesis 0.4.x, lighting is configured in VisOptions above.
@@ -133,7 +135,7 @@ Context: {context}
 Available globals (pre-imported — do NOT import or call gs.init):
   scene        — gs.Scene (already created, show_viewer=False, renderer=Rasterizer())
   Cylinder, Box, Sphere, Plane, Mesh   — morphs
-  Rigid, Liquid, Elastic               — materials
+  Rigid                                — only material available (Liquid/Elastic NOT in 0.4.x)
   Surface                              — gs.surfaces.Default
   add_standard_lights()                — adds directional+ambient+point light
 
@@ -178,12 +180,13 @@ JOINTS / CONSTRAINED MOTION:
       stroke = 0.5 * (1 + math.sin(t * 1.5))   # 0→1→0
       piston.set_pos((stroke * 0.18 - 0.09, 0, 0))
 
-MATERIALS:
+MATERIALS — only Rigid is available in Genesis 0.4.x:
   Rigid(rho=7800)            # steel
   Rigid(rho=2700)            # aluminum
-  Rigid(rho=1200)            # plastic
-  Rigid(rho=8900)            # copper/brass
-  Rigid(rho=1000)            # water/resin
+  Rigid(rho=1200)            # plastic / rubber
+  Rigid(rho=8900)            # copper / brass
+  Rigid(rho=1000)            # generic / neutral
+  NEVER use Liquid, Elastic, or any other material — they do NOT exist in 0.4.x.
 
 SURFACE COLORS for realism:
   Machined steel:   (0.55, 0.60, 0.68, 1.0), roughness=0.20, metallic=0.88
@@ -256,9 +259,11 @@ async def generate_genesis_simulation(
     topic   = req.topic[:200]
     context = req.context[:2000]
 
+    client = OpenAI(api_key=settings.llm_api_key, base_url=settings.llm_base_url)
+
     # ── Check Genesis is reachable ──────────────────────────────────────────
     check = await asyncio.create_subprocess_exec(
-        GENESIS_PYTHON, "-c", "import genesis",
+        _genesis_python(), "-c", "import genesis",
         stdout=asyncio.subprocess.DEVNULL,
         stderr=asyncio.subprocess.DEVNULL,
     )
@@ -284,7 +289,6 @@ async def generate_genesis_simulation(
         )
 
     # ── Generate scene code via LLM ─────────────────────────────────────────
-    client = OpenAI(api_key=settings.llm_api_key, base_url=settings.llm_base_url)
     try:
         resp = client.chat.completions.create(
             model=settings.llm_model,
@@ -318,7 +322,7 @@ async def generate_genesis_simulation(
 
         try:
             proc = await asyncio.create_subprocess_exec(
-                GENESIS_PYTHON, script_path, output_path,
+                _genesis_python(), script_path, output_path,
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE,
                 cwd=tmpdir,
@@ -346,7 +350,7 @@ async def generate_genesis_simulation(
                     f.write(fs)
                 try:
                     proc2 = await asyncio.create_subprocess_exec(
-                        GENESIS_PYTHON, script_path, output_path,
+                        _genesis_python(), script_path, output_path,
                         stdout=asyncio.subprocess.PIPE,
                         stderr=asyncio.subprocess.PIPE,
                         cwd=tmpdir,
