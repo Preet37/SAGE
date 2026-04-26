@@ -3,33 +3,22 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getToken } from "@/lib/auth";
-import {
-  api,
-  MediaAssetResponse,
-  SketchExplainResponseT,
-} from "@/lib/api";
+import { api, MediaAssetResponse, SketchExplainResponseT } from "@/lib/api";
 import { cloudinaryUrl, uploadToCloudinary } from "@/lib/cloudinary";
 import { AppHeader } from "@/components/AppHeader";
-import { Button } from "@/components/ui/button";
-import {
-  Loader2,
-  UploadCloud,
-  Sparkles,
-  Trash2,
-  ImageIcon,
-  Wand2,
-  Scissors,
-  Crop,
-  Tag as TagIcon,
-} from "lucide-react";
+import { Loader2, UploadCloud, Sparkles, Trash2, ImageIcon, Wand2, Scissors, Crop, Tag as TagIcon } from "lucide-react";
+
+const mono: React.CSSProperties  = { fontFamily: "var(--font-dm-mono)" };
+const serif: React.CSSProperties = { fontFamily: "var(--font-cormorant)" };
+const body: React.CSSProperties  = { fontFamily: "var(--font-crimson)" };
 
 type Variant = "original" | "removed_bg" | "smart_crop" | "auto_color";
 
 const VARIANTS: { id: Variant; label: string; icon: React.ReactNode; transformations: string[] }[] = [
-  { id: "original",    label: "Original",       icon: <ImageIcon className="h-3.5 w-3.5" />, transformations: ["q_auto", "f_auto"] },
-  { id: "removed_bg",  label: "Background-free", icon: <Scissors className="h-3.5 w-3.5" />,  transformations: ["e_background_removal", "f_auto"] },
-  { id: "smart_crop",  label: "Smart-cropped",   icon: <Crop className="h-3.5 w-3.5" />,      transformations: ["c_thumb,w_512,h_512,g_auto", "f_auto"] },
-  { id: "auto_color",  label: "Auto-balanced",   icon: <Wand2 className="h-3.5 w-3.5" />,     transformations: ["e_improve:outdoor", "f_auto"] },
+  { id: "original",   label: "Original",       icon: <ImageIcon style={{ width: "0.75rem", height: "0.75rem" }} />, transformations: ["q_auto", "f_auto"] },
+  { id: "removed_bg", label: "No Background",  icon: <Scissors style={{ width: "0.75rem", height: "0.75rem" }} />,  transformations: ["e_background_removal", "f_auto"] },
+  { id: "smart_crop", label: "Smart Crop",     icon: <Crop style={{ width: "0.75rem", height: "0.75rem" }} />,      transformations: ["c_thumb,w_512,h_512,g_auto", "f_auto"] },
+  { id: "auto_color", label: "Auto Balance",   icon: <Wand2 style={{ width: "0.75rem", height: "0.75rem" }} />,     transformations: ["e_improve:outdoor", "f_auto"] },
 ];
 
 export default function SketchPage() {
@@ -65,7 +54,6 @@ export default function SketchPage() {
       setAssets((prev) => [asset, ...prev]);
       setSelected(asset);
       setExplanation(null);
-      // Cloudinary's secure_url contains cloud name as the segment after /upload prefix.
       const m = asset.secure_url.match(/res\.cloudinary\.com\/([^/]+)\//);
       if (m) setCloudName(m[1]);
     } catch (e) {
@@ -83,9 +71,7 @@ export default function SketchPage() {
     setExplaining(true);
     setError(null);
     try {
-      const res = await api.media.sketchExplain({
-        asset_id: selected.id, note: explainNote || undefined,
-      }, token);
+      const res = await api.media.sketchExplain({ asset_id: selected.id, note: explainNote || undefined }, token);
       setExplanation(res);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Explain failed");
@@ -99,10 +85,7 @@ export default function SketchPage() {
     if (!token) return;
     await api.media.deleteAsset(asset.id, token);
     setAssets((prev) => prev.filter((a) => a.id !== asset.id));
-    if (selected?.id === asset.id) {
-      setSelected(null);
-      setExplanation(null);
-    }
+    if (selected?.id === asset.id) { setSelected(null); setExplanation(null); }
   }
 
   const currentTransformation = VARIANTS.find((v) => v.id === variant)!;
@@ -111,72 +94,72 @@ export default function SketchPage() {
     : selected?.secure_url || "";
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden">
+    <div className="flex flex-col h-screen overflow-hidden" style={{ background: "var(--ink)", color: "var(--cream-0)" }}>
       <AppHeader />
-      <main className="flex-1 overflow-y-auto">
-        <div className="max-w-6xl mx-auto px-6 py-8">
+      <main className="flex-1 overflow-y-auto thin-scrollbar">
+        <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "2.5rem 1.5rem 4rem" }}>
 
-          <header className="flex items-start justify-between gap-4 mb-6">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
-                <Sparkles className="h-5 w-5" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold">Sketch Studio</h1>
-                <p className="text-sm text-muted-foreground">
-                  Upload diagrams, equations, or screenshots. Cloudinary AI cleans them up;
-                  the tutor explains what they show.
-                </p>
-              </div>
+          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "1rem", marginBottom: "2rem" }}>
+            <div>
+              <p style={{ ...mono, fontSize: "0.58rem", letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--gold)", marginBottom: "0.5rem" }}>Sketch Studio</p>
+              <h1 style={{ ...serif, fontWeight: 700, fontStyle: "italic", fontSize: "clamp(1.75rem,4vw,2.5rem)", color: "var(--cream-0)", lineHeight: 1.1, marginBottom: "0.4rem" }}>
+                See what you drew<span style={{ color: "var(--gold)" }}>.</span>
+              </h1>
+              <p style={{ ...body, fontSize: "0.95rem", color: "var(--cream-1)", lineHeight: 1.6 }}>
+                Upload diagrams, equations, or screenshots. Cloudinary AI cleans them up; the tutor explains what they show.
+              </p>
             </div>
-            <input
-              ref={inputRef} type="file" accept="image/*"
-              onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); }}
-              className="hidden"
-            />
-            <Button onClick={() => inputRef.current?.click()} disabled={uploading}>
-              {uploading ? <Loader2 className="h-4 w-4 mr-1.5 animate-spin" /> : <UploadCloud className="h-4 w-4 mr-1.5" />}
+            <input ref={inputRef} type="file" accept="image/*" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); }} style={{ display: "none" }} />
+            <button
+              onClick={() => inputRef.current?.click()}
+              disabled={uploading}
+              style={{ ...mono, display: "flex", alignItems: "center", gap: "0.4rem", fontSize: "0.52rem", letterSpacing: "0.12em", textTransform: "uppercase", padding: "0.55rem 1rem", background: uploading ? "rgba(196,152,90,0.3)" : "var(--gold)", color: uploading ? "var(--cream-2)" : "var(--ink)", border: "none", cursor: uploading ? "not-allowed" : "pointer", flexShrink: 0 }}
+            >
+              {uploading ? <Loader2 style={{ width: "0.75rem", height: "0.75rem" }} className="animate-spin" /> : <UploadCloud style={{ width: "0.75rem", height: "0.75rem" }} />}
               {uploading ? `Uploading ${progress}%` : "Upload sketch"}
-            </Button>
-          </header>
+            </button>
+          </div>
 
-          {error && (
-            <div className="rounded-lg border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-destructive mb-4">
-              {error}
+          {uploading && progress > 0 && (
+            <div style={{ height: "2px", background: "rgba(240,233,214,0.08)", marginBottom: "1.5rem", overflow: "hidden" }}>
+              <div style={{ height: "100%", background: "var(--gold)", transition: "width 0.3s", width: `${progress}%` }} />
             </div>
           )}
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {error && (
+            <div style={{ background: "rgba(201,124,104,0.08)", border: "1px solid rgba(201,124,104,0.3)", padding: "0.65rem 1rem", marginBottom: "1rem" }}>
+              <p style={{ ...body, fontSize: "0.9rem", color: "var(--rose)" }}>{error}</p>
+            </div>
+          )}
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 2fr", gap: "1rem" }}>
             {/* Library */}
-            <aside className="rounded-xl border border-border bg-card p-4">
-              <h2 className="text-sm font-semibold mb-3">Your sketches</h2>
+            <aside style={{ background: "var(--ink-1)", border: "1px solid rgba(240,233,214,0.07)", padding: "1.25rem" }}>
+              <p style={{ ...mono, fontSize: "0.52rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--cream-2)", marginBottom: "0.85rem" }}>Your sketches</p>
               {assets.length === 0 ? (
-                <div className="rounded-lg border border-dashed border-border p-6 text-center text-xs text-muted-foreground">
-                  No sketches yet. Upload one to begin.
+                <div style={{ border: "1px dashed rgba(240,233,214,0.1)", padding: "2rem 1rem", textAlign: "center" }}>
+                  <p style={{ ...mono, fontSize: "0.5rem", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--cream-2)" }}>No sketches yet. Upload one to begin.</p>
                 </div>
               ) : (
-                <ul className="space-y-2 max-h-[60vh] overflow-y-auto pr-1">
+                <ul style={{ listStyle: "none", padding: 0, margin: 0, maxHeight: "60vh", overflowY: "auto" }} className="thin-scrollbar">
                   {assets.map((a) => (
-                    <li key={a.id}>
+                    <li key={a.id} style={{ marginBottom: "0.5rem" }}>
                       <button
                         onClick={() => { setSelected(a); setExplanation(null); const m = a.secure_url.match(/res\.cloudinary\.com\/([^/]+)\//); if (m) setCloudName(m[1]); }}
-                        className={`w-full flex items-center gap-3 rounded-lg border px-2 py-2 text-left transition ${
-                          selected?.id === a.id
-                            ? "border-primary/60 bg-primary/5"
-                            : "border-border hover:bg-muted/40"
-                        }`}
+                        style={{ width: "100%", display: "flex", alignItems: "center", gap: "0.65rem", padding: "0.5rem", background: selected?.id === a.id ? "rgba(196,152,90,0.08)" : "transparent", border: `1px solid ${selected?.id === a.id ? "rgba(196,152,90,0.4)" : "rgba(240,233,214,0.06)"}`, cursor: "pointer", textAlign: "left", transition: "border-color 0.15s" }}
                       >
-                        <img src={a.secure_url} alt="" className="h-12 w-12 object-cover rounded-md flex-shrink-0" loading="lazy" />
-                        <div className="min-w-0 flex-1">
-                          <div className="text-xs font-medium truncate">{a.public_id.split("/").pop()}</div>
-                          <div className="text-[11px] text-muted-foreground">{a.width}×{a.height} · {(a.bytes / 1024).toFixed(0)}kb</div>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={a.secure_url} alt="" style={{ width: "3rem", height: "3rem", objectFit: "cover", flexShrink: 0 }} loading="lazy" />
+                        <div style={{ minWidth: 0, flex: 1 }}>
+                          <div style={{ ...mono, fontSize: "0.5rem", letterSpacing: "0.06em", color: "var(--cream-1)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{a.public_id.split("/").pop()}</div>
+                          <div style={{ ...mono, fontSize: "0.45rem", color: "var(--cream-2)", marginTop: "0.2rem" }}>{a.width}×{a.height} · {(a.bytes / 1024).toFixed(0)}kb</div>
                         </div>
                         <button
                           onClick={(ev) => { ev.stopPropagation(); handleDelete(a); }}
-                          className="text-muted-foreground hover:text-destructive"
+                          style={{ background: "none", border: "none", cursor: "pointer", color: "var(--cream-2)", padding: "0.2rem", flexShrink: 0 }}
                           aria-label="Delete"
                         >
-                          <Trash2 className="h-3.5 w-3.5" />
+                          <Trash2 style={{ width: "0.75rem", height: "0.75rem" }} />
                         </button>
                       </button>
                     </li>
@@ -186,80 +169,73 @@ export default function SketchPage() {
             </aside>
 
             {/* Detail */}
-            <section className="lg:col-span-2 space-y-4">
+            <section style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
               {!selected ? (
-                <div className="rounded-xl border border-dashed border-border bg-muted/30 p-12 text-center">
-                  <ImageIcon className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
-                  <p className="text-sm text-muted-foreground">
+                <div style={{ border: "1px dashed rgba(240,233,214,0.1)", padding: "4rem 1rem", textAlign: "center", background: "var(--ink-1)" }}>
+                  <ImageIcon style={{ width: "2.5rem", height: "2.5rem", color: "var(--cream-2)", margin: "0 auto 0.75rem", opacity: 0.4 }} />
+                  <p style={{ ...mono, fontSize: "0.52rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--cream-2)" }}>
                     Upload a sketch to see Cloudinary AI transformations and tutor explanations.
                   </p>
                 </div>
               ) : (
                 <>
-                  <div className="rounded-xl border border-border bg-card p-4">
-                    <div className="flex items-center justify-between mb-3">
-                      <h2 className="text-sm font-semibold">Cloudinary AI variants</h2>
-                      <span className="text-xs text-muted-foreground">delivered via CDN</span>
+                  {/* Variants */}
+                  <div style={{ background: "var(--ink-1)", border: "1px solid rgba(240,233,214,0.07)", padding: "1.25rem" }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.85rem" }}>
+                      <p style={{ ...mono, fontSize: "0.52rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--cream-2)" }}>Cloudinary AI variants</p>
+                      <span style={{ ...mono, fontSize: "0.45rem", letterSpacing: "0.06em", color: "var(--cream-2)" }}>delivered via CDN</span>
                     </div>
-                    <div className="flex flex-wrap gap-2 mb-4">
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", marginBottom: "1rem" }}>
                       {VARIANTS.map((v) => (
                         <button
                           key={v.id}
                           onClick={() => setVariant(v.id)}
-                          className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition ${
-                            variant === v.id
-                              ? "bg-primary text-primary-foreground border-primary"
-                              : "bg-background hover:bg-muted/50"
-                          }`}
+                          style={{ ...mono, display: "flex", alignItems: "center", gap: "0.35rem", fontSize: "0.48rem", letterSpacing: "0.1em", textTransform: "uppercase", padding: "0.3rem 0.65rem", background: variant === v.id ? "var(--gold)" : "transparent", color: variant === v.id ? "var(--ink)" : "var(--cream-2)", border: `1px solid ${variant === v.id ? "var(--gold)" : "rgba(240,233,214,0.12)"}`, cursor: "pointer", transition: "all 0.15s" }}
                         >
-                          {v.icon}
-                          {v.label}
+                          {v.icon} {v.label}
                         </button>
                       ))}
                     </div>
-                    <div className="rounded-lg overflow-hidden bg-checker">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={previewUrl} alt="" className="w-full max-h-[460px] object-contain bg-muted/30" />
-                    </div>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={previewUrl} alt="" style={{ width: "100%", maxHeight: "460px", objectFit: "contain", background: "rgba(240,233,214,0.03)", display: "block" }} />
                   </div>
 
-                  <div className="rounded-xl border border-border bg-card p-4">
-                    <h2 className="text-sm font-semibold mb-3 flex items-center gap-2">
-                      <Sparkles className="h-4 w-4 text-primary" /> Explain with the tutor
-                    </h2>
+                  {/* Explain */}
+                  <div style={{ background: "var(--ink-1)", border: "1px solid rgba(240,233,214,0.07)", padding: "1.25rem" }}>
+                    <p style={{ ...mono, fontSize: "0.52rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--cream-2)", marginBottom: "0.75rem", display: "flex", alignItems: "center", gap: "0.4rem" }}>
+                      <Sparkles style={{ width: "0.7rem", height: "0.7rem", color: "var(--gold)" }} /> Explain with the tutor
+                    </p>
                     <textarea
                       value={explainNote}
                       onChange={(e) => setExplainNote(e.target.value)}
-                      placeholder="What's confusing about this image? (optional — leave blank for a general explanation)"
+                      placeholder="What's confusing about this image? (optional)"
                       rows={2}
-                      className="w-full px-3 py-2 mb-3 rounded-lg border border-border bg-background text-sm"
+                      style={{ width: "100%", padding: "0.6rem 0.85rem", marginBottom: "0.75rem", background: "var(--ink-2)", border: "1px solid rgba(240,233,214,0.08)", outline: "none", ...body, fontSize: "0.9rem", color: "var(--cream-0)", resize: "vertical", boxSizing: "border-box" }}
                     />
-                    <Button onClick={handleExplain} disabled={explaining}>
-                      {explaining ? <Loader2 className="h-4 w-4 mr-1.5 animate-spin" /> : <Wand2 className="h-4 w-4 mr-1.5" />}
+                    <button
+                      onClick={handleExplain}
+                      disabled={explaining}
+                      style={{ ...mono, display: "flex", alignItems: "center", gap: "0.4rem", fontSize: "0.52rem", letterSpacing: "0.12em", textTransform: "uppercase", padding: "0.5rem 0.9rem", background: explaining ? "rgba(196,152,90,0.3)" : "var(--gold)", color: explaining ? "var(--cream-2)" : "var(--ink)", border: "none", cursor: explaining ? "not-allowed" : "pointer" }}
+                    >
+                      {explaining ? <Loader2 style={{ width: "0.75rem", height: "0.75rem" }} className="animate-spin" /> : <Wand2 style={{ width: "0.75rem", height: "0.75rem" }} />}
                       Explain this sketch
-                    </Button>
+                    </button>
 
                     {explanation && (
-                      <div className="mt-4 space-y-3">
-                        <p className="text-sm text-foreground/90 leading-relaxed whitespace-pre-wrap">
-                          {explanation.explanation}
-                        </p>
+                      <div style={{ marginTop: "1.25rem" }}>
+                        <p style={{ ...body, fontSize: "0.95rem", color: "var(--cream-1)", lineHeight: 1.7, whiteSpace: "pre-wrap", marginBottom: "1rem" }}>{explanation.explanation}</p>
                         {explanation.detected_concepts.length > 0 && (
-                          <div className="flex flex-wrap items-center gap-1.5">
-                            <TagIcon className="h-3.5 w-3.5 text-muted-foreground" />
+                          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "0.4rem", marginBottom: "0.75rem" }}>
+                            <TagIcon style={{ width: "0.7rem", height: "0.7rem", color: "var(--cream-2)" }} />
                             {explanation.detected_concepts.map((c) => (
-                              <span key={c} className="text-[11px] bg-muted text-foreground/80 rounded-full px-2 py-0.5">
-                                {c}
-                              </span>
+                              <span key={c} style={{ ...mono, fontSize: "0.45rem", letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--gold)", border: "1px solid rgba(196,152,90,0.3)", padding: "0.1rem 0.4rem" }}>{c}</span>
                             ))}
                           </div>
                         )}
                         {explanation.suggested_prompt && (
-                          <div className="rounded-lg border border-primary/40 bg-primary/5 px-3 py-2 text-sm">
-                            <div className="text-[11px] uppercase tracking-wide text-primary font-semibold mb-1">
-                              Try asking the tutor
-                            </div>
-                            <p className="text-foreground/90 italic">{explanation.suggested_prompt}</p>
+                          <div style={{ border: "1px solid rgba(196,152,90,0.25)", background: "rgba(196,152,90,0.05)", padding: "0.75rem 1rem" }}>
+                            <p style={{ ...mono, fontSize: "0.48rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--gold)", marginBottom: "0.4rem" }}>Try asking the tutor</p>
+                            <p style={{ ...body, fontStyle: "italic", fontSize: "0.9rem", color: "var(--cream-1)" }}>{explanation.suggested_prompt}</p>
                           </div>
                         )}
                       </div>

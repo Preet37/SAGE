@@ -1,7 +1,9 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
-import { Button } from "@/components/ui/button";
 import { ArrowRight, Loader2 } from "lucide-react";
+
+const mono: React.CSSProperties = { fontFamily: "var(--font-dm-mono)" };
+const body: React.CSSProperties = { fontFamily: "var(--font-crimson)" };
 
 interface GoalInputProps {
   onSubmit: (goal: string) => void;
@@ -10,6 +12,7 @@ interface GoalInputProps {
 
 export function GoalInput({ onSubmit, loading }: GoalInputProps) {
   const [value, setValue] = useState("");
+  const [focused, setFocused] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -30,41 +33,32 @@ export function GoalInput({ onSubmit, loading }: GoalInputProps) {
   }
 
   return (
-    <div className="relative">
-      <div className="rounded-xl border border-border bg-card shadow-lg overflow-hidden transition-shadow focus-within:shadow-xl focus-within:border-primary/30">
+    <div style={{ position: "relative" }}>
+      <div style={{ background: "var(--ink-1)", border: `1px solid ${focused ? "rgba(196,152,90,0.45)" : "rgba(240,233,214,0.12)"}`, overflow: "hidden", transition: "border-color 0.2s" }}>
         <textarea
           ref={textareaRef}
           value={value}
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="e.g. How LLMs work, from tokenization to RLHF..."
-          rows={3}
-          className="w-full resize-none bg-transparent px-5 pt-5 pb-14 text-base placeholder:text-muted-foreground/60 focus:outline-none"
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          placeholder="e.g. How LLMs work, from tokenization to RLHF…"
+          rows={4}
           disabled={loading}
+          style={{ width: "100%", resize: "none", background: "transparent", padding: "1.25rem 1.25rem 3.5rem", ...body, fontSize: "1rem", color: "var(--cream-0)", outline: "none", boxSizing: "border-box", lineHeight: 1.6 }}
         />
-        <div className="absolute bottom-3 right-3">
-          <Button
+        <div style={{ position: "absolute", bottom: "0.75rem", right: "0.75rem" }}>
+          <button
             onClick={handleSubmit}
             disabled={!value.trim() || loading}
-            size="sm"
-            className="rounded-lg px-4 gap-2"
+            style={{ ...mono, display: "flex", alignItems: "center", gap: "0.4rem", fontSize: "0.52rem", letterSpacing: "0.12em", textTransform: "uppercase", padding: "0.5rem 0.9rem", background: (!value.trim() || loading) ? "var(--ink-3)" : "var(--gold)", color: (!value.trim() || loading) ? "var(--cream-2)" : "var(--ink)", border: `1px solid ${(!value.trim() || loading) ? "rgba(240,233,214,0.12)" : "transparent"}`, cursor: (!value.trim() || loading) ? "not-allowed" : "pointer", transition: "background 0.2s, color 0.2s" }}
           >
-            {loading ? (
-              <>
-                <Loader2 className="h-4 w-4 animate-spin" />
-                Creating...
-              </>
-            ) : (
-              <>
-                Build Course
-                <ArrowRight className="h-4 w-4" />
-              </>
-            )}
-          </Button>
+            {loading ? <><Loader2 style={{ width: "0.75rem", height: "0.75rem" }} className="animate-spin" />Creating…</> : <>Build Course <ArrowRight style={{ width: "0.75rem", height: "0.75rem" }} /></>}
+          </button>
         </div>
       </div>
-      <p className="text-xs text-muted-foreground mt-2 text-center">
-        Press Enter to submit, Shift+Enter for new line
+      <p style={{ ...mono, fontSize: "0.48rem", letterSpacing: "0.1em", color: "var(--cream-2)", marginTop: "0.6rem", textAlign: "center", textTransform: "uppercase" }}>
+        Press Enter to submit · Shift+Enter for new line
       </p>
     </div>
   );

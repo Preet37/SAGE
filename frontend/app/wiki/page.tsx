@@ -1,45 +1,41 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, ExternalLink } from "lucide-react";
-import { Button } from "@/components/ui/button";
+
+const mono: React.CSSProperties = { fontFamily: "var(--font-dm-mono)" };
 
 export default function WikiPage() {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col h-screen bg-background overflow-hidden">
-      {/* Toolbar */}
-      <div className="flex items-center gap-3 px-4 py-2 border-b border-border bg-card/60 backdrop-blur-sm flex-shrink-0">
-        <Button
-          variant="ghost"
-          size="sm"
-          className="gap-1.5 text-muted-foreground hover:text-foreground"
+    <div style={{ display: "flex", flexDirection: "column", height: "100vh", background: "var(--ink)", overflow: "hidden" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.5rem 1rem", borderBottom: "1px solid rgba(240,233,214,0.07)", background: "var(--ink-1)", flexShrink: 0 }}>
+        <button
           onClick={() => router.back()}
+          style={{ ...mono, display: "flex", alignItems: "center", gap: "0.35rem", fontSize: "0.52rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--cream-2)", background: "none", border: "none", cursor: "pointer", padding: "0.3rem 0" }}
         >
-          <ArrowLeft className="h-4 w-4" />
+          <ArrowLeft style={{ width: "0.8rem", height: "0.8rem" }} />
           Back
-        </Button>
-        <div className="h-4 w-px bg-border" />
-        <span className="text-sm font-medium">Documentation</span>
-        <span className="text-xs text-muted-foreground ml-1">— SAGE Knowledge Base</span>
-        <div className="ml-auto">
+        </button>
+        <div style={{ width: "1px", height: "1rem", background: "rgba(240,233,214,0.12)" }} />
+        <span style={{ ...mono, fontSize: "0.55rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--cream-0)" }}>Documentation</span>
+        <span style={{ ...mono, fontSize: "0.5rem", letterSpacing: "0.08em", color: "var(--cream-2)" }}>— SAGE Knowledge Base</span>
+        <div style={{ marginLeft: "auto" }}>
           <a
             href="https://socratic-tutor-pi.vercel.app"
             target="_blank"
             rel="noopener noreferrer"
+            style={{ ...mono, display: "flex", alignItems: "center", gap: "0.35rem", fontSize: "0.5rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--cream-2)", textDecoration: "none" }}
           >
-            <Button variant="ghost" size="sm" className="gap-1.5 text-muted-foreground hover:text-foreground text-xs">
-              <ExternalLink className="h-3.5 w-3.5" />
-              Open in new tab
-            </Button>
+            <ExternalLink style={{ width: "0.75rem", height: "0.75rem" }} />
+            Open in new tab
           </a>
         </div>
       </div>
 
-      {/* Embedded wiki */}
       <iframe
         src="https://socratic-tutor-pi.vercel.app"
-        className="flex-1 w-full border-0"
+        style={{ flex: 1, width: "100%", border: "none" }}
         title="SAGE Documentation"
         sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
       />

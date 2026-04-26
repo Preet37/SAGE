@@ -20,7 +20,7 @@ export default function CreateLayout({ children }: { children: React.ReactNode }
   }
 
   return (
-    <div className="h-screen w-screen overflow-hidden bg-background">
+    <div style={{ height: "100vh", width: "100vw", overflow: "hidden", background: "var(--ink)" }}>
       {children}
     </div>
   );
