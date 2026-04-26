@@ -117,6 +117,9 @@ async def _call_llm_json(prompt: str, **kwargs) -> dict:
         if text.endswith("```"):
             text = text[:-3]
         text = text.strip()
+    # Strip control characters that LLMs sometimes embed in JSON strings
+    import re as _re
+    text = _re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]', '', text)
     try:
         return json.loads(text)
     except json.JSONDecodeError:
