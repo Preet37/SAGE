@@ -1,12 +1,11 @@
 "use client";
-import { useEffect, useState, useMemo, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
-import { api, LearningPathResponse, ProgressResponse } from "@/lib/api";
+import { api, CourseOut, LessonOut } from "@/lib/api";
 import { getToken, removeToken } from "@/lib/auth";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { CheckCircle2, Circle, ChevronRight, LogOut, BookOpen, Menu, X, ChevronDown, GripVertical } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { CheckCircle2, Circle, LogOut, BookOpen, Menu, X, ChevronDown, GripVertical } from "lucide-react";
 import { AppHeader } from "@/components/AppHeader";
 
 const mono: React.CSSProperties = { fontFamily: "var(--font-dm-mono)" };
@@ -36,7 +35,8 @@ function LevelBadge({ level }: { level: string }) {
 export default function LearnLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const [paths, setPaths] = useState<LearningPathResponse[]>([]);
+  const [paths, setPaths] = useState<CourseOut[]>([]);
+  const [lessons, setLessons] = useState<LessonOut[]>([]);
   const [progress, setProgress] = useState<Record<string, boolean>>({});
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [sidebarWidth, setSidebarWidth] = useState(260);
@@ -65,41 +65,20 @@ export default function LearnLayout({ children }: { children: React.ReactNode })
     document.addEventListener("mouseup", onMouseUp);
   }, [sidebarWidth]);
 
-  const [expandedModules, setExpandedModules] = useState<Set<string>>(new Set());
-
   const segments = pathname.split("/").filter(Boolean);
   const activePathSlug = segments[1] || "";
   const activePath = paths.find((p) => p.slug === activePathSlug);
   const isOnLesson = segments.length >= 3;
-  const activeLessonId = isOnLesson ? segments[2] : "";
+  const activeLessonSlug = isOnLesson ? segments[2] : "";
 
-  const activeModuleId = useMemo(() => {
-    if (!activePath || !activeLessonId) return "";
-    for (const mod of activePath.modules) {
-      if (mod.lessons.some((l) => l.id === activeLessonId)) return mod.id;
-    }
-    return "";
-  }, [activePath, activeLessonId]);
-
+  // Load lessons whenever the active course changes
   useEffect(() => {
-    if (activeModuleId) {
-      setExpandedModules((prev) => {
-        if (prev.has(activeModuleId)) return prev;
-        const next = new Set(prev);
-        next.add(activeModuleId);
-        return next;
-      });
-    }
-  }, [activeModuleId]);
+    if (!activePathSlug) return;
+    const token = getToken();
+    if (!token) return;
+    api.courses.lessons(activePathSlug, token).then(setLessons).catch(() => {});
+  }, [activePathSlug]);
 
-  function toggleModule(modId: string) {
-    setExpandedModules((prev) => {
-      const next = new Set(prev);
-      if (next.has(modId)) next.delete(modId);
-      else next.add(modId);
-      return next;
-    });
-  }
 
   useEffect(() => {
     const token = getToken();
@@ -107,17 +86,8 @@ export default function LearnLayout({ children }: { children: React.ReactNode })
 
     async function load() {
       try {
-        const [summaries, prog] = await Promise.all([
-          api.learningPaths.list(token!),
-          api.progress.getAll(token!),
-        ]);
-        const progMap: Record<string, boolean> = {};
-        prog.forEach((p) => { progMap[p.lesson_id] = p.completed; });
-        setProgress(progMap);
-        const full = await Promise.all(
-          summaries.map((s) => api.learningPaths.get(s.slug, token!))
-        );
-        setPaths(full);
+        const courseList = await api.courses.list(token!);
+        setPaths(courseList);
       } catch {
         // 401s handled inside request(); other failures show empty state
       } finally {
@@ -229,70 +199,34 @@ export default function LearnLayout({ children }: { children: React.ReactNode })
                     )}
                   </div>
 
-                  {/* Module / lesson tree */}
-                  {activePath && (
+                  {/* Lesson list */}
+                  {activePath && lessons.length > 0 && (
                     <div style={{ marginTop: "0.75rem" }}>
                       <div style={{ height: "1px", background: "rgba(240,233,214,0.07)", marginBottom: "0.5rem" }} />
-                      {activePath.modules.map((mod) => {
-                        const isExpanded = expandedModules.has(mod.id);
-                        const completedCount = mod.lessons.filter((l) => progress[l.id]).length;
-                        const hasActive = mod.lessons.some((l) => pathname.includes(l.id));
+                      {lessons.map((lesson) => {
+                        const done = progress[String(lesson.id)];
+                        const isActive = activeLessonSlug === lesson.slug;
                         return (
-                          <div key={mod.id} style={{ marginBottom: "0.15rem" }}>
-                            <button
-                              onClick={() => toggleModule(mod.id)}
-                              className="w-full"
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: "0.4rem",
-                                padding: "0.45rem 0.5rem",
-                                background: hasActive ? "rgba(196,152,90,0.05)" : "none",
-                                border: "none",
-                                cursor: "pointer",
-                                textAlign: "left",
-                              }}
-                            >
-                              <ChevronRight style={{ width: "0.65rem", height: "0.65rem", color: "var(--cream-2)", transform: isExpanded ? "rotate(90deg)" : "none", transition: "transform 0.2s", flexShrink: 0 }} />
-                              <span style={{ ...mono, fontSize: "0.55rem", letterSpacing: "0.12em", textTransform: "uppercase", color: hasActive ? "var(--cream-1)" : "var(--cream-2)", flex: 1, lineHeight: 1.4 }}>
-                                {mod.title}
+                          <Link key={lesson.id} href={`/learn/${activePath.slug}/${lesson.slug}`}>
+                            <div style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "0.5rem",
+                              padding: "0.45rem 0.5rem",
+                              background: isActive ? "rgba(196,152,90,0.08)" : "none",
+                              borderLeft: isActive ? "1px solid var(--gold)" : "1px solid transparent",
+                              cursor: "pointer",
+                              transition: "background 0.15s",
+                            }}>
+                              {done
+                                ? <CheckCircle2 style={{ width: "0.75rem", height: "0.75rem", color: "var(--sage-c)", flexShrink: 0 }} />
+                                : <Circle style={{ width: "0.75rem", height: "0.75rem", color: isActive ? "var(--gold)" : "var(--cream-2)", flexShrink: 0 }} />
+                              }
+                              <span style={{ fontFamily: "var(--font-crimson)", fontSize: "0.85rem", color: isActive ? "var(--cream-0)" : "var(--cream-1)", lineHeight: 1.3, flex: 1 }}>
+                                {lesson.title}
                               </span>
-                              <span style={{ ...mono, fontSize: "0.5rem", color: "var(--cream-2)" }}>
-                                {completedCount}/{mod.lessons.length}
-                              </span>
-                            </button>
-
-                            {isExpanded && (
-                              <div style={{ marginLeft: "0.6rem", marginTop: "0.1rem" }}>
-                                {mod.lessons.map((lesson) => {
-                                  const done = progress[lesson.id];
-                                  const isActive = pathname.includes(lesson.id);
-                                  return (
-                                    <Link key={lesson.id} href={`/learn/${activePath.slug}/${lesson.id}`}>
-                                      <div style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: "0.5rem",
-                                        padding: "0.45rem 0.5rem",
-                                        background: isActive ? "rgba(196,152,90,0.08)" : "none",
-                                        borderLeft: isActive ? "1px solid var(--gold)" : "1px solid transparent",
-                                        cursor: "pointer",
-                                        transition: "background 0.15s",
-                                      }}>
-                                        {done
-                                          ? <CheckCircle2 style={{ width: "0.75rem", height: "0.75rem", color: "var(--sage-c)", flexShrink: 0 }} />
-                                          : <Circle style={{ width: "0.75rem", height: "0.75rem", color: isActive ? "var(--gold)" : "var(--cream-2)", flexShrink: 0 }} />
-                                        }
-                                        <span style={{ fontFamily: "var(--font-crimson)", fontSize: "0.85rem", color: isActive ? "var(--cream-0)" : "var(--cream-1)", lineHeight: 1.3, flex: 1 }}>
-                                          {lesson.title}
-                                        </span>
-                                      </div>
-                                    </Link>
-                                  );
-                                })}
-                              </div>
-                            )}
-                          </div>
+                            </div>
+                          </Link>
                         );
                       })}
                     </div>

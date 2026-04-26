@@ -2,10 +2,9 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { api, LearningPathSummary } from "@/lib/api";
+import { api, CourseOut } from "@/lib/api";
 import { getToken } from "@/lib/auth";
-import { ShareDialog } from "@/components/ShareDialog";
-import { ArrowRight, BookOpen, Share2, Sparkles, Star } from "lucide-react";
+import { ArrowRight, BookOpen, Sparkles, Star } from "lucide-react";
 
 const mono: React.CSSProperties  = { fontFamily: "var(--font-dm-mono)" };
 const serif: React.CSSProperties = { fontFamily: "var(--font-cormorant)" };
@@ -26,7 +25,7 @@ const INTEREST_KEYWORDS: Record<string, string[]> = {
   "physics-ai":      ["physics", "scientific", "simulation"],
 };
 
-function CourseCard({ path, onShare }: { path: LearningPathSummary; onShare?: () => void }) {
+function CourseCard({ path }: { path: CourseOut }) {
   const levelColors: Record<string, string> = {
     beginner:     "var(--sage-c)",
     intermediate: "var(--gold)",
@@ -51,11 +50,6 @@ function CourseCard({ path, onShare }: { path: LearningPathSummary; onShare?: ()
               <span style={{ ...mono, fontSize: "0.5rem", letterSpacing: "0.1em", textTransform: "uppercase", color: accent, border: `1px solid ${accent}`, padding: "0.1rem 0.4rem" }}>
                 {path.level}
               </span>
-              {path.is_mine && (
-                <span style={{ ...mono, fontSize: "0.5rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--cream-2)", border: "1px solid rgba(240,233,214,0.15)", padding: "0.1rem 0.4rem" }}>
-                  My Course
-                </span>
-              )}
             </div>
             <h3 style={{ ...serif, fontWeight: 600, fontStyle: "italic", fontSize: "1.2rem", color: "var(--cream-0)", lineHeight: 1.2, marginBottom: "0.4rem" }}>
               {path.title}
@@ -67,32 +61,6 @@ function CourseCard({ path, onShare }: { path: LearningPathSummary; onShare?: ()
           <ArrowRight style={{ width: "1rem", height: "1rem", color: "var(--cream-2)", flexShrink: 0, marginTop: "0.15rem", transition: "color 0.2s, transform 0.2s" }} />
         </div>
       </Link>
-      {path.is_mine && onShare && (
-        <button
-          onClick={(e) => { e.preventDefault(); onShare(); }}
-          style={{
-            ...mono,
-            marginTop: "0.85rem",
-            display: "flex",
-            alignItems: "center",
-            gap: "0.35rem",
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            fontSize: "0.52rem",
-            letterSpacing: "0.12em",
-            textTransform: "uppercase",
-            color: "var(--cream-2)",
-            padding: 0,
-            transition: "color 0.2s",
-          }}
-          onMouseEnter={e => (e.currentTarget as HTMLButtonElement).style.color = "var(--cream-1)"}
-          onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.color = "var(--cream-2)"}
-        >
-          <Share2 style={{ width: "0.7rem", height: "0.7rem" }} />
-          Share
-        </button>
-      )}
     </div>
   );
 }
@@ -111,9 +79,8 @@ function SectionLabel({ icon: Icon, color, children }: { icon: React.ElementType
 
 export default function LearnPage() {
   const router = useRouter();
-  const [paths, setPaths] = useState<LearningPathSummary[]>([]);
+  const [paths, setPaths] = useState<CourseOut[]>([]);
   const [loading, setLoading] = useState(true);
-  const [shareSlug, setShareSlug] = useState<string | null>(null);
   const [interests, setInterests] = useState<string[]>([]);
 
   useEffect(() => {
@@ -121,7 +88,7 @@ export default function LearnPage() {
     if (saved) { try { setInterests(JSON.parse(saved)); } catch { /* ignore */ } }
     const token = getToken();
     if (!token) { router.push("/login"); return; }
-    api.learningPaths.list(token)
+    api.courses.list(token)
       .then(setPaths)
       .catch(() => {})
       .finally(() => setLoading(false));
@@ -135,13 +102,9 @@ export default function LearnPage() {
     );
   }
 
-  const myCourses      = paths.filter(p => p.is_mine);
-  const sharedWithMe   = paths.filter(p => !p.is_mine && p.visibility === "private");
-  const platformPaths  = paths.filter(p => p.visibility === "public" && !p.is_mine);
-
-  function scoreMatch(path: LearningPathSummary) {
+  function scoreMatch(path: CourseOut) {
     if (interests.length === 0) return 0;
-    const text = `${path.title} ${path.description}`.toLowerCase();
+    const text = `${path.title} ${path.description} ${path.tags.join(" ")}`.toLowerCase();
     let score = 0;
     for (const interest of interests) {
       for (const kw of (INTEREST_KEYWORDS[interest] || [])) {
@@ -151,9 +114,9 @@ export default function LearnPage() {
     return score;
   }
 
-  const scoredPlatform    = [...platformPaths].sort((a, b) => scoreMatch(b) - scoreMatch(a));
-  const recommendedPaths  = interests.length > 0 ? scoredPlatform.filter(p => scoreMatch(p) > 0) : [];
-  const otherPlatform     = interests.length > 0 ? scoredPlatform.filter(p => scoreMatch(p) === 0) : scoredPlatform;
+  const scoredPaths      = [...paths].sort((a, b) => scoreMatch(b) - scoreMatch(a));
+  const recommendedPaths = interests.length > 0 ? scoredPaths.filter(p => scoreMatch(p) > 0) : [];
+  const otherPlatform    = interests.length > 0 ? scoredPaths.filter(p => scoreMatch(p) === 0) : scoredPaths;
 
   return (
     <div className="h-full overflow-y-auto thin-scrollbar" style={{ background: "var(--ink)" }}>
@@ -172,32 +135,13 @@ export default function LearnPage() {
           </p>
         </div>
 
-        {/* My Courses */}
-        {myCourses.length > 0 && (
-          <div style={{ marginBottom: "2.5rem" }}>
-            <SectionLabel icon={Sparkles} color="var(--gold)">My Courses</SectionLabel>
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-              {myCourses.map(p => <CourseCard key={p.id} path={p} onShare={() => setShareSlug(p.slug)} />)}
-            </div>
-          </div>
-        )}
-
-        {/* Shared with me */}
-        {sharedWithMe.length > 0 && (
-          <div style={{ marginBottom: "2.5rem" }}>
-            <SectionLabel icon={BookOpen} color="var(--sage-c)">Shared with Me</SectionLabel>
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-              {sharedWithMe.map(p => <CourseCard key={p.id} path={p} />)}
-            </div>
-          </div>
-        )}
-
         {/* Recommended */}
         {recommendedPaths.length > 0 && (
           <div style={{ marginBottom: "2.5rem" }}>
             <SectionLabel icon={Star} color="var(--gold)">Recommended for You</SectionLabel>
             <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
               {recommendedPaths.map(p => <CourseCard key={p.id} path={p} />)}
+
             </div>
           </div>
         )}
@@ -218,7 +162,6 @@ export default function LearnPage() {
           )}
         </div>
 
-        {shareSlug && <ShareDialog slug={shareSlug} onClose={() => setShareSlug(null)} />}
       </div>
     </div>
   );

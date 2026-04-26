@@ -46,6 +46,27 @@ export interface LessonImageMeta {
   description?: string;
 }
 
+export interface CourseOut {
+  id: number;
+  slug: string;
+  title: string;
+  description: string;
+  level: string;
+  tags: string[];
+  thumbnail_url: string | null;
+}
+
+export interface LessonOut {
+  id: number;
+  slug: string;
+  title: string;
+  order: number;
+  summary: string;
+  key_concepts: string[];
+  estimated_minutes: number;
+  video_url: string | null;
+}
+
 export interface LessonResponse {
   id: string;
   title: string;
@@ -383,6 +404,14 @@ export const api = {
       }
       return res.json();
     },
+  },
+  courses: {
+    list: (token: string) =>
+      request<CourseOut[]>("/courses/", {}, token),
+    lessons: (slug: string, token: string) =>
+      request<LessonOut[]>(`/courses/${slug}/lessons`, {}, token),
+    lesson: (slug: string, lessonSlug: string, token: string) =>
+      request<LessonOut>(`/courses/${slug}/lessons/${lessonSlug}`, {}, token),
   },
   learningPaths: {
     list: (token: string) =>
