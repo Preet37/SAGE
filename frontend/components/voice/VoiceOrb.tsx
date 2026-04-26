@@ -36,16 +36,16 @@ export function VoiceOrb({ contextOverride }: VoiceOrbProps) {
     }
   }, [isActive, startConversation, stopConversation]);
 
-  const orbColor = {
-    idle: "from-violet-600 to-indigo-600",
-    connecting: "from-amber-500 to-orange-500",
+  const orbBg = {
+    idle:       "linear-gradient(135deg, #C4985A 0%, #9A7840 100%)",
+    connecting: "linear-gradient(135deg, #C4985A 0%, #D4A870 100%)",
     connected:
       mode === "speaking"
-        ? "from-emerald-500 to-teal-500"
+        ? "linear-gradient(135deg, #7B9E82 0%, #4E7A5A 100%)"
         : mode === "listening"
-        ? "from-blue-500 to-cyan-500"
-        : "from-violet-600 to-indigo-600",
-    error: "from-red-600 to-rose-600",
+        ? "linear-gradient(135deg, #C4985A 0%, #7B9E82 100%)"
+        : "linear-gradient(135deg, #C4985A 0%, #9A7840 100%)",
+    error: "linear-gradient(135deg, #C97C68 0%, #A05040 100%)",
   }[status];
 
   const pulseClass =
@@ -69,7 +69,7 @@ export function VoiceOrb({ contextOverride }: VoiceOrbProps) {
       {expanded && (
         <div className="w-80 rounded-2xl border border-border bg-background/95 backdrop-blur-md shadow-2xl overflow-hidden">
           {/* Header */}
-          <div className={`flex items-center justify-between px-4 py-3 bg-gradient-to-r ${orbColor} text-white`}>
+          <div className="flex items-center justify-between px-4 py-3 text-white" style={{ background: orbBg }}>
             <div className="flex items-center gap-2">
               <div className={`w-2 h-2 rounded-full bg-white ${pulseClass}`} />
               <span className="text-sm font-semibold">{statusLabel}</span>
@@ -108,7 +108,8 @@ export function VoiceOrb({ contextOverride }: VoiceOrbProps) {
                 {Array.from({ length: 12 }).map((_, i) => (
                   <div
                     key={i}
-                    className={`w-1.5 rounded-full bg-gradient-to-t ${orbColor} transition-all`}
+                    className="w-1.5 rounded-full transition-all"
+                    style={{ background: orbBg }}
                     style={{
                       height: mode !== "idle" ? `${8 + (i % 4) * 8}px` : "4px",
                       animation: mode !== "idle" ? `voice-bar ${0.6 + (i % 4) * 0.1}s ease-in-out infinite alternate` : "none",
@@ -173,7 +174,8 @@ export function VoiceOrb({ contextOverride }: VoiceOrbProps) {
               <button
                 onClick={handleToggle}
                 disabled={status === "connecting"}
-                className={`w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium text-white transition-all bg-gradient-to-r ${orbColor} hover:opacity-90 disabled:opacity-60`}
+                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium text-white transition-all hover:opacity-90 disabled:opacity-60"
+                style={{ background: orbBg }}
               >
                 {status === "connecting" ? (
                   <>
@@ -197,12 +199,13 @@ export function VoiceOrb({ contextOverride }: VoiceOrbProps) {
         onClick={expanded ? () => setExpanded(false) : handleToggle}
         className={`
           relative w-14 h-14 rounded-full shadow-2xl flex items-center justify-center
-          bg-gradient-to-br ${orbColor} text-white transition-all duration-300
-          hover:scale-110 active:scale-95 focus:outline-none focus:ring-4 focus:ring-violet-500/40
+          text-white transition-all duration-300
+          hover:scale-110 active:scale-95 focus:outline-none focus:ring-4 focus:ring-[#C4985A]/40
           ${isActive && mode !== "idle" ? "ring-4 ring-white/30" : ""}
         `}
         title={isActive ? statusLabel : "Start SAGE Voice Tutor"}
         aria-label="SAGE Voice Tutor"
+        style={{ background: orbBg }}
       >
         {/* Ripple ring when active */}
         {isActive && (
