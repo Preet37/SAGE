@@ -73,7 +73,11 @@ export default function DocumentsPage() {
     try {
       const resourceType = classifyFile(file);
       const signRes = await fetch(`${API_URL}/documents/sign`, { method: "POST", headers: { "Content-Type": "application/json", ...authHeaders() }, body: JSON.stringify({ resource_type: resourceType }) });
-      if (!signRes.ok) throw new Error("Couldn't get upload signature");
+      if (!signRes.ok) {
+        if (signRes.status === 401 || signRes.status === 403) throw new Error("Not logged in — please sign in and try again.");
+        const detail = await signRes.json().catch(() => null);
+        throw new Error(detail?.detail || "Couldn't get upload signature — check server configuration.");
+      }
       const sign = await signRes.json() as SignResponse;
       const form = new FormData();
       form.append("file", file); form.append("api_key", sign.api_key); form.append("timestamp", String(sign.timestamp)); form.append("folder", sign.folder); form.append("signature", sign.signature);

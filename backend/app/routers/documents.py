@@ -55,10 +55,12 @@ def _derive_category(tags: list[str], resource_type: str = "image") -> str:
 
 
 def _ensure_configured() -> None:
-    if not os.getenv("CLOUDINARY_URL") and not os.getenv("CLOUDINARY_CLOUD_NAME"):
-        raise HTTPException(status_code=500, detail="Cloudinary not configured")
-    # cloudinary auto-reads CLOUDINARY_URL from env on import
-    cloudinary.config(secure=True)
+    cfg = cloudinary.config()
+    if not cfg.cloud_name or not cfg.api_secret:
+        raise HTTPException(
+            status_code=503,
+            detail="Cloudinary not configured. Set CLOUDINARY_URL in backend/.env and restart the server.",
+        )
 
 
 def _user_folder(user_id: str) -> str:
