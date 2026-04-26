@@ -304,7 +304,7 @@ export function ConceptDeepDive({ initialQuery = "" }: { initialQuery?: string }
           </div>
         )}
 
-        {error && !loading && (
+        {error && !loading && !concept && (
           <div style={{ textAlign: "center", padding: "3rem 0" }}>
             <p style={{ ...mono, fontSize: "0.6rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--rose)", marginBottom: "0.5rem" }}>Unavailable</p>
             <p style={{ ...body, fontSize: "0.95rem", color: "var(--cream-2)" }}>{error}</p>
