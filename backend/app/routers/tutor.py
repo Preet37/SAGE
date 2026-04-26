@@ -54,6 +54,8 @@ def _extract_modalities(text: str) -> list[str]:
         modalities.append("flow")
     if re.search(r"<architecture>", text):
         modalities.append("architecture")
+    if re.search(r"<artifact>", text):
+        modalities.append("artifact")
     if re.search(r"```(?:python|javascript|typescript|bash|sql)", text):
         modalities.append("code")
     if re.search(r"\$\$.*?\$\$|\\\[.*?\\\]", text, re.DOTALL):

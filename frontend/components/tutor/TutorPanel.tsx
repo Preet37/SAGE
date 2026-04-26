@@ -213,6 +213,7 @@ export function TutorPanel({
         .replace(/<quiz>[\s\S]*?<\/quiz>/g, "[Interactive Quiz]")
         .replace(/<flow>[\s\S]*?<\/flow>/g, "[Interactive Diagram]")
         .replace(/<architecture>[\s\S]*?<\/architecture>/g, "[Architecture Diagram]")
+        .replace(/<artifact>[\s\S]*?<\/artifact>/g, "[Interactive Artifact]")
         .trim();
       lines.push(`### ${label}`, "", content, "", "---", "");
     }

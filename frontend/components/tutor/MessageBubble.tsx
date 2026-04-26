@@ -11,6 +11,7 @@ import { InlineQuiz } from "./InlineQuiz";
 import { MermaidBlock } from "./MermaidBlock";
 import { AnimatedFlowBlock } from "./AnimatedFlowBlock";
 import { ArchitectureBlock } from "./ArchitectureBlock";
+import { ArtifactBlock } from "./ArtifactBlock";
 import { VisualPlotRenderer } from "@/components/visual/VisualPlotRenderer";
 import { CodeRunner, getCodeLang } from "@/components/tutor/CodeRunner";
 import { parseFlowDiagram } from "@/lib/schemas/flow";
@@ -30,17 +31,15 @@ interface MessageBubbleProps {
   lessonTitle?: string;
 }
 
+type StructuredTag = "quiz" | "flow" | "architecture" | "resource" | "image" | "artifact";
+
 type BlockPart =
   | { type: "text"; content: string }
-  | { type: "quiz"; content: string }
-  | { type: "flow"; content: string }
-  | { type: "architecture"; content: string }
-  | { type: "resource"; content: string }
-  | { type: "image"; content: string };
+  | { type: StructuredTag; content: string };
 
 function parseStructuredBlocks(content: string): BlockPart[] {
   const parts: BlockPart[] = [];
-  const blockRegex = /<(quiz|flow|architecture|resource|image)>([\s\S]*?)<\/\1>/g;
+  const blockRegex = /<(quiz|flow|architecture|resource|image|artifact)>([\s\S]*?)<\/\1>/g;
   let lastIndex = 0;
   let match;
 
@@ -48,7 +47,7 @@ function parseStructuredBlocks(content: string): BlockPart[] {
     if (match.index > lastIndex) {
       parts.push({ type: "text", content: content.slice(lastIndex, match.index) });
     }
-    parts.push({ type: match[1] as "quiz" | "flow" | "architecture" | "resource" | "image", content: match[2].trim() });
+    parts.push({ type: match[1] as StructuredTag, content: match[2].trim() });
     lastIndex = match.index + match[0].length;
   }
   if (lastIndex < content.length) {
@@ -380,6 +379,21 @@ function MessageBubbleInner({ role, content, isStreaming, onSendMessage, verific
             } catch {
               return null;
             }
+          }
+
+          if (part.type === "artifact") {
+            if (isStreaming) {
+              return (
+                <div
+                  key={i}
+                  className="flex items-center gap-2 text-sm text-muted-foreground py-3 px-4 bg-muted/30 rounded-lg border border-border my-2"
+                >
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <span>Building interactive artifact...</span>
+                </div>
+              );
+            }
+            return <ArtifactBlock key={i} content={part.content} />;
           }
 
           if (part.type === "architecture") {
